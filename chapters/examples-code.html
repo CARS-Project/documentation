@@ -560,7 +560,7 @@ Figure&nbsp;17.1: Average annual mileage of Ford Fiestas by age, plausible milea
 </div>
 </div>
 </div>
-<p>Mileage falls with age, and the whole curve is lower in 2022 than in 2010. Note that the youngest ages are missing: Fiestas under three have no MOT. The mileage at age 3 averages the whole period since new.</p>
+<p>Mileage falls with age, and the whole curve is lower in 2022 than in 2010. The query starts at age 3. A Fiesta has no odometer reading before its first MOT at three, so its mileage in earlier years can only come from sharing out the distance since new, and says little about use at each age.</p>
 </section>
 <section id="example-3-recorded-against-filled-values" class="level2" data-number="17.3">
 <h2 data-number="17.3" class="anchored" data-anchor-id="example-3-recorded-against-filled-values"><span class="header-section-number">17.3</span> Example 3: recorded against filled values</h2>
@@ -773,7 +773,7 @@ Figure&nbsp;17.2: Cars first used in 2008, by their status in each year.
 </div>
 </div>
 </div>
-<p>The cohort is almost all <code>unknown</code> until 2011, when most cars have their first MOT; it is then observed every year and gradually becomes <code>dead</code> as cars stop being tested. A small number are observed before 2011: cars tested early, such as taxis. The <code>unknown</code> line rises again at the end of the series: cars that may simply not have been tested <em>yet</em> (<a href="pitfalls.html" class="quarto-xref"><span>Chapter 14</span></a>, pitfall 4).</p>
+<p>Almost the whole cohort is observed from 2008, although most cars had their first MOT only in 2011: once a car has been tested, its first postcode area is copied back to its first registration (<a href="vehicle-lifecycle.html" class="quarto-xref"><span>Chapter 6</span></a>). The cohort then gradually becomes <code>dead</code> as cars stop being tested, about two years after their last MOT, because the postcode area is carried forward. The few cars observed before 2008 have a first-use date later than their first record, such as imports or re-registered vehicles. The <code>unknown</code> line rises again at the end of the series: cars that may simply not have been tested <em>yet</em> (<a href="pitfalls.html" class="quarto-xref"><span>Chapter 14</span></a>, pitfall 4).</p>
 </section>
 <section id="example-5-where-vehicles-go" class="level2" data-number="17.5">
 <h2 data-number="17.5" class="anchored" data-anchor-id="example-5-where-vehicles-go"><span class="header-section-number">17.5</span> Example 5: where vehicles go</h2>
