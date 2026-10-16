@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.19">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Fleet profile tables – Using the CARS vehicle data</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../reports/churn_tables_report.html" rel="prev">
+<link href="../images/favicon.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-c08868c37ca8912c446ae25c80bf22ff.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/glossary.html">Appendices</a></li><li class="breadcrumb-item"><a href="../reports/methodology.html">Pipeline reports</a></li><li class="breadcrumb-item"><a href="../reports/fleet_profile_report.html">Fleet profile tables</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="../index.html" class="sidebar-logo-link">
+      <img src="../images/CARS_logo.webp" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="../images/CARS_logo.webp" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Using the CARS vehicle data</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/CARS-Project/documentation" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Background</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/mot-test.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">The MOT test</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/data-landscape.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Who holds vehicle data in the UK</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/vehicle-types.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Classifying vehicles</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/fuels-emissions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Fuels, emissions and Euro standards</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/number-plates.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Number plates</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/vehicle-lifecycle.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">The life of a vehicle</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/geography.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Geography: postcode areas</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">The CARS data</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/sources-linkage.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Source data and linkage</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/pipeline.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">From linked data to research-ready data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/data-products.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Data products and access</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/vehicle-table.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">The vehicle table</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/aggregate-tables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">The aggregate tables</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/data-quality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">How good is the data?</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Using the data</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/pitfalls.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Concepts and pitfalls</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/getting-started.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Getting started</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/examples-spreadsheet.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Worked examples: spreadsheets</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/examples-code.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Worked examples: code</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Glossary</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/data-dictionary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Data dictionary</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/table-catalogue.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Catalogue of aggregate tables</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/maintaining.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Maintaining this book</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Pipeline reports</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth2 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../reports/methodology.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Methodology</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../reports/data_quality_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data quality report</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../reports/mileage_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Vehicles and mileage by postcode area</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../reports/churn_tables_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Churn tables: what each one contains and exactly how it was made</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../reports/fleet_profile_report.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Fleet profile tables</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#what-is-counted" id="toc-what-is-counted" class="nav-link active" data-scroll-target="#what-is-counted">What is counted</a>
+  <ul class="collapse">
+  <li><a href="#vehicles-counted-by-year-and-body-type" id="toc-vehicles-counted-by-year-and-body-type" class="nav-link" data-scroll-target="#vehicles-counted-by-year-and-body-type">Vehicles counted, by year and body type</a></li>
+  </ul></li>
+  <li><a href="#the-tables" id="toc-the-tables" class="nav-link" data-scroll-target="#the-tables">The tables</a>
+  <ul class="collapse">
+  <li><a href="#files" id="toc-files" class="nav-link" data-scroll-target="#files">Files</a></li>
+  </ul></li>
+  <li><a href="#characteristics" id="toc-characteristics" class="nav-link" data-scroll-target="#characteristics">Characteristics</a>
+  <ul class="collapse">
+  <li><a href="#engine-size-is-banded-on-recorded-cc-with-no-rounding" id="toc-engine-size-is-banded-on-recorded-cc-with-no-rounding" class="nav-link" data-scroll-target="#engine-size-is-banded-on-recorded-cc-with-no-rounding">Engine size is banded on recorded cc, with no rounding</a></li>
+  <li><a href="#co2-of-0-only-exists-for-electric-vehicles" id="toc-co2-of-0-only-exists-for-electric-vehicles" class="nav-link" data-scroll-target="#co2-of-0-only-exists-for-electric-vehicles">CO2 of 0 only exists for electric vehicles</a></li>
+  <li><a href="#co2-is-reported-for-motorcycles-and-buses-but-barely-exists" id="toc-co2-is-reported-for-motorcycles-and-buses-but-barely-exists" class="nav-link" data-scroll-target="#co2-is-reported-for-motorcycles-and-buses-but-barely-exists">CO2 is reported for motorcycles and buses, but barely exists</a></li>
+  <li><a href="#euro-standard-is-mostly-derived-not-recorded" id="toc-euro-standard-is-mostly-derived-not-recorded" class="nav-link" data-scroll-target="#euro-standard-is-mostly-derived-not-recorded">Euro standard is mostly derived, not recorded</a></li>
+  <li><a href="#where-the-euro-status-of-a-car-came-from-2025" id="toc-where-the-euro-status-of-a-car-came-from-2025" class="nav-link" data-scroll-target="#where-the-euro-status-of-a-car-came-from-2025">Where the Euro status of a car came from, 2025</a></li>
+  <li><a href="#smmt-body-type-covers-cars-only" id="toc-smmt-body-type-covers-cars-only" class="nav-link" data-scroll-target="#smmt-body-type-covers-cars-only">SMMT body type covers cars only</a></li>
+  <li><a href="#smmt-classification-coverage-2025" id="toc-smmt-classification-coverage-2025" class="nav-link" data-scroll-target="#smmt-classification-coverage-2025">SMMT classification coverage, 2025</a></li>
+  </ul></li>
+  <li><a href="#known-limits" id="toc-known-limits" class="nav-link" data-scroll-target="#known-limits">Known limits</a>
+  <ul class="collapse">
+  <li><a href="#young-vehicles-are-missing-from-the-recent-years" id="toc-young-vehicles-are-missing-from-the-recent-years" class="nav-link" data-scroll-target="#young-vehicles-are-missing-from-the-recent-years">Young vehicles are missing from the recent years</a></li>
+  <li><a href="#means-mix-recorded-and-backfilled-values" id="toc-means-mix-recorded-and-backfilled-values" class="nav-link" data-scroll-target="#means-mix-recorded-and-backfilled-values">Means mix recorded and backfilled values</a></li>
+  <li><a href="#buses-and-coaches-are-mostly-minibuses" id="toc-buses-and-coaches-are-mostly-minibuses" class="nav-link" data-scroll-target="#buses-and-coaches-are-mostly-minibuses">Buses and coaches are mostly minibuses</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/CARS-Project/documentation/edit/main/reports/fleet_profile_report.md" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/CARS-Project/documentation/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/glossary.html">Appendices</a></li><li class="breadcrumb-item"><a href="../reports/methodology.html">Pipeline reports</a></li><li class="breadcrumb-item"><a href="../reports/fleet_profile_report.html">Fleet profile tables</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="sec-fleet-profile-report" class="quarto-section-identifier">Fleet profile tables</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-note callout-titled" title="Generated by the pipeline">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Generated by the pipeline
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This appendix is <code>outputs/reports/fleet_profile_report.md</code> from the MOT-pipline repository, copied unchanged into the book by <code>scripts/sync-pipeline.R</code>. Paths such as <code>outputs/...</code> refer to that repository. See <a href="../chapters/maintaining.html" class="quarto-xref"><span>Appendix D — Maintaining this book</span></a>.</p>
+</div>
+</div>
+<p>The tables in <code>tables/profile/</code> answer the four analyses in the mileage analysis request: the fleet by year and body type, broken down by vehicle characteristic, counted (Analyses 1 and 3) and averaged over mileage (Analyses 2 and 4), with and without an age band.</p>
+<p>They are built by <code>R/summary_profile.R</code> from <code>vehicles_enhanced.parquet</code>, and cover 2005–2025 for Buses and coaches, Cars, Light goods vehicles and Motorcycles.</p>
+<section id="what-is-counted" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-counted">What is counted</h2>
+<p>A vehicle is in a table for a year when all of these hold:</p>
+<ul>
+<li>its body type is one of Buses and coaches, Cars, Light goods vehicles and Motorcycles (<code>fleet_profile.body_types</code>)</li>
+<li>it was in a real postcode area that year, that is not <code>unborn</code>, <code>dead</code> or <code>unknown</code></li>
+<li>it was not in Northern Ireland (<code>exclude_ni</code>: TRUE)</li>
+<li>its mileage that year passes <code>mileage_filter</code> (legit). <code>legit</code> keeps only the vehicle-years whose mileage Bristol judged plausible.</li>
+</ul>
+<p><strong>The mileage filter is per vehicle-year, not per vehicle.</strong> A vehicle counts in the years its mileage was judged plausible and not in the others, so the same vehicle can appear in 2018 and not in 2019.</p>
+<section id="vehicles-counted-by-year-and-body-type" class="level3">
+<h3 class="anchored" data-anchor-id="vehicles-counted-by-year-and-body-type">Vehicles counted, by year and body type</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 8%">
+<col style="width: 26%">
+<col style="width: 16%">
+<col style="width: 30%">
+<col style="width: 18%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">year</th>
+<th style="text-align: right;">Buses and coaches</th>
+<th style="text-align: right;">Cars</th>
+<th style="text-align: right;">Light goods vehicles</th>
+<th style="text-align: right;">Motorcycles</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">2005</td>
+<td style="text-align: right;">16,924</td>
+<td style="text-align: right;">27,089,377</td>
+<td style="text-align: right;">2,379,709</td>
+<td style="text-align: right;">1,420,083</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2006</td>
+<td style="text-align: right;">18,361</td>
+<td style="text-align: right;">27,255,099</td>
+<td style="text-align: right;">2,504,659</td>
+<td style="text-align: right;">1,429,510</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2007</td>
+<td style="text-align: right;">20,321</td>
+<td style="text-align: right;">27,723,765</td>
+<td style="text-align: right;">2,661,278</td>
+<td style="text-align: right;">1,453,809</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2008</td>
+<td style="text-align: right;">22,800</td>
+<td style="text-align: right;">27,940,914</td>
+<td style="text-align: right;">2,768,151</td>
+<td style="text-align: right;">1,473,440</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2009</td>
+<td style="text-align: right;">23,910</td>
+<td style="text-align: right;">28,029,505</td>
+<td style="text-align: right;">2,789,976</td>
+<td style="text-align: right;">1,475,476</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2010</td>
+<td style="text-align: right;">25,343</td>
+<td style="text-align: right;">28,265,642</td>
+<td style="text-align: right;">2,837,056</td>
+<td style="text-align: right;">1,472,153</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2011</td>
+<td style="text-align: right;">26,075</td>
+<td style="text-align: right;">28,382,117</td>
+<td style="text-align: right;">2,909,305</td>
+<td style="text-align: right;">1,459,569</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2012</td>
+<td style="text-align: right;">28,867</td>
+<td style="text-align: right;">28,684,326</td>
+<td style="text-align: right;">2,989,066</td>
+<td style="text-align: right;">1,449,688</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2013</td>
+<td style="text-align: right;">31,401</td>
+<td style="text-align: right;">29,207,211</td>
+<td style="text-align: right;">3,086,048</td>
+<td style="text-align: right;">1,435,880</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2014</td>
+<td style="text-align: right;">33,414</td>
+<td style="text-align: right;">29,945,182</td>
+<td style="text-align: right;">3,232,231</td>
+<td style="text-align: right;">1,429,661</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2015</td>
+<td style="text-align: right;">35,964</td>
+<td style="text-align: right;">30,754,495</td>
+<td style="text-align: right;">3,422,794</td>
+<td style="text-align: right;">1,434,020</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2016</td>
+<td style="text-align: right;">38,011</td>
+<td style="text-align: right;">31,386,438</td>
+<td style="text-align: right;">3,585,825</td>
+<td style="text-align: right;">1,439,990</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2017</td>
+<td style="text-align: right;">39,253</td>
+<td style="text-align: right;">31,200,922</td>
+<td style="text-align: right;">3,630,227</td>
+<td style="text-align: right;">1,388,456</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2018</td>
+<td style="text-align: right;">40,431</td>
+<td style="text-align: right;">31,586,135</td>
+<td style="text-align: right;">3,767,614</td>
+<td style="text-align: right;">1,371,208</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2019</td>
+<td style="text-align: right;">40,282</td>
+<td style="text-align: right;">31,924,552</td>
+<td style="text-align: right;">3,917,088</td>
+<td style="text-align: right;">1,349,015</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2020</td>
+<td style="text-align: right;">40,493</td>
+<td style="text-align: right;">32,257,409</td>
+<td style="text-align: right;">4,076,694</td>
+<td style="text-align: right;">1,353,844</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2021</td>
+<td style="text-align: right;">39,675</td>
+<td style="text-align: right;">32,633,014</td>
+<td style="text-align: right;">4,297,475</td>
+<td style="text-align: right;">1,346,141</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2022</td>
+<td style="text-align: right;">32,670</td>
+<td style="text-align: right;">32,605,123</td>
+<td style="text-align: right;">4,337,705</td>
+<td style="text-align: right;">1,278,363</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2023</td>
+<td style="text-align: right;">31,906</td>
+<td style="text-align: right;">31,137,034</td>
+<td style="text-align: right;">4,115,653</td>
+<td style="text-align: right;">1,161,616</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2024</td>
+<td style="text-align: right;">32,857</td>
+<td style="text-align: right;">29,435,606</td>
+<td style="text-align: right;">3,854,560</td>
+<td style="text-align: right;">1,022,777</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2025</td>
+<td style="text-align: right;">21,803</td>
+<td style="text-align: right;">20,108,580</td>
+<td style="text-align: right;">2,511,857</td>
+<td style="text-align: right;">644,786</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="the-tables" class="level2">
+<h2 class="anchored" data-anchor-id="the-tables">The tables</h2>
+<section id="files" class="level3">
+<h3 class="anchored" data-anchor-id="files">Files</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">file</th>
+<th style="text-align: left;">analysis</th>
+<th style="text-align: left;">description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">profile_categorical_by_year.csv</td>
+<td style="text-align: left;">Long</td>
+<td style="text-align: left;">year x body type x characteristic x category: vehicles, vehicles with mileage, total and mean mileage</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">profile_categorical_by_year_age.csv</td>
+<td style="text-align: left;">Long</td>
+<td style="text-align: left;">The same, split by age band</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">profile_continuous_by_year.csv</td>
+<td style="text-align: left;">Long</td>
+<td style="text-align: left;">year x body type x measure: n, mean, sd, min, p10, p25, p50, p75, p90, max</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">profile_continuous_by_year_age.csv</td>
+<td style="text-align: left;">Long</td>
+<td style="text-align: left;">The same, split by age band</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">a1_counts_<body_type>.csv</body_type></td>
+<td style="text-align: left;">Analysis 1</td>
+<td style="text-align: left;">Rows = years, columns = characteristic: category, cells = vehicles</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">a2_mean_mileage_<body_type>.csv</body_type></td>
+<td style="text-align: left;">Analysis 2</td>
+<td style="text-align: left;">Rows = years, columns = characteristic: category, cells = mean mileage</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">a3_counts_<body_type>_by_age.csv</body_type></td>
+<td style="text-align: left;">Analysis 3</td>
+<td style="text-align: left;">Rows = years x age band, columns = characteristic: category, cells = vehicles</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">a4_mean_mileage_<body_type>_by_age.csv</body_type></td>
+<td style="text-align: left;">Analysis 4</td>
+<td style="text-align: left;">Rows = years x age band, columns = characteristic: category, cells = mean mileage</td>
+</tr>
+</tbody>
+</table>
+<p>Every characteristic’s categories add up to the same vehicle count, so the columns of an Analysis 1 table reconcile within each characteristic block. Where a characteristic is not known the vehicles are counted under <code>(missing)</code> rather than dropped.</p>
+<p>The long tables carry counts and totals, not means alone, so any coarser grouping can be derived from them without rebuilding: <code>mean_mileage</code> is <code>total_mileage / n_with_mileage</code>.</p>
+</section>
+</section>
+<section id="characteristics" class="level2">
+<h2 class="anchored" data-anchor-id="characteristics">Characteristics</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Characteristic</th>
+<th>Categories</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>engine_size</code></td>
+<td>Engine size bands, different for each body type</td>
+</tr>
+<tr class="even">
+<td><code>fuel</code></td>
+<td>Petrol, Diesel, Electric, Hybrid Electric, Plug-in Hybrid Electric, Other</td>
+</tr>
+<tr class="odd">
+<td><code>co2</code></td>
+<td>The car and van VED CO2 bands</td>
+</tr>
+<tr class="even">
+<td><code>mileage</code></td>
+<td>Mileage in bands of 1,000</td>
+</tr>
+<tr class="odd">
+<td><code>mileage_grouped</code></td>
+<td><code>&lt;5k</code>, <code>5-12k</code>, <code>&gt;12k</code></td>
+</tr>
+<tr class="even">
+<td><code>age_band_request</code></td>
+<td>0&lt;3, 3&lt;6, 6&lt;10, 10&lt;15, 15&lt;20, 20+</td>
+</tr>
+<tr class="odd">
+<td><code>age_band_dft</code></td>
+<td>DfT VEH1107: up to 1, 1–2, 2–3, 3–4, 4–5, 5–6, 6–10, 10–13, 13+</td>
+</tr>
+<tr class="even">
+<td><code>euro_standard</code></td>
+<td>The Euro standard number</td>
+</tr>
+<tr class="odd">
+<td><code>euro_source</code></td>
+<td>Where that Euro status came from</td>
+</tr>
+<tr class="even">
+<td><code>smmt_type</code></td>
+<td>SMMT body type, from the RACF enriched fleet reference</td>
+</tr>
+<tr class="odd">
+<td><code>smmt_subtype</code></td>
+<td>Its crossover / off-road / commercial subtype</td>
+</tr>
+</tbody>
+</table>
+<section id="engine-size-is-banded-on-recorded-cc-with-no-rounding" class="level3">
+<h3 class="anchored" data-anchor-id="engine-size-is-banded-on-recorded-cc-with-no-rounding">Engine size is banded on recorded cc, with no rounding</h3>
+<p>A car recorded as 1,390cc is in <code>&lt;1.4</code>, not in the <code>1.4</code> it is sold as. Rounding to the nearest tenth of a litre first would move 7.54M cars, 10.2% of those with an engine size, up a band — 6.69M of them from <code>&lt;1.4</code> to <code>1.4-1.7</code>, driven by common capacities such as 1,390cc, 1,360cc, 1,396cc and 1,398cc. Exactly 2,000cc is in <code>1.7-2.0</code>, as in the churn tables.</p>
+<p>The bands differ by body type: litres for cars, vans and buses, and the tax classes for motorcycles.</p>
+</section>
+<section id="co2-of-0-only-exists-for-electric-vehicles" class="level3">
+<h3 class="anchored" data-anchor-id="co2-of-0-only-exists-for-electric-vehicles">CO2 of 0 only exists for electric vehicles</h3>
+<p>A recorded 0 g/km is impossible for anything with an engine, so it is cleared early in the pipeline, before the backfill (<code>R/fuel_engine.R</code>), and the vehicle is filled from similar vehicles instead. The <code>co2</code> here is therefore either a real value or missing, and only Electric and Fuel Cells vehicles reach the <code>0</code> band. <code>co2_check</code> in <code>vehicles_enhanced.parquet</code> says which vehicles were affected.</p>
+</section>
+<section id="co2-is-reported-for-motorcycles-and-buses-but-barely-exists" class="level3">
+<h3 class="anchored" data-anchor-id="co2-is-reported-for-motorcycles-and-buses-but-barely-exists">CO2 is reported for motorcycles and buses, but barely exists</h3>
+<p><strong>Read the CO2 rows for these body types with care.</strong> They are produced because they were asked for, not because the data supports them. Across the whole fleet 93% of recorded motorcycle CO2 values and 86% of recorded bus values are 0, so once the zeros are treated as missing almost nothing is left, and what remains is not a representative sample. Means and bands for these two body types should not be quoted without this caveat.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">body_type</th>
+<th style="text-align: left;">year</th>
+<th style="text-align: right;">vehicles</th>
+<th style="text-align: right;">pct_co2_missing</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Motorcycles</td>
+<td style="text-align: left;">2025</td>
+<td style="text-align: right;">644,786</td>
+<td style="text-align: right;">69.5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Buses and coaches</td>
+<td style="text-align: left;">2025</td>
+<td style="text-align: right;">21,803</td>
+<td style="text-align: right;">5.4</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="euro-standard-is-mostly-derived-not-recorded" class="level3">
+<h3 class="anchored" data-anchor-id="euro-standard-is-mostly-derived-not-recorded">Euro standard is mostly derived, not recorded</h3>
+</section>
+<section id="where-the-euro-status-of-a-car-came-from-2025" class="level3">
+<h3 class="anchored" data-anchor-id="where-the-euro-status-of-a-car-came-from-2025">Where the Euro status of a car came from, 2025</h3>
+<p><code>dvla</code> is recorded; <code>variant</code> and <code>model_year_fuel</code> are backfilled from similar vehicles; <code>euro_schedule</code> is the standard that was compulsory for new registrations of that body type when the vehicle was made. Only the <code>dvla</code> rows are measurements, so a cross-tabulation of Euro standard against age largely reproduces the age variable.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">category</th>
+<th style="text-align: right;">n_vehicles</th>
+<th style="text-align: left;">share</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">variant</td>
+<td style="text-align: right;">11,100,183</td>
+<td style="text-align: left;">55.2%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">dvla</td>
+<td style="text-align: right;">4,607,311</td>
+<td style="text-align: left;">22.9%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">model_year_fuel</td>
+<td style="text-align: right;">2,186,425</td>
+<td style="text-align: left;">10.9%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">euro_schedule</td>
+<td style="text-align: right;">2,136,740</td>
+<td style="text-align: left;">10.6%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">(missing)</td>
+<td style="text-align: right;">77,921</td>
+<td style="text-align: left;">0.4%</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="smmt-body-type-covers-cars-only" class="level3">
+<h3 class="anchored" data-anchor-id="smmt-body-type-covers-cars-only">SMMT body type covers cars only</h3>
+</section>
+<section id="smmt-classification-coverage-2025" class="level3">
+<h3 class="anchored" data-anchor-id="smmt-classification-coverage-2025">SMMT classification coverage, 2025</h3>
+<p>The RACF reference (<code>uk_fleet_enriched_v2</code>) holds DfT <strong>cars</strong> only, so the SMMT type is applied to cars and left missing for every other body type (<code>fleet_profile.smmt_body_types</code>). Matching it to vans and minibuses would classify them from whichever car shares their generic model name, which is wrong rather than merely incomplete.</p>
+<p>A vehicle takes the SMMT type of its DfT model string where that name is consistent enough (<code>smmt_min_share</code>), and of its generic model otherwise — the same rule as <code>body_type</code>.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 30%">
+<col style="width: 16%">
+<col style="width: 25%">
+<col style="width: 27%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">body_type</th>
+<th style="text-align: right;">n_vehicles</th>
+<th style="text-align: right;">n_with_smmt_type</th>
+<th style="text-align: right;">pct_with_smmt_type</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Buses and coaches</td>
+<td style="text-align: right;">21,803</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Cars</td>
+<td style="text-align: right;">20,108,580</td>
+<td style="text-align: right;">19,772,540</td>
+<td style="text-align: right;">98.33</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Light goods vehicles</td>
+<td style="text-align: right;">2,511,857</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Motorcycles</td>
+<td style="text-align: right;">644,786</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="known-limits" class="level2">
+<h2 class="anchored" data-anchor-id="known-limits">Known limits</h2>
+<section id="young-vehicles-are-missing-from-the-recent-years" class="level3">
+<h3 class="anchored" data-anchor-id="young-vehicles-are-missing-from-the-recent-years">Young vehicles are missing from the recent years</h3>
+<p>A vehicle’s mileage is only known once it has had an MOT, at three years old, so the youngest age bands empty out towards the end of the series. In 2019 there were 1.50M vehicles aged 0 with a recorded postcode area; in 2024 there were 12,703, and in 2025, 2,576.</p>
+<p><strong>The <code>0-2</code> age band is not usable for the last three years</strong>, and the vehicles that do appear there are a biased sample: only those tested unusually early, which are the high-mileage ones. Mean mileage at age 1 was 8,599 in 2019 and 18,608 in 2025 for that reason.</p>
+<p>2025 is also a partial year.</p>
+</section>
+<section id="means-mix-recorded-and-backfilled-values" class="level3">
+<h3 class="anchored" data-anchor-id="means-mix-recorded-and-backfilled-values">Means mix recorded and backfilled values</h3>
+<p><code>engine_cc</code>, <code>co2</code> and <code>revenue_weight</code> are recorded where the DVLA supplied them and otherwise backfilled from the most common value of similar vehicles. For cars, 61.0% of CO2 and only 27.0% of weights are recorded. The <code>*_src</code> columns in <code>vehicles_enhanced.parquet</code> give the provenance per vehicle; the profile tables do not split by it, so a mean is over the mix.</p>
+<p>Revenue weight is effectively absent for motorcycles — 2.18% coverage, and only 652 of 3.94M recorded by the DVLA — so <code>revenue_weight</code> should not be read for that body type at all.</p>
+</section>
+<section id="buses-and-coaches-are-mostly-minibuses" class="level3">
+<h3 class="anchored" data-anchor-id="buses-and-coaches-are-mostly-minibuses">Buses and coaches are mostly minibuses</h3>
+<p>There are only 138,716 in the whole dataset, most of them MOT class 5, so cells split by year, age band and engine size are frequently in single figures.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/cars-project\.github\.io\/documentation\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../reports/churn_tables_report.html" class="pagination-link" aria-label="Churn tables: what each one contains and exactly how it was made">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Churn tables: what each one contains and exactly how it was made</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>The CARS Project: Connecting Administrative vehicle data for Research on Sustainable transport</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/CARS-Project/documentation/edit/main/reports/fleet_profile_report.md" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/CARS-Project/documentation/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+<p><a href="https://cars-project.github.io/">cars-project.github.io</a></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

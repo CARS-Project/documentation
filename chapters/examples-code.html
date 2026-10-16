@@ -1,0 +1,1324 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.19">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>17&nbsp; Worked examples: code – Using the CARS vehicle data</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/references.html" rel="next">
+<link href="../chapters/examples-spreadsheet.html" rel="prev">
+<link href="../images/favicon.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-c08868c37ca8912c446ae25c80bf22ff.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/pitfalls.html">Using the data</a></li><li class="breadcrumb-item"><a href="../chapters/examples-code.html"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Worked examples: code</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="../index.html" class="sidebar-logo-link">
+      <img src="../images/CARS_logo.webp" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="../images/CARS_logo.webp" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Using the CARS vehicle data</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/CARS-Project/documentation" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Background</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/mot-test.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">The MOT test</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/data-landscape.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Who holds vehicle data in the UK</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/vehicle-types.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Classifying vehicles</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/fuels-emissions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Fuels, emissions and Euro standards</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/number-plates.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Number plates</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/vehicle-lifecycle.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">The life of a vehicle</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/geography.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Geography: postcode areas</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">The CARS data</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/sources-linkage.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Source data and linkage</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/pipeline.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">From linked data to research-ready data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/data-products.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Data products and access</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/vehicle-table.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">The vehicle table</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/aggregate-tables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">The aggregate tables</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/data-quality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">How good is the data?</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Using the data</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/pitfalls.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Concepts and pitfalls</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/getting-started.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Getting started</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/examples-spreadsheet.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Worked examples: spreadsheets</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/examples-code.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Worked examples: code</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Glossary</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/data-dictionary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Data dictionary</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/table-catalogue.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Catalogue of aggregate tables</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/maintaining.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Maintaining this book</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+ <span class="menu-text">Pipeline reports</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../reports/methodology.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Methodology</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../reports/data_quality_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data quality report</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../reports/mileage_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Vehicles and mileage by postcode area</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../reports/churn_tables_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Churn tables: what each one contains and exactly how it was made</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../reports/fleet_profile_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Fleet profile tables</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#example-1-counting-the-vehicles-observed-in-a-year" id="toc-example-1-counting-the-vehicles-observed-in-a-year" class="nav-link active" data-scroll-target="#example-1-counting-the-vehicles-observed-in-a-year"><span class="header-section-number">17.1</span> Example 1: counting the vehicles observed in a year</a></li>
+  <li><a href="#example-2-reshaping-to-one-row-per-vehicle-per-year" id="toc-example-2-reshaping-to-one-row-per-vehicle-per-year" class="nav-link" data-scroll-target="#example-2-reshaping-to-one-row-per-vehicle-per-year"><span class="header-section-number">17.2</span> Example 2: reshaping to one row per vehicle per year</a></li>
+  <li><a href="#example-3-recorded-against-filled-values" id="toc-example-3-recorded-against-filled-values" class="nav-link" data-scroll-target="#example-3-recorded-against-filled-values"><span class="header-section-number">17.3</span> Example 3: recorded against filled values</a></li>
+  <li><a href="#example-4-following-a-cohort" id="toc-example-4-following-a-cohort" class="nav-link" data-scroll-target="#example-4-following-a-cohort"><span class="header-section-number">17.4</span> Example 4: following a cohort</a></li>
+  <li><a href="#example-5-where-vehicles-go" id="toc-example-5-where-vehicles-go" class="nav-link" data-scroll-target="#example-5-where-vehicles-go"><span class="header-section-number">17.5</span> Example 5: where vehicles go</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/CARS-Project/documentation/edit/main/chapters/examples-code.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/CARS-Project/documentation/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/pitfalls.html">Using the data</a></li><li class="breadcrumb-item"><a href="../chapters/examples-code.html"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Worked examples: code</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="sec-examples-code" class="quarto-section-identifier"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Worked examples: code</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>These examples query the vehicle table with DuckDB SQL. Run them from R, Python or the command line as shown in <a href="getting-started.html" class="quarto-xref"><span>Chapter 15</span></a>, replacing <code>vehicles_enhanced.parquet</code> with the path to your copy. The results shown are from running exactly these queries on the current version of the data. The queries are kept in the book’s <a href="https://github.com/CARS-Project/documentation/tree/main/sql"><code>sql/</code></a> folder.</p>
+<section id="example-1-counting-the-vehicles-observed-in-a-year" class="level2" data-number="17.1">
+<h2 data-number="17.1" class="anchored" data-anchor-id="example-1-counting-the-vehicles-observed-in-a-year"><span class="header-section-number">17.1</span> Example 1: counting the vehicles observed in a year</h2>
+<p><strong>Question:</strong> How many vehicles of each type and fuel were observed in 2022?</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Vehicles observed in 2022, by body type and fuel group.</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">-- "Observed" means the vehicle has a real postcode area in 2022,</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">-- not one of the statuses unborn, dead or unknown.</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  body_type,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  fuel_simple,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(<span class="op">*</span>) <span class="kw">AS</span> n_vehicles</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> read_parquet(<span class="st">'vehicles_enhanced.parquet'</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> pca_2022 <span class="kw">NOT</span> <span class="kw">IN</span> (<span class="st">'unborn'</span>, <span class="st">'dead'</span>, <span class="st">'unknown'</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> body_type, fuel_simple</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> n_vehicles <span class="kw">DESC</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell" data-layout-align="center">
+<div id="tbl-code-ex1" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-code-ex1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;17.1: Vehicles observed in 2022, by body type and fuel group (largest ten groups).
+</figcaption>
+<div aria-describedby="tbl-code-ex1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="cell caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">body_type</th>
+<th style="text-align: left;">fuel_simple</th>
+<th style="text-align: right;">n_vehicles</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Cars</td>
+<td style="text-align: left;">Petrol</td>
+<td style="text-align: right;">21,977,489</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Cars</td>
+<td style="text-align: left;">Diesel</td>
+<td style="text-align: right;">13,773,447</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Light goods vehicles</td>
+<td style="text-align: left;">Diesel</td>
+<td style="text-align: right;">4,938,563</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Motorcycles</td>
+<td style="text-align: left;">Petrol</td>
+<td style="text-align: right;">1,602,715</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Cars</td>
+<td style="text-align: left;">Hybrid Electric</td>
+<td style="text-align: right;">1,380,871</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Cars</td>
+<td style="text-align: left;">Electric</td>
+<td style="text-align: right;">619,537</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Cars</td>
+<td style="text-align: left;">Plug-in Hybrid Electric</td>
+<td style="text-align: right;">332,246</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Light goods vehicles</td>
+<td style="text-align: left;">Petrol</td>
+<td style="text-align: right;">72,844</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Cars</td>
+<td style="text-align: left;">Other</td>
+<td style="text-align: right;">72,322</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Heavy goods vehicles</td>
+<td style="text-align: left;">Diesel</td>
+<td style="text-align: right;">50,218</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>The key step is the <code>WHERE</code> clause. Without it, the count would include every vehicle in the table, including those scrapped in 2006 and those not yet built in 2022.</p>
+</section>
+<section id="example-2-reshaping-to-one-row-per-vehicle-per-year" class="level2" data-number="17.2">
+<h2 data-number="17.2" class="anchored" data-anchor-id="example-2-reshaping-to-one-row-per-vehicle-per-year"><span class="header-section-number">17.2</span> Example 2: reshaping to one row per vehicle per year</h2>
+<p><strong>Question:</strong> How does the annual mileage of a Ford Fiesta change as it ages, and has that changed over time?</p>
+<p>The vehicle table has one column per year. To analyse by age, the year columns need to become rows. DuckDB’s <code>UNPIVOT</code> does this: the mileage and plausibility columns are unpivoted separately and joined back together by vehicle and year. Filtering to one model first keeps the reshaped table small.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Average annual mileage of Ford Fiestas by age, for three years.</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">-- The vehicle table is wide (one column per year), so the mileage and</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">-- plausibility columns are first turned into long form: one row per</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">-- vehicle per year.</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="kw">WITH</span> fiesta <span class="kw">AS</span> (</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> <span class="op">*</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> read_parquet(<span class="st">'vehicles_enhanced.parquet'</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="kw">WHERE</span> make_final <span class="op">=</span> <span class="st">'FORD'</span> <span class="kw">AND</span> model_final <span class="op">=</span> <span class="st">'FIESTA'</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>),</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>mileage <span class="kw">AS</span> (</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  UNPIVOT (<span class="kw">SELECT</span> vehicle_id, <span class="kw">COLUMNS</span>(<span class="st">'^mileage_[0-9]{4}$'</span>) <span class="kw">FROM</span> fiesta)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ON</span> <span class="kw">COLUMNS</span>(<span class="st">'^mileage_'</span>) <span class="kw">INTO</span> NAME col <span class="fu">VALUE</span> mileage</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>),</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>legit <span class="kw">AS</span> (</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  UNPIVOT (<span class="kw">SELECT</span> vehicle_id, <span class="kw">COLUMNS</span>(<span class="st">'^legit_mileage_[0-9]{4}$'</span>) <span class="kw">FROM</span> fiesta)</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ON</span> <span class="kw">COLUMNS</span>(<span class="st">'^legit_mileage_'</span>) <span class="kw">INTO</span> NAME col <span class="fu">VALUE</span> legit</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">CAST</span>(<span class="kw">right</span>(m.col, <span class="dv">4</span>) <span class="kw">AS</span> <span class="dt">INTEGER</span>) <span class="kw">AS</span> <span class="dt">year</span>,</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">CAST</span>(<span class="kw">right</span>(m.col, <span class="dv">4</span>) <span class="kw">AS</span> <span class="dt">INTEGER</span>) <span class="op">-</span> <span class="dt">year</span>(f.first_use_date) <span class="kw">AS</span> age,</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(<span class="op">*</span>) <span class="kw">AS</span> n_vehicles,</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">round</span>(<span class="fu">avg</span>(m.mileage)) <span class="kw">AS</span> mean_mileage,</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">median</span>(m.mileage) <span class="kw">AS</span> median_mileage</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> mileage m</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="kw">JOIN</span> legit l</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>  <span class="kw">ON</span> l.vehicle_id <span class="op">=</span> m.vehicle_id <span class="kw">AND</span> <span class="kw">right</span>(l.col, <span class="dv">4</span>) <span class="op">=</span> <span class="kw">right</span>(m.col, <span class="dv">4</span>)</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="kw">JOIN</span> fiesta f <span class="kw">ON</span> f.vehicle_id <span class="op">=</span> m.vehicle_id</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> l.legit                          <span class="co">-- plausible mileage only</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>  <span class="kw">AND</span> <span class="kw">right</span>(m.col, <span class="dv">4</span>) <span class="kw">IN</span> (<span class="st">'2010'</span>, <span class="st">'2016'</span>, <span class="st">'2022'</span>)</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> <span class="dt">year</span>, age</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="kw">HAVING</span> age <span class="kw">BETWEEN</span> <span class="dv">3</span> <span class="kw">AND</span> <span class="dv">20</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> <span class="dt">year</span>, age;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-code-ex2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-code-ex2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="examples-code_files/figure-html/fig-code-ex2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-code-ex2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;17.1: Average annual mileage of Ford Fiestas by age, plausible mileage only.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Mileage falls with age, and the whole curve is lower in 2022 than in 2010. Note that the youngest ages are missing: Fiestas under three have no MOT. The mileage at age 3 averages the whole period since new.</p>
+</section>
+<section id="example-3-recorded-against-filled-values" class="level2" data-number="17.3">
+<h2 data-number="17.3" class="anchored" data-anchor-id="example-3-recorded-against-filled-values"><span class="header-section-number">17.3</span> Example 3: recorded against filled values</h2>
+<p><strong>Question:</strong> Does the CO<sub>2</sub> of new petrol and diesel cars depend on whether the value was recorded or filled from similar vehicles?</p>
+<p><code>co2_src</code> records where each harmonised value came from. Comparing the average of all values with the average of recorded values only is a quick test of whether filling gaps has changed a result.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- CO2 of petrol and diesel cars first used 2012-2019: all values against</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">-- recorded values only. co2_src says where each value came from.</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">year</span>(first_use_date) <span class="kw">AS</span> first_use_year,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  fuel_simple,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(co2) <span class="kw">AS</span> n_with_co2,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">round</span>(<span class="fu">avg</span>(co2), <span class="dv">1</span>) <span class="kw">AS</span> mean_co2_all,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(co2) <span class="kw">FILTER</span> (<span class="kw">WHERE</span> co2_src <span class="op">=</span> <span class="st">'dvla'</span>) <span class="kw">AS</span> n_recorded,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">round</span>(<span class="fu">avg</span>(co2) <span class="kw">FILTER</span> (<span class="kw">WHERE</span> co2_src <span class="op">=</span> <span class="st">'dvla'</span>), <span class="dv">1</span>) <span class="kw">AS</span> mean_co2_recorded</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> read_parquet(<span class="st">'vehicles_enhanced.parquet'</span>)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> body_type <span class="op">=</span> <span class="st">'Cars'</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="kw">AND</span> fuel_simple <span class="kw">IN</span> (<span class="st">'Petrol'</span>, <span class="st">'Diesel'</span>)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="kw">AND</span> <span class="dt">year</span>(first_use_date) <span class="kw">BETWEEN</span> <span class="dv">2012</span> <span class="kw">AND</span> <span class="dv">2019</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> first_use_year, fuel_simple</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> fuel_simple, first_use_year;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell" data-layout-align="center">
+<div id="tbl-code-ex3" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-code-ex3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;17.2: Average CO<sub>2</sub> (g/km) of cars by year of first use: all values, and recorded values only.
+</figcaption>
+<div aria-describedby="tbl-code-ex3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="cell caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">First used</th>
+<th style="text-align: left;">Fuel</th>
+<th style="text-align: right;">With CO2</th>
+<th style="text-align: right;">Mean, all</th>
+<th style="text-align: right;">Recorded</th>
+<th style="text-align: right;">Mean, recorded</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">2,012</td>
+<td style="text-align: left;">Diesel</td>
+<td style="text-align: right;">1,044,024</td>
+<td style="text-align: right;">133.1</td>
+<td style="text-align: right;">985,297</td>
+<td style="text-align: right;">133.3</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2,013</td>
+<td style="text-align: left;">Diesel</td>
+<td style="text-align: right;">1,142,090</td>
+<td style="text-align: right;">128.9</td>
+<td style="text-align: right;">1,092,546</td>
+<td style="text-align: right;">128.9</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2,014</td>
+<td style="text-align: left;">Diesel</td>
+<td style="text-align: right;">1,258,203</td>
+<td style="text-align: right;">124.9</td>
+<td style="text-align: right;">1,211,627</td>
+<td style="text-align: right;">124.9</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2,015</td>
+<td style="text-align: left;">Diesel</td>
+<td style="text-align: right;">1,299,198</td>
+<td style="text-align: right;">121.4</td>
+<td style="text-align: right;">1,253,527</td>
+<td style="text-align: right;">121.3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2,016</td>
+<td style="text-align: left;">Diesel</td>
+<td style="text-align: right;">1,308,658</td>
+<td style="text-align: right;">120.2</td>
+<td style="text-align: right;">1,266,661</td>
+<td style="text-align: right;">120.1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2,017</td>
+<td style="text-align: left;">Diesel</td>
+<td style="text-align: right;">1,087,612</td>
+<td style="text-align: right;">122.3</td>
+<td style="text-align: right;">1,049,612</td>
+<td style="text-align: right;">122.2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2,018</td>
+<td style="text-align: left;">Diesel</td>
+<td style="text-align: right;">763,883</td>
+<td style="text-align: right;">129.2</td>
+<td style="text-align: right;">731,842</td>
+<td style="text-align: right;">129.3</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2,019</td>
+<td style="text-align: left;">Diesel</td>
+<td style="text-align: right;">625,937</td>
+<td style="text-align: right;">135.0</td>
+<td style="text-align: right;">598,798</td>
+<td style="text-align: right;">134.9</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2,012</td>
+<td style="text-align: left;">Petrol</td>
+<td style="text-align: right;">993,882</td>
+<td style="text-align: right;">133.9</td>
+<td style="text-align: right;">944,904</td>
+<td style="text-align: right;">133.6</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2,013</td>
+<td style="text-align: left;">Petrol</td>
+<td style="text-align: right;">1,121,497</td>
+<td style="text-align: right;">129.3</td>
+<td style="text-align: right;">1,071,185</td>
+<td style="text-align: right;">128.9</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2,014</td>
+<td style="text-align: left;">Petrol</td>
+<td style="text-align: right;">1,200,698</td>
+<td style="text-align: right;">127.0</td>
+<td style="text-align: right;">1,157,079</td>
+<td style="text-align: right;">126.5</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2,015</td>
+<td style="text-align: left;">Petrol</td>
+<td style="text-align: right;">1,297,826</td>
+<td style="text-align: right;">124.7</td>
+<td style="text-align: right;">1,258,992</td>
+<td style="text-align: right;">124.2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2,016</td>
+<td style="text-align: left;">Petrol</td>
+<td style="text-align: right;">1,327,606</td>
+<td style="text-align: right;">124.1</td>
+<td style="text-align: right;">1,295,659</td>
+<td style="text-align: right;">123.7</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2,017</td>
+<td style="text-align: left;">Petrol</td>
+<td style="text-align: right;">1,358,172</td>
+<td style="text-align: right;">125.4</td>
+<td style="text-align: right;">1,330,371</td>
+<td style="text-align: right;">125.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2,018</td>
+<td style="text-align: left;">Petrol</td>
+<td style="text-align: right;">1,476,384</td>
+<td style="text-align: right;">128.3</td>
+<td style="text-align: right;">1,445,764</td>
+<td style="text-align: right;">128.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2,019</td>
+<td style="text-align: left;">Petrol</td>
+<td style="text-align: right;">1,524,152</td>
+<td style="text-align: right;">132.2</td>
+<td style="text-align: right;">1,488,701</td>
+<td style="text-align: right;">131.8</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>Here the two averages are almost identical, because most cars of these years have a recorded value. Note the rise after 2017 for both fuels: this coincides with the change from the NEDC to the WLTP test (<a href="fuels-emissions.html" class="quarto-xref"><span>Chapter 4</span></a>), not necessarily a real increase.</p>
+</section>
+<section id="example-4-following-a-cohort" class="level2" data-number="17.4">
+<h2 data-number="17.4" class="anchored" data-anchor-id="example-4-following-a-cohort"><span class="header-section-number">17.4</span> Example 4: following a cohort</h2>
+<p><strong>Question:</strong> What happened to the cars first used in 2008?</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- What happened to the cars first used in 2008? For each year, count how</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">-- many were observed, unknown or dead. Only the pca_YYYY columns are needed.</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WITH</span> cohort <span class="kw">AS</span> (</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> vehicle_id, <span class="kw">COLUMNS</span>(<span class="st">'^pca_[0-9]{4}$'</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> read_parquet(<span class="st">'vehicles_enhanced.parquet'</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">WHERE</span> body_type <span class="op">=</span> <span class="st">'Cars'</span> <span class="kw">AND</span> <span class="dt">year</span>(first_use_date) <span class="op">=</span> <span class="dv">2008</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>),</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="dt">long</span> <span class="kw">AS</span> (</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  UNPIVOT cohort <span class="kw">ON</span> <span class="kw">COLUMNS</span>(<span class="st">'^pca_'</span>) <span class="kw">INTO</span> NAME col <span class="fu">VALUE</span> pca</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">CAST</span>(<span class="kw">right</span>(col, <span class="dv">4</span>) <span class="kw">AS</span> <span class="dt">INTEGER</span>) <span class="kw">AS</span> <span class="dt">year</span>,</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="cf">CASE</span> <span class="cf">WHEN</span> pca <span class="kw">IN</span> (<span class="st">'unborn'</span>, <span class="st">'dead'</span>, <span class="st">'unknown'</span>) <span class="cf">THEN</span> pca</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>       <span class="cf">ELSE</span> <span class="st">'observed'</span> <span class="cf">END</span> <span class="kw">AS</span> status,</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(<span class="op">*</span>) <span class="kw">AS</span> n_vehicles</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> <span class="dt">long</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> <span class="dt">year</span>, status</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> <span class="dt">year</span>, status;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-code-ex4" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-code-ex4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="examples-code_files/figure-html/fig-code-ex4-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-code-ex4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;17.2: Cars first used in 2008, by their status in each year.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The cohort is almost all <code>unknown</code> until 2011, when most cars have their first MOT; it is then observed every year and gradually becomes <code>dead</code> as cars stop being tested. A small number are observed before 2011: cars tested early, such as taxis. The <code>unknown</code> line rises again at the end of the series: cars that may simply not have been tested <em>yet</em> (<a href="pitfalls.html" class="quarto-xref"><span>Chapter 14</span></a>, pitfall 4).</p>
+</section>
+<section id="example-5-where-vehicles-go" class="level2" data-number="17.5">
+<h2 data-number="17.5" class="anchored" data-anchor-id="example-5-where-vehicles-go"><span class="header-section-number">17.5</span> Example 5: where vehicles go</h2>
+<p><strong>Question:</strong> Of the cars tested in the Leeds postcode area in 2019, where were they four years later?</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Cars tested in the Leeds postcode area (LS) in 2019: where were they</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">-- in 2023?</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  pca_2023,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(<span class="op">*</span>) <span class="kw">AS</span> n_vehicles</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> read_parquet(<span class="st">'vehicles_enhanced.parquet'</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> body_type <span class="op">=</span> <span class="st">'Cars'</span> <span class="kw">AND</span> pca_2019 <span class="op">=</span> <span class="st">'LS'</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> pca_2023</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> n_vehicles <span class="kw">DESC</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="kw">LIMIT</span> <span class="dv">12</span>;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell" data-layout-align="center">
+<div id="tbl-code-ex5" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-code-ex5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;17.3: Where cars tested in Leeds (LS) in 2019 were in 2023.
+</figcaption>
+<div aria-describedby="tbl-code-ex5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="cell caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">2023</th>
+<th style="text-align: right;">Cars</th>
+<th style="text-align: left;">Share of those shown</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Leeds (LS)</td>
+<td style="text-align: right;">156,407</td>
+<td style="text-align: left;">50.2%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">dead</td>
+<td style="text-align: right;">75,998</td>
+<td style="text-align: left;">24.4%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Bradford (BD)</td>
+<td style="text-align: right;">17,358</td>
+<td style="text-align: left;">5.6%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Wakefield (WF)</td>
+<td style="text-align: right;">16,776</td>
+<td style="text-align: left;">5.4%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Sheffield (S)</td>
+<td style="text-align: right;">9,773</td>
+<td style="text-align: left;">3.1%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">York (YO)</td>
+<td style="text-align: right;">7,912</td>
+<td style="text-align: left;">2.5%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Doncaster (DN)</td>
+<td style="text-align: right;">5,914</td>
+<td style="text-align: left;">1.9%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Birmingham (B)</td>
+<td style="text-align: right;">4,821</td>
+<td style="text-align: left;">1.5%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Manchester (M)</td>
+<td style="text-align: right;">4,786</td>
+<td style="text-align: left;">1.5%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Harrogate (HG)</td>
+<td style="text-align: right;">4,293</td>
+<td style="text-align: left;">1.4%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Nottingham (NG)</td>
+<td style="text-align: right;">3,977</td>
+<td style="text-align: left;">1.3%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Huddersfield (HD)</td>
+<td style="text-align: right;">3,462</td>
+<td style="text-align: left;">1.1%</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>Most were still tested in Leeds, and most of the rest had stopped being tested or were tested in a neighbouring area (Bradford, Wakefield, Sheffield, York). Moves to neighbouring areas will include cars that simply changed garage.</p>
+<div class="todo callout callout-style-default callout-note callout-titled" title="To be written">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>To be written
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Further examples: joining the vehicle table to DfT statistics using <code>dft_genmodel</code>; estimating the share of an area’s cars that would be non-compliant in a Clean Air Zone; distributions of mileage within an area; working in <code>dplyr</code> or <code>polars</code> without SQL.</p>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/cars-project\.github\.io\/documentation\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/examples-spreadsheet.html" class="pagination-link" aria-label="Worked examples: spreadsheets">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Worked examples: spreadsheets</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../chapters/references.html" class="pagination-link" aria-label="References">
+        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>The CARS Project: Connecting Administrative vehicle data for Research on Sustainable transport</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/CARS-Project/documentation/edit/main/chapters/examples-code.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/CARS-Project/documentation/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+<p><a href="https://cars-project.github.io/">cars-project.github.io</a></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

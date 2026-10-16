@@ -1,0 +1,4418 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.19">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Vehicles and mileage by postcode area – Using the CARS vehicle data</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../reports/churn_tables_report.html" rel="next">
+<link href="../reports/data_quality_report.html" rel="prev">
+<link href="../images/favicon.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-c08868c37ca8912c446ae25c80bf22ff.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/glossary.html">Appendices</a></li><li class="breadcrumb-item"><a href="../reports/methodology.html">Pipeline reports</a></li><li class="breadcrumb-item"><a href="../reports/mileage_report.html">Vehicles and mileage by postcode area</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="../index.html" class="sidebar-logo-link">
+      <img src="../images/CARS_logo.webp" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="../images/CARS_logo.webp" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Using the CARS vehicle data</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/CARS-Project/documentation" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Background</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/mot-test.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">The MOT test</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/data-landscape.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Who holds vehicle data in the UK</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/vehicle-types.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Classifying vehicles</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/fuels-emissions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Fuels, emissions and Euro standards</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/number-plates.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Number plates</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/vehicle-lifecycle.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">The life of a vehicle</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/geography.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Geography: postcode areas</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">The CARS data</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/sources-linkage.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Source data and linkage</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/pipeline.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">From linked data to research-ready data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/data-products.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Data products and access</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/vehicle-table.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">The vehicle table</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/aggregate-tables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">The aggregate tables</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/data-quality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">How good is the data?</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Using the data</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/pitfalls.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Concepts and pitfalls</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/getting-started.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Getting started</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/examples-spreadsheet.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Worked examples: spreadsheets</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/examples-code.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Worked examples: code</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Glossary</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/data-dictionary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Data dictionary</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/table-catalogue.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Catalogue of aggregate tables</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/maintaining.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Maintaining this book</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Pipeline reports</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth2 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../reports/methodology.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Methodology</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../reports/data_quality_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data quality report</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../reports/mileage_report.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Vehicles and mileage by postcode area</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../reports/churn_tables_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Churn tables: what each one contains and exactly how it was made</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../reports/fleet_profile_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Fleet profile tables</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#summary" id="toc-summary" class="nav-link active" data-scroll-target="#summary">Summary</a></li>
+  <li><a href="#where-the-data-comes-from" id="toc-where-the-data-comes-from" class="nav-link" data-scroll-target="#where-the-data-comes-from">1. Where the data comes from</a>
+  <ul class="collapse">
+  <li><a href="#the-chain-of-files" id="toc-the-chain-of-files" class="nav-link" data-scroll-target="#the-chain-of-files">1.1 The chain of files</a></li>
+  <li><a href="#which-vehicles-are-counted" id="toc-which-vehicles-are-counted" class="nav-link" data-scroll-target="#which-vehicles-are-counted">1.2 Which vehicles are counted</a></li>
+  <li><a href="#the-settings-these-tables-were-built-with" id="toc-the-settings-these-tables-were-built-with" class="nav-link" data-scroll-target="#the-settings-these-tables-were-built-with">1.3 The settings these tables were built with</a></li>
+  </ul></li>
+  <li><a href="#the-tables-one-at-a-time" id="toc-the-tables-one-at-a-time" class="nav-link" data-scroll-target="#the-tables-one-at-a-time">2. The tables, one at a time</a>
+  <ul class="collapse">
+  <li><a href="#every-file-written" id="toc-every-file-written" class="nav-link" data-scroll-target="#every-file-written">2.1 Every file written</a></li>
+  <li><a href="#every-column-with-how-often-it-is-blank" id="toc-every-column-with-how-often-it-is-blank" class="nav-link" data-scroll-target="#every-column-with-how-often-it-is-blank">2.2 Every column, with how often it is blank</a></li>
+  </ul></li>
+  <li><a href="#the-vocabulary-pedantically" id="toc-the-vocabulary-pedantically" class="nav-link" data-scroll-target="#the-vocabulary-pedantically">3. The vocabulary, pedantically</a></li>
+  <li><a href="#how-complete-the-variables-are" id="toc-how-complete-the-variables-are" class="nav-link" data-scroll-target="#how-complete-the-variables-are">4. How complete the variables are</a>
+  <ul class="collapse">
+  <li><a href="#the-columns-the-tables-are-built-from" id="toc-the-columns-the-tables-are-built-from" class="nav-link" data-scroll-target="#the-columns-the-tables-are-built-from">4.1 The columns the tables are built from</a></li>
+  <li><a href="#coverage-year-by-year" id="toc-coverage-year-by-year" class="nav-link" data-scroll-target="#coverage-year-by-year">4.2 Coverage year by year</a></li>
+  </ul></li>
+  <li><a href="#how-the-values-are-distributed" id="toc-how-the-values-are-distributed" class="nav-link" data-scroll-target="#how-the-values-are-distributed">5. How the values are distributed</a>
+  <ul class="collapse">
+  <li><a href="#every-grouping-variable-with-its-values" id="toc-every-grouping-variable-with-its-values" class="nav-link" data-scroll-target="#every-grouping-variable-with-its-values">5.1 Every grouping variable, with its values</a></li>
+  <li><a href="#where-the-mileage-sits" id="toc-where-the-mileage-sits" class="nav-link" data-scroll-target="#where-the-mileage-sits">5.2 Where the mileage sits</a></li>
+  <li><a href="#mileage-by-age" id="toc-mileage-by-age" class="nav-link" data-scroll-target="#mileage-by-age">5.3 Mileage by age</a></li>
+  </ul></li>
+  <li><a href="#the-fleet-over-time" id="toc-the-fleet-over-time" class="nav-link" data-scroll-target="#the-fleet-over-time">6. The fleet over time</a>
+  <ul class="collapse">
+  <li><a href="#vehicles-observed-by-body-type" id="toc-vehicles-observed-by-body-type" class="nav-link" data-scroll-target="#vehicles-observed-by-body-type">Vehicles observed by body type</a></li>
+  </ul></li>
+  <li><a href="#annual-mileage" id="toc-annual-mileage" class="nav-link" data-scroll-target="#annual-mileage">7. Annual mileage</a>
+  <ul class="collapse">
+  <li><a href="#average-annual-mileage-by-body-type" id="toc-average-annual-mileage-by-body-type" class="nav-link" data-scroll-target="#average-annual-mileage-by-body-type">Average annual mileage by body type</a></li>
+  </ul></li>
+  <li><a href="#age" id="toc-age" class="nav-link" data-scroll-target="#age">8. Age</a></li>
+  <li><a href="#maps" id="toc-maps" class="nav-link" data-scroll-target="#maps">9. Maps</a></li>
+  <li><a href="#comparison-with-dft-small-area-counts" id="toc-comparison-with-dft-small-area-counts" class="nav-link" data-scroll-target="#comparison-with-dft-small-area-counts">10. Comparison with DfT small-area counts</a>
+  <ul class="collapse">
+  <li><a href="#postcode-areas-furthest-from-the-national-ratio-cars-2022" id="toc-postcode-areas-furthest-from-the-national-ratio-cars-2022" class="nav-link" data-scroll-target="#postcode-areas-furthest-from-the-national-ratio-cars-2022">Postcode areas furthest from the national ratio, cars 2022</a></li>
+  <li><a href="#electric-vehicles" id="toc-electric-vehicles" class="nav-link" data-scroll-target="#electric-vehicles">Electric vehicles</a></li>
+  </ul></li>
+  <li><a href="#possible-problems-in-the-data" id="toc-possible-problems-in-the-data" class="nav-link" data-scroll-target="#possible-problems-in-the-data">11. Possible problems in the data</a>
+  <ul class="collapse">
+  <li><a href="#car-mileage-outside-the-chart-2022" id="toc-car-mileage-outside-the-chart-2022" class="nav-link" data-scroll-target="#car-mileage-outside-the-chart-2022">Car mileage outside the chart, 2022</a></li>
+  <li><a href="#mileage-and-age-checks-by-year" id="toc-mileage-and-age-checks-by-year" class="nav-link" data-scroll-target="#mileage-and-age-checks-by-year">Mileage and age checks by year</a></li>
+  <li><a href="#mileage-recorded-without-a-postcode-area" id="toc-mileage-recorded-without-a-postcode-area" class="nav-link" data-scroll-target="#mileage-recorded-without-a-postcode-area">Mileage recorded without a postcode area</a></li>
+  <li><a href="#postcode-areas-without-a-match" id="toc-postcode-areas-without-a-match" class="nav-link" data-scroll-target="#postcode-areas-without-a-match">Postcode areas without a match</a></li>
+  <li><a href="#sudden-changes-in-a-postcode-area" id="toc-sudden-changes-in-a-postcode-area" class="nav-link" data-scroll-target="#sudden-changes-in-a-postcode-area">Sudden changes in a postcode area</a></li>
+  <li><a href="#unusual-average-car-mileage" id="toc-unusual-average-car-mileage" class="nav-link" data-scroll-target="#unusual-average-car-mileage">Unusual average car mileage</a></li>
+  <li><a href="#vehicles-with-no-body-type-2022" id="toc-vehicles-with-no-body-type-2022" class="nav-link" data-scroll-target="#vehicles-with-no-body-type-2022">Vehicles with no body type, 2022</a></li>
+  </ul></li>
+  <li><a href="#source-files-and-how-to-rebuild" id="toc-source-files-and-how-to-rebuild" class="nav-link" data-scroll-target="#source-files-and-how-to-rebuild">12. Source files and how to rebuild</a></li>
+  <li><a href="#things-to-be-careful-about-in-one-place" id="toc-things-to-be-careful-about-in-one-place" class="nav-link" data-scroll-target="#things-to-be-careful-about-in-one-place">13. Things to be careful about, in one place</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/CARS-Project/documentation/edit/main/reports/mileage_report.md" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/CARS-Project/documentation/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/glossary.html">Appendices</a></li><li class="breadcrumb-item"><a href="../reports/methodology.html">Pipeline reports</a></li><li class="breadcrumb-item"><a href="../reports/mileage_report.html">Vehicles and mileage by postcode area</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="sec-mileage-report" class="quarto-section-identifier">Vehicles and mileage by postcode area</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-note callout-titled" title="Generated by the pipeline">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Generated by the pipeline
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This appendix is <code>outputs/reports/mileage_report.md</code> from the MOT-pipline repository, copied unchanged into the book by <code>scripts/sync-pipeline.R</code>. Paths such as <code>outputs/...</code> refer to that repository. See <a href="../chapters/maintaining.html" class="quarto-xref"><span>Appendix D — Maintaining this book</span></a>.</p>
+</div>
+</div>
+<p><em>Generated from <code>reports/mileage_report.qmd</code> by the MOT-pipline <code>mileage_report</code> target (profile: main). Edit the template, not this file.</em></p>
+<p>This report describes the vehicles in the enhanced MOT table: how many there are, what kind, how far they are driven, how old they are and where they are, from 2005 to 2025. It compares the counts with DfT’s small-area licensing statistics, and ends with checks that point to possible problems in the data.</p>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<ul>
+<li><strong>Vehicles observed in 2022:</strong> 45,018,795, of which 38,155,912 (84.8%) are cars. 39,474,199 (87.7%) have an annual mileage for the year.</li>
+<li><strong>Average annual mileage of cars:</strong> 6,619 miles in 2022, against 7,892 in
+<ol start="2006" type="1">
+<li></li>
+</ol></li>
+<li><strong>Average age of cars:</strong> 9.4 years in 2022, against 6.6 in
+<ol start="2006" type="1">
+<li></li>
+</ol></li>
+<li><strong>Years shown:</strong> charts over time cover 2005 to 2025. Maps and other single-year figures show 2022 at the latest: vehicles under three have not had their first MOT, so the fleet observed in the last 3 years of data is incomplete. Comparisons between selected years start in 2006, because the 2005 data looks lower quality (section 2). Mileage for 2025 is partial: fewer than 90% as many vehicles have one as in the year before.</li>
+</ul>
+<p><strong>Definitions used throughout:</strong></p>
+<ul>
+<li><code>observed</code>: a vehicle is counted in a year when <code>pca_YYYY</code> is a postcode area (not <code>unborn</code>, <code>dead</code> or <code>unknown</code>): it was seen, usually at an MOT test, that year. Vehicles under three (four in Northern Ireland) have no MOT, so are largely missing.</li>
+<li><code>annual mileage</code>: Bristol’s <code>mileage_YYYY</code>. Averages use only mileage Bristol flagged as plausible (<code>legit_mileage_YYYY</code> is TRUE). Bristol has already removed the mileage it flagged as implausible, and a mileage with no flag was not assessed; section 6 counts both.</li>
+<li><code>age</code>: the year minus the year of first use.</li>
+<li><code>body type</code>: the DfT body type from make and model matching (methodology.md, Section 4.6). <code>Other</code> groups buses and coaches, heavy goods vehicles, other vehicles and vehicles with no body type.</li>
+<li><code>fuel</code>: the harmonised fuel grouped into Petrol, Diesel, Hybrid Electric, Electric and Other (<code>fuel_simple</code>).</li>
+<li><code>postcode area</code>: as recorded by Bristol. Northern Ireland is <code>NI</code>; <code>XX</code> has no boundary. Maps show Greater London enlarged in a box.</li>
+</ul>
+</section>
+<section id="where-the-data-comes-from" class="level2">
+<h2 class="anchored" data-anchor-id="where-the-data-comes-from">1. Where the data comes from</h2>
+<section id="the-chain-of-files" class="level3">
+<h3 class="anchored" data-anchor-id="the-chain-of-files">1.1 The chain of files</h3>
+<p>The mileage tables are the last step of a longer pipeline. Each step writes a file; the next step reads it. Nothing in the mileage step goes back to the original data.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Step</th>
+<th style="text-align: left;">File</th>
+<th style="text-align: left;">What it is</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Input</td>
+<td style="text-align: left;"><code>annualised_with_ves_4.parquet</code></td>
+<td style="text-align: left;">The vehicle-level annualised MOT table supplied to the project, one row per vehicle, with DVLA (VES) columns attached</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Stage 1</td>
+<td style="text-align: left;"><code>outputs/intermediate/01_core.parquet</code></td>
+<td style="text-align: left;">The input narrowed to the columns used, typed, with vehicles outside the scope removed</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Stages 2-3</td>
+<td style="text-align: left;"><code>outputs/vehicles_enhanced.parquet</code></td>
+<td style="text-align: left;">Cleaned make/model, harmonised fuel, engine size, body type and Euro status (93,352,241 vehicles)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Mileage</td>
+<td style="text-align: left;"><code>outputs/tables/mileage/*.csv</code></td>
+<td style="text-align: left;">The 10 published tables that sections 2 to 5 describe</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Mileage</td>
+<td style="text-align: left;"><code>outputs/quality/mileage_profile/*.csv</code></td>
+<td style="text-align: left;">The measurements in this document</td>
+</tr>
+</tbody>
+</table>
+<p>“Scope” means a vehicle is kept if it has any recorded mileage, or any recorded postcode area, or was born on or after 2005-01-01, or shows DVLA activity (tax, V5C, MOT expiry or first registration) since that date.</p>
+<p><strong>Bristol’s annualisation is taken as given.</strong> The pipeline does not re-derive annual mileage, the postcode area or the plausibility flag. <code>mileage_YYYY</code> is already annual miles, so no scaling is applied (<code>mileage_scaling</code> in section 1.3). How those columns are built belongs to Bristol’s documentation, not this one.</p>
+</section>
+<section id="which-vehicles-are-counted" class="level3">
+<h3 class="anchored" data-anchor-id="which-vehicles-are-counted">1.2 Which vehicles are counted</h3>
+<p>Unlike the churn tables, the mileage tables keep <strong>every</strong> MOT test class and every body type. Nothing is filtered out: a vehicle missing from a year is missing because it had no mileage or no postcode area that year, not because it was excluded.</p>
+<section id="vehicles-behind-the-mileage-tables" class="level4">
+<h4 class="anchored" data-anchor-id="vehicles-behind-the-mileage-tables">Vehicles behind the mileage tables</h4>
+<p>Counted over the whole series: a vehicle counts under <code>vehicles_with_mileage_in_any_year</code> if it has a mileage in at least one year. The tables themselves are per vehicle-year, so these are upper bounds on what any single year holds.</p>
+<ul>
+<li><code>vehicles_in_vehicles_enhanced</code>: Every in-scope vehicle</li>
+<li><code>vehicles_with_mileage_in_any_year</code>: Has a recorded mileage in at least one year</li>
+<li><code>vehicles_with_plausible_mileage_in_any_year</code>: Has a mileage Bristol judged plausible in at least one year</li>
+<li><code>vehicles_with_mileage_removed_in_any_year</code>: Had a mileage judged implausible and removed in at least one year</li>
+<li><code>vehicles_in_a_real_postcode_area_in_any_year</code>: Was located in at least one year</li>
+<li><code>vehicles_with_no_body_type</code>: No DfT body type could be decided, so they fall in the Other group of the charts</li>
+<li><code>vehicles_with_no_first_use_date</code>: No age can be computed</li>
+<li><code>vehicles_with_no_test_class</code>: Missing from the test class tables</li>
+</ul>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 61%">
+<col style="width: 16%">
+<col style="width: 22%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">measure</th>
+<th style="text-align: right;">n_vehicles</th>
+<th style="text-align: right;">pct_of_vehicles</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">vehicles_in_vehicles_enhanced</td>
+<td style="text-align: right;">93,352,241</td>
+<td style="text-align: right;">100.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">vehicles_with_mileage_in_any_year</td>
+<td style="text-align: right;">77,335,802</td>
+<td style="text-align: right;">82.84</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">vehicles_with_plausible_mileage_in_any_year</td>
+<td style="text-align: right;">77,335,802</td>
+<td style="text-align: right;">82.84</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">vehicles_with_mileage_removed_in_any_year</td>
+<td style="text-align: right;">5,113,947</td>
+<td style="text-align: right;">5.48</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">vehicles_in_a_real_postcode_area_in_any_year</td>
+<td style="text-align: right;">75,437,173</td>
+<td style="text-align: right;">80.81</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">vehicles_with_no_body_type</td>
+<td style="text-align: right;">2,878,353</td>
+<td style="text-align: right;">3.08</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">vehicles_with_no_first_use_date</td>
+<td style="text-align: right;">123</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">vehicles_with_no_test_class</td>
+<td style="text-align: right;">19,314,753</td>
+<td style="text-align: right;">20.69</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="the-settings-these-tables-were-built-with" class="level3">
+<h3 class="anchored" data-anchor-id="the-settings-these-tables-were-built-with">1.3 The settings these tables were built with</h3>
+<p>Set in <code>config.yml</code>. The mileage tables use the attributes <strong>as supplied</strong> for test class and fuel, and the <strong>harmonised</strong> attributes for body type and fuel group, which is why the same fleet appears twice with different fuel labels (section 5.1).</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 31%">
+<col style="width: 68%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">setting</th>
+<th style="text-align: left;">value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">profile</td>
+<td style="text-align: left;">main</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">years.first</td>
+<td style="text-align: left;">2005</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">years.last</td>
+<td style="text-align: left;">2025</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">scope.start_date</td>
+<td style="text-align: left;">2005-01-01</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">test_class_column</td>
+<td style="text-align: left;">test_class_ANON (as supplied)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">fuel_column</td>
+<td style="text-align: left;">fuel_DVSA (as supplied)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">body_type_column</td>
+<td style="text-align: left;">body_type (harmonised)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">fuel_group_column</td>
+<td style="text-align: left;">fuel_simple (harmonised)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">mileage_scaling</td>
+<td style="text-align: left;">none: the Bristol columns are already annual miles</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">age_cap</td>
+<td style="text-align: left;">40</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">over_mileage_threshold</td>
+<td style="text-align: left;">50000</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="the-tables-one-at-a-time" class="level2">
+<h2 class="anchored" data-anchor-id="the-tables-one-at-a-time">2. The tables, one at a time</h2>
+<section id="every-file-written" class="level3">
+<h3 class="anchored" data-anchor-id="every-file-written">2.1 Every file written</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">file</th>
+<th style="text-align: right;">n_rows</th>
+<th style="text-align: right;">n_columns</th>
+<th style="text-align: left;">grain</th>
+<th style="text-align: left;">contents</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">mileage_by_pca_year_long.csv</td>
+<td style="text-align: right;">4,098</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: left;">year x postcode area x plausibility flag</td>
+<td style="text-align: left;">Vehicles, total and mean annual mileage for every pca_YYYY value</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">mileage_by_pca_wide.csv</td>
+<td style="text-align: right;">244</td>
+<td style="text-align: right;">23</td>
+<td style="text-align: left;">postcode area x plausibility flag, one column per year</td>
+<td style="text-align: left;">The total mileage of the long table, pivoted</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">mileage_by_legit_flag_year.csv</td>
+<td style="text-align: right;">41</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">year x plausibility flag</td>
+<td style="text-align: left;">Vehicles and total mileage: the national totals behind the flag</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">mileage_by_test_class_year_long.csv</td>
+<td style="text-align: right;">147</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">year x MOT test class</td>
+<td style="text-align: left;">Vehicles and total mileage by the test class as supplied, with its label</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">mileage_by_test_class_wide.csv</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">23</td>
+<td style="text-align: left;">MOT test class, one column per year</td>
+<td style="text-align: left;">The total mileage of the long table, pivoted</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">mileage_by_fuel_year_long.csv</td>
+<td style="text-align: right;">294</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">year x DVSA fuel</td>
+<td style="text-align: left;">Vehicles and total mileage by the fuel as supplied, unharmonised</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">mileage_by_fuel_wide.csv</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">22</td>
+<td style="text-align: left;">DVSA fuel, one column per year</td>
+<td style="text-align: left;">The total mileage of the long table, pivoted</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">mileage_by_pca_year_body_fuel.csv</td>
+<td style="text-align: right;">53,123</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: left;">year x pca_YYYY x body type x fuel group</td>
+<td style="text-align: left;">The area table behind the report: vehicles, mileage coverage, mileage, the negative and over-50,000 tails, and age</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">mileage_by_age_year_body_fuel.csv</td>
+<td style="text-align: right;">19,556</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: left;">year x body type x fuel group x age</td>
+<td style="text-align: left;">Observed vehicles and their plausible mileage by age, for vehicles in a real postcode area</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">mileage_distribution_by_year_body.csv</td>
+<td style="text-align: right;">11,176</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">year x body type x plausibility flag x mileage band</td>
+<td style="text-align: left;">Recorded mileage in bands of 1,000 to 50,000, then wider</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">README_outputs.csv</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">one row per file</td>
+<td style="text-align: left;">The index written with the tables</td>
+</tr>
+</tbody>
+</table>
+<p>Long and wide forms hold the same numbers: a wide file is the long file pivoted, one column per year, carrying total mileage only.</p>
+</section>
+<section id="every-column-with-how-often-it-is-blank" class="level3">
+<h3 class="anchored" data-anchor-id="every-column-with-how-often-it-is-blank">2.2 Every column, with how often it is blank</h3>
+<section id="mileage_by_age_year_body_fuel.csv" class="level4">
+<h4 class="anchored" data-anchor-id="mileage_by_age_year_body_fuel.csv"><code>mileage_by_age_year_body_fuel.csv</code></h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">column</th>
+<th style="text-align: left;">description</th>
+<th style="text-align: right;">n_blank</th>
+<th style="text-align: right;">pct_blank</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">year</td>
+<td style="text-align: left;">Calendar year the row describes</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">body_type</td>
+<td style="text-align: left;">DfT body type of the vehicle (R/assemble.R)</td>
+<td style="text-align: right;">2,698</td>
+<td style="text-align: right;">13.8</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">fuel_simple</td>
+<td style="text-align: left;">Fuel in six groups, including Plug-in Hybrid Electric</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">age</td>
+<td style="text-align: left;">Year minus the year of first use, capped at 40; -1 holds every negative age</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">n_vehicles</td>
+<td style="text-align: left;">Vehicles in the group</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">n_with_mileage</td>
+<td style="text-align: left;">Of those, how many have a mileage recorded that year</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">n_legit_mileage</td>
+<td style="text-align: left;">Of those, how many have a mileage Bristol judged plausible</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">total_legit_mileage</td>
+<td style="text-align: left;">Total annual mileage Bristol judged plausible</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.0</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="mileage_by_fuel_wide.csv" class="level4">
+<h4 class="anchored" data-anchor-id="mileage_by_fuel_wide.csv"><code>mileage_by_fuel_wide.csv</code></h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">column</th>
+<th style="text-align: left;">description</th>
+<th style="text-align: right;">n_blank</th>
+<th style="text-align: right;">pct_blank</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">fuel_DVSA</td>
+<td style="text-align: left;">Fuel as supplied by DVSA, unharmonised</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2005 … 2025 (one per year)</td>
+<td style="text-align: left;">Total annual mileage in that year</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="mileage_by_fuel_year_long.csv" class="level4">
+<h4 class="anchored" data-anchor-id="mileage_by_fuel_year_long.csv"><code>mileage_by_fuel_year_long.csv</code></h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 55%">
+<col style="width: 12%">
+<col style="width: 15%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">column</th>
+<th style="text-align: left;">description</th>
+<th style="text-align: right;">n_blank</th>
+<th style="text-align: right;">pct_blank</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">year</td>
+<td style="text-align: left;">Calendar year the row describes</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">fuel_DVSA</td>
+<td style="text-align: left;">Fuel as supplied by DVSA, unharmonised</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">n_vehicles</td>
+<td style="text-align: left;">Vehicles in the group</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">mileage</td>
+<td style="text-align: left;">Total annual mileage of the group</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="mileage_by_legit_flag_year.csv" class="level4">
+<h4 class="anchored" data-anchor-id="mileage_by_legit_flag_year.csv"><code>mileage_by_legit_flag_year.csv</code></h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">column</th>
+<th style="text-align: left;">description</th>
+<th style="text-align: right;">n_blank</th>
+<th style="text-align: right;">pct_blank</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">year</td>
+<td style="text-align: left;">Calendar year the row describes</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">legit_mileage</td>
+<td style="text-align: left;">Bristol’s flag: TRUE where it judged the mileage plausible, blank where it did not assess it. Mileage it judged implausible has already been removed, so FALSE never carries a mileage</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">48.78</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">n_vehicles</td>
+<td style="text-align: left;">Vehicles in the group</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">mileage</td>
+<td style="text-align: left;">Total annual mileage of the group</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="mileage_by_pca_wide.csv" class="level4">
+<h4 class="anchored" data-anchor-id="mileage_by_pca_wide.csv"><code>mileage_by_pca_wide.csv</code></h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">column</th>
+<th style="text-align: left;">description</th>
+<th style="text-align: right;">n_blank</th>
+<th style="text-align: right;">pct_blank</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">pca</td>
+<td style="text-align: left;">Postcode area in that year, or unborn / dead / unknown where none was recorded</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">legit_mileage</td>
+<td style="text-align: left;">Bristol’s flag: TRUE where it judged the mileage plausible, blank where it did not assess it. Mileage it judged implausible has already been removed, so FALSE never carries a mileage</td>
+<td style="text-align: right;">121</td>
+<td style="text-align: right;">49.59</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2005 … 2025 (one per year)</td>
+<td style="text-align: left;">Total annual mileage in that year</td>
+<td style="text-align: right;">1,026</td>
+<td style="text-align: right;">420.49</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="mileage_by_pca_year_body_fuel.csv" class="level4">
+<h4 class="anchored" data-anchor-id="mileage_by_pca_year_body_fuel.csv"><code>mileage_by_pca_year_body_fuel.csv</code></h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">column</th>
+<th style="text-align: left;">description</th>
+<th style="text-align: right;">n_blank</th>
+<th style="text-align: right;">pct_blank</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">year</td>
+<td style="text-align: left;">Calendar year the row describes</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">pca</td>
+<td style="text-align: left;">Postcode area in that year, or unborn / dead / unknown where none was recorded</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">body_type</td>
+<td style="text-align: left;">DfT body type of the vehicle (R/assemble.R)</td>
+<td style="text-align: right;">1,415</td>
+<td style="text-align: right;">2.66</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">fuel_simple</td>
+<td style="text-align: left;">Fuel in six groups, including Plug-in Hybrid Electric</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">n_vehicles</td>
+<td style="text-align: left;">Vehicles in the group</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">n_with_mileage</td>
+<td style="text-align: left;">Of those, how many have a mileage recorded that year</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">n_legit_mileage</td>
+<td style="text-align: left;">Of those, how many have a mileage Bristol judged plausible</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">n_mileage_removed</td>
+<td style="text-align: left;">Vehicles whose mileage Bristol judged implausible and removed</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">total_mileage</td>
+<td style="text-align: left;">Total annual mileage of the group, including mileage with no plausibility flag</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">total_legit_mileage</td>
+<td style="text-align: left;">Total annual mileage Bristol judged plausible</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">n_negative_mileage</td>
+<td style="text-align: left;">Recorded mileages below zero</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">n_over_50k_mileage</td>
+<td style="text-align: left;">Recorded mileages above 50,000</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">n_with_age</td>
+<td style="text-align: left;">Vehicles with an age of zero or more</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">total_age</td>
+<td style="text-align: left;">Sum of those ages, so the report can average over any grouping</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">n_negative_age</td>
+<td style="text-align: left;">Vehicles first used after the year they were observed in</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="mileage_by_pca_year_long.csv" class="level4">
+<h4 class="anchored" data-anchor-id="mileage_by_pca_year_long.csv"><code>mileage_by_pca_year_long.csv</code></h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">column</th>
+<th style="text-align: left;">description</th>
+<th style="text-align: right;">n_blank</th>
+<th style="text-align: right;">pct_blank</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">year</td>
+<td style="text-align: left;">Calendar year the row describes</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">pca</td>
+<td style="text-align: left;">Postcode area in that year, or unborn / dead / unknown where none was recorded</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">legit_mileage</td>
+<td style="text-align: left;">Bristol’s flag: TRUE where it judged the mileage plausible, blank where it did not assess it. Mileage it judged implausible has already been removed, so FALSE never carries a mileage</td>
+<td style="text-align: right;">1,517</td>
+<td style="text-align: right;">37.02</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">n_vehicles</td>
+<td style="text-align: left;">Vehicles in the group</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">mileage</td>
+<td style="text-align: left;">Total annual mileage of the group</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">mean_mileage</td>
+<td style="text-align: left;">Mean annual mileage over the vehicles with a recorded mileage</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="mileage_by_test_class_wide.csv" class="level4">
+<h4 class="anchored" data-anchor-id="mileage_by_test_class_wide.csv"><code>mileage_by_test_class_wide.csv</code></h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">column</th>
+<th style="text-align: left;">description</th>
+<th style="text-align: right;">n_blank</th>
+<th style="text-align: right;">pct_blank</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">test_class_ANON</td>
+<td style="text-align: left;">Anonymised MOT test class as supplied by DVSA</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">14.29</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">test_class</td>
+<td style="text-align: left;">Label of that test class</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">14.29</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2005 … 2025 (one per year)</td>
+<td style="text-align: left;">Total annual mileage in that year</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="mileage_by_test_class_year_long.csv" class="level4">
+<h4 class="anchored" data-anchor-id="mileage_by_test_class_year_long.csv"><code>mileage_by_test_class_year_long.csv</code></h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">column</th>
+<th style="text-align: left;">description</th>
+<th style="text-align: right;">n_blank</th>
+<th style="text-align: right;">pct_blank</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">year</td>
+<td style="text-align: left;">Calendar year the row describes</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">test_class_ANON</td>
+<td style="text-align: left;">Anonymised MOT test class as supplied by DVSA</td>
+<td style="text-align: right;">21</td>
+<td style="text-align: right;">14.29</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">n_vehicles</td>
+<td style="text-align: left;">Vehicles in the group</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">mileage</td>
+<td style="text-align: left;">Total annual mileage of the group</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">test_class</td>
+<td style="text-align: left;">Label of that test class</td>
+<td style="text-align: right;">21</td>
+<td style="text-align: right;">14.29</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="mileage_distribution_by_year_body.csv" class="level4">
+<h4 class="anchored" data-anchor-id="mileage_distribution_by_year_body.csv"><code>mileage_distribution_by_year_body.csv</code></h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">column</th>
+<th style="text-align: left;">description</th>
+<th style="text-align: right;">n_blank</th>
+<th style="text-align: right;">pct_blank</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">year</td>
+<td style="text-align: left;">Calendar year the row describes</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">body_type</td>
+<td style="text-align: left;">DfT body type of the vehicle (R/assemble.R)</td>
+<td style="text-align: right;">1,656</td>
+<td style="text-align: right;">14.82</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">legit_mileage</td>
+<td style="text-align: left;">Bristol’s flag: TRUE where it judged the mileage plausible, blank where it did not assess it. Mileage it judged implausible has already been removed, so FALSE never carries a mileage</td>
+<td style="text-align: right;">3,679</td>
+<td style="text-align: right;">32.92</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">mileage_from</td>
+<td style="text-align: left;">Lower edge of the mileage band, in miles; -1000 holds negative mileage</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">n_vehicles</td>
+<td style="text-align: left;">Vehicles in the group</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+</tbody>
+</table>
+<p>A blank is not a zero. <code>legit_mileage</code> is blank where Bristol did not assess the mileage, and <code>mean_mileage</code> is blank where a group has no recorded mileage to average.</p>
+</section>
+</section>
+</section>
+<section id="the-vocabulary-pedantically" class="level2">
+<h2 class="anchored" data-anchor-id="the-vocabulary-pedantically">3. The vocabulary, pedantically</h2>
+<p><strong><code>legit_mileage</code></strong> is Bristol’s judgement, and it has three states, not two. <code>TRUE</code> is a mileage it judged plausible. A blank is a mileage it did not assess. <code>FALSE</code> means it judged the mileage implausible and <strong>removed it</strong>, so a <code>FALSE</code> row never carries a mileage; <code>n_mileage_removed</code> counts those vehicles. Totals in this report are plausible mileage unless they say otherwise, and section 4.2 gives the size of the unassessed group year by year.</p>
+<p><strong>A postcode area</strong> is <code>pca_YYYY</code>: either a real area, or one of <code>unborn</code> (before the vehicle existed), <code>dead</code> (after its last MOT) or <code>unknown</code> (a year inside its life with no area recorded, which includes a new vehicle’s first years before its first MOT). “Observed” in this report means a real area.</p>
+<p><strong><code>body_type</code></strong> is the DfT body type attached in Stage 2, not the MOT test class, so it exists for vehicles with no test class.</p>
+<p>The charts group it as <code>Cars</code>, <code>Light goods vehicles</code>, <code>Motorcycles</code> and <code>Other</code>, with everything else in <code>Other</code>.</p>
+<p><strong><code>fuel_simple</code></strong> is the harmonised fuel in six groups, which separates plug-in hybrids from other hybrids. <code>fuel_DVSA</code> is the fuel exactly as supplied, with every rare spelling, and is used only in the fuel tables.</p>
+<p><strong>Age</strong> is the year minus the year of first use. It can be negative, when a vehicle was observed before the date it was first used; those are counted separately rather than dropped (<code>n_negative_age</code>). The age table caps age at 40 and holds every negative age at -1.</p>
+<p><strong>Mileage bands</strong> in <code>mileage_distribution_by_year_body.csv</code> are named by their lower edge in miles: bands of 1,000 up to 50,000, then three wider bands, with negative mileage at -1000.</p>
+<section id="every-mileage-band-all-years-and-body-types-together" class="level4">
+<h4 class="anchored" data-anchor-id="every-mileage-band-all-years-and-body-types-together">Every mileage band, all years and body types together</h4>
+<p><code>pct</code> is the share of all recorded vehicle-years.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: right;">mileage_from</th>
+<th style="text-align: left;">label</th>
+<th style="text-align: right;">n_vehicle_years</th>
+<th style="text-align: right;">pct</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: left;">0-1,000</td>
+<td style="text-align: right;">65,728,439</td>
+<td style="text-align: right;">8.75</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1,000</td>
+<td style="text-align: left;">1,000-2,000</td>
+<td style="text-align: right;">55,153,174</td>
+<td style="text-align: right;">7.34</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2,000</td>
+<td style="text-align: left;">2,000-3,000</td>
+<td style="text-align: right;">60,136,709</td>
+<td style="text-align: right;">8.01</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3,000</td>
+<td style="text-align: left;">3,000-4,000</td>
+<td style="text-align: right;">64,037,687</td>
+<td style="text-align: right;">8.52</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4,000</td>
+<td style="text-align: left;">4,000-5,000</td>
+<td style="text-align: right;">65,688,362</td>
+<td style="text-align: right;">8.74</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">5,000</td>
+<td style="text-align: left;">5,000-6,000</td>
+<td style="text-align: right;">64,437,091</td>
+<td style="text-align: right;">8.58</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">6,000</td>
+<td style="text-align: left;">6,000-7,000</td>
+<td style="text-align: right;">60,330,649</td>
+<td style="text-align: right;">8.03</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">7,000</td>
+<td style="text-align: left;">7,000-8,000</td>
+<td style="text-align: right;">54,362,108</td>
+<td style="text-align: right;">7.24</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">8,000</td>
+<td style="text-align: left;">8,000-9,000</td>
+<td style="text-align: right;">47,217,333</td>
+<td style="text-align: right;">6.28</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">9,000</td>
+<td style="text-align: left;">9,000-10,000</td>
+<td style="text-align: right;">39,933,018</td>
+<td style="text-align: right;">5.32</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">10,000</td>
+<td style="text-align: left;">10,000-11,000</td>
+<td style="text-align: right;">32,829,196</td>
+<td style="text-align: right;">4.37</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">11,000</td>
+<td style="text-align: left;">11,000-12,000</td>
+<td style="text-align: right;">26,578,680</td>
+<td style="text-align: right;">3.54</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">12,000</td>
+<td style="text-align: left;">12,000-13,000</td>
+<td style="text-align: right;">21,290,674</td>
+<td style="text-align: right;">2.83</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">13,000</td>
+<td style="text-align: left;">13,000-14,000</td>
+<td style="text-align: right;">16,950,193</td>
+<td style="text-align: right;">2.26</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">14,000</td>
+<td style="text-align: left;">14,000-15,000</td>
+<td style="text-align: right;">13,504,219</td>
+<td style="text-align: right;">1.80</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">15,000</td>
+<td style="text-align: left;">15,000-16,000</td>
+<td style="text-align: right;">10,754,470</td>
+<td style="text-align: right;">1.43</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">16,000</td>
+<td style="text-align: left;">16,000-17,000</td>
+<td style="text-align: right;">8,601,733</td>
+<td style="text-align: right;">1.15</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">17,000</td>
+<td style="text-align: left;">17,000-18,000</td>
+<td style="text-align: right;">6,928,680</td>
+<td style="text-align: right;">0.92</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">18,000</td>
+<td style="text-align: left;">18,000-19,000</td>
+<td style="text-align: right;">5,634,617</td>
+<td style="text-align: right;">0.75</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">19,000</td>
+<td style="text-align: left;">19,000-20,000</td>
+<td style="text-align: right;">4,617,141</td>
+<td style="text-align: right;">0.62</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">20,000</td>
+<td style="text-align: left;">20,000-21,000</td>
+<td style="text-align: right;">3,806,771</td>
+<td style="text-align: right;">0.51</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">21,000</td>
+<td style="text-align: left;">21,000-22,000</td>
+<td style="text-align: right;">3,165,716</td>
+<td style="text-align: right;">0.42</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">22,000</td>
+<td style="text-align: left;">22,000-23,000</td>
+<td style="text-align: right;">2,657,748</td>
+<td style="text-align: right;">0.35</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">23,000</td>
+<td style="text-align: left;">23,000-24,000</td>
+<td style="text-align: right;">2,245,818</td>
+<td style="text-align: right;">0.30</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">24,000</td>
+<td style="text-align: left;">24,000-25,000</td>
+<td style="text-align: right;">1,913,735</td>
+<td style="text-align: right;">0.26</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">25,000</td>
+<td style="text-align: left;">25,000-26,000</td>
+<td style="text-align: right;">1,637,171</td>
+<td style="text-align: right;">0.22</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">26,000</td>
+<td style="text-align: left;">26,000-27,000</td>
+<td style="text-align: right;">1,406,833</td>
+<td style="text-align: right;">0.19</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">27,000</td>
+<td style="text-align: left;">27,000-28,000</td>
+<td style="text-align: right;">1,217,517</td>
+<td style="text-align: right;">0.16</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">28,000</td>
+<td style="text-align: left;">28,000-29,000</td>
+<td style="text-align: right;">1,057,100</td>
+<td style="text-align: right;">0.14</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">29,000</td>
+<td style="text-align: left;">29,000-30,000</td>
+<td style="text-align: right;">922,315</td>
+<td style="text-align: right;">0.12</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">30,000</td>
+<td style="text-align: left;">30,000-31,000</td>
+<td style="text-align: right;">804,788</td>
+<td style="text-align: right;">0.11</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">31,000</td>
+<td style="text-align: left;">31,000-32,000</td>
+<td style="text-align: right;">701,427</td>
+<td style="text-align: right;">0.09</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">32,000</td>
+<td style="text-align: left;">32,000-33,000</td>
+<td style="text-align: right;">617,181</td>
+<td style="text-align: right;">0.08</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">33,000</td>
+<td style="text-align: left;">33,000-34,000</td>
+<td style="text-align: right;">545,210</td>
+<td style="text-align: right;">0.07</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">34,000</td>
+<td style="text-align: left;">34,000-35,000</td>
+<td style="text-align: right;">479,775</td>
+<td style="text-align: right;">0.06</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">35,000</td>
+<td style="text-align: left;">35,000-36,000</td>
+<td style="text-align: right;">425,743</td>
+<td style="text-align: right;">0.06</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">36,000</td>
+<td style="text-align: left;">36,000-37,000</td>
+<td style="text-align: right;">376,406</td>
+<td style="text-align: right;">0.05</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">37,000</td>
+<td style="text-align: left;">37,000-38,000</td>
+<td style="text-align: right;">334,806</td>
+<td style="text-align: right;">0.04</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">38,000</td>
+<td style="text-align: left;">38,000-39,000</td>
+<td style="text-align: right;">297,289</td>
+<td style="text-align: right;">0.04</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">39,000</td>
+<td style="text-align: left;">39,000-40,000</td>
+<td style="text-align: right;">265,156</td>
+<td style="text-align: right;">0.04</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">40,000</td>
+<td style="text-align: left;">40,000-41,000</td>
+<td style="text-align: right;">238,256</td>
+<td style="text-align: right;">0.03</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">41,000</td>
+<td style="text-align: left;">41,000-42,000</td>
+<td style="text-align: right;">212,954</td>
+<td style="text-align: right;">0.03</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">42,000</td>
+<td style="text-align: left;">42,000-43,000</td>
+<td style="text-align: right;">192,439</td>
+<td style="text-align: right;">0.03</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">43,000</td>
+<td style="text-align: left;">43,000-44,000</td>
+<td style="text-align: right;">172,275</td>
+<td style="text-align: right;">0.02</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">44,000</td>
+<td style="text-align: left;">44,000-45,000</td>
+<td style="text-align: right;">156,957</td>
+<td style="text-align: right;">0.02</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">45,000</td>
+<td style="text-align: left;">45,000-46,000</td>
+<td style="text-align: right;">142,168</td>
+<td style="text-align: right;">0.02</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">46,000</td>
+<td style="text-align: left;">46,000-47,000</td>
+<td style="text-align: right;">129,811</td>
+<td style="text-align: right;">0.02</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">47,000</td>
+<td style="text-align: left;">47,000-48,000</td>
+<td style="text-align: right;">118,901</td>
+<td style="text-align: right;">0.02</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">48,000</td>
+<td style="text-align: left;">48,000-49,000</td>
+<td style="text-align: right;">109,753</td>
+<td style="text-align: right;">0.01</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">49,000</td>
+<td style="text-align: left;">49,000-50,000</td>
+<td style="text-align: right;">101,323</td>
+<td style="text-align: right;">0.01</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">50,000</td>
+<td style="text-align: left;">50,000-99,999</td>
+<td style="text-align: right;">105,523</td>
+<td style="text-align: right;">0.01</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="how-complete-the-variables-are" class="level2">
+<h2 class="anchored" data-anchor-id="how-complete-the-variables-are">4. How complete the variables are</h2>
+<section id="the-columns-the-tables-are-built-from" class="level3">
+<h3 class="anchored" data-anchor-id="the-columns-the-tables-are-built-from">4.1 The columns the tables are built from</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">column</th>
+<th style="text-align: left;">type</th>
+<th style="text-align: right;">n_missing</th>
+<th style="text-align: right;">pct_missing</th>
+<th style="text-align: left;">description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">test_class_ANON</td>
+<td style="text-align: left;">INTEGER</td>
+<td style="text-align: right;">19,314,753</td>
+<td style="text-align: right;">20.69</td>
+<td style="text-align: left;">Anonymised MOT test class as supplied; the test class tables are grouped by it</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">fuel_DVSA</td>
+<td style="text-align: left;">VARCHAR</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: left;">Fuel as supplied; the fuel tables are grouped by it</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">body_type</td>
+<td style="text-align: left;">VARCHAR</td>
+<td style="text-align: right;">2,878,353</td>
+<td style="text-align: right;">3.08</td>
+<td style="text-align: left;">DfT body type; the area tables are grouped by it</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">fuel_simple</td>
+<td style="text-align: left;">VARCHAR</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: left;">Harmonised fuel group; the area tables are grouped by it</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">first_use_date</td>
+<td style="text-align: left;">DATE</td>
+<td style="text-align: right;">123</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: left;">First use date, which every age in the tables is measured from</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">body_type_src</td>
+<td style="text-align: left;">VARCHAR</td>
+<td style="text-align: right;">2,878,353</td>
+<td style="text-align: right;">3.08</td>
+<td style="text-align: left;">How the body type was decided</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">fuel_src</td>
+<td style="text-align: left;">VARCHAR</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: left;">Where the harmonised fuel came from</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">total_mileage</td>
+<td style="text-align: left;">INTEGER</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: left;">Sum of annual mileage over all years</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="coverage-year-by-year" class="level3">
+<h3 class="anchored" data-anchor-id="coverage-year-by-year">4.2 Coverage year by year</h3>
+<section id="mileage-and-location-coverage-by-year" class="level4">
+<h4 class="anchored" data-anchor-id="mileage-and-location-coverage-by-year">Mileage and location coverage, by year</h4>
+<p>Summed from <code>mileage_by_pca_year_body_fuel.csv</code>, so it describes exactly the published tables.</p>
+<ul>
+<li><code>n_vehicles</code>: Every in-scope vehicle, whatever its postcode area status</li>
+<li><code>n_real_pca</code>: Vehicles in a real postcode area that year</li>
+<li><code>n_with_mileage</code>: Vehicles with a recorded mileage</li>
+<li><code>n_legit_mileage</code>: Of those, the mileage Bristol judged plausible</li>
+<li><code>n_unassessed_mileage</code>: Of those, the mileage it did not assess</li>
+<li><code>n_mileage_removed</code>: Vehicles whose mileage it judged implausible and removed</li>
+<li><code>pct_of_recorded_unassessed</code>: Unassessed as a share of recorded mileage</li>
+<li><code>mean_legit_mileage</code>: Mean plausible annual mileage</li>
+</ul>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">year</th>
+<th style="text-align: right;">n_vehicles</th>
+<th style="text-align: right;">n_real_pca</th>
+<th style="text-align: right;">n_with_mileage</th>
+<th style="text-align: right;">n_legit_mileage</th>
+<th style="text-align: right;">n_unassessed_mileage</th>
+<th style="text-align: right;">n_mileage_removed</th>
+<th style="text-align: right;">pct_of_recorded_unassessed</th>
+<th style="text-align: right;">mean_legit_mileage</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">2005</td>
+<td style="text-align: right;">93,352,241</td>
+<td style="text-align: right;">31,888,912</td>
+<td style="text-align: right;">32,452,735</td>
+<td style="text-align: right;">32,452,735</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">218,720</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">8,670.4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2006</td>
+<td style="text-align: right;">93,352,241</td>
+<td style="text-align: right;">34,662,542</td>
+<td style="text-align: right;">32,814,077</td>
+<td style="text-align: right;">32,735,294</td>
+<td style="text-align: right;">78,783</td>
+<td style="text-align: right;">541,099</td>
+<td style="text-align: right;">0.24</td>
+<td style="text-align: right;">7,839.4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2007</td>
+<td style="text-align: right;">93,352,241</td>
+<td style="text-align: right;">37,490,453</td>
+<td style="text-align: right;">33,453,711</td>
+<td style="text-align: right;">33,362,361</td>
+<td style="text-align: right;">91,350</td>
+<td style="text-align: right;">545,479</td>
+<td style="text-align: right;">0.27</td>
+<td style="text-align: right;">7,666.2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2008</td>
+<td style="text-align: right;">93,352,241</td>
+<td style="text-align: right;">39,496,248</td>
+<td style="text-align: right;">33,775,906</td>
+<td style="text-align: right;">33,674,366</td>
+<td style="text-align: right;">101,540</td>
+<td style="text-align: right;">527,435</td>
+<td style="text-align: right;">0.30</td>
+<td style="text-align: right;">7,647.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2009</td>
+<td style="text-align: right;">93,352,241</td>
+<td style="text-align: right;">39,687,978</td>
+<td style="text-align: right;">33,847,006</td>
+<td style="text-align: right;">33,746,316</td>
+<td style="text-align: right;">100,690</td>
+<td style="text-align: right;">515,834</td>
+<td style="text-align: right;">0.30</td>
+<td style="text-align: right;">7,574.5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2010</td>
+<td style="text-align: right;">93,352,241</td>
+<td style="text-align: right;">39,868,271</td>
+<td style="text-align: right;">34,105,231</td>
+<td style="text-align: right;">34,011,730</td>
+<td style="text-align: right;">93,501</td>
+<td style="text-align: right;">540,551</td>
+<td style="text-align: right;">0.27</td>
+<td style="text-align: right;">7,457.7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2011</td>
+<td style="text-align: right;">93,352,241</td>
+<td style="text-align: right;">40,001,268</td>
+<td style="text-align: right;">34,266,679</td>
+<td style="text-align: right;">34,169,693</td>
+<td style="text-align: right;">96,986</td>
+<td style="text-align: right;">571,335</td>
+<td style="text-align: right;">0.28</td>
+<td style="text-align: right;">7,418.4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2012</td>
+<td style="text-align: right;">93,352,241</td>
+<td style="text-align: right;">40,325,572</td>
+<td style="text-align: right;">34,584,164</td>
+<td style="text-align: right;">34,487,653</td>
+<td style="text-align: right;">96,511</td>
+<td style="text-align: right;">520,620</td>
+<td style="text-align: right;">0.28</td>
+<td style="text-align: right;">7,373.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2013</td>
+<td style="text-align: right;">93,352,241</td>
+<td style="text-align: right;">40,947,776</td>
+<td style="text-align: right;">35,209,581</td>
+<td style="text-align: right;">35,114,698</td>
+<td style="text-align: right;">94,883</td>
+<td style="text-align: right;">449,107</td>
+<td style="text-align: right;">0.27</td>
+<td style="text-align: right;">7,361.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2014</td>
+<td style="text-align: right;">93,352,241</td>
+<td style="text-align: right;">41,740,695</td>
+<td style="text-align: right;">36,140,728</td>
+<td style="text-align: right;">36,047,681</td>
+<td style="text-align: right;">93,047</td>
+<td style="text-align: right;">436,350</td>
+<td style="text-align: right;">0.26</td>
+<td style="text-align: right;">7,310.3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2015</td>
+<td style="text-align: right;">93,352,241</td>
+<td style="text-align: right;">42,827,668</td>
+<td style="text-align: right;">37,170,928</td>
+<td style="text-align: right;">37,105,127</td>
+<td style="text-align: right;">65,801</td>
+<td style="text-align: right;">397,347</td>
+<td style="text-align: right;">0.18</td>
+<td style="text-align: right;">7,257.4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2016</td>
+<td style="text-align: right;">93,352,241</td>
+<td style="text-align: right;">44,042,339</td>
+<td style="text-align: right;">37,964,991</td>
+<td style="text-align: right;">37,960,661</td>
+<td style="text-align: right;">4,330</td>
+<td style="text-align: right;">358,508</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">7,237.2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2017</td>
+<td style="text-align: right;">93,352,241</td>
+<td style="text-align: right;">44,441,732</td>
+<td style="text-align: right;">37,800,202</td>
+<td style="text-align: right;">37,795,639</td>
+<td style="text-align: right;">4,563</td>
+<td style="text-align: right;">333,007</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">7,197.9</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2018</td>
+<td style="text-align: right;">93,352,241</td>
+<td style="text-align: right;">45,204,703</td>
+<td style="text-align: right;">38,286,966</td>
+<td style="text-align: right;">38,279,975</td>
+<td style="text-align: right;">6,991</td>
+<td style="text-align: right;">317,630</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">7,064.9</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2019</td>
+<td style="text-align: right;">93,352,241</td>
+<td style="text-align: right;">45,687,132</td>
+<td style="text-align: right;">38,657,512</td>
+<td style="text-align: right;">38,650,339</td>
+<td style="text-align: right;">7,173</td>
+<td style="text-align: right;">283,619</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">6,308.7</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2020</td>
+<td style="text-align: right;">93,352,241</td>
+<td style="text-align: right;">45,534,442</td>
+<td style="text-align: right;">39,529,622</td>
+<td style="text-align: right;">39,525,908</td>
+<td style="text-align: right;">3,714</td>
+<td style="text-align: right;">302,900</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">5,905.6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2021</td>
+<td style="text-align: right;">93,352,241</td>
+<td style="text-align: right;">45,673,106</td>
+<td style="text-align: right;">39,832,221</td>
+<td style="text-align: right;">39,827,085</td>
+<td style="text-align: right;">5,136</td>
+<td style="text-align: right;">253,213</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">6,580.8</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2022</td>
+<td style="text-align: right;">93,352,241</td>
+<td style="text-align: right;">45,018,795</td>
+<td style="text-align: right;">39,936,342</td>
+<td style="text-align: right;">39,931,329</td>
+<td style="text-align: right;">5,013</td>
+<td style="text-align: right;">238,071</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">6,759.7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2023</td>
+<td style="text-align: right;">93,352,241</td>
+<td style="text-align: right;">43,394,273</td>
+<td style="text-align: right;">38,906,652</td>
+<td style="text-align: right;">38,901,211</td>
+<td style="text-align: right;">5,441</td>
+<td style="text-align: right;">224,155</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">6,913.5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2024</td>
+<td style="text-align: right;">93,352,241</td>
+<td style="text-align: right;">41,576,160</td>
+<td style="text-align: right;">36,734,471</td>
+<td style="text-align: right;">36,728,441</td>
+<td style="text-align: right;">6,030</td>
+<td style="text-align: right;">211,841</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">6,883.6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2025</td>
+<td style="text-align: right;">93,352,241</td>
+<td style="text-align: right;">39,129,586</td>
+<td style="text-align: right;">25,803,313</td>
+<td style="text-align: right;">25,795,143</td>
+<td style="text-align: right;">8,170</td>
+<td style="text-align: right;">147,846</td>
+<td style="text-align: right;">0.03</td>
+<td style="text-align: right;">6,775.6</td>
+</tr>
+</tbody>
+</table>
+<p><img src="mileage_report_figures/profile-coverage-1.png" class="img-fluid"></p>
+<p>Two things to read off these charts. The unassessed share is small in the middle of the series and large at the end: 0.03% of the mileage recorded in 2025 was never assessed, against 0.18% in 2015, because the last year is partial. And the <code>unknown</code> group grows from 5,284,956 vehicles in 2005 to 12,640,179 in 2025, so a larger share of the fleet each year has no location at all. Those vehicles are in the vehicle counts but in none of the postcode area rows.</p>
+</section>
+</section>
+</section>
+<section id="how-the-values-are-distributed" class="level2">
+<h2 class="anchored" data-anchor-id="how-the-values-are-distributed">5. How the values are distributed</h2>
+<section id="every-grouping-variable-with-its-values" class="level3">
+<h3 class="anchored" data-anchor-id="every-grouping-variable-with-its-values">5.1 Every grouping variable, with its values</h3>
+<section id="body-type-body_type-harmonised" class="level4">
+<h4 class="anchored" data-anchor-id="body-type-body_type-harmonised">Body type (<code>body_type</code>, harmonised)</h4>
+<p>Vehicle-years over the whole series, so a vehicle present for twenty years counts twenty times. <code>pct_of_mileage</code> is the share of total mileage, which is what makes the rare fuels rare. <code>total_mileage_bn</code> is billions of miles.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">value</th>
+<th style="text-align: right;">n_vehicle_years</th>
+<th style="text-align: right;">pct_of_vehicle_years</th>
+<th style="text-align: right;">total_mileage_bn</th>
+<th style="text-align: right;">pct_of_mileage</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Cars</td>
+<td style="text-align: right;">1,588,355,349</td>
+<td style="text-align: right;">81.02</td>
+<td style="text-align: right;">4,578.79</td>
+<td style="text-align: right;">85.07</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Light goods vehicles</td>
+<td style="text-align: right;">195,091,701</td>
+<td style="text-align: right;">9.95</td>
+<td style="text-align: right;">727.22</td>
+<td style="text-align: right;">13.51</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Motorcycles</td>
+<td style="text-align: right;">84,617,820</td>
+<td style="text-align: right;">4.32</td>
+<td style="text-align: right;">45.07</td>
+<td style="text-align: right;">0.84</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">(none)</td>
+<td style="text-align: right;">60,445,413</td>
+<td style="text-align: right;">3.08</td>
+<td style="text-align: right;">7.91</td>
+<td style="text-align: right;">0.15</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Heavy goods vehicles</td>
+<td style="text-align: right;">16,821,819</td>
+<td style="text-align: right;">0.86</td>
+<td style="text-align: right;">6.67</td>
+<td style="text-align: right;">0.12</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Other vehicles</td>
+<td style="text-align: right;">12,007,863</td>
+<td style="text-align: right;">0.61</td>
+<td style="text-align: right;">10.47</td>
+<td style="text-align: right;">0.19</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Buses and coaches</td>
+<td style="text-align: right;">3,057,096</td>
+<td style="text-align: right;">0.16</td>
+<td style="text-align: right;">6.50</td>
+<td style="text-align: right;">0.12</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="fuel-group-fuel_simple-harmonised" class="level4">
+<h4 class="anchored" data-anchor-id="fuel-group-fuel_simple-harmonised">Fuel group (<code>fuel_simple</code>, harmonised)</h4>
+<p>Vehicle-years over the whole series, so a vehicle present for twenty years counts twenty times. <code>pct_of_mileage</code> is the share of total mileage, which is what makes the rare fuels rare. <code>total_mileage_bn</code> is billions of miles.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">value</th>
+<th style="text-align: right;">n_vehicle_years</th>
+<th style="text-align: right;">pct_of_vehicle_years</th>
+<th style="text-align: right;">total_mileage_bn</th>
+<th style="text-align: right;">pct_of_mileage</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Petrol</td>
+<td style="text-align: right;">1,094,101,806</td>
+<td style="text-align: right;">55.81</td>
+<td style="text-align: right;">2,526.74</td>
+<td style="text-align: right;">46.94</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Diesel</td>
+<td style="text-align: right;">703,493,574</td>
+<td style="text-align: right;">35.89</td>
+<td style="text-align: right;">2,704.10</td>
+<td style="text-align: right;">50.24</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Hybrid Electric</td>
+<td style="text-align: right;">77,631,876</td>
+<td style="text-align: right;">3.96</td>
+<td style="text-align: right;">88.91</td>
+<td style="text-align: right;">1.65</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Electric</td>
+<td style="text-align: right;">57,573,873</td>
+<td style="text-align: right;">2.94</td>
+<td style="text-align: right;">29.62</td>
+<td style="text-align: right;">0.55</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Plug-in Hybrid Electric</td>
+<td style="text-align: right;">22,891,554</td>
+<td style="text-align: right;">1.17</td>
+<td style="text-align: right;">19.69</td>
+<td style="text-align: right;">0.37</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Other</td>
+<td style="text-align: right;">4,704,378</td>
+<td style="text-align: right;">0.24</td>
+<td style="text-align: right;">13.57</td>
+<td style="text-align: right;">0.25</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="mot-test-class-test_class_anon-as-supplied" class="level4">
+<h4 class="anchored" data-anchor-id="mot-test-class-test_class_anon-as-supplied">MOT test class (<code>test_class_ANON</code>, as supplied)</h4>
+<p>Vehicle-years over the whole series, so a vehicle present for twenty years counts twenty times. <code>pct_of_mileage</code> is the share of total mileage, which is what makes the rare fuels rare. <code>total_mileage_bn</code> is billions of miles.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">value</th>
+<th style="text-align: right;">n_vehicle_years</th>
+<th style="text-align: right;">pct_of_vehicle_years</th>
+<th style="text-align: right;">total_mileage_bn</th>
+<th style="text-align: right;">pct_of_mileage</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Cars, Vans and Small Motorhomes</td>
+<td style="text-align: right;">674,006,210</td>
+<td style="text-align: right;">89.72</td>
+<td style="text-align: right;">4,910.72</td>
+<td style="text-align: right;">91.10</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">(none)</td>
+<td style="text-align: right;">29,092,723</td>
+<td style="text-align: right;">3.87</td>
+<td style="text-align: right;">211.29</td>
+<td style="text-align: right;">3.92</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Motorcycles over 200cc</td>
+<td style="text-align: right;">20,988,148</td>
+<td style="text-align: right;">2.79</td>
+<td style="text-align: right;">29.77</td>
+<td style="text-align: right;">0.55</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Light Goods Vehicles</td>
+<td style="text-align: right;">17,986,033</td>
+<td style="text-align: right;">2.39</td>
+<td style="text-align: right;">216.56</td>
+<td style="text-align: right;">4.02</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Motorcycles up to 200cc</td>
+<td style="text-align: right;">7,925,207</td>
+<td style="text-align: right;">1.05</td>
+<td style="text-align: right;">13.10</td>
+<td style="text-align: right;">0.24</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Minibuses and Larger Passenger Vehicles</td>
+<td style="text-align: right;">969,743</td>
+<td style="text-align: right;">0.13</td>
+<td style="text-align: right;">8.37</td>
+<td style="text-align: right;">0.16</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Three-wheeled vehicles up to 450kg</td>
+<td style="text-align: right;">304,974</td>
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">0.44</td>
+<td style="text-align: right;">0.01</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="fuel-as-supplied-fuel_dvsa" class="level4">
+<h4 class="anchored" data-anchor-id="fuel-as-supplied-fuel_dvsa">Fuel as supplied (<code>fuel_DVSA</code>)</h4>
+<p>Vehicle-years over the whole series, so a vehicle present for twenty years counts twenty times. <code>pct_of_mileage</code> is the share of total mileage, which is what makes the rare fuels rare. <code>total_mileage_bn</code> is billions of miles.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">value</th>
+<th style="text-align: right;">n_vehicle_years</th>
+<th style="text-align: right;">pct_of_vehicle_years</th>
+<th style="text-align: right;">total_mileage_bn</th>
+<th style="text-align: right;">pct_of_mileage</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Petrol</td>
+<td style="text-align: right;">441,550,926</td>
+<td style="text-align: right;">58.77</td>
+<td style="text-align: right;">2,517.90</td>
+<td style="text-align: right;">46.71</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Diesel</td>
+<td style="text-align: right;">289,125,779</td>
+<td style="text-align: right;">38.48</td>
+<td style="text-align: right;">2,706.77</td>
+<td style="text-align: right;">50.22</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Hybrid Electric (Clean)</td>
+<td style="text-align: right;">11,156,661</td>
+<td style="text-align: right;">1.49</td>
+<td style="text-align: right;">95.92</td>
+<td style="text-align: right;">1.78</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Electric</td>
+<td style="text-align: right;">4,346,526</td>
+<td style="text-align: right;">0.58</td>
+<td style="text-align: right;">34.62</td>
+<td style="text-align: right;">0.64</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Other</td>
+<td style="text-align: right;">3,904,559</td>
+<td style="text-align: right;">0.52</td>
+<td style="text-align: right;">24.05</td>
+<td style="text-align: right;">0.45</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Electric Diesel</td>
+<td style="text-align: right;">513,635</td>
+<td style="text-align: right;">0.07</td>
+<td style="text-align: right;">5.06</td>
+<td style="text-align: right;">0.09</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">LPG</td>
+<td style="text-align: right;">494,441</td>
+<td style="text-align: right;">0.07</td>
+<td style="text-align: right;">4.33</td>
+<td style="text-align: right;">0.08</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Gas Bi-Fuel</td>
+<td style="text-align: right;">163,765</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">1.48</td>
+<td style="text-align: right;">0.03</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Fuel Cells</td>
+<td style="text-align: right;">6,819</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.06</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Gas</td>
+<td style="text-align: right;">3,850</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.03</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CNG</td>
+<td style="text-align: right;">2,435</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Gas Diesel</td>
+<td style="text-align: right;">1,551</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">LNG</td>
+<td style="text-align: right;">1,079</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Steam</td>
+<td style="text-align: right;">1,012</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+</tbody>
+</table>
+<p><img src="mileage_report_figures/profile-shares-1.png" class="img-fluid"></p>
+</section>
+</section>
+<section id="where-the-mileage-sits" class="level3">
+<h3 class="anchored" data-anchor-id="where-the-mileage-sits">5.2 Where the mileage sits</h3>
+<p><img src="mileage_report_figures/profile-bands-1.png" class="img-fluid"></p>
+</section>
+<section id="mileage-by-age" class="level3">
+<h3 class="anchored" data-anchor-id="mileage-by-age">5.3 Mileage by age</h3>
+<section id="observed-vehicles-and-their-plausible-mileage-by-age" class="level4">
+<h4 class="anchored" data-anchor-id="observed-vehicles-and-their-plausible-mileage-by-age">Observed vehicles and their plausible mileage, by age</h4>
+<p>Every year together. A vehicle’s mileage is only known once it has had an MOT, so the youngest ages are thin at the end of the series; section 11 shows that year by year.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: right;">age</th>
+<th style="text-align: right;">n_vehicles</th>
+<th style="text-align: right;">n_legit_mileage</th>
+<th style="text-align: right;">mean_legit_mileage</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">45,558,600</td>
+<td style="text-align: right;">45,353,286</td>
+<td style="text-align: right;">4,971.3</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">48,527,995</td>
+<td style="text-align: right;">48,293,819</td>
+<td style="text-align: right;">10,086.4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">51,501,714</td>
+<td style="text-align: right;">51,156,157</td>
+<td style="text-align: right;">10,091.1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">54,641,760</td>
+<td style="text-align: right;">52,926,937</td>
+<td style="text-align: right;">9,026.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">55,985,203</td>
+<td style="text-align: right;">53,503,535</td>
+<td style="text-align: right;">8,619.8</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">56,414,312</td>
+<td style="text-align: right;">53,313,877</td>
+<td style="text-align: right;">8,247.4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">56,081,893</td>
+<td style="text-align: right;">52,706,454</td>
+<td style="text-align: right;">7,893.6</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">54,971,808</td>
+<td style="text-align: right;">51,260,099</td>
+<td style="text-align: right;">7,550.4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">53,656,487</td>
+<td style="text-align: right;">49,127,210</td>
+<td style="text-align: right;">7,207.3</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">51,799,773</td>
+<td style="text-align: right;">46,001,553</td>
+<td style="text-align: right;">6,860.4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">49,326,337</td>
+<td style="text-align: right;">41,834,047</td>
+<td style="text-align: right;">6,523.4</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">46,336,809</td>
+<td style="text-align: right;">36,868,015</td>
+<td style="text-align: right;">6,204.2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">42,710,719</td>
+<td style="text-align: right;">31,394,952</td>
+<td style="text-align: right;">5,881.9</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">38,329,924</td>
+<td style="text-align: right;">25,832,723</td>
+<td style="text-align: right;">5,557.9</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">33,413,814</td>
+<td style="text-align: right;">20,668,452</td>
+<td style="text-align: right;">5,234.5</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">28,159,785</td>
+<td style="text-align: right;">16,160,936</td>
+<td style="text-align: right;">4,897.6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">22,814,534</td>
+<td style="text-align: right;">12,336,095</td>
+<td style="text-align: right;">4,547.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">17</td>
+<td style="text-align: right;">17,835,227</td>
+<td style="text-align: right;">9,262,988</td>
+<td style="text-align: right;">4,188.4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">18</td>
+<td style="text-align: right;">13,488,563</td>
+<td style="text-align: right;">6,857,581</td>
+<td style="text-align: right;">3,818.5</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">19</td>
+<td style="text-align: right;">9,850,458</td>
+<td style="text-align: right;">5,039,657</td>
+<td style="text-align: right;">3,444.4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">7,124,996</td>
+<td style="text-align: right;">3,738,472</td>
+<td style="text-align: right;">3,076.9</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">21</td>
+<td style="text-align: right;">5,147,370</td>
+<td style="text-align: right;">2,810,179</td>
+<td style="text-align: right;">2,730.6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">22</td>
+<td style="text-align: right;">3,744,390</td>
+<td style="text-align: right;">2,147,526</td>
+<td style="text-align: right;">2,418.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">23</td>
+<td style="text-align: right;">2,759,127</td>
+<td style="text-align: right;">1,673,885</td>
+<td style="text-align: right;">2,125.1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">24</td>
+<td style="text-align: right;">2,099,406</td>
+<td style="text-align: right;">1,349,441</td>
+<td style="text-align: right;">1,874.6</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">25</td>
+<td style="text-align: right;">1,668,452</td>
+<td style="text-align: right;">1,128,283</td>
+<td style="text-align: right;">1,677.0</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+</section>
+<section id="the-fleet-over-time" class="level2">
+<h2 class="anchored" data-anchor-id="the-fleet-over-time">6. The fleet over time</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="mileage_report_figures/fleet-by-body-1.png" class="img-fluid figure-img"></p>
+<figcaption>Figure 1: Vehicles observed each year, by body type. Each panel has its own scale.</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="mileage_report_figures/fleet-fuel-1.png" class="img-fluid figure-img"></p>
+<figcaption>Figure 2: Share of observed cars by fuel.</figcaption>
+</figure>
+</div>
+<section id="vehicles-observed-by-body-type" class="level3">
+<h3 class="anchored" data-anchor-id="vehicles-observed-by-body-type">Vehicles observed by body type</h3>
+<p>Vehicles observed in selected years, by DfT body type. Buses, heavy goods vehicles and other vehicles are mostly tested outside the MOT scheme, so few are here. The fall in the latest years is mainly vehicles not yet observed in those years, rather than vehicles leaving the fleet.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 26%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">body_type</th>
+<th style="text-align: right;">2006</th>
+<th style="text-align: right;">2010</th>
+<th style="text-align: right;">2015</th>
+<th style="text-align: right;">2020</th>
+<th style="text-align: right;">2022</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Cars</td>
+<td style="text-align: right;">30,198,306</td>
+<td style="text-align: right;">34,507,621</td>
+<td style="text-align: right;">36,847,579</td>
+<td style="text-align: right;">38,772,513</td>
+<td style="text-align: right;">38,155,912</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Light goods vehicles</td>
+<td style="text-align: right;">2,779,913</td>
+<td style="text-align: right;">3,439,257</td>
+<td style="text-align: right;">4,038,758</td>
+<td style="text-align: right;">4,845,722</td>
+<td style="text-align: right;">5,061,824</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Motorcycles</td>
+<td style="text-align: right;">1,555,293</td>
+<td style="text-align: right;">1,767,272</td>
+<td style="text-align: right;">1,748,719</td>
+<td style="text-align: right;">1,699,793</td>
+<td style="text-align: right;">1,611,826</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Heavy goods vehicles</td>
+<td style="text-align: right;">10,711</td>
+<td style="text-align: right;">19,879</td>
+<td style="text-align: right;">36,106</td>
+<td style="text-align: right;">51,753</td>
+<td style="text-align: right;">50,355</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Unknown</td>
+<td style="text-align: right;">47,990</td>
+<td style="text-align: right;">45,127</td>
+<td style="text-align: right;">53,181</td>
+<td style="text-align: right;">58,020</td>
+<td style="text-align: right;">48,720</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Other vehicles</td>
+<td style="text-align: right;">49,518</td>
+<td style="text-align: right;">58,537</td>
+<td style="text-align: right;">60,064</td>
+<td style="text-align: right;">53,921</td>
+<td style="text-align: right;">47,403</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Buses and coaches</td>
+<td style="text-align: right;">20,811</td>
+<td style="text-align: right;">30,578</td>
+<td style="text-align: right;">43,261</td>
+<td style="text-align: right;">52,720</td>
+<td style="text-align: right;">42,755</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="annual-mileage" class="level2">
+<h2 class="anchored" data-anchor-id="annual-mileage">7. Annual mileage</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="mileage_report_figures/mileage-body-1.png" class="img-fluid figure-img"></p>
+<figcaption>Figure 3: Average annual mileage by body type (plausible mileage only). Mileage in a partial final year covers fewer vehicles.</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="mileage_report_figures/mileage-fuel-1.png" class="img-fluid figure-img"></p>
+<figcaption>Figure 4: Average annual mileage of cars by fuel (plausible mileage only). Years where a fuel has fewer than 1,000 cars with a plausible mileage are left out.</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="mileage_report_figures/vehicle-miles-1.png" class="img-fluid figure-img"></p>
+<figcaption>Figure 5: Total annual vehicle miles recorded, by body type (plausible mileage only). This is the recorded total, not an estimate for the whole fleet.</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="mileage_report_figures/mileage-age-1.png" class="img-fluid figure-img"></p>
+<figcaption>Figure 6: Average annual mileage of cars by age and fuel (plausible mileage only; ages with fewer than 500 such cars left out). Few cars are tested before age three, and those that are, such as taxis and private hire cars, are driven much further than most.</figcaption>
+</figure>
+</div>
+<section id="average-annual-mileage-by-body-type" class="level3">
+<h3 class="anchored" data-anchor-id="average-annual-mileage-by-body-type">Average annual mileage by body type</h3>
+<p>Miles per vehicle per year, plausible mileage only.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">body_type</th>
+<th style="text-align: right;">2006</th>
+<th style="text-align: right;">2010</th>
+<th style="text-align: right;">2015</th>
+<th style="text-align: right;">2020</th>
+<th style="text-align: right;">2022</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Buses and coaches</td>
+<td style="text-align: right;">11,918</td>
+<td style="text-align: right;">10,960</td>
+<td style="text-align: right;">9,731</td>
+<td style="text-align: right;">5,811</td>
+<td style="text-align: right;">7,373</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Cars</td>
+<td style="text-align: right;">7,892</td>
+<td style="text-align: right;">7,493</td>
+<td style="text-align: right;">7,238</td>
+<td style="text-align: right;">5,637</td>
+<td style="text-align: right;">6,619</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Heavy goods vehicles</td>
+<td style="text-align: right;">14,002</td>
+<td style="text-align: right;">14,049</td>
+<td style="text-align: right;">16,163</td>
+<td style="text-align: right;">13,688</td>
+<td style="text-align: right;">12,611</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Light goods vehicles</td>
+<td style="text-align: right;">11,230</td>
+<td style="text-align: right;">10,672</td>
+<td style="text-align: right;">10,089</td>
+<td style="text-align: right;">9,189</td>
+<td style="text-align: right;">9,443</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Motorcycles</td>
+<td style="text-align: right;">1,677</td>
+<td style="text-align: right;">1,477</td>
+<td style="text-align: right;">1,392</td>
+<td style="text-align: right;">1,234</td>
+<td style="text-align: right;">1,502</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Other vehicles</td>
+<td style="text-align: right;">12,401</td>
+<td style="text-align: right;">13,036</td>
+<td style="text-align: right;">11,346</td>
+<td style="text-align: right;">5,695</td>
+<td style="text-align: right;">10,338</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Unknown</td>
+<td style="text-align: right;">9,448</td>
+<td style="text-align: right;">11,434</td>
+<td style="text-align: right;">11,925</td>
+<td style="text-align: right;">5,962</td>
+<td style="text-align: right;">9,549</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="age" class="level2">
+<h2 class="anchored" data-anchor-id="age">8. Age</h2>
+<p>Average ages describe the vehicles still being tested. Compared with DfT’s counts (<code>outputs/quality/dft_stock_by_age.csv</code>), the MOT data holds about as many vehicles aged 3 to 16 as DfT does, but fewer and fewer older ones (at 25 years, roughly half as many): old vehicles declared off the road (SORN) stay in DfT’s counts but are not tested.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="mileage_report_figures/age-body-1.png" class="img-fluid figure-img"></p>
+<figcaption>Figure 7: Average age of observed vehicles by body type.</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="mileage_report_figures/age-distribution-1.png" class="img-fluid figure-img"></p>
+<figcaption>Figure 8: Age of observed cars in selected years, as a share of each year’s observed cars.</figcaption>
+</figure>
+</div>
+</section>
+<section id="maps" class="level2">
+<h2 class="anchored" data-anchor-id="maps">9. Maps</h2>
+<p>All maps show 2022 unless stated (see the summary for why). Grey areas have no vehicles.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="mileage_report_figures/map-cars-1.png" class="img-fluid figure-img"></p>
+<figcaption>Figure 9: Cars observed by postcode area (log scale).</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="mileage_report_figures/map-mileage-1.png" class="img-fluid figure-img"></p>
+<figcaption>Figure 10: Average annual mileage of cars (plausible mileage only).</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="mileage_report_figures/map-age-1.png" class="img-fluid figure-img"></p>
+<figcaption>Figure 11: Average age of observed cars.</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="mileage_report_figures/map-electric-1.png" class="img-fluid figure-img"></p>
+<figcaption>Figure 12: Share of observed cars that are electric or hybrid.</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="mileage_report_figures/map-change-1.png" class="img-fluid figure-img"></p>
+<figcaption>Figure 13: Change in the number of cars observed since the base year.</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="mileage_report_figures/map-mileage-years-1.png" class="img-fluid figure-img"></p>
+<figcaption>Figure 14: Average annual car mileage in selected years, on one scale (plausible mileage only).</figcaption>
+</figure>
+</div>
+</section>
+<section id="comparison-with-dft-small-area-counts" class="level2">
+<h2 class="anchored" data-anchor-id="comparison-with-dft-small-area-counts">10. Comparison with DfT small-area counts</h2>
+<p>DfT publishes vehicle counts for small areas (LSOAs and their equivalents) in tables VEH0125 (all vehicles by body type, keepership and licence status), VEH0135 (ultra low emission vehicles) and VEH0145 (plug-in vehicles). <code>data-raw/build_dft_lsoa_vehicles_by_pca.R</code> takes these tables from the PlaceBasedCarbonCalculator build, where the counts DfT suppresses are reconstructed, and adds them up to postcode areas (<code>inputs/dft_lsoa_vehicles_by_pca.csv</code>). The tables give the first quarter of each year, so MOT year Y is compared with DfT counts at the end of March of Y + 1. DfT counts here are licensed and SORN vehicles together.</p>
+<p>The two sources are not expected to agree exactly. DfT counts include vehicles under three, which have no MOT. DfT also places a vehicle at its keeper’s address, so company and lease cars are counted where the company is registered, while the MOT data places a vehicle where it was observed. The maps and tables below therefore compare each postcode area with the national ratio for 2022 (1.041 MOT cars per DfT car).</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="mileage_report_figures/dft-national-1.png" class="img-fluid figure-img"></p>
+<figcaption>Figure 15: Vehicles observed in the MOT data for each vehicle in the DfT small-area counts (licensed and SORN).</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="mileage_report_figures/map-dft-ratio-1.png" class="img-fluid figure-img"></p>
+<figcaption>Figure 16: Cars observed in the MOT data against the DfT count, relative to the national ratio. Blue: more cars in the MOT data than the national ratio suggests; red: fewer.</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="mileage_report_figures/map-dft-company-1.png" class="img-fluid figure-img"></p>
+<figcaption>Figure 17: Share of DfT cars kept by a company. High shares mark areas where fleet and lease cars are registered.</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="mileage_report_figures/dft-scatter-1.png" class="img-fluid figure-img"></p>
+<figcaption>Figure 18: Cars by postcode area in the two sources (log scales). The line is the national ratio; labelled areas differ from it by more than 25%.</figcaption>
+</figure>
+</div>
+<section id="postcode-areas-furthest-from-the-national-ratio-cars-2022" class="level3">
+<h3 class="anchored" data-anchor-id="postcode-areas-furthest-from-the-national-ratio-cars-2022">Postcode areas furthest from the national ratio, cars 2022</h3>
+<p>The 20 postcode areas whose ratio of MOT to DfT cars differs most from the national ratio. Areas with no MOT cars are listed in section 6 instead. Where the difference shrinks when only privately kept DfT cars are counted, company registrations explain much of it.</p>
+<ul>
+<li><code>mot_cars</code>: cars observed in the MOT data</li>
+<li><code>dft_cars</code>: DfT licensed and SORN cars, end of March of the following year</li>
+<li><code>ratio</code>: <code>mot_cars</code> / <code>dft_cars</code></li>
+<li><code>difference_from_national</code>: how far <code>ratio</code> is above or below the national ratio</li>
+<li><code>difference_private_only</code>: the same, counting only privately kept DfT cars</li>
+<li><code>dft_company_share</code>: share of the DfT cars kept by a company</li>
+</ul>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">pca</th>
+<th style="text-align: right;">mot_cars</th>
+<th style="text-align: right;">dft_cars</th>
+<th style="text-align: right;">ratio</th>
+<th style="text-align: left;">difference_from_national</th>
+<th style="text-align: left;">difference_private_only</th>
+<th style="text-align: left;">dft_company_share</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">NW</td>
+<td style="text-align: right;">271,728</td>
+<td style="text-align: right;">170,194</td>
+<td style="text-align: right;">1.60</td>
+<td style="text-align: left;">53%</td>
+<td style="text-align: left;">53%</td>
+<td style="text-align: left;">11%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CH</td>
+<td style="text-align: right;">412,740</td>
+<td style="text-align: right;">268,890</td>
+<td style="text-align: right;">1.53</td>
+<td style="text-align: left;">47%</td>
+<td style="text-align: left;">38%</td>
+<td style="text-align: left;">5%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CR</td>
+<td style="text-align: right;">260,021</td>
+<td style="text-align: right;">180,064</td>
+<td style="text-align: right;">1.44</td>
+<td style="text-align: left;">39%</td>
+<td style="text-align: left;">29%</td>
+<td style="text-align: left;">4%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">SL</td>
+<td style="text-align: right;">266,458</td>
+<td style="text-align: right;">411,838</td>
+<td style="text-align: right;">0.65</td>
+<td style="text-align: left;">-38%</td>
+<td style="text-align: left;">5%</td>
+<td style="text-align: left;">47%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">W</td>
+<td style="text-align: right;">109,616</td>
+<td style="text-align: right;">158,392</td>
+<td style="text-align: right;">0.69</td>
+<td style="text-align: left;">-33%</td>
+<td style="text-align: left;">-29%</td>
+<td style="text-align: left;">16%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">BL</td>
+<td style="text-align: right;">291,386</td>
+<td style="text-align: right;">210,913</td>
+<td style="text-align: right;">1.38</td>
+<td style="text-align: left;">33%</td>
+<td style="text-align: left;">37%</td>
+<td style="text-align: left;">13%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SN</td>
+<td style="text-align: right;">318,633</td>
+<td style="text-align: right;">437,451</td>
+<td style="text-align: right;">0.73</td>
+<td style="text-align: left;">-30%</td>
+<td style="text-align: left;">-4%</td>
+<td style="text-align: left;">35%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">SK</td>
+<td style="text-align: right;">396,687</td>
+<td style="text-align: right;">533,328</td>
+<td style="text-align: right;">0.74</td>
+<td style="text-align: left;">-29%</td>
+<td style="text-align: left;">4%</td>
+<td style="text-align: left;">39%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">KW</td>
+<td style="text-align: right;">28,550</td>
+<td style="text-align: right;">37,920</td>
+<td style="text-align: right;">0.75</td>
+<td style="text-align: left;">-28%</td>
+<td style="text-align: left;">-33%</td>
+<td style="text-align: left;">4%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HS</td>
+<td style="text-align: right;">14,650</td>
+<td style="text-align: right;">18,997</td>
+<td style="text-align: right;">0.77</td>
+<td style="text-align: left;">-26%</td>
+<td style="text-align: left;">-32%</td>
+<td style="text-align: left;">3%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SM</td>
+<td style="text-align: right;">81,339</td>
+<td style="text-align: right;">103,069</td>
+<td style="text-align: right;">0.79</td>
+<td style="text-align: left;">-24%</td>
+<td style="text-align: left;">-30%</td>
+<td style="text-align: left;">3%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">SW</td>
+<td style="text-align: right;">193,867</td>
+<td style="text-align: right;">244,417</td>
+<td style="text-align: right;">0.79</td>
+<td style="text-align: left;">-24%</td>
+<td style="text-align: left;">-28%</td>
+<td style="text-align: left;">6%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">BB</td>
+<td style="text-align: right;">319,248</td>
+<td style="text-align: right;">248,786</td>
+<td style="text-align: right;">1.28</td>
+<td style="text-align: left;">23%</td>
+<td style="text-align: left;">16%</td>
+<td style="text-align: left;">6%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">MK</td>
+<td style="text-align: right;">400,160</td>
+<td style="text-align: right;">499,682</td>
+<td style="text-align: right;">0.80</td>
+<td style="text-align: left;">-23%</td>
+<td style="text-align: left;">8%</td>
+<td style="text-align: left;">37%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">LU</td>
+<td style="text-align: right;">243,787</td>
+<td style="text-align: right;">191,170</td>
+<td style="text-align: right;">1.28</td>
+<td style="text-align: left;">23%</td>
+<td style="text-align: left;">14%</td>
+<td style="text-align: left;">4%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">LD</td>
+<td style="text-align: right;">28,428</td>
+<td style="text-align: right;">34,562</td>
+<td style="text-align: right;">0.82</td>
+<td style="text-align: left;">-21%</td>
+<td style="text-align: left;">-26%</td>
+<td style="text-align: left;">5%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HG</td>
+<td style="text-align: right;">105,185</td>
+<td style="text-align: right;">83,911</td>
+<td style="text-align: right;">1.25</td>
+<td style="text-align: left;">20%</td>
+<td style="text-align: left;">16%</td>
+<td style="text-align: left;">7%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">EN</td>
+<td style="text-align: right;">226,802</td>
+<td style="text-align: right;">181,436</td>
+<td style="text-align: right;">1.25</td>
+<td style="text-align: left;">20%</td>
+<td style="text-align: left;">13%</td>
+<td style="text-align: left;">5%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">BD</td>
+<td style="text-align: right;">332,700</td>
+<td style="text-align: right;">271,665</td>
+<td style="text-align: right;">1.22</td>
+<td style="text-align: left;">18%</td>
+<td style="text-align: left;">11%</td>
+<td style="text-align: left;">6%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">PA</td>
+<td style="text-align: right;">178,915</td>
+<td style="text-align: right;">207,736</td>
+<td style="text-align: right;">0.86</td>
+<td style="text-align: left;">-17%</td>
+<td style="text-align: left;">-2%</td>
+<td style="text-align: left;">24%</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="electric-vehicles" class="level3">
+<h3 class="anchored" data-anchor-id="electric-vehicles">Electric vehicles</h3>
+<p>Vehicles with harmonised fuel Electric observed in the MOT data, against licensed battery electric vehicles in VEH0145 (all body types, end of March of the following year). Most electric vehicles are new and so have not had an MOT, which keeps the ratio low, and it falls when sales grow quickly.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">year</th>
+<th style="text-align: right;">mot_electric</th>
+<th style="text-align: right;">dft_battery_electric</th>
+<th style="text-align: right;">ratio</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">2011</td>
+<td style="text-align: right;">4,001</td>
+<td style="text-align: right;">7,401</td>
+<td style="text-align: right;">0.54</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2012</td>
+<td style="text-align: right;">5,756</td>
+<td style="text-align: right;">8,322</td>
+<td style="text-align: right;">0.69</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2013</td>
+<td style="text-align: right;">8,202</td>
+<td style="text-align: right;">10,318</td>
+<td style="text-align: right;">0.79</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2014</td>
+<td style="text-align: right;">14,842</td>
+<td style="text-align: right;">16,419</td>
+<td style="text-align: right;">0.90</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2015</td>
+<td style="text-align: right;">24,734</td>
+<td style="text-align: right;">24,937</td>
+<td style="text-align: right;">0.99</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2016</td>
+<td style="text-align: right;">35,221</td>
+<td style="text-align: right;">35,546</td>
+<td style="text-align: right;">0.99</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2017</td>
+<td style="text-align: right;">45,760</td>
+<td style="text-align: right;">50,441</td>
+<td style="text-align: right;">0.91</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2018</td>
+<td style="text-align: right;">61,966</td>
+<td style="text-align: right;">72,939</td>
+<td style="text-align: right;">0.85</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2019</td>
+<td style="text-align: right;">102,267</td>
+<td style="text-align: right;">127,175</td>
+<td style="text-align: right;">0.80</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2020</td>
+<td style="text-align: right;">213,602</td>
+<td style="text-align: right;">250,873</td>
+<td style="text-align: right;">0.85</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2021</td>
+<td style="text-align: right;">414,263</td>
+<td style="text-align: right;">480,518</td>
+<td style="text-align: right;">0.86</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2022</td>
+<td style="text-align: right;">669,649</td>
+<td style="text-align: right;">748,809</td>
+<td style="text-align: right;">0.89</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2023</td>
+<td style="text-align: right;">682,404</td>
+<td style="text-align: right;">1,065,308</td>
+<td style="text-align: right;">0.64</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2024</td>
+<td style="text-align: right;">685,946</td>
+<td style="text-align: right;">1,468,163</td>
+<td style="text-align: right;">0.47</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="possible-problems-in-the-data" class="level2">
+<h2 class="anchored" data-anchor-id="possible-problems-in-the-data">11. Possible problems in the data</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="mileage_report_figures/check-coverage-1.png" class="img-fluid figure-img"></p>
+<figcaption>Figure 19: Share of observed vehicles with an annual mileage; share of mileage Bristol flagged as implausible and removed; and share of recorded mileage Bristol did not assess.</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="mileage_report_figures/check-distribution-1.png" class="img-fluid figure-img"></p>
+<figcaption>Figure 20: Recorded annual mileage of cars in the map year (see the summary), in 1,000-mile bands, by whether Bristol assessed it. The table below counts the mileages outside the range shown.</figcaption>
+</figure>
+</div>
+<section id="car-mileage-outside-the-chart-2022" class="level3">
+<h3 class="anchored" data-anchor-id="car-mileage-outside-the-chart-2022">Car mileage outside the chart, 2022</h3>
+<p>Cars with a recorded annual mileage below 0 or of 50,000 miles or more.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">band</th>
+<th style="text-align: right;">Plausible</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">50,000 to 99,999</td>
+<td style="text-align: right;">2,791</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="mileage-and-age-checks-by-year" class="level3">
+<h3 class="anchored" data-anchor-id="mileage-and-age-checks-by-year">Mileage and age checks by year</h3>
+<p>Counts across all in-scope vehicles. Each column other than <code>n_with_mileage</code> should be small.</p>
+<ul>
+<li><code>n_with_mileage</code>: vehicles with a recorded annual mileage</li>
+<li><code>n_not_assessed</code>: recorded mileage with no plausibility flag (left out of the averages)</li>
+<li><code>n_mileage_removed</code>: vehicles whose mileage Bristol flagged as implausible and removed</li>
+<li><code>n_negative_mileage</code>: annual mileage below 0</li>
+<li><code>n_over_50k_mileage</code>: annual mileage above 50,000 miles</li>
+<li><code>n_mileage_not_observed</code>: vehicles with a mileage in a year where they have no postcode area (<code>unborn</code>, <code>dead</code> or <code>unknown</code>): mileage without a location</li>
+<li><code>n_negative_age</code>: observed vehicles seen in a year before the year of their first use</li>
+</ul>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">year</th>
+<th style="text-align: right;">n_with_mileage</th>
+<th style="text-align: right;">n_not_assessed</th>
+<th style="text-align: right;">n_mileage_removed</th>
+<th style="text-align: right;">n_negative_mileage</th>
+<th style="text-align: right;">n_over_50k_mileage</th>
+<th style="text-align: right;">n_mileage_not_observed</th>
+<th style="text-align: right;">n_negative_age</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">2005</td>
+<td style="text-align: right;">32,452,735</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">218,720</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4,384</td>
+<td style="text-align: right;">1,300,784</td>
+<td style="text-align: right;">41,915</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2006</td>
+<td style="text-align: right;">32,814,077</td>
+<td style="text-align: right;">78,783</td>
+<td style="text-align: right;">541,099</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">5,128</td>
+<td style="text-align: right;">1,234,618</td>
+<td style="text-align: right;">37,312</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2007</td>
+<td style="text-align: right;">33,453,711</td>
+<td style="text-align: right;">91,350</td>
+<td style="text-align: right;">545,479</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4,936</td>
+<td style="text-align: right;">1,139,156</td>
+<td style="text-align: right;">32,099</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2008</td>
+<td style="text-align: right;">33,775,906</td>
+<td style="text-align: right;">101,540</td>
+<td style="text-align: right;">527,435</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">5,514</td>
+<td style="text-align: right;">1,044,819</td>
+<td style="text-align: right;">27,684</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2009</td>
+<td style="text-align: right;">33,847,006</td>
+<td style="text-align: right;">100,690</td>
+<td style="text-align: right;">515,834</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4,932</td>
+<td style="text-align: right;">950,673</td>
+<td style="text-align: right;">23,528</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2010</td>
+<td style="text-align: right;">34,105,231</td>
+<td style="text-align: right;">93,501</td>
+<td style="text-align: right;">540,551</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4,976</td>
+<td style="text-align: right;">877,658</td>
+<td style="text-align: right;">19,479</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2011</td>
+<td style="text-align: right;">34,266,679</td>
+<td style="text-align: right;">96,986</td>
+<td style="text-align: right;">571,335</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">5,093</td>
+<td style="text-align: right;">803,307</td>
+<td style="text-align: right;">16,153</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2012</td>
+<td style="text-align: right;">34,584,164</td>
+<td style="text-align: right;">96,511</td>
+<td style="text-align: right;">520,620</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">5,836</td>
+<td style="text-align: right;">683,777</td>
+<td style="text-align: right;">12,957</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2013</td>
+<td style="text-align: right;">35,209,581</td>
+<td style="text-align: right;">94,883</td>
+<td style="text-align: right;">449,107</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">5,373</td>
+<td style="text-align: right;">628,688</td>
+<td style="text-align: right;">9,171</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2014</td>
+<td style="text-align: right;">36,140,728</td>
+<td style="text-align: right;">93,047</td>
+<td style="text-align: right;">436,350</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">5,379</td>
+<td style="text-align: right;">593,477</td>
+<td style="text-align: right;">6,203</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2015</td>
+<td style="text-align: right;">37,170,928</td>
+<td style="text-align: right;">65,801</td>
+<td style="text-align: right;">397,347</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">5,241</td>
+<td style="text-align: right;">543,905</td>
+<td style="text-align: right;">5,140</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2016</td>
+<td style="text-align: right;">37,964,991</td>
+<td style="text-align: right;">4,330</td>
+<td style="text-align: right;">358,508</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">5,740</td>
+<td style="text-align: right;">481,398</td>
+<td style="text-align: right;">4,054</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2017</td>
+<td style="text-align: right;">37,800,202</td>
+<td style="text-align: right;">4,563</td>
+<td style="text-align: right;">333,007</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">5,170</td>
+<td style="text-align: right;">386,827</td>
+<td style="text-align: right;">3,067</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2018</td>
+<td style="text-align: right;">38,286,966</td>
+<td style="text-align: right;">6,991</td>
+<td style="text-align: right;">317,630</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4,978</td>
+<td style="text-align: right;">323,295</td>
+<td style="text-align: right;">2,352</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2019</td>
+<td style="text-align: right;">38,657,512</td>
+<td style="text-align: right;">7,173</td>
+<td style="text-align: right;">283,619</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4,116</td>
+<td style="text-align: right;">278,710</td>
+<td style="text-align: right;">1,757</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2020</td>
+<td style="text-align: right;">39,529,622</td>
+<td style="text-align: right;">3,714</td>
+<td style="text-align: right;">302,900</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">5,580</td>
+<td style="text-align: right;">610,560</td>
+<td style="text-align: right;">1,507</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2021</td>
+<td style="text-align: right;">39,832,221</td>
+<td style="text-align: right;">5,136</td>
+<td style="text-align: right;">253,213</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4,642</td>
+<td style="text-align: right;">296,268</td>
+<td style="text-align: right;">1,480</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2022</td>
+<td style="text-align: right;">39,936,342</td>
+<td style="text-align: right;">5,013</td>
+<td style="text-align: right;">238,071</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4,832</td>
+<td style="text-align: right;">462,143</td>
+<td style="text-align: right;">1,308</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2023</td>
+<td style="text-align: right;">38,906,652</td>
+<td style="text-align: right;">5,441</td>
+<td style="text-align: right;">224,155</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4,689</td>
+<td style="text-align: right;">1,280,198</td>
+<td style="text-align: right;">848</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2024</td>
+<td style="text-align: right;">36,734,471</td>
+<td style="text-align: right;">6,030</td>
+<td style="text-align: right;">211,841</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">5,394</td>
+<td style="text-align: right;">1,296,739</td>
+<td style="text-align: right;">477</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2025</td>
+<td style="text-align: right;">25,803,313</td>
+<td style="text-align: right;">8,170</td>
+<td style="text-align: right;">147,846</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3,590</td>
+<td style="text-align: right;">1,844,937</td>
+<td style="text-align: right;">149</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="mileage-recorded-without-a-postcode-area" class="level3">
+<h3 class="anchored" data-anchor-id="mileage-recorded-without-a-postcode-area">Mileage recorded without a postcode area</h3>
+<p>Vehicles with an annual mileage in a year whose status is not a postcode area, by status. Mileage in a year before the vehicle’s birth date (<code>unborn</code>) points to a wrong date.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">year</th>
+<th style="text-align: right;">dead</th>
+<th style="text-align: right;">unborn</th>
+<th style="text-align: right;">unknown</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">2005</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">21,246</td>
+<td style="text-align: right;">1,279,538</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2006</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">20,903</td>
+<td style="text-align: right;">1,213,712</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2007</td>
+<td style="text-align: right;">34</td>
+<td style="text-align: right;">19,824</td>
+<td style="text-align: right;">1,119,298</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2008</td>
+<td style="text-align: right;">61</td>
+<td style="text-align: right;">17,771</td>
+<td style="text-align: right;">1,026,987</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2009</td>
+<td style="text-align: right;">93</td>
+<td style="text-align: right;">11,367</td>
+<td style="text-align: right;">939,213</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2010</td>
+<td style="text-align: right;">128</td>
+<td style="text-align: right;">11,138</td>
+<td style="text-align: right;">866,392</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2011</td>
+<td style="text-align: right;">156</td>
+<td style="text-align: right;">11,035</td>
+<td style="text-align: right;">792,116</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2012</td>
+<td style="text-align: right;">190</td>
+<td style="text-align: right;">13,662</td>
+<td style="text-align: right;">669,925</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2013</td>
+<td style="text-align: right;">230</td>
+<td style="text-align: right;">16,816</td>
+<td style="text-align: right;">611,642</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2014</td>
+<td style="text-align: right;">301</td>
+<td style="text-align: right;">15,178</td>
+<td style="text-align: right;">577,998</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2015</td>
+<td style="text-align: right;">420</td>
+<td style="text-align: right;">14,021</td>
+<td style="text-align: right;">529,464</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2016</td>
+<td style="text-align: right;">814</td>
+<td style="text-align: right;">9,718</td>
+<td style="text-align: right;">470,866</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2017</td>
+<td style="text-align: right;">1,821</td>
+<td style="text-align: right;">7,243</td>
+<td style="text-align: right;">377,763</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2018</td>
+<td style="text-align: right;">3,287</td>
+<td style="text-align: right;">9,688</td>
+<td style="text-align: right;">310,320</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2019</td>
+<td style="text-align: right;">5,428</td>
+<td style="text-align: right;">15,712</td>
+<td style="text-align: right;">257,570</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2020</td>
+<td style="text-align: right;">8,668</td>
+<td style="text-align: right;">14,623</td>
+<td style="text-align: right;">587,269</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2021</td>
+<td style="text-align: right;">15,383</td>
+<td style="text-align: right;">27,699</td>
+<td style="text-align: right;">253,186</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2022</td>
+<td style="text-align: right;">56,660</td>
+<td style="text-align: right;">76,854</td>
+<td style="text-align: right;">328,629</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2023</td>
+<td style="text-align: right;">83,784</td>
+<td style="text-align: right;">838,766</td>
+<td style="text-align: right;">357,648</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2024</td>
+<td style="text-align: right;">141,430</td>
+<td style="text-align: right;">5,786</td>
+<td style="text-align: right;">1,149,523</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2025</td>
+<td style="text-align: right;">138,618</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1,706,319</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="postcode-areas-without-a-match" class="level3">
+<h3 class="anchored" data-anchor-id="postcode-areas-without-a-match">Postcode areas without a match</h3>
+<ul>
+<li><strong>Codes in the MOT data with no boundary:</strong> <code>XX</code> (66,249 vehicle-years).</li>
+<li><strong>Boundaries with no vehicles in the MOT data:</strong> <code>EC</code> and <code>WC</code>. DfT counts cars in them, so those cars are recorded under other codes in the MOT data, or not at all.</li>
+</ul>
+</section>
+<section id="sudden-changes-in-a-postcode-area" class="level3">
+<h3 class="anchored" data-anchor-id="sudden-changes-in-a-postcode-area">Sudden changes in a postcode area</h3>
+<p>Postcode areas (with at least 10,000 vehicles) whose number of observed vehicles changed by more than 10 percentage points above or below the national change from the previous year: largest 25. A steady rise over many years suggests coverage building up; a jump that reverses the next year points to a recording problem.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 8%">
+<col style="width: 7%">
+<col style="width: 33%">
+<col style="width: 15%">
+<col style="width: 11%">
+<col style="width: 23%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">year</th>
+<th style="text-align: left;">pca</th>
+<th style="text-align: right;">vehicles_previous_year</th>
+<th style="text-align: right;">vehicles</th>
+<th style="text-align: left;">change</th>
+<th style="text-align: left;">national_change</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">2006</td>
+<td style="text-align: left;">NI</td>
+<td style="text-align: right;">264,565</td>
+<td style="text-align: right;">325,194</td>
+<td style="text-align: left;">23%</td>
+<td style="text-align: left;">9%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2007</td>
+<td style="text-align: left;">NI</td>
+<td style="text-align: right;">325,194</td>
+<td style="text-align: right;">394,129</td>
+<td style="text-align: left;">21%</td>
+<td style="text-align: left;">8%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2009</td>
+<td style="text-align: left;">NI</td>
+<td style="text-align: right;">452,771</td>
+<td style="text-align: right;">503,134</td>
+<td style="text-align: left;">11%</td>
+<td style="text-align: left;">0%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2010</td>
+<td style="text-align: left;">NI</td>
+<td style="text-align: right;">503,134</td>
+<td style="text-align: right;">557,246</td>
+<td style="text-align: left;">11%</td>
+<td style="text-align: left;">0%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2017</td>
+<td style="text-align: left;">NI</td>
+<td style="text-align: right;">1,060,833</td>
+<td style="text-align: right;">1,179,283</td>
+<td style="text-align: left;">11%</td>
+<td style="text-align: left;">1%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2014</td>
+<td style="text-align: left;">NI</td>
+<td style="text-align: right;">750,120</td>
+<td style="text-align: right;">840,578</td>
+<td style="text-align: left;">12%</td>
+<td style="text-align: left;">2%</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="unusual-average-car-mileage" class="level3">
+<h3 class="anchored" data-anchor-id="unusual-average-car-mileage">Unusual average car mileage</h3>
+<p>Postcode area and year combinations (with at least 1,000 cars with a plausible mileage) where the average annual car mileage is more than 20% above or below the national average: largest 25. Rural areas are expected to be higher; a single year out of line with the years either side points to a problem.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 8%">
+<col style="width: 7%">
+<col style="width: 26%">
+<col style="width: 19%">
+<col style="width: 21%">
+<col style="width: 16%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">year</th>
+<th style="text-align: left;">pca</th>
+<th style="text-align: right;">cars_with_mileage</th>
+<th style="text-align: right;">mean_mileage</th>
+<th style="text-align: right;">national_mean</th>
+<th style="text-align: left;">difference</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">2020</td>
+<td style="text-align: left;">NI</td>
+<td style="text-align: right;">940,083</td>
+<td style="text-align: right;">7,628</td>
+<td style="text-align: right;">5,637</td>
+<td style="text-align: left;">35%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2016</td>
+<td style="text-align: left;">NI</td>
+<td style="text-align: right;">814,595</td>
+<td style="text-align: right;">9,127</td>
+<td style="text-align: right;">7,204</td>
+<td style="text-align: left;">27%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2015</td>
+<td style="text-align: left;">NI</td>
+<td style="text-align: right;">720,075</td>
+<td style="text-align: right;">9,088</td>
+<td style="text-align: right;">7,238</td>
+<td style="text-align: left;">26%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2010</td>
+<td style="text-align: left;">SM</td>
+<td style="text-align: right;">60,605</td>
+<td style="text-align: right;">5,672</td>
+<td style="text-align: right;">7,493</td>
+<td style="text-align: left;">-24%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2008</td>
+<td style="text-align: left;">SM</td>
+<td style="text-align: right;">59,095</td>
+<td style="text-align: right;">5,850</td>
+<td style="text-align: right;">7,699</td>
+<td style="text-align: left;">-24%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2009</td>
+<td style="text-align: left;">SM</td>
+<td style="text-align: right;">59,715</td>
+<td style="text-align: right;">5,797</td>
+<td style="text-align: right;">7,611</td>
+<td style="text-align: left;">-24%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2018</td>
+<td style="text-align: left;">SW</td>
+<td style="text-align: right;">179,752</td>
+<td style="text-align: right;">5,344</td>
+<td style="text-align: right;">7,011</td>
+<td style="text-align: left;">-24%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2016</td>
+<td style="text-align: left;">SW</td>
+<td style="text-align: right;">190,879</td>
+<td style="text-align: right;">5,499</td>
+<td style="text-align: right;">7,204</td>
+<td style="text-align: left;">-24%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2007</td>
+<td style="text-align: left;">SM</td>
+<td style="text-align: right;">58,940</td>
+<td style="text-align: right;">5,889</td>
+<td style="text-align: right;">7,715</td>
+<td style="text-align: left;">-24%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2017</td>
+<td style="text-align: left;">SW</td>
+<td style="text-align: right;">184,155</td>
+<td style="text-align: right;">5,462</td>
+<td style="text-align: right;">7,152</td>
+<td style="text-align: left;">-24%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2015</td>
+<td style="text-align: left;">SW</td>
+<td style="text-align: right;">192,747</td>
+<td style="text-align: right;">5,534</td>
+<td style="text-align: right;">7,238</td>
+<td style="text-align: left;">-24%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2014</td>
+<td style="text-align: left;">SW</td>
+<td style="text-align: right;">191,233</td>
+<td style="text-align: right;">5,585</td>
+<td style="text-align: right;">7,300</td>
+<td style="text-align: left;">-23%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2024</td>
+<td style="text-align: left;">SW</td>
+<td style="text-align: right;">145,925</td>
+<td style="text-align: right;">5,166</td>
+<td style="text-align: right;">6,739</td>
+<td style="text-align: left;">-23%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2012</td>
+<td style="text-align: left;">SW</td>
+<td style="text-align: right;">190,583</td>
+<td style="text-align: right;">5,684</td>
+<td style="text-align: right;">7,388</td>
+<td style="text-align: left;">-23%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2014</td>
+<td style="text-align: left;">NI</td>
+<td style="text-align: right;">637,358</td>
+<td style="text-align: right;">8,978</td>
+<td style="text-align: right;">7,300</td>
+<td style="text-align: left;">23%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2011</td>
+<td style="text-align: left;">SW</td>
+<td style="text-align: right;">191,806</td>
+<td style="text-align: right;">5,740</td>
+<td style="text-align: right;">7,450</td>
+<td style="text-align: left;">-23%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2025</td>
+<td style="text-align: left;">SW</td>
+<td style="text-align: right;">90,849</td>
+<td style="text-align: right;">5,159</td>
+<td style="text-align: right;">6,692</td>
+<td style="text-align: left;">-23%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2013</td>
+<td style="text-align: left;">SW</td>
+<td style="text-align: right;">192,223</td>
+<td style="text-align: right;">5,677</td>
+<td style="text-align: right;">7,361</td>
+<td style="text-align: left;">-23%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2017</td>
+<td style="text-align: left;">NI</td>
+<td style="text-align: right;">914,641</td>
+<td style="text-align: right;">8,787</td>
+<td style="text-align: right;">7,152</td>
+<td style="text-align: left;">23%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2011</td>
+<td style="text-align: left;">SM</td>
+<td style="text-align: right;">64,435</td>
+<td style="text-align: right;">5,749</td>
+<td style="text-align: right;">7,450</td>
+<td style="text-align: left;">-23%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2006</td>
+<td style="text-align: left;">SM</td>
+<td style="text-align: right;">59,482</td>
+<td style="text-align: right;">6,113</td>
+<td style="text-align: right;">7,892</td>
+<td style="text-align: left;">-23%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2010</td>
+<td style="text-align: left;">SW</td>
+<td style="text-align: right;">193,150</td>
+<td style="text-align: right;">5,807</td>
+<td style="text-align: right;">7,493</td>
+<td style="text-align: left;">-22%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2009</td>
+<td style="text-align: left;">SW</td>
+<td style="text-align: right;">196,592</td>
+<td style="text-align: right;">5,907</td>
+<td style="text-align: right;">7,611</td>
+<td style="text-align: left;">-22%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2023</td>
+<td style="text-align: left;">SW</td>
+<td style="text-align: right;">156,737</td>
+<td style="text-align: right;">5,278</td>
+<td style="text-align: right;">6,792</td>
+<td style="text-align: left;">-22%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2008</td>
+<td style="text-align: left;">SW</td>
+<td style="text-align: right;">199,050</td>
+<td style="text-align: right;">5,989</td>
+<td style="text-align: right;">7,699</td>
+<td style="text-align: left;">-22%</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="vehicles-with-no-body-type-2022" class="level3">
+<h3 class="anchored" data-anchor-id="vehicles-with-no-body-type-2022">Vehicles with no body type, 2022</h3>
+<p>Postcode areas where the share of observed vehicles with no body type is more than three times the national share (0.11%) and above 1%. A vehicle with no make/model match and no test class has no body type, so is counted under Other in the charts.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">pca</th>
+<th style="text-align: right;">vehicles_no_body_type</th>
+<th style="text-align: left;">share</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">NI</td>
+<td style="text-align: right;">48,720</td>
+<td style="text-align: left;">3.5%</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="source-files-and-how-to-rebuild" class="level2">
+<h2 class="anchored" data-anchor-id="source-files-and-how-to-rebuild">12. Source files and how to rebuild</h2>
+<p>Every table this document describes is listed with its grain and contents in section 2.1, and every column of every one of them in section 2.2. Two further inputs are read directly by the charts and maps:</p>
+<ul>
+<li><code>inputs/dft_lsoa_vehicles_by_pca.csv</code>: DfT VEH0125, VEH0135 and VEH0145 by postcode area (<code>data-raw/build_dft_lsoa_vehicles_by_pca.R</code>).</li>
+<li><code>inputs/postcode_areas_100m.gpkg</code>: postcode area boundaries simplified to 100 m (<code>data-raw/build_postcode_area_boundaries.R</code>).</li>
+</ul>
+<p>The tables and this document are built by <code>targets</code>, so rebuilding only repeats what changed:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># the mileage tables, their measurements and this report</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>targets<span class="sc">::</span><span class="fu">tar_make</span>(<span class="at">names =</span> <span class="fu">c</span>(<span class="st">"mileage_tables"</span>, <span class="st">"mileage_area_tables"</span>,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"mileage_profile_tables"</span>, <span class="st">"mileage_report"</span>))</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># just this document, from the tables already written</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>targets<span class="sc">::</span><span class="fu">tar_make</span>(<span class="at">names =</span> <span class="st">"mileage_report"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Editing <code>reports/mileage_report.qmd</code> re-renders this document only. Editing <code>R/summary_mileage.R</code> rebuilds the tables and then this document. Every number above is read from the files listed in section 2.1 and the measurements in <code>outputs/quality/mileage_profile/</code>, so nothing here can drift from the build it describes.</p>
+</section>
+<section id="things-to-be-careful-about-in-one-place" class="level2">
+<h2 class="anchored" data-anchor-id="things-to-be-careful-about-in-one-place">13. Things to be careful about, in one place</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Issue</th>
+<th style="text-align: left;">Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">The last year is partial</td>
+<td style="text-align: left;">2025 holds 25,803,313 vehicle-years with a recorded mileage against 36,734,471 in 2024, and 0.03% of that mileage was never assessed. Do not read a trend into the final year.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Young vehicles are missing from the recent years</td>
+<td style="text-align: left;">A vehicle’s mileage is only known once it has had an MOT, at three years old, so the youngest ages empty out towards the end of the series, and the vehicles that do appear there are the ones tested unusually early. Section 11 quantifies it.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Unassessed mileage is not zero mileage</td>
+<td style="text-align: left;">Bristol removed the mileage it judged implausible, so a recorded mileage is either plausible or unassessed. Treating the unassessed as zero would lose 8,170 vehicle-years in 2025 alone.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">A growing share of the fleet has no location</td>
+<td style="text-align: left;">The <code>unknown</code> group reaches 12,640,179 vehicles by 2025. They are in the vehicle counts and in no postcode area row, so the area rows do not sum to the fleet.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">The mileage is Bristol’s, not ours</td>
+<td style="text-align: left;">Annual mileage, the postcode area and the plausibility flag all come from Bristol’s annualisation and are taken as given. The pipeline applies no scaling and does not re-derive them.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Two different fuel columns</td>
+<td style="text-align: left;">The test class and fuel tables use the columns as supplied (<code>test_class_ANON</code>, <code>fuel_DVSA</code>); the area tables use the harmonised <code>body_type</code> and <code>fuel_simple</code>. The same fleet therefore appears under two fuel schemes, and only the harmonised one separates plug-in hybrids.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Vehicles with no body type</td>
+<td style="text-align: left;">2,878,353 vehicles (3.08%) have no DfT body type, all of them vehicles with no MOT test class. They are grouped as <code>Other</code> rather than dropped.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Vehicles with no age</td>
+<td style="text-align: left;">123 vehicles (0%) have no first use date, so they appear in the vehicle and mileage tables but in no age table.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Vehicles with no test class</td>
+<td style="text-align: left;">19,314,753 vehicles (20.69%) have no test class and are absent from the test class tables, which therefore total less than the fleet.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Negative and very large mileage</td>
+<td style="text-align: left;">Over the whole series 0 vehicle-years carry a mileage below zero and 105,523 above 50,000. Both are left in the published tables and counted separately (<code>n_negative_mileage</code>, <code>n_over_50k_mileage</code>) rather than removed.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Negative ages are not all errors</td>
+<td style="text-align: left;"><code>n_negative_age</code> in the area table counts every year before a vehicle was first used, so it is large by construction and is not a count of errors. Among vehicles actually observed in a postcode area, 248,649 have a first use date after the year they were seen in.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">A mean has a changing denominator</td>
+<td style="text-align: left;">A mean mileage is over the vehicles that have a recorded mileage, not over the fleet, and that denominator changes year by year. The tables carry counts and totals rather than means alone, so a mean can be recomputed over any chosen group.</td>
+</tr>
+</tbody>
+</table>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/cars-project\.github\.io\/documentation\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../reports/data_quality_report.html" class="pagination-link" aria-label="Data quality report">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Data quality report</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../reports/churn_tables_report.html" class="pagination-link" aria-label="Churn tables: what each one contains and exactly how it was made">
+        <span class="nav-page-text">Churn tables: what each one contains and exactly how it was made</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>The CARS Project: Connecting Administrative vehicle data for Research on Sustainable transport</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/CARS-Project/documentation/edit/main/reports/mileage_report.md" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/CARS-Project/documentation/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+<p><a href="https://cars-project.github.io/">cars-project.github.io</a></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
