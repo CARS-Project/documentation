@@ -1,0 +1,108 @@
+# Glossary {#sec-glossary}
+
+Annualisation
+: Converting each vehicle's test history into one figure per calendar year
+  (@sec-sources-linkage).
+
+Backfill
+: Filling a missing attribute with the most common value among similar
+  vehicles: the same make, model, birth year and fuel (@sec-pipeline).
+
+Birth date
+: In CARS, the earliest of a vehicle's first-use, registration and
+  manufacture dates.
+
+Body type
+: DfT's classification of vehicles into cars, light goods vehicles,
+  motorcycles, buses and coaches, heavy goods vehicles and other vehicles
+  (@sec-vehicle-types).
+
+CAZ
+: Clean Air Zone: an area in which the most polluting vehicles are charged or
+  restricted (@sec-fuels-emissions).
+
+Churn
+: The change in the vehicles in an area from year to year as vehicles
+  arrive, move and leave.
+
+DfT
+: Department for Transport.
+
+DVA
+: Driver & Vehicle Agency, Northern Ireland.
+
+DVLA
+: Driver and Vehicle Licensing Agency, which keeps the vehicle register.
+
+DVSA
+: Driver and Vehicle Standards Agency, which runs the MOT scheme.
+
+Euro standard
+: A European limit on the air pollutants a new vehicle may emit
+  (@sec-fuels-emissions).
+
+First-use date
+: The date a vehicle was first used on the road, normally its first
+  registration.
+
+Generic model
+: DfT's grouping of model variants under one name, such as FORD FIESTA.
+
+HGV
+: Heavy goods vehicle: a goods vehicle over 3.5 tonnes.
+
+LGV
+: Light goods vehicle: a goods vehicle up to 3.5 tonnes; a van or pick-up.
+
+MAUP
+: Modifiable areal unit problem: results from area data depend on the size
+  and shape of the areas (@sec-geography).
+
+MOT test
+: The annual roadworthiness test for vehicles three years old and over
+  (@sec-mot-test).
+
+Observed
+: In CARS, a vehicle is observed in a year when it has a postcode area in that
+  year.
+
+OGL
+: Open Government Licence.
+
+Parquet
+: A compressed, column-based file format for large tables.
+
+PCA
+: Postcode area: the one or two letters at the start of a postcode
+  (@sec-geography).
+
+PHEV
+: Plug-in hybrid electric vehicle.
+
+Plausible mileage
+: An annual mileage the Bristol annualisation judged believable
+  (`legit_mileage_YYYY = TRUE`).
+
+SORN
+: Statutory Off Road Notification: a declaration that a vehicle is kept off
+  the road (@sec-lifecycle).
+
+Test class
+: The class of MOT test a vehicle takes (@sec-vehicle-types).
+
+Type approval
+: Certification that a vehicle design meets the rules for its category (M1,
+  N1 and so on) (@sec-vehicle-types).
+
+V5C
+: The vehicle registration certificate, or logbook.
+
+VES
+: The DVLA's Vehicle Enquiry Service.
+
+VRM
+: Vehicle registration mark: the registration number (@sec-number-plates).
+
+WLTP, NEDC
+: The laboratory tests used to measure official fuel consumption and CO~2~;
+  WLTP replaced NEDC in 2017–2018.

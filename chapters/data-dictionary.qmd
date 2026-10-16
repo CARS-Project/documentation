@@ -1,0 +1,33 @@
+# Data dictionary {#sec-data-dictionary}
+
+```{r}
+source("R/book.R")
+dd <- read_pipeline("outputs", "data_dictionary.csv")
+```
+
+Every column of the vehicle table, `vehicles_enhanced.parquet`. The year
+columns (`mileage_YYYY`, `legit_mileage_YYYY` and `pca_YYYY`) are shown once
+each, with the range of their missing shares across the years. This table is
+generated from the pipeline's `data_dictionary.csv`, so it always matches the
+version of the data the book describes. *Missing* is the share of the
+`r fmt_n(dd$n_rows[1])` vehicles with no value.
+
+```{r}
+#| label: tbl-data-dictionary
+#| tbl-cap: "Columns of the vehicle table."
+is_year <- grepl("_[0-9]{4}$", dd$column_name)
+yr <- dd[is_year, ]
+yr$stem <- sub("_[0-9]{4}$", "_YYYY", yr$column_name)
+yr_sum <- do.call(rbind, lapply(split(yr, yr$stem), function(x) {
+  data.frame(column_name = x$stem[1], column_type = x$column_type[1],
+             source = x$source[1],
+             description = x$description[1],
+             missing = paste0(min(x$pct_missing), "–", max(x$pct_missing), "%"))
+}))
+other <- dd[!is_year, ]
+other$missing <- paste0(other$pct_missing, "%")
+out <- rbind(other[, names(yr_sum)], yr_sum)
+out$column_name <- paste0("`", out$column_name, "`")
+kable(out, row.names = FALSE,
+      col.names = c("Column", "Type", "Source", "Description", "Missing"))
+```

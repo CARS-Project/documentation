@@ -1,0 +1,14 @@
+---
+nocite: |
+  @*
+---
+
+# References {.unnumbered}
+
+::: {.callout-note .todo title="To be written"}
+Academic references for the methods and for previous research using MOT data,
+cited in the text with `[@key]` and listed in `references.bib`.
+:::
+
+::: {#refs}
+:::

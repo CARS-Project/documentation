@@ -1,0 +1,116 @@
+# Maintaining this book {#sec-maintaining}
+
+```{r}
+source("R/book.R")
+si <- read_pipeline("outputs", "session_info.csv")
+ex_prov <- readLines("data/examples/provenance.txt")
+```
+
+This appendix is for the people who maintain the book. It explains how the
+numbers, tables and figures that come from the data pipeline are kept up to
+date.
+
+## The build this edition describes
+
+```{r}
+#| label: tbl-provenance
+#| tbl-cap: "The pipeline build behind this edition."
+p <- read_pipeline("provenance.csv")
+p <- rbind(p, data.frame(item = "examples_run_at",
+                         value = sub("^run_at: ", "", grep("^run_at", ex_prov,
+                                                          value = TRUE))))
+kable(p, col.names = c("Item", "Value"))
+```
+
+```{r}
+#| label: tbl-session
+#| tbl-cap: "Software versions of the pipeline build."
+kable(si, col.names = c("Component", "Version"))
+```
+
+## How data gets into the book
+
+Nothing in the book reads the pipeline repository directly. Instead:
+
+1. **`data/manifest.yml`** lists every file the book uses from
+   [MOT-pipline](https://github.com/CARS-Project/MOT-pipline).
+2. **`scripts/sync-pipeline.R`** copies those files into `data/pipeline/`
+   (data) and `reports/` (the pipeline's reports, shown as appendices), and
+   records the pipeline's commit in `data/pipeline/provenance.csv`.
+3. **`scripts/run-examples.R`** runs each query in `sql/` against the vehicle
+   table and saves the result in `data/examples/`. The worked examples display
+   the same `.sql` files, so the code shown is exactly the code that produced
+   the results.
+4. **Chapters** read the copies with `read_pipeline()` and `read_example()`
+   from `R/book.R`, and compute every number, table and chart from them when
+   the book is rendered.
+
+The copies are committed, so anyone can rebuild the book without access to the
+pipeline or the 9 GB vehicle table.
+
+## Updating after a new pipeline build
+
+From the book's root folder, with MOT-pipline checked out alongside it (or
+`MOT_PIPELINE_DIR` set to its location):
+
+```sh
+Rscript scripts/sync-pipeline.R   # copy the new outputs
+Rscript scripts/run-examples.R    # rerun the examples (needs the parquet)
+Rscript scripts/rebuild.R         # re-execute every chapter and render
+```
+
+Then check the result, and commit `data/`, `reports/` and `_freeze/`. Pushing
+to `main` publishes the book.
+
+::: {.callout-important title="Check the words, not just the numbers"}
+Numbers in the text are computed, but sentences that interpret them ("the two
+averages are almost identical", "most were still tested in Leeds") are
+written by hand. After a rebuild, read the chapters whose figures changed and
+make sure the text still fits.
+:::
+
+If a pipeline file used by the book is renamed or removed, the sync script
+stops with an error naming it. Update `data/manifest.yml` and the chapter that
+reads it.
+
+## Why `rebuild.R` clears the frozen results
+
+The book uses Quarto's [freeze](https://quarto.org/docs/projects/code-execution.html#freeze)
+option: the results of each chapter's code are stored in `_freeze/` and reused
+until that chapter's source changes. This is what lets GitHub Actions publish
+the book without R. It also means a plain `quarto render` will not pick up new
+data, because the chapters themselves have not changed. `scripts/rebuild.R`
+deletes `_freeze/` so that every chapter runs again.
+
+## Adding pipeline data to a chapter
+
+1. Add the file to `data/manifest.yml`.
+2. Run `Rscript scripts/sync-pipeline.R`.
+3. In the chapter, `source("R/book.R")` and read it with
+   `read_pipeline("outputs", "tables", ...)`.
+
+To add a worked example, put the query in `sql/` (naming the file as
+`'vehicles_enhanced.parquet'`), run `Rscript scripts/run-examples.R exNN`, and
+show it with `{{{< include ../sql/exNN_name.sql >}}}` inside a `sql` code
+block.
+
+## Writing conventions
+
+- Placeholders for material still to come are callouts titled
+  **To be written** (or **To be confirmed** for statements to check), with the
+  class `.todo`. Search the chapters for `.todo` to list them.
+- Pitfalls are callouts titled **Pitfall: ...**, and each is also summarised in
+  @sec-pitfalls.
+- Charts use `theme_cars()` and the palette in `R/book.R`, with at most four
+  series each.
+
+## Publishing
+
+`.github/workflows/publish.yml` renders the book from the frozen results and
+publishes it to the `gh-pages` branch on every push to `main`. One-off set-up:
+run `quarto publish gh-pages` once locally to create the branch, then in the
+repository's settings set GitHub Pages to deploy from the `gh-pages` branch.
+The book will then be at
+[cars-project.github.io/documentation](https://cars-project.github.io/documentation/).
+
+To preview locally, run `quarto preview`.

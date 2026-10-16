@@ -1,0 +1,81 @@
+project:
+  type: book
+  output-dir: _book
+  execute-dir: project
+
+book:
+  title: "Using the CARS vehicle data"
+  subtitle: "A guide to the research-ready MOT and vehicle dataset for the UK, 2005–2025"
+  author: "The CARS Project team"
+  date: last-modified
+  date-format: "D MMMM YYYY"
+  site-url: https://cars-project.github.io/documentation/
+  repo-url: https://github.com/CARS-Project/documentation
+  repo-actions: [edit, issue]
+  favicon: images/favicon.png
+  sidebar:
+    logo: images/CARS_logo.webp
+    style: docked
+  page-footer:
+    left: "The CARS Project: Connecting Administrative vehicle data for Research on Sustainable transport"
+    right: "[cars-project.github.io](https://cars-project.github.io/)"
+  chapters:
+    - index.qmd
+    - part: "Background"
+      chapters:
+        - chapters/mot-test.qmd
+        - chapters/data-landscape.qmd
+        - chapters/vehicle-types.qmd
+        - chapters/fuels-emissions.qmd
+        - chapters/number-plates.qmd
+        - chapters/vehicle-lifecycle.qmd
+        - chapters/geography.qmd
+    - part: "The CARS data"
+      chapters:
+        - chapters/sources-linkage.qmd
+        - chapters/pipeline.qmd
+        - chapters/data-products.qmd
+        - chapters/vehicle-table.qmd
+        - chapters/aggregate-tables.qmd
+        - chapters/data-quality.qmd
+    - part: "Using the data"
+      chapters:
+        - chapters/pitfalls.qmd
+        - chapters/getting-started.qmd
+        - chapters/examples-spreadsheet.qmd
+        - chapters/examples-code.qmd
+    - chapters/references.qmd
+  appendices:
+    - chapters/glossary.qmd
+    - chapters/data-dictionary.qmd
+    - chapters/table-catalogue.qmd
+    - chapters/maintaining.qmd
+    - part: "Pipeline reports"
+      chapters:
+        - reports/methodology.md
+        - reports/data_quality_report.md
+        - reports/mileage_report.md
+        - reports/churn_tables_report.md
+        - reports/fleet_profile_report.md
+
+bibliography: references.bib
+lang: en-GB
+
+format:
+  html:
+    theme: [cosmo, styles/cars.scss]
+    toc: true
+    toc-depth: 3
+    number-depth: 2
+    code-copy: true
+    code-overflow: wrap
+    code-fold: false
+    fig-cap-location: bottom
+    tbl-cap-location: top
+    callout-appearance: default
+
+execute:
+  freeze: auto
+  echo: false
+  warning: false
+  message: false

@@ -1,0 +1,155 @@
+# Worked examples: code {#sec-examples-code}
+
+```{r}
+source("R/book.R")
+ex1 <- read_example("ex01_fleet_2022")
+ex2 <- read_example("ex02_fiesta_mileage_by_age")
+ex3 <- read_example("ex03_co2_recorded_vs_filled")
+ex4 <- read_example("ex04_cohort_status")
+ex5 <- read_example("ex05_where_did_they_go")
+pca_names <- read_pipeline("inputs", "postcode_area_names.csv")
+```
+
+These examples query the vehicle table with DuckDB SQL. Run them from R,
+Python or the command line as shown in @sec-getting-started, replacing
+`vehicles_enhanced.parquet` with the path to your copy. The results shown are
+from running exactly these queries on the current version of the data. The
+queries are kept in the book's [`sql/`](https://github.com/CARS-Project/documentation/tree/main/sql)
+folder.
+
+## Example 1: counting the vehicles observed in a year
+
+**Question:** How many vehicles of each type and fuel were observed in 2022?
+
+```sql
+{{< include ../sql/ex01_fleet_2022.sql >}}
+```
+
+```{r}
+#| label: tbl-code-ex1
+#| tbl-cap: "Vehicles observed in 2022, by body type and fuel group (largest ten groups)."
+kable(head(ex1, 10), row.names = FALSE)
+```
+
+The key step is the `WHERE` clause. Without it, the count would include every
+vehicle in the table, including those scrapped in 2006 and those not yet
+built in 2022.
+
+## Example 2: reshaping to one row per vehicle per year
+
+**Question:** How does the annual mileage of a Ford Fiesta change as it ages,
+and has that changed over time?
+
+The vehicle table has one column per year. To analyse by age, the year
+columns need to become rows. DuckDB's `UNPIVOT` does this: the mileage and
+plausibility columns are unpivoted separately and joined back together by
+vehicle and year. Filtering to one model first keeps the reshaped table
+small.
+
+```sql
+{{< include ../sql/ex02_fiesta_mileage_by_age.sql >}}
+```
+
+```{r}
+#| label: fig-code-ex2
+#| fig-cap: "Average annual mileage of Ford Fiestas by age, plausible mileage only."
+ex2$year <- factor(ex2$year)
+ggplot(ex2, aes(age, mean_mileage, colour = year)) +
+  geom_line(linewidth = 0.9) +
+  scale_colour_manual(values = cars_cols) +
+  scale_y_continuous(labels = scales::label_comma(), limits = c(0, NA)) +
+  labs(x = "Age (years)", y = "Miles per year") +
+  theme_cars()
+```
+
+Mileage falls with age, and the whole curve is lower in 2022 than in 2010.
+Note that the youngest ages are missing: Fiestas under three have no MOT. The
+mileage at age 3 averages the whole period since new.
+
+## Example 3: recorded against filled values
+
+**Question:** Does the CO~2~ of new petrol and diesel cars depend on whether
+the value was recorded or filled from similar vehicles?
+
+`co2_src` records where each harmonised value came from. Comparing the
+average of all values with the average of recorded values only is a quick
+test of whether filling gaps has changed a result.
+
+```sql
+{{< include ../sql/ex03_co2_recorded_vs_filled.sql >}}
+```
+
+```{r}
+#| label: tbl-code-ex3
+#| tbl-cap: "Average CO~2~ (g/km) of cars by year of first use: all values, and recorded values only."
+kable(ex3, row.names = FALSE,
+      col.names = c("First used", "Fuel", "With CO2", "Mean, all",
+                    "Recorded", "Mean, recorded"))
+```
+
+Here the two averages are almost identical, because most cars of these years
+have a recorded value. Note the rise after 2017 for both fuels: this coincides
+with the change from the NEDC to the WLTP test (@sec-fuels-emissions), not
+necessarily a real increase.
+
+## Example 4: following a cohort
+
+**Question:** What happened to the cars first used in 2008?
+
+```sql
+{{< include ../sql/ex04_cohort_status.sql >}}
+```
+
+```{r}
+#| label: fig-code-ex4
+#| fig-cap: "Cars first used in 2008, by their status in each year."
+ex4$status <- factor(ex4$status,
+                     levels = c("observed", "unknown", "dead", "unborn"),
+                     labels = c("Observed", "Unknown", "Dead", "Unborn"))
+ggplot(subset(ex4, year >= 2008), aes(year, n_vehicles, colour = status)) +
+  geom_line(linewidth = 0.9) +
+  scale_colour_manual(values = cars_cols) +
+  scale_y_count() +
+  labs(x = NULL, y = "Cars") +
+  theme_cars()
+```
+
+The cohort is almost all `unknown` until 2011, when most cars have their
+first MOT; it is then observed every year and gradually becomes `dead` as cars
+stop being tested. A small number are observed before 2011: cars tested early,
+such as taxis. The `unknown` line rises again at the end of the series: cars
+that may simply not have been tested *yet* (@sec-pitfalls, pitfall 4).
+
+## Example 5: where vehicles go
+
+**Question:** Of the cars tested in the Leeds postcode area in 2019, where
+were they four years later?
+
+```sql
+{{< include ../sql/ex05_where_did_they_go.sql >}}
+```
+
+```{r}
+#| label: tbl-code-ex5
+#| tbl-cap: "Where cars tested in Leeds (LS) in 2019 were in 2023."
+r <- merge(ex5, pca_names, by.x = "pca_2023", by.y = "pca", all.x = TRUE,
+           sort = FALSE)
+r <- r[order(-r$n_vehicles), ]
+r$Area <- ifelse(is.na(r$area_name), r$pca_2023,
+                 paste0(r$area_name, " (", r$pca_2023, ")"))
+r$Share <- fmt_pct(r$n_vehicles / sum(r$n_vehicles))
+kable(r[, c("Area", "n_vehicles", "Share")], row.names = FALSE,
+      col.names = c("2023", "Cars", "Share of those shown"))
+```
+
+Most were still tested in Leeds, and most of the rest had stopped being
+tested or were tested in a neighbouring area (Bradford, Wakefield, Sheffield,
+York). Moves to neighbouring areas will include cars that simply changed
+garage.
+
+::: {.callout-note .todo title="To be written"}
+Further examples: joining the vehicle table to DfT statistics using
+`dft_genmodel`; estimating the share of an area's cars that would be
+non-compliant in a Clean Air Zone; distributions of mileage within an area;
+working in `dplyr` or `polars` without SQL.
+:::

@@ -1,0 +1,169 @@
+# Classifying vehicles {#sec-vehicle-types}
+
+```{r}
+source("R/book.R")
+bt <- read_pipeline("outputs", "quality", "body_type.csv")
+tc <- read_pipeline("outputs", "quality", "test_class.csv")
+```
+
+"Car" seems a simple idea, but the UK uses at least three different ways of
+dividing vehicles into types, each made for a different purpose and each
+drawing the boundaries in slightly different places. The CARS data carries all
+three, so it is worth knowing how they differ.
+
+| Scheme | Made for | Set by | In the CARS data |
+|---|---|---|---|
+| **MOT test class** | Deciding which test a vehicle takes | DVSA | `test_class` |
+| **Type approval category** | Deciding which construction and safety rules a new vehicle must meet | UN / EU regulation, now GB type approval | `type_approval` |
+| **Body type** | Official statistics | DfT | `body_type` |
+
+## MOT test classes
+
+The MOT test class sets which version of the test a vehicle takes, which
+depends on what it is and how heavy it is. Most of the vehicles in the data
+are class 4.
+
+| Vehicle | Class | Age of first MOT (years) |
+|---|:-:|:-:|
+| Motorcycle, with or without sidecar, engine up to 200cc | 1 | 3 |
+| Motorcycle, with or without sidecar, engine over 200cc | 2 | 3 |
+| 3-wheeled vehicle up to 450kg unladen weight | 3 | 3 |
+| 3-wheeled vehicle over 450kg unladen weight | 4 | 3 |
+| Car with up to 8 passenger seats | 4 | 3 |
+| Motor caravan | 4 | 3 |
+| Quad (max unladen weight 400kg, or 550kg for goods vehicles, and max net power 15kW) | 4 | 3 |
+| Dual purpose vehicle | 4 | 3 |
+| Private hire and public service vehicle (up to 8 seats) | 4 | 3 |
+| Ambulance and taxi | 4 | 1 |
+| Private passenger vehicle and ambulance (9 to 12 passenger seats) | 4 | 1 |
+| Goods vehicle up to 3,000kg design gross weight | 4 | 3 |
+| Class 4 vehicle (9 to 12 passenger seats) with a seat belt installation check | 4a | n/a |
+| Private passenger vehicle and ambulance (13 to 16 passenger seats) | 5 | 1 |
+| Private passenger vehicle and ambulance (more than 16 passenger seats) | 5 | 1 |
+| Playbus | 5 | 1 |
+| Class 5 vehicle (13 or more passenger seats) with a seat belt installation check | 5a | n/a |
+| Goods vehicle over 3,000kg up to 3,500kg design gross weight | 7 | 3 |
+
+: MOT test classes, from [GOV.UK](https://www.gov.uk/getting-an-mot/mot-test-fees). There is no class 6. {#tbl-test-classes}
+
+Two features of the classes often surprise people:
+
+- **Class 4 is not "cars".** It includes vans up to 3,000kg, motor caravans,
+  taxis and minibuses with up to 12 passenger seats. It excludes the heaviest
+  vans (3,000–3,500kg), which are class 7.
+- **Class 5 is mostly minibuses.** Large buses and coaches take the separate
+  annual test, so the buses in MOT data are small ones.
+
+In the CARS data, `test_class_ANON` is the test class as supplied in the
+anonymised MOT data, and `test_class` fills its gaps from similar vehicles
+(@sec-pipeline). The supplied class is missing for every vehicle in Northern
+Ireland and for many vehicles never tested.
+
+```{r}
+#| label: tbl-test-class-counts
+#| tbl-cap: "Vehicles in the CARS vehicle table by harmonised MOT test class."
+tc_sum <- aggregate(n_vehicles ~ test_class, data = tc, FUN = sum,
+                    na.action = na.pass)
+tc_sum <- rbind(tc_sum,
+                data.frame(test_class = NA,
+                           n_vehicles = sum(tc$n_vehicles[is.na(tc$test_class)])))
+tc_sum$share <- fmt_pct(tc_sum$n_vehicles / sum(tc_sum$n_vehicles))
+tc_sum$test_class <- ifelse(is.na(tc_sum$test_class), "(missing)",
+                            as.character(tc_sum$test_class))
+kable(tc_sum, col.names = c("Test class", "Vehicles", "Share"),
+      align = c("l", "r", "r"))
+```
+
+## Type approval categories
+
+Before a new model can be sold, its design must be approved as meeting the
+rules for its category: crash protection, braking, lighting, emissions and so
+on. The categories come from international (UN and EU) regulation, carried
+into GB type approval after the UK left the EU.
+
+| Category | Vehicles |
+|---|---|
+| **M1** | Passenger vehicles with up to 8 passenger seats: cars, including SUVs and MPVs |
+| **M2** | Passenger vehicles with more than 8 passenger seats, up to 5 tonnes: minibuses |
+| **M3** | Passenger vehicles with more than 8 passenger seats, over 5 tonnes: buses and coaches |
+| **N1** | Goods vehicles up to 3.5 tonnes: vans and pick-ups |
+| **N2** | Goods vehicles over 3.5 and up to 12 tonnes |
+| **N3** | Goods vehicles over 12 tonnes |
+| **L1–L7** | Mopeds, motorcycles, tricycles and quadricycles |
+| **O** | Trailers |
+| **T** | Agricultural tractors |
+
+: Type approval categories {#tbl-type-approval}
+
+The type approval category and the MOT class are separate schemes, but the
+category largely decides the class:
+
+- **M1** cars take a class 4 MOT.
+- **M2** minibuses take class 4 with up to 12 passenger seats, or class 5 with
+  more: for minibuses, seat count decides.
+- **M3** buses and coaches mostly take the separate annual test.
+- **N1** vans take class 4 up to 3,000kg design gross weight, or class 7 from
+  3,000kg to 3,500kg: for vans, weight decides.
+- **N2 and N3** goods vehicles take the heavy goods vehicle annual test, not
+  an MOT.
+
+In the CARS data, `typeApproval_DVLA` is the category as the DVLA register
+records it, and `type_approval` fills gaps from similar vehicles. The DVLA
+records a type approval category for most vehicles registered in recent
+decades, but rarely for older ones.
+
+## DfT body types
+
+DfT's vehicle licensing statistics divide vehicles into body types:
+
+- **Cars**
+- **Light goods vehicles** (LGVs): goods vehicles up to 3.5 tonnes, the N1
+  category
+- **Motorcycles**, including mopeds and scooters
+- **Buses and coaches**
+- **Heavy goods vehicles** (HGVs)
+- **Other vehicles**: tractors, three-wheelers, special vehicles and so on
+
+Body type is the classification CARS uses for most of its tables, because it
+matches the official statistics. The vehicle table's `body_type` column is
+derived from the vehicle's make and model, matched to DfT's names; where the
+model does not settle it, from the type approval category; and failing that,
+from the test class (@sec-pipeline).
+
+```{r}
+#| label: tbl-body-type
+#| tbl-cap: "Vehicles in the CARS vehicle table by DfT body type, all years."
+b <- aggregate(n_vehicles ~ body_type, data = transform(
+  bt, body_type = ifelse(is.na(body_type), "(none)", body_type)), FUN = sum)
+b <- b[order(-b$n_vehicles), ]
+b$share <- fmt_pct(b$n_vehicles / sum(b$n_vehicles))
+kable(b, col.names = c("Body type", "Vehicles", "Share"), row.names = FALSE,
+      align = c("l", "r", "r"))
+```
+
+## How the schemes compare
+
+The schemes draw their lines in different places, which matters whenever CARS
+results are compared with other statistics:
+
+- A **class 4** count includes vans up to 3,000kg and minibuses with up to 12
+  seats; a DfT **cars** count includes neither.
+- A DfT **light goods vehicles** count includes the 3,000–3,500kg vans that are
+  MOT class 7.
+- Taxis and private hire vehicles are ordinary M1 cars for type approval and
+  DfT, but take their first MOT at one year rather than three.
+- DfT's road traffic statistics use their own definitions again, based on
+  how vehicles are recognised in traffic counts.
+
+::: {.callout-tip title="Which should I use?"}
+For comparisons with DfT statistics, use `body_type`. For questions about the
+MOT test itself, or to reproduce earlier CARS outputs, use `test_class`. The
+churn tables (@sec-aggregate-tables) are built on class 4 vehicles, so they
+include vans and small minibuses alongside cars.
+:::
+
+::: {.callout-note .todo title="To be written"}
+A comparison with the vehicle definitions used in DfT's road traffic
+statistics, and the SMMT body types (supermini, SUV, MPV and so on) available
+for cars in the fleet profile tables.
+:::

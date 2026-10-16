@@ -1,0 +1,130 @@
+# Concepts and pitfalls {#sec-pitfalls}
+
+```{r}
+source("R/book.R")
+ps <- read_pipeline("outputs", "quality", "pca_status_by_year.csv")
+dy <- read_pipeline("outputs", "quality", "dft_stock_by_year.csv")
+```
+
+This chapter collects, in one place, the things most likely to lead an
+analysis astray. Each is explained in more detail elsewhere in the book.
+
+## 1. Observed is not the same as the fleet
+
+A vehicle is *observed* in a year when it has a postcode area in that year,
+which in practice means it had an MOT around then. The observed vehicles are
+not the whole fleet: vehicles under three, SORN vehicles, most heavy vehicles
+and most vehicles over 40 are missing (@sec-mot-test). For cars aged three to
+about sixteen, the observed count is close to DfT's count of registered
+vehicles (@sec-data-quality).
+
+**What to do:** say "vehicles observed" or "vehicles tested", not "vehicles
+registered" or "the fleet", and compare with DfT's figures for ages three and
+over.
+
+## 2. The last three years are incomplete
+
+```{r}
+peak <- ps$year[which.max(ps$pca)]
+cars <- subset(dy, body_type == "Cars")
+```
+
+The number of vehicles observed peaks in `r peak` and then falls
+(@fig-pca-status). This is not a shrinking fleet. A new car is not observed
+until its first MOT at three years old, so cars first registered in 2023 to
+2025 are almost entirely missing, and the final year, 2025, is also only
+partly covered. In 2025 the CARS count of cars of all ages is
+`r round(cars$ratio_mot_to_dft[cars$year == 2025], 2)` of DfT's, against
+`r round(cars$ratio_mot_to_dft[cars$year == 2018], 2)` in 2018.
+
+**What to do:** for trends in the whole fleet, stop three years before the end
+of the data, or restrict to vehicles aged three and over. Never read a trend
+into the final year. Be especially careful with anything that is growing
+fast among new vehicles, such as electric cars, whose share is understated in
+recent years.
+
+## 3. Location is where the vehicle was tested
+
+The postcode area is that of the MOT testing station (@sec-geography).
+
+**What to do:** describe results as "vehicles tested in" an area. Do not
+treat a change of area as a change of address without saying so.
+
+## 4. Dead is not scrapped, and unknown is not missing at random
+
+`dead` means "not tested since", which includes vehicles scrapped, exported,
+on SORN or exempt. `unknown` covers new vehicles before their first test and
+gaps in a vehicle's history (@sec-lifecycle).
+
+**What to do:** call a vehicle that has become `dead` one that "stopped being
+tested", not "scrapped", unless you have other evidence. Remember that vehicles
+last seen in the final two years have not yet had the chance to become
+`dead`.
+
+## 5. Averages depend on who is in the denominator
+
+Average mileage is calculated over the vehicles with a (plausible) mileage
+that year, a group that changes from year to year and differs from the
+vehicles counted. Averages of averages are wrong (@sec-aggregate-tables).
+
+**What to do:** compute averages as total ÷ count over exactly the group you
+mean, and report the count alongside.
+
+## 6. Mileage needs a test at each end
+
+Annual mileage is shared out from the distance between two tests
+(@sec-sources-linkage). A year after a vehicle's last test has no mileage; a
+long gap between tests spreads its distance across the gap, hiding any
+variation within it. 2020 is particularly affected by delayed tests.
+
+**What to do:** compare years with similar coverage; be careful with
+year-on-year changes around 2020, and with vehicles near the start or end of
+their lives.
+
+## 7. Recorded, filled and assumed values
+
+Many harmonised values were filled from similar vehicles or assumed from rules
+(@sec-pipeline). Most Euro statuses are assumed from dates; CO~2~, weight and
+type approval are often filled from similar vehicles.
+
+**What to do:** check the `_src` column, and repeat key results using recorded
+values only. If the result changes, report both.
+
+## 8. Plug-in hybrids are a lower bound
+
+Plug-in hybrids are identified from DfT's records by model, and models sold
+both ways are left as ordinary hybrids (@sec-fuels-emissions).
+
+**What to do:** report plug-in hybrid numbers as "at least", or combine all
+hybrids.
+
+## 9. Classifications differ between sources
+
+MOT class 4 is not the same as DfT's cars (@sec-vehicle-types).
+
+**What to do:** use `body_type` when comparing with DfT, and state which
+classification you used.
+
+## 10. Postcode areas are big
+
+Postcode areas average over very different places, and patterns between
+areas may not hold within them (@sec-geography).
+
+**What to do:** use postcode area results for broad comparisons, not to
+describe neighbourhoods or individuals.
+
+## 11. Northern Ireland is different
+
+Northern Ireland tests at four years in government test centres, its test
+class is not supplied, and its testing was disrupted in 2020. It is coded
+`NI`, a single area.
+
+**What to do:** consider analysing Great Britain on its own, as the fleet
+profile tables do.
+
+## 12. Identifiers change between versions
+
+`vehicle_id` is not stable between versions of the data (@sec-data-products).
+
+**What to do:** join on `registration_DVSA`, and record which version of the
+data you used.

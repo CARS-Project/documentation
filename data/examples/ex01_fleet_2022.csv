@@ -1,0 +1,39 @@
+"body_type","fuel_simple","n_vehicles"
+"Cars","Petrol",21977489
+"Cars","Diesel",13773447
+"Light goods vehicles","Diesel",4938563
+"Motorcycles","Petrol",1602715
+"Cars","Hybrid Electric",1380871
+"Cars","Electric",619537
+"Cars","Plug-in Hybrid Electric",332246
+"Light goods vehicles","Petrol",72844
+"Cars","Other",72322
+"Heavy goods vehicles","Diesel",50218
+"Buses and coaches","Diesel",42525
+"Light goods vehicles","Electric",41306
+,"Other",31548
+"Other vehicles","Petrol",22397
+"Other vehicles","Diesel",17023
+,"Diesel",13732
+"Motorcycles","Electric",8000
+"Other vehicles","Hybrid Electric",4944
+"Light goods vehicles","Other",4468
+,"Petrol",3429
+"Light goods vehicles","Plug-in Hybrid Electric",2749
+"Other vehicles","Plug-in Hybrid Electric",1995
+"Light goods vehicles","Hybrid Electric",1894
+"Motorcycles","Other",853
+"Other vehicles","Electric",642
+"Other vehicles","Other",402
+"Motorcycles","Diesel",252
+"Buses and coaches","Electric",136
+"Buses and coaches","Petrol",79
+"Heavy goods vehicles","Other",73
+"Heavy goods vehicles","Petrol",43
+"Heavy goods vehicles","Electric",20
+"Buses and coaches","Other",13
+,"Electric",8
+"Motorcycles","Hybrid Electric",6
+,"Hybrid Electric",3
+"Buses and coaches","Hybrid Electric",2
+"Heavy goods vehicles","Hybrid Electric",1

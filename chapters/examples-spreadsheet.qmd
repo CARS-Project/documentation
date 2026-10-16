@@ -1,0 +1,207 @@
+# Worked examples: spreadsheets {#sec-examples-spreadsheet}
+
+```{r}
+source("R/book.R")
+area <- read_pipeline("outputs", "tables", "mileage",
+                      "mileage_by_pca_year_body_fuel.csv")
+names_pca <- read_pipeline("inputs", "postcode_area_names.csv")
+a1 <- read_pipeline("outputs", "tables", "profile", "a1_counts_cars.csv")
+```
+
+These examples use only the aggregate tables and a spreadsheet. The steps are
+written for Excel; other spreadsheets work the same way. The results shown
+were calculated from the same files, so you can check your answer against
+them.
+
+## Example 1: average car mileage by postcode area
+
+**Question:** How far is the average car driven in each postcode area, and
+which areas have the highest and lowest mileage?
+
+**File:** `tables/mileage/mileage_by_pca_year_body_fuel.csv`
+
+**Steps:**
+
+1. Open the file and insert a PivotTable (Insert › PivotTable).
+2. Add `year` and `body_type` to **Filters**, and choose `2022` and `Cars`.
+   (2022 rather than a later year: see @sec-pitfalls, pitfall 2.)
+3. Add `pca` to **Rows**. Then use the row filter to untick `unborn`,
+   `unknown`, `dead` and `XX`, which are not postcode areas.
+4. Add `total_legit_mileage` and `n_legit_mileage` to **Values**, both as
+   *Sum*.
+5. Next to the PivotTable, divide the first sum by the second to get average
+   miles per car. (Or add a *Calculated Field*: PivotTable Analyze › Fields,
+   Items & Sets › Calculated Field, with the formula
+   `= total_legit_mileage / n_legit_mileage`.)
+6. Sort by the average.
+
+```{r}
+cars22 <- subset(area, year == 2022 & body_type == "Cars" &
+                   !pca %in% c(pca_statuses, "XX"))
+by_pca <- aggregate(cbind(n_vehicles, n_legit_mileage, total_legit_mileage) ~ pca,
+                    data = cars22, FUN = sum)
+by_pca$mean_mileage <- by_pca$total_legit_mileage / by_pca$n_legit_mileage
+by_pca <- merge(by_pca, names_pca, by = "pca", all.x = TRUE)
+by_pca <- by_pca[order(-by_pca$mean_mileage), ]
+show <- function(x) {
+  data.frame(Area = paste0(x$area_name, " (", x$pca, ")"),
+             `Cars with plausible mileage` = x$n_legit_mileage,
+             `Miles per car` = round(x$mean_mileage), check.names = FALSE)
+}
+national <- sum(cars22$total_legit_mileage) / sum(cars22$n_legit_mileage)
+```
+
+**Result:** the national average is
+`r fmt_n(national)` miles per car.
+
+::: {layout-ncol=2}
+```{r}
+#| label: tbl-ex1-high
+#| tbl-cap: "Highest average car mileage, 2022"
+kable(show(head(by_pca, 5)), row.names = FALSE)
+```
+
+```{r}
+#| label: tbl-ex1-low
+#| tbl-cap: "Lowest average car mileage, 2022"
+kable(show(tail(by_pca, 5)[5:1, ]), row.names = FALSE)
+```
+:::
+
+```{r}
+wrong <- aggregate(cbind(total_legit_mileage, n_legit_mileage) ~ pca + fuel_simple,
+                   data = cars22, FUN = sum)
+wrong$m <- wrong$total_legit_mileage / wrong$n_legit_mileage
+wrong_nat <- mean(wrong$m[is.finite(wrong$m)])
+```
+
+::: {.callout-important title="The wrong way"}
+Each row of the file is one fuel group in one area. If instead you add a
+column of averages for each row and take the average of that column, every
+row counts equally, including rows of a handful of fuel cell cars. Done that
+way, the "national average" comes out at `r fmt_n(wrong_nat)` miles rather
+than `r fmt_n(national)`. Always sum totals and counts first, then divide.
+:::
+
+**Interpreting it:** low averages in London, and high ones in more rural
+areas, are what you would expect. Northern Ireland, at the top, is tested
+differently from Great Britain (@sec-pitfalls, pitfall 11), so compare it with
+care. Remember that these are cars *tested*
+in each area (@sec-geography), that each postcode area mixes very different
+places, and that taxis and private hire cars, which are driven far further,
+are concentrated in cities.
+
+## Example 2: the share of electric cars
+
+**Question:** Where is the share of battery electric cars highest?
+
+**File:** the same as Example 1.
+
+**Steps:**
+
+1. In the same PivotTable (year 2022, Cars, status rows removed), remove the
+   mileage values and add `n_vehicles` to **Values** as *Sum*.
+2. Add `fuel_simple` to **Columns**. Each area now has a count for each fuel
+   and a grand total.
+3. Next to the PivotTable, divide the `Electric` column by the grand total.
+
+```{r}
+ev <- aggregate(n_vehicles ~ pca, data = subset(cars22, fuel_simple == "Electric"),
+                FUN = sum)
+names(ev)[2] <- "n_ev"
+ev <- merge(by_pca[, c("pca", "area_name", "n_vehicles")], ev, by = "pca")
+ev$share <- ev$n_ev / ev$n_vehicles
+ev <- ev[order(-ev$share), ]
+nat_ev <- sum(ev$n_ev) / sum(ev$n_vehicles)
+```
+
+```{r}
+#| label: tbl-ex2
+#| tbl-cap: "Postcode areas with the highest share of battery electric cars among cars observed, 2022"
+kable(data.frame(Area = paste0(ev$area_name, " (", ev$pca, ")"),
+                 Cars = ev$n_vehicles, Electric = ev$n_ev,
+                 Share = fmt_pct(ev$share))[1:8, ], row.names = FALSE,
+      align = c("l", "r", "r", "r"))
+```
+
+**Result:** nationally, `r fmt_pct(nat_ev)` of the cars observed in 2022 were
+battery electric.
+
+::: {.callout-important title="Why this understates electric cars"}
+Most electric cars are new, and new cars are not observed until their first
+MOT at three years old. An electric car bought in 2021 will not appear until
+2024. The share among cars *observed* is therefore well below the share among
+cars *registered*; for current figures on the newest vehicles use DfT's
+statistics (table VEH0135 or VEH0145), and use CARS for what happens to
+electric cars once they are three or more. Some areas also have high shares
+because of company fleets and leasing companies tested there.
+:::
+
+## Example 3: the fleet by Euro standard
+
+**Question:** How has the share of cars meeting each Euro standard changed?
+
+**File:** `tables/profile/a1_counts_cars.csv`. This is a wide table: one row
+per year, and one column for each category of each characteristic, named
+`characteristic: category`.
+
+**Steps:**
+
+1. Open the file. Hide or delete the columns you don't need, keeping `year`
+   and the `euro_standard: ...` columns.
+2. Add a column adding up the Euro standard columns for each year, and
+   divide each column by it to get shares.
+3. Select the year column and the share columns, and insert a line chart.
+
+```{r}
+#| label: fig-ex3
+#| fig-cap: "Share of cars by Euro standard, among cars with a plausible mileage in Great Britain. Most Euro standards are assumed from the date of manufacture (@sec-fuels-emissions)."
+ec <- grep("^euro_standard: [0-9]$", names(a1), value = TRUE)
+e <- a1[, c("year", ec)]
+grp <- list("Euro 1-3" = paste0("euro_standard: ", 1:3),
+            "Euro 4" = "euro_standard: 4", "Euro 5" = "euro_standard: 5",
+            "Euro 6" = "euro_standard: 6")
+el <- do.call(rbind, lapply(names(grp), function(g)
+  data.frame(year = e$year, group = g,
+             n = rowSums(e[, intersect(grp[[g]], names(e)), drop = FALSE],
+                         na.rm = TRUE))))
+el$share <- el$n / ave(el$n, el$year, FUN = sum)
+el <- subset(el, year <= 2022)
+ggplot(el, aes(year, share, colour = group)) +
+  geom_line(linewidth = 0.9) +
+  scale_colour_manual(values = cars_cols) +
+  scale_y_continuous(labels = scales::label_percent(), limits = c(0, NA)) +
+  labs(x = NULL, y = "Share of cars") +
+  theme_cars()
+```
+
+**Interpreting it:** the chart shows each standard rising as new cars meet it
+and falling as those cars age and leave the fleet. The profile tables count
+only cars with a plausible mileage that year, and exclude Northern Ireland.
+
+```{r}
+e6_2005 <- el$share[el$year == 2005 & el$group == "Euro 6"]
+```
+
+::: {.callout-important title="Spotting a problem: Euro 6 cars in 2005"}
+The chart shows `r fmt_pct(e6_2005)` of cars as Euro 6 in 2005, nearly ten years
+before the standard existed. These are not real. They are cars whose Euro
+status was missing and was filled from similar vehicles (the same make, model,
+birth year and fuel), where a single wrong value recorded for one vehicle was
+copied to the rest of its group. The vehicle table flags them with
+`euro_check = 'later_than_date'`.
+
+This is a good example of why you should check where values come from before
+relying on them. Most Euro standards in the data are filled or assumed rather
+than recorded; the `euro_source: ...` columns of the same table show how many
+of each. For a defensible analysis of Euro standards, use the vehicle table and
+exclude or correct values flagged `later_than_date` (@sec-pitfalls,
+pitfall 7).
+:::
+
+::: {.callout-note .todo title="To be written"}
+Further examples: a time series of car mileage for one area against the
+national average; using the churn tables to find the areas whose cars move
+most; joining CARS figures to local authority data through a postcode area
+lookup.
+:::

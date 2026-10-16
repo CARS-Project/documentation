@@ -1,0 +1,126 @@
+# The vehicle table {#sec-vehicle-table}
+
+```{r}
+source("R/book.R")
+dd <- read_pipeline("outputs", "data_dictionary.csv")
+n_rows <- dd$n_rows[1]
+year_cols <- grepl("_[0-9]{4}$", dd$column_name)
+years <- sort(unique(as.integer(sub(".*_", "", dd$column_name[year_cols]))))
+```
+
+The vehicle table, `vehicles_enhanced.parquet`, is the most detailed CARS
+product: one row for each of `r fmt_n(n_rows)` vehicles, with
+`r nrow(dd)` columns. This chapter explains how it is organised and how to read
+it. Every column is listed in the data dictionary (@sec-data-dictionary).
+
+## Parquet
+
+The table is stored as a [Parquet](https://parquet.apache.org/) file, a
+compressed column-based format designed for large tables. You do not need to
+load the whole file to use it: tools such as DuckDB read only the columns and
+rows a query needs, so a count of vehicles by fuel reads a few hundred
+megabytes, not 9 GB, and takes seconds. @sec-getting-started explains how to
+set this up.
+
+## One row per vehicle, one column per year
+
+The table is *wide*. Characteristics that do not change, such as make and
+fuel, appear once. Things that change from year to year appear as one column
+per year, `r min(years)` to `r max(years)`:
+
+| Column | Meaning |
+|---|---|
+| `mileage_YYYY` | Miles driven in the year |
+| `legit_mileage_YYYY` | `TRUE` if the mileage is judged plausible; blank if not assessed |
+| `pca_YYYY` | Postcode area of testing, or `unborn`, `unknown` or `dead` (@sec-lifecycle) |
+
+For example, `mileage_2019` and `pca_2019` describe 2019. Many analyses need
+the data *long* instead, with one row per vehicle per year;
+@sec-examples-code shows how to reshape it.
+
+## How columns are named
+
+The column names follow a convention that tells you where each value comes
+from:
+
+| Pattern | Meaning | Example |
+|---|---|---|
+| ends `_DVSA` | As supplied by DVSA | `fuel_DVSA`, `engineSize_DVSA` |
+| ends `_DVLA` | As returned by the DVLA Vehicle Enquiry Service | `co2Emissions_DVLA`, `euroStatus_DVLA` |
+| ends `_ANON` | As supplied in the anonymised MOT data | `test_class_ANON` |
+| no suffix, lower case | Made by the pipeline: cleaned, harmonised or derived | `fuel`, `engine_cc`, `co2`, `make_final` |
+| ends `_src` | Where the harmonised value of that name came from | `co2_src` |
+| ends `_check` | The result of a consistency check | `fuel_check`, `euro_check` |
+| ends `_method` | How a make or model was matched | `model_method` |
+| starts `scope_` | Why the vehicle is included | `scope_mileage` |
+
+::: {.callout-tip title="Supplied or harmonised?"}
+For most purposes use the harmonised columns (`fuel`, `engine_cc`, `co2`,
+`euro_status` and so on): they are more complete, consistent and corrected. Use
+the supplied columns to reproduce official figures exactly, or to check that a
+result does not depend on the pipeline's choices.
+:::
+
+## Groups of columns
+
+```{r}
+#| label: tbl-column-groups
+#| tbl-cap: "The columns of the vehicle table, by group."
+fam <- function(x) {
+  ifelse(grepl("^(mileage|legit_mileage|pca)_[0-9]{4}$", x), "Year by year",
+  ifelse(grepl("^scope_|^total_mileage$", x), "Scope",
+  ifelse(grepl("^(registration_(DVSA|DVLA|clean)$|plate_|vanity|dup_vrm|vehicle_id)", x), "Identity and number plate",
+  ifelse(grepl("^(make|model|derivative|dft_|body_type)", x), "Make, model and body type",
+  ifelse(grepl("^(n_VES|first_VES|last_VES|is_error|error|collectionDate|plate_ever|ever_|v5C_|change_in|dvla_match|dvla_evidence)", x), "DVLA lookup and record match",
+  ifelse(grepl("(Date|date|_year|Year|Registration_DVLA|artEnd)", x), "Dates",
+  ifelse(grepl("_(DVSA|DVLA|ANON)$", x), "Attributes as supplied",
+  "Attributes harmonised by the pipeline")))))))
+}
+dd$group <- fam(dd$column_name)
+order_groups <- c("Identity and number plate", "Make, model and body type",
+                  "Attributes harmonised by the pipeline",
+                  "Attributes as supplied", "Dates",
+                  "DVLA lookup and record match", "Scope", "Year by year")
+g <- do.call(rbind, lapply(order_groups, function(k) {
+  cols <- dd$column_name[dd$group == k]
+  shown <- if (k == "Year by year") {
+    "mileage_YYYY, legit_mileage_YYYY, pca_YYYY"
+  } else paste(cols, collapse = ", ")
+  data.frame(Group = k, Columns = length(cols), Names = shown)
+}))
+kable(g, row.names = FALSE)
+```
+
+## Completeness
+
+The table keeps vehicles for which little is known, rather than dropping them,
+so how complete a column is varies a great deal. The data dictionary gives the
+share missing for every column. Some patterns to know:
+
+```{r}
+pm <- setNames(dd$pct_missing, dd$column_name)
+```
+
+- **DVSA columns are nearly complete**, because every vehicle comes from the
+  DVSA download. `engineSize_DVSA` is the exception, missing for
+  `r pm["engineSize_DVSA"]`%.
+- **DVLA columns are missing for about `r round(pm["make_DVLA"])`%** of
+  vehicles, those for which no DVLA record was found. Most of these left the
+  register years ago. Some DVLA fields are rare even when a record exists:
+  `euroStatus_DVLA` is missing for `r pm["euroStatus_DVLA"]`%.
+- **The harmonised columns fill most gaps**: `co2` is missing for
+  `r pm["co2"]`% against `r pm["co2Emissions_DVLA"]`% for
+  `co2Emissions_DVLA`, and `euro_status` for `r pm["euro_status"]`% against
+  `r pm["euroStatus_DVLA"]`%.
+- **Year-by-year columns are blank in most years for most vehicles**, because
+  a vehicle is only on the road for part of the period. `mileage_2019` is
+  blank for `r pm["mileage_2019"]`% of vehicles.
+
+## The vehicles included
+
+A vehicle is included if there is evidence that it existed at any point from
+2005 (@sec-pipeline). The table therefore includes vehicles that were scrapped
+in 2006, vehicles first registered in 2025 that have never been tested, and
+everything in between. Any analysis of a particular year must first select the
+vehicles relevant to that year, usually those *observed* in it: those with a
+real postcode area in `pca_YYYY`.

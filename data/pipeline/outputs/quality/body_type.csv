@@ -1,0 +1,25 @@
+"body_type","body_type_src","n_vehicles"
+"Buses and coaches","type_approval",89813
+"Buses and coaches","model",43046
+"Buses and coaches","test_class",11580
+"Buses and coaches","genmodel",1137
+"Cars","model",39017210
+"Cars","type_approval",34322859
+"Cars","genmodel",1893185
+"Cars","test_class",402715
+"Heavy goods vehicles","type_approval",574797
+"Heavy goods vehicles","model",200758
+"Heavy goods vehicles","genmodel",25484
+"Light goods vehicles","type_approval",5861331
+"Light goods vehicles","model",2840368
+"Light goods vehicles","genmodel",572908
+"Light goods vehicles","test_class",15474
+"Motorcycles","model",2136833
+"Motorcycles","type_approval",840626
+"Motorcycles","genmodel",667662
+"Motorcycles","test_class",384299
+"Other vehicles","model",330410
+"Other vehicles","type_approval",184239
+"Other vehicles","genmodel",46707
+"Other vehicles","test_class",10447
+,,2878353

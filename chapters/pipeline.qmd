@@ -1,0 +1,158 @@
+# From linked data to research-ready data {#sec-pipeline}
+
+```{r}
+source("R/book.R")
+sc <- read_pipeline("outputs", "quality", "scope_counts.csv")
+hs <- read_pipeline("outputs", "quality", "harmonised_sources.csv")
+n_in <- sc$n_vehicles[sc$measure == "input_rows"]
+n_scope <- sc$n_vehicles[sc$measure == "in_scope"]
+```
+
+The linked table from the Bristol stage (@sec-sources-linkage) is accurate to
+its sources, but not yet easy to analyse. The same make is spelt dozens of
+ways, attributes are missing for many vehicles, and some DVLA records belong to
+another vehicle. The Leeds pipeline,
+[MOT-pipline](https://github.com/CARS-Project/MOT-pipline), cleans and enhances
+the table and produces the published outputs. This chapter summarises what it
+does; the full method, with every rule and count, is in the pipeline's
+[Methodology](../reports/methodology.md), included as an appendix.
+
+## Principles
+
+Four principles run through the pipeline, and they shape how the data should be
+used:
+
+1. **Supplied values are never overwritten.** Cleaned, harmonised or filled
+   values go in new columns next to the originals. `fuel_DVSA` is the fuel as
+   DVSA supplied it; `fuel` is the harmonised fuel.
+2. **Every inferred value records its source.** Columns ending `_src`,
+   `_method` and `_check` say how each value was reached, so you can always
+   separate what was recorded from what was inferred.
+3. **Weak evidence is flagged, not acted on.** A value is changed only when the
+   vehicle's own records disagree and a second source settles it.
+4. **Results are reproducible.** Every step is a rule (no language model or
+   random element is used), and rebuilding from the same input gives the same
+   output.
+
+## The stages
+
+```{mermaid}
+flowchart TD
+    A[Linked vehicle table<br/>from Bristol] --> B[1. Core table<br/>scope, dates, yearly status]
+    B --> C[2. Make and model<br/>matched to DfT names]
+    T[DfT vehicle licensing<br/>statistics] --> C
+    A --> M[3a. DVSA-DVLA<br/>record check]
+    C --> F[3b. Fuel and engine checks]
+    M --> F
+    F --> D[3c. Fill gaps from<br/>similar vehicles]
+    D --> E[4. Vehicle table<br/>vehicles_enhanced.parquet]
+    E --> G[Churn tables]
+    E --> H[Mileage and fleet<br/>profile tables]
+    E --> I[Quality reports]
+```
+
+### 1. Core table: which vehicles, and their dates
+
+The input holds `r fmt_n(n_in)` vehicles, many of which left the roads long
+before 2005. The pipeline keeps every vehicle with evidence that it existed
+from 2005 onwards: a recorded mileage or postcode area in any year, a birth
+date from 2005, or DVLA activity (tax, V5C, MOT expiry or first registration)
+since 2005. That leaves **`r fmt_n(n_scope)` vehicles**. The `scope_*` columns
+record which evidence each vehicle has.
+
+It also sets each vehicle's `birth_date` (the earliest of its first-use,
+registration and manufacture dates) and `first_use_date`, and fills the blank
+years of `pca_YYYY` with the statuses `unborn`, `unknown` and `dead`
+(@sec-lifecycle).
+
+### 2. Make and model
+
+DVSA records make and model as free text, entered at the test station. "FORD
+FIESTA ZETEC CLIMATE", "Fiesta" and "MOMDEO" all occur. The pipeline matches
+each distinct make and model to the names DfT uses in its vehicle licensing
+statistics, through a sequence of rules (exact match, generic name, prefix,
+words, spelling fixes) that each record how they matched:
+
+| Column | Example |
+|---|---|
+| `make_final` | `FORD` |
+| `model_final` | `FIESTA` (DfT's *generic model*) |
+| `derivative_final` | `ZETEC CLIMATE`: the rest of the model text |
+| `dft_genmodel` | `FORD FIESTA`, for joining to DfT tables |
+| `make_method`, `model_method`, `model_confidence` | How the match was made, and how sure it is |
+
+Using DfT's names means CARS results can be joined to and compared with the
+official statistics. The DfT scheme is sometimes coarser than a buyer would
+use (DfT's DISCOVERY includes the Discovery Sport), and the derivative keeps the
+detail. The match also gives each vehicle a DfT `body_type`
+(@sec-vehicle-types).
+
+### 3. Checking and harmonising attributes
+
+Eight attributes are *harmonised*: given one best value per vehicle from the
+DVSA record, the DVLA record and, where both are missing, similar vehicles.
+They are `fuel`, `engine_cc`, `co2`, `euro_status`, `type_approval`,
+`revenue_weight`, `wheelplan` and `test_class`.
+
+- **Is the DVLA record the same vehicle?** The make, year and engine size of
+  the DVSA and DVLA records are compared. Where two or more disagree
+  (`dvla_match = 'different'`), the DVLA record is taken to describe another
+  vehicle and none of its values is used.
+- **Fuel** is taken from the records and never filled from other vehicles.
+  DVLA's fuel is used where DVSA says "Other", or where DVSA says Electric for
+  a vehicle that has an engine. Plug-in hybrids are identified from DfT's
+  records for the model (@sec-fuels-emissions). `fuel_check` compares each
+  vehicle's fuel with others of its make and model, and flags rare fuels.
+- **Engine size** is 0 for electric vehicles.
+- **Gaps** in the other attributes are filled with the most common value among
+  vehicles of the same make, model, birth year and fuel (and engine size where
+  known). Values are never borrowed across fuels.
+- **Euro status** that is still missing is assumed from the standard
+  compulsory when the vehicle was made (@sec-fuels-emissions).
+
+```{r}
+#| label: tbl-harmonised
+#| tbl-cap: "Where the harmonised attributes come from: share of vehicles in the vehicle table."
+grp <- list(
+  "Recorded" = c("dvsa", "dvla"),
+  "Rule (no engine, DfT, model check, Euro schedule)" =
+    c("no_engine", "dft", "model", "euro_schedule"),
+  "From similar vehicles" = c("variant", "model_year_fuel", "model_fuel"),
+  "Missing" = "missing"
+)
+tot <- rowSums(hs[, -1])
+tab <- data.frame(Attribute = hs$attribute)
+for (g in names(grp)) {
+  tab[[g]] <- fmt_pct(rowSums(hs[, grp[[g]], drop = FALSE]) / tot)
+}
+kable(tab, align = c("l", rep("r", 4)))
+```
+
+::: {.callout-tip title="Recorded values only"}
+To check that a result does not depend on filled values, repeat it using
+only recorded ones: filter on `co2_src = 'dvla'`, `euro_status_src = 'dvla'`,
+`engine_cc_src IN ('dvsa', 'dvla')` and so on, or use the supplied columns
+(`co2Emissions_DVLA`, `euroStatus_DVLA`). @sec-examples-code has an example.
+:::
+
+### 4. Number plates and derived fields
+
+The registration number is decoded to its format, issue period and issuing
+office, and flagged where it does not match the vehicle's age
+(@sec-number-plates). Simplified groupings such as `fuel_simple` and
+`euro_standard` are added.
+
+### Outputs
+
+The result is the vehicle table, `vehicles_enhanced.parquet`, with its data
+dictionary (@sec-vehicle-table). From it the pipeline builds the aggregate
+tables (@sec-aggregate-tables) and a set of reports that document them,
+included in this book as appendices.
+
+## Validation
+
+The pipeline has unit tests for every rule, a set of cross-checks run on every
+build that compare published numbers that must agree, comparisons with DfT's
+statistics (@sec-data-quality), and a record of an end-to-end audit. See the
+[MOT-pipline repository](https://github.com/CARS-Project/MOT-pipline) for
+details.

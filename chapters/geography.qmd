@@ -1,0 +1,159 @@
+# Geography: postcode areas {#sec-geography}
+
+```{r}
+source("R/book.R")
+pca_sf <- read_pca_boundaries()
+pca_names <- read_pipeline("inputs", "postcode_area_names.csv")
+area <- read_pipeline("outputs", "tables", "mileage",
+                      "mileage_by_pca_year_body_fuel.csv")
+cars22 <- subset(area, year == 2022 & body_type == "Cars" &
+                   !pca %in% pca_statuses)
+by_pca <- aggregate(cbind(n_vehicles, n_legit_mileage, total_legit_mileage) ~ pca,
+                    data = cars22, FUN = sum)
+by_pca$mean_mileage <- by_pca$total_legit_mileage / by_pca$n_legit_mileage
+n_pca <- length(setdiff(unique(by_pca$pca), "XX"))
+```
+
+The only location in the CARS data is the **postcode area** (PCA) of the
+testing station where the vehicle had its MOT. This chapter explains what
+postcode areas are, how they relate to other geographies, and the limits of
+analysing vehicles at this scale.
+
+## Postcodes and postcode areas
+
+Postcodes were first used in London in the 1850s and 1860s, with districts
+named by compass point (N, E, SW and so on), and later extended to some large
+provincial cities. The current national system was rolled out between the
+1950s and the 1970s. Postcodes are designed by Royal Mail for one purpose: to
+sort and deliver mail efficiently.
+
+A full postcode such as `LS2 9JT` has four nested levels:
+
+| Level | Example | Number in the UK (approx.) |
+|---|---|---|
+| **Area** | `LS` (Leeds) | about 120 |
+| District | `LS2` | about 3,000 |
+| Sector | `LS2 9` | about 11,000 |
+| Unit | `LS2 9JT` | about 1.8 million |
+
+The area is the one or two letters at the start, usually from the name of the
+main town or city: `LS` for Leeds, `B` for Birmingham, `G` for Glasgow, `L`
+for Liverpool. The CARS data has `r n_pca` postcode areas. In the data,
+Northern Ireland is coded `NI` rather than its real postcode area `BT`, and a
+small number of vehicles have the code `XX`, which is not a real area.
+
+```{r}
+#| label: fig-pca-map
+#| fig-cap: "Average annual mileage of cars by postcode area, 2022 (plausible mileage only). Northern Ireland is shown as a single area."
+#| fig-height: 7.5
+m <- merge(pca_sf, by_pca, by.x = names(pca_sf)[1], by.y = "pca", all.x = TRUE)
+ggplot(m) +
+  geom_sf(aes(fill = mean_mileage), colour = "white", linewidth = 0.1) +
+  scale_fill_gradientn(colours = cars_seq, labels = scales::label_comma(),
+                       name = "Miles per car") +
+  theme_void() +
+  theme(legend.position = "right",
+        plot.background = element_rect(fill = "white", colour = NA))
+```
+
+## How postcode areas differ from other geographies
+
+Postcode areas are large and very uneven. In 2022 the largest held
+`r fmt_n(max(by_pca$n_vehicles))` observed cars
+(`r pca_names$area_name[pca_names$pca == by_pca$pca[which.max(by_pca$n_vehicles)]]`)
+and the smallest `r fmt_n(min(by_pca$n_vehicles[by_pca$pca != "XX"]))`
+(`r pca_names$area_name[pca_names$pca == by_pca$pca[by_pca$pca != "XX"][which.min(by_pca$n_vehicles[by_pca$pca != "XX"])]]`).
+They mix cities with their rural hinterlands, and they do not line up with the
+geographies most other statistics use:
+
+- **Census geographies** (output areas, nested in LSOAs, nested in MSOAs in
+  England and Wales, with equivalents elsewhere) are designed to hold
+  populations of similar size and character.
+- **Administrative geographies** (wards, local authority districts, counties
+  and regions) are the units of local government and policy.
+- **Travel to work areas** (228 in the UK) are built from commuting flows.
+
+Because postcode boundaries do not follow any of these, linking postcode area
+data to a local authority or a census area is always a best fit. The usual
+method is to assign each unit postcode to the area containing its centroid,
+using the ONS Postcode Directory, and then to aggregate. Some addresses, and
+so some vehicles, inevitably fall in the "wrong" area.
+
+::: {.callout-note .todo title="To be written"}
+A map of local authority districts overlaid on postcode areas (the early
+draft had one), and a recommended lookup from postcode areas to local
+authorities and regions, with its coverage.
+:::
+
+## The limits of analysis by postcode area
+
+### Where vehicles are tested is not where they are kept
+
+The postcode area is that of the testing station, not the keeper's address.
+For most private vehicles the two are close, but:
+
+- vehicles kept near a postcode area boundary may be tested on either side of
+  it;
+- people may have their vehicle tested near work rather than home;
+- fleet and company vehicles may be tested wherever the fleet is maintained;
+- a vehicle tested in a different area from last year has not necessarily
+  moved: it may simply have gone to a different garage.
+
+The CARS churn tables count a change of area between years as a *move*, and
+should be read with this in mind.
+
+### The modifiable areal unit problem
+
+Any analysis of data aggregated to areas is affected by the **modifiable areal
+unit problem** (MAUP). It has two parts:
+
+1. **The scale effect.** Results change with the size of the areas. Average car
+   mileage or vehicle ownership calculated for small areas such as LSOAs
+   varies far more than the same measure calculated for postcode areas,
+   because the large areas average together places that are very different.
+   Low-mileage city centres disappear when they are combined with their
+   higher-mileage hinterlands.
+2. **The zoning effect.** Different ways of drawing areas of the same size
+   from the same small units can give different results, because any
+   particular set of boundaries is arbitrary. Postcode areas, drawn for mail
+   delivery, have no reason to separate places with different travel
+   behaviour.
+
+Aggregation also brings the **ecological fallacy**: a relationship seen between
+areas need not hold for the people or vehicles within them, and can even be
+reversed. It is easy to find correlations between area averages that are
+negligible at the level of individual vehicles.
+
+::: {.callout-important title="Pitfall: within-area variation can exceed between-area variation"}
+Postcode areas give reliable counts, because they are large. But the
+differences between areas can be smaller than the differences within them, so
+an area average may describe very few of the vehicles in it. Use postcode area
+results to compare places at a broad scale, not to describe neighbourhoods.
+:::
+
+::: {.callout-note .todo title="To be written"}
+A worked illustration of the smoothing effect, comparing mileage mapped by
+LSOA (from MOT-based small-area estimates) and by postcode area with the same
+colour breaks, and a measure of how much variance is lost by aggregation.
+:::
+
+### Do patterns between areas mean anything?
+
+One check on whether area-level differences are signal rather than noise is
+**spatial autocorrelation**: whether neighbouring areas have more similar
+values than distant ones. An early analysis of car mileage by postcode area
+found some, but limited, clustering. The clearest cluster is London, where
+mileage is low, which confirms that the data behaves as expected but is not
+in itself a new finding.
+
+::: {.callout-note .todo title="To be written"}
+The spatial autocorrelation analysis (global and local Moran's I) with its
+figures, and references.
+:::
+
+## Further reading
+
+- [Postal geography](https://www.ons.gov.uk/methodology/geography/ukgeographies/postalgeography) (ONS)
+- [The history of postcodes](https://www.postalmuseum.org/collections/postcodes/) (The Postal Museum)
+- [Pitfalls to avoid](https://mgimond.github.io/Spatial/pitfalls-to-avoid.html), in *Intro to GIS and Spatial Analysis* by Manuel Gimond, on the MAUP and the ecological fallacy
+- [Modifiable areal unit problem](https://en.wikipedia.org/wiki/Modifiable_areal_unit_problem) (Wikipedia)

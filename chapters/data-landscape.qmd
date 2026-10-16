@@ -1,0 +1,96 @@
+# Who holds vehicle data in the UK {#sec-data-landscape}
+
+Information about vehicles in the UK is collected by several government
+bodies, each for its own administrative purpose. Knowing who collects what, and
+why, explains much of what is in the CARS data and what is missing from it.
+
+## The Department for Transport and its agencies
+
+The Department for Transport (DfT) is responsible for transport policy. Two
+of its executive agencies hold the records that CARS draws on, and DfT itself
+publishes official statistics built from them.
+
+### Driver and Vehicle Licensing Agency (DVLA)
+
+The DVLA, based in Swansea, keeps the **register of vehicles** (and of
+drivers) for Great Britain, and since 2014 for Northern Ireland as well. Every
+vehicle used on public roads must be registered. The register records the
+vehicle's identity and specification, its registered keeper, and its tax
+status. The DVLA:
+
+- issues the **registration number** (@sec-number-plates) and the **V5C
+  registration certificate** ("logbook"), reissued whenever the keeper or a key
+  detail changes;
+- collects **vehicle excise duty** (vehicle tax), whose rates depend on CO~2~
+  emissions, fuel and age, which is why the register records these;
+- records vehicles declared off the road (**SORN**), exported, or scrapped
+  (@sec-lifecycle).
+
+The keeper's name and address are personal data and are not published. The
+DVLA publishes the vehicle details for any registration number through the
+**Vehicle Enquiry Service (VES)**, used by the public to check a vehicle's tax
+and MOT status. CARS uses the VES programming interface (API) to add DVLA
+details to each vehicle (@sec-sources-linkage).
+
+### Driver and Vehicle Standards Agency (DVSA)
+
+The DVSA sets and enforces vehicle testing standards in Great Britain. It runs
+the **MOT scheme** (@sec-mot-test) and the annual test for heavy vehicles, and
+holds the record of every MOT test. It publishes MOT data in two ways that CARS
+uses:
+
+- the **anonymised MOT test data**: every test, with the test date, result,
+  odometer reading, test class and postcode area of the testing station, but
+  without the registration number;
+- the **MOT history API**, including a bulk download: every registered
+  vehicle, with its registration number, make, model, fuel and dates, and the
+  history of its MOT tests (but no location).
+
+### Driver & Vehicle Agency, Northern Ireland (DVA)
+
+Vehicle testing in Northern Ireland is run separately, by the DVA. Its tests
+reach the DVSA datasets, but Northern Ireland differs from Great Britain in
+ways that show in the data: the first test is at four years, tests are carried
+out at government test centres, and the test class is not supplied
+(@sec-mot-test).
+
+## Official statistics
+
+DfT publishes several statistical series about vehicles and their use. They
+are the natural benchmarks for the CARS data, and CARS uses some of them
+directly.
+
+| Series | What it covers | How it relates to CARS |
+|---|---|---|
+| [Vehicle licensing statistics](https://www.gov.uk/government/collections/vehicles-statistics) | Counts of licensed and SORN vehicles from the DVLA register, by body type, make, model, fuel, age and area (the VEH tables) | CARS uses DfT's make and model names (VEH0220, VEH0124) and compares its vehicle counts with DfT's (@sec-data-quality) |
+| [Road traffic statistics](https://roadtraffic.dft.gov.uk/) | Vehicle miles travelled on roads, estimated from traffic counts | Measures traffic on the roads of an area, whoever drives it; CARS measures the distance driven by vehicles tested in an area, wherever it is driven |
+| [National Travel Survey](https://www.gov.uk/government/collections/national-travel-survey-statistics) (NTS) | A household survey of how people travel in England, including car mileage | Survey-based and England only, but links travel to people and households |
+| Anonymised MOT data | Test-level MOT results, published since 2010 | One of the CARS sources (@sec-sources-linkage) |
+
+Other sources often used alongside vehicle data:
+
+- **The Census** (ONS, NRS and NISRA) records the number of cars or vans
+  available to each household, for small areas.
+- **SMMT** (the Society of Motor Manufacturers and Traders) publishes new
+  vehicle registrations by make, model and fuel.
+
+::: {.callout-note .todo title="To be written"}
+A fuller map of the UK vehicle data landscape: what is administrative data
+held but not released, what is released, and the other government sources
+(for example HMRC company car data). A diagram may help.
+:::
+
+## Open data and the Open Government Licence
+
+The three sources CARS combines are published under the
+[Open Government Licence](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/)
+(OGL). The OGL allows anyone to copy, adapt, combine and republish the
+information, including commercially, provided the source is acknowledged.
+Because each source may be used and republished, so may the combination, and
+the CARS data products are released on the same basis (@sec-data-products).
+
+The difficulty with these sources has never been access. It is that they are
+very large, structured for administration rather than analysis, and not
+linked to each other. The bulk MOT history download alone is over 400 GB of
+compressed JSON files. CARS does the linking and restructuring so that others
+do not have to.

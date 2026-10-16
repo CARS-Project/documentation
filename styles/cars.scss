@@ -1,0 +1,34 @@
+/*-- scss:defaults --*/
+// Colours and type from the CARS Project website (cars-project.github.io)
+$primary: rgb(1, 125, 200);
+$link-color: rgb(0, 109, 175);
+$body-color: rgb(8, 8, 9);
+$font-family-sans-serif: "Open Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+$headings-font-weight: 700;
+
+/*-- scss:rules --*/
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+h1.title, .quarto-title h1 {
+  color: $primary;
+}
+
+.sidebar-logo {
+  background: white;
+  padding: 0.5rem;
+}
+
+a {
+  text-decoration-thickness: 0.1em;
+  text-underline-offset: 0.2em;
+}
+
+// "To be written" placeholders stand out from ordinary notes
+.callout.todo {
+  border-left-color: #eda100 !important;
+}
+
+// Wide tables scroll rather than overflow the page
+.cell-output-display table, .table {
+  font-size: 0.9rem;
+}

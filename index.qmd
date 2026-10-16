@@ -1,0 +1,124 @@
+# Preface {.unnumbered}
+
+```{r}
+source("R/book.R")
+dd <- read_pipeline("outputs", "data_dictionary.csv")
+n_vehicles <- dd$n_rows[1]
+```
+
+::: {.callout-warning title="Draft"}
+This book is a working draft. Chapters marked **To be written** are placeholders
+for material still being prepared, particularly the parts of the method carried
+out by the University of Bristol team. The numbers in it come from pipeline
+build `r provenance("pipeline_commit")` (`r provenance("pipeline_commit_date")`)
+and will change as the data is refined.
+:::
+
+## What this book is for
+
+The CARS project (*Connecting Administrative vehicle data for Research on
+Sustainable transport*) has combined three open government datasets, the MOT
+test results, the MOT history of every vehicle, and the DVLA's vehicle
+records, into one research-ready table. It describes
+`r fmt_m(n_vehicles)` vehicles that were on the roads of the United Kingdom at
+some point between 2005 and 2025. For each vehicle it gives the make, model,
+fuel, engine size, emissions standard and other characteristics, and, for
+every year, how far the vehicle was driven and in which postcode area it was
+tested.
+
+Data like this has not been available before. The UK publishes counts of
+licensed vehicles, but not how much vehicles are used, area by area, or how the
+fleet in a place changes as vehicles arrive, age, move away and are scrapped.
+The CARS data makes those questions answerable, for example:
+
+- How far are cars driven in different parts of the country, and is that
+  changing?
+- How quickly are electric vehicles spreading, and where do they go once their
+  first owner sells them?
+- How many older diesel vehicles remain in an area that is considering a Clean
+  Air Zone?
+- How long do vehicles last, and how does their use change with age?
+
+The source data was collected for administration, not research. Making sense of
+it needs some knowledge of how vehicles are tested, registered and classified in
+the UK, and an understanding of what the data can and cannot tell you. This book
+provides both.
+
+## Who it is for
+
+The book is written for researchers, analysts and policymakers who are
+intelligent and numerate but not necessarily experts on vehicles or on
+administrative data. It supports two ways of working:
+
+::: {.callout-tip title="Working in a spreadsheet"}
+Most questions can be answered from the **aggregate tables**: CSV files of
+counts and mileage by postcode area, year, vehicle type and fuel, which open
+in Excel or any spreadsheet. @sec-aggregate-tables describes them and
+@sec-examples-spreadsheet works through examples.
+:::
+
+::: {.callout-tip title="Working in code"}
+The **vehicle table** (`vehicles_enhanced.parquet`) has one row per vehicle and
+is around 9 GB. It is far too large for a spreadsheet, but on an ordinary
+laptop it can be queried in seconds with DuckDB from R, Python or the command
+line. @sec-vehicle-table describes it and @sec-examples-code works through
+examples.
+:::
+
+## How the book is organised
+
+**Part I, Background**, explains the vehicle data system in the UK: what an MOT
+test is (@sec-mot-test), which organisations hold which data
+(@sec-data-landscape), how vehicles are classified (@sec-vehicle-types), fuels
+and emissions standards (@sec-fuels-emissions), number plates
+(@sec-number-plates), the life of a vehicle from registration to scrapping
+(@sec-lifecycle) and the geography the data uses (@sec-geography). Readers who
+know the field can skip it, but the chapters on the life of a vehicle and on
+geography explain features of the data that catch out even experienced
+analysts.
+
+**Part II, The CARS data**, describes where the data comes from and how it was
+built (@sec-sources-linkage, @sec-pipeline), what is published
+(@sec-data-products), the vehicle table and the aggregate tables in detail
+(@sec-vehicle-table, @sec-aggregate-tables), and how well the data compares
+with official statistics (@sec-data-quality).
+
+**Part III, Using the data**, gathers the concepts and pitfalls you need to
+know before analysing the data (@sec-pitfalls), shows how to get started
+(@sec-getting-started), and works through examples in a spreadsheet and in
+code.
+
+The **appendices** hold a glossary, the full data dictionary, a catalogue of
+the aggregate tables, notes on how this book is maintained, and the technical
+reports produced by the data pipeline.
+
+::: {.callout-important title="Read this before you start"}
+If you read only one chapter, read @sec-pitfalls. The most common mistakes
+with this data are not technical: treating where a vehicle was *tested* as
+where it is *kept*, reading the fall in vehicle numbers in the last few years
+as a real decline, or comparing averages built on different groups of
+vehicles.
+:::
+
+## The CARS project
+
+CARS is funded by [ADR UK](https://www.adruk.org/) and runs from July 2022 to
+March 2027. It is a collaboration between the University of Leeds, the
+University of Bristol and an independent consultant. See the
+[project website](https://cars-project.github.io/) for the team, events and
+news.
+
+## Citing this book and the data
+
+::: {.callout-note .todo title="To be written"}
+Recommended citations for the book and for each data product, with DOIs once
+the data is deposited, and the attribution statement required by the Open
+Government Licence.
+:::
+
+## Feedback
+
+This book is developed in the open at
+[github.com/CARS-Project/documentation](https://github.com/CARS-Project/documentation).
+If something is unclear or wrong, please
+[open an issue](https://github.com/CARS-Project/documentation/issues).

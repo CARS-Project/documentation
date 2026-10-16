@@ -1,0 +1,92 @@
+# Number plates {#sec-number-plates}
+
+```{r}
+source("R/book.R")
+pt <- read_pipeline("outputs", "quality", "plate_types.csv")
+```
+
+Every vehicle registered in the UK has a **vehicle registration mark** (VRM),
+usually called its registration number or number plate (in other countries a
+licence plate). The VRM is how the CARS sources are joined, and its format
+says when and, for recent vehicles, where the vehicle was first registered.
+
+The rules for displaying plates are on
+[GOV.UK](https://www.gov.uk/displaying-number-plates).
+
+## Formats
+
+Great Britain has used four main formats. Northern Ireland has its own.
+
+| Format | Years | Example | What it tells you |
+|---|---|---|---|
+| **Current** | September 2001 onwards | `AB12 CDE` | The first two letters are the *memory tag*: the first letter is the region and the second the DVLA office. The two digits are the *age identifier*: `12` for vehicles registered March–August 2012, `62` for September 2012–February 2013. The last three letters are random |
+| **Prefix** | August 1983 to August 2001 | `A123 BCD` | The first letter gives the year: `A` for August 1983–July 1984 and so on, changing every six months from 1999 (`T`, `V`, `W`, `X`, `Y`) |
+| **Suffix** | 1963 to July 1983 | `ABC 123D` | The last letter gives the year, from `A` in 1963 |
+| **Dateless** | Before 1963 | `ABC 123` | No date |
+| **Northern Ireland** | All years | `ABZ 1234` | Three letters, always including I or Z, and up to four digits. No date |
+
+There are also **Q plates**, for vehicles whose age or identity cannot be
+established (for example kit cars or rebuilt vehicles), and formats for
+diplomatic vehicles, the Isle of Man, the Channel Islands and foreign
+registrations.
+
+## Personalised plates
+
+Registration numbers can be bought and transferred between vehicles, and
+cherished or personalised plates are popular. A vehicle can carry a plate that
+makes it look *older* than it is, but never younger: a 2015 car can carry a
+1990 `H` plate, but not a 2020 `20` plate. Dateless and Northern Ireland plates
+are popular for this, because they hide the vehicle's age altogether.
+
+Transfers affect the data in two ways:
+
+- **The plate's date and the vehicle's age disagree.** CARS decodes each plate
+  and flags `vanity_plate` when the vehicle's birth date falls outside the
+  plate's issue period. The flag catches any mismatch, not only personalised
+  plates: imported vehicles, Q plates and re-registered vehicles are flagged
+  too.
+- **A registration number can belong to different vehicles at different
+  times.** When a plate moves, a lookup by registration number returns the
+  vehicle that carries it *now*. This is the main reason a DVLA record can
+  describe a different vehicle from the DVSA record it was matched to
+  (@sec-pipeline).
+
+```{r}
+#| label: tbl-plate-types
+#| tbl-cap: "Vehicles in the CARS vehicle table by plate format, with the share flagged as having a plate that does not match their age."
+p <- pt[order(-pt$n_vehicles), ]
+p$share_vanity <- fmt_pct(p$n_vanity / p$n_vehicles)
+p <- head(p[, c("plate_type", "n_vehicles", "share_vanity")], 8)
+kable(p, row.names = FALSE,
+      col.names = c("Plate format", "Vehicles", "Flagged as vanity plate"),
+      align = c("l", "r", "r"))
+```
+
+## Plates in the CARS data
+
+| Column | Meaning |
+|---|---|
+| `registration_DVSA` | The registration as recorded by DVSA, the key for joining to other data |
+| `registration_DVLA` | The registration returned by the DVLA Vehicle Enquiry Service |
+| `plate_type` | The plate format |
+| `plate_date`, `plate_date_from`, `plate_date_to` | The issue period the plate implies |
+| `plate_location` | The issuing office or region implied by the memory tag (current format only) |
+| `vanity_plate` | The vehicle's birth date falls outside the plate's issue period |
+
+::: {.callout-important title="Pitfall: plate location is not where the vehicle is"}
+`plate_location` is the DVLA office the plate was allocated to, and for a new
+car is usually the region of the dealer that first registered it. It says
+nothing about where the vehicle is kept now. Use the postcode area of testing
+(`pca_YYYY`) for location.
+:::
+
+::: {.callout-note .todo title="To be written"}
+Whether the registration numbers in the vehicle table are treated as personal
+data, and the implications for publishing and linking (see
+@sec-data-products).
+:::
+
+## Further reading
+
+- [Vehicle registration plates of the United Kingdom](https://en.wikipedia.org/wiki/Vehicle_registration_plates_of_the_United_Kingdom) (Wikipedia)
+- [DVLAAPI](https://github.com/CARS-Project/DVLA-API), the R package whose rules CARS uses to decode plates

@@ -1,0 +1,30 @@
+"body_type","schedule","standard","euro_status","from"
+"Buses and coaches","heavy",1,"EURO I",1993-10-01
+"Buses and coaches","heavy",2,"EURO II",1997-10-01
+"Buses and coaches","heavy",3,"EURO III",2001-10-01
+"Buses and coaches","heavy",4,"EURO IV",2006-10-01
+"Buses and coaches","heavy",5,"EURO V",2009-10-01
+"Buses and coaches","heavy",6,"EURO VI",2014-01-01
+"Cars","cars",1,"EURO 1",1992-12-31
+"Cars","cars",2,"EURO 2",1997-01-01
+"Cars","cars",3,"EURO 3",2001-01-01
+"Cars","cars",4,"EURO 4",2006-01-01
+"Cars","cars",5,"EURO 5",2011-01-01
+"Cars","cars",6,"EURO 6",2015-09-01
+"Heavy goods vehicles","heavy",1,"EURO I",1993-10-01
+"Heavy goods vehicles","heavy",2,"EURO II",1997-10-01
+"Heavy goods vehicles","heavy",3,"EURO III",2001-10-01
+"Heavy goods vehicles","heavy",4,"EURO IV",2006-10-01
+"Heavy goods vehicles","heavy",5,"EURO V",2009-10-01
+"Heavy goods vehicles","heavy",6,"EURO VI",2014-01-01
+"Light goods vehicles","vans",1,"EURO 1",1994-10-01
+"Light goods vehicles","vans",2,"EURO 2",1998-01-01
+"Light goods vehicles","vans",3,"EURO 3",2002-01-01
+"Light goods vehicles","vans",4,"EURO 4",2007-01-01
+"Light goods vehicles","vans",5,"EURO 5",2012-01-01
+"Light goods vehicles","vans",6,"EURO 6",2016-09-01
+"Motorcycles","motorcycles",1,"EURO 1",1999-06-17
+"Motorcycles","motorcycles",2,"EURO 2",2004-01-01
+"Motorcycles","motorcycles",3,"EURO 3",2007-01-01
+"Motorcycles","motorcycles",4,"EURO 4",2017-01-01
+"Motorcycles","motorcycles",5,"EURO 5",2021-01-01

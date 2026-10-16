@@ -1,0 +1,181 @@
+# Fuels, emissions and Euro standards {#sec-fuels-emissions}
+
+```{r}
+source("R/book.R")
+fs <- read_pipeline("outputs", "quality", "fuel_simple.csv")
+sched <- read_pipeline("outputs", "quality", "euro_schedule.csv")
+fill <- read_pipeline("outputs", "quality", "euro_status_fill.csv")
+area <- read_pipeline("outputs", "tables", "mileage",
+                      "mileage_by_pca_year_body_fuel.csv")
+```
+
+Much of the interest in vehicle data comes from its environmental questions:
+how fast the fleet is moving to electric, how many older polluting vehicles
+remain, and what this means for carbon emissions and air quality. This chapter
+explains the fuel and emissions information in the data and its limits.
+
+## Fuel types
+
+| Fuel | What it means |
+|---|---|
+| **Petrol** and **diesel** | Conventional internal combustion engines |
+| **Hybrid electric** | A petrol or diesel engine with an electric motor and battery. *Mild* hybrids use a small motor to assist the engine; *full* hybrids (such as the Toyota Prius) can drive short distances on electricity alone. Neither can be plugged in: the battery is charged by the engine and by braking |
+| **Plug-in hybrid electric** (PHEV) | A hybrid with a larger battery that can be charged from the mains, giving a useful electric-only range, typically 20–50 miles |
+| **Range-extended electric** | An electric vehicle with a small engine that only charges the battery |
+| **Battery electric** (BEV) | Electric only, charged from the mains, with no engine |
+| **Fuel cell** | Electric drive powered by a hydrogen fuel cell; very rare |
+| **Gas** | Liquefied petroleum gas (LPG), compressed or liquefied natural gas (CNG, LNG); usually conversions of petrol or diesel vehicles |
+
+"Electric vehicle" is used loosely. Policy often groups battery electric,
+plug-in hybrid and range-extended vehicles as *plug-in vehicles*, or uses
+*ultra low emission vehicle* (ULEV) for vehicles emitting under 75g of CO~2~
+per km. Always check which definition a statistic uses.
+
+### How fuel is recorded
+
+The DVSA and the DVLA each record a fuel, using different labels, and neither
+distinguishes a plug-in hybrid from any other hybrid: DVSA records
+`Hybrid Electric (Clean)` for mild, full and plug-in petrol hybrids alike. DfT's
+vehicle licensing statistics do distinguish them, by model.
+
+CARS keeps both supplied fuels (`fuel_DVSA`, `fuelType_DVLA`) and builds a
+harmonised `fuel` from them: the DVSA fuel, corrected where the DVLA record or
+the engine size shows it is wrong (for example a Toyota Prius recorded as
+`Electric`), and with plug-in hybrids identified from DfT's records for the
+vehicle's model (@sec-pipeline). `fuel_simple` groups it into six:
+
+```{r}
+#| label: tbl-fuel-simple
+#| tbl-cap: "Vehicles in the CARS vehicle table by fuel group, all years and all vehicle types."
+f <- fs[order(-fs$n_vehicles), ]
+f$share <- fmt_pct(f$n_vehicles / sum(f$n_vehicles))
+kable(f, col.names = c("fuel_simple", "Vehicles", "Share"), row.names = FALSE,
+      align = c("l", "r", "r"))
+```
+
+::: {.callout-important title="Pitfall: plug-in hybrids are undercounted"}
+A vehicle is identified as a plug-in hybrid only when its model, as DfT
+records it, is clearly a plug-in. Models sold both as plug-in and ordinary
+hybrids (a BMW X1 or a Kia Niro whose model text does not say which) are left
+as ordinary hybrids. The plug-in count is therefore a **lower bound**, and the
+hybrid count correspondingly too high.
+:::
+
+```{r}
+#| label: fig-fuel-share
+#| fig-cap: "Share of cars observed each year by fuel group. Electrified combines hybrid, plug-in hybrid and battery electric. The last few years under-represent new cars, which have not yet had an MOT (see @sec-pitfalls)."
+cars <- subset(area, body_type == "Cars" & !pca %in% pca_statuses)
+cars$group <- ifelse(cars$fuel_simple %in% c("Petrol", "Diesel"),
+                     cars$fuel_simple,
+                     ifelse(cars$fuel_simple %in% c("Hybrid Electric",
+                                                    "Plug-in Hybrid Electric",
+                                                    "Electric"),
+                            "Electrified", "Other"))
+s <- aggregate(n_vehicles ~ year + group, data = cars, FUN = sum)
+s$share <- s$n_vehicles / ave(s$n_vehicles, s$year, FUN = sum)
+s$group <- factor(s$group, levels = c("Petrol", "Diesel", "Electrified", "Other"))
+ggplot(s, aes(year, share, colour = group)) +
+  geom_line(linewidth = 0.9) +
+  scale_colour_manual(values = cars_cols) +
+  scale_y_continuous(labels = scales::label_percent(), limits = c(0, NA)) +
+  labs(x = NULL, y = "Share of observed cars") +
+  theme_cars()
+```
+
+## Engine size
+
+Engine size is the capacity of the engine's cylinders in cubic centimetres
+(cc). It is a rough guide to a vehicle's power and fuel use. A battery electric
+vehicle has no engine: in the harmonised `engine_cc` its engine size is 0, and
+tables that band engine size give it its own band.
+
+## CO~2~ emissions
+
+The CO~2~ figure (`co2`, in grams per kilometre) is the official value measured
+when the model was type approved, not a measurement of the individual vehicle.
+It is recorded because vehicle tax for cars registered since March 2001 depends
+on it, so it is mostly missing for older vehicles.
+
+::: {.callout-important title="Pitfall: two test procedures"}
+CO~2~ figures were measured on the NEDC laboratory test until it was replaced by
+the more realistic WLTP test, from September 2017 for new models and September
+2018 for all new cars. WLTP figures are typically higher for the same vehicle,
+so a rise in recorded CO~2~ around 2018 is partly an artefact of the change of
+test. Official figures also understate real-world emissions, by different
+amounts in different periods.
+:::
+
+A recorded CO~2~ of zero is only kept for vehicles with no engine; elsewhere it
+is treated as missing (@sec-pipeline).
+
+## Euro emission standards
+
+Euro standards limit the air pollutants a new vehicle may emit: nitrogen
+oxides (NO~x~), particulate matter, carbon monoxide and hydrocarbons. (They do
+not limit CO~2~.) Each new standard is stricter than the last, and applies to
+new type approvals first and, a year or so later, to every new vehicle
+registered.
+
+- Standards for **cars, vans and motorcycles** are written in Arabic numerals:
+  Euro 1 to Euro 6. Euro 6 has sub-stages (6b, 6c, 6d-TEMP, 6d, 6e) that
+  tightened testing, including real driving emissions (RDE) tests on the road.
+- Standards for **lorries and buses** are written in Roman numerals: Euro I to
+  Euro VI. They are separate regulations measured on a different basis.
+
+The CARS column `euro_standard` puts both on one numeric scale (1 to 6), which
+is convenient, but a Euro 6 car and a Euro VI bus meet different limits.
+
+```{r}
+#| label: tbl-euro-schedule
+#| tbl-cap: "Date from which each Euro standard was compulsory for new registrations, by body type. These are the dates CARS uses to assume a Euro standard where none is recorded."
+w <- reshape(sched[, c("body_type", "standard", "from")],
+             idvar = "standard", timevar = "body_type", direction = "wide")
+names(w) <- sub("^from\\.", "", names(w))
+w <- w[order(w$standard), ]
+kable(w, row.names = FALSE)
+```
+
+### Recorded and assumed Euro status
+
+The DVLA records a Euro status for only a minority of vehicles, mostly those
+registered since about 2018. Because standards became compulsory on fixed
+dates, though, a vehicle registered new after a standard became compulsory must
+meet at least that standard. CARS uses this to fill in a Euro status where none
+is recorded, and marks such values with `euro_status_src = 'euro_schedule'`.
+
+```{r}
+#| label: tbl-euro-fill
+#| tbl-cap: "Where the Euro status of vehicles in the CARS vehicle table comes from, by body type."
+e <- fill[, c("body_type", "n_vehicles", "n_recorded_or_backfilled",
+              "n_assumed_from_date", "n_missing")]
+e <- e[order(-e$n_vehicles), ]
+kable(e, row.names = FALSE,
+      col.names = c("Body type", "Vehicles", "Recorded or from similar vehicles",
+                    "Assumed from date", "Missing"))
+```
+
+::: {.callout-important title="Pitfall: most Euro statuses are inferred"}
+An assumed Euro status is the *minimum* the vehicle must meet; it may meet a
+newer one. It is wrong for used imports and rebuilt vehicles, which are
+registered in the UK long after they were built. If your analysis depends on
+Euro status, check how much of it is recorded (`euro_status_src = 'dvla'`) and
+test whether your results change without the assumed values.
+:::
+
+## Clean Air Zones and low emission zones
+
+Several UK cities charge or restrict the most polluting vehicles in Clean Air
+Zones (CAZ), and London has its Ultra Low Emission Zone (ULEZ). The usual
+minimum standards are **Euro 4 for petrol** cars and vans, **Euro 6 for diesel**
+cars and vans, and **Euro VI** for buses, coaches and lorries.
+
+Because recorded Euro status was so sparse, the CARS churn tables (Set 7,
+@sec-aggregate-tables) use the vehicle's first-use date as a proxy: petrol
+vehicles first used before 2006, and diesel vehicles first used before 2015, are
+counted as likely non-compliant.
+
+::: {.callout-note .todo title="To be written"}
+A list of current UK Clean Air Zones with their classes and start dates, and
+guidance on estimating a CAZ-compliant share for an area from the vehicle
+table.
+:::

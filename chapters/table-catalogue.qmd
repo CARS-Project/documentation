@@ -1,0 +1,41 @@
+# Catalogue of aggregate tables {#sec-table-catalogue}
+
+```{r}
+source("R/book.R")
+```
+
+The aggregate tables are in three folders. These lists are generated from the
+index file (`README_outputs.csv`) that the pipeline writes into each folder.
+An asterisk in a file name stands for several files: `set2_static_by_*.csv`
+is one file for each characteristic. @sec-aggregate-tables explains how to
+use them.
+
+## Mileage tables: `tables/mileage/`
+
+Details: [Vehicles and mileage by postcode area](../reports/mileage_report.md).
+
+```{r}
+m <- read_pipeline("outputs", "tables", "mileage", "README_outputs.csv")
+m$file <- paste0("`", m$file, "`")
+kable(m, col.names = c("File", "One row per", "Contents"))
+```
+
+## Fleet profile tables: `tables/profile/`
+
+Details: [Fleet profile tables](../reports/fleet_profile_report.md).
+
+```{r}
+p <- read_pipeline("outputs", "tables", "profile", "README_outputs.csv")
+p$file <- paste0("`", p$file, "`")
+kable(p, col.names = c("File", "Form", "Contents"))
+```
+
+## Churn tables: `tables/churn/`
+
+Details: [Churn tables](../reports/churn_tables_report.md).
+
+```{r}
+ch <- read_pipeline("outputs", "tables", "churn", "README_outputs.csv")
+ch$file <- paste0("`", ch$file, "`")
+kable(ch, col.names = c("File", "Set", "Contents"))
+```

@@ -1,0 +1,128 @@
+# How good is the data? {#sec-data-quality}
+
+```{r}
+source("R/book.R")
+dy <- read_pipeline("outputs", "quality", "dft_stock_by_year.csv")
+da <- read_pipeline("outputs", "quality", "dft_stock_by_age.csv")
+dd <- read_pipeline("outputs", "data_dictionary.csv")
+fu <- read_pipeline("outputs", "quality", "first_use_source.csv")
+```
+
+No administrative dataset is perfect, and this one combines three. This
+chapter summarises how far the CARS data can be relied on, mainly by comparing
+it with DfT's official counts of vehicles. The pipeline's data quality report
+([Data quality report](../reports/data_quality_report.md), in the appendices) has every check in detail.
+
+## Comparison with DfT vehicle counts
+
+DfT's vehicle licensing statistics count every vehicle on the DVLA register at
+the end of each year, licensed or SORN. The CARS data counts the vehicles
+*observed* (tested) in each year. The two should not agree exactly:
+
+- vehicles under three have no MOT, so CARS largely misses them;
+- SORN vehicles are in DfT's count but are not tested;
+- heavy goods vehicles, large buses and most historic vehicles do not take an
+  MOT;
+- a vehicle tested in a year may have been scrapped or exported before the end
+  of it, and so be missing from DfT's year-end count.
+
+```{r}
+#| label: fig-dft-ratio
+#| fig-cap: "Vehicles aged three and over observed in the CARS data, as a ratio of DfT's count of licensed and SORN vehicles of the same age, by body type."
+d <- subset(dy, body_type %in% c("Cars", "Light goods vehicles", "Motorcycles"))
+d$body_type <- factor(d$body_type,
+                      levels = c("Cars", "Light goods vehicles", "Motorcycles"))
+ggplot(d, aes(year, ratio_age3plus, colour = body_type)) +
+  geom_hline(yintercept = 1, colour = ink_muted, linewidth = 0.4) +
+  geom_line(linewidth = 0.9) +
+  scale_colour_manual(values = cars_cols) +
+  scale_y_continuous(limits = c(0.4, 1.4)) +
+  labs(x = NULL, y = "CARS ÷ DfT") +
+  theme_cars()
+```
+
+```{r}
+cars_r <- subset(dy, body_type == "Cars")
+r2018 <- cars_r$ratio_age3plus[cars_r$year == 2018]
+r2025 <- cars_r$ratio_age3plus[cars_r$year == 2025]
+m2025 <- subset(dy, body_type == "Motorcycles" & year == 2025)$ratio_age3plus
+```
+
+For cars and vans aged three and over the two sources are close. CARS counts
+somewhat more cars than DfT (`r round(r2018, 2)` times as many in 2018,
+`r round(r2025, 2)` in 2025): a car tested during a year but scrapped or
+exported before its end is observed in CARS but missing from DfT's year-end
+count. Counting vehicles of *all* ages, CARS falls below DfT in the most
+recent years, because vehicles first registered then have not yet been tested
+(@sec-pitfalls).
+
+Motorcycles are the exception: CARS observes a falling share of the
+motorcycles on DfT's register, `r round(m2025, 2)` of those aged three and over
+in 2025. Many motorcycles are kept on SORN or used seasonally, and so are
+tested irregularly.
+
+::: {.callout-note .todo title="To be confirmed"}
+Whether the falling motorcycle ratio is explained by SORN and irregular
+testing, or partly by how motorcycles are classified or linked.
+:::
+
+```{r}
+#| label: fig-dft-age
+#| fig-cap: "Vehicles of all body types by age in 2022: observed in the CARS data and counted by DfT (licensed plus SORN)."
+a <- subset(da, year == 2022 & age <= 30)
+al <- rbind(data.frame(age = a$age, source = "CARS (observed)", n = a$n_mot),
+            data.frame(age = a$age, source = "DfT (licensed and SORN)",
+                       n = a$n_dft))
+ggplot(al, aes(age, n, colour = source)) +
+  geom_line(linewidth = 0.9) +
+  scale_colour_manual(values = cars_cols[1:2]) +
+  scale_y_count() +
+  labs(x = "Age (years)", y = "Vehicles") +
+  theme_cars()
+```
+
+By age (@fig-dft-age), the sources
+agree well between about 3 and 16 years. Younger vehicles are missing from
+CARS because they have not had an MOT. Older vehicles are increasingly missing
+because many are kept on SORN, or are exempt from the MOT once 40 years old.
+
+## Completeness of key fields
+
+```{r}
+pm <- setNames(dd$pct_missing, dd$column_name)
+fu_dvsa <- fu$n_vehicles[fu$first_use_source == "firstUsedDate_DVSA"] / sum(fu$n_vehicles)
+```
+
+| Field | Missing | Note |
+|---|--:|---|
+| Make (`make_final`) | `r pm["make_final"]`% | |
+| Model (`model_final`) | `r pm["model_final"]`% | Mostly where the recorded model is a placeholder such as UNKNOWN |
+| Body type | `r pm["body_type"]`% | |
+| Fuel (`fuel`) | `r pm["fuel"]`% | "Other" for a small number |
+| Engine size (`engine_cc`) | `r pm["engine_cc"]`% | Mostly tractors and plant |
+| CO~2~ (`co2`) | `r pm["co2"]`% | Mostly older vehicles, registered before CO~2~ was recorded |
+| Euro status (`euro_status`) | `r pm["euro_status"]`% | Includes values assumed from the date |
+| Test class (`test_class`) | `r pm["test_class"]`% | |
+| First-use date | `r pm["first_use_date"]`% | From DVSA for `r fmt_pct(fu_dvsa)` of vehicles |
+
+## Known issues
+
+- **The final years are incomplete.** 2025 is a partial year, and the youngest
+  vehicles are missing from the last three years (@sec-pitfalls).
+- **Northern Ireland** vehicles are included, but the test class is not
+  supplied for them, and testing there was disrupted in 2020.
+- **2005** appears to be of lower quality than later years, and some CARS
+  reports start comparisons in 2006.
+- **DVLA records describing another vehicle.** Where a registration has moved
+  between vehicles, the DVLA record may describe the wrong one. The pipeline
+  detects the clear cases and does not use their values; some subtler cases
+  will remain.
+- **Make and model matching** is very good for common vehicles and weaker for
+  rare ones, motorcycles and specialist vehicles. `model_confidence` and
+  `model_method` show how each match was made.
+
+::: {.callout-note .todo title="To be written"}
+Quality of the Bristol stage: match rates for the anonymised MOT data to the
+MOT history, and for the VES lookups; and the share of mileage judged
+implausible, by year.
+:::

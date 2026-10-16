@@ -1,0 +1,63 @@
+# Files this book reads from the MOT-pipline repository.
+#
+# scripts/sync-pipeline.R copies every file listed here from the pipeline
+# repository (default ../MOT-pipline, or the MOT_PIPELINE_DIR environment
+# variable) into this repository, so the book can be rebuilt without access to
+# the pipeline and without the 9 GB vehicle table.
+#
+# - data:    copied unchanged to data/pipeline/<same relative path>.
+#            Globs are allowed.
+# - reports: Markdown reports rendered by the pipeline, copied to reports/ and
+#            included in the book as appendix chapters. `figures` is a folder
+#            of images the report links to, copied alongside it.
+#
+# To use a new pipeline file in a chapter: add it here, run
+# scripts/sync-pipeline.R, then read it with read_pipeline() (R/book.R).
+
+data:
+  # Data dictionary and build record
+  - outputs/data_dictionary.csv
+  - outputs/session_info.csv
+
+  # Quality tables used in the background and data quality chapters
+  - outputs/quality/body_type.csv
+  - outputs/quality/test_class.csv
+  - outputs/quality/plate_types.csv
+  - outputs/quality/pca_status_by_year.csv
+  - outputs/quality/scope_counts.csv
+  - outputs/quality/first_use_source.csv
+  - outputs/quality/harmonised_sources.csv
+  - outputs/quality/fuel_simple.csv
+  - outputs/quality/euro_schedule.csv
+  - outputs/quality/euro_status_fill.csv
+  - outputs/quality/euro_standard.csv
+  - outputs/quality/mileage_checks.csv
+  - outputs/quality/dft_stock_by_year.csv
+  - outputs/quality/dft_stock_by_age.csv
+  - outputs/quality/dvla_match.csv
+
+  # Aggregate tables used in the worked examples, and their indexes
+  - outputs/tables/churn/README_outputs.csv
+  - outputs/tables/mileage/README_outputs.csv
+  - outputs/tables/profile/README_outputs.csv
+  - outputs/tables/mileage/mileage_by_pca_year_body_fuel.csv
+  - outputs/tables/mileage/mileage_by_legit_flag_year.csv
+  - outputs/tables/churn/set4_electric_vehicles_by_pca.csv
+  - outputs/tables/profile/a1_counts_cars.csv
+
+  # Geography reference files
+  - inputs/postcode_areas_100m.gpkg
+  - inputs/postcode_area_names.csv
+
+reports:
+  - source: methodology.md
+    dest: reports/methodology.md
+  - source: outputs/quality/data_quality_report.md
+    dest: reports/data_quality_report.md
+  - source: outputs/reports/mileage_report.md
+    dest: reports/mileage_report.md
+    figures: outputs/reports/mileage_report_figures
+  - source: outputs/reports/churn_tables_report.md
+    dest: reports/churn_tables_report.md
+  - source: outputs/reports/fleet_profile_report.md
+    dest: reports/fleet_profile_report.md

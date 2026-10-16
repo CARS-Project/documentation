@@ -1,0 +1,113 @@
+# Getting started {#sec-getting-started}
+
+This chapter explains how to open the CARS data in a spreadsheet and in code.
+
+## In a spreadsheet
+
+The aggregate tables are ordinary CSV files and open directly in Excel,
+LibreOffice Calc, Google Sheets or Numbers.
+
+- **Size.** Most tables are well under Excel's limit of 1,048,576 rows. The
+  largest, such as `mileage_by_pca_year_body_fuel.csv`, are several megabytes
+  and open fine, but are easier to work with through a PivotTable.
+- **Opening a CSV in Excel.** Double-clicking a CSV works, but Excel may
+  change values it thinks are dates or numbers. For full control use **Data ›
+  From Text/CSV** and check the column types in the preview.
+- **Postcode area codes.** Codes are one or two letters (`B`, `LS`). Excel
+  will not change them, but take care with codes such as `NA` that some tools
+  read as missing; no real postcode area uses it.
+- **PivotTables** (Insert › PivotTable) are the main tool for the examples
+  in @sec-examples-spreadsheet: they filter, group and sum the long tables.
+
+::: {.callout-tip title="Excel tables"}
+Converting the data to an Excel table (select a cell, then Ctrl+T) makes
+filtering easier and lets formulas refer to columns by name.
+:::
+
+## In code: DuckDB
+
+The vehicle table is too large for a spreadsheet, and too large to load into
+memory in most tools, but [DuckDB](https://duckdb.org/) can query it in place.
+DuckDB is a free, fast database that runs inside R, Python or on its own, with
+no server to set up. It reads only the columns a query needs, so most queries
+on the vehicle table take seconds on an ordinary laptop.
+
+The examples in this book are written in DuckDB's SQL, so they work the same
+from any language. Each refers to the file as `vehicles_enhanced.parquet`;
+replace that with the path to your copy.
+
+::: {.panel-tabset}
+
+## R
+
+```r
+install.packages("duckdb")
+
+library(DBI)
+con <- dbConnect(duckdb::duckdb())
+
+dbGetQuery(con, "
+  SELECT fuel_simple, count(*) AS n_vehicles
+  FROM read_parquet('vehicles_enhanced.parquet')
+  GROUP BY fuel_simple
+  ORDER BY n_vehicles DESC
+")
+
+dbDisconnect(con, shutdown = TRUE)
+```
+
+Packages such as `dplyr` (with `duckplyr` or `dbplyr`) and `arrow` can also
+query the file without writing SQL.
+
+## Python
+
+```python
+# pip install duckdb
+import duckdb
+
+duckdb.sql("""
+  SELECT fuel_simple, count(*) AS n_vehicles
+  FROM read_parquet('vehicles_enhanced.parquet')
+  GROUP BY fuel_simple
+  ORDER BY n_vehicles DESC
+""").df()
+```
+
+`polars` and `pandas` (with `pyarrow`) can also read the file, but pandas
+loads everything into memory, so read only the columns you need.
+
+## Command line
+
+```sh
+# Install from https://duckdb.org/docs/installation/
+duckdb -c "
+  SELECT fuel_simple, count(*) AS n_vehicles
+  FROM read_parquet('vehicles_enhanced.parquet')
+  GROUP BY fuel_simple
+  ORDER BY n_vehicles DESC"
+```
+
+:::
+
+### Practical advice
+
+- **Look before you query.** `DESCRIBE SELECT * FROM
+  read_parquet('vehicles_enhanced.parquet')` lists the columns and their types
+  instantly.
+- **Select only the columns you need.** `SELECT *` on the full table reads all
+  of it. Name columns, or use DuckDB's `COLUMNS('^pca_')` to pick a set by
+  pattern.
+- **Aggregate in DuckDB and bring back the result.** Bring a summary into R or
+  Python, not 93 million rows.
+- **Memory.** DuckDB uses up to 80% of memory by default and spills to disk
+  when it needs more. For reshaping the whole table into long form, give it
+  plenty of disk space (`SET temp_directory = '...'`), or work on a subset.
+- **Try ideas on a subset.** Filter to one make, one area or a random sample
+  (`USING SAMPLE 1%`) while developing a query, then run it on everything.
+
+## Hardware
+
+Any recent laptop with 8 GB of memory and space for the 9 GB file can run the
+examples in this book. Reshaping the full table into one row per vehicle per
+year (about 2 billion rows) is better done on a machine with 32 GB or more,
+or broken into pieces.

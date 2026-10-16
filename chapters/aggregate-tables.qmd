@@ -1,0 +1,129 @@
+# The aggregate tables {#sec-aggregate-tables}
+
+```{r}
+source("R/book.R")
+area <- read_pipeline("outputs", "tables", "mileage",
+                      "mileage_by_pca_year_body_fuel.csv")
+```
+
+The aggregate tables are CSV files that open in any spreadsheet. They answer
+most common questions without the vehicle table, and they have been built so
+that results can be combined correctly. This chapter explains the three
+families of table and the ideas common to all of them. @sec-table-catalogue
+lists every file, and each family has a detailed report among the appendices.
+
+## Ideas common to all the tables
+
+### Grain
+
+Each table has a **grain**: the combination of columns that identifies one
+row. `mileage_by_pca_year_body_fuel.csv` has one row per year, postcode area,
+body type and fuel group. Knowing the grain tells you what you can add up: you
+can sum its rows over fuel groups to get totals by body type, or over postcode
+areas to get national totals.
+
+### Long and wide
+
+Most tables come in **long** form, with one row per combination and one column
+per measure, which is best for filtering and pivot tables. Some are also given
+in **wide** form, with years (or categories) as columns, which is easier to
+read and chart. They hold the same numbers.
+
+### Counts and totals, not just averages
+
+Where a table gives an average, it also gives the count and total it was
+calculated from (for example `n_legit_mileage` and `total_legit_mileage`).
+
+::: {.callout-important title="Pitfall: never average the averages"}
+To get the average mileage of a group of rows, add up their totals and divide
+by the sum of their counts. Taking the average of the rows' averages gives
+each row equal weight, so a postcode area with 2,000 cars counts as much as one
+with 2 million. @sec-examples-spreadsheet shows the right way in Excel.
+:::
+
+### Status rows
+
+Postcode area columns include the statuses `unborn`, `unknown` and `dead` as
+well as real areas, so a table's rows add up to every vehicle in the vehicle
+table. For most analyses, **filter out the status rows** to keep the
+vehicles observed in each year. Be aware that the share of vehicles that are
+`unknown` grows towards the end of the series (@sec-lifecycle).
+
+### Plausible mileage
+
+Mileage is reported both in full and for plausible mileage only
+(@sec-sources-linkage). Averages should normally use plausible mileage, as
+the CARS reports do.
+
+## Mileage tables
+
+*Folder `tables/mileage/` · report: [Vehicles and mileage by postcode area](../reports/mileage_report.md)*
+
+Vehicles and their annual mileage, for every MOT test class and body type.
+The most useful single table is **`mileage_by_pca_year_body_fuel.csv`**, with
+`r fmt_n(nrow(area))` rows: for each year, postcode area (or status), DfT body
+type and fuel group, it gives:
+
+| Column | Meaning |
+|---|---|
+| `n_vehicles` | Vehicles |
+| `n_with_mileage`, `n_legit_mileage` | Vehicles with a recorded, and with a plausible, mileage |
+| `n_mileage_removed` | Vehicles whose mileage was judged implausible and removed |
+| `total_mileage`, `total_legit_mileage` | Total miles, all recorded and plausible only |
+| `n_negative_mileage`, `n_over_50k_mileage` | Vehicles with unusual mileages |
+| `n_with_age`, `total_age` | For calculating average age |
+
+The other mileage tables give the same information by age, by MOT test class
+and by the fuel as DVSA supplied it, and the distribution of mileage in bands.
+
+## Fleet profile tables
+
+*Folder `tables/profile/` · report: [Fleet profile tables](../reports/fleet_profile_report.md)*
+
+The make-up of the fleet in each year, for cars, light goods vehicles,
+motorcycles and buses, by characteristics such as fuel, engine size, CO~2~
+band, Euro standard, age band and (for cars) SMMT body type, with the vehicle
+count and mean mileage of each. They come in long form
+(`profile_categorical_by_year.csv`) and in four wide *analyses* per body type:
+
+- **Analysis 1** (`a1_counts_*`): vehicles, years by characteristic;
+- **Analysis 2** (`a2_mean_mileage_*`): mean mileage, years by characteristic;
+- **Analyses 3 and 4**: the same, split by age band.
+
+These tables cover Great Britain only (Northern Ireland is excluded) and count
+a vehicle in a year only if it has a plausible mileage that year.
+
+## Churn tables
+
+*Folder `tables/churn/` · report: [Churn tables](../reports/churn_tables_report.md)*
+
+The churn tables describe how the vehicles in each postcode area change: which
+vehicles stay, which arrive from elsewhere or new, and which leave by moving
+or by ceasing to be tested. They cover **MOT test class 4** vehicles: cars,
+vans up to 3,000kg and small minibuses. They are organised in numbered sets:
+
+| Set | Question |
+|---|---|
+| 0 | Where did each vehicle's first-use date come from? |
+| 1 | Of the vehicles in an area in a reference year, how many are in the same area, a different one, dead or unborn in other years? |
+| 2 | How many vehicles of each age, mileage, fuel and engine size are in each area each year, and what share stayed put? |
+| 3 | What is each area's 2017 stock made of: stayers, arrivals and leavers either side? |
+| 4 | Where are electric vehicles, where do they come from and where do they go? |
+| 5 | Does moving area go with a change in mileage? |
+| 6 | Which vehicles move between areas most often? |
+| 7 | How many vehicles in each area are likely to fall foul of a Clean Air Zone, and which leave? |
+
+: The churn table sets {#tbl-churn-sets}
+
+::: {.callout-important title="Pitfall: a 'move' is a change of testing area"}
+A vehicle counts as having moved when it is tested in a different postcode
+area from the year before. That includes vehicles that changed garage without
+changing address. Moves are also counted only between two years in which the
+vehicle was observed, so a vehicle that disappears for a year and reappears
+elsewhere has no move recorded.
+:::
+
+::: {.callout-note .todo title="To be written"}
+A short guide to reading each churn set, with an example question for each,
+written for readers who will not read the full churn report.
+:::

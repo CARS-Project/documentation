@@ -1,0 +1,8 @@
+"body_type","n_vehicles","n_recorded_or_backfilled","n_assumed_from_date","n_missing","n_later_than_date"
+"Cars",75635969,43802797,28436585,3396587,8921982
+"Light goods vehicles",9290081,6259219,2597979,432883,1288036
+"Motorcycles",4029420,1176779,1933183,919458,108847
+"(none)",2878353,7649,0,2870704,0
+"Heavy goods vehicles",801039,340850,448250,11939,5608
+"Other vehicles",571803,72707,0,499096,0
+"Buses and coaches",145576,87396,52443,5737,8473

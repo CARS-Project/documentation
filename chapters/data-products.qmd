@@ -1,0 +1,106 @@
+# Data products and access {#sec-data-products}
+
+```{r}
+source("R/book.R")
+dd <- read_pipeline("outputs", "data_dictionary.csv")
+```
+
+CARS releases its data as a family of products at different levels of detail.
+Choose the least detailed product that answers your question: the aggregate
+tables are much easier to work with, and have already dealt with several of
+the pitfalls described in @sec-pitfalls.
+
+| Product | Unit | Format | Size | Best for |
+|---|---|---|---|---|
+| **Aggregate tables** | Postcode area × year × vehicle characteristics | CSV | KB to a few MB each | Spreadsheet users; maps; trends; comparisons between areas |
+| **Vehicle table** | One row per vehicle, with one column per year | Parquet | about 9 GB | Custom groupings; cohorts; individual makes and models; anything the tables do not cover |
+| **Reports and quality tables** | Documentation | Markdown, CSV | Small | Understanding how each table was made and how complete it is |
+
+## Aggregate tables
+
+The aggregate tables count vehicles and sum their mileage by postcode area
+and year, broken down by body type, fuel, age, engine size and other
+characteristics. There are three families, described in
+@sec-aggregate-tables and catalogued in @sec-table-catalogue:
+
+- **mileage tables**: vehicles and annual mileage by postcode area, year, body
+  type and fuel;
+- **fleet profile tables**: the make-up of the fleet by year, body type and
+  age band;
+- **churn tables**: how the vehicles in each postcode area change from year to
+  year as vehicles arrive, move, age and leave.
+
+Vehicles that cannot be located in a year are included in the tables under
+the statuses `unknown`, `dead` and `unborn`, so totals can be reconciled.
+
+## The vehicle table
+
+`vehicles_enhanced.parquet` has one row for each of the
+`r fmt_m(dd$n_rows[1])` vehicles in scope, and `r nrow(dd)` columns, including
+21 years each of mileage, plausibility flag and postcode area. It is described
+in @sec-vehicle-table, and every column is listed in @sec-data-dictionary.
+
+## The linked source table
+
+The Bristol team's linked and annualised table (@sec-sources-linkage), from
+which the vehicle table is built, holds every vehicle in the DVSA download,
+including those that left the roads before 2005.
+
+::: {.callout-note .todo title="To be written"}
+Whether, how and to whom the linked source table, the test-level linked data,
+and an anonymised vehicle-level product without registration numbers will be
+released.
+:::
+
+## Licensing and conditions of use
+
+The sources are published under the Open Government Licence v3.0, which
+permits combining and republishing them, and the CARS products are released on
+the same basis.
+
+::: {.callout-note .todo title="To be written"}
+The licence of each product, the attribution statement users must include
+("Contains public sector information licensed under the Open Government
+Licence v3.0"), and any conditions of use.
+:::
+
+### Registration numbers and personal data
+
+The vehicle table includes each vehicle's registration number, because it is
+the key for linking to other data. A registration number is not in itself
+personal information, and all the sources are published openly. However, a
+registration number can in some circumstances be linked to a person, and so
+can be personal data under data protection law.
+
+The project's approach is that if a way to re-identify individuals from the
+data is found, the project will:
+
+1. tell the data owners;
+2. store the data at a level of security suitable for the sensitivity
+   discovered;
+3. make the data and code available only at a suitable level of safeguarding,
+   following the tiered access used by the UK Data Service.
+
+Users must not attempt to identify individuals or their vehicles' keepers from
+the data.
+
+## Where to get the data
+
+::: {.callout-note .todo title="To be written"}
+The download location of each product (currently the
+[MOT-pipline repository](https://github.com/CARS-Project/MOT-pipline), which
+will be made public), the archive where versioned releases will be deposited,
+and their DOIs.
+:::
+
+## Versions
+
+The data will be revised as the method improves and new MOT data is added.
+Each build of the pipeline records its versions in `session_info.csv`, and this
+book states the build it describes in its preface.
+
+::: {.callout-important title="Pitfall: vehicle_id changes between versions"}
+`vehicle_id` is the row number in the input file and changes whenever a new
+delivery is processed. To match vehicles across versions, or to other data,
+use `registration_DVSA`.
+:::
