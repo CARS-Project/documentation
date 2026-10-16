@@ -11,10 +11,13 @@ analysis astray. Each is explained in more detail elsewhere in the book.
 
 ## 1. Observed is not the same as the fleet
 
-A vehicle is *observed* in a year when it has a postcode area in that year,
-which in practice means it had an MOT around then. The observed vehicles are
-not the whole fleet: vehicles under three, SORN vehicles, most heavy vehicles
-and most vehicles over 40 are missing (@sec-mot-test). For cars aged three to
+A vehicle is *observed* in a year when it has a postcode area in that year.
+That does not mean it was tested that year: the postcode area is copied back
+from a vehicle's first MOT to its first registration, and carried forward for
+about two years after its last (@sec-lifecycle). The observed vehicles are not
+the whole fleet: SORN vehicles, most heavy vehicles, most vehicles over 40 and,
+in the last three years, new vehicles not yet tested are missing
+(@sec-mot-test). For cars aged three to
 about sixteen, the observed count is close to DfT's count of registered
 vehicles (@sec-data-quality).
 
@@ -30,7 +33,7 @@ cars <- subset(dy, body_type == "Cars")
 ```
 
 The number of vehicles observed peaks in `r peak` and then falls
-(@fig-pca-status). This is not a shrinking fleet. A new car is not observed
+(@fig-pca-status). This is not a shrinking fleet. A new car has no location
 until its first MOT at three years old, so cars first registered in 2023 to
 2025 are almost entirely missing, and the final year, 2025, is also only
 partly covered. In 2025 the CARS count of cars of all ages is
@@ -53,8 +56,10 @@ treat a change of area as a change of address without saying so.
 ## 4. Dead is not scrapped, and unknown is not missing at random
 
 `dead` means "not tested since", which includes vehicles scrapped, exported,
-on SORN or exempt. `unknown` covers new vehicles before their first test and
-gaps in a vehicle's history (@sec-lifecycle).
+on SORN or exempt. `unknown` covers new vehicles not yet tested and long
+gaps in a vehicle's history (@sec-lifecycle). Because a postcode area is
+carried forward for about two years after the last MOT, a vehicle only
+becomes `dead` some time after it stopped being tested.
 
 **What to do:** call a vehicle that has become `dead` one that "stopped being
 tested", not "scrapped", unless you have other evidence. Remember that vehicles

@@ -22,6 +22,7 @@ data:
   # Quality tables used in the background and data quality chapters
   - outputs/quality/body_type.csv
   - outputs/quality/test_class.csv
+  - outputs/quality/type_approval_by_test_class.csv
   - outputs/quality/plate_types.csv
   - outputs/quality/pca_status_by_year.csv
   - outputs/quality/scope_counts.csv

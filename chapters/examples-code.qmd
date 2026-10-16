@@ -63,8 +63,9 @@ ggplot(ex2, aes(age, mean_mileage, colour = year)) +
 ```
 
 Mileage falls with age, and the whole curve is lower in 2022 than in 2010.
-Note that the youngest ages are missing: Fiestas under three have no MOT. The
-mileage at age 3 averages the whole period since new.
+The query starts at age 3. A Fiesta has no odometer reading before its first
+MOT at three, so its mileage in earlier years can only come from sharing out
+the distance since new, and says little about use at each age.
 
 ## Example 3: recorded against filled values
 
@@ -114,10 +115,13 @@ ggplot(subset(ex4, year >= 2008), aes(year, n_vehicles, colour = status)) +
   theme_cars()
 ```
 
-The cohort is almost all `unknown` until 2011, when most cars have their
-first MOT; it is then observed every year and gradually becomes `dead` as cars
-stop being tested. A small number are observed before 2011: cars tested early,
-such as taxis. The `unknown` line rises again at the end of the series: cars
+Almost the whole cohort is observed from 2008, although most cars had their
+first MOT only in 2011: once a car has been tested, its first postcode area is
+copied back to its first registration (@sec-lifecycle). The cohort then
+gradually becomes `dead` as cars stop being tested, about two years after
+their last MOT, because the postcode area is carried forward. The few cars
+observed before 2008 have a first-use date later than their first record,
+such as imports or re-registered vehicles. The `unknown` line rises again at the end of the series: cars
 that may simply not have been tested *yet* (@sec-pitfalls, pitfall 4).
 
 ## Example 5: where vehicles go

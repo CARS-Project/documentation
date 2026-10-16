@@ -128,9 +128,10 @@ kable(data.frame(Area = paste0(ev$area_name, " (", ev$pca, ")"),
 battery electric.
 
 ::: {.callout-important title="Why this understates electric cars"}
-Most electric cars are new, and new cars are not observed until their first
-MOT at three years old. An electric car bought in 2021 will not appear until
-2024. The share among cars *observed* is therefore well below the share among
+Most electric cars are new, and a new car has no location until its first
+MOT at three years old. An electric car bought in 2021 is filled in back to
+2021 once it is tested in 2024, but one bought in 2023 is not in the data at
+all yet. The share among cars *observed* is therefore well below the share among
 cars *registered*; for current figures on the newest vehicles use DfT's
 statistics (table VEH0135 or VEH0145), and use CARS for what happens to
 electric cars once they are three or more. Some areas also have high shares

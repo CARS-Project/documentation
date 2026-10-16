@@ -63,11 +63,14 @@ first birthday instead, notably taxis, private hire vehicles, ambulances and
 passenger vehicles with more than eight passenger seats (@tbl-test-classes in
 @sec-vehicle-types). In Northern Ireland the first test is at four years.
 
-This has a large effect on the data: **a vehicle is almost invisible for its
-first three years.** It exists on the DVLA register, but it has no MOT test
-and so no recorded mileage or location. A vehicle that is tested before it is
-three is usually a taxi, a private hire car or a vehicle with an unusual
-history, and is driven much further than most.
+This has a large effect on the data. For its first three years a vehicle is
+on the DVLA register, but it has no MOT test. Once it has its first test, the
+annualisation fills in those early years from it (@sec-lifecycle), so in
+hindsight the vehicle appears from its first registration. **Vehicles that have
+not yet had a first test have no location at all**, which is why the newest
+vehicles are missing from the last three years of the data. A vehicle that is
+tested before it is three is usually a taxi, a private hire car or a vehicle
+with an unusual history, and is driven much further than most.
 
 ### Later tests
 
@@ -152,9 +155,9 @@ test data reaches the DVSA datasets.
 
 - The MOT data is a near-complete record of **cars, vans and motorcycles aged
   three and over** that are in use.
-- It largely misses **new vehicles** (under three, or four in Northern
-  Ireland), **heavy vehicles**, **historic vehicles**, and vehicles kept
-  **off the road**.
+- It largely misses **heavy vehicles**, **historic vehicles** and vehicles
+  kept **off the road**, and, in the last three years of the data, **new
+  vehicles** that have not yet had their first test.
 - **Location** is that of the testing station.
 - **Mileage** is measured between tests, so it is known only for periods
   that have a test at each end, and has to be shared out across calendar

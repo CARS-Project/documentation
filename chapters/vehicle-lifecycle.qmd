@@ -21,8 +21,9 @@ number. Its **date of first registration** is recorded by the DVLA and its
 date** can be months earlier for a vehicle that sat in stock.
 
 For its first three years (four in Northern Ireland) a new vehicle needs no
-MOT, so the MOT data knows it exists but not where it is or how far it is
-driven.
+MOT. Until its first test, the MOT data knows it exists but not where it is or
+how far it has been driven. Once it has been tested, the annualisation fills
+in its early years from that first test (see below).
 
 ### An imported vehicle
 
@@ -81,15 +82,36 @@ never recovered.
 ## How the data describes a vehicle's life
 
 For every year from 2005 to 2025 the vehicle table has a column `pca_YYYY`.
-In a year when the vehicle was tested it holds the postcode area of the test.
-In other years it holds one of three statuses:
+Where the annualisation could place the vehicle, it holds a postcode area.
+Otherwise it holds one of three statuses:
 
 | Status | Meaning |
 |---|---|
-| a postcode area (e.g. `LS`) | **Observed**: the vehicle was located in this area that year |
+| a postcode area (e.g. `LS`) | **Observed**: the vehicle is placed in this area that year |
 | `unborn` | The vehicle had not yet been first registered (its birth year is this year or later) |
-| `unknown` | The vehicle existed, but was not located: for example a new vehicle before its first MOT, or a gap between tests |
-| `dead` | The year is after the vehicle's last MOT |
+| `unknown` | The vehicle existed, but was not placed: for example a new vehicle that has not yet had its first MOT, or a long gap between tests |
+| `dead` | The year is after the vehicle's last MOT and beyond the years its postcode area is carried forward |
+
+::: {.callout-important title="Pitfall: observed does not mean tested that year"}
+The annualisation gives a vehicle a postcode area in years when it was not
+tested:
+
+- **before its first MOT**, the postcode area of the first test is copied back
+  to the years since its first registration;
+- **after its last MOT**, the postcode area is carried forward for about two
+  years.
+
+So a vehicle is *observed* from its first registration, once it has been
+tested, until about two years after its last test. A vehicle scrapped soon
+after its last MOT therefore stays *observed* for about two more years. The
+pipeline's `quality/pca_observation_by_year.csv` counts, for each year, the
+observed vehicles that were past their last MOT or under three.
+:::
+
+::: {.callout-note .todo title="To be confirmed"}
+The exact rules for copying the postcode area back from the first test and
+forward from the last, from the Bristol team.
+:::
 
 ```{r}
 #| label: fig-pca-status
@@ -113,8 +135,9 @@ ggplot(long, aes(year, n, colour = status)) +
 Every vehicle is in exactly one status each year, so the four lines in
 @fig-pca-status always add up to the same total: every vehicle in the table.
 The *observed* line peaks before the end of the series and then falls. That
-fall is not a shrinking fleet. New vehicles are `unknown` until their first
-MOT, and the last year, 2025, is incomplete.
+fall is not a shrinking fleet. Vehicles first registered in the last three
+years mostly have not had a first MOT yet, so they are `unknown`, and the last
+year, 2025, is incomplete.
 
 ::: {.callout-important title="Pitfall: dead means no longer tested, not scrapped"}
 A vehicle is `dead` in every year after its last MOT, whatever the reason:

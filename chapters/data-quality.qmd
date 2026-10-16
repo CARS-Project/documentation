@@ -19,12 +19,15 @@ DfT's vehicle licensing statistics count every vehicle on the DVLA register at
 the end of each year, licensed or SORN. The CARS data counts the vehicles
 *observed* (tested) in each year. The two should not agree exactly:
 
-- vehicles under three have no MOT, so CARS largely misses them;
+- vehicles under three have no MOT; CARS includes them once they have had
+  their first test, but misses the newest ones, not yet tested;
 - SORN vehicles are in DfT's count but are not tested;
 - heavy goods vehicles, large buses and most historic vehicles do not take an
   MOT;
-- a vehicle tested in a year may have been scrapped or exported before the end
-  of it, and so be missing from DfT's year-end count.
+- CARS carries a vehicle's postcode area forward for about two years after
+  its last MOT (@sec-lifecycle), so a vehicle scrapped or exported after its
+  last test stays in the CARS count for about two years after it has left
+  DfT's.
 
 ```{r}
 #| label: fig-dft-ratio
@@ -50,9 +53,9 @@ m2025 <- subset(dy, body_type == "Motorcycles" & year == 2025)$ratio_age3plus
 
 For cars and vans aged three and over the two sources are close. CARS counts
 somewhat more cars than DfT (`r round(r2018, 2)` times as many in 2018,
-`r round(r2025, 2)` in 2025): a car tested during a year but scrapped or
-exported before its end is observed in CARS but missing from DfT's year-end
-count. Counting vehicles of *all* ages, CARS falls below DfT in the most
+`r round(r2025, 2)` in 2025), mainly because a car's postcode area is
+carried forward for about two years after its last MOT, so recently scrapped
+cars are still counted. Counting vehicles of *all* ages, CARS falls below DfT in the most
 recent years, because vehicles first registered then have not yet been tested
 (@sec-pitfalls).
 
