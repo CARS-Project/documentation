@@ -44,10 +44,21 @@ book:
         - chapters/getting-started.qmd
         - chapters/examples-spreadsheet.qmd
         - chapters/examples-code.qmd
+    - part: chapters/dictionary/index.qmd
+      chapters:
+        - chapters/dictionary/identifiers.qmd
+        - chapters/dictionary/registration.qmd
+        - chapters/dictionary/make-model.qmd
+        - chapters/dictionary/vehicle-type.qmd
+        - chapters/dictionary/fuel-engine.qmd
+        - chapters/dictionary/emissions.qmd
+        - chapters/dictionary/dates.qmd
+        - chapters/dictionary/mileage.qmd
+        - chapters/dictionary/location.qmd
+        - chapters/dictionary/dvla-status.qmd
     - chapters/references.qmd
   appendices:
     - chapters/glossary.qmd
-    - chapters/data-dictionary.qmd
     - chapters/table-catalogue.qmd
     - chapters/maintaining.qmd
     - part: "Pipeline reports"

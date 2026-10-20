@@ -1,0 +1,88 @@
+# Fuel and engine {#sec-dd-fuel-engine}
+
+```{r}
+source("R/book.R")
+cols <- dict_groups$fuel_engine
+cs <- coverage_share(cols)
+hs <- read_pipeline("outputs", "quality", "harmonised_sources.csv")
+fuel_src <- hs[hs$attribute == "fuel", ]
+```
+
+## Overview
+
+DVSA and DVLA each record a vehicle's fuel and engine size, with different
+labels and different gaps, and neither separates plug-in hybrids from other
+hybrids. The pipeline checks the two against each other and against similar
+vehicles, and builds one harmonised value of each. @sec-fuels-emissions
+explains the fuel types and why they matter.
+
+- **`fuel`** is the harmonised fuel, in DVSA's terms. It is the DVSA value,
+  replaced by the DVLA value where DVSA says `Other` or the two clearly
+  disagree, and checked against the fuel of other vehicles of the same make and
+  model (methodology, [section 5.2](../../reports/methodology.md#fuel) and
+  [section 5.3](../../reports/methodology.md#fuel-check-against-the-makemodel)).
+  `fuel_src` says where it came from and `fuel_check` how it compares with the
+  make and model.
+- **`fuel_DFT`** is the fuel DfT's licensing statistics record for the
+  vehicle's model, which unlike DVSA and DVLA separates plug-in hybrids. It
+  is how plug-in hybrids are identified
+  ([section 5.5](../../reports/methodology.md#plug-in-hybrids-the-dft-fuel-detail)).
+- **`fuel_simple`** groups the harmonised fuel into six categories: Petrol,
+  Diesel, Electric, Hybrid Electric, Plug-in Hybrid Electric and Other
+  ([section 6.1](../../reports/methodology.md#derived-fields)). It is the
+  column most analyses need.
+- **`engine_cc`** is the engine size in cc: DVSA, else DVLA, else the most
+  common for similar vehicles, and 0 for electric and fuel cell vehicles
+  ([section 5.4](../../reports/methodology.md#engine-size)). `engine_cc_src`
+  and `engine_check` record where it came from and what was corrected.
+- **`fuel_DVSA`**, **`fuelType_DVLA`**, **`engineSize_DVSA`** and
+  **`engineCapacity_DVLA`** are the values as supplied.
+
+::: {.callout-important title="Plug-in hybrids are a lower bound"}
+A vehicle is a plug-in hybrid in `fuel_simple` only when its DfT model is
+clearly one. Models sold as both plug-in and ordinary hybrids stay as ordinary
+hybrids, so plug-in hybrids are undercounted (@sec-pitfalls).
+:::
+
+```{r}
+#| label: tbl-dd-fuel-engine
+#| tbl-cap: "Fuel and engine columns."
+dict_table("fuel_engine")
+```
+
+## Coverage
+
+The harmonised fuel is never blank: `fuel_DVSA` is supplied for every vehicle,
+and `r fmt_pct(fuel_src$dvsa / sum(unlist(fuel_src[-1])))` of harmonised
+values are the DVSA value unchanged. A fuel of `Other` or a `fuel_check` of
+`unknown_fuel` or `no_reference` means the fuel is not really known, or could
+not be checked.
+
+`fuel_DFT` is present for `r cov_pct(cs, "fuel_DFT")` of vehicles, those whose
+model is found in the DfT statistics with a fuel of the same group. It is
+lower for the oldest vehicles (`r cov_pct(cs, "fuel_DFT", "Before 2000")` of
+those first used before 2000), as for the model match itself
+(@sec-dd-make-model).
+
+The engine size shows most clearly why the harmonised columns are worth using
+(@fig-dd-fuel-engine). The DVSA engine size comes from the MOT history, so it
+is missing for vehicles that have not yet been tested: only
+`r cov_year("engineSize_DVSA", 2024)` of vehicles first used in 2024 have
+one. The DVLA engine capacity fills most of these, but is itself missing for
+older vehicles with no VES record. Combining them, and filling the rest from
+similar vehicles, gives `engine_cc` for `r cov_pct(cs, "engine_cc", digits = 1)`
+of vehicles, at every age.
+
+```{r}
+#| label: tbl-dd-fuel-engine-coverage
+#| tbl-cap: "Share of vehicles with a value, by year of first use."
+coverage_table(cols)
+```
+
+```{r}
+#| label: fig-dd-fuel-engine
+#| fig-cap: "Share of vehicles with an engine size, as supplied by each source and harmonised, and with a DfT fuel, by year of first use."
+#| fig-height: 4.6
+coverage_plot(c("engineSize_DVSA", "engineCapacity_DVLA", "engine_cc",
+                "fuel_DFT"))
+```

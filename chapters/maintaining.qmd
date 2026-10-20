@@ -41,7 +41,11 @@ Nothing in the book reads the pipeline repository directly. Instead:
    table and saves the result in `data/examples/`. The worked examples display
    the same `.sql` files, so the code shown is exactly the code that produced
    the results.
-4. **Chapters** read the copies with `read_pipeline()` and `read_example()`
+4. **`scripts/run-coverage.R`** counts, for every column of the vehicle table,
+   how many vehicles have a value, by year of first use and by year, and saves
+   the counts in `data/coverage/` for the coverage sections of the data
+   [dictionary](dictionary/index.qmd).
+5. **Chapters** read the copies with `read_pipeline()` and `read_example()`
    from `R/book.R`, and compute every number, table and chart from them when
    the book is rendered.
 
@@ -56,6 +60,7 @@ From the book's root folder, with MOT-pipline checked out alongside it (or
 ```sh
 Rscript scripts/sync-pipeline.R   # copy the new outputs
 Rscript scripts/run-examples.R    # rerun the examples (needs the parquet)
+Rscript scripts/run-coverage.R    # recount column coverage (needs the parquet)
 Rscript scripts/rebuild.R         # re-execute every chapter and render
 ```
 
@@ -93,6 +98,14 @@ To add a worked example, put the query in `sql/` (naming the file as
 `'vehicles_enhanced.parquet'`), run `Rscript scripts/run-examples.R exNN`, and
 show it with `{{{< include ../sql/exNN_name.sql >}}}` inside a `sql` code
 block.
+
+## When the vehicle table gains or loses columns
+
+The data dictionary chapters (`chapters/dictionary/`) each describe a group of
+columns, defined once in `dict_groups` in `R/book.R`. A column that has been
+removed stops the render with an error naming it. A new column is listed in a
+warning on the part's opening page until it is added to a group, and to that
+chapter's overview text. Rerun `scripts/run-coverage.R` after either change.
 
 ## Writing conventions
 

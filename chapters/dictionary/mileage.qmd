@@ -1,0 +1,94 @@
+# Mileage {#sec-dd-mileage}
+
+```{r}
+source("R/book.R")
+by_year <- read_coverage("coverage_by_year")
+by_year$share_mileage <- by_year$n_mileage / by_year$n_on_road
+by_year$share_legit <- by_year$n_legit_mileage / by_year$n_mileage
+yr <- function(y, col) fmt_pct(by_year[[col]][by_year$year == y], 0)
+mc <- read_pipeline("outputs", "quality", "mileage_checks.csv")
+```
+
+## Overview
+
+The MOT test records the odometer reading, and the difference between two
+tests gives the distance driven between them. The Bristol team spread that
+distance over the calendar years between the tests to give an annual mileage
+for each year. @sec-sources-linkage explains how the annual figures are
+made, and @sec-mot-test what the MOT records.
+
+- **`mileage_YYYY`** is the number of miles driven in year YYYY, from
+  `r min(by_year$year)` to `r max(by_year$year)`.
+- **`legit_mileage_YYYY`** is `TRUE` if that mileage is judged plausible.
+  Filter on it for most analyses: the implausible values include odometer
+  errors and readings typed in wrongly.
+- **`total_mileage`** is the sum of the annual mileages over all years. It is
+  0 for a vehicle with no recorded mileage, and decides `scope_mileage`
+  (@sec-dd-identifiers).
+
+The pipeline takes the annual mileages as supplied (methodology,
+[section 2](../../reports/methodology.md#input-data)), and summarises them in
+the mileage tables
+([section 8](../../reports/methodology.md#stage-6-mileage-summaries);
+@sec-aggregate-tables). The table is wide, with one mileage column per year:
+@sec-examples-code shows how to reshape it to one row per vehicle per year.
+
+::: {.callout-important title="Mileage needs a test at each end"}
+An annual mileage can only be calculated between two MOT tests, so a vehicle
+has none before its first test or after its last, and the most recent years
+are incomplete because many vehicles have not yet had their next test
+(@sec-pitfalls).
+:::
+
+```{r}
+#| label: tbl-dd-mileage
+#| tbl-cap: "Mileage columns."
+dict_table("mileage")
+```
+
+## Coverage
+
+The mileage columns are blank for most vehicles in most years
+(@tbl-dd-mileage), simply because a vehicle is on the road for only part of
+the period. A fairer measure is the share of the vehicles on the road in a
+year, that is with a `pca_YYYY` that is not `unborn` or `dead`, that have a
+mileage for that year (@fig-dd-mileage).
+
+On that measure about `r yr(2015, "share_mileage")` of vehicles on the
+road have a mileage in each year from 2010 to 2023. The rest are mostly
+vehicles not yet due their first MOT, and vehicles in the years after their
+last test whose status is still `unknown`. Coverage is higher in the first
+years (`r yr(min(by_year$year), "share_mileage")` in `r min(by_year$year)`)
+and falls in the last two, to `r yr(2024, "share_mileage")` in 2024 and
+`r yr(2025, "share_mileage")` in 2025, because many vehicles have not yet had
+the test that closes the year.
+
+Of the mileages present, almost all are judged plausible: the share flagged
+implausible is at most `r fmt_pct(max(mc$n_not_legit / mc$n_with_mileage), 1)`
+in any year. `total_mileage` is never blank, but is 0 for vehicles with no mileage in any
+year.
+
+```{r}
+#| label: fig-dd-mileage
+#| fig-cap: "Share of the vehicles on the road in each year that have a mileage for that year."
+#| fig-height: 3
+ggplot(by_year, aes(year, share_mileage)) +
+  geom_line(colour = cars_cols[1], linewidth = 0.7) +
+  geom_point(colour = cars_cols[1], size = 1.6) +
+  scale_y_continuous(labels = scales::label_percent(), limits = c(0, 1)) +
+  labs(x = NULL, y = "Vehicles on the road with a mileage") +
+  theme_cars()
+```
+
+```{r}
+#| label: tbl-dd-mileage-coverage
+#| tbl-cap: "Vehicles on the road in each year, and the share with a mileage and with a plausible mileage."
+out <- data.frame(
+  Year = by_year$year,
+  `On the road` = fmt_n(by_year$n_on_road),
+  `With a mileage` = fmt_pct(by_year$share_mileage),
+  `Plausible, of those with a mileage` = fmt_pct(by_year$share_legit),
+  check.names = FALSE
+)
+kable(out, row.names = FALSE, align = c("l", "r", "r", "r"))
+```

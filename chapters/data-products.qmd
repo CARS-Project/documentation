@@ -38,7 +38,7 @@ the statuses `unknown`, `dead` and `unborn`, so totals can be reconciled.
 `vehicles_enhanced.parquet` has one row for each of the
 `r fmt_m(dd$n_rows[1])` vehicles in scope, and `r nrow(dd)` columns, including
 21 years each of mileage, plausibility flag and postcode area. It is described
-in @sec-vehicle-table, and every column is listed in @sec-data-dictionary.
+in @sec-vehicle-table, and every column is listed in the [data dictionary](dictionary/index.qmd).
 
 ## The linked source table
 

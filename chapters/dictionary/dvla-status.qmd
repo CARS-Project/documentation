@@ -1,0 +1,91 @@
+# Licensing status and DVLA lookups {#sec-dd-dvla-status}
+
+```{r}
+source("R/book.R")
+cols <- dict_groups$dvla_status
+cs <- coverage_share(cols)
+dm <- read_pipeline("outputs", "quality", "dvla_match.csv")
+dm_n <- tapply(dm$n_vehicles, dm$dvla_match, sum)
+```
+
+## Overview
+
+DVLA details were collected by querying the Vehicle Enquiry Service (VES) for
+every registration in the DVSA data, many of them several times, between 2024
+and 2026 (@sec-sources-linkage). These columns hold the vehicle's licensing
+status as the VES reported it, the record of the lookups themselves, and the
+pipeline's check of whether the VES record describes the same vehicle.
+
+- **Licensing status**: tax status and due date, MOT status and expiry,
+  whether the vehicle is marked for export, the date of its latest V5C
+  (registration certificate) and the end date of the additional rate of tax
+  (the supplement for cars with a high list price), all as at the last lookup that returned a record. These are
+  supplied by the DVLA and not changed. @sec-lifecycle explains SORN, export
+  and the other stages they describe.
+- **What changed between lookups**: `ever_SORN`, `ever_export_marked`,
+  `plate_ever_changed_VES`, `v5C_issue_date_ever_changed` and
+  `change_in_other_VES_field` summarise the changes the Bristol team saw
+  across repeated lookups.
+- **The lookups**: when the registration was first and last queried and first
+  and last returned a record, how many queries were made, and the error from
+  the last one where it failed (methodology,
+  [section 2](../../reports/methodology.md#input-data)).
+- **`dvla_match`** says whether the VES record describes the same vehicle as
+  the DVSA record. A registration can move between vehicles, so a lookup can
+  return another vehicle's record. Where at least two of make, year of
+  manufacture and engine size disagree (`dvla_evidence`), the match is
+  `different` and the pipeline does not use the record's values
+  ([section 5.1](../../reports/methodology.md#dvsadvla-record-match)).
+
+```{r}
+#| label: tbl-dd-dvla-status
+#| tbl-cap: "Licensing status and DVLA lookup columns."
+dict_table("dvla_status")
+```
+
+## Coverage
+
+These columns have three levels of coverage, which apply to every `_DVLA`
+column in the table:
+
+1. **A lookup was made**: `r cov_pct(cs, "first_VES_check")` of vehicles. The
+   lookup columns, such as `first_VES_check` and `is_error`, are present for
+   all of these.
+2. **The lookup returned a record**: `r cov_pct(cs, "first_VES_return")` of
+   vehicles. The licensing status columns and the other `_DVLA` columns are
+   present only for these.
+3. **The record describes this vehicle**: `dvla_match` is `same` for
+   `r fmt_pct(dm_n["same"] / sum(dm_n), 0)` of vehicles, `different` for
+   `r fmt_pct(dm_n["different"] / sum(dm_n), 1)` and `no_dvla` for the rest.
+
+How often a record was returned depends strongly on age (@fig-dd-dvla-status).
+The VES only describes vehicles still on the DVLA register, so it returned a
+record for `r cov_pct(cs, "first_VES_return", "Before 2000")` of vehicles
+first used before 2000 and `r cov_pct(cs, "first_VES_return", "2000–09")` of
+those first used in the 2000s, most of which have long left the road, against
+`r cov_pct(cs, "first_VES_return", "2010–19")` of those first used in the
+2010s. Where no record was returned, `error` holds the reason.
+
+Vehicles first used in the last few years are a different case: many had not
+been registered, or had not reached the DVSA data, when the lookups were made.
+Hardly any vehicle first used in 2026 has a DVLA record
+(`r cov_year("first_VES_return", 2026)`).
+
+Some status fields are blank even where a record was returned, because the
+DVLA holds no value: `taxDueDate_DVLA` for some vehicles that are not taxed, `motExpiryDate_DVLA` for vehicles too new to need an MOT, and
+`artEndDate_DVLA` for all but the recent, expensive cars that pay the
+additional rate of tax.
+
+```{r}
+#| label: tbl-dd-dvla-status-coverage
+#| tbl-cap: "Share of vehicles with a value, by year of first use."
+coverage_table(cols)
+```
+
+```{r}
+#| label: fig-dd-dvla-status
+#| fig-cap: "Share of vehicles looked up in the VES, returned a record, and with a tax due date and MOT expiry date, by year of first use."
+#| fig-height: 4.6
+coverage_plot(c("first_VES_check", "first_VES_return", "taxDueDate_DVLA",
+                "motExpiryDate_DVLA"))
+```

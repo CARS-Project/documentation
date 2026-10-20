@@ -1,0 +1,73 @@
+# Make and model {#sec-dd-make-model}
+
+```{r}
+source("R/book.R")
+cols <- dict_groups$make_model
+cs <- coverage_share(cols)
+```
+
+## Overview
+
+DVSA records make and model as free text typed at the test station, so one
+model can appear in dozens of spellings. The pipeline matches each make and
+model to the names used in DfT's vehicle licensing statistics, so CARS results
+can be compared with and joined to the official figures.
+
+- **`make_final`** and **`model_final`** are the cleaned make and DfT
+  *generic model* (`FORD`, `FIESTA`). Use these for analysis.
+- **`derivative_final`** is the rest of the DVSA model text, such as trim,
+  engine or body style (`ZETEC CLIMATE`). It is not standardised.
+- **`dft_genmodel`** and **`dft_model`** are the DfT names, for joining to DfT
+  tables. `dft_model` is filled only where the DVSA text is exactly one DfT
+  model string.
+- **`make_method`**, **`model_method`** and **`model_confidence`** record how
+  each match was made and how sure it is. Filter on them to test whether a
+  result depends on the less certain matches.
+- **`make_DVSA`**, **`model_DVSA`** and **`make_DVLA`** are the values as
+  supplied, kept for checking.
+
+The matching is summarised in @sec-pipeline and set out in full in the
+methodology, [section 4](../../reports/methodology.md#stage-2-make-and-model),
+including how makes ([4.2](../../reports/methodology.md#makes)) and models
+([4.3](../../reports/methodology.md#models)) are matched and
+[how the result compares with the DfT counts](../../reports/methodology.md#comparison-with-the-dft-counts).
+The vehicle's body type, found from the matched model, is described with the
+other classifications in @sec-dd-vehicle-type.
+
+```{r}
+#| label: tbl-dd-make-model
+#| tbl-cap: "Make and model columns."
+dict_table("make_model")
+```
+
+## Coverage
+
+The DVSA make and model are present for almost every vehicle, and the cleaned
+make for `r cov_pct(cs, "make_final", digits = 1)`: it is blank only where the
+supplied make is a placeholder such as `UNKNOWN`. A generic model is found for
+`r cov_pct(cs, "model_final")` of vehicles. Matching is a little weaker for the
+oldest vehicles, first used before 2000 (`r cov_pct(cs, "model_final", "Before 2000")`),
+more of whose models do not appear in the DfT statistics.
+
+The derivative and the exact DfT model string change most over time
+(@fig-dd-make-model). Both depend on how much detail DVSA's model text holds,
+and DVSA records much fuller model names for recent vehicles: the derivative
+is present for `r cov_year("derivative_final", 2015)` of vehicles first used
+in 2015, but `r cov_year("derivative_final", 2024)` of those first used in
+2024.
+
+The DVLA make is present wherever a VES record was found, which is rarer for
+older vehicles: see @sec-dd-dvla-status.
+
+```{r}
+#| label: tbl-dd-make-model-coverage
+#| tbl-cap: "Share of vehicles with a value, by year of first use."
+coverage_table(cols)
+```
+
+```{r}
+#| label: fig-dd-make-model
+#| fig-cap: "Share of vehicles with a value in selected make and model columns, by year of first use."
+#| fig-height: 4.6
+coverage_plot(c("make_final", "model_final", "derivative_final", "dft_model"))
+```

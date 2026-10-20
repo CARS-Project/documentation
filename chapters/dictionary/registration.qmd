@@ -1,0 +1,94 @@
+# Registration and number plates {#sec-dd-registration}
+
+```{r}
+source("R/book.R")
+cols <- dict_groups$registration
+cs <- coverage_share(cols)
+dd <- read_pipeline("outputs", "data_dictionary.csv")
+n_miss <- setNames(dd$n_missing, dd$column_name)
+tf <- read_coverage("true_by_first_use_year")
+cov_vanity <- function(y) {
+  x <- tf[tf$column_name == "vanity_plate" & tf$first_use_year == y, ]
+  fmt_pct(x$n_true / x$n_vehicles, 0)
+}
+```
+
+## Overview
+
+The registration mark, or number plate, is the only identifier the sources
+share, and the key used to link them (@sec-sources-linkage).
+
+- **`registration_DVSA`** is the plate as supplied in the DVSA MOT history.
+  It is the plate the vehicle carried when the data was extracted, which may
+  not be the one it was first registered with.
+- **`registration_DVLA`** is the plate returned by the DVLA Vehicle Enquiry
+  Service (VES) for this vehicle. It usually matches the DVSA plate; where it
+  does not, the plate has moved to another vehicle, and `dvla_match`
+  (@sec-dd-dvla-status) says whether the VES record can be trusted.
+- **`registration_clean`** is the DVSA plate upper-cased with spaces and
+  punctuation removed. Use it for joins.
+- **The `plate_` columns** decode the plate's format: its type (current
+  style, prefix, suffix, dateless and others), the period in which a plate of
+  that form was issued, and the issuing office or region.
+- **`vanity_plate`** is `TRUE` where the vehicle's birth date falls outside the
+  plate's issue period. This flags cherished plates, but also imports, Q plates
+  and other re-registered vehicles.
+- **`plate_ever_changed_VES`** is `TRUE` where the registration returned a
+  different vehicle between VES lookups.
+
+The plate formats and their meaning are explained in @sec-number-plates, and
+the decoding rules in the methodology,
+[section 6.2](../../reports/methodology.md#number-plate-decoding).
+
+::: {.callout-important title="Registrations are personal data"}
+Registration marks can identify a vehicle's keeper when combined with other
+information. The conditions for using them are set out in @sec-data-products.
+:::
+
+```{r}
+#| label: tbl-dd-registration
+#| tbl-cap: "Registration and number plate columns."
+dict_table("registration")
+```
+
+## Coverage
+
+The DVSA registration, and everything decoded from it, is present for every
+vehicle. The plate's issue dates are blank only for the
+`r fmt_n(n_miss["plate_date_from"])` vehicles whose plate has no dated period,
+and `vanity_plate` is blank where either the plate period or the birth date is
+missing.
+
+The DVLA registration and `plate_ever_changed_VES` are present wherever a VES
+lookup was made: `r cov_pct(cs, "registration_DVLA")` of all vehicles. The
+lookups were made for every DVSA registration between 2024 and 2026, so they cover
+almost every vehicle first used up to 2022, fewer of those first used since
+(`r cov_year("registration_DVLA", 2025)` for 2025), and almost none of
+those first used in 2026, which were registered after the lookups were made
+(@fig-dd-registration).
+
+```{r}
+#| label: tbl-dd-registration-coverage
+#| tbl-cap: "Share of vehicles with a value, by year of first use."
+coverage_table(cols)
+```
+
+```{r}
+#| label: fig-dd-registration
+#| fig-cap: "Share of vehicles with a DVLA registration, by year of first use."
+#| fig-height: 2.6
+coverage_plot("registration_DVLA", ncol = 1)
+```
+
+`vanity_plate` is almost never blank, but the share of vehicles flagged
+varies a good deal with age (@fig-dd-vanity), from about
+`r cov_vanity(1995)` of vehicles first used in 1995 to
+`r cov_vanity(2018)` of those first used in 2018. Take this into account
+before reading the decoded plate period or location as the vehicle's own.
+
+```{r}
+#| label: fig-dd-vanity
+#| fig-cap: "Share of vehicles whose plate does not match their age (vanity_plate TRUE), by year of first use."
+#| fig-height: 2.6
+coverage_plot("vanity_plate", ncol = 1, flags = TRUE)
+```

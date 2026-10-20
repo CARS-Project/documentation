@@ -1,0 +1,83 @@
+# Emissions {#sec-dd-emissions}
+
+```{r}
+source("R/book.R")
+cols <- dict_groups$emissions
+cs <- coverage_share(cols)
+ef <- read_pipeline("outputs", "quality", "euro_status_fill.csv")
+cars <- ef[ef$body_type == "Cars", ]
+```
+
+## Overview
+
+These columns describe the vehicle's official emissions: its CO~2~ figure and
+the Euro emission standard it was approved to. Both are recorded by the DVLA,
+not DVSA, and both are filled from similar vehicles where the DVLA has no
+value. @sec-fuels-emissions explains what the figures mean and their limits.
+
+- **`co2`** is the official CO~2~ figure in g/km, measured when the model was
+  type approved. It is the DVLA value, or else the most common value among
+  vehicles of the same make, model, birth year, fuel and engine size. A
+  recorded 0 g/km is kept only for vehicles with no engine; anywhere else it is
+  cleared and filled from similar vehicles. `co2_src` and `co2_check` record
+  what was done (methodology,
+  [section 5.6](../../reports/methodology.md#other-attributes)).
+- **`euro_status`** is the Euro standard as text (`EURO 6 AP`), standardised
+  from the DVLA's many spellings, backfilled from similar vehicles, and
+  otherwise assumed to be the standard compulsory for new vehicles of that type
+  when the vehicle was made
+  ([section 5.7](../../reports/methodology.md#euro-status-from-the-registration-date)).
+  **`euro_standard`** is its number (1 to 6), and `euro_status_src` and
+  `euro_check` record where it came from and whether it fits the vehicle's
+  age.
+- **`co2Emissions_DVLA`**, **`euroStatus_DVLA`** and
+  **`realDrivingEmissions_DVLA`** are the values as supplied.
+
+::: {.callout-important title="Recorded, filled and assumed values"}
+Filled and assumed values are estimates, not records. Results that depend on
+CO~2~ or Euro standard should be checked using only the recorded values
+(`co2_src = 'dvla'`, `euro_status_src = 'dvla'`): @sec-examples-code shows
+how, and @sec-pitfalls explains why.
+:::
+
+```{r}
+#| label: tbl-dd-emissions
+#| tbl-cap: "Emissions columns."
+dict_table("emissions")
+```
+
+## Coverage
+
+CO~2~ has been recorded since vehicle tax began to depend on it, for cars
+registered from March 2001, so the DVLA figure is almost never present for
+vehicles first used before then (@fig-dd-emissions). The backfill cannot help
+here, as similar vehicles of the same age have no figure either: `co2` is
+present for only `r cov_pct(cs, "co2", "Before 2000")` of vehicles first used
+before 2000, against `r cov_pct(cs, "co2", "2010–19")` of those first used in
+the 2010s. The DVLA figure dips again for the newest vehicles, not yet looked
+up in the VES (@sec-dd-dvla-status), and the backfill fills most of that gap.
+
+The DVLA recorded a Euro status for only `r cov_pct(cs, "euroStatus_DVLA")` of
+vehicles, almost all first used since 2018. The backfill and the assumed
+standard raise this to `r cov_pct(cs, "euro_status")`, but most of the values
+are therefore not records. For cars, `r fmt_pct(cars$n_assumed_from_date / cars$n_vehicles, 0)`
+of Euro statuses are assumed from the date. `euro_status` is blank for most
+vehicles made before the first Euro standard, in 1992, and for body types with
+no Euro schedule.
+
+`realDrivingEmissions_DVLA`, the DVLA's Real Driving Emissions (RDE) field,
+is present only for some vehicles first used since 2019, and is not used by
+the pipeline.
+
+```{r}
+#| label: tbl-dd-emissions-coverage
+#| tbl-cap: "Share of vehicles with a value, by year of first use."
+coverage_table(cols)
+```
+
+```{r}
+#| label: fig-dd-emissions
+#| fig-cap: "Share of vehicles with a CO~2~ figure and a Euro status, as supplied by the DVLA and harmonised, by year of first use."
+#| fig-height: 4.6
+coverage_plot(c("co2Emissions_DVLA", "co2", "euroStatus_DVLA", "euro_status"))
+```

@@ -1,0 +1,55 @@
+# Identifiers and scope {#sec-dd-identifiers}
+
+```{r}
+source("R/book.R")
+sc <- read_pipeline("outputs", "quality", "scope_counts.csv")
+n_sc <- setNames(sc$n_vehicles, sc$measure)
+```
+
+## Overview
+
+These columns identify each row of the vehicle table and record why the
+vehicle is in it.
+
+- **`vehicle_id`** is the row number in the input file supplied by the Bristol
+  team. It is unique within one version of the data but **not stable between
+  versions**: a new delivery renumbers the vehicles (@sec-pitfalls). To follow
+  a vehicle across versions, join on the registration instead
+  (@sec-dd-registration).
+- **`dup_vrm`** flags a DVSA registration that appears on more than one row.
+  Duplicates are kept and flagged rather than dropped, because it is not known
+  which row is right.
+- **The `scope_` flags** record the evidence that the vehicle existed at some
+  point from 2005. A vehicle is kept if any of the four is `TRUE`; the
+  `r fmt_m(n_sc["input_rows"])` input rows become
+  `r fmt_m(n_sc["in_scope"])` in-scope vehicles. The flags are not exclusive,
+  and a vehicle often meets several.
+
+How identifiers are assigned is set out in the methodology,
+[section 3.1](../../reports/methodology.md#identifiers-and-duplicates), and the
+scope rules in [section 3.4](../../reports/methodology.md#scope-which-vehicles-are-kept).
+@sec-pipeline explains why the table keeps vehicles for which little is known.
+
+```{r}
+#| label: tbl-dd-identifiers
+#| tbl-cap: "Identifier and scope columns."
+dict_table("identifiers")
+```
+
+## Coverage
+
+Every column in this group has a value for every vehicle. What varies over
+time is the reason a vehicle is in scope, shown in @fig-dd-scope. Vehicles
+first used before 2005 are kept only on evidence of use since then (a
+mileage, a postcode area or DVLA activity), while almost all of those first
+used since 2005 are in scope through `scope_born`. The newest vehicles are in scope almost
+entirely through `scope_born` and DVLA activity, as most have not yet had an
+MOT test.
+
+```{r}
+#| label: fig-dd-scope
+#| fig-cap: "Share of vehicles meeting each scope rule, by year of first use."
+#| fig-height: 4.6
+coverage_plot(c("scope_mileage", "scope_pca", "scope_born",
+                "scope_dvla_activity"), flags = TRUE)
+```

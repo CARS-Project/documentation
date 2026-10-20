@@ -1,0 +1,89 @@
+# Dates and age {#sec-dd-dates}
+
+```{r}
+source("R/book.R")
+cols <- dict_groups$dates
+cs <- coverage_share(cols)
+fu <- read_pipeline("outputs", "quality", "first_use_source.csv")
+fu_n <- setNames(fu$n_vehicles, fu$first_use_source)
+cv <- read_coverage("coverage_by_first_use_year")
+yrs <- unique(cv[, c("first_use_year", "n_vehicles")])
+n_odd <- sum(yrs$n_vehicles[!is.na(yrs$first_use_year) &
+                              (yrs$first_use_year < 1900 |
+                                 yrs$first_use_year > 2026)])
+```
+
+## Overview
+
+A vehicle has several dates that mark the start of its life: when it was made,
+when it was first registered, and when it was first used on the road. For most
+vehicles these are within weeks of each other, but they can be years apart for
+an import or a vehicle that sat in stock. @sec-lifecycle describes the stages
+of a vehicle's life and how the data records them.
+
+- **`first_use_date`** is the date to use for a vehicle's age: the DVSA first
+  used date, else the DVLA month of first registration, else `birth_date`.
+  `first_use_source` records which.
+- **`birth_date`** is the earliest of the DVSA first used, registration and
+  manufacture dates. It decides when a vehicle is `unborn` in `pca_YYYY`
+  (@sec-dd-location).
+- **`final_test_date_DVSA`** is the date of the last recorded MOT test, and
+  **`last_mot_year`** the year after which the vehicle is treated as `dead`:
+  no longer observed, not necessarily scrapped (@sec-pitfalls).
+- **The supplied dates** (`_DVSA`, `_DVLA`) are kept as received. The DVLA
+  month of first registration is accurate to the month only.
+
+How these dates are built is set out in the methodology,
+[section 3.2](../../reports/methodology.md#dates), and how the last MOT test
+date is read in [section 3.5](../../reports/methodology.md#tidying). Other
+DVLA dates, such as tax due and MOT expiry, are described with the licensing
+status in @sec-dd-dvla-status.
+
+```{r}
+#| label: tbl-dd-dates
+#| tbl-cap: "Date columns."
+dict_table("dates")
+```
+
+## Coverage
+
+Because three sources are combined, `first_use_date` and `birth_date` are
+missing for almost no vehicles. `r fmt_pct(fu_n["firstUsedDate_DVSA"] / sum(fu$n_vehicles), 0)`
+of first use dates are the DVSA first used date,
+`r fmt_pct(fu_n["monthOfFirstRegistration_DVLA"] / sum(fu$n_vehicles), 0)`
+the DVLA month of first registration and
+`r fmt_pct(fu_n["birth_date"] / sum(fu$n_vehicles), 0)` the birth date.
+A few dates are implausible: `r fmt_n(n_odd)` vehicles have a first use date
+before 1900 or after 2026.
+
+The coverage of the supplied dates follows their sources
+(@fig-dd-dates):
+
+- **The DVSA first used date and last test date** come from the MOT history,
+  so they are present for tested vehicles only. Coverage falls sharply for
+  vehicles first used since 2023, most of which have not had their first MOT:
+  `r cov_year("firstUsedDate_DVSA", 2023)` for 2023 and
+  `r cov_year("firstUsedDate_DVSA", 2024)` for 2024. The DVSA registration and
+  manufacture dates are present for almost every vehicle.
+- **The DVLA dates** are present wherever a VES record was found
+  (@sec-dd-dvla-status). `monthOfFirstDvlaRegistration_DVLA` is different: it
+  is present only for the `r cov_pct(cs, "monthOfFirstDvlaRegistration_DVLA", digits = 1)`
+  of vehicles first registered somewhere else, such as imports.
+- **`last_mot_year`** is blank by design for a vehicle that is still being
+  tested, or that was last seen in the final two years of data. Its coverage
+  is therefore highest for old vehicles, most of which have left the road, and
+  close to zero for new ones.
+
+```{r}
+#| label: tbl-dd-dates-coverage
+#| tbl-cap: "Share of vehicles with a value, by year of first use."
+coverage_table(cols)
+```
+
+```{r}
+#| label: fig-dd-dates
+#| fig-cap: "Share of vehicles with a value in selected date columns, by year of first use."
+#| fig-height: 4.6
+coverage_plot(c("firstUsedDate_DVSA", "final_test_date_DVSA",
+                "monthOfFirstRegistration_DVLA", "last_mot_year"))
+```

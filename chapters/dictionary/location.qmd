@@ -1,0 +1,81 @@
+# Location {#sec-dd-location}
+
+```{r}
+source("R/book.R")
+by_year <- read_coverage("coverage_by_year")
+by_year$share_pca <- by_year$n_pca / by_year$n_on_road
+yr <- function(y) fmt_pct(by_year$share_pca[by_year$year == y], 0)
+st <- read_pipeline("outputs", "quality", "pca_status_by_year.csv")
+```
+
+## Overview
+
+The only location in the data is the **postcode area** of the testing station
+where the vehicle had its MOT test in each year: `LS` for Leeds, `B` for
+Birmingham, and so on. It is where the vehicle was tested, which is usually,
+but not always, near where it is kept. @sec-geography explains postcode areas
+and the limits of analysing vehicles at this scale.
+
+- **`pca_YYYY`** is the postcode area in year YYYY, from
+  `r min(st$year)` to `r max(st$year)`. Northern Ireland is coded `NI`.
+- **In a year with no recorded postcode area**, the pipeline replaces the blank
+  with the vehicle's status:
+  - `unborn`: the vehicle had not yet been made or registered;
+  - `dead`: the year is after the vehicle's last MOT test, so it is no longer
+    observed. This is not the same as scrapped: it includes vehicles exported,
+    declared off the road or simply no longer tested;
+  - `unknown`: the vehicle existed but was not observed, for example in its
+    first three years before the first MOT.
+
+The status rules are set out in the methodology,
+[section 3.3](../../reports/methodology.md#postcode-area-status-infill), and
+how the statuses describe a vehicle's life in @sec-lifecycle. A vehicle is
+*observed* in a year when `pca_YYYY` holds a real postcode area, and selecting
+these vehicles is the usual first step of any analysis of a year
+(@sec-vehicle-table).
+
+```{r}
+#| label: tbl-dd-location
+#| tbl-cap: "Location columns."
+dict_table("location")
+```
+
+## Coverage
+
+`pca_YYYY` is never blank, because every blank is replaced by a status, so its
+coverage is the share of vehicles with a real postcode area rather than a
+status. Among the vehicles on the road in a year (those that are not `unborn`
+or `dead`), this share is the proportion observed, shown in @fig-dd-location.
+
+It is about `r yr(2015)` through the 2010s. The vehicles on the road but not
+observed are `unknown`: mostly new vehicles before their first MOT, and
+vehicles that missed a test. The share falls in the final years, to `r yr(2025)`
+in `r max(by_year$year)`: a vehicle last tested in the final two years of data
+may not yet be due another test, so it stays `unknown` rather than `dead`
+(@sec-pitfalls).
+
+```{r}
+#| label: fig-dd-location
+#| fig-cap: "Share of the vehicles on the road in each year that were observed, with a postcode area in that year."
+#| fig-height: 3
+ggplot(by_year, aes(year, share_pca)) +
+  geom_line(colour = cars_cols[1], linewidth = 0.7) +
+  geom_point(colour = cars_cols[1], size = 1.6) +
+  scale_y_continuous(labels = scales::label_percent(), limits = c(0, 1)) +
+  labs(x = NULL, y = "Vehicles on the road with a postcode area") +
+  theme_cars()
+```
+
+```{r}
+#| label: tbl-dd-location-coverage
+#| tbl-cap: "Vehicles by status of pca_YYYY in each year."
+out <- data.frame(
+  Year = st$year,
+  `Postcode area` = st$pca, unknown = st$unknown, dead = st$dead,
+  unborn = st$unborn,
+  `Observed, of those on the road` =
+    fmt_pct(by_year$share_pca[match(st$year, by_year$year)]),
+  check.names = FALSE
+)
+kable(out, row.names = FALSE, align = c("l", rep("r", 5)))
+```

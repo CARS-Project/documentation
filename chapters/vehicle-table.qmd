@@ -11,7 +11,7 @@ years <- sort(unique(as.integer(sub(".*_", "", dd$column_name[year_cols]))))
 The vehicle table, `vehicles_enhanced.parquet`, is the most detailed CARS
 product: one row for each of `r fmt_n(n_rows)` vehicles, with
 `r nrow(dd)` columns. This chapter explains how it is organised and how to read
-it. Every column is listed in the data dictionary (@sec-data-dictionary).
+it. Every column is described in the [data dictionary](dictionary/index.qmd).
 
 ## Parquet
 

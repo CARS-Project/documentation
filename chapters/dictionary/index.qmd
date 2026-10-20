@@ -1,0 +1,84 @@
+# Data dictionary {#sec-data-dictionary}
+
+```{r}
+source("R/book.R")
+dd <- read_pipeline("outputs", "data_dictionary.csv")
+d <- dict_columns()
+cv_prov <- readLines("data/coverage/provenance.txt")
+```
+
+This part describes every column of the vehicle table,
+`vehicles_enhanced.parquet`. The `r nrow(dd)` columns are grouped by theme,
+one chapter per group, and each chapter has the same two sections:
+
+- **Overview** explains what the columns contain and where their values come
+  from, lists each column with its type, source and description, and links to
+  the parts of the book and of the pipeline methodology
+  ([Methodology](../../reports/methodology.md)) that explain how they are made.
+- **Coverage** shows what share of vehicles have a value in each column, and
+  how that changes over time.
+
+The descriptions and missing shares come from the pipeline's
+`data_dictionary.csv`, so they always match the version of the data the book
+describes. *Missing* is the share of the `r fmt_n(dd$n_rows[1])` vehicles with
+no value. The year-by-year columns (`mileage_YYYY`, `legit_mileage_YYYY` and
+`pca_YYYY`) are listed once each, with the range of their missing shares across
+the years.
+
+```{r}
+#| label: tbl-dictionary-groups
+#| tbl-cap: "The chapters of the data dictionary."
+chapters <- c(
+  identifiers = "@sec-dd-identifiers", registration = "@sec-dd-registration",
+  make_model = "@sec-dd-make-model", vehicle_type = "@sec-dd-vehicle-type",
+  fuel_engine = "@sec-dd-fuel-engine", emissions = "@sec-dd-emissions",
+  dates = "@sec-dd-dates", mileage = "@sec-dd-mileage",
+  location = "@sec-dd-location", dvla_status = "@sec-dd-dvla-status"
+)
+g <- data.frame(
+  Chapter = chapters[names(dict_groups)],
+  Columns = vapply(dict_groups, length, integer(1)),
+  Examples = vapply(dict_groups, function(x) {
+    paste0("`", head(x, 3), "`", collapse = ", ")
+  }, character(1))
+)
+kable(g, row.names = FALSE)
+```
+
+```{r}
+#| output: asis
+unassigned <- setdiff(d$column_name, unlist(dict_groups))
+if (length(unassigned) > 0) {
+  cat("::: {.callout-warning title=\"Columns not yet described\"}\n",
+      "These columns are in the data dictionary but in no chapter: ",
+      paste0("`", unassigned, "`", collapse = ", "),
+      ". Add them to `dict_groups` in `R/book.R`.\n:::\n", sep = "")
+}
+```
+
+## Reading the coverage sections
+
+A column's coverage is the share of vehicles with a value in it, that is, not
+blank. Coverage depends a great deal on the age of the vehicle, because the
+sources describe vehicles differently according to when they were on the
+road: the DVLA Vehicle Enquiry Service was queried between 2024 and 2026, so it rarely
+holds a record for a vehicle scrapped long before (@sec-sources-linkage). The
+coverage sections therefore show each column by **year of first use**
+(`first_use_date`), with the vehicles of that year as the denominator.
+
+The year-by-year columns are different: they describe a calendar year, so their
+coverage is shown for each year, among the vehicles on the road in that year
+(those whose `pca_YYYY` is not `unborn` or `dead`).
+
+Two things to keep in mind:
+
+- **A value is not necessarily a recorded value.** Many harmonised columns are
+  filled from similar vehicles where the sources are blank. The `_src` column
+  next to each says which values were recorded and which were filled
+  (@sec-pitfalls).
+- **Some values mean "not known".** A column that is never blank can still hold
+  `unknown`, `no_reference` or `missing`, as `pca_YYYY` and the `_check` columns
+  do. The overview of each chapter says where this applies.
+
+The coverage figures were counted from the vehicle table by
+`scripts/run-coverage.R` (`r sub("^run_at: ", "run ", grep("^run_at", cv_prov, value = TRUE))`).
