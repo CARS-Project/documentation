@@ -48,7 +48,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-c08868c37ca8912c446ae25c80bf22ff.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-6042582f9b753895188e055ed7464af9.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -447,10 +447,10 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#sec-meth-linking-anon-dvsa" id="toc-sec-meth-linking-anon-dvsa" class="nav-link" data-scroll-target="#sec-meth-linking-anon-dvsa"><span class="header-section-number">18.2</span> Linking the anonymous and DVSA data sets</a></li>
   <li><a href="#sec-meth-linking-ves" id="toc-sec-meth-linking-ves" class="nav-link" data-scroll-target="#sec-meth-linking-ves"><span class="header-section-number">18.3</span> Linking the VES data set</a></li>
   <li><a href="#sec-meth-annualising" id="toc-sec-meth-annualising" class="nav-link" data-scroll-target="#sec-meth-annualising"><span class="header-section-number">18.4</span> Annualising the data</a></li>
-  <li><a href="#sec-meth-cleaning" id="toc-sec-meth-cleaning" class="nav-link" data-scroll-target="#sec-meth-cleaning"><span class="header-section-number">18.5</span> Cleaning and enhancing the data</a>
+  <li><a href="#sec-meth-cleaning" id="toc-sec-meth-cleaning" class="nav-link" data-scroll-target="#sec-meth-cleaning"><span class="header-section-number">18.5</span> Cleaning and enhancing the vehicle data</a>
   <ul class="collapse">
-  <li><a href="#sec-meth-core-vehicle-table" id="toc-sec-meth-core-vehicle-table" class="nav-link" data-scroll-target="#sec-meth-core-vehicle-table"><span class="header-section-number">18.5.1</span> Stage 1: Core vehicle table</a></li>
-  <li><a href="#sec-meth-make-and-model" id="toc-sec-meth-make-and-model" class="nav-link" data-scroll-target="#sec-meth-make-and-model"><span class="header-section-number">18.5.2</span> Stage 2: Make and model</a></li>
+  <li><a href="#core-vehicle-variables" id="toc-core-vehicle-variables" class="nav-link" data-scroll-target="#core-vehicle-variables"><span class="header-section-number">18.5.1</span> Core vehicle variables</a></li>
+  <li><a href="#sec-meth-make-and-model" id="toc-sec-meth-make-and-model" class="nav-link" data-scroll-target="#sec-meth-make-and-model"><span class="header-section-number">18.5.2</span> Make and model cleaning</a></li>
   <li><a href="#sec-meth-record-matching-fuel-and-engine" id="toc-sec-meth-record-matching-fuel-and-engine" class="nav-link" data-scroll-target="#sec-meth-record-matching-fuel-and-engine"><span class="header-section-number">18.5.3</span> Stage 3: Record matching, fuel and engine checks, and backfill</a></li>
   <li><a href="#sec-meth-derived-fields-and-number-plates" id="toc-sec-meth-derived-fields-and-number-plates" class="nav-link" data-scroll-target="#sec-meth-derived-fields-and-number-plates"><span class="header-section-number">18.5.4</span> Stage 4: Derived fields and number plates</a></li>
   </ul></li>
@@ -545,42 +545,28 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </section>
 <section id="sec-meth-cleaning" class="level2" data-number="18.5">
-<h2 data-number="18.5" class="anchored" data-anchor-id="sec-meth-cleaning"><span class="header-section-number">18.5</span> Cleaning and enhancing the data</h2>
-<p>This section is taken from sections 3 to 6 of the pipeline’s <a href="../reports/methodology.html">Methodology report</a>. The pipeline runs in stages, each reading the output of the one before; the code and output of each stage are given under its heading.</p>
-<section id="sec-meth-core-vehicle-table" class="level3" data-number="18.5.1">
-<h3 data-number="18.5.1" class="anchored" data-anchor-id="sec-meth-core-vehicle-table"><span class="header-section-number">18.5.1</span> Stage 1: Core vehicle table</h3>
-<p><em>Code: <code>R/stage_core.R</code> · Output: <code>outputs/intermediate/01_core.parquet</code></em></p>
-<section id="sec-meth-identifiers-and-duplicates" class="level4" data-number="18.5.1.1">
-<h4 data-number="18.5.1.1" class="anchored" data-anchor-id="sec-meth-identifiers-and-duplicates"><span class="header-section-number">18.5.1.1</span> Identifiers and duplicates</h4>
+<h2 data-number="18.5" class="anchored" data-anchor-id="sec-meth-cleaning"><span class="header-section-number">18.5</span> Cleaning and enhancing the vehicle data</h2>
+<p>After the three dataset have been joined and converted to annualised dataset a process of cleaning and enhancement is done to make the data more consistent and easier to use.</p>
+<section id="core-vehicle-variables" class="level3" data-number="18.5.1">
+<h3 data-number="18.5.1" class="anchored" data-anchor-id="core-vehicle-variables"><span class="header-section-number">18.5.1</span> Core vehicle variables</h3>
+<section id="sec-meth-dates" class="level4" data-number="18.5.1.1">
+<h4 data-number="18.5.1.1" class="anchored" data-anchor-id="sec-meth-dates"><span class="header-section-number">18.5.1.1</span> Dates</h4>
+<p>Standerdised Birth/dead dates needed - Perhap this should be moved to Bristol?</p>
 <ul>
-<li><strong><code>vehicle_id</code></strong> is the row number in the input file. It is stable only for that input file; a new Bristol delivery will renumber vehicles.</li>
-<li><strong><code>dup_vrm</code></strong> is TRUE when the DVSA registration appears on more than one row. No registration appears more than once in this input (earlier deliveries had duplicates). Duplicates are <strong>kept and flagged</strong>, not removed, because it is not known which row is correct.</li>
-</ul>
-</section>
-<section id="sec-meth-dates" class="level4" data-number="18.5.1.2">
-<h4 data-number="18.5.1.2" class="anchored" data-anchor-id="sec-meth-dates"><span class="header-section-number">18.5.1.2</span> Dates</h4>
-<ul>
-<li><strong><code>birth_date</code></strong> is the earliest of DVSA first used date, registration date and manufacture date. Only 10,030 input vehicles have none of these.</li>
-<li><strong><code>first_use_date</code></strong> is the first available of:
+<li><p><strong><code>birth_date</code></strong> is the earliest of DVSA first used date, registration date and manufacture date. Only 10,030 input vehicles have none of these.</p></li>
+<li><p><strong><code>first_use_date</code></strong> is the first available of:</p>
 <ol type="1">
 <li>DVSA first used date</li>
 <li>DVLA month of first registration</li>
 <li><code>birth_date</code></li>
 </ol>
-<code>first_use_source</code> records which one was used.</li>
-<li><strong><code>last_mot_year</code></strong> is the latest year with <code>is_end_use_YYYY = TRUE</code>. Where no year is flagged, it is the last year with a recorded postcode area, unless that year is one of the final two years of data.</li>
-</ul>
-<p>Why the fallback: the January 2026 Bristol delivery leaves the end-of-use flag off for most vehicles that stopped being tested. For example, 1.6 million of the 2.4 million vehicles whose last MOT was in 2019 have no flag, against 20 thousand in the earlier delivery. Without the fallback, those vehicles would be <code>unknown</code> for ever, not <code>dead</code>. Where a vehicle has both a flag and a recorded postcode area, the flag year is its last postcode area year for 99.9% of vehicles. A vehicle last seen in the final two years may simply not be due a test yet, so it keeps no last MOT year and stays <code>unknown</code>.</p>
-<p>Assumptions:</p>
-<ul>
-<li><strong>Birth date is the earliest recorded date.</strong> For vehicles that sat in stock, or were imported, the manufacture date can be well before first use.</li>
-<li><strong>The DVLA month of first registration is the first of that month,</strong> so it is accurate to the month only.</li>
-<li><strong>Vehicles with no dates get no invented one.</strong> The previous code assigned 2000-01-01 to such vehicles; that placeholder has been removed.</li>
+<p><code>first_use_source</code> records which one was used.</p></li>
+<li><p><strong><code>last_mot_year</code></strong> is the latest year with <code>is_end_use_YYYY = TRUE</code>. Where no year is flagged, it is the last year with a recorded postcode area, unless that year is one of the final two years of data.</p></li>
 </ul>
 </section>
-<section id="sec-meth-postcode-area-status-infill" class="level4" data-number="18.5.1.3">
-<h4 data-number="18.5.1.3" class="anchored" data-anchor-id="sec-meth-postcode-area-status-infill"><span class="header-section-number">18.5.1.3</span> Postcode area status infill</h4>
-<p>Bristol’s <code>pca_YYYY</code> is blank in any year where the vehicle was not observed. Each blank is replaced with a status:</p>
+<section id="sec-meth-postcode-area-status-infill" class="level4" data-number="18.5.1.2">
+<h4 data-number="18.5.1.2" class="anchored" data-anchor-id="sec-meth-postcode-area-status-infill"><span class="header-section-number">18.5.1.2</span> Postcode area status infill</h4>
+<p>The <code>pca_YYYY</code> variables thus far include the postcode area for each year a vehicle is observed. If the vehicle has not been observed in any given year the field is blank. At this stage blank values are infilled with an explanatory variable which descibes why the vehicle has not been observed, described below.</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -607,18 +593,15 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 </tbody>
 </table>
-<p>Assumptions:</p>
+<p>While these values are intended to make it easier to understanding the status of a vehicle in any given year, several important caveats must be under stood.</p>
 <ul>
-<li><strong>“Dead” means no longer observed, not scrapped.</strong> A vehicle is <code>dead</code> in every year after the year of its last MOT. This includes vehicles that were exported, declared off-road (SORN), or simply stopped being tested.</li>
-<li><strong>Unobserved years before the last MOT are “unknown”.</strong> For example, a new car in its first three years before its first MOT is <code>unknown</code> rather than <code>dead</code>. This prevents vehicles from apparently coming back to life when their first MOT appears.</li>
-<li><strong>Birth is compared by calendar year.</strong> A vehicle born during 2010 with no recorded PCA in 2010 is <code>unborn</code> for 2010.</li>
-<li><strong>A vehicle with no dates is treated as already born</strong> in every year. It is then <code>dead</code> or <code>unknown</code> by the rules above.</li>
-<li><strong>Recorded postcode areas are used as supplied,</strong> including single-letter areas (B, G, L, …). The data covers the whole UK: Northern Ireland is coded <code>NI</code> rather than its postcode area BT (which does not occur), and a small number of vehicles have the code <code>XX</code>, left as supplied.</li>
+<li><p><strong>“Dead” means no longer observed, not necessarily scrapped.</strong> The data from the DVLA/DVSA does not provide a clear indication of when a vehicle stops being used. So we mark vehicle as <code>dead</code> after its last MOT. While most of these vehicles will have been scrapped, some will have been exported, or have been SORNed and not tested again. Some still be on the road an being driven illegally.</p></li>
+<li><p><strong>Unobserved years before the last MOT are “unknown”.</strong> Sometimes we loose track of a vehicle either because it did not have an MOT test in a particular year or because we could not match the DVSA MOT record to the anonymised MOT record. This means that we know the vehicle existed in that year and may have mileage associated with that vehicle, however we can’t give it a location. <code>unknown</code> vehicles increase substantially in the last few years due to vehicles that have not had their first MOT which we know exist from the DVLA / DVSA data but do not appear in the Anoymmised MOT dataset.</p></li>
 </ul>
 </section>
-<section id="sec-meth-scope-which-vehicles-are-kept" class="level4" data-number="18.5.1.4">
-<h4 data-number="18.5.1.4" class="anchored" data-anchor-id="sec-meth-scope-which-vehicles-are-kept"><span class="header-section-number">18.5.1.4</span> Scope: which vehicles are kept</h4>
-<p>The output aims to include every vehicle that <strong>existed at some point from 2005 onwards</strong>, including vehicles that are too new to have been tested and vehicles that were never tested. A vehicle is kept if <strong>any</strong> of these is true (scope start date 2005-01-01, set in <code>config.yml</code>):</p>
+<section id="sec-meth-scope-which-vehicles-are-kept" class="level4" data-number="18.5.1.3">
+<h4 data-number="18.5.1.3" class="anchored" data-anchor-id="sec-meth-scope-which-vehicles-are-kept"><span class="header-section-number">18.5.1.3</span> Scope: which vehicles are kept</h4>
+<p>The DVSA MOT dataset contains around 138 million vehicles, however many of these have no MOT history and were likely scrapped before the first digital MOT test records were created in 2005. Therfe for the CARS output tables aim to only include vehicles that have <strong>existed since the</strong> <strong>1st of January 2005</strong>. As within the data there is no single way to confirm whether a vehicle exists we use four tests to define if the vehicle is in scope:</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 33%">
@@ -645,54 +628,21 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td><code>scope_born</code></td>
-<td><code>birth_date</code> on or after the start date</td>
+<td><code>birth_date</code> on or after 01/01/2025</td>
 <td>59,048,329</td>
 </tr>
 <tr class="even">
 <td><code>scope_dvla_activity</code></td>
-<td>DVLA tax due, last V5C issue, MOT expiry or first registration date on or after the start date</td>
+<td>DVLA tax due, last V5C issue, MOT expiry or first registration date on or after 01/01/2025</td>
 <td>71,810,699</td>
 </tr>
 </tbody>
 </table>
-<p>Vehicles kept under each rule:</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Rule</th>
-<th>Vehicles kept</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Previous code: mileage OR born since 2005</td>
-<td>89,014,223</td>
-</tr>
-<tr class="even">
-<td>This pipeline: any of the four flags</td>
-<td><strong>93,352,241</strong></td>
-</tr>
-</tbody>
-</table>
-<p>Assumptions:</p>
-<ul>
-<li><strong>A DVLA record dated 2005 or later is evidence the vehicle existed then.</strong> Examples are a V5C issued or tax due in that period.</li>
-<li><strong>Vehicles with none of these signals are assumed to have left the fleet before 2005.</strong> This includes every vehicle with no dates at all.</li>
-<li><strong>Total mileage is a plain sum across years,</strong> so a small negative value can offset a positive one. This is rare.</li>
-</ul>
-</section>
-<section id="sec-meth-tidying" class="level4" data-number="18.5.1.5">
-<h4 data-number="18.5.1.5" class="anchored" data-anchor-id="sec-meth-tidying"><span class="header-section-number">18.5.1.5</span> Tidying</h4>
-<ul>
-<li><strong>VES columns get a <code>_DVLA</code> suffix</strong> where the delivery does not already use one (in earlier files <code>make</code> becomes <code>make_DVLA</code>; the January 2026 file supplies <code>make_DVLA</code> already). The VES lookup bookkeeping columns are carried through under their own names, whichever set the delivery has.</li>
-<li><strong><code>engineSize_DVSA</code> is converted to an integer;</strong> non-numeric values become missing.</li>
-<li><strong>The last MOT test date is taken from <code>final_test_date_DVSA</code></strong> and published under that name. DVSA now put a date in the future in <code>lastMotTestDate_DVSA</code> for the untested vehicles DVLA supplies (5.22M of them in the October 2026 file, the latest 2028-12-30); <code>final_test_date_DVSA</code> equals it on every tested vehicle and is missing rather than invented on the rest. A delivery that has only <code>lastMotTestDate_DVSA</code> falls back to it, converted from text to a date.</li>
-<li><strong>The <code>is_new_vehicle</code>, <code>is_intertest</code> and <code>is_end_use</code> flags are dropped</strong> after use. <code>legit_mileage_YYYY</code> is kept for the mileage summaries.</li>
-</ul>
+<p>While most of these tests also mean that we have some data about the vehicles usage the DVLA activity flag can include vehicles that are over 40 years old and so no longer require a MOT test. While they are included in the output datasets we can say very little about how they are used and if or when they reached end of life.</p>
 </section>
 </section>
 <section id="sec-meth-make-and-model" class="level3" data-number="18.5.2">
-<h3 data-number="18.5.2" class="anchored" data-anchor-id="sec-meth-make-and-model"><span class="header-section-number">18.5.2</span> Stage 2: Make and model</h3>
+<h3 data-number="18.5.2" class="anchored" data-anchor-id="sec-meth-make-and-model"><span class="header-section-number">18.5.2</span> Make and model cleaning</h3>
 <p><em>Code: <code>R/make_model.R</code> · Outputs: <code>outputs/intermediate/dft_*.parquet</code>, <code>outputs/intermediate/make_model_*.parquet</code>, <code>outputs/quality/make_model_review.csv</code></em></p>
 <p>Makes and models follow the naming of the <strong>DfT vehicle licensing statistics</strong>: tables VEH0220 (vehicles by make, generic model, model, fuel and engine size) and VEH0124 (by make, generic model, model and year of first use), which DfT builds from the DVLA register. Using the same names means MOT results can be joined to, and checked against, the official counts. No language model is used: every step is a rule, and every result records how it was reached.</p>
 <table class="caption-top table">
@@ -968,13 +918,13 @@ ul.task-list li input[type="checkbox"] {
 <p><code>R/dft_compare.R</code> counts the in-scope vehicles observed in each year (a real PCA, not <code>unborn</code>, <code>dead</code> or <code>unknown</code>) by body type, age and make/model, and sets them against VEH0124’s licensed plus SORN counts (<code>outputs/quality/dft_stock_*.csv</code>). <code>unknown</code> is left out because it never ends for a vehicle with no last MOT year. Both sources cover the whole UK, Northern Ireland included. They differ by design: vehicles under three years old (four in Northern Ireland) have no MOT, and a SORN vehicle stays in DfT’s count but is not tested. The <code>age3plus</code> columns compare only vehicles first used at least three years earlier.</p>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 7%">
 <col style="width: 14%">
 <col style="width: 14%">
-<col style="width: 8%">
-<col style="width: 18%">
-<col style="width: 18%">
-<col style="width: 18%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -1633,7 +1583,7 @@ ul.task-list li input[type="checkbox"] {
 <p>Three decisions make that assumption as weak as the rules allow:</p>
 <ul>
 <li><strong>The compulsory dates, not the type-approval dates.</strong> Each standard opened for new type approvals a year or more before it became compulsory for all new registrations. Using the later date means a vehicle may well meet a newer standard than it is given here, but it cannot meet an older one.</li>
-<li><strong>The date the vehicle was made, not its British registration date.</strong> <code>birth_date</code> is the earliest of the DVSA first-used, registration and manufacture dates (<a href="#sec-meth-dates" class="quarto-xref"><span>Section 18.5.1.2</span></a>), which for an import is the manufacture date rather than the later British first registration. Tested against the 11.3 million vehicles whose <code>birth_date</code> is more than a year before their <code>first_use_date</code>, <code>birth_date</code> errs towards an older standard and <code>first_use_date</code> towards a newer one, so <code>birth_date</code> is used (<code>first_use_date</code> only where <code>birth_date</code> is missing).</li>
+<li><strong>The date the vehicle was made, not its British registration date.</strong> <code>birth_date</code> is the earliest of the DVSA first-used, registration and manufacture dates (<a href="#sec-meth-dates" class="quarto-xref"><span>Section 18.5.1.1</span></a>), which for an import is the manufacture date rather than the later British first registration. Tested against the 11.3 million vehicles whose <code>birth_date</code> is more than a year before their <code>first_use_date</code>, <code>birth_date</code> errs towards an older standard and <code>first_use_date</code> towards a newer one, so <code>birth_date</code> is used (<code>first_use_date</code> only where <code>birth_date</code> is missing).</li>
 </ul>
 <p>The percentages in the rest of this section were measured once, against the full build, by comparing the schedule with the vehicles that do have a recorded Euro status; they are a record of that check and are not recomputed here. - <strong>One schedule per vehicle class.</strong> Vans were a year or two behind cars, lorries and buses ran on the heavy-duty timetable, and motorcycles reached Euro 4 only in 2017. Applying the car dates to motorcycles would be too new for 99.98% of the motorcycles that do have a recorded status.</p>
 <p>The dates are below; the pipeline prints the same table in the data quality report, so the documented dates are always the ones the code uses. Lorries and buses get Roman numerals, as the register writes them for 77% of the lorries and 53% of the buses that have a recorded status.</p>
