@@ -569,7 +569,7 @@
     "href": "chapters/data-products.html",
     "title": "10  Data products and access",
     "section": "",
-    "text": "10.1 Aggregate tables\nCARS releases its data as a family of products at different levels of detail. Choose the least detailed product that answers your question: the aggregate tables are much easier to work with, and have already dealt with several of the pitfalls described in Chapter 14.\nThe aggregate tables count vehicles and sum their mileage by postcode area and year, broken down by body type, fuel, age, engine size and other characteristics. There are three families, described in Chapter 12 and catalogued in Appendix C:\nVehicles that cannot be located in a year are included in the tables under the statuses unknown, dead and unborn, so totals can be reconciled.",
+    "text": "10.1 Aggregate tables\nCARS releases its data as a family of products at different levels of detail. Choose the least detailed product that answers your question: the aggregate tables are much easier to work with, and have already dealt with several of the pitfalls described in Chapter 14.\nThe aggregate tables count vehicles and sum their mileage by postcode area and year, broken down by body type, fuel, age, engine size and other characteristics. There are three families, described in Chapter 12 and catalogued in Appendix B:\nVehicles that cannot be located in a year are included in the tables under the statuses unknown, dead and unborn, so totals can be reconciled.",
     "crumbs": [
       "The CARS data",
       "<span class='chapter-number'>10</span>  <span class='chapter-title'>Data products and access</span>"
@@ -591,7 +591,7 @@
     "href": "chapters/data-products.html#the-vehicle-table",
     "title": "10  Data products and access",
     "section": "10.2 The vehicle table",
-    "text": "10.2 The vehicle table\nvehicles_enhanced.parquet has one row for each of the 93.4 million vehicles in scope, and 166 columns, including 21 years each of mileage, plausibility flag and postcode area. It is described in Chapter 11, and every column is listed in Appendix B.",
+    "text": "10.2 The vehicle table\nvehicles_enhanced.parquet has one row for each of the 93.4 million vehicles in scope, and 166 columns, including 21 years each of mileage, plausibility flag and postcode area. It is described in Chapter 11, and every column is listed in the data dictionary.",
     "crumbs": [
       "The CARS data",
       "<span class='chapter-number'>10</span>  <span class='chapter-title'>Data products and access</span>"
@@ -646,7 +646,7 @@
     "href": "chapters/vehicle-table.html",
     "title": "11  The vehicle table",
     "section": "",
-    "text": "11.1 Parquet\nThe vehicle table, vehicles_enhanced.parquet, is the most detailed CARS product: one row for each of 93,352,241 vehicles, with 166 columns. This chapter explains how it is organised and how to read it. Every column is listed in the data dictionary (Appendix B).\nThe table is stored as a Parquet file, a compressed column-based format designed for large tables. You do not need to load the whole file to use it: tools such as DuckDB read only the columns and rows a query needs, so a count of vehicles by fuel reads a few hundred megabytes, not 9 GB, and takes seconds. Chapter 15 explains how to set this up.",
+    "text": "11.1 Parquet\nThe vehicle table, vehicles_enhanced.parquet, is the most detailed CARS product: one row for each of 93,352,241 vehicles, with 166 columns. This chapter explains how it is organised and how to read it. Every column is described in the data dictionary.\nThe table is stored as a Parquet file, a compressed column-based format designed for large tables. You do not need to load the whole file to use it: tools such as DuckDB read only the columns and rows a query needs, so a count of vehicles by fuel reads a few hundred megabytes, not 9 GB, and takes seconds. Chapter 15 explains how to set this up.",
     "crumbs": [
       "The CARS data",
       "<span class='chapter-number'>11</span>  <span class='chapter-title'>The vehicle table</span>"
@@ -712,7 +712,7 @@
     "href": "chapters/aggregate-tables.html",
     "title": "12  The aggregate tables",
     "section": "",
-    "text": "12.1 Ideas common to all the tables\nThe aggregate tables are CSV files that open in any spreadsheet. They answer most common questions without the vehicle table, and they have been built so that results can be combined correctly. This chapter explains the three families of table and the ideas common to all of them. Appendix C lists every file, and each family has a detailed report among the appendices.",
+    "text": "12.1 Ideas common to all the tables\nThe aggregate tables are CSV files that open in any spreadsheet. They answer most common questions without the vehicle table, and they have been built so that results can be combined correctly. This chapter explains the three families of table and the ideas common to all of them. Appendix B lists every file, and each family has a detailed report among the appendices.",
     "crumbs": [
       "The CARS data",
       "<span class='chapter-number'>12</span>  <span class='chapter-title'>The aggregate tables</span>"
@@ -1093,6 +1093,356 @@
     ]
   },
   {
+    "objectID": "chapters/dictionary/index.html",
+    "href": "chapters/dictionary/index.html",
+    "title": "Data dictionary",
+    "section": "",
+    "text": "Reading the coverage sections\nThis part describes every column of the vehicle table, vehicles_enhanced.parquet. The 166 columns are grouped by theme, one chapter per group, and each chapter has the same two sections:\nThe descriptions and missing shares come from the pipeline’s data_dictionary.csv, so they always match the version of the data the book describes. Missing is the share of the 93,352,241 vehicles with no value. The year-by-year columns (mileage_YYYY, legit_mileage_YYYY and pca_YYYY) are listed once each, with the range of their missing shares across the years.\nA column’s coverage is the share of vehicles with a value in it, that is, not blank. Coverage depends a great deal on the age of the vehicle, because the sources describe vehicles differently according to when they were on the road: the DVLA Vehicle Enquiry Service was queried between 2024 and 2026, so it rarely holds a record for a vehicle scrapped long before (8  Source data and linkage). The coverage sections therefore show each column by year of first use (first_use_date), with the vehicles of that year as the denominator.\nThe year-by-year columns are different: they describe a calendar year, so their coverage is shown for each year, among the vehicles on the road in that year (those whose pca_YYYY is not unborn or dead).\nTwo things to keep in mind:\nThe coverage figures were counted from the vehicle table by scripts/run-coverage.R (run 2026-10-20 14:28).",
+    "crumbs": [
+      "Data dictionary"
+    ]
+  },
+  {
+    "objectID": "chapters/dictionary/index.html#reading-the-coverage-sections",
+    "href": "chapters/dictionary/index.html#reading-the-coverage-sections",
+    "title": "Data dictionary",
+    "section": "",
+    "text": "A value is not necessarily a recorded value. Many harmonised columns are filled from similar vehicles where the sources are blank. The _src column next to each says which values were recorded and which were filled (14  Concepts and pitfalls).\nSome values mean “not known”. A column that is never blank can still hold unknown, no_reference or missing, as pca_YYYY and the _check columns do. The overview of each chapter says where this applies.",
+    "crumbs": [
+      "Data dictionary"
+    ]
+  },
+  {
+    "objectID": "chapters/dictionary/identifiers.html",
+    "href": "chapters/dictionary/identifiers.html",
+    "title": "18  Identifiers and scope",
+    "section": "",
+    "text": "18.1 Overview\nThese columns identify each row of the vehicle table and record why the vehicle is in it.\nHow identifiers are assigned is set out in the methodology, section 3.1, and the scope rules in section 3.4. Chapter 9 explains why the table keeps vehicles for which little is known.\nTable 18.1: Identifier and scope columns.\n\n\n\n\n\n\n\n\n\n\n\n\n\nColumn\nType\nSource\nDescription\nMissing\n\n\n\n\nvehicle_id\nBIGINT\npipeline\nRow number in the Bristol input file (stable id for this input)\n0%\n\n\ndup_vrm\nBOOLEAN\npipeline\nTRUE if the DVSA registration appears on more than one row of the input\n0%\n\n\nscope_mileage\nBOOLEAN\npipeline\nIn scope because total mileage &gt; 0\n0%\n\n\nscope_pca\nBOOLEAN\npipeline\nIn scope because a PCA is recorded in at least one year\n0%\n\n\nscope_born\nBOOLEAN\npipeline\nIn scope because birth_date is on or after the scope start date\n0%\n\n\nscope_dvla_activity\nBOOLEAN\npipeline\nIn scope because of DVLA activity (tax due, V5C, MOT expiry or first registration) since the scope start date\n0%",
+    "crumbs": [
+      "Data dictionary",
+      "<span class='chapter-number'>18</span>  <span class='chapter-title'>Identifiers and scope</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/dictionary/identifiers.html#overview",
+    "href": "chapters/dictionary/identifiers.html#overview",
+    "title": "18  Identifiers and scope",
+    "section": "",
+    "text": "vehicle_id is the row number in the input file supplied by the Bristol team. It is unique within one version of the data but not stable between versions: a new delivery renumbers the vehicles (Chapter 14). To follow a vehicle across versions, join on the registration instead (Chapter 19).\ndup_vrm flags a DVSA registration that appears on more than one row. Duplicates are kept and flagged rather than dropped, because it is not known which row is right.\nThe scope_ flags record the evidence that the vehicle existed at some point from 2005. A vehicle is kept if any of the four is TRUE; the 138.2 million input rows become 93.4 million in-scope vehicles. The flags are not exclusive, and a vehicle often meets several.",
+    "crumbs": [
+      "Data dictionary",
+      "<span class='chapter-number'>18</span>  <span class='chapter-title'>Identifiers and scope</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/dictionary/identifiers.html#coverage",
+    "href": "chapters/dictionary/identifiers.html#coverage",
+    "title": "18  Identifiers and scope",
+    "section": "18.2 Coverage",
+    "text": "18.2 Coverage\nEvery column in this group has a value for every vehicle. What varies over time is the reason a vehicle is in scope, shown in Figure 18.1. Vehicles first used before 2005 are kept only on evidence of use since then (a mileage, a postcode area or DVLA activity), while almost all of those first used since 2005 are in scope through scope_born. The newest vehicles are in scope almost entirely through scope_born and DVLA activity, as most have not yet had an MOT test.\n\n\n\n\n\n\n\n\nFigure 18.1: Share of vehicles meeting each scope rule, by year of first use.",
+    "crumbs": [
+      "Data dictionary",
+      "<span class='chapter-number'>18</span>  <span class='chapter-title'>Identifiers and scope</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/dictionary/registration.html",
+    "href": "chapters/dictionary/registration.html",
+    "title": "19  Registration and number plates",
+    "section": "",
+    "text": "19.1 Overview\nThe registration mark, or number plate, is the only identifier the sources share, and the key used to link them (Chapter 8).\nThe plate formats and their meaning are explained in Chapter 5, and the decoding rules in the methodology, section 6.2.\nTable 19.1: Registration and number plate columns.\n\n\n\n\n\n\n\n\n\n\n\n\n\nColumn\nType\nSource\nDescription\nMissing\n\n\n\n\nregistration_DVSA\nVARCHAR\nBristol\nVehicle registration mark as supplied by DVSA\n0%\n\n\nregistration_DVLA\nVARCHAR\nBristol (VES)\nRegistration returned by the DVLA Vehicle Enquiry Service\n2.94%\n\n\nregistration_clean\nVARCHAR\npipeline\nRegistration upper-cased with non-alphanumerics removed, as used for plate decoding\n0%\n\n\nplate_type\nVARCHAR\npipeline\nPlate format (port of DVLAAPI::registration_analysis)\n0%\n\n\nplate_date\nVARCHAR\npipeline\nIssue period implied by the plate, as text\n0%\n\n\nplate_date_from\nDATE\npipeline\nFirst month of the plate issue period\n0.08%\n\n\nplate_date_to\nDATE\npipeline\nLast month of the plate issue period (first day of that month)\n0.08%\n\n\nplate_location\nVARCHAR\npipeline\nIssuing office or region implied by the plate\n0%\n\n\nvanity_plate\nBOOLEAN\npipeline\nTRUE if birth_date falls outside the plate issue period (with tolerance): a cherished/vanity plate\n0.08%\n\n\nplate_ever_changed_VES\nBOOLEAN\nBristol (VES)\nTRUE if the registration returned a different vehicle between VES checks: the plate moved\n2.94%",
+    "crumbs": [
+      "Data dictionary",
+      "<span class='chapter-number'>19</span>  <span class='chapter-title'>Registration and number plates</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/dictionary/registration.html#overview",
+    "href": "chapters/dictionary/registration.html#overview",
+    "title": "19  Registration and number plates",
+    "section": "",
+    "text": "registration_DVSA is the plate as supplied in the DVSA MOT history. It is the plate the vehicle carried when the data was extracted, which may not be the one it was first registered with.\nregistration_DVLA is the plate returned by the DVLA Vehicle Enquiry Service (VES) for this vehicle. It usually matches the DVSA plate; where it does not, the plate has moved to another vehicle, and dvla_match\n\nsays whether the VES record can be trusted.\n\nregistration_clean is the DVSA plate upper-cased with spaces and punctuation removed. Use it for joins.\nThe plate_ columns decode the plate’s format: its type (current style, prefix, suffix, dateless and others), the period in which a plate of that form was issued, and the issuing office or region.\nvanity_plate is TRUE where the vehicle’s birth date falls outside the plate’s issue period. This flags cherished plates, but also imports, Q plates and other re-registered vehicles.\nplate_ever_changed_VES is TRUE where the registration returned a different vehicle between VES lookups.\n\n\n\n\n\n\n\n\nImportantRegistrations are personal data\n\n\n\nRegistration marks can identify a vehicle’s keeper when combined with other information. The conditions for using them are set out in Chapter 10.",
+    "crumbs": [
+      "Data dictionary",
+      "<span class='chapter-number'>19</span>  <span class='chapter-title'>Registration and number plates</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/dictionary/registration.html#coverage",
+    "href": "chapters/dictionary/registration.html#coverage",
+    "title": "19  Registration and number plates",
+    "section": "19.2 Coverage",
+    "text": "19.2 Coverage\nThe DVSA registration, and everything decoded from it, is present for every vehicle. The plate’s issue dates are blank only for the 76,240 vehicles whose plate has no dated period, and vanity_plate is blank where either the plate period or the birth date is missing.\nThe DVLA registration and plate_ever_changed_VES are present wherever a VES lookup was made: 97% of all vehicles. The lookups were made for every DVSA registration between 2024 and 2026, so they cover almost every vehicle first used up to 2022, fewer of those first used since (92% for 2025), and almost none of those first used in 2026, which were registered after the lookups were made (Figure 19.1).\n\n\n\n\nTable 19.2: Share of vehicles with a value, by year of first use.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nColumn\nAll vehicles\nBefore 2000\n2000–09\n2010–19\n2020 on\n\n\n\n\nregistration_DVSA\n100.0%\n100.0%\n100.0%\n100.0%\n100.0%\n\n\nregistration_DVLA\n97.1%\n99.9%\n99.8%\n99.4%\n84.3%\n\n\nregistration_clean\n100.0%\n100.0%\n100.0%\n100.0%\n100.0%\n\n\nplate_type\n100.0%\n100.0%\n100.0%\n100.0%\n100.0%\n\n\nplate_date\n100.0%\n100.0%\n100.0%\n100.0%\n100.0%\n\n\nplate_date_from\n99.9%\n99.9%\n99.9%\n99.9%\n99.9%\n\n\nplate_date_to\n99.9%\n99.9%\n99.9%\n99.9%\n99.9%\n\n\nplate_location\n100.0%\n100.0%\n100.0%\n100.0%\n100.0%\n\n\nvanity_plate\n99.9%\n99.9%\n99.9%\n99.9%\n99.9%\n\n\nplate_ever_changed_VES\n97.1%\n99.9%\n99.8%\n99.4%\n84.3%\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 19.1: Share of vehicles with a DVLA registration, by year of first use.\n\n\n\n\n\nvanity_plate is almost never blank, but the share of vehicles flagged varies a good deal with age (Figure 19.2), from about 4%, NA% of vehicles first used in 1995 to 17%, NA% of those first used in 2018. Take this into account before reading the decoded plate period or location as the vehicle’s own.\n\n\n\n\n\n\n\n\nFigure 19.2: Share of vehicles whose plate does not match their age (vanity_plate TRUE), by year of first use.",
+    "crumbs": [
+      "Data dictionary",
+      "<span class='chapter-number'>19</span>  <span class='chapter-title'>Registration and number plates</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/dictionary/make-model.html",
+    "href": "chapters/dictionary/make-model.html",
+    "title": "20  Make and model",
+    "section": "",
+    "text": "20.1 Overview\nDVSA records make and model as free text typed at the test station, so one model can appear in dozens of spellings. The pipeline matches each make and model to the names used in DfT’s vehicle licensing statistics, so CARS results can be compared with and joined to the official figures.\nThe matching is summarised in Chapter 9 and set out in full in the methodology, section 4, including how makes (4.2) and models (4.3) are matched and how the result compares with the DfT counts. The vehicle’s body type, found from the matched model, is described with the other classifications in Chapter 21.\nTable 20.1: Make and model columns.\n\n\n\n\n\n\n\n\n\n\n\n\n\nColumn\nType\nSource\nDescription\nMissing\n\n\n\n\nmake_final\nVARCHAR\npipeline\nMake in the DfT vehicle licensing statistics naming (VEH0220 / VEH0124), upper case; makes DfT spells two ways are merged (inputs/make_aliases.csv). The raw make, upper-cased, where it matches no DfT make; NA where it is a placeholder such as UNKNOWN\n0.56%\n\n\nmodel_final\nVARCHAR\npipeline\nDfT generic model without the make (“C CLASS”, “FIESTA”); the normalised raw model where it matches no DfT generic model (then dft_genmodel is NA); NA where the model is a placeholder\n4.27%\n\n\nderivative_final\nVARCHAR\npipeline\nThe rest of the raw DVSA model text after the words that give the model (trim, engine, body style), upper case, not standardised\n75.63%\n\n\ndft_genmodel\nVARCHAR\npipeline\nDfT GenModel of make_final + model_final, for joining to DfT tables (NA when model_final is not a DfT generic model)\n5.07%\n\n\ndft_model\nVARCHAR\npipeline\nDfT model string, when the raw DVSA model is exactly one\n47.12%\n\n\nmake_method\nVARCHAR\npipeline\nHow make_final was found: exact, punctuation, alias, dvla (the raw make’s vehicles mostly have that DVLA make), prefix, fuzzy (spelling fix), dvla_vehicle (this vehicle’s DVLA make, for a missing or unmatched DVSA make), override, placeholder or unmatched\n0%\n\n\nmodel_method\nVARCHAR\npipeline\nHow model_final was found: exact (a DfT model string), generic (a DfT generic model name), prefix, words, fuzzy (spelling fix), ambiguous / make_only (chosen per vehicle from fuel, engine size and year of first use), override, placeholder or unmatched\n0%\n\n\nmodel_confidence\nDOUBLE\npipeline\nShare of the DfT vehicles under the matched text that have this generic model; for ambiguous / make_only, the chosen model’s share of the per-vehicle weight\n5.07%\n\n\nmake_DVSA\nVARCHAR\nBristol\nMake as supplied by DVSA\n0.06%\n\n\nmodel_DVSA\nVARCHAR\nBristol\nModel as supplied by DVSA\n0%\n\n\nmake_DVLA\nVARCHAR\nBristol (VES)\nMake as returned by VES\n23.04%",
+    "crumbs": [
+      "Data dictionary",
+      "<span class='chapter-number'>20</span>  <span class='chapter-title'>Make and model</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/dictionary/make-model.html#overview",
+    "href": "chapters/dictionary/make-model.html#overview",
+    "title": "20  Make and model",
+    "section": "",
+    "text": "make_final and model_final are the cleaned make and DfT generic model (FORD, FIESTA). Use these for analysis.\nderivative_final is the rest of the DVSA model text, such as trim, engine or body style (ZETEC CLIMATE). It is not standardised.\ndft_genmodel and dft_model are the DfT names, for joining to DfT tables. dft_model is filled only where the DVSA text is exactly one DfT model string.\nmake_method, model_method and model_confidence record how each match was made and how sure it is. Filter on them to test whether a result depends on the less certain matches.\nmake_DVSA, model_DVSA and make_DVLA are the values as supplied, kept for checking.",
+    "crumbs": [
+      "Data dictionary",
+      "<span class='chapter-number'>20</span>  <span class='chapter-title'>Make and model</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/dictionary/make-model.html#coverage",
+    "href": "chapters/dictionary/make-model.html#coverage",
+    "title": "20  Make and model",
+    "section": "20.2 Coverage",
+    "text": "20.2 Coverage\nThe DVSA make and model are present for almost every vehicle, and the cleaned make for 99.4%: it is blank only where the supplied make is a placeholder such as UNKNOWN. A generic model is found for 96% of vehicles. Matching is a little weaker for the oldest vehicles, first used before 2000 (92%), more of whose models do not appear in the DfT statistics.\nThe derivative and the exact DfT model string change most over time (Figure 20.1). Both depend on how much detail DVSA’s model text holds, and DVSA records much fuller model names for recent vehicles: the derivative is present for 10% of vehicles first used in 2015, but 95% of those first used in 2024.\nThe DVLA make is present wherever a VES record was found, which is rarer for older vehicles: see Chapter 27.\n\n\n\n\nTable 20.2: Share of vehicles with a value, by year of first use.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nColumn\nAll vehicles\nBefore 2000\n2000–09\n2010–19\n2020 on\n\n\n\n\nmake_final\n99.4%\n99.4%\n99.7%\n99.4%\n99.1%\n\n\nmodel_final\n95.7%\n92.1%\n96.6%\n96.5%\n96.9%\n\n\nderivative_final\n24.4%\n20.4%\n8.6%\n11.0%\n82.7%\n\n\ndft_genmodel\n94.9%\n90.1%\n96.0%\n96.2%\n96.3%\n\n\ndft_model\n52.9%\n58.9%\n46.0%\n38.1%\n85.6%\n\n\nmake_method\n100.0%\n100.0%\n100.0%\n100.0%\n100.0%\n\n\nmodel_method\n100.0%\n100.0%\n100.0%\n100.0%\n100.0%\n\n\nmodel_confidence\n94.9%\n90.1%\n96.0%\n96.2%\n96.3%\n\n\nmake_DVSA\n99.9%\n100.0%\n100.0%\n100.0%\n99.6%\n\n\nmodel_DVSA\n100.0%\n100.0%\n100.0%\n100.0%\n100.0%\n\n\nmake_DVLA\n77.0%\n61.9%\n64.8%\n96.3%\n82.0%\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 20.1: Share of vehicles with a value in selected make and model columns, by year of first use.",
+    "crumbs": [
+      "Data dictionary",
+      "<span class='chapter-number'>20</span>  <span class='chapter-title'>Make and model</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/dictionary/vehicle-type.html",
+    "href": "chapters/dictionary/vehicle-type.html",
+    "title": "21  Vehicle type",
+    "section": "",
+    "text": "21.1 Overview\nThese columns say what kind of vehicle each row is. The sources classify vehicles in different ways, none of which matches the categories most analyses want, so the pipeline harmonises them. Chapter 3 explains the classifications and how they relate.\nTable 21.1: Vehicle type columns.\n\n\n\n\n\n\n\n\n\n\n\n\n\nColumn\nType\nSource\nDescription\nMissing\n\n\n\n\nbody_type\nVARCHAR\npipeline\nDfT body type: Cars, Light goods vehicles, Motorcycles, Buses and coaches, Heavy goods vehicles or Other vehicles (see body_type_src)\n3.08%\n\n\nbody_type_src\nVARCHAR\npipeline\nSource of body_type: model (the DfT model string’s body type), type_approval (DVLA type approval, where the generic model has that body type), genmodel (the generic model’s most common body type) or test_class\n3.08%\n\n\ntest_class\nINTEGER\npipeline\nMOT test class: DVSA, else variant backfill\n7.56%\n\n\ntest_class_src\nVARCHAR\npipeline\nSource of the matching harmonised column: dvsa or dvla (recorded), variant (same make/model/birth year/fuel/engine size) or model_year_fuel (same make/model/birth year/fuel)\n7.56%\n\n\ntest_class_ANON\nINTEGER\nBristol (DVSA)\nAnonymised MOT test class as supplied\n20.69%\n\n\ntype_approval\nVARCHAR\npipeline\nType approval category: DVLA, else variant backfill\n11.39%\n\n\ntype_approval_src\nVARCHAR\npipeline\nSource of the matching harmonised column: dvsa or dvla (recorded), variant (same make/model/birth year/fuel/engine size) or model_year_fuel (same make/model/birth year/fuel)\n11.39%\n\n\ntypeApproval_DVLA\nVARCHAR\nBristol (VES)\nAs returned by the DVLA Vehicle Enquiry Service\n40.86%\n\n\nwheelplan\nVARCHAR\npipeline\nWheel plan: DVLA, else variant backfill\n0.45%\n\n\nwheelplan_src\nVARCHAR\npipeline\nSource of the matching harmonised column: dvsa or dvla (recorded), variant (same make/model/birth year/fuel/engine size) or model_year_fuel (same make/model/birth year/fuel)\n0.45%\n\n\nwheelplan_DVLA\nVARCHAR\nBristol (VES)\nAs returned by the DVLA Vehicle Enquiry Service\n23.04%\n\n\nrevenue_weight\nINTEGER\npipeline\nRevenue weight (kg): DVLA, else variant backfill\n13.7%\n\n\nrevenue_weight_src\nVARCHAR\npipeline\nSource of the matching harmonised column: dvsa or dvla (recorded), variant (same make/model/birth year/fuel/engine size) or model_year_fuel (same make/model/birth year/fuel)\n13.7%\n\n\nrevenueWeight_DVLA\nINTEGER\nBristol (VES)\nAs returned by the DVLA Vehicle Enquiry Service\n69.51%\n\n\nprimaryColour_DVSA\nVARCHAR\nBristol (DVSA)\nAs supplied by DVSA\n0%\n\n\nsecondaryColour_DVSA\nVARCHAR\nBristol (DVSA)\nAs supplied by DVSA\n8.71%\n\n\ncolour_DVLA\nVARCHAR\nBristol (VES)\nAs returned by the DVLA Vehicle Enquiry Service\n23.04%\n\n\nautomatedVehicle_DVLA\nBOOLEAN\nBristol (VES)\nAs returned by the DVLA Vehicle Enquiry Service\n98.49%",
+    "crumbs": [
+      "Data dictionary",
+      "<span class='chapter-number'>21</span>  <span class='chapter-title'>Vehicle type</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/dictionary/vehicle-type.html#overview",
+    "href": "chapters/dictionary/vehicle-type.html#overview",
+    "title": "21  Vehicle type",
+    "section": "",
+    "text": "body_type is the DfT body type: Cars, Light goods vehicles, Motorcycles, Buses and coaches, Heavy goods vehicles or Other vehicles. It is the usual way to select, for example, cars only. body_type_src records whether it came from the DfT model, the DVLA type approval, the generic model or the MOT test class (methodology, section 4.6).\ntest_class is the MOT test class (1 to 7), type_approval the European type approval category (M1, N1, L3 and so on), wheelplan the DVLA wheel plan and revenue_weight the gross weight in kilograms.\nThe harmonised columns take the recorded value where there is one, and otherwise the most common value among vehicles of the same make, model, birth year, fuel and engine size. Each has a _src column saying which (methodology, section 5.6).\nThe supplied columns (_DVSA, _DVLA, _ANON) are the values as received, including the vehicle’s colours and the DVLA flag for automated vehicles, which the pipeline does not use.",
+    "crumbs": [
+      "Data dictionary",
+      "<span class='chapter-number'>21</span>  <span class='chapter-title'>Vehicle type</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/dictionary/vehicle-type.html#coverage",
+    "href": "chapters/dictionary/vehicle-type.html#coverage",
+    "title": "21  Vehicle type",
+    "section": "21.2 Coverage",
+    "text": "21.2 Coverage\nbody_type is present for 97% of vehicles and changes little with age (Figure 21.1). The vehicles without one are those whose model could not be matched and which have no type approval or test class to fall back on.\nThe other harmonised columns depend on what their sources hold:\n\ntype_approval is rare for vehicles first used before 2000 (26%), because the DVLA rarely records a type approval category for them, and the backfill can only copy values that similar vehicles have. From the mid-2000s it is present for more than 90%.\ntest_class comes from the anonymised MOT data, so it is present only for vehicles that have been tested, or are like vehicles that have. Coverage falls for vehicles first used since 2023, which are too new for their first MOT test: 78% for 2025.\nrevenue_weight is recorded by the DVLA for only 30% of vehicles, mostly recent ones; the backfill raises this to 70%.\nwheelplan is nearly complete at every age.\n\nThe DVLA columns share the pattern of every VES field, being present only where a VES record was found (Chapter 27). automatedVehicle_DVLA is present only for some vehicles first used since 2021 (25% of those first used in 2025).\n\n\n\n\nTable 21.2: Share of vehicles with a value, by year of first use.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nColumn\nAll vehicles\nBefore 2000\n2000–09\n2010–19\n2020 on\n\n\n\n\nbody_type\n96.9%\n93.3%\n97.3%\n98.0%\n98.2%\n\n\nbody_type_src\n96.9%\n93.3%\n97.3%\n98.0%\n98.2%\n\n\ntest_class\n94.1%\n92.9%\n96.4%\n96.1%\n87.7%\n\n\ntest_class_src\n94.1%\n93.0%\n96.4%\n96.1%\n87.7%\n\n\ntest_class_ANON\n79.3%\n78.5%\n92.0%\n90.3%\n36.8%\n\n\ntype_approval\n81.4%\n25.8%\n92.8%\n97.2%\n96.7%\n\n\ntype_approval_src\n81.4%\n25.9%\n92.9%\n97.2%\n96.7%\n\n\ntypeApproval_DVLA\n59.1%\n0.1%\n52.5%\n92.6%\n79.8%\n\n\nwheelplan\n99.5%\n99.7%\n99.5%\n99.7%\n98.7%\n\n\nwheelplan_src\n99.5%\n99.7%\n99.5%\n99.7%\n98.7%\n\n\nwheelplan_DVLA\n77.0%\n61.9%\n64.8%\n96.3%\n82.0%\n\n\nrevenue_weight\n69.8%\n47.5%\n73.0%\n75.7%\n79.1%\n\n\nrevenue_weight_src\n69.8%\n47.5%\n73.0%\n75.7%\n79.1%\n\n\nrevenueWeight_DVLA\n30.5%\n6.3%\n12.7%\n51.3%\n53.8%\n\n\nprimaryColour_DVSA\n100.0%\n100.0%\n100.0%\n100.0%\n100.0%\n\n\nsecondaryColour_DVSA\n91.3%\n86.6%\n95.7%\n94.7%\n82.4%\n\n\ncolour_DVLA\n77.0%\n61.9%\n64.8%\n96.3%\n82.0%\n\n\nautomatedVehicle_DVLA\n1.5%\n0.0%\n0.0%\n0.0%\n8.8%\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 21.1: Share of vehicles with a value in the harmonised vehicle type columns, by year of first use.",
+    "crumbs": [
+      "Data dictionary",
+      "<span class='chapter-number'>21</span>  <span class='chapter-title'>Vehicle type</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/dictionary/fuel-engine.html",
+    "href": "chapters/dictionary/fuel-engine.html",
+    "title": "22  Fuel and engine",
+    "section": "",
+    "text": "22.1 Overview\nDVSA and DVLA each record a vehicle’s fuel and engine size, with different labels and different gaps, and neither separates plug-in hybrids from other hybrids. The pipeline checks the two against each other and against similar vehicles, and builds one harmonised value of each. Chapter 4 explains the fuel types and why they matter.\nTable 22.1: Fuel and engine columns.\n\n\n\n\n\n\n\n\n\n\n\n\n\nColumn\nType\nSource\nDescription\nMissing\n\n\n\n\nfuel\nVARCHAR\npipeline\nFuel type: DVSA; DVLA (same vehicle only, mapped to DVSA terms) where DVSA is ‘Other’, or says Electric/Fuel Cells for a DVLA vehicle with an engine; fuel of same-engine vehicles for an Electric/Fuel Cells vehicle with a recorded engine size; Electric where the make/model check corrects it. Never backfilled\n0%\n\n\nfuel_src\nVARCHAR\npipeline\nSource of fuel: dvsa, dvla, variant (most common fuel of the same make/model/birth year/engine size), model (set to Electric by the make/model check) or dft (replaced by the DfT plug-in hybrid value)\n0%\n\n\nfuel_check\nVARCHAR\npipeline\nFuel compared with the same make/model: ok, rare_conversion, rare_for_model, implausible_for_model, corrected_electric, unknown_fuel or no_reference (see methodology.md)\n0%\n\n\nfuel_simple\nVARCHAR\npipeline\nFuel grouped as Petrol / Diesel / Electric / Hybrid Electric / Plug-in Hybrid Electric / Other\n0%\n\n\nfuel_DFT\nVARCHAR\nDfT VEH0220\nFuel as the DfT vehicle licensing statistics record it for this make and model (VEH0220), which unlike DVSA and DVLA separates plug-in hybrids from other hybrids. NA where the make/model has no DfT vehicles of this fuel group, or where no one DfT fuel is common enough to choose (see fuel_DFT_src)\n5.54%\n\n\nfuel_DFT_src\nVARCHAR\npipeline\nHow fuel_DFT was found: dft_model (the DfT model string’s most common fuel of this group), dft_genmodel (the generic model’s), ambiguous_model / ambiguous_genmodel (a match, but no single DfT fuel reaches the checks.dft_fuel_share threshold) or no_reference\n0.14%\n\n\nfuel_DVSA\nVARCHAR\nBristol (DVSA)\nAs supplied by DVSA\n0%\n\n\nfuelType_DVLA\nVARCHAR\nBristol (VES)\nAs returned by the DVLA Vehicle Enquiry Service\n23.05%\n\n\nengine_cc\nINTEGER\npipeline\nEngine size (cc): DVSA if &gt; 0, else DVLA if &gt; 0 (same vehicle only); 0 for Electric and Fuel Cells; else most common for the same make/model/birth year/fuel, then make/model/fuel\n0.85%\n\n\nengine_cc_src\nVARCHAR\npipeline\nSource of engine_cc: dvsa, dvla, no_engine (Electric / Fuel Cells), model_year_fuel or model_fuel\n0.85%\n\n\nengine_check\nVARCHAR\npipeline\nEngine size check: ok; engine_removed (Electric / Fuel Cells vehicle with a recorded engine size, set to 0); zero_replaced (fuel with an engine recorded as 0cc, backfilled); missing (fuel with an engine and no engine size after backfill)\n0%\n\n\nengineSize_DVSA\nINTEGER\nBristol (DVSA)\nAs supplied by DVSA\n17.11%\n\n\nengineCapacity_DVLA\nINTEGER\nBristol (VES)\nAs returned by the DVLA Vehicle Enquiry Service\n24.05%",
+    "crumbs": [
+      "Data dictionary",
+      "<span class='chapter-number'>22</span>  <span class='chapter-title'>Fuel and engine</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/dictionary/fuel-engine.html#overview",
+    "href": "chapters/dictionary/fuel-engine.html#overview",
+    "title": "22  Fuel and engine",
+    "section": "",
+    "text": "fuel is the harmonised fuel, in DVSA’s terms. It is the DVSA value, replaced by the DVLA value where DVSA says Other or the two clearly disagree, and checked against the fuel of other vehicles of the same make and model (methodology, section 5.2 and section 5.3). fuel_src says where it came from and fuel_check how it compares with the make and model.\nfuel_DFT is the fuel DfT’s licensing statistics record for the vehicle’s model, which unlike DVSA and DVLA separates plug-in hybrids. It is how plug-in hybrids are identified (section 5.5).\nfuel_simple groups the harmonised fuel into six categories: Petrol, Diesel, Electric, Hybrid Electric, Plug-in Hybrid Electric and Other (section 6.1). It is the column most analyses need.\nengine_cc is the engine size in cc: DVSA, else DVLA, else the most common for similar vehicles, and 0 for electric and fuel cell vehicles (section 5.4). engine_cc_src and engine_check record where it came from and what was corrected.\nfuel_DVSA, fuelType_DVLA, engineSize_DVSA and engineCapacity_DVLA are the values as supplied.\n\n\n\n\n\n\n\nImportantPlug-in hybrids are a lower bound\n\n\n\nA vehicle is a plug-in hybrid in fuel_simple only when its DfT model is clearly one. Models sold as both plug-in and ordinary hybrids stay as ordinary hybrids, so plug-in hybrids are undercounted (Chapter 14).",
+    "crumbs": [
+      "Data dictionary",
+      "<span class='chapter-number'>22</span>  <span class='chapter-title'>Fuel and engine</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/dictionary/fuel-engine.html#coverage",
+    "href": "chapters/dictionary/fuel-engine.html#coverage",
+    "title": "22  Fuel and engine",
+    "section": "22.2 Coverage",
+    "text": "22.2 Coverage\nThe harmonised fuel is never blank: fuel_DVSA is supplied for every vehicle, and 98.5% of harmonised values are the DVSA value unchanged. A fuel of Other or a fuel_check of unknown_fuel or no_reference means the fuel is not really known, or could not be checked.\nfuel_DFT is present for 94% of vehicles, those whose model is found in the DfT statistics with a fuel of the same group. It is lower for the oldest vehicles (90% of those first used before 2000), as for the model match itself (Chapter 20).\nThe engine size shows most clearly why the harmonised columns are worth using (Figure 22.1). The DVSA engine size comes from the MOT history, so it is missing for vehicles that have not yet been tested: only 1% of vehicles first used in 2024 have one. The DVLA engine capacity fills most of these, but is itself missing for older vehicles with no VES record. Combining them, and filling the rest from similar vehicles, gives engine_cc for 99.1% of vehicles, at every age.\n\n\n\n\nTable 22.2: Share of vehicles with a value, by year of first use.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nColumn\nAll vehicles\nBefore 2000\n2000–09\n2010–19\n2020 on\n\n\n\n\nfuel\n100.0%\n100.0%\n100.0%\n100.0%\n100.0%\n\n\nfuel_src\n100.0%\n100.0%\n100.0%\n100.0%\n100.0%\n\n\nfuel_check\n100.0%\n100.0%\n100.0%\n100.0%\n100.0%\n\n\nfuel_simple\n100.0%\n100.0%\n100.0%\n100.0%\n100.0%\n\n\nfuel_DFT\n94.5%\n90.1%\n95.7%\n95.6%\n95.3%\n\n\nfuel_DFT_src\n99.9%\n100.0%\n99.7%\n99.9%\n99.9%\n\n\nfuel_DVSA\n100.0%\n100.0%\n100.0%\n100.0%\n100.0%\n\n\nfuelType_DVLA\n76.9%\n61.9%\n64.8%\n96.3%\n81.9%\n\n\nengine_cc\n99.1%\n97.9%\n99.4%\n99.6%\n99.3%\n\n\nengine_cc_src\n99.1%\n97.9%\n99.4%\n99.6%\n99.3%\n\n\nengine_check\n100.0%\n100.0%\n100.0%\n100.0%\n100.0%\n\n\nengineSize_DVSA\n82.9%\n84.2%\n94.9%\n93.6%\n39.7%\n\n\nengineCapacity_DVLA\n76.0%\n59.6%\n64.1%\n95.6%\n81.3%\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 22.1: Share of vehicles with an engine size, as supplied by each source and harmonised, and with a DfT fuel, by year of first use.",
+    "crumbs": [
+      "Data dictionary",
+      "<span class='chapter-number'>22</span>  <span class='chapter-title'>Fuel and engine</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/dictionary/emissions.html",
+    "href": "chapters/dictionary/emissions.html",
+    "title": "23  Emissions",
+    "section": "",
+    "text": "23.1 Overview\nThese columns describe the vehicle’s official emissions: its CO2 figure and the Euro emission standard it was approved to. Both are recorded by the DVLA, not DVSA, and both are filled from similar vehicles where the DVLA has no value. Chapter 4 explains what the figures mean and their limits.\nTable 23.1: Emissions columns.\n\n\n\n\n\n\n\n\n\n\n\n\n\nColumn\nType\nSource\nDescription\nMissing\n\n\n\n\nco2\nINTEGER\npipeline\nCO2 emissions (g/km): DVLA, else variant backfill. A recorded 0 is kept only for Electric and Fuel Cells vehicles; for anything else it is impossible, so it is cleared before the backfill and the vehicle is filled from similar vehicles (see co2_check)\n20.88%\n\n\nco2_src\nVARCHAR\npipeline\nSource of the matching harmonised column: dvsa or dvla (recorded), variant (same make/model/birth year/fuel/engine size) or model_year_fuel (same make/model/birth year/fuel)\n20.88%\n\n\nco2_check\nVARCHAR\npipeline\nCO2 check: ok; zero_replaced (a recorded 0 g/km on a vehicle with an engine, backfilled from similar vehicles); zero_removed (the same, but no backfill value was available); missing (no CO2 recorded or backfilled)\n0%\n\n\nco2Emissions_DVLA\nINTEGER\nBristol (VES)\nAs returned by the DVLA Vehicle Enquiry Service\n38%\n\n\neuro_status\nVARCHAR\npipeline\nEuro status: DVLA with the spelling standardised (‘EURO 6AP’ and ‘EURO6 (AP)’ become ‘EURO 6 AP’; see R/euro_status.R), else variant backfill, else the standard that was compulsory for new registrations of that body type when the vehicle was made\n8.72%\n\n\neuro_status_src\nVARCHAR\npipeline\nSource of euro_status: dvla (recorded), variant or model_year_fuel (backfilled from similar vehicles), or euro_schedule (the standard that was compulsory for new registrations of that body type when the vehicle was made)\n8.72%\n\n\neuro_standard\nINTEGER\npipeline\nEuro emission standard number parsed from euro_status (Roman numerals converted)\n8.72%\n\n\neuro_check\nVARCHAR\npipeline\nEuro status against the vehicle’s age: ok; later_than_date (the recorded or backfilled status names a standard that did not exist when the vehicle was made - kept, not changed); assumed (filled from the registration-date schedule); pre_euro (made before the first standard of its class); no_schedule (body type with no schedule: Other vehicles, or none); no_date\n0%\n\n\neuroStatus_DVLA\nVARCHAR\nBristol (VES)\nAs returned by the DVLA Vehicle Enquiry Service\n85.43%\n\n\nrealDrivingEmissions_DVLA\nVARCHAR\nBristol (VES)\nAs returned by the DVLA Vehicle Enquiry Service\n92.83%",
+    "crumbs": [
+      "Data dictionary",
+      "<span class='chapter-number'>23</span>  <span class='chapter-title'>Emissions</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/dictionary/emissions.html#overview",
+    "href": "chapters/dictionary/emissions.html#overview",
+    "title": "23  Emissions",
+    "section": "",
+    "text": "co2 is the official CO2 figure in g/km, measured when the model was type approved. It is the DVLA value, or else the most common value among vehicles of the same make, model, birth year, fuel and engine size. A recorded 0 g/km is kept only for vehicles with no engine; anywhere else it is cleared and filled from similar vehicles. co2_src and co2_check record what was done (methodology, section 5.6).\neuro_status is the Euro standard as text (EURO 6 AP), standardised from the DVLA’s many spellings, backfilled from similar vehicles, and otherwise assumed to be the standard compulsory for new vehicles of that type when the vehicle was made (section 5.7). euro_standard is its number (1 to 6), and euro_status_src and euro_check record where it came from and whether it fits the vehicle’s age.\nco2Emissions_DVLA, euroStatus_DVLA and realDrivingEmissions_DVLA are the values as supplied.\n\n\n\n\n\n\n\nImportantRecorded, filled and assumed values\n\n\n\nFilled and assumed values are estimates, not records. Results that depend on CO2 or Euro standard should be checked using only the recorded values (co2_src = 'dvla', euro_status_src = 'dvla'): Chapter 17 shows how, and Chapter 14 explains why.",
+    "crumbs": [
+      "Data dictionary",
+      "<span class='chapter-number'>23</span>  <span class='chapter-title'>Emissions</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/dictionary/emissions.html#coverage",
+    "href": "chapters/dictionary/emissions.html#coverage",
+    "title": "23  Emissions",
+    "section": "23.2 Coverage",
+    "text": "23.2 Coverage\nCO2 has been recorded since vehicle tax began to depend on it, for cars registered from March 2001, so the DVLA figure is almost never present for vehicles first used before then (Figure 23.1). The backfill cannot help here, as similar vehicles of the same age have no figure either: co2 is present for only 9% of vehicles first used before 2000, against 93% of those first used in the 2010s. The DVLA figure dips again for the newest vehicles, not yet looked up in the VES (Chapter 27), and the backfill fills most of that gap.\nThe DVLA recorded a Euro status for only 15% of vehicles, almost all first used since 2018. The backfill and the assumed standard raise this to 91%, but most of the values are therefore not records. For cars, 38% of Euro statuses are assumed from the date. euro_status is blank for most vehicles made before the first Euro standard, in 1992, and for body types with no Euro schedule.\nrealDrivingEmissions_DVLA, the DVLA’s Real Driving Emissions (RDE) field, is present only for some vehicles first used since 2019, and is not used by the pipeline.\n\n\n\n\nTable 23.2: Share of vehicles with a value, by year of first use.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nColumn\nAll vehicles\nBefore 2000\n2000–09\n2010–19\n2020 on\n\n\n\n\nco2\n74.0%\n8.7%\n87.4%\n92.6%\n92.1%\n\n\nco2_src\n74.0%\n8.7%\n87.4%\n92.6%\n92.1%\n\n\nco2_check\n100.0%\n100.0%\n100.0%\n100.0%\n100.0%\n\n\nco2Emissions_DVLA\n62.0%\n1.2%\n56.5%\n96.0%\n81.6%\n\n\neuro_status\n91.2%\n68.0%\n96.8%\n97.2%\n97.0%\n\n\neuro_status_src\n91.2%\n68.0%\n96.8%\n97.2%\n97.0%\n\n\neuro_standard\n91.2%\n68.0%\n96.8%\n97.2%\n97.0%\n\n\neuro_check\n100.0%\n100.0%\n100.0%\n100.0%\n100.0%\n\n\neuroStatus_DVLA\n14.6%\n0.0%\n0.0%\n9.8%\n67.4%\n\n\nrealDrivingEmissions_DVLA\n7.2%\n0.0%\n0.0%\n0.5%\n41.1%\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 23.1: Share of vehicles with a CO2 figure and a Euro status, as supplied by the DVLA and harmonised, by year of first use.",
+    "crumbs": [
+      "Data dictionary",
+      "<span class='chapter-number'>23</span>  <span class='chapter-title'>Emissions</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/dictionary/dates.html",
+    "href": "chapters/dictionary/dates.html",
+    "title": "24  Dates and age",
+    "section": "",
+    "text": "24.1 Overview\nA vehicle has several dates that mark the start of its life: when it was made, when it was first registered, and when it was first used on the road. For most vehicles these are within weeks of each other, but they can be years apart for an import or a vehicle that sat in stock. Chapter 6 describes the stages of a vehicle’s life and how the data records them.\nHow these dates are built is set out in the methodology, section 3.2, and how the last MOT test date is read in section 3.5. Other DVLA dates, such as tax due and MOT expiry, are described with the licensing status in Chapter 27.\nTable 24.1: Date columns.\n\n\n\n\n\n\n\n\n\n\n\n\n\nColumn\nType\nSource\nDescription\nMissing\n\n\n\n\nbirth_date\nDATE\npipeline\nEarliest of DVSA first used, registration and manufacture dates\n0%\n\n\nfirst_use_date\nDATE\npipeline\nFirst use date: DVSA first used, else DVLA month of first registration, else birth_date\n0%\n\n\nfirst_use_source\nVARCHAR\npipeline\nWhich column first_use_date came from\n0%\n\n\nfirstUsedDate_DVSA\nDATE\nBristol (DVSA)\nAs supplied by DVSA\n17.69%\n\n\nregistrationDate_DVSA\nDATE\nBristol (DVSA)\nAs supplied by DVSA\n0.07%\n\n\nmanufactureDate_DVSA\nDATE\nBristol (DVSA)\nAs supplied by DVSA\n0.52%\n\n\nmonthOfFirstRegistration_DVLA\nDATE\nBristol (VES)\nAs returned by the DVLA Vehicle Enquiry Service\n23.04%\n\n\nmonthOfFirstDvlaRegistration_DVLA\nDATE\nBristol (VES)\nAs returned by the DVLA Vehicle Enquiry Service\n99%\n\n\nyearOfManufacture_DVLA\nINTEGER\nBristol (VES)\nAs returned by the DVLA Vehicle Enquiry Service\n23.24%\n\n\nfinal_test_date_DVSA\nDATE\nBristol (DVSA)\nDate of the vehicle’s last recorded MOT test, from Bristol’s final_test_date_DVSA where the delivery has it. Missing for a vehicle that has never been tested; earlier deliveries supplied only lastMotTestDate_DVSA, which DVSA now fill with a future date for untested vehicles\n16.3%\n\n\nlast_mot_year\nINTEGER\npipeline\nYear of the last is_end_use flag (last MOT year)\n44.01%",
+    "crumbs": [
+      "Data dictionary",
+      "<span class='chapter-number'>24</span>  <span class='chapter-title'>Dates and age</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/dictionary/dates.html#overview",
+    "href": "chapters/dictionary/dates.html#overview",
+    "title": "24  Dates and age",
+    "section": "",
+    "text": "first_use_date is the date to use for a vehicle’s age: the DVSA first used date, else the DVLA month of first registration, else birth_date. first_use_source records which.\nbirth_date is the earliest of the DVSA first used, registration and manufacture dates. It decides when a vehicle is unborn in pca_YYYY (Chapter 26).\nfinal_test_date_DVSA is the date of the last recorded MOT test, and last_mot_year the year after which the vehicle is treated as dead: no longer observed, not necessarily scrapped (Chapter 14).\nThe supplied dates (_DVSA, _DVLA) are kept as received. The DVLA month of first registration is accurate to the month only.",
+    "crumbs": [
+      "Data dictionary",
+      "<span class='chapter-number'>24</span>  <span class='chapter-title'>Dates and age</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/dictionary/dates.html#coverage",
+    "href": "chapters/dictionary/dates.html#coverage",
+    "title": "24  Dates and age",
+    "section": "24.2 Coverage",
+    "text": "24.2 Coverage\nBecause three sources are combined, first_use_date and birth_date are missing for almost no vehicles. 82% of first use dates are the DVSA first used date, 14% the DVLA month of first registration and 4% the birth date. A few dates are implausible: 123 vehicles have a first use date before 1900 or after 2026.\nThe coverage of the supplied dates follows their sources (Figure 24.1):\n\nThe DVSA first used date and last test date come from the MOT history, so they are present for tested vehicles only. Coverage falls sharply for vehicles first used since 2023, most of which have not had their first MOT: 38% for 2023 and 1% for 2024. The DVSA registration and manufacture dates are present for almost every vehicle.\nThe DVLA dates are present wherever a VES record was found (Chapter 27). monthOfFirstDvlaRegistration_DVLA is different: it is present only for the 1.0% of vehicles first registered somewhere else, such as imports.\nlast_mot_year is blank by design for a vehicle that is still being tested, or that was last seen in the final two years of data. Its coverage is therefore highest for old vehicles, most of which have left the road, and close to zero for new ones.\n\n\n\n\n\nTable 24.2: Share of vehicles with a value, by year of first use.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nColumn\nAll vehicles\nBefore 2000\n2000–09\n2010–19\n2020 on\n\n\n\n\nbirth_date\n100.0%\n100.0%\n100.0%\n100.0%\n100.0%\n\n\nfirst_use_date\n100.0%\n100.0%\n100.0%\n100.0%\n100.0%\n\n\nfirst_use_source\n100.0%\n100.0%\n100.0%\n100.0%\n100.0%\n\n\nfirstUsedDate_DVSA\n82.3%\n84.2%\n93.5%\n91.3%\n43.0%\n\n\nregistrationDate_DVSA\n99.9%\n100.0%\n99.9%\n99.9%\n100.0%\n\n\nmanufactureDate_DVSA\n99.5%\n98.2%\n99.8%\n99.7%\n99.9%\n\n\nmonthOfFirstRegistration_DVLA\n77.0%\n61.9%\n64.8%\n96.3%\n82.0%\n\n\nmonthOfFirstDvlaRegistration_DVLA\n1.0%\n1.2%\n1.3%\n1.1%\n0.2%\n\n\nyearOfManufacture_DVLA\n76.8%\n61.8%\n64.6%\n96.0%\n81.8%\n\n\nfinal_test_date_DVSA\n83.7%\n84.4%\n95.0%\n93.6%\n43.9%\n\n\nlast_mot_year\n56.0%\n82.4%\n82.7%\n36.9%\n10.5%\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 24.1: Share of vehicles with a value in selected date columns, by year of first use.",
+    "crumbs": [
+      "Data dictionary",
+      "<span class='chapter-number'>24</span>  <span class='chapter-title'>Dates and age</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/dictionary/mileage.html",
+    "href": "chapters/dictionary/mileage.html",
+    "title": "25  Mileage",
+    "section": "",
+    "text": "25.1 Overview\nThe MOT test records the odometer reading, and the difference between two tests gives the distance driven between them. The Bristol team spread that distance over the calendar years between the tests to give an annual mileage for each year. Chapter 8 explains how the annual figures are made, and Chapter 1 what the MOT records.\nThe pipeline takes the annual mileages as supplied (methodology, section 2), and summarises them in the mileage tables (section 8; Chapter 12). The table is wide, with one mileage column per year: Chapter 17 shows how to reshape it to one row per vehicle per year.\nTable 25.1: Mileage columns.\n\n\n\n\n\n\n\n\n\n\n\n\n\nColumn\nType\nSource\nDescription\nMissing\n\n\n\n\nmileage_YYYY\nINTEGER\nBristol\nAnnual mileage in that year (Bristol)\n57.22–72.36%\n\n\nlegit_mileage_YYYY\nBOOLEAN\nBristol\nBristol flag: annual mileage in that year is plausible\n56.97–72.21%\n\n\ntotal_mileage\nINTEGER\npipeline\nSum of annual mileage over all years\n0%",
+    "crumbs": [
+      "Data dictionary",
+      "<span class='chapter-number'>25</span>  <span class='chapter-title'>Mileage</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/dictionary/mileage.html#overview",
+    "href": "chapters/dictionary/mileage.html#overview",
+    "title": "25  Mileage",
+    "section": "",
+    "text": "mileage_YYYY is the number of miles driven in year YYYY, from 2005 to 2025.\nlegit_mileage_YYYY is TRUE if that mileage is judged plausible. Filter on it for most analyses: the implausible values include odometer errors and readings typed in wrongly.\ntotal_mileage is the sum of the annual mileages over all years. It is 0 for a vehicle with no recorded mileage, and decides scope_mileage (Chapter 18).\n\n\n\n\n\n\n\n\nImportantMileage needs a test at each end\n\n\n\nAn annual mileage can only be calculated between two MOT tests, so a vehicle has none before its first test or after its last, and the most recent years are incomplete because many vehicles have not yet had their next test (Chapter 14).",
+    "crumbs": [
+      "Data dictionary",
+      "<span class='chapter-number'>25</span>  <span class='chapter-title'>Mileage</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/dictionary/mileage.html#coverage",
+    "href": "chapters/dictionary/mileage.html#coverage",
+    "title": "25  Mileage",
+    "section": "25.2 Coverage",
+    "text": "25.2 Coverage\nThe mileage columns are blank for most vehicles in most years (Table 25.1), simply because a vehicle is on the road for only part of the period. A fairer measure is the share of the vehicles on the road in a year, that is with a pca_YYYY that is not unborn or dead, that have a mileage for that year (Figure 25.1).\nOn that measure about 76% of vehicles on the road have a mileage in each year from 2010 to 2023. The rest are mostly vehicles not yet due their first MOT, and vehicles in the years after their last test whose status is still unknown. Coverage is higher in the first years (87% in 2005) and falls in the last two, to 72% in 2024 and 50% in 2025, because many vehicles have not yet had the test that closes the year.\nOf the mileages present, almost all are judged plausible: the share flagged implausible is at most 1.7% in any year. total_mileage is never blank, but is 0 for vehicles with no mileage in any year.\n\n\n\n\n\n\n\n\nFigure 25.1: Share of the vehicles on the road in each year that have a mileage for that year.\n\n\n\n\n\n\n\n\n\nTable 25.2: Vehicles on the road in each year, and the share with a mileage and with a plausible mileage.\n\n\n\n\n\n\n\n\n\n\n\n\nYear\nOn the road\nWith a mileage\nPlausible, of those with a mileage\n\n\n\n\n2,005\n37,173,821\n87.2%\n100.0%\n\n\n2,006\n40,093,669\n81.8%\n99.8%\n\n\n2,007\n42,990,223\n77.8%\n99.7%\n\n\n2,008\n45,060,947\n74.9%\n99.7%\n\n\n2,009\n45,338,817\n74.6%\n99.7%\n\n\n2,010\n45,563,405\n74.8%\n99.7%\n\n\n2,011\n45,741,586\n74.9%\n99.7%\n\n\n2,012\n46,060,672\n75.1%\n99.7%\n\n\n2,013\n46,764,696\n75.3%\n99.7%\n\n\n2,014\n47,725,371\n75.7%\n99.7%\n\n\n2,015\n48,933,331\n75.9%\n99.8%\n\n\n2,016\n50,277,185\n75.5%\n100.0%\n\n\n2,017\n50,808,836\n74.4%\n100.0%\n\n\n2,018\n52,342,170\n73.1%\n100.0%\n\n\n2,019\n52,938,951\n73.0%\n100.0%\n\n\n2,020\n52,646,308\n75.0%\n100.0%\n\n\n2,021\n52,473,725\n75.8%\n100.0%\n\n\n2,022\n52,084,885\n76.4%\n100.0%\n\n\n2,023\n50,687,977\n74.9%\n100.0%\n\n\n2,024\n51,138,063\n71.5%\n100.0%\n\n\n2,025\n51,769,765\n49.6%\n100.0%",
+    "crumbs": [
+      "Data dictionary",
+      "<span class='chapter-number'>25</span>  <span class='chapter-title'>Mileage</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/dictionary/location.html",
+    "href": "chapters/dictionary/location.html",
+    "title": "26  Location",
+    "section": "",
+    "text": "26.1 Overview\nThe only location in the data is the postcode area of the testing station where the vehicle had its MOT test in each year: LS for Leeds, B for Birmingham, and so on. It is where the vehicle was tested, which is usually, but not always, near where it is kept. Chapter 7 explains postcode areas and the limits of analysing vehicles at this scale.\nThe status rules are set out in the methodology, section 3.3, and how the statuses describe a vehicle’s life in Chapter 6. A vehicle is observed in a year when pca_YYYY holds a real postcode area, and selecting these vehicles is the usual first step of any analysis of a year (Chapter 11).\nTable 26.1: Location columns.\n\n\n\n\n\n\n\n\n\n\n\n\n\nColumn\nType\nSource\nDescription\nMissing\n\n\n\n\npca_YYYY\nVARCHAR\nBristol + pipeline\nPostcode area in that year, or unborn / dead / unknown where no PCA was recorded\n0%",
+    "crumbs": [
+      "Data dictionary",
+      "<span class='chapter-number'>26</span>  <span class='chapter-title'>Location</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/dictionary/location.html#overview",
+    "href": "chapters/dictionary/location.html#overview",
+    "title": "26  Location",
+    "section": "",
+    "text": "pca_YYYY is the postcode area in year YYYY, from 2005 to 2025. Northern Ireland is coded NI.\nIn a year with no recorded postcode area, the pipeline replaces the blank with the vehicle’s status:\n\nunborn: the vehicle had not yet been made or registered;\ndead: the year is after the vehicle’s last MOT test, so it is no longer observed. This is not the same as scrapped: it includes vehicles exported, declared off the road or simply no longer tested;\nunknown: the vehicle existed but was not observed, for example in its first three years before the first MOT.",
+    "crumbs": [
+      "Data dictionary",
+      "<span class='chapter-number'>26</span>  <span class='chapter-title'>Location</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/dictionary/location.html#coverage",
+    "href": "chapters/dictionary/location.html#coverage",
+    "title": "26  Location",
+    "section": "26.2 Coverage",
+    "text": "26.2 Coverage\npca_YYYY is never blank, because every blank is replaced by a status, so its coverage is the share of vehicles with a real postcode area rather than a status. Among the vehicles on the road in a year (those that are not unborn or dead), this share is the proportion observed, shown in Figure 26.1.\nIt is about 88% through the 2010s. The vehicles on the road but not observed are unknown: mostly new vehicles before their first MOT, and vehicles that missed a test. The share falls in the final years, to 76% in 2025: a vehicle last tested in the final two years of data may not yet be due another test, so it stays unknown rather than dead (Chapter 14).\n\n\n\n\n\n\n\n\nFigure 26.1: Share of the vehicles on the road in each year that were observed, with a postcode area in that year.\n\n\n\n\n\n\n\n\n\nTable 26.2: Vehicles by status of pca_YYYY in each year.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nYear\nPostcode area\nunknown\ndead\nunborn\nObserved, of those on the road\n\n\n\n\n2,005\n31,888,912\n5,284,956\n0\n56,178,373\n85.8%\n\n\n2,006\n34,662,542\n5,431,132\n25,706\n53,232,861\n86.5%\n\n\n2,007\n37,490,453\n5,499,773\n161,330\n50,200,685\n87.2%\n\n\n2,008\n39,496,248\n5,564,702\n791,780\n47,499,511\n87.7%\n\n\n2,009\n39,687,978\n5,650,842\n2,970,688\n45,042,733\n87.5%\n\n\n2,010\n39,868,271\n5,695,137\n5,201,708\n42,587,125\n87.5%\n\n\n2,011\n40,001,268\n5,740,321\n7,421,484\n40,189,168\n87.5%\n\n\n2,012\n40,325,572\n5,735,103\n9,618,414\n37,673,152\n87.5%\n\n\n2,013\n40,947,776\n5,816,923\n11,697,550\n34,889,992\n87.6%\n\n\n2,014\n41,740,695\n5,984,679\n13,791,311\n31,835,556\n87.5%\n\n\n2,015\n42,827,668\n6,105,666\n15,843,563\n28,575,344\n87.5%\n\n\n2,016\n44,042,339\n6,234,849\n17,845,342\n25,229,711\n87.6%\n\n\n2,017\n44,441,732\n6,367,107\n19,813,774\n22,729,628\n87.5%\n\n\n2,018\n45,204,703\n7,137,469\n21,944,259\n19,065,810\n86.4%\n\n\n2,019\n45,687,132\n7,251,821\n24,290,253\n16,123,035\n86.3%\n\n\n2,020\n45,534,442\n7,111,868\n26,769,042\n13,936,889\n86.5%\n\n\n2,021\n45,673,106\n6,800,620\n29,148,803\n11,729,712\n87.0%\n\n\n2,022\n45,018,795\n7,066,091\n31,567,435\n9,699,920\n86.4%\n\n\n2,023\n43,394,273\n7,293,705\n33,357,407\n9,306,856\n85.6%\n\n\n2,024\n41,576,160\n9,561,904\n35,261,681\n6,952,496\n81.3%\n\n\n2,025\n39,129,586\n12,640,179\n37,101,284\n4,481,192\n75.6%",
+    "crumbs": [
+      "Data dictionary",
+      "<span class='chapter-number'>26</span>  <span class='chapter-title'>Location</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/dictionary/dvla-status.html",
+    "href": "chapters/dictionary/dvla-status.html",
+    "title": "27  Licensing status and DVLA lookups",
+    "section": "",
+    "text": "27.1 Overview\nDVLA details were collected by querying the Vehicle Enquiry Service (VES) for every registration in the DVSA data, many of them several times, between 2024 and 2026 (Chapter 8). These columns hold the vehicle’s licensing status as the VES reported it, the record of the lookups themselves, and the pipeline’s check of whether the VES record describes the same vehicle.\nTable 27.1: Licensing status and DVLA lookup columns.\n\n\n\n\n\n\n\n\n\n\n\n\n\nColumn\nType\nSource\nDescription\nMissing\n\n\n\n\ntaxStatus_DVLA\nVARCHAR\nBristol (VES)\nAs returned by the DVLA Vehicle Enquiry Service\n23.04%\n\n\ntaxDueDate_DVLA\nDATE\nBristol (VES)\nAs returned by the DVLA Vehicle Enquiry Service\n34.25%\n\n\nmotStatus_DVLA\nVARCHAR\nBristol (VES)\nAs returned by the DVLA Vehicle Enquiry Service\n23.04%\n\n\nmotExpiryDate_DVLA\nDATE\nBristol (VES)\nAs returned by the DVLA Vehicle Enquiry Service\n37.43%\n\n\nmarkedForExport_DVLA\nBOOLEAN\nBristol (VES)\nAs returned by the DVLA Vehicle Enquiry Service\n23.04%\n\n\never_export_marked\nDOUBLE\nBristol (VES)\nNumber of VES checks that reported the vehicle as marked for export (0 if never)\n23.04%\n\n\never_SORN\nBOOLEAN\nBristol (VES)\nTRUE if VES ever reported the vehicle as SORN\n23.04%\n\n\nartEndDate_DVLA\nDATE\nBristol (VES)\nAs returned by the DVLA Vehicle Enquiry Service\n98.03%\n\n\ndateOfLastV5CIssued_DVLA\nDATE\nBristol (VES)\nAs returned by the DVLA Vehicle Enquiry Service\n23.04%\n\n\nv5C_issue_date_ever_changed\nBOOLEAN\nBristol (VES)\nTRUE if the V5C issue date changed between VES checks\n2.94%\n\n\nchange_in_other_VES_field\nBOOLEAN\nBristol (VES)\nTRUE if another VES field changed between checks\n2.94%\n\n\ndvla_match\nVARCHAR\npipeline\nWhether the VES record describes this vehicle: same, different (at least two of make, manufacture year and engine size disagree; its values are not used) or no_dvla\n0%\n\n\ndvla_evidence\nINTEGER\npipeline\nNumber of make / year / engine comparisons between the DVSA and VES records that disagree (0-3)\n0%\n\n\ncollectionDate_DVLA\nTIMESTAMP\nBristol (VES)\nAs returned by the DVLA Vehicle Enquiry Service\n2.94%\n\n\nis_error\nBOOLEAN\nBristol (VES)\nTRUE if the last VES lookup for this registration returned an error\n2.94%\n\n\nerror\nVARCHAR\nBristol (VES)\nError message from the last VES lookup\n79.9%\n\n\nn_VES_checks_to_linked_DVSA_regs\nBIGINT\nBristol (VES)\nNumber of VES checks made to the DVSA registrations linked to this vehicle (ves_4 onwards)\n2.94%\n\n\nn_VES_checks_for_DVLA_reg\nBIGINT\nBristol (VES)\nNumber of VES checks made for the DVLA registration (ves_4 onwards)\n2.94%\n\n\nn_VES_returns\nDOUBLE\nBristol (VES)\nNumber of those queries that returned a record\n2.94%\n\n\nfirst_VES_check\nTIMESTAMP\nBristol (VES)\nFirst VES query for this registration\n2.94%\n\n\nfirst_VES_return\nTIMESTAMP\nBristol (VES)\nFirst VES query that returned a record\n23.04%\n\n\nlast_VES_check\nTIMESTAMP\nBristol (VES)\nLast VES query for this registration\n2.94%\n\n\nlast_VES_return\nTIMESTAMP\nBristol (VES)\nLast VES query that returned a record\n23.04%",
+    "crumbs": [
+      "Data dictionary",
+      "<span class='chapter-number'>27</span>  <span class='chapter-title'>Licensing status and DVLA lookups</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/dictionary/dvla-status.html#overview",
+    "href": "chapters/dictionary/dvla-status.html#overview",
+    "title": "27  Licensing status and DVLA lookups",
+    "section": "",
+    "text": "Licensing status: tax status and due date, MOT status and expiry, whether the vehicle is marked for export, the date of its latest V5C (registration certificate) and the end date of the additional rate of tax (the supplement for cars with a high list price), all as at the last lookup that returned a record. These are supplied by the DVLA and not changed. Chapter 6 explains SORN, export and the other stages they describe.\nWhat changed between lookups: ever_SORN, ever_export_marked, plate_ever_changed_VES, v5C_issue_date_ever_changed and change_in_other_VES_field summarise the changes the Bristol team saw across repeated lookups.\nThe lookups: when the registration was first and last queried and first and last returned a record, how many queries were made, and the error from the last one where it failed (methodology, section 2).\ndvla_match says whether the VES record describes the same vehicle as the DVSA record. A registration can move between vehicles, so a lookup can return another vehicle’s record. Where at least two of make, year of manufacture and engine size disagree (dvla_evidence), the match is different and the pipeline does not use the record’s values (section 5.1).",
+    "crumbs": [
+      "Data dictionary",
+      "<span class='chapter-number'>27</span>  <span class='chapter-title'>Licensing status and DVLA lookups</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/dictionary/dvla-status.html#coverage",
+    "href": "chapters/dictionary/dvla-status.html#coverage",
+    "title": "27  Licensing status and DVLA lookups",
+    "section": "27.2 Coverage",
+    "text": "27.2 Coverage\nThese columns have three levels of coverage, which apply to every _DVLA column in the table:\n\nA lookup was made: 97% of vehicles. The lookup columns, such as first_VES_check and is_error, are present for all of these.\nThe lookup returned a record: 77% of vehicles. The licensing status columns and the other _DVLA columns are present only for these.\nThe record describes this vehicle: dvla_match is same for 77% of vehicles, different for 0.1% and no_dvla for the rest.\n\nHow often a record was returned depends strongly on age (Figure 27.1). The VES only describes vehicles still on the DVLA register, so it returned a record for 62% of vehicles first used before 2000 and 65% of those first used in the 2000s, most of which have long left the road, against 96% of those first used in the 2010s. Where no record was returned, error holds the reason.\nVehicles first used in the last few years are a different case: many had not been registered, or had not reached the DVSA data, when the lookups were made. Hardly any vehicle first used in 2026 has a DVLA record (1%).\nSome status fields are blank even where a record was returned, because the DVLA holds no value: taxDueDate_DVLA for some vehicles that are not taxed, motExpiryDate_DVLA for vehicles too new to need an MOT, and artEndDate_DVLA for all but the recent, expensive cars that pay the additional rate of tax.\n\n\n\n\nTable 27.2: Share of vehicles with a value, by year of first use.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nColumn\nAll vehicles\nBefore 2000\n2000–09\n2010–19\n2020 on\n\n\n\n\ntaxStatus_DVLA\n77.0%\n61.9%\n64.8%\n96.3%\n82.0%\n\n\ntaxDueDate_DVLA\n65.8%\n39.6%\n49.8%\n90.8%\n80.3%\n\n\nmotStatus_DVLA\n77.0%\n61.9%\n64.8%\n96.3%\n82.0%\n\n\nmotExpiryDate_DVLA\n62.6%\n40.5%\n59.9%\n90.6%\n42.2%\n\n\nmarkedForExport_DVLA\n77.0%\n61.9%\n64.8%\n96.3%\n82.0%\n\n\never_export_marked\n77.0%\n61.9%\n64.8%\n96.3%\n82.0%\n\n\never_SORN\n77.0%\n61.9%\n64.8%\n96.3%\n82.0%\n\n\nartEndDate_DVLA\n2.0%\n0.0%\n0.0%\n0.1%\n11.4%\n\n\ndateOfLastV5CIssued_DVLA\n77.0%\n61.8%\n64.8%\n96.3%\n82.0%\n\n\nv5C_issue_date_ever_changed\n97.1%\n99.9%\n99.8%\n99.4%\n84.3%\n\n\nchange_in_other_VES_field\n97.1%\n99.9%\n99.8%\n99.4%\n84.3%\n\n\ndvla_match\n100.0%\n100.0%\n100.0%\n100.0%\n100.0%\n\n\ndvla_evidence\n100.0%\n100.0%\n100.0%\n100.0%\n100.0%\n\n\ncollectionDate_DVLA\n97.1%\n99.9%\n99.8%\n99.4%\n84.3%\n\n\nis_error\n97.1%\n99.9%\n99.8%\n99.4%\n84.3%\n\n\nerror\n20.1%\n38.1%\n35.1%\n3.1%\n2.3%\n\n\nn_VES_checks_to_linked_DVSA_regs\n97.1%\n99.9%\n99.8%\n99.4%\n84.3%\n\n\nn_VES_checks_for_DVLA_reg\n97.1%\n99.9%\n99.8%\n99.4%\n84.3%\n\n\nn_VES_returns\n97.1%\n99.9%\n99.8%\n99.4%\n84.3%\n\n\nfirst_VES_check\n97.1%\n99.9%\n99.8%\n99.4%\n84.3%\n\n\nfirst_VES_return\n77.0%\n61.9%\n64.8%\n96.3%\n82.0%\n\n\nlast_VES_check\n97.1%\n99.9%\n99.8%\n99.4%\n84.3%\n\n\nlast_VES_return\n77.0%\n61.9%\n64.8%\n96.3%\n82.0%\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nFigure 27.1: Share of vehicles looked up in the VES, returned a record, and with a tax due date and MOT expiry date, by year of first use.",
+    "crumbs": [
+      "Data dictionary",
+      "<span class='chapter-number'>27</span>  <span class='chapter-title'>Licensing status and DVLA lookups</span>"
+    ]
+  },
+  {
     "objectID": "chapters/references.html",
     "href": "chapters/references.html",
     "title": "References",
@@ -1114,124 +1464,124 @@
     ]
   },
   {
-    "objectID": "chapters/data-dictionary.html",
-    "href": "chapters/data-dictionary.html",
-    "title": "Appendix B — Data dictionary",
-    "section": "",
-    "text": "Every column of the vehicle table, vehicles_enhanced.parquet. The year columns (mileage_YYYY, legit_mileage_YYYY and pca_YYYY) are shown once each, with the range of their missing shares across the years. This table is generated from the pipeline’s data_dictionary.csv, so it always matches the version of the data the book describes. Missing is the share of the 93,352,241 vehicles with no value.\n\n\n\n\nTable B.1: Columns of the vehicle table.\n\n\n\n\n\n\n\n\n\n\n\n\n\nColumn\nType\nSource\nDescription\nMissing\n\n\n\n\nvehicle_id\nBIGINT\npipeline\nRow number in the Bristol input file (stable id for this input)\n0%\n\n\nregistration_DVSA\nVARCHAR\nBristol\nVehicle registration mark as supplied by DVSA\n0%\n\n\nregistration_DVLA\nVARCHAR\nBristol (VES)\nRegistration returned by the DVLA Vehicle Enquiry Service\n2.94%\n\n\nregistration_clean\nVARCHAR\npipeline\nRegistration upper-cased with non-alphanumerics removed, as used for plate decoding\n0%\n\n\ndup_vrm\nBOOLEAN\npipeline\nTRUE if the DVSA registration appears on more than one row of the input\n0%\n\n\nplate_type\nVARCHAR\npipeline\nPlate format (port of DVLAAPI::registration_analysis)\n0%\n\n\nplate_date\nVARCHAR\npipeline\nIssue period implied by the plate, as text\n0%\n\n\nplate_date_from\nDATE\npipeline\nFirst month of the plate issue period\n0.08%\n\n\nplate_date_to\nDATE\npipeline\nLast month of the plate issue period (first day of that month)\n0.08%\n\n\nplate_location\nVARCHAR\npipeline\nIssuing office or region implied by the plate\n0%\n\n\nvanity_plate\nBOOLEAN\npipeline\nTRUE if birth_date falls outside the plate issue period (with tolerance): a cherished/vanity plate\n0.08%\n\n\nmake_DVSA\nVARCHAR\nBristol\nMake as supplied by DVSA\n0.06%\n\n\nmodel_DVSA\nVARCHAR\nBristol\nModel as supplied by DVSA\n0%\n\n\nmake_DVLA\nVARCHAR\nBristol (VES)\nMake as returned by VES\n23.04%\n\n\nmake_final\nVARCHAR\npipeline\nMake in the DfT vehicle licensing statistics naming (VEH0220 / VEH0124), upper case; makes DfT spells two ways are merged (inputs/make_aliases.csv). The raw make, upper-cased, where it matches no DfT make; NA where it is a placeholder such as UNKNOWN\n0.56%\n\n\nmodel_final\nVARCHAR\npipeline\nDfT generic model without the make (“C CLASS”, “FIESTA”); the normalised raw model where it matches no DfT generic model (then dft_genmodel is NA); NA where the model is a placeholder\n4.27%\n\n\nderivative_final\nVARCHAR\npipeline\nThe rest of the raw DVSA model text after the words that give the model (trim, engine, body style), upper case, not standardised\n75.63%\n\n\nbody_type\nVARCHAR\npipeline\nDfT body type: Cars, Light goods vehicles, Motorcycles, Buses and coaches, Heavy goods vehicles or Other vehicles (see body_type_src)\n3.08%\n\n\ndft_genmodel\nVARCHAR\npipeline\nDfT GenModel of make_final + model_final, for joining to DfT tables (NA when model_final is not a DfT generic model)\n5.07%\n\n\ndft_model\nVARCHAR\npipeline\nDfT model string, when the raw DVSA model is exactly one\n47.12%\n\n\nmake_method\nVARCHAR\npipeline\nHow make_final was found: exact, punctuation, alias, dvla (the raw make’s vehicles mostly have that DVLA make), prefix, fuzzy (spelling fix), dvla_vehicle (this vehicle’s DVLA make, for a missing or unmatched DVSA make), override, placeholder or unmatched\n0%\n\n\nmodel_method\nVARCHAR\npipeline\nHow model_final was found: exact (a DfT model string), generic (a DfT generic model name), prefix, words, fuzzy (spelling fix), ambiguous / make_only (chosen per vehicle from fuel, engine size and year of first use), override, placeholder or unmatched\n0%\n\n\nmodel_confidence\nDOUBLE\npipeline\nShare of the DfT vehicles under the matched text that have this generic model; for ambiguous / make_only, the chosen model’s share of the per-vehicle weight\n5.07%\n\n\nbody_type_src\nVARCHAR\npipeline\nSource of body_type: model (the DfT model string’s body type), type_approval (DVLA type approval, where the generic model has that body type), genmodel (the generic model’s most common body type) or test_class\n3.08%\n\n\nfuel\nVARCHAR\npipeline\nFuel type: DVSA; DVLA (same vehicle only, mapped to DVSA terms) where DVSA is ‘Other’, or says Electric/Fuel Cells for a DVLA vehicle with an engine; fuel of same-engine vehicles for an Electric/Fuel Cells vehicle with a recorded engine size; Electric where the make/model check corrects it. Never backfilled\n0%\n\n\nfuel_src\nVARCHAR\npipeline\nSource of fuel: dvsa, dvla, variant (most common fuel of the same make/model/birth year/engine size), model (set to Electric by the make/model check) or dft (replaced by the DfT plug-in hybrid value)\n0%\n\n\nfuel_check\nVARCHAR\npipeline\nFuel compared with the same make/model: ok, rare_conversion, rare_for_model, implausible_for_model, corrected_electric, unknown_fuel or no_reference (see methodology.md)\n0%\n\n\nfuel_simple\nVARCHAR\npipeline\nFuel grouped as Petrol / Diesel / Electric / Hybrid Electric / Plug-in Hybrid Electric / Other\n0%\n\n\nfuel_DFT\nVARCHAR\nDfT VEH0220\nFuel as the DfT vehicle licensing statistics record it for this make and model (VEH0220), which unlike DVSA and DVLA separates plug-in hybrids from other hybrids. NA where the make/model has no DfT vehicles of this fuel group, or where no one DfT fuel is common enough to choose (see fuel_DFT_src)\n5.54%\n\n\nfuel_DFT_src\nVARCHAR\npipeline\nHow fuel_DFT was found: dft_model (the DfT model string’s most common fuel of this group), dft_genmodel (the generic model’s), ambiguous_model / ambiguous_genmodel (a match, but no single DfT fuel reaches the checks.dft_fuel_share threshold) or no_reference\n0.14%\n\n\nengine_cc\nINTEGER\npipeline\nEngine size (cc): DVSA if &gt; 0, else DVLA if &gt; 0 (same vehicle only); 0 for Electric and Fuel Cells; else most common for the same make/model/birth year/fuel, then make/model/fuel\n0.85%\n\n\nengine_cc_src\nVARCHAR\npipeline\nSource of engine_cc: dvsa, dvla, no_engine (Electric / Fuel Cells), model_year_fuel or model_fuel\n0.85%\n\n\nengine_check\nVARCHAR\npipeline\nEngine size check: ok; engine_removed (Electric / Fuel Cells vehicle with a recorded engine size, set to 0); zero_replaced (fuel with an engine recorded as 0cc, backfilled); missing (fuel with an engine and no engine size after backfill)\n0%\n\n\nrevenue_weight\nINTEGER\npipeline\nRevenue weight (kg): DVLA, else variant backfill\n13.7%\n\n\nrevenue_weight_src\nVARCHAR\npipeline\nSource of the matching harmonised column: dvsa or dvla (recorded), variant (same make/model/birth year/fuel/engine size) or model_year_fuel (same make/model/birth year/fuel)\n13.7%\n\n\nco2\nINTEGER\npipeline\nCO2 emissions (g/km): DVLA, else variant backfill. A recorded 0 is kept only for Electric and Fuel Cells vehicles; for anything else it is impossible, so it is cleared before the backfill and the vehicle is filled from similar vehicles (see co2_check)\n20.88%\n\n\nco2_src\nVARCHAR\npipeline\nSource of the matching harmonised column: dvsa or dvla (recorded), variant (same make/model/birth year/fuel/engine size) or model_year_fuel (same make/model/birth year/fuel)\n20.88%\n\n\nco2_check\nVARCHAR\npipeline\nCO2 check: ok; zero_replaced (a recorded 0 g/km on a vehicle with an engine, backfilled from similar vehicles); zero_removed (the same, but no backfill value was available); missing (no CO2 recorded or backfilled)\n0%\n\n\neuro_status\nVARCHAR\npipeline\nEuro status: DVLA with the spelling standardised (‘EURO 6AP’ and ‘EURO6 (AP)’ become ‘EURO 6 AP’; see R/euro_status.R), else variant backfill, else the standard that was compulsory for new registrations of that body type when the vehicle was made\n8.72%\n\n\neuro_status_src\nVARCHAR\npipeline\nSource of euro_status: dvla (recorded), variant or model_year_fuel (backfilled from similar vehicles), or euro_schedule (the standard that was compulsory for new registrations of that body type when the vehicle was made)\n8.72%\n\n\neuro_standard\nINTEGER\npipeline\nEuro emission standard number parsed from euro_status (Roman numerals converted)\n8.72%\n\n\neuro_check\nVARCHAR\npipeline\nEuro status against the vehicle’s age: ok; later_than_date (the recorded or backfilled status names a standard that did not exist when the vehicle was made - kept, not changed); assumed (filled from the registration-date schedule); pre_euro (made before the first standard of its class); no_schedule (body type with no schedule: Other vehicles, or none); no_date\n0%\n\n\ntype_approval\nVARCHAR\npipeline\nType approval category: DVLA, else variant backfill\n11.39%\n\n\ntype_approval_src\nVARCHAR\npipeline\nSource of the matching harmonised column: dvsa or dvla (recorded), variant (same make/model/birth year/fuel/engine size) or model_year_fuel (same make/model/birth year/fuel)\n11.39%\n\n\nwheelplan\nVARCHAR\npipeline\nWheel plan: DVLA, else variant backfill\n0.45%\n\n\nwheelplan_src\nVARCHAR\npipeline\nSource of the matching harmonised column: dvsa or dvla (recorded), variant (same make/model/birth year/fuel/engine size) or model_year_fuel (same make/model/birth year/fuel)\n0.45%\n\n\ntest_class\nINTEGER\npipeline\nMOT test class: DVSA, else variant backfill\n7.56%\n\n\ntest_class_src\nVARCHAR\npipeline\nSource of the matching harmonised column: dvsa or dvla (recorded), variant (same make/model/birth year/fuel/engine size) or model_year_fuel (same make/model/birth year/fuel)\n7.56%\n\n\nfuel_DVSA\nVARCHAR\nBristol (DVSA)\nAs supplied by DVSA\n0%\n\n\nfuelType_DVLA\nVARCHAR\nBristol (VES)\nAs returned by the DVLA Vehicle Enquiry Service\n23.05%\n\n\nengineSize_DVSA\nINTEGER\nBristol (DVSA)\nAs supplied by DVSA\n17.11%\n\n\nengineCapacity_DVLA\nINTEGER\nBristol (VES)\nAs returned by the DVLA Vehicle Enquiry Service\n24.05%\n\n\nprimaryColour_DVSA\nVARCHAR\nBristol (DVSA)\nAs supplied by DVSA\n0%\n\n\nsecondaryColour_DVSA\nVARCHAR\nBristol (DVSA)\nAs supplied by DVSA\n8.71%\n\n\ncolour_DVLA\nVARCHAR\nBristol (VES)\nAs returned by the DVLA Vehicle Enquiry Service\n23.04%\n\n\ntypeApproval_DVLA\nVARCHAR\nBristol (VES)\nAs returned by the DVLA Vehicle Enquiry Service\n40.86%\n\n\nrevenueWeight_DVLA\nINTEGER\nBristol (VES)\nAs returned by the DVLA Vehicle Enquiry Service\n69.51%\n\n\nwheelplan_DVLA\nVARCHAR\nBristol (VES)\nAs returned by the DVLA Vehicle Enquiry Service\n23.04%\n\n\ntest_class_ANON\nINTEGER\nBristol (DVSA)\nAnonymised MOT test class as supplied\n20.69%\n\n\nco2Emissions_DVLA\nINTEGER\nBristol (VES)\nAs returned by the DVLA Vehicle Enquiry Service\n38%\n\n\neuroStatus_DVLA\nVARCHAR\nBristol (VES)\nAs returned by the DVLA Vehicle Enquiry Service\n85.43%\n\n\nrealDrivingEmissions_DVLA\nVARCHAR\nBristol (VES)\nAs returned by the DVLA Vehicle Enquiry Service\n92.83%\n\n\nautomatedVehicle_DVLA\nBOOLEAN\nBristol (VES)\nAs returned by the DVLA Vehicle Enquiry Service\n98.49%\n\n\nmarkedForExport_DVLA\nBOOLEAN\nBristol (VES)\nAs returned by the DVLA Vehicle Enquiry Service\n23.04%\n\n\ntaxStatus_DVLA\nVARCHAR\nBristol (VES)\nAs returned by the DVLA Vehicle Enquiry Service\n23.04%\n\n\ntaxDueDate_DVLA\nDATE\nBristol (VES)\nAs returned by the DVLA Vehicle Enquiry Service\n34.25%\n\n\nmotStatus_DVLA\nVARCHAR\nBristol (VES)\nAs returned by the DVLA Vehicle Enquiry Service\n23.04%\n\n\nmotExpiryDate_DVLA\nDATE\nBristol (VES)\nAs returned by the DVLA Vehicle Enquiry Service\n37.43%\n\n\nbirth_date\nDATE\npipeline\nEarliest of DVSA first used, registration and manufacture dates\n0%\n\n\nfirst_use_date\nDATE\npipeline\nFirst use date: DVSA first used, else DVLA month of first registration, else birth_date\n0%\n\n\nfirst_use_source\nVARCHAR\npipeline\nWhich column first_use_date came from\n0%\n\n\nfirstUsedDate_DVSA\nDATE\nBristol (DVSA)\nAs supplied by DVSA\n17.69%\n\n\nregistrationDate_DVSA\nDATE\nBristol (DVSA)\nAs supplied by DVSA\n0.07%\n\n\nmanufactureDate_DVSA\nDATE\nBristol (DVSA)\nAs supplied by DVSA\n0.52%\n\n\nmonthOfFirstRegistration_DVLA\nDATE\nBristol (VES)\nAs returned by the DVLA Vehicle Enquiry Service\n23.04%\n\n\nmonthOfFirstDvlaRegistration_DVLA\nDATE\nBristol (VES)\nAs returned by the DVLA Vehicle Enquiry Service\n99%\n\n\nyearOfManufacture_DVLA\nINTEGER\nBristol (VES)\nAs returned by the DVLA Vehicle Enquiry Service\n23.24%\n\n\ndateOfLastV5CIssued_DVLA\nDATE\nBristol (VES)\nAs returned by the DVLA Vehicle Enquiry Service\n23.04%\n\n\nartEndDate_DVLA\nDATE\nBristol (VES)\nAs returned by the DVLA Vehicle Enquiry Service\n98.03%\n\n\nfinal_test_date_DVSA\nDATE\nBristol (DVSA)\nDate of the vehicle’s last recorded MOT test, from Bristol’s final_test_date_DVSA where the delivery has it. Missing for a vehicle that has never been tested; earlier deliveries supplied only lastMotTestDate_DVSA, which DVSA now fill with a future date for untested vehicles\n16.3%\n\n\nlast_mot_year\nINTEGER\npipeline\nYear of the last is_end_use flag (last MOT year)\n44.01%\n\n\ncollectionDate_DVLA\nTIMESTAMP\nBristol (VES)\nAs returned by the DVLA Vehicle Enquiry Service\n2.94%\n\n\nis_error\nBOOLEAN\nBristol (VES)\nTRUE if the last VES lookup for this registration returned an error\n2.94%\n\n\nerror\nVARCHAR\nBristol (VES)\nError message from the last VES lookup\n79.9%\n\n\nn_VES_checks_to_linked_DVSA_regs\nBIGINT\nBristol (VES)\nNumber of VES checks made to the DVSA registrations linked to this vehicle (ves_4 onwards)\n2.94%\n\n\nn_VES_checks_for_DVLA_reg\nBIGINT\nBristol (VES)\nNumber of VES checks made for the DVLA registration (ves_4 onwards)\n2.94%\n\n\nn_VES_returns\nDOUBLE\nBristol (VES)\nNumber of those queries that returned a record\n2.94%\n\n\nfirst_VES_check\nTIMESTAMP\nBristol (VES)\nFirst VES query for this registration\n2.94%\n\n\nfirst_VES_return\nTIMESTAMP\nBristol (VES)\nFirst VES query that returned a record\n23.04%\n\n\nlast_VES_check\nTIMESTAMP\nBristol (VES)\nLast VES query for this registration\n2.94%\n\n\nlast_VES_return\nTIMESTAMP\nBristol (VES)\nLast VES query that returned a record\n23.04%\n\n\nplate_ever_changed_VES\nBOOLEAN\nBristol (VES)\nTRUE if the registration returned a different vehicle between VES checks: the plate moved\n2.94%\n\n\never_SORN\nBOOLEAN\nBristol (VES)\nTRUE if VES ever reported the vehicle as SORN\n23.04%\n\n\nv5C_issue_date_ever_changed\nBOOLEAN\nBristol (VES)\nTRUE if the V5C issue date changed between VES checks\n2.94%\n\n\nchange_in_other_VES_field\nBOOLEAN\nBristol (VES)\nTRUE if another VES field changed between checks\n2.94%\n\n\never_export_marked\nDOUBLE\nBristol (VES)\nNumber of VES checks that reported the vehicle as marked for export (0 if never)\n23.04%\n\n\ndvla_match\nVARCHAR\npipeline\nWhether the VES record describes this vehicle: same, different (at least two of make, manufacture year and engine size disagree; its values are not used) or no_dvla\n0%\n\n\ndvla_evidence\nINTEGER\npipeline\nNumber of make / year / engine comparisons between the DVSA and VES records that disagree (0-3)\n0%\n\n\nscope_mileage\nBOOLEAN\npipeline\nIn scope because total mileage &gt; 0\n0%\n\n\nscope_pca\nBOOLEAN\npipeline\nIn scope because a PCA is recorded in at least one year\n0%\n\n\nscope_born\nBOOLEAN\npipeline\nIn scope because birth_date is on or after the scope start date\n0%\n\n\nscope_dvla_activity\nBOOLEAN\npipeline\nIn scope because of DVLA activity (tax due, V5C, MOT expiry or first registration) since the scope start date\n0%\n\n\ntotal_mileage\nINTEGER\npipeline\nSum of annual mileage over all years\n0%\n\n\nlegit_mileage_YYYY\nBOOLEAN\nBristol\nBristol flag: annual mileage in that year is plausible\n56.97–72.21%\n\n\nmileage_YYYY\nINTEGER\nBristol\nAnnual mileage in that year (Bristol)\n57.22–72.36%\n\n\npca_YYYY\nVARCHAR\nBristol + pipeline\nPostcode area in that year, or unborn / dead / unknown where no PCA was recorded\n0–0%",
-    "crumbs": [
-      "Appendices",
-      "<span class='chapter-number'>B</span>  <span class='chapter-title'>Data dictionary</span>"
-    ]
-  },
-  {
     "objectID": "chapters/table-catalogue.html",
     "href": "chapters/table-catalogue.html",
-    "title": "Appendix C — Catalogue of aggregate tables",
+    "title": "Appendix B — Catalogue of aggregate tables",
     "section": "",
-    "text": "C.1 Mileage tables: tables/mileage/\nThe aggregate tables are in three folders. These lists are generated from the index file (README_outputs.csv) that the pipeline writes into each folder. An asterisk in a file name stands for several files: set2_static_by_*.csv is one file for each characteristic. Chapter 12 explains how to use them.\nDetails: Vehicles and mileage by postcode area.\nFile\nOne row per\nContents\n\n\n\n\nmileage_by_pca_year_long.csv\nyear x postcode area x plausibility flag\nVehicles, total and mean annual mileage for every pca_YYYY value\n\n\nmileage_by_pca_wide.csv\npostcode area x plausibility flag, one column per year\nThe total mileage of the long table, pivoted\n\n\nmileage_by_legit_flag_year.csv\nyear x plausibility flag\nVehicles and total mileage: the national totals behind the flag\n\n\nmileage_by_test_class_year_long.csv\nyear x MOT test class\nVehicles and total mileage by the test class as supplied, with its label\n\n\nmileage_by_test_class_wide.csv\nMOT test class, one column per year\nThe total mileage of the long table, pivoted\n\n\nmileage_by_fuel_year_long.csv\nyear x DVSA fuel\nVehicles and total mileage by the fuel as supplied, unharmonised\n\n\nmileage_by_fuel_wide.csv\nDVSA fuel, one column per year\nThe total mileage of the long table, pivoted\n\n\nmileage_by_pca_year_body_fuel.csv\nyear x pca_YYYY x body type x fuel group\nThe area table behind the report: vehicles, mileage coverage, mileage, the negative and over-50,000 tails, and age\n\n\nmileage_by_age_year_body_fuel.csv\nyear x body type x fuel group x age\nObserved vehicles and their plausible mileage by age, for vehicles in a real postcode area\n\n\nmileage_distribution_by_year_body.csv\nyear x body type x plausibility flag x mileage band\nRecorded mileage in bands of 1,000 to 50,000, then wider",
+    "text": "B.1 Mileage tables: tables/mileage/\nThe aggregate tables are in three folders. These lists are generated from the index file (README_outputs.csv) that the pipeline writes into each folder. An asterisk in a file name stands for several files: set2_static_by_*.csv is one file for each characteristic. Chapter 12 explains how to use them.\nDetails: Vehicles and mileage by postcode area.\nFile\nOne row per\nContents\n\n\n\n\nmileage_by_pca_year_long.csv\nyear x postcode area x plausibility flag\nVehicles, total and mean annual mileage for every pca_YYYY value\n\n\nmileage_by_pca_wide.csv\npostcode area x plausibility flag, one column per year\nThe total mileage of the long table, pivoted\n\n\nmileage_by_legit_flag_year.csv\nyear x plausibility flag\nVehicles and total mileage: the national totals behind the flag\n\n\nmileage_by_test_class_year_long.csv\nyear x MOT test class\nVehicles and total mileage by the test class as supplied, with its label\n\n\nmileage_by_test_class_wide.csv\nMOT test class, one column per year\nThe total mileage of the long table, pivoted\n\n\nmileage_by_fuel_year_long.csv\nyear x DVSA fuel\nVehicles and total mileage by the fuel as supplied, unharmonised\n\n\nmileage_by_fuel_wide.csv\nDVSA fuel, one column per year\nThe total mileage of the long table, pivoted\n\n\nmileage_by_pca_year_body_fuel.csv\nyear x pca_YYYY x body type x fuel group\nThe area table behind the report: vehicles, mileage coverage, mileage, the negative and over-50,000 tails, and age\n\n\nmileage_by_age_year_body_fuel.csv\nyear x body type x fuel group x age\nObserved vehicles and their plausible mileage by age, for vehicles in a real postcode area\n\n\nmileage_distribution_by_year_body.csv\nyear x body type x plausibility flag x mileage band\nRecorded mileage in bands of 1,000 to 50,000, then wider",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Catalogue of aggregate tables</span>"
+      "<span class='chapter-number'>B</span>  <span class='chapter-title'>Catalogue of aggregate tables</span>"
     ]
   },
   {
     "objectID": "chapters/table-catalogue.html#fleet-profile-tables-tablesprofile",
     "href": "chapters/table-catalogue.html#fleet-profile-tables-tablesprofile",
-    "title": "Appendix C — Catalogue of aggregate tables",
-    "section": "C.2 Fleet profile tables: tables/profile/",
-    "text": "C.2 Fleet profile tables: tables/profile/\nDetails: Fleet profile tables.\n\n\n\n\n\n\n\n\n\n\nFile\nForm\nContents\n\n\n\n\nprofile_categorical_by_year.csv\nLong\nyear x body type x characteristic x category: vehicles, vehicles with mileage, total and mean mileage\n\n\nprofile_categorical_by_year_age.csv\nLong\nThe same, split by age band\n\n\nprofile_continuous_by_year.csv\nLong\nyear x body type x measure: n, mean, sd, min, p10, p25, p50, p75, p90, max\n\n\nprofile_continuous_by_year_age.csv\nLong\nThe same, split by age band\n\n\na1_counts_&lt;body_type&gt;.csv\nAnalysis 1\nRows = years, columns = characteristic: category, cells = vehicles\n\n\na2_mean_mileage_&lt;body_type&gt;.csv\nAnalysis 2\nRows = years, columns = characteristic: category, cells = mean mileage\n\n\na3_counts_&lt;body_type&gt;_by_age.csv\nAnalysis 3\nRows = years x age band, columns = characteristic: category, cells = vehicles\n\n\na4_mean_mileage_&lt;body_type&gt;_by_age.csv\nAnalysis 4\nRows = years x age band, columns = characteristic: category, cells = mean mileage",
+    "title": "Appendix B — Catalogue of aggregate tables",
+    "section": "B.2 Fleet profile tables: tables/profile/",
+    "text": "B.2 Fleet profile tables: tables/profile/\nDetails: Fleet profile tables.\n\n\n\n\n\n\n\n\n\n\nFile\nForm\nContents\n\n\n\n\nprofile_categorical_by_year.csv\nLong\nyear x body type x characteristic x category: vehicles, vehicles with mileage, total and mean mileage\n\n\nprofile_categorical_by_year_age.csv\nLong\nThe same, split by age band\n\n\nprofile_continuous_by_year.csv\nLong\nyear x body type x measure: n, mean, sd, min, p10, p25, p50, p75, p90, max\n\n\nprofile_continuous_by_year_age.csv\nLong\nThe same, split by age band\n\n\na1_counts_&lt;body_type&gt;.csv\nAnalysis 1\nRows = years, columns = characteristic: category, cells = vehicles\n\n\na2_mean_mileage_&lt;body_type&gt;.csv\nAnalysis 2\nRows = years, columns = characteristic: category, cells = mean mileage\n\n\na3_counts_&lt;body_type&gt;_by_age.csv\nAnalysis 3\nRows = years x age band, columns = characteristic: category, cells = vehicles\n\n\na4_mean_mileage_&lt;body_type&gt;_by_age.csv\nAnalysis 4\nRows = years x age band, columns = characteristic: category, cells = mean mileage",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Catalogue of aggregate tables</span>"
+      "<span class='chapter-number'>B</span>  <span class='chapter-title'>Catalogue of aggregate tables</span>"
     ]
   },
   {
     "objectID": "chapters/table-catalogue.html#churn-tables-tableschurn",
     "href": "chapters/table-catalogue.html#churn-tables-tableschurn",
-    "title": "Appendix C — Catalogue of aggregate tables",
-    "section": "C.3 Churn tables: tables/churn/",
-    "text": "C.3 Churn tables: tables/churn/\nDetails: Churn tables.\n\n\n\n\n\n\n\n\n\n\nFile\nSet\nContents\n\n\n\n\nset0_first_use_date_provenance.csv\nGlobal\nWhere the first use date came from, and how often it differs from birth_date\n\n\nset1a_pca_vehicle_counts_change_from_2017.csv\nSet 1a\nAll vehicles, status vs their own 2017 PCA - rows include dead/unborn 2017\n\n\nset1a2_pca_vehicle_counts_change_from_2017_cohort_only.csv\nSet 1a\nSame, restricted to vehicles present in a real PCA in 2017\n\n\nset1b_pca_vehicle_counts_change_from_year-N.csv\nSet 1b\nStatus vs the PCA 1, 2 or 3 years earlier\n\n\nset1c_pca_vehicle_counts_change_from_year-N_age4plus.csv\nSet 1c\nAs 1b, vehicles aged 4+ only\n\n\nset1d_pca_flows_year-1.csv\nSet 1d\nYear-on-year flows into and out of each PCA: moved, new, reappeared, scrapped, unobserved; the flows reconcile both years’ stock exactly\n\n\nset2_pca_*_vehicle_counts_by_year.csv\nSet 2\nCounts by PCA and year for age, mileage, fuel and 3 engine size breakdowns\n\n\nset2_static_by_*.csv\nSet 2\nProportion of 2017 vehicles aged 4+ that did not move PCA 2016-2018\n\n\nset2_cross_*_long/wide_prop.csv\nSet 2\nThe same, cross-tabulated pairwise\n\n\nset3_pca_components_2017.csv\nSet 3\nComponents within PCAs; b..j are a full 3x3 cross-tab that sums to a\n\n\nset3_movement_rate_distribution_2017*.csv\nSet 3\nDistribution of movement rates, overall and by PCA\n\n\nset4_electric_vehicles_by_pca.csv\nSet 4\nEV and all-vehicle counts by PCA, plus mean movement rate in 2022; the leaver and born-here columns each split a total\n\n\nset5_move_vs_mileage.csv\nSet 5\nDoes moving PCA affect mileage\n\n\nset6_moverate_by_*.csv\nSet 6\nMean movement rate by characteristic, new definition\n\n\nset6_cross_*_long/wide_mean.csv\nSet 6\nThe same, cross-tabulated pairwise\n\n\nset7a_pca_caz_categories.csv\nSet 7A\nPre-2006 petrol / pre-2015 diesel / other by PCA and year, with average mileage\n\n\nset7a_pca_caz_category_by_year_long.csv\nSet 7A\nLong form of the same\n\n\nset7_check_caz_category_vs_eurostatus.csv\nSet 7A\nCheck of the registration-date proxy against the euro status (recorded, backfilled or assumed from the date)\n\n\nset7_check_caz_proxy_agreement_by_source.csv\nSet 7A\nAgreement of the proxy with the Euro standard, split by where the standard came from; only dvla / variant / model_year_fuel are an independent check\n\n\nset7b_leavers_2018_to_2023_by_*.csv\nSet 7B\nVehicles present in 2018 but not in the same PCA in 2023, by 2018 characteristics",
+    "title": "Appendix B — Catalogue of aggregate tables",
+    "section": "B.3 Churn tables: tables/churn/",
+    "text": "B.3 Churn tables: tables/churn/\nDetails: Churn tables.\n\n\n\n\n\n\n\n\n\n\nFile\nSet\nContents\n\n\n\n\nset0_first_use_date_provenance.csv\nGlobal\nWhere the first use date came from, and how often it differs from birth_date\n\n\nset1a_pca_vehicle_counts_change_from_2017.csv\nSet 1a\nAll vehicles, status vs their own 2017 PCA - rows include dead/unborn 2017\n\n\nset1a2_pca_vehicle_counts_change_from_2017_cohort_only.csv\nSet 1a\nSame, restricted to vehicles present in a real PCA in 2017\n\n\nset1b_pca_vehicle_counts_change_from_year-N.csv\nSet 1b\nStatus vs the PCA 1, 2 or 3 years earlier\n\n\nset1c_pca_vehicle_counts_change_from_year-N_age4plus.csv\nSet 1c\nAs 1b, vehicles aged 4+ only\n\n\nset1d_pca_flows_year-1.csv\nSet 1d\nYear-on-year flows into and out of each PCA: moved, new, reappeared, scrapped, unobserved; the flows reconcile both years’ stock exactly\n\n\nset2_pca_*_vehicle_counts_by_year.csv\nSet 2\nCounts by PCA and year for age, mileage, fuel and 3 engine size breakdowns\n\n\nset2_static_by_*.csv\nSet 2\nProportion of 2017 vehicles aged 4+ that did not move PCA 2016-2018\n\n\nset2_cross_*_long/wide_prop.csv\nSet 2\nThe same, cross-tabulated pairwise\n\n\nset3_pca_components_2017.csv\nSet 3\nComponents within PCAs; b..j are a full 3x3 cross-tab that sums to a\n\n\nset3_movement_rate_distribution_2017*.csv\nSet 3\nDistribution of movement rates, overall and by PCA\n\n\nset4_electric_vehicles_by_pca.csv\nSet 4\nEV and all-vehicle counts by PCA, plus mean movement rate in 2022; the leaver and born-here columns each split a total\n\n\nset5_move_vs_mileage.csv\nSet 5\nDoes moving PCA affect mileage\n\n\nset6_moverate_by_*.csv\nSet 6\nMean movement rate by characteristic, new definition\n\n\nset6_cross_*_long/wide_mean.csv\nSet 6\nThe same, cross-tabulated pairwise\n\n\nset7a_pca_caz_categories.csv\nSet 7A\nPre-2006 petrol / pre-2015 diesel / other by PCA and year, with average mileage\n\n\nset7a_pca_caz_category_by_year_long.csv\nSet 7A\nLong form of the same\n\n\nset7_check_caz_category_vs_eurostatus.csv\nSet 7A\nCheck of the registration-date proxy against the euro status (recorded, backfilled or assumed from the date)\n\n\nset7_check_caz_proxy_agreement_by_source.csv\nSet 7A\nAgreement of the proxy with the Euro standard, split by where the standard came from; only dvla / variant / model_year_fuel are an independent check\n\n\nset7b_leavers_2018_to_2023_by_*.csv\nSet 7B\nVehicles present in 2018 but not in the same PCA in 2023, by 2018 characteristics",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Catalogue of aggregate tables</span>"
+      "<span class='chapter-number'>B</span>  <span class='chapter-title'>Catalogue of aggregate tables</span>"
     ]
   },
   {
     "objectID": "chapters/maintaining.html",
     "href": "chapters/maintaining.html",
-    "title": "Appendix D — Maintaining this book",
+    "title": "Appendix C — Maintaining this book",
     "section": "",
-    "text": "D.1 The build this edition describes\nThis appendix is for the people who maintain the book. It explains how the numbers, tables and figures that come from the data pipeline are kept up to date.\nTable D.1: The pipeline build behind this edition.\n\n\n\n\n\n\nItem\nValue\n\n\n\n\npipeline_commit\n2aaa92a\n\n\npipeline_commit_date\n2026-10-16\n\n\npipeline_branch\nmain\n\n\npipeline_uncommitted_changes\nTRUE\n\n\nparquet_modified\n2026-10-13\n\n\nsynced_at\n2026-10-16 13:50\n\n\nexamples_run_at\n2026-10-16 13:40\nTable D.2: Software versions of the pipeline build.\n\n\n\n\n\n\nComponent\nVersion\n\n\n\n\nR\nR version 4.3.3 (2024-02-29 ucrt)\n\n\nplatform\nx86_64-w64-mingw32\n\n\nduckdb_engine\nv1.5.2\n\n\nquarto_cli\n1.10.18\n\n\ntargets\n1.12.0\n\n\nduckdb\n1.5.2\n\n\nDBI\n1.3.0\n\n\narrow\n23.0.1.1\n\n\ndplyr\n1.2.1\n\n\ntidyr\n1.3.2\n\n\nyaml\n2.3.12\n\n\nquarto\n1.5.1\n\n\nknitr\n1.51\n\n\nggplot2\n4.0.2\n\n\nggalluvial\n0.12.6\n\n\npatchwork\n1.3.2\n\n\nsf\n1.0.20\n\n\nstringi\n1.8.7\n\n\nDVLAAPI\n0.1.0",
+    "text": "C.1 The build this edition describes\nThis appendix is for the people who maintain the book. It explains how the numbers, tables and figures that come from the data pipeline are kept up to date.\nTable C.1: The pipeline build behind this edition.\n\n\n\n\n\n\nItem\nValue\n\n\n\n\npipeline_commit\n2aaa92a\n\n\npipeline_commit_date\n2026-10-16\n\n\npipeline_branch\nmain\n\n\npipeline_uncommitted_changes\nTRUE\n\n\nparquet_modified\n2026-10-13\n\n\nsynced_at\n2026-10-16 13:50\n\n\nexamples_run_at\n2026-10-16 13:40\nTable C.2: Software versions of the pipeline build.\n\n\n\n\n\n\nComponent\nVersion\n\n\n\n\nR\nR version 4.3.3 (2024-02-29 ucrt)\n\n\nplatform\nx86_64-w64-mingw32\n\n\nduckdb_engine\nv1.5.2\n\n\nquarto_cli\n1.10.18\n\n\ntargets\n1.12.0\n\n\nduckdb\n1.5.2\n\n\nDBI\n1.3.0\n\n\narrow\n23.0.1.1\n\n\ndplyr\n1.2.1\n\n\ntidyr\n1.3.2\n\n\nyaml\n2.3.12\n\n\nquarto\n1.5.1\n\n\nknitr\n1.51\n\n\nggplot2\n4.0.2\n\n\nggalluvial\n0.12.6\n\n\npatchwork\n1.3.2\n\n\nsf\n1.0.20\n\n\nstringi\n1.8.7\n\n\nDVLAAPI\n0.1.0",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Maintaining this book</span>"
+      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Maintaining this book</span>"
     ]
   },
   {
     "objectID": "chapters/maintaining.html#how-data-gets-into-the-book",
     "href": "chapters/maintaining.html#how-data-gets-into-the-book",
-    "title": "Appendix D — Maintaining this book",
-    "section": "D.2 How data gets into the book",
-    "text": "D.2 How data gets into the book\nNothing in the book reads the pipeline repository directly. Instead:\n\ndata/manifest.yml lists every file the book uses from MOT-pipline.\nscripts/sync-pipeline.R copies those files into data/pipeline/ (data) and reports/ (the pipeline’s reports, shown as appendices), and records the pipeline’s commit in data/pipeline/provenance.csv.\nscripts/run-examples.R runs each query in sql/ against the vehicle table and saves the result in data/examples/. The worked examples display the same .sql files, so the code shown is exactly the code that produced the results.\nChapters read the copies with read_pipeline() and read_example() from R/book.R, and compute every number, table and chart from them when the book is rendered.\n\nThe copies are committed, so anyone can rebuild the book without access to the pipeline or the 9 GB vehicle table.",
+    "title": "Appendix C — Maintaining this book",
+    "section": "C.2 How data gets into the book",
+    "text": "C.2 How data gets into the book\nNothing in the book reads the pipeline repository directly. Instead:\n\ndata/manifest.yml lists every file the book uses from MOT-pipline.\nscripts/sync-pipeline.R copies those files into data/pipeline/ (data) and reports/ (the pipeline’s reports, shown as appendices), and records the pipeline’s commit in data/pipeline/provenance.csv.\nscripts/run-examples.R runs each query in sql/ against the vehicle table and saves the result in data/examples/. The worked examples display the same .sql files, so the code shown is exactly the code that produced the results.\nscripts/run-coverage.R counts, for every column of the vehicle table, how many vehicles have a value, by year of first use and by year, and saves the counts in data/coverage/ for the coverage sections of the data dictionary.\nChapters read the copies with read_pipeline() and read_example() from R/book.R, and compute every number, table and chart from them when the book is rendered.\n\nThe copies are committed, so anyone can rebuild the book without access to the pipeline or the 9 GB vehicle table.",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Maintaining this book</span>"
+      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Maintaining this book</span>"
     ]
   },
   {
     "objectID": "chapters/maintaining.html#updating-after-a-new-pipeline-build",
     "href": "chapters/maintaining.html#updating-after-a-new-pipeline-build",
-    "title": "Appendix D — Maintaining this book",
-    "section": "D.3 Updating after a new pipeline build",
-    "text": "D.3 Updating after a new pipeline build\nFrom the book’s root folder, with MOT-pipline checked out alongside it (or MOT_PIPELINE_DIR set to its location):\nRscript scripts/sync-pipeline.R   # copy the new outputs\nRscript scripts/run-examples.R    # rerun the examples (needs the parquet)\nRscript scripts/rebuild.R         # re-execute every chapter and render\nThen check the result, and commit data/, reports/ and _freeze/. Pushing to main publishes the book.\n\n\n\n\n\n\nImportantCheck the words, not just the numbers\n\n\n\nNumbers in the text are computed, but sentences that interpret them (“the two averages are almost identical”, “most were still tested in Leeds”) are written by hand. After a rebuild, read the chapters whose figures changed and make sure the text still fits.\n\n\nIf a pipeline file used by the book is renamed or removed, the sync script stops with an error naming it. Update data/manifest.yml and the chapter that reads it.",
+    "title": "Appendix C — Maintaining this book",
+    "section": "C.3 Updating after a new pipeline build",
+    "text": "C.3 Updating after a new pipeline build\nFrom the book’s root folder, with MOT-pipline checked out alongside it (or MOT_PIPELINE_DIR set to its location):\nRscript scripts/sync-pipeline.R   # copy the new outputs\nRscript scripts/run-examples.R    # rerun the examples (needs the parquet)\nRscript scripts/run-coverage.R    # recount column coverage (needs the parquet)\nRscript scripts/rebuild.R         # re-execute every chapter and render\nThen check the result, and commit data/, reports/ and _freeze/. Pushing to main publishes the book.\n\n\n\n\n\n\nImportantCheck the words, not just the numbers\n\n\n\nNumbers in the text are computed, but sentences that interpret them (“the two averages are almost identical”, “most were still tested in Leeds”) are written by hand. After a rebuild, read the chapters whose figures changed and make sure the text still fits.\n\n\nIf a pipeline file used by the book is renamed or removed, the sync script stops with an error naming it. Update data/manifest.yml and the chapter that reads it.",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Maintaining this book</span>"
+      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Maintaining this book</span>"
     ]
   },
   {
     "objectID": "chapters/maintaining.html#why-rebuild.r-clears-the-frozen-results",
     "href": "chapters/maintaining.html#why-rebuild.r-clears-the-frozen-results",
-    "title": "Appendix D — Maintaining this book",
-    "section": "D.4 Why rebuild.R clears the frozen results",
-    "text": "D.4 Why rebuild.R clears the frozen results\nThe book uses Quarto’s freeze option: the results of each chapter’s code are stored in _freeze/ and reused until that chapter’s source changes. This is what lets GitHub Actions publish the book without R. It also means a plain quarto render will not pick up new data, because the chapters themselves have not changed. scripts/rebuild.R deletes _freeze/ so that every chapter runs again.",
+    "title": "Appendix C — Maintaining this book",
+    "section": "C.4 Why rebuild.R clears the frozen results",
+    "text": "C.4 Why rebuild.R clears the frozen results\nThe book uses Quarto’s freeze option: the results of each chapter’s code are stored in _freeze/ and reused until that chapter’s source changes. This is what lets GitHub Actions publish the book without R. It also means a plain quarto render will not pick up new data, because the chapters themselves have not changed. scripts/rebuild.R deletes _freeze/ so that every chapter runs again.",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Maintaining this book</span>"
+      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Maintaining this book</span>"
     ]
   },
   {
     "objectID": "chapters/maintaining.html#adding-pipeline-data-to-a-chapter",
     "href": "chapters/maintaining.html#adding-pipeline-data-to-a-chapter",
-    "title": "Appendix D — Maintaining this book",
-    "section": "D.5 Adding pipeline data to a chapter",
-    "text": "D.5 Adding pipeline data to a chapter\n\nAdd the file to data/manifest.yml.\nRun Rscript scripts/sync-pipeline.R.\nIn the chapter, source(\"R/book.R\") and read it with read_pipeline(\"outputs\", \"tables\", ...).\n\nTo add a worked example, put the query in sql/ (naming the file as 'vehicles_enhanced.parquet'), run Rscript scripts/run-examples.R exNN, and show it with {{&lt; include ../sql/exNN_name.sql &gt;}} inside a sql code block.",
+    "title": "Appendix C — Maintaining this book",
+    "section": "C.5 Adding pipeline data to a chapter",
+    "text": "C.5 Adding pipeline data to a chapter\n\nAdd the file to data/manifest.yml.\nRun Rscript scripts/sync-pipeline.R.\nIn the chapter, source(\"R/book.R\") and read it with read_pipeline(\"outputs\", \"tables\", ...).\n\nTo add a worked example, put the query in sql/ (naming the file as 'vehicles_enhanced.parquet'), run Rscript scripts/run-examples.R exNN, and show it with {{&lt; include ../sql/exNN_name.sql &gt;}} inside a sql code block.",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Maintaining this book</span>"
+      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Maintaining this book</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/maintaining.html#when-the-vehicle-table-gains-or-loses-columns",
+    "href": "chapters/maintaining.html#when-the-vehicle-table-gains-or-loses-columns",
+    "title": "Appendix C — Maintaining this book",
+    "section": "C.6 When the vehicle table gains or loses columns",
+    "text": "C.6 When the vehicle table gains or loses columns\nThe data dictionary chapters (chapters/dictionary/) each describe a group of columns, defined once in dict_groups in R/book.R. A column that has been removed stops the render with an error naming it. A new column is listed in a warning on the part’s opening page until it is added to a group, and to that chapter’s overview text. Rerun scripts/run-coverage.R after either change.",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Maintaining this book</span>"
     ]
   },
   {
     "objectID": "chapters/maintaining.html#writing-conventions",
     "href": "chapters/maintaining.html#writing-conventions",
-    "title": "Appendix D — Maintaining this book",
-    "section": "D.6 Writing conventions",
-    "text": "D.6 Writing conventions\n\nPlaceholders for material still to come are callouts titled To be written (or To be confirmed for statements to check), with the class .todo. Search the chapters for .todo to list them.\nPitfalls are callouts titled Pitfall: …, and each is also summarised in\n\n\n\nCharts use theme_cars() and the palette in R/book.R, with at most four series each.",
+    "title": "Appendix C — Maintaining this book",
+    "section": "C.7 Writing conventions",
+    "text": "C.7 Writing conventions\n\nPlaceholders for material still to come are callouts titled To be written (or To be confirmed for statements to check), with the class .todo. Search the chapters for .todo to list them.\nPitfalls are callouts titled Pitfall: …, and each is also summarised in\n\n\n\nCharts use theme_cars() and the palette in R/book.R, with at most four series each.",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Maintaining this book</span>"
+      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Maintaining this book</span>"
     ]
   },
   {
     "objectID": "chapters/maintaining.html#publishing",
     "href": "chapters/maintaining.html#publishing",
-    "title": "Appendix D — Maintaining this book",
-    "section": "D.7 Publishing",
-    "text": "D.7 Publishing\n.github/workflows/publish.yml renders the book from the frozen results and publishes it to the gh-pages branch on every push to main. One-off set-up: run quarto publish gh-pages once locally to create the branch, then in the repository’s settings set GitHub Pages to deploy from the gh-pages branch. The book will then be at cars-project.github.io/documentation.\nTo preview locally, run quarto preview.",
+    "title": "Appendix C — Maintaining this book",
+    "section": "C.8 Publishing",
+    "text": "C.8 Publishing\n.github/workflows/publish.yml renders the book from the frozen results and publishes it to the gh-pages branch on every push to main. One-off set-up: run quarto publish gh-pages once locally to create the branch, then in the repository’s settings set GitHub Pages to deploy from the gh-pages branch. The book will then be at cars-project.github.io/documentation.\nTo preview locally, run quarto preview.",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Maintaining this book</span>"
+      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Maintaining this book</span>"
     ]
   },
   {
