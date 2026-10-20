@@ -53,3 +53,16 @@ MOT test.
 coverage_plot(c("scope_mileage", "scope_pca", "scope_born",
                 "scope_dvla_activity"), flags = TRUE)
 ```
+
+## Values
+
+How the values of each column change over time, by year of first use, from 1990. Numeric columns and
+dates show the minimum, lower quartile (Q1), median, upper quartile (Q3) and
+maximum; other columns show the share of vehicles with each value, with the
+less common values grouped as *All other values* and missing values as
+*Blank*.
+
+```{r}
+#| output: asis
+cat(dict_values("identifiers"))
+```

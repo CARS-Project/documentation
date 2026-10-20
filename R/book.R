@@ -119,11 +119,11 @@ dict_groups <- list(
                  "model_confidence", "make_DVSA", "model_DVSA", "make_DVLA"),
   vehicle_type = c("body_type", "body_type_src", "test_class",
                    "test_class_src", "test_class_ANON", "type_approval",
-                   "type_approval_src", "typeApproval_DVLA", "wheelplan",
-                   "wheelplan_src", "wheelplan_DVLA", "revenue_weight",
-                   "revenue_weight_src", "revenueWeight_DVLA",
-                   "primaryColour_DVSA", "secondaryColour_DVSA",
-                   "colour_DVLA", "automatedVehicle_DVLA"),
+                   "type_approval_src", "typeApproval_DVLA",
+                   "automatedVehicle_DVLA"),
+  body = c("primaryColour_DVSA", "secondaryColour_DVSA", "colour_DVLA",
+           "wheelplan", "wheelplan_src", "wheelplan_DVLA", "revenue_weight",
+           "revenue_weight_src", "revenueWeight_DVLA"),
   fuel_engine = c("fuel", "fuel_src", "fuel_check", "fuel_simple", "fuel_DFT",
                   "fuel_DFT_src", "fuel_DVSA", "fuelType_DVLA", "engine_cc",
                   "engine_cc_src", "engine_check", "engineSize_DVSA",
@@ -149,6 +149,23 @@ dict_groups <- list(
                   "first_VES_check", "first_VES_return", "last_VES_check",
                   "last_VES_return")
 )
+
+# How a column's values are summarised over time: "numeric" and "date" by
+# their quartiles, "categorical" by the share of each value, and "id" (unique
+# to each vehicle) not at all. Used by scripts/run-values.R and the Values
+# sections of the data dictionary chapters.
+dict_ids <- c("vehicle_id", "registration_DVSA", "registration_DVLA",
+              "registration_clean")
+dict_coded <- c("test_class", "test_class_ANON", "euro_standard",
+                "dvla_evidence", "ever_export_marked")
+
+dict_kind <- function(column_name, column_type) {
+  ifelse(column_name %in% dict_ids, "id",
+  ifelse(column_name %in% dict_coded, "categorical",
+  ifelse(column_type %in% c("DATE", "TIMESTAMP"), "date",
+  ifelse(column_type %in% c("INTEGER", "BIGINT", "DOUBLE"), "numeric",
+  "categorical"))))
+}
 
 # The data dictionary with year-by-year columns folded into one row each
 # (column_name ending _YYYY), their missing share given as a range
@@ -255,4 +272,140 @@ cov_year <- function(col, year, digits = 0) {
   cv <- read_coverage("coverage_by_first_use_year")
   x <- cv[cv$column_name == col & cv$first_use_year %in% year, ]
   fmt_pct(sum(x$n_present) / sum(x$n_vehicles), digits)
+}
+
+# ---- Values over time ------------------------------------------------------
+# Charts of each column's values by year of first use (or by year, for the
+# year-by-year columns), from the summaries made by scripts/run-values.R.
+
+read_values <- function(name) {
+  p <- file.path("data", "values", paste0(name, ".csv"))
+  if (!file.exists(p)) {
+    stop("Values table missing: ", p, ". Run scripts/run-values.R")
+  }
+  utils::read.csv(p, stringsAsFactors = FALSE, check.names = FALSE,
+                  na.strings = "")
+}
+
+# Validated categorical order (slots 1-8), then neutrals for Other and Blank
+values_cols <- c(cars_cols, "#e87ba4", "#008300", "#6250d6", "#e34948")
+other_col <- "#a3a29b"
+blank_col <- "#dddcd6"
+
+values_data <- function(col) {
+  by_year <- grepl("_YYYY$", col)
+  d <- dict_columns()
+  kind <- dict_kind(col, d$column_type[d$column_name == col])
+  file <- paste0(if (kind %in% c("numeric", "date")) "numeric" else "categorical",
+                 if (by_year) "_by_year" else "_by_first_use_year")
+  v <- read_values(file)
+  v <- v[v$column_name == col, ]
+  v$period <- if (by_year) v$year else v$first_use_year
+  list(v = v, kind = kind,
+       x_lab = if (by_year) "Year" else "Year of first use",
+       when = if (by_year) "by year" else "by year of first use")
+}
+
+# A log scale is used where the maximum dwarfs the upper quartile
+values_log <- function(v) {
+  all(v$min >= 0) && max(v$max) > 20 * max(v$q3, 1)
+}
+
+values_caption <- function(col) {
+  x <- values_data(col)
+  if (x$kind == "categorical") {
+    return(sprintf("Share of vehicles by value of %s, %s.", col, x$when))
+  }
+  cap <- sprintf(
+    "Minimum, quartiles and maximum of %s, %s, among vehicles with a value.",
+    col, x$when)
+  if (x$kind == "numeric" && values_log(x$v)) cap <- paste(cap, "Log scale.")
+  if (x$kind == "date") {
+    cap <- paste(cap, "Extreme minimums and maximums run off the chart.")
+  }
+  cap
+}
+
+values_plot <- function(col) {
+  x <- values_data(col)
+  v <- x$v
+  if (x$kind == "categorical") {
+    # Named so as not to clash with real values such as fuel "Other"
+    grouped <- c(other = "All other values", blank = "Blank")
+    v$label <- ifelse(v$group == "value", v$value, grouped[v$group])
+    top <- unique(v[v$group == "value", c("label", "rank")])
+    levs <- c(top$label[order(top$rank)], intersect(grouped, v$label))
+    s <- aggregate(n_vehicles ~ period + label, data = v, FUN = sum)
+    s <- merge(expand.grid(period = sort(unique(v$period)), label = levs,
+                           stringsAsFactors = FALSE), s, all.x = TRUE)
+    s$n_vehicles[is.na(s$n_vehicles)] <- 0
+    s$share <- s$n_vehicles / ave(s$n_vehicles, s$period, FUN = sum)
+    s$label <- factor(s$label, levs)
+    fills <- setNames(c(values_cols[seq_len(nrow(top))],
+                        setNames(c(other_col, blank_col), grouped)[
+                          setdiff(levs, top$label)]), levs)
+    return(
+      ggplot(s, aes(period, share, fill = label)) +
+        geom_area(colour = "white", linewidth = 0.25) +
+        scale_fill_manual(values = fills) +
+        scale_y_continuous(labels = scales::label_percent(),
+                           expand = c(0, 0)) +
+        scale_x_continuous(expand = c(0, 0)) +
+        labs(x = x$x_lab, y = "Share of vehicles") +
+        theme_cars() +
+        theme(legend.position = "right", legend.justification = "top",
+              legend.key.size = grid::unit(0.8, "lines"))
+    )
+  }
+  q <- c("min", "q1", "median", "q3", "max")
+  if (x$kind == "date") {
+    v[q] <- lapply(v[q], function(d) as.Date(d, origin = "1970-01-01"))
+  }
+  p <- ggplot(v, aes(period)) +
+    geom_ribbon(aes(ymin = q1, ymax = q3, fill = "Q1 to Q3")) +
+    geom_line(aes(y = min, linetype = "Minimum and maximum"),
+              colour = ink_muted, linewidth = 0.4) +
+    geom_line(aes(y = max, linetype = "Minimum and maximum"),
+              colour = ink_muted, linewidth = 0.4) +
+    geom_line(aes(y = median, colour = "Median"), linewidth = 0.7) +
+    scale_fill_manual(values = c("Q1 to Q3" = cars_seq[2])) +
+    scale_colour_manual(values = c("Median" = cars_cols[1])) +
+    scale_linetype_manual(values = c("Minimum and maximum" = "22")) +
+    labs(x = x$x_lab, y = NULL) +
+    theme_cars()
+  if (x$kind == "date") {
+    span <- range(c(v$q1, v$q3))
+    pad <- max(as.numeric(diff(span)) * 0.5, 5 * 365)
+    p + scale_y_date() +
+      coord_cartesian(ylim = c(span[1] - pad, span[2] + pad))
+  } else if (values_log(v)) {
+    p + scale_y_continuous(
+      trans = scales::pseudo_log_trans(sigma = 1, base = 10),
+      breaks = c(0, 10^(0:9)),
+      labels = scales::label_number(scale_cut = scales::cut_short_scale()))
+  } else {
+    p + scale_y_continuous(
+      labels = scales::label_number(scale_cut = scales::cut_short_scale()))
+  }
+}
+
+# The Values section of a dictionary chapter: one subsection per column, with
+# its description and a chart of its values. Use in an `output: asis` chunk.
+dict_values <- function(group) {
+  d <- dict_columns()
+  parts <- vapply(dict_groups[[group]], function(k) {
+    row <- d[d$column_name == k, ]
+    kind <- dict_kind(k, row$column_type)
+    head <- sprintf("### `%s`\n\n%s.\n\n", k, sub("\\.$", "", row$description))
+    if (kind == "id") {
+      return(paste0(head, "Each value belongs to one vehicle, so the values ",
+                    "are not summarised.\n\n"))
+    }
+    paste0(head, sprintf(
+      "```{r}\n#| label: fig-dd-v-%s\n#| fig-cap: \"%s\"\n#| fig-height: %s\nvalues_plot(\"%s\")\n```\n\n",
+      gsub("[^a-z0-9]+", "-", tolower(k)), values_caption(k),
+      if (kind == "categorical") 3 else 2.8, k))
+  }, character(1))
+  knitr::knit_child(text = paste(parts, collapse = ""), quiet = TRUE,
+                    envir = globalenv())
 }

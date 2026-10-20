@@ -9,7 +9,7 @@ cv_prov <- readLines("data/coverage/provenance.txt")
 
 This part describes every column of the vehicle table,
 `vehicles_enhanced.parquet`. The `r nrow(dd)` columns are grouped by theme,
-one chapter per group, and each chapter has the same two sections:
+one chapter per group, and each chapter has the same three sections:
 
 - **Overview** explains what the columns contain and where their values come
   from, lists each column with its type, source and description, and links to
@@ -17,6 +17,9 @@ one chapter per group, and each chapter has the same two sections:
   ([Methodology](../../reports/methodology.md)) that explain how they are made.
 - **Coverage** shows what share of vehicles have a value in each column, and
   how that changes over time.
+- **Values** has a chart for each column showing how its values change over
+  time: the minimum, quartiles and maximum of numbers and dates, and the share
+  of each value for the other columns.
 
 The descriptions and missing shares come from the pipeline's
 `data_dictionary.csv`, so they always match the version of the data the book
@@ -31,6 +34,7 @@ the years.
 chapters <- c(
   identifiers = "@sec-dd-identifiers", registration = "@sec-dd-registration",
   make_model = "@sec-dd-make-model", vehicle_type = "@sec-dd-vehicle-type",
+  body = "@sec-dd-body",
   fuel_engine = "@sec-dd-fuel-engine", emissions = "@sec-dd-emissions",
   dates = "@sec-dd-dates", mileage = "@sec-dd-mileage",
   location = "@sec-dd-location", dvla_status = "@sec-dd-dvla-status"
@@ -81,4 +85,5 @@ Two things to keep in mind:
   do. The overview of each chapter says where this applies.
 
 The coverage figures were counted from the vehicle table by
-`scripts/run-coverage.R` (`r sub("^run_at: ", "run ", grep("^run_at", cv_prov, value = TRUE))`).
+`scripts/run-coverage.R` (`r sub("^run_at: ", "run ", grep("^run_at", cv_prov, value = TRUE))`),
+and the values by `scripts/run-values.R`.

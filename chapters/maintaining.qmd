@@ -45,6 +45,8 @@ Nothing in the book reads the pipeline repository directly. Instead:
    how many vehicles have a value, by year of first use and by year, and saves
    the counts in `data/coverage/` for the coverage sections of the data
    [dictionary](dictionary/index.qmd).
+   **`scripts/run-values.R`** likewise summarises each column's values over
+   time, in `data/values/`, for the dictionary's Values sections.
 5. **Chapters** read the copies with `read_pipeline()` and `read_example()`
    from `R/book.R`, and compute every number, table and chart from them when
    the book is rendered.
@@ -61,6 +63,7 @@ From the book's root folder, with MOT-pipline checked out alongside it (or
 Rscript scripts/sync-pipeline.R   # copy the new outputs
 Rscript scripts/run-examples.R    # rerun the examples (needs the parquet)
 Rscript scripts/run-coverage.R    # recount column coverage (needs the parquet)
+Rscript scripts/run-values.R      # resummarise column values (needs the parquet)
 Rscript scripts/rebuild.R         # re-execute every chapter and render
 ```
 
@@ -105,7 +108,10 @@ The data dictionary chapters (`chapters/dictionary/`) each describe a group of
 columns, defined once in `dict_groups` in `R/book.R`. A column that has been
 removed stops the render with an error naming it. A new column is listed in a
 warning on the part's opening page until it is added to a group, and to that
-chapter's overview text. Rerun `scripts/run-coverage.R` after either change.
+chapter's overview text. Rerun `scripts/run-coverage.R` and
+`scripts/run-values.R` after either change. A column whose values should be
+charted as categories although it is stored as a number belongs in
+`dict_coded`.
 
 ## Writing conventions
 

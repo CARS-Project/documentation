@@ -4,7 +4,8 @@
 #   Rscript scripts/sync-pipeline.R   # 1. copy the latest pipeline outputs
 #   Rscript scripts/run-examples.R    # 2. rerun the example queries (needs the parquet)
 #   Rscript scripts/run-coverage.R    # 3. recount column coverage (needs the parquet)
-#   Rscript scripts/rebuild.R         # 4. re-execute every chapter and render
+#   Rscript scripts/run-values.R      # 4. resummarise column values (needs the parquet)
+#   Rscript scripts/rebuild.R         # 5. re-execute every chapter and render
 #
 # The book uses Quarto's freeze, so a normal `quarto render` only re-executes
 # chapters whose source changed. New data does not change the source, so this

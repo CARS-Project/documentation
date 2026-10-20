@@ -92,3 +92,16 @@ before reading the decoded plate period or location as the vehicle's own.
 #| fig-height: 2.6
 coverage_plot("vanity_plate", ncol = 1, flags = TRUE)
 ```
+
+## Values
+
+How the values of each column change over time, by year of first use, from 1990. Numeric columns and
+dates show the minimum, lower quartile (Q1), median, upper quartile (Q3) and
+maximum; other columns show the share of vehicles with each value, with the
+less common values grouped as *All other values* and missing values as
+*Blank*.
+
+```{r}
+#| output: asis
+cat(dict_values("registration"))
+```

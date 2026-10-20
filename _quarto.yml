@@ -50,6 +50,7 @@ book:
         - chapters/dictionary/registration.qmd
         - chapters/dictionary/make-model.qmd
         - chapters/dictionary/vehicle-type.qmd
+        - chapters/dictionary/body.qmd
         - chapters/dictionary/fuel-engine.qmd
         - chapters/dictionary/emissions.qmd
         - chapters/dictionary/dates.qmd

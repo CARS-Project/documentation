@@ -19,16 +19,17 @@ classifications and how they relate.
   whether it came from the DfT model, the DVLA type approval, the generic model
   or the MOT test class (methodology,
   [section 4.6](../../reports/methodology.md#body-type)).
-- **`test_class`** is the MOT test class (1 to 7), **`type_approval`** the
-  European type approval category (M1, N1, L3 and so on), **`wheelplan`** the
-  DVLA wheel plan and **`revenue_weight`** the gross weight in kilograms.
-- **The harmonised columns** take the recorded value where there is one, and
-  otherwise the most common value among vehicles of the same make, model,
-  birth year, fuel and engine size. Each has a `_src` column saying which
-  (methodology, [section 5.6](../../reports/methodology.md#other-attributes)).
-- **The supplied columns** (`_DVSA`, `_DVLA`, `_ANON`) are the values as
-  received, including the vehicle's colours and the DVLA flag for automated
-  vehicles, which the pipeline does not use.
+- **`test_class`** is the MOT test class (1 to 7) and **`type_approval`** the
+  European type approval category (M1, N1, L3 and so on). Both take the
+  recorded value where there is one, and otherwise the most common value among
+  vehicles of the same make, model, birth year, fuel and engine size. Each has
+  a `_src` column saying which (methodology,
+  [section 5.6](../../reports/methodology.md#other-attributes)).
+- **The supplied columns** (`_DVLA`, `_ANON`) are the values as received,
+  including the DVLA flag for automated vehicles, which the pipeline does not
+  use.
+
+The vehicle's colour, wheel plan and weight are described in @sec-dd-body.
 
 ```{r}
 #| label: tbl-dd-vehicle-type
@@ -54,12 +55,8 @@ The other harmonised columns depend on what their sources hold:
   for vehicles that have been tested, or are like vehicles that have. Coverage
   falls for vehicles first used since 2023, which are too new for their first
   MOT test: `r cov_year("test_class", 2025)` for 2025.
-- **`revenue_weight`** is recorded by the DVLA for only
-  `r cov_pct(cs, "revenueWeight_DVLA")` of vehicles, mostly recent ones; the
-  backfill raises this to `r cov_pct(cs, "revenue_weight")`.
-- **`wheelplan`** is nearly complete at every age.
 
-The DVLA columns share the pattern of every VES field, being present only
+`typeApproval_DVLA` shares the pattern of every VES field, being present only
 where a VES record was found (@sec-dd-dvla-status). `automatedVehicle_DVLA`
 is present only for some vehicles first used since 2021
 (`r cov_year("automatedVehicle_DVLA", 2025)` of those first used in 2025).
@@ -73,6 +70,19 @@ coverage_table(cols)
 ```{r}
 #| label: fig-dd-vehicle-type
 #| fig-cap: "Share of vehicles with a value in the harmonised vehicle type columns, by year of first use."
-#| fig-height: 4.6
-coverage_plot(c("body_type", "type_approval", "test_class", "revenue_weight"))
+#| fig-height: 2.6
+coverage_plot(c("body_type", "type_approval", "test_class"), ncol = 3)
+```
+
+## Values
+
+How the values of each column change over time, by year of first use, from 1990. Numeric columns and
+dates show the minimum, lower quartile (Q1), median, upper quartile (Q3) and
+maximum; other columns show the share of vehicles with each value, with the
+less common values grouped as *All other values* and missing values as
+*Blank*.
+
+```{r}
+#| output: asis
+cat(dict_values("vehicle_type"))
 ```

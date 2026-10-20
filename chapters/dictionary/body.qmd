@@ -1,0 +1,78 @@
+# Colour, wheel plan and weight {#sec-dd-body}
+
+```{r}
+source("R/book.R")
+cols <- dict_groups$body
+cs <- coverage_share(cols)
+```
+
+## Overview
+
+These columns describe the vehicle's physical make-up: its colour, its axles
+and wheels, and how heavy it is.
+
+- **Colour** is supplied by both sources and not harmonised.
+  `primaryColour_DVSA` and `secondaryColour_DVSA` are the colours recorded in
+  the MOT history, and `colour_DVLA` the colour on the DVLA register. A
+  vehicle can be resprayed, and the DVLA colour is the one notified to the
+  DVLA, so the two can differ.
+- **`wheelplan`** is the DVLA wheel plan, such as `2 AXLE RIGID BODY` or
+  `2 WHEEL`. It separates, for example, rigid lorries from articulated ones,
+  and two-wheeled from three-wheeled motorcycles (@sec-vehicle-types).
+- **`revenue_weight`** is the maximum permitted gross weight in kilograms, as
+  the DVLA records it. It matters most for goods vehicles and buses, which
+  are classed by weight.
+- **The harmonised columns** `wheelplan` and `revenue_weight` take the DVLA
+  value where the VES record describes this vehicle, and otherwise the most
+  common value among vehicles of the same make, model, birth year, fuel and
+  engine size; `_src` says which (methodology,
+  [section 5.6](../../reports/methodology.md#other-attributes)).
+  `wheelplan_DVLA` and `revenueWeight_DVLA` are the values as supplied.
+
+```{r}
+#| label: tbl-dd-body
+#| tbl-cap: "Colour, wheel plan and weight columns."
+dict_table("body")
+```
+
+## Coverage
+
+The DVSA primary colour is present for every vehicle and the secondary colour
+for `r cov_pct(cs, "secondaryColour_DVSA")`. The DVLA colour, like every VES
+field, is present only where a VES record was found
+(`r cov_pct(cs, "colour_DVLA")`; @sec-dd-dvla-status).
+
+`wheelplan` is nearly complete at every age (`r cov_pct(cs, "wheelplan", digits = 1)`),
+because the wheel plan of similar vehicles is almost always known.
+`revenue_weight` is much less complete. The DVLA records it for only
+`r cov_pct(cs, "revenueWeight_DVLA")` of vehicles, most of them first used
+since 2010 (@fig-dd-body); the backfill raises this to
+`r cov_pct(cs, "revenue_weight")`, but only `r cov_pct(cs, "revenue_weight", "Before 2000")`
+for vehicles first used before 2000.
+
+```{r}
+#| label: tbl-dd-body-coverage
+#| tbl-cap: "Share of vehicles with a value, by year of first use."
+coverage_table(cols)
+```
+
+```{r}
+#| label: fig-dd-body
+#| fig-cap: "Share of vehicles with a value in selected colour, wheel plan and weight columns, by year of first use."
+#| fig-height: 4.6
+coverage_plot(c("secondaryColour_DVSA", "wheelplan", "revenueWeight_DVLA",
+                "revenue_weight"))
+```
+
+## Values
+
+How the values of each column change over time, by year of first use, from 1990. Numeric columns and
+dates show the minimum, lower quartile (Q1), median, upper quartile (Q3) and
+maximum; other columns show the share of vehicles with each value, with the
+less common values grouped as *All other values* and missing values as
+*Blank*.
+
+```{r}
+#| output: asis
+cat(dict_values("body"))
+```
