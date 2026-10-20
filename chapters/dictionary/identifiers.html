@@ -48,7 +48,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-6042582f9b753895188e055ed7464af9.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-c08868c37ca8912c446ae25c80bf22ff.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -297,38 +297,44 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../chapters/dictionary/body.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Colour, wheel plan and weight</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/fuel-engine.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Fuel and engine</span></span></a>
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Fuel and engine</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/emissions.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Emissions</span></span></a>
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Emissions</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/dates.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Dates and age</span></span></a>
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Dates and age</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/mileage.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Mileage</span></span></a>
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Mileage</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/location.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Location</span></span></a>
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Location</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/dvla-status.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Licensing status and DVLA lookups</span></span></a>
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Licensing status and DVLA lookups</span></span></a>
   </div>
 </li>
       </ul>
@@ -421,6 +427,7 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">18.1</span> Overview</a></li>
   <li><a href="#coverage" id="toc-coverage" class="nav-link" data-scroll-target="#coverage"><span class="header-section-number">18.2</span> Coverage</a></li>
+  <li><a href="#values" id="toc-values" class="nav-link" data-scroll-target="#values"><span class="header-section-number">18.3</span> Values</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/CARS-Project/documentation/edit/main/chapters/dictionary/identifiers.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/CARS-Project/documentation/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -547,6 +554,107 @@ Figure&nbsp;18.1: Share of vehicles meeting each scope rule, by year of first us
 </figure>
 </div>
 </div>
+</div>
+</section>
+<section id="values" class="level2" data-number="18.3">
+<h2 data-number="18.3" class="anchored" data-anchor-id="values"><span class="header-section-number">18.3</span> Values</h2>
+<p>How the values of each column change over time, by year of first use, from 1990. Numeric columns and dates show the minimum, lower quartile (Q1), median, upper quartile (Q3) and maximum; other columns show the share of vehicles with each value, with the less common values grouped as <em>All other values</em> and missing values as <em>Blank</em>.</p>
+<div class="cell" data-layout-align="center">
+<section id="vehicle_id" class="level3">
+<h3 class="anchored" data-anchor-id="vehicle_id"><code>vehicle_id</code></h3>
+<p>Row number in the Bristol input file (stable id for this input).</p>
+<p>Each value belongs to one vehicle, so the values are not summarised.</p>
+</section>
+<section id="dup_vrm" class="level3">
+<h3 class="anchored" data-anchor-id="dup_vrm"><code>dup_vrm</code></h3>
+<p>TRUE if the DVSA registration appears on more than one row of the input.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-dd-v-dup-vrm" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dd-v-dup-vrm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="identifiers_files/figure-html/fig-dd-v-dup-vrm-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-v-dup-vrm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;18.2: Share of vehicles by value of dup_vrm, by year of first use.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="scope_mileage" class="level3">
+<h3 class="anchored" data-anchor-id="scope_mileage"><code>scope_mileage</code></h3>
+<p>In scope because total mileage &gt; 0.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-dd-v-scope-mileage" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dd-v-scope-mileage-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="identifiers_files/figure-html/fig-dd-v-scope-mileage-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-v-scope-mileage-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;18.3: Share of vehicles by value of scope_mileage, by year of first use.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="scope_pca" class="level3">
+<h3 class="anchored" data-anchor-id="scope_pca"><code>scope_pca</code></h3>
+<p>In scope because a PCA is recorded in at least one year.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-dd-v-scope-pca" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dd-v-scope-pca-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="identifiers_files/figure-html/fig-dd-v-scope-pca-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-v-scope-pca-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;18.4: Share of vehicles by value of scope_pca, by year of first use.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="scope_born" class="level3">
+<h3 class="anchored" data-anchor-id="scope_born"><code>scope_born</code></h3>
+<p>In scope because birth_date is on or after the scope start date.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-dd-v-scope-born" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dd-v-scope-born-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="identifiers_files/figure-html/fig-dd-v-scope-born-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-v-scope-born-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;18.5: Share of vehicles by value of scope_born, by year of first use.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="scope_dvla_activity" class="level3">
+<h3 class="anchored" data-anchor-id="scope_dvla_activity"><code>scope_dvla_activity</code></h3>
+<p>In scope because of DVLA activity (tax due, V5C, MOT expiry or first registration) since the scope start date.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-dd-v-scope-dvla-activity" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dd-v-scope-dvla-activity-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="identifiers_files/figure-html/fig-dd-v-scope-dvla-activity-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-v-scope-dvla-activity-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;18.6: Share of vehicles by value of scope_dvla_activity, by year of first use.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
 </div>
 
 

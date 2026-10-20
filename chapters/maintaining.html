@@ -83,7 +83,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-6042582f9b753895188e055ed7464af9.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-c08868c37ca8912c446ae25c80bf22ff.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -332,38 +332,44 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../chapters/dictionary/body.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Colour, wheel plan and weight</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../chapters/dictionary/fuel-engine.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Fuel and engine</span></span></a>
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Fuel and engine</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/dictionary/emissions.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Emissions</span></span></a>
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Emissions</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/dictionary/dates.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Dates and age</span></span></a>
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Dates and age</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/dictionary/mileage.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Mileage</span></span></a>
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Mileage</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/dictionary/location.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Location</span></span></a>
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Location</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/dictionary/dvla-status.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Licensing status and DVLA lookups</span></span></a>
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Licensing status and DVLA lookups</span></span></a>
   </div>
 </li>
       </ul>
@@ -648,7 +654,7 @@ Table&nbsp;C.2: Software versions of the pipeline build.
 <li><strong><code>data/manifest.yml</code></strong> lists every file the book uses from <a href="https://github.com/CARS-Project/MOT-pipline">MOT-pipline</a>.</li>
 <li><strong><code>scripts/sync-pipeline.R</code></strong> copies those files into <code>data/pipeline/</code> (data) and <code>reports/</code> (the pipeline’s reports, shown as appendices), and records the pipeline’s commit in <code>data/pipeline/provenance.csv</code>.</li>
 <li><strong><code>scripts/run-examples.R</code></strong> runs each query in <code>sql/</code> against the vehicle table and saves the result in <code>data/examples/</code>. The worked examples display the same <code>.sql</code> files, so the code shown is exactly the code that produced the results.</li>
-<li><strong><code>scripts/run-coverage.R</code></strong> counts, for every column of the vehicle table, how many vehicles have a value, by year of first use and by year, and saves the counts in <code>data/coverage/</code> for the coverage sections of the data <a href="../chapters/dictionary/index.html">dictionary</a>.</li>
+<li><strong><code>scripts/run-coverage.R</code></strong> counts, for every column of the vehicle table, how many vehicles have a value, by year of first use and by year, and saves the counts in <code>data/coverage/</code> for the coverage sections of the data <a href="../chapters/dictionary/index.html">dictionary</a>. <strong><code>scripts/run-values.R</code></strong> likewise summarises each column’s values over time, in <code>data/values/</code>, for the dictionary’s Values sections.</li>
 <li><strong>Chapters</strong> read the copies with <code>read_pipeline()</code> and <code>read_example()</code> from <code>R/book.R</code>, and compute every number, table and chart from them when the book is rendered.</li>
 </ol>
 <p>The copies are committed, so anyone can rebuild the book without access to the pipeline or the 9 GB vehicle table.</p>
@@ -659,7 +665,8 @@ Table&nbsp;C.2: Software versions of the pipeline build.
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> scripts/sync-pipeline.R   <span class="co"># copy the new outputs</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> scripts/run-examples.R    <span class="co"># rerun the examples (needs the parquet)</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> scripts/run-coverage.R    <span class="co"># recount column coverage (needs the parquet)</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> scripts/rebuild.R         <span class="co"># re-execute every chapter and render</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> scripts/run-values.R      <span class="co"># resummarise column values (needs the parquet)</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> scripts/rebuild.R         <span class="co"># re-execute every chapter and render</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Then check the result, and commit <code>data/</code>, <code>reports/</code> and <code>_freeze/</code>. Pushing to <code>main</code> publishes the book.</p>
 <div class="callout callout-style-default callout-important callout-titled" title="Check the words, not just the numbers">
 <div class="callout-header d-flex align-content-center">
@@ -691,7 +698,7 @@ Table&nbsp;C.2: Software versions of the pipeline build.
 </section>
 <section id="when-the-vehicle-table-gains-or-loses-columns" class="level2" data-number="C.6">
 <h2 data-number="C.6" class="anchored" data-anchor-id="when-the-vehicle-table-gains-or-loses-columns"><span class="header-section-number">C.6</span> When the vehicle table gains or loses columns</h2>
-<p>The data dictionary chapters (<code>chapters/dictionary/</code>) each describe a group of columns, defined once in <code>dict_groups</code> in <code>R/book.R</code>. A column that has been removed stops the render with an error naming it. A new column is listed in a warning on the part’s opening page until it is added to a group, and to that chapter’s overview text. Rerun <code>scripts/run-coverage.R</code> after either change.</p>
+<p>The data dictionary chapters (<code>chapters/dictionary/</code>) each describe a group of columns, defined once in <code>dict_groups</code> in <code>R/book.R</code>. A column that has been removed stops the render with an error naming it. A new column is listed in a warning on the part’s opening page until it is added to a group, and to that chapter’s overview text. Rerun <code>scripts/run-coverage.R</code> and <code>scripts/run-values.R</code> after either change. A column whose values should be charted as categories although it is stored as a number belongs in <code>dict_coded</code>.</p>
 </section>
 <section id="writing-conventions" class="level2" data-number="C.7">
 <h2 data-number="C.7" class="anchored" data-anchor-id="writing-conventions"><span class="header-section-number">C.7</span> Writing conventions</h2>
