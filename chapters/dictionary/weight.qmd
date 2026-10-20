@@ -1,0 +1,69 @@
+# Weight {#sec-dd-weight}
+
+```{r}
+source("R/book.R")
+cols <- dict_groups$weight
+cs <- coverage_share(cols)
+```
+
+## Overview
+
+The revenue weight is the vehicle's maximum permitted gross weight in
+kilograms, as the DVLA records it. It matters most for goods vehicles and
+buses, which are classed by weight.
+
+- **`revenue_weight`** is the harmonised weight: the DVLA value where the VES
+  record describes this vehicle, and otherwise the most common value among
+  vehicles of the same make, model, birth year, fuel and engine size.
+- **`revenue_weight_src`** says which (`dvla`, `variant` or
+  `model_year_fuel`).
+- **`revenueWeight_DVLA`** is the value as supplied.
+
+The backfill is described in the methodology,
+[section 5.6](../../reports/methodology.md#other-attributes).
+
+```{r}
+#| label: tbl-dd-weight
+#| tbl-cap: "Weight columns."
+dict_table("weight")
+```
+
+## Coverage
+
+The weight is the least complete of the DVLA attributes. The DVLA records it
+for only `r cov_pct(cs, "revenueWeight_DVLA")` of vehicles, even though a VES
+record was found for far more, and most of those with a weight were first used
+since 2010 (@fig-dd-weight). The backfill raises coverage to
+`r cov_pct(cs, "revenue_weight")`, but only to
+`r cov_pct(cs, "revenue_weight", "Before 2000")` for vehicles first used before
+2000, as few similar vehicles of that age have a recorded weight to copy.
+
+Because most values are filled rather than recorded, check results that
+depend on weight against the recorded values only
+(`revenue_weight_src = 'dvla'`; @sec-pitfalls).
+
+```{r}
+#| label: tbl-dd-weight-coverage
+#| tbl-cap: "Share of vehicles with a value, by year of first use."
+coverage_table(cols)
+```
+
+```{r}
+#| label: fig-dd-weight
+#| fig-cap: "Share of vehicles with a revenue weight, as supplied by the DVLA and harmonised, by year of first use."
+#| fig-height: 2.6
+coverage_plot(c("revenueWeight_DVLA", "revenue_weight"))
+```
+
+## Values
+
+How the values of each column change over time, by year of first use, from
+1990. Numeric columns show the minimum, lower quartile (Q1), median, upper
+quartile (Q3) and maximum; other columns show the share of vehicles with each
+value, with the less common values grouped as *All other values* and missing
+values as *Blank*.
+
+```{r}
+#| output: asis
+cat(dict_values("weight"))
+```

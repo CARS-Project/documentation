@@ -121,9 +121,9 @@ dict_groups <- list(
                    "test_class_src", "test_class_ANON", "type_approval",
                    "type_approval_src", "typeApproval_DVLA",
                    "automatedVehicle_DVLA"),
-  body = c("primaryColour_DVSA", "secondaryColour_DVSA", "colour_DVLA",
-           "wheelplan", "wheelplan_src", "wheelplan_DVLA", "revenue_weight",
-           "revenue_weight_src", "revenueWeight_DVLA"),
+  colour = c("primaryColour_DVSA", "secondaryColour_DVSA", "colour_DVLA"),
+  wheelplan = c("wheelplan", "wheelplan_src", "wheelplan_DVLA"),
+  weight = c("revenue_weight", "revenue_weight_src", "revenueWeight_DVLA"),
   fuel_engine = c("fuel", "fuel_src", "fuel_check", "fuel_simple", "fuel_DFT",
                   "fuel_DFT_src", "fuel_DVSA", "fuelType_DVLA", "engine_cc",
                   "engine_cc_src", "engine_check", "engineSize_DVSA",
@@ -292,6 +292,25 @@ values_cols <- c(cars_cols, "#e87ba4", "#008300", "#6250d6", "#e34948")
 other_col <- "#a3a29b"
 blank_col <- "#dddcd6"
 
+# Vehicle colours are drawn in their own colour; values that are not a colour
+# (such as "Not Stated") get muted violets, kept apart from the greys
+vehicle_colours <- c(
+  BLACK = "#1f1f1f", BLUE = "#2a5fb0", BROWN = "#7b4a24", GREEN = "#2e7d32",
+  GREY = "#808080", GOLD = "#c9a227", MAROON = "#7a1f2b", ORANGE = "#ef7d1a",
+  PINK = "#e889b4", PURPLE = "#6a3d9a", RED = "#c62828", SILVER = "#c4c4c4",
+  TURQUOISE = "#1aa6a6", WHITE = "#ffffff", YELLOW = "#f2c500",
+  BRONZE = "#9c6b30", BEIGE = "#d9c7a3", CREAM = "#f3e7c4"
+)
+
+colour_fills <- function(values) {
+  key <- toupper(trimws(values))
+  out <- unname(vehicle_colours[key])
+  not_colour <- is.na(out)
+  out[not_colour] <- c("#9b8fc0", "#c8bfe0", "#6e6496")[
+    seq_len(sum(not_colour))]
+  setNames(out, values)
+}
+
 values_data <- function(col) {
   by_year <- grepl("_YYYY$", col)
   d <- dict_columns()
@@ -341,12 +360,22 @@ values_plot <- function(col) {
     s$n_vehicles[is.na(s$n_vehicles)] <- 0
     s$share <- s$n_vehicles / ave(s$n_vehicles, s$period, FUN = sum)
     s$label <- factor(s$label, levs)
-    fills <- setNames(c(values_cols[seq_len(nrow(top))],
-                        setNames(c(other_col, blank_col), grouped)[
-                          setdiff(levs, top$label)]), levs)
+    is_colour <- col %in% dict_groups$colour
+    if (is_colour) {
+      fills <- c(colour_fills(top$label[order(top$rank)]),
+                 setNames(c("#cdbb94", "#ece4d2"), grouped)[
+                   setdiff(levs, top$label)])
+      names(fills) <- levs
+    } else {
+      fills <- setNames(c(values_cols[seq_len(nrow(top))],
+                          setNames(c(other_col, blank_col), grouped)[
+                            setdiff(levs, top$label)]), levs)
+    }
     return(
       ggplot(s, aes(period, share, fill = label)) +
-        geom_area(colour = "white", linewidth = 0.25) +
+        # Colour charts need a dark edge so that white and silver show
+        geom_area(colour = if (is_colour) ink_muted else "white",
+                  linewidth = 0.25) +
         scale_fill_manual(values = fills) +
         scale_y_continuous(labels = scales::label_percent(),
                            expand = c(0, 0)) +

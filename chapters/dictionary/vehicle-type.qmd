@@ -29,7 +29,8 @@ classifications and how they relate.
   including the DVLA flag for automated vehicles, which the pipeline does not
   use.
 
-The vehicle's colour, wheel plan and weight are described in @sec-dd-body.
+The vehicle's colour, wheel plan and weight are described in @sec-dd-colour,
+@sec-dd-wheelplan and @sec-dd-weight.
 
 ```{r}
 #| label: tbl-dd-vehicle-type

@@ -1,0 +1,69 @@
+# Colour {#sec-dd-colour}
+
+```{r}
+source("R/book.R")
+cols <- dict_groups$colour
+cs <- coverage_share(cols)
+```
+
+## Overview
+
+Both sources record the vehicle's colour. The pipeline keeps the values as
+supplied and does not harmonise them.
+
+- **`primaryColour_DVSA`** and **`secondaryColour_DVSA`** are the colours
+  recorded in the MOT history.
+- **`colour_DVLA`** is the colour on the DVLA register, as returned by the
+  Vehicle Enquiry Service (VES).
+
+A vehicle can be resprayed, and the DVLA colour is the one notified to the
+DVLA, so the two sources can differ. The DVSA and DVLA columns are described
+among the input data in the methodology,
+[section 2](../../reports/methodology.md#input-data).
+
+```{r}
+#| label: tbl-dd-colour
+#| tbl-cap: "Colour columns."
+dict_table("colour")
+```
+
+## Coverage
+
+The DVSA primary colour is present for every vehicle and the secondary colour
+for `r cov_pct(cs, "secondaryColour_DVSA")`. The secondary colour is less
+often present for vehicles first used in 2023 and 2024
+(`r cov_year("secondaryColour_DVSA", 2024)` for 2024) than for older or newer
+ones (@fig-dd-colour). A value is not necessarily a colour, though: most
+vehicles have the secondary colour `Not Stated` (@fig-dd-v-secondarycolour-dvsa),
+so the column says little about most vehicles.
+
+The DVLA colour, like every VES field, is present only where a VES record was
+found: `r cov_pct(cs, "colour_DVLA")` of vehicles, fewer for those first used
+before 2010, most of which have left the register (@sec-dd-dvla-status).
+
+```{r}
+#| label: tbl-dd-colour-coverage
+#| tbl-cap: "Share of vehicles with a value, by year of first use."
+coverage_table(cols)
+```
+
+```{r}
+#| label: fig-dd-colour
+#| fig-cap: "Share of vehicles with a value in each colour column, by year of first use."
+#| fig-height: 2.6
+coverage_plot(cols, ncol = 3)
+```
+
+## Values
+
+How the values of each column change over time, by year of first use, from
+1990. Each chart shows the share of vehicles with each value, with the less
+common values grouped as *All other values* and missing values as *Blank*.
+Each colour is drawn in that colour, so grey and silver are real colours here;
+*All other values* and *Blank* are shown in beige, and values that are not a
+colour, such as `Not Stated`, in violet.
+
+```{r}
+#| output: asis
+cat(dict_values("colour"))
+```

@@ -1,0 +1,61 @@
+# Wheel plan {#sec-dd-wheelplan}
+
+```{r}
+source("R/book.R")
+cols <- dict_groups$wheelplan
+cs <- coverage_share(cols)
+```
+
+## Overview
+
+The wheel plan is the DVLA's description of a vehicle's axles and wheels,
+such as `2 AXLE RIGID BODY` or `2 WHEEL`. It separates, for example, rigid
+lorries from articulated ones, and two-wheeled from three-wheeled motorcycles
+(@sec-vehicle-types).
+
+- **`wheelplan`** is the harmonised wheel plan: the DVLA value where the VES
+  record describes this vehicle, and otherwise the most common value among
+  vehicles of the same make, model, birth year, fuel and engine size.
+- **`wheelplan_src`** says which (`dvla`, `variant` or `model_year_fuel`).
+- **`wheelplan_DVLA`** is the value as supplied.
+
+The backfill is described in the methodology,
+[section 5.6](../../reports/methodology.md#other-attributes).
+
+```{r}
+#| label: tbl-dd-wheelplan
+#| tbl-cap: "Wheel plan columns."
+dict_table("wheelplan")
+```
+
+## Coverage
+
+The DVLA wheel plan is present wherever a VES record was found,
+`r cov_pct(cs, "wheelplan_DVLA")` of vehicles (@sec-dd-dvla-status). Because
+the wheel plan of similar vehicles is almost always known, the backfill makes
+`wheelplan` nearly complete at every age: `r cov_pct(cs, "wheelplan", digits = 1)`
+of vehicles (@fig-dd-wheelplan).
+
+```{r}
+#| label: tbl-dd-wheelplan-coverage
+#| tbl-cap: "Share of vehicles with a value, by year of first use."
+coverage_table(cols)
+```
+
+```{r}
+#| label: fig-dd-wheelplan
+#| fig-cap: "Share of vehicles with a wheel plan, as supplied by the DVLA and harmonised, by year of first use."
+#| fig-height: 2.6
+coverage_plot(c("wheelplan_DVLA", "wheelplan"))
+```
+
+## Values
+
+How the values of each column change over time, by year of first use, from
+1990. Each chart shows the share of vehicles with each value, with the less
+common values grouped as *All other values* and missing values as *Blank*.
+
+```{r}
+#| output: asis
+cat(dict_values("wheelplan"))
+```

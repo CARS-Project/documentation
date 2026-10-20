@@ -34,7 +34,8 @@ the years.
 chapters <- c(
   identifiers = "@sec-dd-identifiers", registration = "@sec-dd-registration",
   make_model = "@sec-dd-make-model", vehicle_type = "@sec-dd-vehicle-type",
-  body = "@sec-dd-body",
+  colour = "@sec-dd-colour", wheelplan = "@sec-dd-wheelplan",
+  weight = "@sec-dd-weight",
   fuel_engine = "@sec-dd-fuel-engine", emissions = "@sec-dd-emissions",
   dates = "@sec-dd-dates", mileage = "@sec-dd-mileage",
   location = "@sec-dd-location", dvla_status = "@sec-dd-dvla-status"
