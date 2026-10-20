@@ -44,6 +44,7 @@ book:
         - chapters/getting-started.qmd
         - chapters/examples-spreadsheet.qmd
         - chapters/examples-code.qmd
+    - chapters/methodology.qmd
     - part: chapters/dictionary/index.qmd
       chapters:
         - chapters/dictionary/identifiers.qmd
