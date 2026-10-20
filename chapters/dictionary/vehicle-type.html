@@ -36,7 +36,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../chapters/dictionary/body.html" rel="next">
+<link href="../../chapters/dictionary/colour.html" rel="next">
 <link href="../../chapters/dictionary/make-model.html" rel="prev">
 <link href="../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
@@ -48,7 +48,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-c08868c37ca8912c446ae25c80bf22ff.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-6042582f9b753895188e055ed7464af9.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -297,44 +297,56 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/dictionary/body.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Colour, wheel plan and weight</span></span></a>
+  <a href="../../chapters/dictionary/colour.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Colour</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/dictionary/wheelplan.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Wheel plan</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/dictionary/weight.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Weight</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/fuel-engine.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Fuel and engine</span></span></a>
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Fuel and engine</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/emissions.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Emissions</span></span></a>
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Emissions</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/dates.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Dates and age</span></span></a>
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Dates and age</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/mileage.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Mileage</span></span></a>
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Mileage</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/location.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Location</span></span></a>
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Location</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/dvla-status.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Licensing status and DVLA lookups</span></span></a>
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Licensing status and DVLA lookups</span></span></a>
   </div>
 </li>
       </ul>
@@ -461,7 +473,7 @@ ul.task-list li input[type="checkbox"] {
 <li><strong><code>test_class</code></strong> is the MOT test class (1 to 7) and <strong><code>type_approval</code></strong> the European type approval category (M1, N1, L3 and so on). Both take the recorded value where there is one, and otherwise the most common value among vehicles of the same make, model, birth year, fuel and engine size. Each has a <code>_src</code> column saying which (methodology, <a href="../../reports/methodology.html#other-attributes">section 5.6</a>).</li>
 <li><strong>The supplied columns</strong> (<code>_DVLA</code>, <code>_ANON</code>) are the values as received, including the DVLA flag for automated vehicles, which the pipeline does not use.</li>
 </ul>
-<p>The vehicle’s colour, wheel plan and weight are described in <a href="body.html" class="quarto-xref"><span>Chapter 22</span></a>.</p>
+<p>The vehicle’s colour, wheel plan and weight are described in <a href="colour.html" class="quarto-xref"><span>Chapter 22</span></a>, <a href="wheelplan.html" class="quarto-xref"><span>Chapter 23</span></a> and <a href="weight.html" class="quarto-xref"><span>Chapter 24</span></a>.</p>
 <div class="cell" data-layout-align="center">
 <div id="tbl-dd-vehicle-type" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
 <figure class="quarto-float quarto-float-tbl figure">
@@ -567,7 +579,7 @@ Table&nbsp;21.1: Vehicle type columns.
 <li><strong><code>type_approval</code></strong> is rare for vehicles first used before 2000 (26%), because the DVLA rarely records a type approval category for them, and the backfill can only copy values that similar vehicles have. From the mid-2000s it is present for more than 90%.</li>
 <li><strong><code>test_class</code></strong> comes from the anonymised MOT data, so it is present only for vehicles that have been tested, or are like vehicles that have. Coverage falls for vehicles first used since 2023, which are too new for their first MOT test: 78% for 2025.</li>
 </ul>
-<p><code>typeApproval_DVLA</code> shares the pattern of every VES field, being present only where a VES record was found (<a href="dvla-status.html" class="quarto-xref"><span>Chapter 28</span></a>). <code>automatedVehicle_DVLA</code> is present only for some vehicles first used since 2021 (25% of those first used in 2025).</p>
+<p><code>typeApproval_DVLA</code> shares the pattern of every VES field, being present only where a VES record was found (<a href="dvla-status.html" class="quarto-xref"><span>Chapter 30</span></a>). <code>automatedVehicle_DVLA</code> is present only for some vehicles first used since 2021 (25% of those first used in 2025).</p>
 <div class="cell" data-layout-align="center">
 <div id="tbl-dd-vehicle-type-coverage" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
 <figure class="quarto-float quarto-float-tbl figure">
@@ -1269,8 +1281,8 @@ Figure&nbsp;21.10: Share of vehicles by value of automatedVehicle_DVLA, by year 
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../chapters/dictionary/body.html" class="pagination-link" aria-label="Colour, wheel plan and weight">
-        <span class="nav-page-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Colour, wheel plan and weight</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../chapters/dictionary/colour.html" class="pagination-link" aria-label="Colour">
+        <span class="nav-page-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Colour</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
