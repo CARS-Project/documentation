@@ -6,9 +6,10 @@
 # columns are taken from the synced data dictionary):
 #   Rscript scripts/run-values.R
 #
-# The vehicle table is found as in scripts/run-examples.R: CARS_PARQUET, or
-# <MOT_PIPELINE_DIR>/outputs/vehicles_enhanced.parquet. DuckDB's memory limit
-# is DUCKDB_MEMORY_LIMIT (default 16GB).
+# The vehicle table is CARS_PARQUET, or the maximal table
+# <MOT_PIPELINE_DIR>/outputs/vehicles_enhanced_maximal.parquet, which has every
+# column of the data dictionary. DuckDB's memory limit is DUCKDB_MEMORY_LIMIT
+# (default 16GB).
 #
 # Columns are summarised by kind, as dict_kind() in R/book.R decides:
 #   numeric_by_first_use_year.csv      numeric and date columns: minimum,
@@ -29,7 +30,7 @@ last_year <- as.integer(format(Sys.Date(), "%Y"))
 pipeline_dir <- Sys.getenv("MOT_PIPELINE_DIR", "../MOT-pipline")
 parquet <- Sys.getenv(
   "CARS_PARQUET",
-  file.path(pipeline_dir, "outputs", "vehicles_enhanced.parquet")
+  file.path(pipeline_dir, "outputs", "vehicles_enhanced_maximal.parquet")
 )
 if (!file.exists(parquet)) stop("Vehicle table not found: ", parquet)
 parquet <- normalizePath(parquet, winslash = "/")

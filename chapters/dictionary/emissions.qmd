@@ -16,8 +16,10 @@ not DVSA, and both are filled from similar vehicles where the DVLA has no
 value. @sec-fuels-emissions explains what the figures mean and their limits.
 
 - **`co2`** is the official CO~2~ figure in g/km, measured when the model was
-  type approved. It is the DVLA value, or else the most common value among
-  vehicles of the same make, model, birth year, fuel and engine size. A
+  type approved. It is the DVLA value where the VES record describes this
+  vehicle, or else the most common value among vehicles of the same make,
+  model, birth year, fuel and engine size, and failing that of the same make,
+  model, birth year and fuel. A
   recorded 0 g/km is kept only for vehicles with no engine; anywhere else it is
   cleared and filled from similar vehicles. `co2_src` and `co2_check` record
   what was done (methodology,
@@ -59,11 +61,14 @@ up in the VES (@sec-dd-dvla-status), and the backfill fills most of that gap.
 
 The DVLA recorded a Euro status for only `r cov_pct(cs, "euroStatus_DVLA")` of
 vehicles, almost all first used since 2018. The backfill and the assumed
-standard raise this to `r cov_pct(cs, "euro_status")`, but most of the values
-are therefore not records. For cars, `r fmt_pct(cars$n_assumed_from_date / cars$n_vehicles, 0)`
-of Euro statuses are assumed from the date. `euro_status` is blank for most
-vehicles made before the first Euro standard, in 1992, and for body types with
-no Euro schedule.
+standard raise this to `r cov_pct(cs, "euro_standard")` with a standard
+(`euro_standard`), but most of the values are therefore not records. For cars,
+`r fmt_pct(cars$n_assumed_from_date / cars$n_vehicles, 0)` of Euro statuses
+are assumed from the date. `euro_status` is never blank: where no standard
+applies it says why instead, `pre_euro` for vehicles made before the first
+standard of their class (in 1992 for cars), `no_schedule` for body types with
+no Euro schedule and `no_date` where the vehicle has no date to place it.
+`euro_standard` is blank for these.
 
 `realDrivingEmissions_DVLA`, the DVLA's Real Driving Emissions (RDE) field,
 is present only for some vehicles first used since 2019, and is not used by
@@ -77,9 +82,9 @@ coverage_table(cols)
 
 ```{r}
 #| label: fig-dd-emissions
-#| fig-cap: "Share of vehicles with a CO~2~ figure and a Euro status, as supplied by the DVLA and harmonised, by year of first use."
+#| fig-cap: "Share of vehicles with a CO~2~ figure and a Euro standard, as supplied by the DVLA and harmonised, by year of first use."
 #| fig-height: 4.6
-coverage_plot(c("co2Emissions_DVLA", "co2", "euroStatus_DVLA", "euro_status"))
+coverage_plot(c("co2Emissions_DVLA", "co2", "euroStatus_DVLA", "euro_standard"))
 ```
 
 ## Values

@@ -1,25 +1,25 @@
 "body_type","body_type_src","n_vehicles"
-"Buses and coaches","type_approval",89813
+"Buses and coaches","type_approval",95748
 "Buses and coaches","model",43046
-"Buses and coaches","test_class",11580
-"Buses and coaches","genmodel",1137
+"Buses and coaches","test_class",12413
+"Buses and coaches","genmodel",1213
 "Cars","model",39017210
-"Cars","type_approval",34322859
-"Cars","genmodel",1893185
-"Cars","test_class",402715
-"Heavy goods vehicles","type_approval",574797
+"Cars","type_approval",31678966
+"Cars","genmodel",4403660
+"Cars","test_class",415913
+"Heavy goods vehicles","type_approval",572341
 "Heavy goods vehicles","model",200758
-"Heavy goods vehicles","genmodel",25484
-"Light goods vehicles","type_approval",5861331
+"Heavy goods vehicles","genmodel",26038
+"Light goods vehicles","type_approval",5603099
 "Light goods vehicles","model",2840368
-"Light goods vehicles","genmodel",572908
-"Light goods vehicles","test_class",15474
+"Light goods vehicles","genmodel",911756
+"Light goods vehicles","test_class",15629
 "Motorcycles","model",2136833
-"Motorcycles","type_approval",840626
-"Motorcycles","genmodel",667662
-"Motorcycles","test_class",384299
+"Motorcycles","genmodel",804401
+"Motorcycles","type_approval",690523
+"Motorcycles","test_class",389019
 "Other vehicles","model",330410
-"Other vehicles","type_approval",184239
-"Other vehicles","genmodel",46707
-"Other vehicles","test_class",10447
-,,2878353
+"Other vehicles","type_approval",177980
+"Other vehicles","genmodel",51547
+"Other vehicles","test_class",10485
+,,2922885

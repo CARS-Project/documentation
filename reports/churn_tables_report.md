@@ -14,7 +14,7 @@ pipeline runs.*
 
 The churn tables answer the question **“do vehicles stay in the same
 part of the country, and does that differ by age, mileage, fuel or
-engine size?”** There are 71 CSV files in `outputs/tables/churn/`. This
+engine size?”** There are 73 CSV files in `outputs/tables/churn/`. This
 document explains, for each one:
 
 - which vehicles are counted (and which are left out),
@@ -34,17 +34,27 @@ version is where mistakes come from. Column and file names appear
 
 - Every table is built from **one intermediate file**,
   `outputs/intermediate/churn_base.parquet`, which has **one row per
-  vehicle** (79,741,922 vehicles) and one column per year for location
+  vehicle** (81,112,156 vehicles) and one column per year for location
   and mileage.
 - A vehicle’s location in a year is a **postcode area** (“LS”, “BS”,
-  “NI”), or one of three words standing in for “no location recorded”:
+  “BT”), or one of three words standing in for “no location recorded”:
   `unborn`, `dead`, `unknown`.
 - Almost every table counts vehicles **grouped by postcode area**, and
   splits them either by year or by a characteristic (age, mileage, fuel,
   engine size, emissions category).
 - The biggest limitation is not missing data in the usual sense: it is
-  that a vehicle is only located in years it had an MOT. In 2019, the
-  best covered year, only 53.3% of vehicles had a known postcode area.
+  what a “location” is. Bristol gives a vehicle a postcode area in every
+  year from its first registration to two years after its last MOT: the
+  years before the first MOT (at age three) copy the first test’s area,
+  and the two years after the last one carry it on. So a vehicle’s area
+  in a year is not always a year in which it was tested there, and a
+  scrapped vehicle stays in its area’s stock for about two years
+  (section 5 and section 12). In 2019, the best covered year, 52.3% of
+  the churn-base vehicles had a postcode area.
+- The pipeline cross-checks every count that two tables should agree on
+  (`outputs/quality/cross_checks.csv`, summarised in the data quality
+  report): the Set 2 stock, Set 1b, Set 1d, Set 3, Set 4, Set 7A and Set
+  7B totals all reconcile with the churn base.
 
 ## 3. Where the data comes from
 
@@ -58,9 +68,9 @@ back to the original data.
 |----|----|----|
 | Input | `annualised_with_ves_4.parquet` | The vehicle-level annualised MOT table supplied to the project, one row per vehicle, with DVLA (VES) columns attached |
 | Stage 1 | `outputs/intermediate/01_core.parquet` | The input narrowed to the columns used, typed, with vehicles outside the scope removed |
-| Stage 2-3 | `outputs/vehicles_enhanced.parquet` | Cleaned make/model, harmonised fuel, engine size, Euro status and so on (93,352,241 vehicles) |
-| Churn | `outputs/intermediate/churn_base.parquet` | One row per vehicle with the churn measures precomputed (79,741,922 vehicles) |
-| Churn | `outputs/tables/churn/*.csv` | The 71 published tables |
+| Stage 2-3 | `outputs/vehicles_enhanced_maximal.parquet` | Cleaned make/model, harmonised fuel, engine size, Euro status and so on (93,352,241 vehicles) |
+| Churn | `outputs/intermediate/churn_base.parquet` | One row per vehicle with the churn measures precomputed (81,112,156 vehicles) |
+| Churn | `outputs/tables/churn/*.csv` | The 73 published tables |
 
 “Scope” means a vehicle is kept if it has any recorded mileage, or any
 recorded postcode area, or was born on or after 2005-01-01, or shows
@@ -86,10 +96,10 @@ is built.
 | measure                              | n_vehicles | pct_of_input |
 |:-------------------------------------|-----------:|-------------:|
 | vehicles_in_vehicles_enhanced        | 93,352,241 |       100.00 |
-| vehicles_matching_the_class_filter   | 79,741,922 |        85.42 |
-| vehicles_in_churn_base               | 79,741,922 |        85.42 |
-| distinct_identifiers_in_churn_base   | 79,741,922 |        85.42 |
-| vehicles_dropped_by_the_class_filter | 13,610,319 |        14.58 |
+| vehicles_matching_the_class_filter   | 81,112,156 |        86.89 |
+| vehicles_in_churn_base               | 81,112,156 |        86.89 |
+| distinct_identifiers_in_churn_base   | 81,112,156 |        86.89 |
+| vehicles_dropped_by_the_class_filter | 12,240,085 |        13.11 |
 
 The test class used is the **backfilled** `test_class` column, not the
 anonymised `test_class_ANON` of the earlier churn work. The anonymised
@@ -116,7 +126,7 @@ four `*_column` settings.
 - `first_use_source`: `coalesce` means DVSA first use date, else DVLA
   first registration, else `birth_date`
 - `exclude_ni_rows`: `TRUE` would drop Northern Ireland (postcode area
-  `NI`) from table rows
+  `BT`) from table rows
 - `years_first`: first year the yearly tables cover
 - `years.first`: first year of location data available
 - `years.last`: last year of location data available
@@ -152,7 +162,7 @@ four `*_column` settings.
 
 #### Columns of churn_base.parquet
 
-`n_missing` counts vehicles with no value (out of 79,741,922). A column
+`n_missing` counts vehicles with no value (out of 81,112,156). A column
 at 0% missing is complete for every vehicle - which for a derived column
 such as `movement_rate` is not the same as being meaningful for every
 vehicle; see section 7.
@@ -163,37 +173,38 @@ vehicle; see section 7.
 
 | column | type | n_present | n_missing | pct_missing | description |
 |:---|:---|---:|---:|---:|:---|
-| registration_DVSA | VARCHAR | 79,741,922 | 0 | 0.00 | Anonymised vehicle identifier, one row per vehicle |
-| test_class | INTEGER | 79,741,922 | 0 | 0.00 | MOT test class, from the backfilled `test_class` or churn v2’s `test_class_ANON` as configured. The churn tables keep one class (4: cars and small vans) |
-| euro_status | VARCHAR | 75,900,730 | 3,841,192 | 4.82 | Euro emissions standard, spellings standardised (`EURO 5 A`); from the harmonised `euro_status` or churn v2’s `euroStatus_DVLA`. The harmonised column is filled from the registration-date schedule where nothing was recorded (methodology.md, Section 5.7), so most vehicles now have one |
-| firstUsedDate_DVSA | DATE | 71,052,351 | 8,689,571 | 10.90 | Date of first use as recorded by DVSA |
-| monthOfFirstRegistration_DVLA | DATE | 60,856,328 | 18,885,594 | 23.68 | Month of first registration from the DVLA record, used when DVSA has no date |
-| birth_date | DATE | 79,741,922 | 0 | 0.00 | Earliest of the DVSA first use, registration and manufacture dates |
-| first_use_date | DATE | 79,741,922 | 0 | 0.00 | The date the churn tables treat as the start of the vehicle’s life, per `first_use_source` |
-| fuel_raw | VARCHAR | 79,741,922 | 0 | 0.00 | Fuel as supplied to the churn step: the harmonised `fuel` or churn v2’s `fuel_DVSA` |
-| engine_size | DOUBLE | 79,735,986 | 5,936 | 0.01 | Engine size in cc, as a number. 0 means a fuel with no engine (electric, fuel cells) |
-| first_use_year | BIGINT | 79,741,922 | 0 | 0.00 | Calendar year of `first_use_date` |
-| age_num_2017 | INTEGER | 79,741,922 | 0 | 0.00 | Whole years old at 1 June 2017 |
-| age_num_2022 | INTEGER | 79,741,922 | 0 | 0.00 | Whole years old at 1 June 2022 |
-| n_moves_2007_2017 | INTEGER | 79,741,922 | 0 | 0.00 | Number of year-to-year postcode area changes between 2007 and 2017 |
-| n_obs_2007_2017 | INTEGER | 79,741,922 | 0 | 0.00 | Number of year pairs in 2007-2017 where both years hold a real postcode area |
-| n_moves_2012_2022 | INTEGER | 79,741,922 | 0 | 0.00 | As `n_moves_2007_2017`, for 2012-2022 |
-| n_obs_2012_2022 | INTEGER | 79,741,922 | 0 | 0.00 | As `n_obs_2007_2017`, for 2012-2022 |
-| first_real_pca | VARCHAR | 69,967,899 | 9,774,023 | 12.26 | The earliest year’s real postcode area, scanning 2005 onwards |
-| birth_pca | VARCHAR | 39,503,269 | 40,238,653 | 50.46 | The postcode area the vehicle first appeared in straight after being `unborn` |
-| static_2017 | BOOLEAN | 79,741,922 | 0 | 0.00 | TRUE if the vehicle is in a real postcode area in 2017 and in the same one in 2016 and 2018 |
-| fuel_simple | VARCHAR | 79,741,922 | 0 | 0.00 | Fuel in six groups: Petrol, Diesel, Electric, Hybrid Electric, Plug-in Hybrid Electric and Other. Plug-in hybrids come from the DfT fuel detail (methodology.md, Section 5.5), so they are missing in churn v2 mode, where the fuel is the DVSA one |
-| fuel3 | VARCHAR | 79,741,922 | 0 | 0.00 | Fuel in three groups: Petrol, Diesel, Other |
-| is_ev | BOOLEAN | 79,741,922 | 0 | 0.00 | TRUE for fuel exactly Electric (Electric Diesel counts as a hybrid, not an EV) |
-| engine_band | VARCHAR | 79,735,986 | 5,936 | 0.01 | Engine size in the detailed band set (100cc steps to 3000, then wider) |
-| engine_band100 | VARCHAR | 79,735,986 | 5,936 | 0.01 | Engine size in 100cc bands from 600 to 4000 |
-| engine_band3 | VARCHAR | 79,735,986 | 5,936 | 0.01 | Engine size in three bands |
-| engine_band4 | VARCHAR | 79,735,986 | 5,936 | 0.01 | Engine size in four bands |
-| movement_rate | DOUBLE | 50,300,700 | 29,441,222 | 36.92 | Moves per year of life after the first three: `n_moves_2007_2017 / (age in 2017 - 3)` |
-| movement_rate_window | DOUBLE | 56,220,179 | 23,521,743 | 29.50 | Moves per observed year pair: `n_moves_2007_2017 / n_obs_2007_2017` |
-| movement_rate_2022 | DOUBLE | 64,571,968 | 15,169,954 | 19.02 | As `movement_rate`, measured to 2022 |
-| ever_moved_pca | BOOLEAN | 79,741,922 | 0 | 0.00 | TRUE if any year’s real postcode area differs from `first_real_pca` |
-| caz_cat | VARCHAR | 79,741,922 | 0 | 0.00 | Clean Air Zone proxy from fuel and first use year: `petrol_pre2006`, `diesel_pre2015` or `other` |
+| registration_DVSA | VARCHAR | 81,112,156 | 0 | 0.00 | Vehicle registration mark as supplied by DVSA, one row per vehicle (a registration can repeat: see dup_vrm in the enhanced table) |
+| test_class | INTEGER | 81,112,156 | 0 | 0.00 | MOT test class, from the backfilled `test_class` or churn v2’s `test_class_ANON` as configured. The churn tables keep one class (4: cars and small vans) |
+| euro_status | VARCHAR | 81,112,156 | 0 | 0.00 | Euro emissions standard, spellings standardised (`EURO 5 A`); from the harmonised `euro_status` or churn v2’s `euroStatus_DVLA`. The harmonised column is filled from the registration-date schedule where nothing was recorded (methodology.md, Section 5.7), so most vehicles now have one. A harmonised value with no standard says why: `pre_euro`, `no_schedule` or `no_date` |
+| euro_status_src | VARCHAR | 77,223,746 | 3,888,410 | 4.79 | Where the Euro status came from: `dvla` (recorded on this vehicle), `variant` / `model_year_fuel` (the most common recorded value of similar vehicles) or `euro_schedule` (assumed from the date the vehicle was made) |
+| firstUsedDate_DVSA | DATE | 71,018,562 | 10,093,594 | 12.44 | Date of first use as recorded by DVSA |
+| monthOfFirstRegistration_DVLA | DATE | 61,126,666 | 19,985,490 | 24.64 | Month of first registration from the DVLA record, used when DVSA has no date |
+| birth_date | DATE | 81,112,156 | 0 | 0.00 | Earliest of the DVSA first use, registration and manufacture dates |
+| first_use_date | DATE | 81,112,156 | 0 | 0.00 | The date the churn tables treat as the start of the vehicle’s life, per `first_use_source` |
+| fuel_raw | VARCHAR | 81,112,156 | 0 | 0.00 | Fuel as supplied to the churn step: the harmonised `fuel` or churn v2’s `fuel_DVSA` |
+| engine_size | DOUBLE | 81,105,924 | 6,232 | 0.01 | Engine size in cc, as a number. 0 means a fuel with no engine (electric, fuel cells) |
+| first_use_year | BIGINT | 81,112,156 | 0 | 0.00 | Calendar year of `first_use_date` |
+| age_num_2017 | INTEGER | 81,112,156 | 0 | 0.00 | Whole years old at 1 June 2017 |
+| age_num_2022 | INTEGER | 81,112,156 | 0 | 0.00 | Whole years old at 1 June 2022 |
+| n_moves_2007_2017 | INTEGER | 81,112,156 | 0 | 0.00 | Number of year-to-year postcode area changes between 2007 and 2017 |
+| n_obs_2007_2017 | INTEGER | 81,112,156 | 0 | 0.00 | Number of year pairs in 2007-2017 where both years hold a real postcode area |
+| n_moves_2012_2022 | INTEGER | 81,112,156 | 0 | 0.00 | As `n_moves_2007_2017`, for 2012-2022 |
+| n_obs_2012_2022 | INTEGER | 81,112,156 | 0 | 0.00 | As `n_obs_2007_2017`, for 2012-2022 |
+| first_real_pca | VARCHAR | 69,951,694 | 11,160,462 | 13.76 | The earliest year’s real postcode area, scanning 2005 onwards |
+| birth_pca | VARCHAR | 39,494,482 | 41,617,674 | 51.31 | The postcode area the vehicle first appeared in straight after being `unborn` |
+| static_2017 | BOOLEAN | 81,112,156 | 0 | 0.00 | TRUE if the vehicle is in a real postcode area in 2017 and in the same one in 2016 and 2018 |
+| fuel_simple | VARCHAR | 81,112,156 | 0 | 0.00 | Fuel in six groups: Petrol, Diesel, Electric, Hybrid Electric, Plug-in Hybrid Electric and Other. Plug-in hybrids come from the DfT fuel detail (methodology.md, Section 5.5), so they are missing in churn v2 mode, where the fuel is the DVSA one |
+| fuel3 | VARCHAR | 81,112,156 | 0 | 0.00 | Fuel in three groups: Petrol, Diesel, Other |
+| is_ev | BOOLEAN | 81,112,156 | 0 | 0.00 | TRUE for fuel exactly Electric (Electric Diesel counts as a hybrid, not an EV) |
+| engine_band | VARCHAR | 81,105,924 | 6,232 | 0.01 | Engine size in the detailed band set (100cc steps to 3000, then wider) |
+| engine_band100 | VARCHAR | 81,105,924 | 6,232 | 0.01 | Engine size in 100cc bands from 600 to 4000 |
+| engine_band3 | VARCHAR | 81,105,924 | 6,232 | 0.01 | Engine size in three bands |
+| engine_band4 | VARCHAR | 81,105,924 | 6,232 | 0.01 | Engine size in four bands |
+| movement_rate | DOUBLE | 50,233,914 | 30,878,242 | 38.07 | Churn v2 rate: `n_moves_2007_2017 / (age in 2017 - 3)`. The numerator counts moves over up to ten observed year pairs and the denominator is years of life after the third, so the rate is inflated for vehicles under 13 and deflated over 13: it falls with age by construction (see section 5) |
+| movement_rate_window | DOUBLE | 56,205,537 | 24,906,619 | 30.71 | Moves per observed year pair: `n_moves_2007_2017 / n_obs_2007_2017` |
+| movement_rate_2022 | DOUBLE | 64,489,834 | 16,622,322 | 20.49 | As `movement_rate`, measured to 2022 |
+| ever_moved_pca | BOOLEAN | 81,112,156 | 0 | 0.00 | TRUE if any year’s real postcode area differs from `first_real_pca` |
+| caz_cat | VARCHAR | 81,112,156 | 0 | 0.00 | Clean Air Zone proxy from fuel and first use year: `petrol_pre2006`, `diesel_pre2015` or `other` |
 
 The year columns are described separately below, because there are 41 of
 them.
@@ -208,7 +219,7 @@ when the vehicle had no pair of MOTs spanning that year.
 | prefix | n_columns | first_year | last_year | description |
 |:---|---:|:---|:---|:---|
 | pca_YYYY | 21 | 2005 | 2025 | Postcode area the vehicle was seen in that year, or `unborn`, `dead` or `unknown` |
-| mileage_YYYY | 20 | 2006 | 2025 | Miles recorded for that year (the difference between consecutive MOT odometer readings) |
+| mileage_YYYY | 20 | 2006 | 2025 | Annual miles for that year, as annualised by Bristol from the MOT odometer readings. Years before a vehicle’s first MOT are estimated from its first test, so they are not separate measurements |
 
 ### 4.2 Coverage year by year
 
@@ -218,7 +229,7 @@ One row per year. A vehicle counted under `n_unborn` had not been
 registered yet; under `n_dead`, its last MOT had already passed; under
 `n_unknown`, it was alive but not seen that year - most often a car in
 its first three years, which has no MOT due. `n_real_pca` + `n_unborn` +
-`n_dead` + `n_unknown` equals the full 79,741,922 vehicles in every
+`n_dead` + `n_unknown` equals the full 81,112,156 vehicles in every
 year.
 
 - `n_real_pca`: vehicles with an actual postcode area
@@ -236,38 +247,46 @@ year.
 
 | year | n_real_pca | n_distinct_pca | n_unborn | n_dead | n_unknown | n_pca_null | n_with_mileage | mean_mileage | median_mileage | pct_real_pca | pct_with_mileage |
 |:---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| 2005 | 29,638,087 | 120 | 47,006,371 | 0 | 3,097,464 | 0 | NA | NA | NA | 37.17 | NA |
-| 2006 | 32,219,760 | 120 | 44,370,797 | 17,872 | 3,133,493 | 0 | 30,344,265 | 8,055.1 | 6,928 | 40.41 | 38.05 |
-| 2007 | 34,839,495 | 120 | 41,665,814 | 138,077 | 3,098,536 | 0 | 30,923,181 | 7,879.1 | 6,731 | 43.69 | 38.78 |
-| 2008 | 36,682,868 | 120 | 39,297,375 | 712,169 | 3,049,510 | 0 | 31,202,349 | 7,860.3 | 6,716 | 46.00 | 39.13 |
-| 2009 | 36,853,777 | 120 | 37,127,111 | 2,744,184 | 3,016,850 | 0 | 31,284,198 | 7,780.1 | 6,639 | 46.22 | 39.23 |
-| 2010 | 37,024,301 | 120 | 34,916,924 | 4,819,876 | 2,980,821 | 0 | 31,553,131 | 7,656.6 | 6,519 | 46.43 | 39.57 |
-| 2011 | 37,147,197 | 120 | 32,766,201 | 6,875,741 | 2,952,783 | 0 | 31,734,237 | 7,609.9 | 6,475 | 46.58 | 39.80 |
-| 2012 | 37,444,914 | 120 | 30,520,745 | 8,907,485 | 2,868,778 | 0 | 32,068,095 | 7,552.5 | 6,405 | 46.96 | 40.21 |
-| 2013 | 38,042,835 | 120 | 28,018,765 | 10,812,531 | 2,867,791 | 0 | 32,683,685 | 7,523.5 | 6,388 | 47.71 | 40.99 |
-| 2014 | 38,813,918 | 120 | 25,265,147 | 12,740,791 | 2,922,066 | 0 | 33,579,182 | 7,457.2 | 6,340 | 48.67 | 42.11 |
-| 2015 | 39,841,509 | 120 | 22,318,951 | 14,635,351 | 2,946,111 | 0 | 34,556,761 | 7,394.4 | 6,285 | 49.96 | 43.34 |
-| 2016 | 40,972,546 | 120 | 19,314,868 | 16,487,074 | 2,967,434 | 0 | 35,303,589 | 7,361.4 | 6,259 | 51.38 | 44.27 |
-| 2017 | 41,356,526 | 120 | 17,090,260 | 18,304,558 | 2,990,578 | 0 | 35,186,915 | 7,310.6 | 6,223 | 51.86 | 44.13 |
-| 2018 | 42,049,969 | 120 | 13,810,044 | 20,261,391 | 3,620,518 | 0 | 35,656,966 | 7,169.0 | 6,074 | 52.73 | 44.72 |
-| 2019 | 42,473,779 | 120 | 11,199,958 | 22,429,031 | 3,639,154 | 0 | 36,025,972 | 6,366.3 | 5,314 | 53.26 | 45.18 |
-| 2020 | 42,295,017 | 120 | 9,334,271 | 24,711,467 | 3,401,167 | 0 | 36,799,522 | 5,914.4 | 4,795 | 53.04 | 46.15 |
-| 2021 | 42,367,718 | 120 | 7,458,522 | 26,872,133 | 3,043,549 | 0 | 37,043,834 | 6,618.3 | 5,563 | 53.13 | 46.45 |
-| 2022 | 41,783,729 | 120 | 5,745,763 | 29,060,151 | 3,152,279 | 0 | 37,123,737 | 6,800.7 | 5,738 | 52.40 | 46.55 |
-| 2023 | 40,287,675 | 120 | 5,510,252 | 30,688,337 | 3,255,658 | 0 | 36,211,495 | 6,951.6 | 5,887 | 50.52 | 45.41 |
-| 2024 | 38,645,347 | 120 | 3,484,699 | 32,380,902 | 5,230,974 | 0 | 34,273,148 | 6,925.0 | 5,838 | 48.46 | 42.98 |
-| 2025 | 36,485,306 | 120 | 1,475,467 | 34,019,730 | 7,761,419 | 0 | 24,088,360 | 6,834.4 | 5,720 | 45.75 | 30.21 |
+| 2005 | 29,630,915 | 120 | 48,428,777 | 0 | 3,052,464 | 0 | NA | NA | NA | 36.53 | NA |
+| 2006 | 32,210,585 | 120 | 45,796,402 | 17,626 | 3,087,543 | 0 | 30,318,295 | 8,057.5 | 6,928 | 39.71 | 37.38 |
+| 2007 | 34,829,563 | 120 | 43,095,363 | 136,065 | 3,051,165 | 0 | 30,897,014 | 7,881.2 | 6,731 | 42.94 | 38.09 |
+| 2008 | 36,672,620 | 120 | 40,728,191 | 709,004 | 3,002,341 | 0 | 31,176,147 | 7,862.4 | 6,716 | 45.21 | 38.44 |
+| 2009 | 36,842,961 | 120 | 38,559,247 | 2,739,897 | 2,970,051 | 0 | 31,257,967 | 7,782.0 | 6,639 | 45.42 | 38.54 |
+| 2010 | 37,013,012 | 120 | 36,350,474 | 4,814,489 | 2,934,181 | 0 | 31,526,824 | 7,658.3 | 6,519 | 45.63 | 38.87 |
+| 2011 | 37,135,714 | 120 | 34,200,560 | 6,869,268 | 2,906,614 | 0 | 31,708,440 | 7,611.5 | 6,475 | 45.78 | 39.09 |
+| 2012 | 37,432,619 | 120 | 31,956,733 | 8,899,671 | 2,823,133 | 0 | 32,042,417 | 7,553.8 | 6,409 | 46.15 | 39.50 |
+| 2013 | 38,029,390 | 120 | 29,457,844 | 10,802,890 | 2,822,032 | 0 | 32,657,387 | 7,524.4 | 6,391 | 46.88 | 40.26 |
+| 2014 | 38,800,220 | 120 | 26,707,974 | 12,729,830 | 2,874,132 | 0 | 33,553,372 | 7,457.7 | 6,340 | 47.84 | 41.37 |
+| 2015 | 39,827,491 | 120 | 23,763,906 | 14,622,875 | 2,897,884 | 0 | 34,531,301 | 7,394.7 | 6,285 | 49.10 | 42.57 |
+| 2016 | 40,957,904 | 120 | 20,762,168 | 16,473,050 | 2,919,034 | 0 | 35,278,645 | 7,361.6 | 6,259 | 50.50 | 43.49 |
+| 2017 | 41,341,397 | 120 | 18,540,106 | 18,288,766 | 2,941,887 | 0 | 35,164,380 | 7,310.6 | 6,223 | 50.97 | 43.35 |
+| 2018 | 42,034,312 | 120 | 15,264,370 | 20,242,181 | 3,571,293 | 0 | 35,637,673 | 7,169.0 | 6,074 | 51.82 | 43.94 |
+| 2019 | 42,457,979 | 120 | 12,657,393 | 22,407,519 | 3,589,265 | 0 | 36,011,263 | 6,366.0 | 5,314 | 52.34 | 44.40 |
+| 2020 | 42,279,407 | 120 | 10,793,115 | 24,687,958 | 3,351,676 | 0 | 36,786,231 | 5,913.9 | 4,795 | 52.12 | 45.35 |
+| 2021 | 42,354,317 | 120 | 8,918,080 | 26,845,102 | 2,994,657 | 0 | 37,031,752 | 6,618.0 | 5,563 | 52.22 | 45.65 |
+| 2022 | 41,773,660 | 120 | 7,205,481 | 29,029,134 | 3,103,881 | 0 | 37,112,688 | 6,800.5 | 5,738 | 51.50 | 45.75 |
+| 2023 | 40,277,824 | 120 | 6,972,404 | 30,656,530 | 3,205,398 | 0 | 36,198,118 | 6,951.3 | 5,887 | 49.66 | 44.63 |
+| 2024 | 38,636,554 | 120 | 4,959,747 | 32,347,643 | 5,168,212 | 0 | 34,261,150 | 6,924.2 | 5,838 | 47.63 | 42.24 |
+| 2025 | 36,477,689 | 120 | 2,927,033 | 33,984,901 | 7,722,533 | 0 | 24,079,127 | 6,833.3 | 5,720 | 44.97 | 29.69 |
 
 Mileage starts in 2006 because a year’s mileage is the difference
 between two MOT odometer readings, so the first year of data has nothing
 to subtract from. The last year or two usually look thin: MOTs for those
 years are still being recorded.
 
+![](churn_tables_report_figures/coverage-1.png)
+
+**Figure 1.** The table above as a chart: all 81,112,156 churn-base
+vehicles (test class 4) by their location status in each year
+(`quality/churn_profile/by_year.csv`). `dead` starts two years after a
+vehicle’s last MOT, because Bristol keeps its postcode area for two
+years after it.
+
 ## 5. The vocabulary, pedantically
 
 **Postcode area (PCA)** - the letters at the start of a UK postcode:
 “BS” for Bristol, “LS” for Leeds. There are about 120 of them. Northern
-Ireland arrives in this data as the single area `NI`, not as “BT”.
+Ireland is the single area `BT` (earlier deliveries called it `NI`).
 
 **A real postcode area** - any value that is not `unborn`, `dead` or
 `unknown`. The phrase is used throughout: “vehicles in a real PCA in
@@ -293,12 +312,22 @@ tested in this order:
 | `dead` | the comparison year says `dead` |
 | `unborn` | the comparison year says `unborn` |
 | `same` | a real postcode area, the same as the reference year |
-| `different` | **anything else**, which includes both a genuinely different area **and** `unknown` |
+| `different` | **anything else**: a genuinely different area, **or** `unknown`, **or** - where the reference year is the earlier one (Sets 1b, 1c) - a reference-year status of `unborn`, `unknown` or `dead` |
 
-The last row is the single most important caveat in this document. A
-vehicle that simply was not seen in a year is counted as `different`,
-not as missing. `different` therefore means “not demonstrably in the
-same place”, not “moved”.
+The last row is the single most important caveat in this document.
+`different` means “not demonstrably in the same place”, not “moved”. Two
+things other than a move put a vehicle in it:
+
+- **A vehicle not located in the comparison year** (`unknown`) is
+  counted as `different`, not as missing. This is rare: 33,656 vehicles
+  arrived in an area in 2018 from `unknown` or `dead`.
+- **In Sets 1b and 1c a new vehicle is `different`.** The status
+  describes the later year against the earlier one, so a vehicle that
+  was `unborn` a year earlier and is now in an area is `different` - it
+  did not move, it was registered. In 2018, 2.57M of the 8.57M
+  `different` vehicles in Set 1b (lag 1) were new vehicles; 5.97M had
+  moved from another area. **Set 1d** separates these flows; use it for
+  any statement about moving.
 
 **A move** - a change of postcode area between two consecutive years
 where **both** years hold a real postcode area. A vehicle going LS →
@@ -312,17 +341,39 @@ down. A vehicle first used in August 2013 is age 3 in 2017, not 4. Ages
 can be negative (a first use date after the year), which is why the age
 bands include a `<0` band.
 
-**Movement rate** - moves per year of life, ignoring the first three
-years (when a car has no MOT and so cannot be located):
-`n_moves_2007_2017 / (age in 2017 - 3)`. Only defined for vehicles aged
-4 or over in 2017. **Windowed movement rate** divides instead by the
-number of year pairs where both years hold a real area, so it measures
-moves per *observed* year. Where observation is patchy the windowed rate
-is the fairer one, and it is always the smaller of the two.
+**Movement rate** - the churn v2 definition,
+`n_moves_2007_2017 / (age in 2017 - 3)`, defined for vehicles aged 4 or
+over in 2017. The idea was “moves per year of life after the first
+three, when a car has no MOT”. It does not measure that, for two
+reasons, and **it should not be compared across ages**:
+
+- Bristol back-fills a vehicle’s postcode area into the years before its
+  first MOT, so those years are “located” and a move between them can be
+  counted (though, being copies, they rarely show one). The numerator
+  therefore counts moves over up to ten year pairs (2007-2017) while the
+  denominator counts years of life after the third.
+- For a vehicle aged 4 the denominator is 1 but there are about 4.5
+  observed year pairs; for a vehicle aged 20 it is 17 but there are at
+  most 10.
+
+In this build the mean churn v2 rate falls from 0.47 at age 4 to 0.05 at
+age 20 and over, while the windowed rate stays between 0.1 and 0.2 at
+every age: the fall is produced by the formula, not by the vehicles. The
+churn v2 rate is larger than the windowed rate below age 13 and smaller
+above it. **Windowed movement rate** divides by the number of year pairs
+where both years hold a real area
+(`n_moves_2007_2017 / n_obs_2007_2017`), so it measures moves per
+observed year and is the one to quote. Note that the observed pairs
+include the back-filled years before the first MOT and the two years
+after the last one, in which no move can appear, so even the windowed
+rate understates the rate at which vehicles that are on the road change
+area.
 
 **Static** - a vehicle in a real postcode area in 2017 that was in the
 *same* area in 2016 and 2018. A vehicle `unknown` in 2016 is therefore
-not static, even if it never moved.
+not static, even if it never moved: non-static mixes movers with
+vehicles not located in 2016 or 2018 (or dead by 2018). Of the 2017
+cohort aged 4+, 64.8% were static.
 
 **Bands** - every band includes its lower bound and excludes its upper
 bound. Engine size 2000cc falls in `1700-2000`; 2001cc falls in `>2000`.
@@ -378,29 +429,32 @@ place; percentages in Set 0 to two.
 ## 6. How complete the variables are
 
 The table in section 4.1 gives the exact missing counts. In words, for
-the 79,741,922 vehicles:
+the 81,112,156 vehicles:
 
 - **Location and fuel are never missing.** Every vehicle has a value in
-  every `pca_YYYY` column (though 48.1% of 2017’s values are one of the
+  every `pca_YYYY` column (though 49.0% of 2017’s values are one of the
   three stand-in words), and every vehicle has a fuel group.
-- **Engine size** is missing for 5,936 vehicles (0.0%), so the four
+- **Engine size** is missing for 6,232 vehicles (0.0%), so the four
   engine band columns are missing for exactly the same vehicles.
-- **Euro status** is missing for 3,841,192 vehicles (4.8%). That looks
-  like good coverage, but most of it is an assumption rather than a
-  record: the register holds a Euro status for only a minority of
-  vehicles, and where it holds none the enhanced table fills in the
-  standard that was compulsory for new registrations of that body type
-  when the vehicle was made (methodology.md, Section 5.7). Euro status
-  is used only in the Set 7 check table.
-- **Movement rate** is missing for 29,441,222 vehicles (36.9%) - those
+- **Euro status** is missing for 3,888,410 vehicles (4.8%); in the
+  harmonised column these hold the reason instead (`pre_euro`,
+  `no_schedule` or `no_date`), so count them by `euro_status_src`, not
+  by an empty `euro_status`. That looks like good coverage, but most of
+  it is an assumption rather than a record: the register holds a Euro
+  status for only a minority of vehicles, and where it holds none the
+  enhanced table fills in the standard that was compulsory for new
+  registrations of that body type when the vehicle was made
+  (methodology.md, Section 5.7). Euro status is used only in the Set 7
+  check table.
+- **Movement rate** is missing for 30,878,242 vehicles (38.1%) - those
   aged under 4 in 2017, for whom it is not defined.
 - **`birth_pca`** (the area a vehicle first appeared in) is missing for
-  40,238,653 vehicles (50.5%): vehicles already registered before the
+  41,617,674 vehicles (51.3%): vehicles already registered before the
   data starts never have an `unborn`-to-area transition to read it from.
   Set 4’s “born here” columns are only meaningful for recent vehicles.
 - **The dates behind the age calculation** are never missing in the
   combined `first_use_date`, but the individual sources are: DVSA’s own
-  date is missing for 8,689,571 vehicles (10.9%), which is what Set 0
+  date is missing for 10,093,594 vehicles (12.4%), which is what Set 0
   reports on.
 
 ## 7. How the values are distributed
@@ -408,7 +462,7 @@ the 79,741,922 vehicles:
 ### Every grouping variable, with its values
 
 `(missing)` is a real row here, so each variable’s rows sum to the full
-79,741,922 vehicles. Age and mileage bands are shown as at the year
+81,112,156 vehicles. Age and mileage bands are shown as at the year
 named in the variable; the tables also compute them for other years,
 with a similar shape. `movement_rate_band` bands are the exception to
 the usual rule: they exclude their lower bound and include their upper,
@@ -422,85 +476,85 @@ moves.
 
 | variable           | value                   | n_vehicles |    pct |
 |:-------------------|:------------------------|-----------:|-------:|
-| test_class         | 4                       | 79,741,922 | 100.00 |
-| fuel_simple        | Petrol                  | 46,518,935 |  58.34 |
-| fuel_simple        | Diesel                  | 27,718,926 |  34.76 |
-| fuel_simple        | Electric                |  1,668,075 |   2.09 |
-| fuel_simple        | Hybrid Electric         |  2,941,514 |   3.69 |
-| fuel_simple        | Plug-in Hybrid Electric |    820,302 |   1.03 |
-| fuel_simple        | Other                   |     74,170 |   0.09 |
-| fuel3              | Petrol                  | 46,518,935 |  58.34 |
-| fuel3              | Diesel                  | 27,718,926 |  34.76 |
-| fuel3              | Other                   |  5,504,061 |   6.90 |
-| is_ev              | true                    |  1,668,075 |   2.09 |
-| is_ev              | false                   | 78,073,847 |  97.91 |
-| caz_cat            | petrol_pre2006          | 24,208,269 |  30.36 |
-| caz_cat            | diesel_pre2015          | 19,314,683 |  24.22 |
-| caz_cat            | other                   | 36,218,970 |  45.42 |
-| static_2017        | true                    | 27,314,554 |  34.25 |
-| static_2017        | false                   | 52,427,368 |  65.75 |
-| ever_moved_pca     | true                    | 46,202,344 |  57.94 |
-| ever_moved_pca     | false                   | 33,539,578 |  42.06 |
-| engine_band3       | 0 (electric)            |  1,668,107 |   2.09 |
-| engine_band3       | 1-1400                  | 25,267,193 |  31.69 |
-| engine_band3       | 1400-2000               | 41,628,807 |  52.20 |
-| engine_band3       | \>2000                  | 11,171,879 |  14.01 |
-| engine_band3       | (missing)               |      5,936 |   0.01 |
-| engine_band4       | 0 (electric)            |  1,668,107 |   2.09 |
-| engine_band4       | 1-1400                  | 25,267,193 |  31.69 |
-| engine_band4       | 1400-\<1700             | 18,455,606 |  23.14 |
-| engine_band4       | 1700-2000               | 23,173,201 |  29.06 |
-| engine_band4       | \>2000                  | 11,171,879 |  14.01 |
-| engine_band4       | (missing)               |      5,936 |   0.01 |
-| age_band_2017      | \<0                     | 17,938,404 |  22.50 |
-| age_band_2017      | 0                       |  3,015,424 |   3.78 |
-| age_band_2017      | 1                       |  2,988,522 |   3.75 |
-| age_band_2017      | 2                       |  2,864,692 |   3.59 |
-| age_band_2017      | 3                       |  2,634,180 |   3.30 |
-| age_band_2017      | 4                       |  2,364,453 |   2.97 |
-| age_band_2017      | 5                       |  2,160,798 |   2.71 |
-| age_band_2017      | 6                       |  2,173,936 |   2.73 |
-| age_band_2017      | 7                       |  2,332,678 |   2.93 |
-| age_band_2017      | 8                       |  2,053,802 |   2.58 |
-| age_band_2017      | 9                       |  2,680,633 |   3.36 |
-| age_band_2017      | 10                      |  2,670,856 |   3.35 |
-| age_band_2017      | 11                      |  2,688,693 |   3.37 |
-| age_band_2017      | 12                      |  2,813,789 |   3.53 |
-| age_band_2017      | 13                      |  2,885,990 |   3.62 |
-| age_band_2017      | 14                      |  2,826,172 |   3.54 |
-| age_band_2017      | 15                      |  2,828,077 |   3.55 |
-| age_band_2017      | 16                      |  2,509,311 |   3.15 |
-| age_band_2017      | 17                      |  2,412,577 |   3.03 |
-| age_band_2017      | 18                      |  2,336,858 |   2.93 |
-| age_band_2017      | 19                      |  2,209,788 |   2.77 |
-| age_band_2017      | 20+                     | 10,352,289 |  12.98 |
-| age_band5_2017     | \<0                     | 17,938,404 |  22.50 |
-| age_band5_2017     | 0-3                     | 11,502,818 |  14.43 |
-| age_band5_2017     | 4-5                     |  4,525,251 |   5.67 |
-| age_band5_2017     | 6-8                     |  6,560,416 |   8.23 |
-| age_band5_2017     | 9-17                    | 24,316,098 |  30.49 |
-| age_band5_2017     | 18+                     | 14,898,935 |  18.68 |
-| age_band6_2018     | \<0                     | 15,169,954 |  19.02 |
-| age_band6_2018     | 0-3                     | 11,637,088 |  14.59 |
-| age_band6_2018     | 4-5                     |  4,998,633 |   6.27 |
-| age_band6_2018     | 6-8                     |  6,681,758 |   8.38 |
-| age_band6_2018     | 9-12                    | 10,098,105 |  12.66 |
-| age_band6_2018     | 13-17                   | 13,844,872 |  17.36 |
-| age_band6_2018     | 18+                     | 17,311,512 |  21.71 |
-| mileage_band3_2017 | \<5k                    | 13,784,994 |  17.29 |
-| mileage_band3_2017 | 5-12k                   | 15,965,355 |  20.02 |
-| mileage_band3_2017 | \>12k                   |  5,436,566 |   6.82 |
-| mileage_band3_2017 | (missing)               | 44,555,007 |  55.87 |
-| movement_rate_band | 0                       | 24,139,270 |  30.27 |
-| movement_rate_band | (0-0.1\]                |  5,778,350 |   7.25 |
-| movement_rate_band | (0.1-0.2\]              |  6,946,908 |   8.71 |
-| movement_rate_band | (0.2-0.3\]              |  4,103,981 |   5.15 |
-| movement_rate_band | (0.3-0.4\]              |  3,310,477 |   4.15 |
-| movement_rate_band | (0.4-0.5\]              |  2,652,822 |   3.33 |
-| movement_rate_band | (0.5-0.75\]             |  1,650,243 |   2.07 |
-| movement_rate_band | (0.75-1\]               |  1,479,256 |   1.86 |
+| test_class         | 4                       | 81,112,156 | 100.00 |
+| fuel_simple        | Petrol                  | 46,963,516 |  57.90 |
+| fuel_simple        | Diesel                  | 27,991,957 |  34.51 |
+| fuel_simple        | Electric                |  1,762,706 |   2.17 |
+| fuel_simple        | Hybrid Electric         |  3,366,887 |   4.15 |
+| fuel_simple        | Plug-in Hybrid Electric |    962,986 |   1.19 |
+| fuel_simple        | Other                   |     64,104 |   0.08 |
+| fuel3              | Petrol                  | 46,963,516 |  57.90 |
+| fuel3              | Diesel                  | 27,991,957 |  34.51 |
+| fuel3              | Other                   |  6,156,683 |   7.59 |
+| is_ev              | true                    |  1,762,706 |   2.17 |
+| is_ev              | false                   | 79,349,450 |  97.83 |
+| caz_cat            | petrol_pre2006          | 24,182,134 |  29.81 |
+| caz_cat            | diesel_pre2015          | 19,287,089 |  23.78 |
+| caz_cat            | other                   | 37,642,933 |  46.41 |
+| static_2017        | true                    | 27,299,912 |  33.66 |
+| static_2017        | false                   | 53,812,244 |  66.34 |
+| ever_moved_pca     | true                    | 46,202,344 |  56.96 |
+| ever_moved_pca     | false                   | 34,909,812 |  43.04 |
+| engine_band3       | 0 (electric)            |  1,762,738 |   2.17 |
+| engine_band3       | 1-1400                  | 25,623,175 |  31.59 |
+| engine_band3       | 1400-2000               | 42,422,377 |  52.30 |
+| engine_band3       | \>2000                  | 11,297,634 |  13.93 |
+| engine_band3       | (missing)               |      6,232 |   0.01 |
+| engine_band4       | 0 (electric)            |  1,762,738 |   2.17 |
+| engine_band4       | 1-1400                  | 25,623,175 |  31.59 |
+| engine_band4       | 1400-\<1700             | 18,858,573 |  23.25 |
+| engine_band4       | 1700-2000               | 23,563,804 |  29.05 |
+| engine_band4       | \>2000                  | 11,297,634 |  13.93 |
+| engine_band4       | (missing)               |      6,232 |   0.01 |
+| age_band_2017      | \<0                     | 19,387,122 |  23.90 |
+| age_band_2017      | 0                       |  3,011,655 |   3.71 |
+| age_band_2017      | 1                       |  2,986,371 |   3.68 |
+| age_band_2017      | 2                       |  2,862,325 |   3.53 |
+| age_band_2017      | 3                       |  2,630,769 |   3.24 |
+| age_band_2017      | 4                       |  2,360,387 |   2.91 |
+| age_band_2017      | 5                       |  2,158,885 |   2.66 |
+| age_band_2017      | 6                       |  2,172,769 |   2.68 |
+| age_band_2017      | 7                       |  2,331,098 |   2.87 |
+| age_band_2017      | 8                       |  2,052,225 |   2.53 |
+| age_band_2017      | 9                       |  2,678,852 |   3.30 |
+| age_band_2017      | 10                      |  2,667,449 |   3.29 |
+| age_band_2017      | 11                      |  2,684,039 |   3.31 |
+| age_band_2017      | 12                      |  2,809,556 |   3.46 |
+| age_band_2017      | 13                      |  2,882,373 |   3.55 |
+| age_band_2017      | 14                      |  2,824,303 |   3.48 |
+| age_band_2017      | 15                      |  2,826,504 |   3.48 |
+| age_band_2017      | 16                      |  2,507,466 |   3.09 |
+| age_band_2017      | 17                      |  2,411,452 |   2.97 |
+| age_band_2017      | 18                      |  2,334,367 |   2.88 |
+| age_band_2017      | 19                      |  2,207,045 |   2.72 |
+| age_band_2017      | 20+                     | 10,325,144 |  12.73 |
+| age_band5_2017     | \<0                     | 19,387,122 |  23.90 |
+| age_band5_2017     | 0-3                     | 11,491,120 |  14.17 |
+| age_band5_2017     | 4-5                     |  4,519,272 |   5.57 |
+| age_band5_2017     | 6-8                     |  6,556,092 |   8.08 |
+| age_band5_2017     | 9-17                    | 24,291,994 |  29.95 |
+| age_band5_2017     | 18+                     | 14,866,556 |  18.33 |
+| age_band6_2018     | \<0                     | 16,622,322 |  20.49 |
+| age_band6_2018     | 0-3                     | 11,625,151 |  14.33 |
+| age_band6_2018     | 4-5                     |  4,991,156 |   6.15 |
+| age_band6_2018     | 6-8                     |  6,677,008 |   8.23 |
+| age_band6_2018     | 9-12                    | 10,086,715 |  12.44 |
+| age_band6_2018     | 13-17                   | 13,831,796 |  17.05 |
+| age_band6_2018     | 18+                     | 17,278,008 |  21.30 |
+| mileage_band3_2017 | \<5k                    | 13,775,988 |  16.98 |
+| mileage_band3_2017 | 5-12k                   | 15,955,375 |  19.67 |
+| mileage_band3_2017 | \>12k                   |  5,433,017 |   6.70 |
+| mileage_band3_2017 | (missing)               | 45,947,776 |  56.65 |
+| movement_rate_band | 0                       | 24,072,484 |  29.68 |
+| movement_rate_band | (0-0.1\]                |  5,778,350 |   7.12 |
+| movement_rate_band | (0.1-0.2\]              |  6,946,908 |   8.56 |
+| movement_rate_band | (0.2-0.3\]              |  4,103,981 |   5.06 |
+| movement_rate_band | (0.3-0.4\]              |  3,310,477 |   4.08 |
+| movement_rate_band | (0.4-0.5\]              |  2,652,822 |   3.27 |
+| movement_rate_band | (0.5-0.75\]             |  1,650,243 |   2.03 |
+| movement_rate_band | (0.75-1\]               |  1,479,256 |   1.82 |
 | movement_rate_band | \>1                     |    239,393 |   0.30 |
-| movement_rate_band | (missing)               | 29,441,222 |  36.92 |
+| movement_rate_band | (missing)               | 30,878,242 |  38.07 |
 
 ### The two detailed engine size band sets
 
@@ -511,70 +565,70 @@ appear as zero-filled columns in the tables themselves.
 
 | variable       | value        | n_vehicles |   pct |
 |:---------------|:-------------|-----------:|------:|
-| engine_band    | 0 (electric) |  1,668,107 |  2.09 |
-| engine_band    | 1-1000       |  6,286,836 |  7.88 |
-| engine_band    | 1000-1100    |    325,506 |  0.41 |
-| engine_band    | 1100-1200    |  4,494,707 |  5.64 |
-| engine_band    | 1200-1300    |  5,781,153 |  7.25 |
-| engine_band    | 1300-1400    |  8,378,991 | 10.51 |
-| engine_band    | 1400-1500    |  5,577,895 |  6.99 |
-| engine_band    | 1500-1600    | 11,679,037 | 14.65 |
-| engine_band    | 1600-1700    |  1,198,674 |  1.50 |
-| engine_band    | 1700-1800    |  5,371,474 |  6.74 |
-| engine_band    | 1800-1900    |  2,439,898 |  3.06 |
-| engine_band    | 1900-2000    | 15,172,107 | 19.03 |
-| engine_band    | 2000-2100    |    261,433 |  0.33 |
-| engine_band    | 2100-2200    |  2,297,829 |  2.88 |
-| engine_band    | 2200-2300    |    834,108 |  1.05 |
-| engine_band    | 2300-2400    |    351,561 |  0.44 |
-| engine_band    | 2400-2500    |  2,624,531 |  3.29 |
-| engine_band    | 2500-2600    |    269,577 |  0.34 |
-| engine_band    | 2600-2700    |    231,037 |  0.29 |
-| engine_band    | 2700-2800    |    392,729 |  0.49 |
-| engine_band    | 2800-2900    |    146,056 |  0.18 |
-| engine_band    | 2900-3000    |  2,247,680 |  2.82 |
-| engine_band    | 3000-4000    |  1,051,505 |  1.32 |
-| engine_band    | 4000-5000    |    388,445 |  0.49 |
-| engine_band    | 5000+        |    265,110 |  0.33 |
-| engine_band    | (missing)    |      5,936 |  0.01 |
-| engine_band100 | 0 (electric) |  1,668,107 |  2.09 |
-| engine_band100 | 1-600        |     80,839 |  0.10 |
-| engine_band100 | 600-700      |     71,109 |  0.09 |
-| engine_band100 | 700-800      |     81,103 |  0.10 |
-| engine_band100 | 800-900      |    349,924 |  0.44 |
-| engine_band100 | 900-1000     |  5,703,861 |  7.15 |
-| engine_band100 | 1000-1100    |    325,506 |  0.41 |
-| engine_band100 | 1100-1200    |  4,494,707 |  5.64 |
-| engine_band100 | 1200-1300    |  5,781,153 |  7.25 |
-| engine_band100 | 1300-1400    |  8,378,991 | 10.51 |
-| engine_band100 | 1400-1500    |  5,577,895 |  6.99 |
-| engine_band100 | 1500-1600    | 11,679,037 | 14.65 |
-| engine_band100 | 1600-1700    |  1,198,674 |  1.50 |
-| engine_band100 | 1700-1800    |  5,371,474 |  6.74 |
-| engine_band100 | 1800-1900    |  2,439,898 |  3.06 |
-| engine_band100 | 1900-2000    | 15,172,107 | 19.03 |
-| engine_band100 | 2000-2100    |    261,433 |  0.33 |
-| engine_band100 | 2100-2200    |  2,297,829 |  2.88 |
-| engine_band100 | 2200-2300    |    834,108 |  1.05 |
-| engine_band100 | 2300-2400    |    351,561 |  0.44 |
-| engine_band100 | 2400-2500    |  2,624,531 |  3.29 |
-| engine_band100 | 2500-2600    |    269,577 |  0.34 |
-| engine_band100 | 2600-2700    |    231,037 |  0.29 |
-| engine_band100 | 2700-2800    |    392,729 |  0.49 |
-| engine_band100 | 2800-2900    |    146,056 |  0.18 |
-| engine_band100 | 2900-3000    |  2,247,680 |  2.82 |
-| engine_band100 | 3000-3100    |     63,820 |  0.08 |
-| engine_band100 | 3100-3200    |    178,741 |  0.22 |
-| engine_band100 | 3200-3300    |    166,466 |  0.21 |
-| engine_band100 | 3300-3400    |     42,333 |  0.05 |
-| engine_band100 | 3400-3500    |    141,420 |  0.18 |
-| engine_band100 | 3500-3600    |     84,163 |  0.11 |
-| engine_band100 | 3600-3700    |     66,086 |  0.08 |
-| engine_band100 | 3700-3800    |     32,580 |  0.04 |
-| engine_band100 | 3800-3900    |     32,124 |  0.04 |
-| engine_band100 | 3900-4000    |    243,772 |  0.31 |
-| engine_band100 | 4000+        |    653,555 |  0.82 |
-| engine_band100 | (missing)    |      5,936 |  0.01 |
+| engine_band    | 0 (electric) |  1,762,738 |  2.17 |
+| engine_band    | 1-1000       |  6,480,202 |  7.99 |
+| engine_band    | 1000-1100    |    324,932 |  0.40 |
+| engine_band    | 1100-1200    |  4,589,519 |  5.66 |
+| engine_band    | 1200-1300    |  5,779,270 |  7.13 |
+| engine_band    | 1300-1400    |  8,449,252 | 10.42 |
+| engine_band    | 1400-1500    |  5,901,492 |  7.28 |
+| engine_band    | 1500-1600    | 11,760,349 | 14.50 |
+| engine_band    | 1600-1700    |  1,196,732 |  1.48 |
+| engine_band    | 1700-1800    |  5,387,965 |  6.64 |
+| engine_band    | 1800-1900    |  2,444,672 |  3.01 |
+| engine_band    | 1900-2000    | 15,542,739 | 19.16 |
+| engine_band    | 2000-2100    |    260,000 |  0.32 |
+| engine_band    | 2100-2200    |  2,320,419 |  2.86 |
+| engine_band    | 2200-2300    |    824,617 |  1.02 |
+| engine_band    | 2300-2400    |    350,627 |  0.43 |
+| engine_band    | 2400-2500    |  2,652,805 |  3.27 |
+| engine_band    | 2500-2600    |    268,362 |  0.33 |
+| engine_band    | 2600-2700    |    230,528 |  0.28 |
+| engine_band    | 2700-2800    |    388,183 |  0.48 |
+| engine_band    | 2800-2900    |    150,496 |  0.19 |
+| engine_band    | 2900-3000    |  2,359,315 |  2.91 |
+| engine_band    | 3000-4000    |  1,051,972 |  1.30 |
+| engine_band    | 4000-5000    |    383,330 |  0.47 |
+| engine_band    | 5000+        |    245,408 |  0.30 |
+| engine_band    | (missing)    |      6,232 |  0.01 |
+| engine_band100 | 0 (electric) |  1,762,738 |  2.17 |
+| engine_band100 | 1-600        |     81,052 |  0.10 |
+| engine_band100 | 600-700      |     71,051 |  0.09 |
+| engine_band100 | 700-800      |     80,435 |  0.10 |
+| engine_band100 | 800-900      |    343,321 |  0.42 |
+| engine_band100 | 900-1000     |  5,904,343 |  7.28 |
+| engine_band100 | 1000-1100    |    324,932 |  0.40 |
+| engine_band100 | 1100-1200    |  4,589,519 |  5.66 |
+| engine_band100 | 1200-1300    |  5,779,270 |  7.13 |
+| engine_band100 | 1300-1400    |  8,449,252 | 10.42 |
+| engine_band100 | 1400-1500    |  5,901,492 |  7.28 |
+| engine_band100 | 1500-1600    | 11,760,349 | 14.50 |
+| engine_band100 | 1600-1700    |  1,196,732 |  1.48 |
+| engine_band100 | 1700-1800    |  5,387,965 |  6.64 |
+| engine_band100 | 1800-1900    |  2,444,672 |  3.01 |
+| engine_band100 | 1900-2000    | 15,542,739 | 19.16 |
+| engine_band100 | 2000-2100    |    260,000 |  0.32 |
+| engine_band100 | 2100-2200    |  2,320,419 |  2.86 |
+| engine_band100 | 2200-2300    |    824,617 |  1.02 |
+| engine_band100 | 2300-2400    |    350,627 |  0.43 |
+| engine_band100 | 2400-2500    |  2,652,805 |  3.27 |
+| engine_band100 | 2500-2600    |    268,362 |  0.33 |
+| engine_band100 | 2600-2700    |    230,528 |  0.28 |
+| engine_band100 | 2700-2800    |    388,183 |  0.48 |
+| engine_band100 | 2800-2900    |    150,496 |  0.19 |
+| engine_band100 | 2900-3000    |  2,359,315 |  2.91 |
+| engine_band100 | 3000-3100    |     63,132 |  0.08 |
+| engine_band100 | 3100-3200    |    178,625 |  0.22 |
+| engine_band100 | 3200-3300    |    166,049 |  0.20 |
+| engine_band100 | 3300-3400    |     42,027 |  0.05 |
+| engine_band100 | 3400-3500    |    141,051 |  0.17 |
+| engine_band100 | 3500-3600    |     82,085 |  0.10 |
+| engine_band100 | 3600-3700    |     65,677 |  0.08 |
+| engine_band100 | 3700-3800    |     32,253 |  0.04 |
+| engine_band100 | 3800-3900    |     31,814 |  0.04 |
+| engine_band100 | 3900-4000    |    249,259 |  0.31 |
+| engine_band100 | 4000+        |    628,738 |  0.78 |
+| engine_band100 | (missing)    |      6,232 |  0.01 |
 
 ### Engine size itself, by fuel
 
@@ -586,29 +640,29 @@ respectively.
 
 | engine_size   | fuel_simple             | n_vehicles |
 |:--------------|:------------------------|-----------:|
-| (missing)     | Petrol                  |      3,474 |
-| (missing)     | Diesel                  |      2,412 |
-| (missing)     | Other                   |         50 |
-| 0 (no engine) | Electric                |  1,668,075 |
+| (missing)     | Petrol                  |      3,646 |
+| (missing)     | Diesel                  |      2,530 |
+| (missing)     | Other                   |         56 |
+| 0 (no engine) | Electric                |  1,762,706 |
 | 0 (no engine) | Other                   |         32 |
-| 1-49          | Petrol                  |      1,490 |
-| 1-49          | Diesel                  |      1,079 |
+| 1-49          | Petrol                  |      1,418 |
+| 1-49          | Diesel                  |        988 |
 | 1-49          | Hybrid Electric         |         46 |
-| 1-49          | Other                   |         17 |
+| 1-49          | Other                   |         11 |
 | 1-49          | Plug-in Hybrid Electric |          9 |
-| 50-599        | Petrol                  |     74,232 |
-| 50-599        | Diesel                  |      3,797 |
-| 50-599        | Hybrid Electric         |        136 |
-| 50-599        | Other                   |         31 |
+| 50-599        | Petrol                  |     74,786 |
+| 50-599        | Diesel                  |      3,639 |
+| 50-599        | Hybrid Electric         |        133 |
+| 50-599        | Other                   |         20 |
 | 50-599        | Plug-in Hybrid Electric |          2 |
-| 600-7000      | Petrol                  | 46,431,682 |
-| 600-7000      | Diesel                  | 27,704,546 |
-| 600-7000      | Hybrid Electric         |  2,941,290 |
-| 600-7000      | Plug-in Hybrid Electric |    820,288 |
-| 600-7000      | Other                   |     73,722 |
-| over 7000     | Petrol                  |      8,057 |
-| over 7000     | Diesel                  |      7,092 |
-| over 7000     | Other                   |        318 |
+| 600-7000      | Petrol                  | 46,876,305 |
+| 600-7000      | Diesel                  | 27,981,413 |
+| 600-7000      | Hybrid Electric         |  3,366,666 |
+| 600-7000      | Plug-in Hybrid Electric |    962,972 |
+| 600-7000      | Other                   |     63,676 |
+| over 7000     | Petrol                  |      7,361 |
+| over 7000     | Diesel                  |      3,387 |
+| over 7000     | Other                   |        309 |
 | over 7000     | Hybrid Electric         |         42 |
 | over 7000     | Plug-in Hybrid Electric |          3 |
 
@@ -629,12 +683,12 @@ the rate should be read alongside the windowed version.
 
 | measure                   | n_vehicles |
 |:--------------------------|-----------:|
-| vehicles                  | 79,741,922 |
-| with_movement_rate        | 50,300,700 |
-| with_movement_rate_window | 56,220,179 |
-| with_movement_rate_2022   | 64,571,968 |
+| vehicles                  | 81,112,156 |
+| with_movement_rate        | 50,233,914 |
+| with_movement_rate_window | 56,205,537 |
+| with_movement_rate_2022   | 64,489,834 |
 | rate_above_1              |    239,393 |
-| rate_exactly_0            | 24,139,270 |
+| rate_exactly_0            | 24,072,484 |
 
 ## 8. The populations the tables are built from
 
@@ -643,7 +697,7 @@ use.
 
 ### Populations
 
-`pct_of_base` is the share of the 79,741,922 vehicles in the churn base.
+`pct_of_base` is the share of the 81,112,156 vehicles in the churn base.
 A table built on `real_pca_2017_age4plus` is answering a question about
 a 2017 cohort, and tells you nothing about vehicles that arrived later
 or were never observed in 2017.
@@ -655,14 +709,14 @@ or were never observed in 2017.
 
 | population | used_by | n_vehicles | pct_of_base |
 |:---|:---|---:|---:|
-| all_vehicles | the whole churn base | 79,741,922 | 100.00 |
-| real_pca_2017 | Sets 1a2, 5 (rows) | 41,356,526 | 51.86 |
-| real_pca_2017_age4plus | Sets 2, 3, 6 (the 2017 cohort) | 29,332,613 | 36.78 |
-| d17_with_movement_rate | Sets 2 and 6 movement rate columns | 29,332,613 | 36.78 |
-| real_pca_2018 | Set 7 | 42,049,969 | 52.73 |
-| ev_real_pca_2017 | Set 4 (2017 columns) | 44,582 | 0.06 |
-| real_pca_2022 | Set 4 (2022 columns) | 41,783,729 | 52.40 |
-| leavers_2018_2023 | Set 7B | 26,799,482 | 33.61 |
+| all_vehicles | the whole churn base | 81,112,156 | 100.00 |
+| real_pca_2017 | Sets 1a2, 5 (rows) | 41,341,397 | 50.97 |
+| real_pca_2017_age4plus | Sets 2, 3, 6 (the 2017 cohort) | 29,319,667 | 36.15 |
+| d17_with_movement_rate | Sets 2 and 6 movement rate columns | 29,319,667 | 36.15 |
+| real_pca_2018 | Set 7 | 42,034,312 | 51.82 |
+| ev_real_pca_2017 | Set 4 (2017 columns) | 44,579 | 0.05 |
+| real_pca_2022 | Set 4 (2022 columns) | 41,773,660 | 51.50 |
+| leavers_2018_2023 | Set 7B | 26,793,137 | 33.03 |
 
 A row keyed by a postcode area is only written for *real* areas in Sets
 2 to 7: `dead`, `unborn` and `unknown` are not areas and get no row.
@@ -674,13 +728,17 @@ answer.
 ## 9. The tables, one set at a time
 
 Each set below says: the question, the vehicles counted, the variables,
-the grouping, the arithmetic, and the files.
+the grouping, the arithmetic, and the files, and ends with graphs drawn
+from its CSVs in `outputs/tables/churn/` as written by this build. A map
+of a table that covers every year shows 2022, the latest year whose
+fleet is complete (vehicles first tested in the most recent years are
+not all back-filled yet); grey areas have no vehicles in the table.
 
 ### Set 0 - where the first use date came from
 
 - **Question.** How much of the age calculation rests on DVSA’s own
   date?
-- **Vehicles.** All 79,741,922.
+- **Vehicles.** All 81,112,156.
 - **Variables.** `firstUsedDate_DVSA`, `monthOfFirstRegistration_DVLA`,
   `birth_date`.
 - **Grouping.** None. Four counts, one per source, by the first rule
@@ -693,6 +751,12 @@ the grouping, the arithmetic, and the files.
   `birth_date`, differed.
 - **File.** `set0_first_use_date_provenance.csv`.
 
+![](churn_tables_report_figures/set0-1.png)
+
+**Figure 2.** The four counts of `set0_first_use_date_provenance.csv`:
+the source of each vehicle’s first use date, as a share of the churn
+base, labelled with the vehicles behind each share.
+
 ### Set 1 - who is still where they were
 
 - **Question.** Of the vehicles in area X in a reference year, how many
@@ -700,7 +764,7 @@ the grouping, the arithmetic, and the files.
   later year?
 - **Vehicles.** All of them, including those whose reference-year
   location is `dead`, `unborn` or `unknown` - except in `set1a2`, which
-  keeps only vehicles in a real area in 2017 (41,356,526 vehicles).
+  keeps only vehicles in a real area in 2017 (41,341,397 vehicles).
 - **Variables.** `pca_YYYY` for every year, `test_class`, and age for
   the `age4plus` variants.
 - **Grouping.** Row = reference-year postcode area (plus test class).
@@ -723,9 +787,53 @@ the grouping, the arithmetic, and the files.
   - `set1c_...from_year-N_age4plus.csv` for N = 1, 2 - as 1b, but only
     vehicles aged 4 or over in the later year, which removes the
     cars-with-no-MOT-yet effect.
-- **Traps.** `unknown` is inside `different` (section 5). The
-  `test_class` column is constant (4) because of the class filter; it is
-  kept so the file shape matches the earlier analysis.
+  - `set1d_pca_flows_year-1.csv` - the year-on-year flows behind 1b (lag
+    1), one row per year and area: `stock_prev` (in the area a year
+    earlier), `stayed`, `out_moved` (now in another area), `out_dead`,
+    `out_unobserved`, `in_moved` (from another area), `in_new` (unborn a
+    year earlier), `in_reappeared` (unknown or dead a year earlier) and
+    `stock_now`. Exactly,
+    `stock_prev = stayed + out_moved + out_dead + out_unobserved` and
+    `stock_now = stayed + in_moved + in_new + in_reappeared`;
+    nationally, `in_moved` equals `out_moved`. Added in the October 2026
+    audit.
+- **Traps.** `unknown` is inside `different`, and in 1b and 1c so are
+  new vehicles (section 5): 1b’s `different` is not a count of movers -
+  Set 1d’s `in_moved` is. The `test_class` column is constant (4)
+  because of the class filter; it is kept so the file shape matches the
+  earlier analysis.
+
+![](churn_tables_report_figures/set1a2-1.png)
+
+**Figure 3.** The 41,341,397 vehicles in a real postcode area in 2017,
+by their status against their 2017 area in every year: the `set1a2`
+counts summed over areas, as a share of the cohort. `different` includes
+`unknown`, vehicles not located that year.
+
+![](churn_tables_report_figures/set1b-1.png)
+
+**Figure 4.** For each year and lag, `different` / (`different` +
+`same`), summed over the rows of Sets 1b and 1c whose row (the later
+year’s area) is a real postcode area. `different` includes new vehicles
+and vehicles seen again after a gap, not only movers; Set 1d, in the
+next figure, separates them.
+
+![](churn_tables_report_figures/set1d-1.png)
+
+**Figure 5.** The year-on-year flows of `set1d_pca_flows_year-1.csv`
+summed over all areas, with the flows into areas above zero and those
+out of them below. Nationally the two `moved` flows are equal. The
+`dead` flow lags scrapping by about two years, because Bristol keeps a
+postcode area for two years after the last MOT, and new vehicles of the
+last two or three years are missing until their first MOT is in the
+data.
+
+![](churn_tables_report_figures/set1d-map-1.png)
+
+**Figure 6.** Net migration between postcode areas in 2022:
+(`in_moved` - `out_moved`) / `stock_prev` for each area in
+`set1d_pca_flows_year-1.csv`. New and scrapped vehicles are left out.
+The colour scale runs from -3% to +3%.
 
 ### Set 2 - counts by characteristic, and who stayed put
 
@@ -749,10 +857,26 @@ Set 2 has two unrelated halves.
   `set2_pca_engine_size_100cc_vehicle_counts_by_year.csv`,
   `set2_pca_engine_size_4band_vehicle_counts_by_year.csv`.
 
+![](churn_tables_report_figures/set2-stock-1.png)
+
+**Figure 7.** The share of each year’s located vehicles in each band of
+four of the stock tables above
+(`set2_pca_*_vehicle_counts_by_year.csv`), summed over all areas. Grey
+is a missing value (the `NA` column). Age and mileage bands run from
+dark (low) to light (high); the 27 mileage bands are not labelled.
+
+![](churn_tables_report_figures/set2-evmap-1.png)
+
+**Figure 8.** The share of each postcode area’s located vehicles in 2022
+that are Electric or Plug-in Hybrid Electric, from
+`set2_pca_fuel_type_vehicle_counts_by_year.csv`. Plug-in hybrids are a
+floor: only those the DfT fuel detail identifies are counted
+(methodology.md, Section 5.5).
+
 **Part 2: the share of a 2017 cohort that stayed put.**
 
 - **Vehicles.** The 2017 cohort: in a real area in 2017 **and** aged 4
-  or over (29,332,613 vehicles, 36.8% of the base). Every “static” and
+  or over (29,319,667 vehicles, 36.1% of the base). Every “static” and
   “movement rate” number in Sets 2, 3 and 6 uses this same cohort.
 - **Variables.** `static_2017`, and the 2017 values of age band, mileage
   band, fuel and engine band.
@@ -771,13 +895,14 @@ Set 2 has two unrelated halves.
   of proportions only).
 - **Trap.** `prop_static` is sensitive to observation, not just to
   moving: a vehicle not seen in 2016 cannot be static. Compare like with
-  like (similar ages), or use Set 6’s movement rates instead.
+  like (similar ages), or use Set 6’s movement rates instead. The share
+  static is drawn beside the movement rates under Set 6.
 
 ### Set 3 - what a 2017 area’s stock is made of
 
 - **Question.** For each area, where did its 2017 vehicles come from,
   and where did they go?
-- **Vehicles.** In a real area in 2017, **all ages** (41,356,526
+- **Vehicles.** In a real area in 2017, **all ages** (41,341,397
   vehicles) - note this is a wider population than Set 2 part 2.
 - **Variables.** Status in 2016 and in 2018 against 2017; mileage 2017;
   age 2017; `fuel3`; `engine_band4`; `movement_rate`.
@@ -802,14 +927,36 @@ Set 2 has two unrelated halves.
   counts 1-1399cc, with electric vehicles in `n_engine_zero` instead;
   `n_engine_unknown` counts vehicles with no engine size.
 
+![](churn_tables_report_figures/set3-map-1.png)
+
+**Figure 9.** The share of each postcode area’s 2017 vehicles, of all
+ages, that were in the same area in 2016, 2017 and 2018: `same16_same18`
+/ `total_vehicles_2017` in `set3_pca_components_2017.csv`.
+
+![](churn_tables_report_figures/set3-components-1.png)
+
+**Figure 10.** The nine columns of `set3_pca_components_2017.csv` that
+split the 2017 stock by 2016 status against 2018 status, summed over all
+areas, with each one’s share of the total. `arrived16` and the 2018
+`different` include vehicles not located in that year (`unknown`), not
+only movers.
+
+![](churn_tables_report_figures/set3-dist-1.png)
+
+**Figure 11.** The vehicles located in 2017 that have a churn v2
+movement rate (those aged 4+), by rate band
+(`set3_movement_rate_distribution_2017.csv`; `_by_pca` splits it by
+area). Rates above 1 are possible because moves before age 3 are counted
+but those years are not.
+
 ### Set 4 - electric vehicles by area
 
 - **Question.** Where are the EVs, where did they come from, and do they
   move differently?
 - **Vehicles.** Two groups, joined on the area: columns beginning
-  `ev_2017_` describe EVs in a real area in 2017 (44,582 vehicles);
+  `ev_2017_` describe EVs in a real area in 2017 (44,579 vehicles);
   columns beginning `ev_2022_`, `nonev_` or `all_` describe every
-  vehicle in a real area in 2022 (41,783,729).
+  vehicle in a real area in 2022 (41,773,660).
 - **Variables.** `is_ev` (fuel exactly Electric - Electric Diesel counts
   as a hybrid and is excluded), `pca_YYYY`, `birth_pca`,
   `ever_moved_pca`, `mileage_2022`, `movement_rate_2022`.
@@ -824,14 +971,29 @@ Set 2 has two unrelated halves.
 - **File.** `set4_electric_vehicles_by_pca.csv`.
 - **Traps.** `ever_moved_pca` looks at every year, so a move *after*
   2022 still keeps a vehicle out of `born_here_never_moved`. And
-  `birth_pca` is unknown for 50.5% of vehicles, all of them older ones,
+  `birth_pca` is unknown for 51.3% of vehicles, all of them older ones,
   so “born here” is only a fair measure for recent EVs.
+
+![](churn_tables_report_figures/set4-map-1.png)
+
+**Figure 12.** The battery electric share of each postcode area’s
+located vehicles in 2022: `ev_present_2022` / (`ev_present_2022` +
+`nonev_present_2022`) in `set4_electric_vehicles_by_pca.csv`. Plug-in
+hybrids are not EVs here.
+
+![](churn_tables_report_figures/set4-origin-1.png)
+
+**Figure 13.** The electric vehicles located in 2022, split by the three
+`ev_2022_` columns of `set4_electric_vehicles_by_pca.csv` that add up to
+`ev_present_2022`, summed over areas. A vehicle’s birth area is the
+first area it was located in after being unborn; it is unknown for
+vehicles older than the data.
 
 ### Set 5 - does moving area change mileage?
 
 - **Question.** Do vehicles that arrive in a new area drive more or less
   than those that stayed?
-- **Vehicles.** In a real area in 2017 (41,356,526), split into three
+- **Vehicles.** In a real area in 2017 (41,341,397), split into three
   groups by their 2016 state: `stayed_2016_2017` (real area in 2016,
   same as 2017), `arrived_from_other_pca_2016` (real area in 2016,
   different), and `unborn_2016`. Vehicles `unknown` or `dead` in 2016
@@ -842,17 +1004,28 @@ Set 2 has two unrelated halves.
   area.
 - **Arithmetic.** Average mileage in each year (over vehicles with a
   recorded mileage, so the three groups have different denominators),
-  plus counts in the `<5k`, `5-12k` and `>12k` bands for both years.
+  plus counts in the `<5k`, `5-12k` and `>12k` bands for both years, and
+  the two denominators, `n_with_mileage_2016` and `n_with_mileage_2017`.
+  A vehicle new in 2017 has almost never a 2016 mileage, so
+  `unborn_2016`’s 2016 average is over a handful of vehicles and should
+  not be quoted.
 - **File.** `set5_move_vs_mileage.csv`.
 - **Trap.** The arrivals group is younger on average than the stayers,
   and younger cars drive more. This table does not adjust for that.
+
+![](churn_tables_report_figures/set5-1.png)
+
+**Figure 14.** The mean annual mileage in 2016 and 2017 of the three
+groups of `set5_move_vs_mileage.csv`, each over the vehicles with a
+mileage that year (n). Not adjusted for age: arrivals are younger than
+stayers.
 
 ### Set 6 - movement rates by characteristic
 
 - **Question.** The same questions as Set 2 part 2, but measured by how
   often a vehicle moves rather than by whether it sat still across three
   years.
-- **Vehicles.** The same 2017 cohort (29,332,613 vehicles).
+- **Vehicles.** The same 2017 cohort (29,319,667 vehicles).
 - **Variables.** `movement_rate` and `movement_rate_window`, by age
   band, mileage band, fuel and engine band.
 - **Grouping.** One row per category, and seven pairwise
@@ -862,16 +1035,81 @@ Set 2 has two unrelated halves.
   over `n_with_rate`, **not** over `n_total`.
 - **Files.** `set6_moverate_by_*.csv` and `set6_cross_*_long.csv` /
   `set6_cross_*_wide_mean.csv`.
-- **Which rate to quote.** `mean_movement_rate` divides by years of life
-  after the first three, so patchy observation pushes it down. The
-  windowed version divides by years actually observed. Quote both, or
-  the windowed one.
+- **Which rate to quote.** The windowed one. `mean_movement_rate` (churn
+  v2) falls with age by construction (section 5), so a table by age
+  band, or by anything correlated with age (mileage, fuel, engine size),
+  shows that artefact rather than a difference in behaviour. The first
+  figure below draws the two side by side.
+
+![](churn_tables_report_figures/set26-1.png)
+
+**Figure 15.** For the 29,319,667 vehicles in a real area in 2017 and
+aged 4+, by category of six characteristics: the share static 2016-2018
+(`prop_static` in `set2_static_by_*.csv`), with 95% Wilson intervals
+that are mostly narrower than the points, and the windowed and churn v2
+mean movement rates (`set6_moverate_by_*.csv`). The churn v2 rate falls
+with age by construction (section 5); the windowed rate does not.
+
+![](churn_tables_report_figures/cross-1.png)
+
+**Figure 16.** The same 2017 cohort cross-tabulated age band by mileage
+band (3 bands): the share static in each cell (left,
+`set2_cross_age_mileage3_long.csv`) and its windowed movement rate
+(right, `set6_cross_age_mileage3_long.csv`). \* marks cells with fewer
+than 1,000 vehicles.
+
+![](churn_tables_report_figures/cross-2.png)
+
+**Figure 17.** The same 2017 cohort cross-tabulated age band by fuel:
+the share static in each cell (left, `set2_cross_age_fuel_long.csv`) and
+its windowed movement rate (right, `set6_cross_age_fuel_long.csv`). \*
+marks cells with fewer than 1,000 vehicles.
+
+![](churn_tables_report_figures/cross-3.png)
+
+**Figure 18.** The same 2017 cohort cross-tabulated age band by engine
+size (4 bands): the share static in each cell (left,
+`set2_cross_age_engine4_long.csv`) and its windowed movement rate
+(right, `set6_cross_age_engine4_long.csv`). \* marks cells with fewer
+than 1,000 vehicles.
+
+![](churn_tables_report_figures/cross-4.png)
+
+**Figure 19.** The same 2017 cohort cross-tabulated mileage band (3
+bands) by fuel: the share static in each cell (left,
+`set2_cross_mileage3_fuel_long.csv`) and its windowed movement rate
+(right, `set6_cross_mileage3_fuel_long.csv`). \* marks cells with fewer
+than 1,000 vehicles.
+
+![](churn_tables_report_figures/cross-5.png)
+
+**Figure 20.** The same 2017 cohort cross-tabulated mileage band (3
+bands) by engine size (4 bands): the share static in each cell (left,
+`set2_cross_mileage3_engine4_long.csv`) and its windowed movement rate
+(right, `set6_cross_mileage3_engine4_long.csv`). \* marks cells with
+fewer than 1,000 vehicles.
+
+![](churn_tables_report_figures/cross-6.png)
+
+**Figure 21.** The same 2017 cohort cross-tabulated fuel by engine size
+(4 bands): the share static in each cell (left,
+`set2_cross_fuel_engine4_long.csv`) and its windowed movement rate
+(right, `set6_cross_fuel_engine4_long.csv`). \* marks cells with fewer
+than 1,000 vehicles.
+
+![](churn_tables_report_figures/cross-7.png)
+
+**Figure 22.** The same 2017 cohort cross-tabulated fuel by engine size
+(100cc bands): the share static in each cell (left,
+`set2_cross_fuel_engine100_long.csv`) and its windowed movement rate
+(right, `set6_cross_fuel_engine100_long.csv`). \* marks cells with fewer
+than 1,000 vehicles.
 
 ### Set 7 - Clean Air Zone categories and leavers
 
 - **Question.** Where are the vehicles a Clean Air Zone would charge,
   and do they leave?
-- **Vehicles.** In a real area in 2018 (42,049,969) for the check and
+- **Vehicles.** In a real area in 2018 (42,034,312) for the check and
   the leavers; for the yearly counts, whoever was in a real area in each
   year from 2018 to 2023.
 - **Variables.** `caz_cat`, assigned from fuel and first use year by the
@@ -883,18 +1121,28 @@ Set 2 has two unrelated halves.
   - `set7_check_caz_category_vs_eurostatus.csv` - a check, not a result:
     how the date-based category lines up with the Euro standard, by
     category and fuel. It is about the proxy’s credibility, not a count
-    of the fleet - and it is now a weak check, because most Euro
-    statuses are themselves worked out from the date the vehicle was
-    made, so the two sides are not independent. To compare against
-    recorded values only, set `churn.euro_column` to `euroStatus_DVLA`
-    and rerun.
+    of the fleet - and it is a weak check, because many Euro statuses
+    are themselves worked out from the date the vehicle was made, so the
+    two sides are not independent.
+  - `set7_check_caz_proxy_agreement_by_source.csv` - the same check as
+    an agreement rate, split by `euro_status_src`. Only `dvla` (recorded
+    on the vehicle) and `variant` / `model_year_fuel` (the recorded
+    value of similar vehicles) are an independent test of the proxy;
+    `euro_schedule` rows agree almost by construction. Only about 0.6%
+    of the vehicles have a status recorded on their own record. **The
+    independent part shows the petrol proxy is poor:** of the
+    `petrol_pre2006` cars with a recorded or borrowed standard, only
+    8.4% are below Euro 4, because many petrol cars of 2001-2005 already
+    met it; for `diesel_pre2015` the figure is 76.5%. The
+    `petrol_pre2006` counts in Set 7A and 7B therefore overstate the
+    petrol vehicles a Clean Air Zone would charge.
   - `set7a_pca_caz_categories.csv` and its long form
     `set7a_pca_caz_category_by_year_long.csv` - counts and average
     mileage by area, category and year, 2018 to 2023. Average mileage is
     rounded to one decimal place and averaged only over vehicles with a
     recorded mileage.
   - `set7b_leavers_2018_to_2023_by_*.csv` - vehicles in a real area in
-    2018 that are **not in that same area** in 2023 (26,799,482
+    2018 that are **not in that same area** in 2023 (26,793,137
     vehicles, 63.7% of the 2018 stock), split six ways: by 2018 mileage
     band, engine band, fuel, age band, CAZ category, and by outcome. In
     the outcome file the `same` and `unborn` columns are present but
@@ -905,6 +1153,38 @@ Set 2 has two unrelated halves.
   simply not observed in 2023. The by-outcome file is the one that
   separates those: `dead` is scrapped, `different` is elsewhere or
   unobserved.
+
+![](churn_tables_report_figures/set7a-1.png)
+
+**Figure 23.** The vehicles located each year by Clean Air Zone proxy
+category, summed over areas from
+`set7a_pca_caz_category_by_year_long.csv`. The category comes from fuel
+and first use year, not the recorded Euro standard, and `petrol_pre2006`
+overstates the petrol vehicles a zone would charge.
+
+![](churn_tables_report_figures/set7a-map-1.png)
+
+**Figure 24.** The share of each postcode area’s located vehicles in
+2023 in a chargeable proxy category, petrol first used before 2006 or
+diesel before 2015 (`set7a_pca_caz_category_by_year_long.csv`).
+
+![](churn_tables_report_figures/set7b-1.png)
+
+**Figure 25.** The 26,793,137 vehicles in a real area in 2018 but not in
+that area in 2023, split six ways by the
+`set7b_leavers_2018_to_2023_by_*.csv` tables summed over areas: each bar
+is one table and adds up to 100%, and segments over 6% are labelled.
+`different` includes vehicles not located in 2023.
+
+![](churn_tables_report_figures/set7-check-1.png)
+
+**Figure 26.** From `set7_check_caz_proxy_agreement_by_source.csv`: for
+each proxy category and fuel, how often the vehicle’s Euro standard
+agrees with the proxy, by where the standard came from, sized by the
+vehicles with a standard. Only `dvla` (recorded) and `variant` /
+`model_year_fuel` (borrowed from similar vehicles) test the proxy;
+`euro_schedule` is derived from the date, so it agrees almost by
+construction.
 
 ## 10. Every file written
 
@@ -922,77 +1202,79 @@ index written alongside the tables.
 
 | file | question_set | n_rows | n_cols | size_kb |
 |:---|:---|---:|---:|---:|
-| README_outputs.csv | \- | 18 | 3 | 2.0 |
+| README_outputs.csv | \- | 20 | 3 | 2.4 |
 | set0_first_use_date_provenance.csv | SET0 | 4 | 4 | 0.2 |
-| set1a_pca_vehicle_counts_change_from_2017.csv | SET1A | 123 | 82 | 52.1 |
-| set1a2_pca_vehicle_counts_change_from_2017_cohort_only.csv | SET1A2 | 120 | 82 | 50.9 |
-| set1b_pca_vehicle_counts_change_from_year-1.csv | SET1B | 123 | 78 | 40.7 |
-| set1b_pca_vehicle_counts_change_from_year-2.csv | SET1B | 123 | 74 | 39.4 |
-| set1b_pca_vehicle_counts_change_from_year-3.csv | SET1B | 123 | 70 | 37.4 |
-| set1c_pca_vehicle_counts_change_from_year-1_age4plus.csv | SET1C | 123 | 78 | 40.1 |
-| set1c_pca_vehicle_counts_change_from_year-2_age4plus.csv | SET1C | 123 | 74 | 38.3 |
-| set2_cross_age_engine4_long.csv | SET2 | 85 | 5 | 3.1 |
+| set1a_pca_vehicle_counts_change_from_2017.csv | SET1A | 123 | 82 | 52.0 |
+| set1a2_pca_vehicle_counts_change_from_2017_cohort_only.csv | SET1A2 | 120 | 82 | 50.8 |
+| set1b_pca_vehicle_counts_change_from_year-1.csv | SET1B | 123 | 78 | 40.6 |
+| set1b_pca_vehicle_counts_change_from_year-2.csv | SET1B | 123 | 74 | 39.3 |
+| set1b_pca_vehicle_counts_change_from_year-3.csv | SET1B | 123 | 70 | 37.3 |
+| set1c_pca_vehicle_counts_change_from_year-1_age4plus.csv | SET1C | 123 | 78 | 39.9 |
+| set1c_pca_vehicle_counts_change_from_year-2_age4plus.csv | SET1C | 123 | 74 | 38.2 |
+| set1d_pca_flows_year-1.csv | SET1D | 2,280 | 11 | 136.9 |
+| set2_cross_age_engine4_long.csv | SET2 | 85 | 5 | 3.0 |
 | set2_cross_age_engine4_wide_prop.csv | SET2 | 17 | 6 | 0.8 |
-| set2_cross_age_fuel_long.csv | SET2 | 93 | 5 | 3.3 |
+| set2_cross_age_fuel_long.csv | SET2 | 93 | 5 | 3.2 |
 | set2_cross_age_fuel_wide_prop.csv | SET2 | 17 | 7 | 0.9 |
 | set2_cross_age_mileage3_long.csv | SET2 | 51 | 5 | 1.7 |
 | set2_cross_age_mileage3_wide_prop.csv | SET2 | 17 | 4 | 0.5 |
-| set2_cross_fuel_engine100_long.csv | SET2 | 160 | 5 | 6.6 |
+| set2_cross_fuel_engine100_long.csv | SET2 | 160 | 5 | 6.4 |
 | set2_cross_fuel_engine100_wide_prop.csv | SET2 | 6 | 38 | 1.7 |
 | set2_cross_fuel_engine4_long.csv | SET2 | 22 | 5 | 1.0 |
 | set2_cross_fuel_engine4_wide_prop.csv | SET2 | 6 | 6 | 0.3 |
-| set2_cross_mileage3_engine4_long.csv | SET2 | 15 | 5 | 0.7 |
+| set2_cross_mileage3_engine4_long.csv | SET2 | 15 | 5 | 0.6 |
 | set2_cross_mileage3_engine4_wide_prop.csv | SET2 | 3 | 6 | 0.2 |
 | set2_cross_mileage3_fuel_long.csv | SET2 | 18 | 5 | 0.8 |
 | set2_cross_mileage3_fuel_wide_prop.csv | SET2 | 3 | 7 | 0.3 |
-| set2_pca_ageband_vehicle_counts_by_year.csv | SET2 | 2,400 | 24 | 310.5 |
-| set2_pca_engine_size_100cc_vehicle_counts_by_year.csv | SET2 | 2,400 | 40 | 438.4 |
-| set2_pca_engine_size_4band_vehicle_counts_by_year.csv | SET2 | 2,400 | 8 | 98.9 |
-| set2_pca_engine_size_vehicle_counts_by_year.csv | SET2 | 2,400 | 29 | 335.4 |
-| set2_pca_fuel_type_vehicle_counts_by_year.csv | SET2 | 2,400 | 8 | 93.7 |
-| set2_pca_mileageband_vehicle_counts_by_year.csv | SET2 | 2,400 | 30 | 360.7 |
+| set2_pca_ageband_vehicle_counts_by_year.csv | SET2 | 2,400 | 24 | 308.2 |
+| set2_pca_engine_size_100cc_vehicle_counts_by_year.csv | SET2 | 2,400 | 40 | 436.1 |
+| set2_pca_engine_size_4band_vehicle_counts_by_year.csv | SET2 | 2,400 | 8 | 96.6 |
+| set2_pca_engine_size_vehicle_counts_by_year.csv | SET2 | 2,400 | 29 | 333.1 |
+| set2_pca_fuel_type_vehicle_counts_by_year.csv | SET2 | 2,400 | 8 | 91.4 |
+| set2_pca_mileageband_vehicle_counts_by_year.csv | SET2 | 2,400 | 30 | 358.4 |
 | set2_static_by_ageband.csv | SET2 | 17 | 4 | 0.5 |
-| set2_static_by_engine_100cc.csv | SET2 | 37 | 4 | 1.3 |
+| set2_static_by_engine_100cc.csv | SET2 | 37 | 4 | 1.2 |
 | set2_static_by_engine_3band.csv | SET2 | 4 | 4 | 0.2 |
 | set2_static_by_engine_4band.csv | SET2 | 5 | 4 | 0.2 |
-| set2_static_by_fuel.csv | SET2 | 6 | 4 | 0.3 |
+| set2_static_by_fuel.csv | SET2 | 6 | 4 | 0.2 |
 | set2_static_by_mileageband_3.csv | SET2 | 3 | 4 | 0.1 |
-| set2_static_by_mileageband_detail.csv | SET2 | 26 | 4 | 1.0 |
+| set2_static_by_mileageband_detail.csv | SET2 | 26 | 4 | 0.9 |
 | set3_movement_rate_distribution_2017.csv | SET3 | 9 | 2 | 0.2 |
-| set3_movement_rate_distribution_2017_by_pca.csv | SET3 | 120 | 10 | 6.8 |
-| set3_pca_components_2017.csv | SET3 | 120 | 40 | 27.7 |
-| set4_electric_vehicles_by_pca.csv | SET4 | 120 | 20 | 12.5 |
-| set5_move_vs_mileage.csv | SET5 | 3 | 10 | 0.4 |
+| set3_movement_rate_distribution_2017_by_pca.csv | SET3 | 120 | 10 | 6.7 |
+| set3_pca_components_2017.csv | SET3 | 120 | 40 | 27.5 |
+| set4_electric_vehicles_by_pca.csv | SET4 | 120 | 20 | 12.4 |
+| set5_move_vs_mileage.csv | SET5 | 3 | 12 | 0.5 |
 | set6_cross_age_engine4_long.csv | SET6 | 85 | 6 | 3.8 |
 | set6_cross_age_engine4_wide_mean.csv | SET6 | 17 | 6 | 0.8 |
-| set6_cross_age_fuel_long.csv | SET6 | 93 | 6 | 4.1 |
+| set6_cross_age_fuel_long.csv | SET6 | 93 | 6 | 4.0 |
 | set6_cross_age_fuel_wide_mean.csv | SET6 | 17 | 7 | 0.9 |
-| set6_cross_age_mileage3_long.csv | SET6 | 51 | 6 | 2.2 |
+| set6_cross_age_mileage3_long.csv | SET6 | 51 | 6 | 2.1 |
 | set6_cross_age_mileage3_wide_mean.csv | SET6 | 17 | 4 | 0.5 |
-| set6_cross_fuel_engine100_long.csv | SET6 | 160 | 6 | 7.9 |
+| set6_cross_fuel_engine100_long.csv | SET6 | 160 | 6 | 7.7 |
 | set6_cross_fuel_engine100_wide_mean.csv | SET6 | 6 | 38 | 1.8 |
 | set6_cross_fuel_engine4_long.csv | SET6 | 22 | 6 | 1.2 |
 | set6_cross_fuel_engine4_wide_mean.csv | SET6 | 6 | 6 | 0.3 |
 | set6_cross_mileage3_engine4_long.csv | SET6 | 15 | 6 | 0.8 |
 | set6_cross_mileage3_engine4_wide_mean.csv | SET6 | 3 | 6 | 0.2 |
-| set6_cross_mileage3_fuel_long.csv | SET6 | 18 | 6 | 1.0 |
+| set6_cross_mileage3_fuel_long.csv | SET6 | 18 | 6 | 0.9 |
 | set6_cross_mileage3_fuel_wide_mean.csv | SET6 | 3 | 7 | 0.3 |
 | set6_moverate_by_ageband.csv | SET6 | 17 | 5 | 0.7 |
 | set6_moverate_by_engine_100cc.csv | SET6 | 37 | 5 | 1.6 |
-| set6_moverate_by_engine_3band.csv | SET6 | 4 | 5 | 0.3 |
+| set6_moverate_by_engine_3band.csv | SET6 | 4 | 5 | 0.2 |
 | set6_moverate_by_engine_4band.csv | SET6 | 5 | 5 | 0.3 |
 | set6_moverate_by_fuel.csv | SET6 | 6 | 5 | 0.3 |
 | set6_moverate_by_mileageband_3.csv | SET6 | 3 | 5 | 0.2 |
 | set6_moverate_by_mileageband_detail.csv | SET6 | 26 | 5 | 1.2 |
-| set7_check_caz_category_vs_eurostatus.csv | SET7 | 411 | 4 | 15.2 |
-| set7a_pca_caz_categories.csv | SET7A | 120 | 46 | 36.8 |
-| set7a_pca_caz_category_by_year_long.csv | SET7A | 2,160 | 5 | 89.1 |
-| set7b_leavers_2018_to_2023_by_ageband.csv | SET7B | 120 | 8 | 5.5 |
-| set7b_leavers_2018_to_2023_by_caz_category.csv | SET7B | 120 | 4 | 2.9 |
-| set7b_leavers_2018_to_2023_by_engine_4band.csv | SET7B | 120 | 7 | 4.3 |
-| set7b_leavers_2018_to_2023_by_fuel.csv | SET7B | 120 | 7 | 4.2 |
-| set7b_leavers_2018_to_2023_by_mileageband.csv | SET7B | 120 | 5 | 3.6 |
-| set7b_leavers_2018_to_2023_by_outcome.csv | SET7B | 120 | 5 | 2.7 |
+| set7_check_caz_category_vs_eurostatus.csv | SET7 | 403 | 4 | 14.3 |
+| set7_check_caz_proxy_agreement_by_source.csv | SET7 | 20 | 8 | 1.3 |
+| set7a_pca_caz_categories.csv | SET7A | 120 | 46 | 36.7 |
+| set7a_pca_caz_category_by_year_long.csv | SET7A | 2,160 | 5 | 87.0 |
+| set7b_leavers_2018_to_2023_by_ageband.csv | SET7B | 120 | 8 | 5.4 |
+| set7b_leavers_2018_to_2023_by_caz_category.csv | SET7B | 120 | 4 | 2.8 |
+| set7b_leavers_2018_to_2023_by_engine_4band.csv | SET7B | 120 | 7 | 4.2 |
+| set7b_leavers_2018_to_2023_by_fuel.csv | SET7B | 120 | 7 | 4.1 |
+| set7b_leavers_2018_to_2023_by_mileageband.csv | SET7B | 120 | 5 | 3.4 |
+| set7b_leavers_2018_to_2023_by_outcome.csv | SET7B | 120 | 5 | 2.6 |
 
 ### The index written with the tables (README_outputs.csv)
 
@@ -1003,6 +1285,7 @@ index written alongside the tables.
 | set1a2_pca_vehicle_counts_change_from_2017_cohort_only.csv | Set 1a | Same, restricted to vehicles present in a real PCA in 2017 |
 | set1b_pca_vehicle_counts_change_from_year-N.csv | Set 1b | Status vs the PCA 1, 2 or 3 years earlier |
 | set1c_pca_vehicle_counts_change_from_year-N_age4plus.csv | Set 1c | As 1b, vehicles aged 4+ only |
+| set1d_pca_flows_year-1.csv | Set 1d | Year-on-year flows into and out of each PCA: moved, new, reappeared, scrapped, unobserved; the flows reconcile both years’ stock exactly |
 | set2_pca\_\*\_vehicle_counts_by_year.csv | Set 2 | Counts by PCA and year for age, mileage, fuel and 3 engine size breakdowns |
 | set2_static_by\_\*.csv | Set 2 | Proportion of 2017 vehicles aged 4+ that did not move PCA 2016-2018 |
 | set2_cross\_\*\_long/wide_prop.csv | Set 2 | The same, cross-tabulated pairwise |
@@ -1014,7 +1297,8 @@ index written alongside the tables.
 | set6_cross\_\*\_long/wide_mean.csv | Set 6 | The same, cross-tabulated pairwise |
 | set7a_pca_caz_categories.csv | Set 7A | Pre-2006 petrol / pre-2015 diesel / other by PCA and year, with average mileage |
 | set7a_pca_caz_category_by_year_long.csv | Set 7A | Long form of the same |
-| set7_check_caz_category_vs_eurostatus.csv | Set 7A | Check of the registration-date proxy against recorded euro status |
+| set7_check_caz_category_vs_eurostatus.csv | Set 7A | Check of the registration-date proxy against the euro status (recorded, backfilled or assumed from the date) |
+| set7_check_caz_proxy_agreement_by_source.csv | Set 7A | Agreement of the proxy with the Euro standard, split by where the standard came from; only dvla / variant / model_year_fuel are an independent check |
 | set7b_leavers_2018_to_2023_by\_\*.csv | Set 7B | Vehicles present in 2018 but not in the same PCA in 2023, by 2018 characteristics |
 
 ## 11. How to rebuild this
@@ -1042,30 +1326,42 @@ generated `.md` file, which is overwritten on every run.
 2.  **Moves are only counted between two observed years.** A move across
     a gap in observation is invisible, so move counts and movement rates
     are floors, not estimates.
-3.  **Observation is patchy and age-dependent.** A car under three has
-    no MOT, so the newest vehicles are `unknown` by construction and the
-    last two years of data are incomplete. Any comparison across ages is
-    partly a comparison of how well each age is observed.
-4.  **Sets 2 part 2, 3 and 6 are about a 2017 cohort** (36.8% to 51.9%
+3.  **A location is not always an observation.** A car under three has
+    no MOT, and Bristol copies its first test’s postcode area back to
+    its first registration; after the last MOT, the area is carried on
+    for two years before the vehicle becomes `dead`. So a young vehicle
+    cannot be seen to move before its first test, and a scrapped vehicle
+    stays in its area’s stock for about two years. Against DfT’s
+    licensed + SORN counts, the cars aged 3+ located in a postcode area
+    are 6-19% too many, depending on the year (data quality report,
+    cross-checks). The last two or three years of data are also
+    incomplete, because recent first tests are not yet back-filled.
+4.  **`movement_rate` (churn v2) falls with age by construction.** Use
+    the windowed rate for any comparison across ages or characteristics
+    (section 5).
+5.  **Set 1b’s `different` includes new vehicles**, about 30% of it in a
+    typical year. Use Set 1d’s `in_moved` and `out_moved` for moves.
+6.  **Sets 2 part 2, 3 and 6 are about a 2017 cohort** (36.1% to 51.0%
     of all vehicles, depending on the table). They say nothing about
     vehicles that arrived afterwards.
-5.  **Unknown characteristics are handled two ways.** Wide tables put
+7.  **Unknown characteristics are handled two ways.** Wide tables put
     them in an `NA` column; per-category tables drop them. Totals
     between the two differ by exactly that amount.
-6.  **Averages skip missing values rather than treating them as zero.**
+8.  **Averages skip missing values rather than treating them as zero.**
     An average mileage is over vehicles with a recorded mileage; divide
     the count columns yourself if you want a per-vehicle figure over
     everybody.
-7.  **Northern Ireland is one area, `NI`.** It is included unless
-    `exclude_ni_rows` is `TRUE` (currently FALSE). It has no `BT` rows.
-8.  **The row label in Set 1b and 1c is the later year’s area**, not the
+9.  **Northern Ireland is one area, `BT`.** It is included unless
+    `exclude_ni_rows` is `TRUE` (currently FALSE). Tables built before
+    October 2026 called it `NI`.
+10. **The row label in Set 1b and 1c is the later year’s area**, not the
     earlier one, so the same vehicle can appear under different areas in
     different columns of one row-set.
-9.  **Most Euro statuses are assumed, not recorded.** A missing Euro
+11. **Most Euro statuses are assumed, not recorded.** A missing Euro
     status is filled from the date the vehicle was made, so the Set 7
     Euro check compares a date-based category with a largely date-based
     standard.
-10. **The fuel groups now separate plug-in hybrids.**
+12. **The fuel groups now separate plug-in hybrids.**
     `Plug-in Hybrid Electric` is a sixth fuel group, taken from the DfT
     licensing statistics for the vehicle’s model (methodology.md,
     Section 5.5). It is a floor: a plug-in hybrid of a model DfT sells

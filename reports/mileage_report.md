@@ -17,12 +17,12 @@ possible problems in the data.
 
 ## Summary
 
-- **Vehicles observed in 2022:** 45,018,795, of which 38,155,912 (84.8%)
+- **Vehicles observed in 2022:** 45,018,795, of which 38,124,631 (84.7%)
   are cars. 39,474,199 (87.7%) have an annual mileage for the year.
-- **Average annual mileage of cars:** 6,619 miles in 2022, against 7,892
+- **Average annual mileage of cars:** 6,623 miles in 2022, against 7,897
   in
   2006. 
-- **Average age of cars:** 9.4 years in 2022, against 6.6 in
+- **Average age of cars:** 9.0 years in 2022, against 6.3 in
   2006. 
 - **Years shown:** charts over time cover 2005 to 2025. Maps and other
   single-year figures show 2022 at the latest: vehicles under three have
@@ -35,20 +35,24 @@ possible problems in the data.
 **Definitions used throughout:**
 
 - `observed`: a vehicle is counted in a year when `pca_YYYY` is a
-  postcode area (not `unborn`, `dead` or `unknown`): it was seen,
-  usually at an MOT test, that year. Vehicles under three (four in
-  Northern Ireland) have no MOT, so are largely missing.
+  postcode area (not `unborn`, `dead` or `unknown`). That is not always
+  a test that year: Bristol copies a vehicle’s first-test area back to
+  its first registration, and carries its last-test area forward for two
+  years after its last MOT (methodology.md, Section 3.3). So vehicles
+  under three appear once their first test is in the data, and scrapped
+  vehicles stay counted for about two years.
 - `annual mileage`: Bristol’s `mileage_YYYY`. Averages use only mileage
   Bristol flagged as plausible (`legit_mileage_YYYY` is TRUE). Bristol
   has already removed the mileage it flagged as implausible, and a
   mileage with no flag was not assessed; section 6 counts both.
-- `age`: the year minus the year of first use.
+- `age`: whole years at 1 June of the year since first use, as in the
+  churn tables.
 - `body type`: the DfT body type from make and model matching
   (methodology.md, Section 4.6). `Other` groups buses and coaches, heavy
   goods vehicles, other vehicles and vehicles with no body type.
 - `fuel`: the harmonised fuel grouped into Petrol, Diesel, Hybrid
   Electric, Electric and Other (`fuel_simple`).
-- `postcode area`: as recorded by Bristol. Northern Ireland is `NI`;
+- `postcode area`: as recorded by Bristol. Northern Ireland is `BT`;
   `XX` has no boundary. Maps show Greater London enlarged in a box.
 
 ## 1. Where the data comes from
@@ -63,7 +67,7 @@ back to the original data.
 |:---|:---|:---|
 | Input | `annualised_with_ves_4.parquet` | The vehicle-level annualised MOT table supplied to the project, one row per vehicle, with DVLA (VES) columns attached |
 | Stage 1 | `outputs/intermediate/01_core.parquet` | The input narrowed to the columns used, typed, with vehicles outside the scope removed |
-| Stages 2-3 | `outputs/vehicles_enhanced.parquet` | Cleaned make/model, harmonised fuel, engine size, body type and Euro status (93,352,241 vehicles) |
+| Stages 2-3 | `outputs/vehicles_enhanced_maximal.parquet` | Cleaned make/model, harmonised fuel, engine size, body type and Euro status (93,352,241 vehicles) |
 | Mileage | `outputs/tables/mileage/*.csv` | The 10 published tables that sections 2 to 5 describe |
 | Mileage | `outputs/quality/mileage_profile/*.csv` | The measurements in this document |
 
@@ -113,9 +117,9 @@ bounds on what any single year holds.
 | vehicles_with_plausible_mileage_in_any_year  | 77,335,802 |           82.84 |
 | vehicles_with_mileage_removed_in_any_year    |  5,113,947 |            5.48 |
 | vehicles_in_a_real_postcode_area_in_any_year | 75,437,173 |           80.81 |
-| vehicles_with_no_body_type                   |  2,878,353 |            3.08 |
+| vehicles_with_no_body_type                   |  2,922,885 |            3.13 |
 | vehicles_with_no_first_use_date              |        123 |            0.00 |
-| vehicles_with_no_test_class                  | 19,314,753 |           20.69 |
+| vehicles_with_no_test_class                  |  5,510,998 |            5.90 |
 
 ### 1.3 The settings these tables were built with
 
@@ -130,8 +134,8 @@ with different fuel labels (section 5.1).
 | years.first            | 2005                                               |
 | years.last             | 2025                                               |
 | scope.start_date       | 2005-01-01                                         |
-| test_class_column      | test_class_ANON (as supplied)                      |
-| fuel_column            | fuel_DVSA (as supplied)                            |
+| test_class_column      | test_class (harmonised)                            |
+| fuel_column            | fuel_simple (harmonised)                           |
 | body_type_column       | body_type (harmonised)                             |
 | fuel_group_column      | fuel_simple (harmonised)                           |
 | mileage_scaling        | none: the Bristol columns are already annual miles |
@@ -147,13 +151,13 @@ with different fuel labels (section 5.1).
 | mileage_by_pca_year_long.csv | 4,098 | 6 | year x postcode area x plausibility flag | Vehicles, total and mean annual mileage for every pca_YYYY value |
 | mileage_by_pca_wide.csv | 244 | 23 | postcode area x plausibility flag, one column per year | The total mileage of the long table, pivoted |
 | mileage_by_legit_flag_year.csv | 41 | 4 | year x plausibility flag | Vehicles and total mileage: the national totals behind the flag |
-| mileage_by_test_class_year_long.csv | 147 | 5 | year x MOT test class | Vehicles and total mileage by the test class as supplied, with its label |
+| mileage_by_test_class_year_long.csv | 147 | 5 | year x MOT test class | Vehicles and total mileage by the harmonised test class (as in the churn tables), with its label |
 | mileage_by_test_class_wide.csv | 7 | 23 | MOT test class, one column per year | The total mileage of the long table, pivoted |
-| mileage_by_fuel_year_long.csv | 294 | 4 | year x DVSA fuel | Vehicles and total mileage by the fuel as supplied, unharmonised |
-| mileage_by_fuel_wide.csv | 14 | 22 | DVSA fuel, one column per year | The total mileage of the long table, pivoted |
-| mileage_by_pca_year_body_fuel.csv | 53,123 | 15 | year x pca_YYYY x body type x fuel group | The area table behind the report: vehicles, mileage coverage, mileage, the negative and over-50,000 tails, and age |
-| mileage_by_age_year_body_fuel.csv | 19,556 | 8 | year x body type x fuel group x age | Observed vehicles and their plausible mileage by age, for vehicles in a real postcode area |
-| mileage_distribution_by_year_body.csv | 11,176 | 5 | year x body type x plausibility flag x mileage band | Recorded mileage in bands of 1,000 to 50,000, then wider |
+| mileage_by_fuel_year_long.csv | 126 | 4 | year x fuel group | Vehicles and total mileage by the harmonised fuel group (fuel_simple, as in the churn tables) |
+| mileage_by_fuel_wide.csv | 6 | 22 | fuel group, one column per year | The total mileage of the long table, pivoted |
+| mileage_by_pca_year_body_fuel.csv | 52,861 | 15 | year x pca_YYYY x body type x fuel group | The area table behind the report: vehicles, mileage coverage, mileage, the negative and over-50,000 tails, and age |
+| mileage_by_age_year_body_fuel.csv | 19,635 | 8 | year x body type x fuel group x age | Observed vehicles and their plausible mileage by age, for vehicles in a real postcode area |
+| mileage_distribution_by_year_body.csv | 11,190 | 5 | year x body type x plausibility flag x mileage band | Recorded mileage in bands of 1,000 to 50,000, then wider |
 | README_outputs.csv | NA | NA | one row per file | The index written with the tables |
 
 Long and wide forms hold the same numbers: a wide file is the long file
@@ -165,30 +169,30 @@ pivoted, one column per year, carrying total mileage only.
 
 | column | description | n_blank | pct_blank |
 |:---|:---|---:|---:|
-| year | Calendar year the row describes | 0 | 0.0 |
-| body_type | DfT body type of the vehicle (R/assemble.R) | 2,698 | 13.8 |
-| fuel_simple | Fuel in six groups, including Plug-in Hybrid Electric | 0 | 0.0 |
-| age | Year minus the year of first use, capped at 40; -1 holds every negative age | 0 | 0.0 |
-| n_vehicles | Vehicles in the group | 0 | 0.0 |
-| n_with_mileage | Of those, how many have a mileage recorded that year | 0 | 0.0 |
-| n_legit_mileage | Of those, how many have a mileage Bristol judged plausible | 0 | 0.0 |
-| total_legit_mileage | Total annual mileage Bristol judged plausible | 0 | 0.0 |
+| year | Calendar year the row describes | 0 | 0.00 |
+| body_type | DfT body type of the vehicle (R/assemble.R) | 2,703 | 13.77 |
+| fuel_simple | Fuel in six groups, including Plug-in Hybrid Electric | 0 | 0.00 |
+| age | Whole years at 1 June of the year since first use, as in the churn tables, capped at 40; -1 holds every negative age (first used after 1 June) | 0 | 0.00 |
+| n_vehicles | Vehicles in the group | 0 | 0.00 |
+| n_with_mileage | Of those, how many have a mileage recorded that year | 0 | 0.00 |
+| n_legit_mileage | Of those, how many have a mileage Bristol judged plausible | 0 | 0.00 |
+| total_legit_mileage | Total annual mileage Bristol judged plausible | 0 | 0.00 |
 
 #### `mileage_by_fuel_wide.csv`
 
 | column | description | n_blank | pct_blank |
 |:---|:---|---:|---:|
-| fuel_DVSA | Fuel as supplied by DVSA, unharmonised | 0 | 0 |
+| fuel_simple | Fuel in six groups, including Plug-in Hybrid Electric | 0 | 0 |
 | 2005 … 2025 (one per year) | Total annual mileage in that year | 0 | 0 |
 
 #### `mileage_by_fuel_year_long.csv`
 
-| column     | description                            | n_blank | pct_blank |
-|:-----------|:---------------------------------------|--------:|----------:|
-| year       | Calendar year the row describes        |       0 |         0 |
-| fuel_DVSA  | Fuel as supplied by DVSA, unharmonised |       0 |         0 |
-| n_vehicles | Vehicles in the group                  |       0 |         0 |
-| mileage    | Total annual mileage of the group      |       0 |         0 |
+| column | description | n_blank | pct_blank |
+|:---|:---|---:|---:|
+| year | Calendar year the row describes | 0 | 0 |
+| fuel_simple | Fuel in six groups, including Plug-in Hybrid Electric | 0 | 0 |
+| n_vehicles | Vehicles in the group | 0 | 0 |
+| mileage | Total annual mileage of the group | 0 | 0 |
 
 #### `mileage_by_legit_flag_year.csv`
 
@@ -213,7 +217,7 @@ pivoted, one column per year, carrying total mileage only.
 |:---|:---|---:|---:|
 | year | Calendar year the row describes | 0 | 0.00 |
 | pca | Postcode area in that year, or unborn / dead / unknown where none was recorded | 0 | 0.00 |
-| body_type | DfT body type of the vehicle (R/assemble.R) | 1,415 | 2.66 |
+| body_type | DfT body type of the vehicle (R/assemble.R) | 1,415 | 2.68 |
 | fuel_simple | Fuel in six groups, including Plug-in Hybrid Electric | 0 | 0.00 |
 | n_vehicles | Vehicles in the group | 0 | 0.00 |
 | n_with_mileage | Of those, how many have a mileage recorded that year | 0 | 0.00 |
@@ -223,9 +227,9 @@ pivoted, one column per year, carrying total mileage only.
 | total_legit_mileage | Total annual mileage Bristol judged plausible | 0 | 0.00 |
 | n_negative_mileage | Recorded mileages below zero | 0 | 0.00 |
 | n_over_50k_mileage | Recorded mileages above 50,000 | 0 | 0.00 |
-| n_with_age | Vehicles with an age of zero or more | 0 | 0.00 |
+| n_with_age | Vehicles with an age of zero or more (first used by 1 June of the year) | 0 | 0.00 |
 | total_age | Sum of those ages, so the report can average over any grouping | 0 | 0.00 |
-| n_negative_age | Vehicles first used after the year they were observed in | 0 | 0.00 |
+| n_negative_age | Vehicles first used after 1 June of the year (most of them later in the same year) | 0 | 0.00 |
 
 #### `mileage_by_pca_year_long.csv`
 
@@ -242,8 +246,8 @@ pivoted, one column per year, carrying total mileage only.
 
 | column | description | n_blank | pct_blank |
 |:---|:---|---:|---:|
-| test_class_ANON | Anonymised MOT test class as supplied by DVSA | 1 | 14.29 |
-| test_class | Label of that test class | 1 | 14.29 |
+| test_class | Harmonised MOT test class (test_class: the anonymised class, else that of similar vehicles), as in the churn tables | 1 | 14.29 |
+| test_class_label | Label of that test class | 1 | 14.29 |
 | 2005 … 2025 (one per year) | Total annual mileage in that year | 0 | 0.00 |
 
 #### `mileage_by_test_class_year_long.csv`
@@ -251,18 +255,18 @@ pivoted, one column per year, carrying total mileage only.
 | column | description | n_blank | pct_blank |
 |:---|:---|---:|---:|
 | year | Calendar year the row describes | 0 | 0.00 |
-| test_class_ANON | Anonymised MOT test class as supplied by DVSA | 21 | 14.29 |
+| test_class | Harmonised MOT test class (test_class: the anonymised class, else that of similar vehicles), as in the churn tables | 21 | 14.29 |
 | n_vehicles | Vehicles in the group | 0 | 0.00 |
 | mileage | Total annual mileage of the group | 0 | 0.00 |
-| test_class | Label of that test class | 21 | 14.29 |
+| test_class_label | Label of that test class | 21 | 14.29 |
 
 #### `mileage_distribution_by_year_body.csv`
 
 | column | description | n_blank | pct_blank |
 |:---|:---|---:|---:|
 | year | Calendar year the row describes | 0 | 0.00 |
-| body_type | DfT body type of the vehicle (R/assemble.R) | 1,656 | 14.82 |
-| legit_mileage | Bristol’s flag: TRUE where it judged the mileage plausible, blank where it did not assess it. Mileage it judged implausible has already been removed, so FALSE never carries a mileage | 3,679 | 32.92 |
+| body_type | DfT body type of the vehicle (R/assemble.R) | 1,675 | 14.97 |
+| legit_mileage | Bristol’s flag: TRUE where it judged the mileage plausible, blank where it did not assess it. Mileage it judged implausible has already been removed, so FALSE never carries a mileage | 3,693 | 33.00 |
 | mileage_from | Lower edge of the mileage band, in miles; -1000 holds negative mileage | 0 | 0.00 |
 | n_vehicles | Vehicles in the group | 0 | 0.00 |
 
@@ -281,10 +285,12 @@ plausible mileage unless they say otherwise, and section 4.2 gives the
 size of the unassessed group year by year.
 
 **A postcode area** is `pca_YYYY`: either a real area, or one of
-`unborn` (before the vehicle existed), `dead` (after its last MOT) or
-`unknown` (a year inside its life with no area recorded, which includes
-a new vehicle’s first years before its first MOT). “Observed” in this
-report means a real area.
+`unborn` (before the vehicle existed), `dead` (after its last MOT, which
+begins about two years after the last test because Bristol carries the
+area forward) or `unknown` (a year inside its life with no area
+recorded; rare, because Bristol back-fills a new vehicle’s years before
+its first MOT with its first test’s area). “Observed” in this report
+means a real area, not necessarily a test.
 
 **`body_type`** is the DfT body type attached in Stage 2, not the MOT
 test class, so it exists for vehicles with no test class.
@@ -293,13 +299,16 @@ The charts group it as `Cars`, `Light goods vehicles`, `Motorcycles` and
 `Other`, with everything else in `Other`.
 
 **`fuel_simple`** is the harmonised fuel in six groups, which separates
-plug-in hybrids from other hybrids. `fuel_DVSA` is the fuel exactly as
-supplied, with every rare spelling, and is used only in the fuel tables.
+plug-in hybrids from other hybrids; every table uses it, as the churn
+tables do. **`test_class`** is the harmonised MOT test class (the
+anonymised class, else that of similar vehicles), as in the churn
+tables.
 
-**Age** is the year minus the year of first use. It can be negative,
-when a vehicle was observed before the date it was first used; those are
-counted separately rather than dropped (`n_negative_age`). The age table
-caps age at 40 and holds every negative age at -1.
+**Age** is the number of whole years between the first use date and 1
+June of the year, as in the churn tables. A vehicle first used after 1
+June has a negative age; those are counted separately rather than
+dropped (`n_negative_age`). The age table caps age at 40 and holds every
+negative age at -1 (the churn tables’ `<0`).
 
 **Mileage bands** in `mileage_distribution_by_year_body.csv` are named
 by their lower edge in miles: bands of 1,000 up to 50,000, then three
@@ -369,12 +378,11 @@ wider bands, with negative mileage at -1000.
 
 | column | type | n_missing | pct_missing | description |
 |:---|:---|---:|---:|:---|
-| test_class_ANON | INTEGER | 19,314,753 | 20.69 | Anonymised MOT test class as supplied; the test class tables are grouped by it |
-| fuel_DVSA | VARCHAR | 0 | 0.00 | Fuel as supplied; the fuel tables are grouped by it |
-| body_type | VARCHAR | 2,878,353 | 3.08 | DfT body type; the area tables are grouped by it |
-| fuel_simple | VARCHAR | 0 | 0.00 | Harmonised fuel group; the area tables are grouped by it |
+| test_class | INTEGER | 5,510,998 | 5.90 | Harmonised MOT test class; the test class tables are grouped by it |
+| body_type | VARCHAR | 2,922,885 | 3.13 | DfT body type; the area tables are grouped by it |
+| fuel_simple | VARCHAR | 0 | 0.00 | Harmonised fuel group; the fuel and area tables are grouped by it |
 | first_use_date | DATE | 123 | 0.00 | First use date, which every age in the tables is measured from |
-| body_type_src | VARCHAR | 2,878,353 | 3.08 | How the body type was decided |
+| body_type_src | VARCHAR | 2,922,885 | 3.13 | How the body type was decided |
 | fuel_src | VARCHAR | 0 | 0.00 | Where the harmonised fuel came from |
 | total_mileage | INTEGER | 0 | 0.00 | Sum of annual mileage over all years |
 
@@ -423,10 +431,18 @@ the published tables.
 
 ![](mileage_report_figures/profile-coverage-1.png)
 
+**Figure 1.** Top: the vehicle-years with a recorded mileage each year,
+split into mileage Bristol judged plausible and mileage it did not
+assess, with the vehicles whose mileage it removed as implausible (the
+`n_legit_mileage`, `n_unassessed_mileage` and `n_mileage_removed`
+columns of the table above). Bottom: every in-scope vehicle each year by
+its postcode area status (`pca_YYYY`). Both are summed from
+`mileage_by_pca_year_body_fuel.csv`.
+
 Two things to read off these charts. The unassessed share is small in
 the middle of the series and large at the end: 0.03% of the mileage
 recorded in 2025 was never assessed, against 0.18% in 2015, because the
-last year is partial. And the `unknown` group grows from 5,284,956
+last year is partial. And the `unknown` group grows from 5,284,909
 vehicles in 2005 to 12,640,179 in 2025, so a larger share of the fleet
 each year has no location at all. Those vehicles are in the vehicle
 counts but in none of the postcode area rows.
@@ -444,13 +460,13 @@ billions of miles.
 
 | value | n_vehicle_years | pct_of_vehicle_years | total_mileage_bn | pct_of_mileage |
 |:---|---:|---:|---:|---:|
-| Cars | 1,588,355,349 | 81.02 | 4,578.79 | 85.07 |
-| Light goods vehicles | 195,091,701 | 9.95 | 727.22 | 13.51 |
-| Motorcycles | 84,617,820 | 4.32 | 45.07 | 0.84 |
-| (none) | 60,445,413 | 3.08 | 7.91 | 0.15 |
-| Heavy goods vehicles | 16,821,819 | 0.86 | 6.67 | 0.12 |
-| Other vehicles | 12,007,863 | 0.61 | 10.47 | 0.19 |
-| Buses and coaches | 3,057,096 | 0.16 | 6.50 | 0.12 |
+| Cars | 1,585,830,729 | 80.89 | 4,574.11 | 84.98 |
+| Light goods vehicles | 196,787,892 | 10.04 | 730.20 | 13.57 |
+| Motorcycles | 84,436,296 | 4.31 | 45.09 | 0.84 |
+| (none) | 61,380,585 | 3.13 | 9.04 | 0.17 |
+| Heavy goods vehicles | 16,781,877 | 0.86 | 6.48 | 0.12 |
+| Other vehicles | 11,978,862 | 0.61 | 10.48 | 0.19 |
+| Buses and coaches | 3,200,820 | 0.16 | 7.23 | 0.13 |
 
 #### Fuel group (`fuel_simple`, harmonised)
 
@@ -463,12 +479,12 @@ billions of miles.
 |:---|---:|---:|---:|---:|
 | Petrol | 1,094,101,806 | 55.81 | 2,526.74 | 46.94 |
 | Diesel | 703,493,574 | 35.89 | 2,704.10 | 50.24 |
-| Hybrid Electric | 77,631,876 | 3.96 | 88.91 | 1.65 |
+| Hybrid Electric | 77,635,425 | 3.96 | 88.91 | 1.65 |
 | Electric | 57,573,873 | 2.94 | 29.62 | 0.55 |
-| Plug-in Hybrid Electric | 22,891,554 | 1.17 | 19.69 | 0.37 |
+| Plug-in Hybrid Electric | 22,888,005 | 1.17 | 19.69 | 0.37 |
 | Other | 4,704,378 | 0.24 | 13.57 | 0.25 |
 
-#### MOT test class (`test_class_ANON`, as supplied)
+#### MOT test class (`test_class`, harmonised)
 
 Vehicle-years over the whole series, so a vehicle present for twenty
 years counts twenty times. `pct_of_mileage` is the share of total
@@ -477,15 +493,15 @@ billions of miles.
 
 | value | n_vehicle_years | pct_of_vehicle_years | total_mileage_bn | pct_of_mileage |
 |:---|---:|---:|---:|---:|
-| Cars, Vans and Small Motorhomes | 674,006,210 | 89.72 | 4,910.72 | 91.10 |
-| (none) | 29,092,723 | 3.87 | 211.29 | 3.92 |
-| Motorcycles over 200cc | 20,988,148 | 2.79 | 29.77 | 0.55 |
-| Light Goods Vehicles | 17,986,033 | 2.39 | 216.56 | 4.02 |
-| Motorcycles up to 200cc | 7,925,207 | 1.05 | 13.10 | 0.24 |
-| Minibuses and Larger Passenger Vehicles | 969,743 | 0.13 | 8.37 | 0.16 |
-| Three-wheeled vehicles up to 450kg | 304,974 | 0.04 | 0.44 | 0.01 |
+| Cars, Vans and Small Motorhomes | 697,229,319 | 92.81 | 5,089.13 | 94.41 |
+| Motorcycles over 200cc | 22,138,601 | 2.95 | 31.28 | 0.58 |
+| Light Goods Vehicles | 18,590,425 | 2.47 | 224.30 | 4.16 |
+| Motorcycles up to 200cc | 8,420,781 | 1.12 | 13.74 | 0.25 |
+| (none) | 3,579,053 | 0.48 | 22.63 | 0.42 |
+| Minibuses and Larger Passenger Vehicles | 998,691 | 0.13 | 8.71 | 0.16 |
+| Three-wheeled vehicles up to 450kg | 316,168 | 0.04 | 0.46 | 0.01 |
 
-#### Fuel as supplied (`fuel_DVSA`)
+#### Fuel group, every recorded mileage (`fuel_simple`)
 
 Vehicle-years over the whole series, so a vehicle present for twenty
 years counts twenty times. `pct_of_mileage` is the share of total
@@ -494,26 +510,28 @@ billions of miles.
 
 | value | n_vehicle_years | pct_of_vehicle_years | total_mileage_bn | pct_of_mileage |
 |:---|---:|---:|---:|---:|
-| Petrol | 441,550,926 | 58.77 | 2,517.90 | 46.71 |
-| Diesel | 289,125,779 | 38.48 | 2,706.77 | 50.22 |
-| Hybrid Electric (Clean) | 11,156,661 | 1.49 | 95.92 | 1.78 |
-| Electric | 4,346,526 | 0.58 | 34.62 | 0.64 |
-| Other | 3,904,559 | 0.52 | 24.05 | 0.45 |
-| Electric Diesel | 513,635 | 0.07 | 5.06 | 0.09 |
-| LPG | 494,441 | 0.07 | 4.33 | 0.08 |
-| Gas Bi-Fuel | 163,765 | 0.02 | 1.48 | 0.03 |
-| Fuel Cells | 6,819 | 0.00 | 0.06 | 0.00 |
-| Gas | 3,850 | 0.00 | 0.03 | 0.00 |
-| CNG | 2,435 | 0.00 | 0.02 | 0.00 |
-| Gas Diesel | 1,551 | 0.00 | 0.01 | 0.00 |
-| LNG | 1,079 | 0.00 | 0.01 | 0.00 |
-| Steam | 1,012 | 0.00 | 0.00 | 0.00 |
+| Petrol | 443,941,658 | 59.09 | 2,531.54 | 46.97 |
+| Diesel | 289,135,971 | 38.49 | 2,706.87 | 50.22 |
+| Hybrid Electric | 10,369,071 | 1.38 | 88.92 | 1.65 |
+| Electric | 3,826,995 | 0.51 | 29.62 | 0.55 |
+| Plug-in Hybrid Electric | 2,107,787 | 0.28 | 19.69 | 0.37 |
+| Other | 1,891,556 | 0.25 | 13.61 | 0.25 |
 
 ![](mileage_report_figures/profile-shares-1.png)
+
+**Figure 2.** The share of all vehicle-years in each body type and fuel
+group (`pct_of_vehicle_years` in the tables above), over the whole
+series, so a vehicle present for twenty years counts twenty times.
+Values under 0.01% are left out.
 
 ### 5.2 Where the mileage sits
 
 ![](mileage_report_figures/profile-bands-1.png)
+
+**Figure 3.** Recorded annual mileage over every year and body type, in
+1,000-mile bands from 0 to 50,000: vehicle-years with a mileage, whether
+Bristol judged it plausible or did not assess it. The subtitle counts
+the vehicle-years outside the range shown.
 
 ### 5.3 Mileage by age
 
@@ -525,40 +543,46 @@ an MOT, so the youngest ages are thin at the end of the series; section
 
 | age | n_vehicles | n_legit_mileage | mean_legit_mileage |
 |----:|-----------:|----------------:|-------------------:|
-|   0 | 45,558,600 |      45,353,286 |            4,971.3 |
-|   1 | 48,527,995 |      48,293,819 |           10,086.4 |
-|   2 | 51,501,714 |      51,156,157 |           10,091.1 |
-|   3 | 54,641,760 |      52,926,937 |            9,026.0 |
-|   4 | 55,985,203 |      53,503,535 |            8,619.8 |
-|   5 | 56,414,312 |      53,313,877 |            8,247.4 |
-|   6 | 56,081,893 |      52,706,454 |            7,893.6 |
-|   7 | 54,971,808 |      51,260,099 |            7,550.4 |
-|   8 | 53,656,487 |      49,127,210 |            7,207.3 |
-|   9 | 51,799,773 |      46,001,553 |            6,860.4 |
-|  10 | 49,326,337 |      41,834,047 |            6,523.4 |
-|  11 | 46,336,809 |      36,868,015 |            6,204.2 |
-|  12 | 42,710,719 |      31,394,952 |            5,881.9 |
-|  13 | 38,329,924 |      25,832,723 |            5,557.9 |
-|  14 | 33,413,814 |      20,668,452 |            5,234.5 |
-|  15 | 28,159,785 |      16,160,936 |            4,897.6 |
-|  16 | 22,814,534 |      12,336,095 |            4,547.0 |
-|  17 | 17,835,227 |       9,262,988 |            4,188.4 |
-|  18 | 13,488,563 |       6,857,581 |            3,818.5 |
-|  19 |  9,850,458 |       5,039,657 |            3,444.4 |
-|  20 |  7,124,996 |       3,738,472 |            3,076.9 |
-|  21 |  5,147,370 |       2,810,179 |            2,730.6 |
-|  22 |  3,744,390 |       2,147,526 |            2,418.0 |
-|  23 |  2,759,127 |       1,673,885 |            2,125.1 |
-|  24 |  2,099,406 |       1,349,441 |            1,874.6 |
-|  25 |  1,668,452 |       1,128,283 |            1,677.0 |
+|   0 | 47,398,905 |      47,172,679 |            9,126.1 |
+|   1 | 50,164,550 |      49,909,753 |           10,112.5 |
+|   2 | 53,156,888 |      51,943,989 |            9,448.4 |
+|   3 | 55,401,606 |      53,290,659 |            8,803.4 |
+|   4 | 56,449,859 |      53,559,826 |            8,418.0 |
+|   5 | 55,978,564 |      52,766,800 |            8,054.2 |
+|   6 | 55,515,531 |      51,956,592 |            7,701.3 |
+|   7 | 54,316,609 |      50,185,632 |            7,358.3 |
+|   8 | 52,948,485 |      47,688,121 |            7,010.8 |
+|   9 | 50,423,357 |      43,694,047 |            6,666.9 |
+|  10 | 47,648,260 |      39,038,213 |            6,343.1 |
+|  11 | 44,328,203 |      33,772,004 |            6,027.1 |
+|  12 | 40,437,172 |      28,324,187 |            5,698.9 |
+|  13 | 35,511,408 |      22,796,368 |            5,376.3 |
+|  14 | 30,393,077 |      18,008,658 |            5,047.9 |
+|  15 | 25,081,987 |      13,891,788 |            4,703.4 |
+|  16 | 19,909,848 |      10,538,907 |            4,343.8 |
+|  17 | 15,305,517 |       7,836,680 |            3,983.9 |
+|  18 | 11,306,456 |       5,759,400 |            3,609.2 |
+|  19 |  8,203,309 |       4,251,218 |            3,236.1 |
+|  20 |  5,959,912 |       3,199,849 |            2,873.3 |
+|  21 |  4,284,893 |       2,405,007 |            2,548.6 |
+|  22 |  3,135,094 |       1,858,563 |            2,246.6 |
+|  23 |  2,348,091 |       1,471,557 |            1,977.6 |
+|  24 |  1,844,526 |       1,223,419 |            1,752.3 |
+|  25 |  1,484,493 |       1,027,728 |            1,588.4 |
 
 ## 6. The fleet over time
 
-![Figure 1: Vehicles observed each year, by body type. Each panel has
-its own scale.](mileage_report_figures/fleet-by-body-1.png)
+![](mileage_report_figures/fleet-by-body-1.png)
 
-![Figure 2: Share of observed cars by
-fuel.](mileage_report_figures/fleet-fuel-1.png)
+**Figure 4.** Vehicles observed each year (in a real postcode area), by
+body type, summed from `mileage_by_pca_year_body_fuel.csv`. `Other`
+groups buses and coaches, heavy goods vehicles, other vehicles and
+vehicles with no body type. Each panel has its own scale.
+
+![](mileage_report_figures/fleet-fuel-1.png)
+
+**Figure 5.** The share of each year’s observed cars in each fuel group
+(`fuel_simple`), from `mileage_by_pca_year_body_fuel.csv`.
 
 ### Vehicles observed by body type
 
@@ -569,33 +593,45 @@ not yet observed in those years, rather than vehicles leaving the fleet.
 
 | body_type            |       2006 |       2010 |       2015 |       2020 |       2022 |
 |:---------------------|-----------:|-----------:|-----------:|-----------:|-----------:|
-| Cars                 | 30,198,306 | 34,507,621 | 36,847,579 | 38,772,513 | 38,155,912 |
-| Light goods vehicles |  2,779,913 |  3,439,257 |  4,038,758 |  4,845,722 |  5,061,824 |
-| Motorcycles          |  1,555,293 |  1,767,272 |  1,748,719 |  1,699,793 |  1,611,826 |
-| Heavy goods vehicles |     10,711 |     19,879 |     36,106 |     51,753 |     50,355 |
-| Unknown              |     47,990 |     45,127 |     53,181 |     58,020 |     48,720 |
-| Other vehicles       |     49,518 |     58,537 |     60,064 |     53,921 |     47,403 |
-| Buses and coaches    |     20,811 |     30,578 |     43,261 |     52,720 |     42,755 |
+| Cars                 | 30,107,251 | 34,426,709 | 36,794,357 | 38,736,380 | 38,124,631 |
+| Light goods vehicles |  2,860,477 |  3,506,363 |  4,078,829 |  4,871,530 |  5,085,133 |
+| Motorcycles          |  1,561,917 |  1,773,776 |  1,753,582 |  1,703,135 |  1,614,499 |
+| Unknown              |     49,443 |     47,237 |     56,021 |     61,106 |     51,412 |
+| Heavy goods vehicles |      9,240 |     19,129 |     35,882 |     51,437 |     50,264 |
+| Other vehicles       |     49,695 |     58,626 |     60,141 |     54,108 |     47,569 |
+| Buses and coaches    |     24,519 |     36,431 |     48,856 |     56,746 |     45,287 |
 
 ## 7. Annual mileage
 
-![Figure 3: Average annual mileage by body type (plausible mileage
-only). Mileage in a partial final year covers fewer
-vehicles.](mileage_report_figures/mileage-body-1.png)
+![](mileage_report_figures/mileage-body-1.png)
 
-![Figure 4: Average annual mileage of cars by fuel (plausible mileage
-only). Years where a fuel has fewer than 1,000 cars with a plausible
-mileage are left out.](mileage_report_figures/mileage-fuel-1.png)
+**Figure 6.** Average annual mileage of the observed vehicles by body
+type: each year’s total plausible mileage divided by the vehicles with a
+plausible mileage (`mileage_by_pca_year_body_fuel.csv`). Years with no
+mileage are left out, and mileage in a partial final year covers fewer
+vehicles.
 
-![Figure 5: Total annual vehicle miles recorded, by body type (plausible
-mileage only). This is the recorded total, not an estimate for the whole
-fleet.](mileage_report_figures/vehicle-miles-1.png)
+![](mileage_report_figures/mileage-fuel-1.png)
 
-![Figure 6: Average annual mileage of cars by age and fuel (plausible
-mileage only; ages with fewer than 500 such cars left out). Few cars are
-tested before age three, and those that are, such as taxis and private
-hire cars, are driven much further than
-most.](mileage_report_figures/mileage-age-1.png)
+**Figure 7.** Average annual mileage of observed cars by fuel group,
+calculated as in the previous figure. Years where a fuel has fewer than
+1,000 cars with a plausible mileage are left out.
+
+![](mileage_report_figures/vehicle-miles-1.png)
+
+**Figure 8.** The total plausible annual mileage recorded each year, by
+body type (`total_legit_mileage` summed from
+`mileage_by_pca_year_body_fuel.csv`). It is the total over the vehicles
+with a plausible mileage, not an estimate for the whole fleet.
+
+![](mileage_report_figures/mileage-age-1.png)
+
+**Figure 9.** Average annual mileage of cars in 2022 by age and fuel
+group: total plausible mileage divided by cars with a plausible mileage,
+from `mileage_by_age_year_body_fuel.csv`. Ages with fewer than 500 such
+cars are left out. Few cars are tested before age three, and those that
+are, such as taxis and private hire cars, are driven much further than
+most.
 
 ### Average annual mileage by body type
 
@@ -603,13 +639,13 @@ Miles per vehicle per year, plausible mileage only.
 
 | body_type            |   2006 |   2010 |   2015 |   2020 |   2022 |
 |:---------------------|-------:|-------:|-------:|-------:|-------:|
-| Buses and coaches    | 11,918 | 10,960 |  9,731 |  5,811 |  7,373 |
-| Cars                 |  7,892 |  7,493 |  7,238 |  5,637 |  6,619 |
-| Heavy goods vehicles | 14,002 | 14,049 | 16,163 | 13,688 | 12,611 |
-| Light goods vehicles | 11,230 | 10,672 | 10,089 |  9,189 |  9,443 |
-| Motorcycles          |  1,677 |  1,477 |  1,392 |  1,234 |  1,502 |
-| Other vehicles       | 12,401 | 13,036 | 11,346 |  5,695 | 10,338 |
-| Unknown              |  9,448 | 11,434 | 11,925 |  5,962 |  9,549 |
+| Buses and coaches    | 12,216 | 11,052 |  9,615 |  5,697 |  7,234 |
+| Cars                 |  7,897 |  7,500 |  7,244 |  5,641 |  6,623 |
+| Heavy goods vehicles | 14,877 | 13,652 | 15,661 | 13,109 | 12,167 |
+| Light goods vehicles | 11,082 | 10,552 | 10,016 |  9,147 |  9,408 |
+| Motorcycles          |  1,677 |  1,476 |  1,391 |  1,232 |  1,501 |
+| Other vehicles       | 12,382 | 13,033 | 11,316 |  5,662 | 10,287 |
+| Unknown              |  9,676 | 11,792 | 12,448 |  6,579 |  9,959 |
 
 ## 8. Age
 
@@ -619,35 +655,55 @@ holds about as many vehicles aged 3 to 16 as DfT does, but fewer and
 fewer older ones (at 25 years, roughly half as many): old vehicles
 declared off the road (SORN) stay in DfT’s counts but are not tested.
 
-![Figure 7: Average age of observed vehicles by body
-type.](mileage_report_figures/age-body-1.png)
+![](mileage_report_figures/age-body-1.png)
 
-![Figure 8: Age of observed cars in selected years, as a share of each
-year’s observed cars.](mileage_report_figures/age-distribution-1.png)
+**Figure 10.** Average age of the observed vehicles each year, by body
+type: whole years at 1 June since first use, averaged over the vehicles
+with an age (`mileage_by_pca_year_body_fuel.csv`).
+
+![](mileage_report_figures/age-distribution-1.png)
+
+**Figure 11.** The age of observed cars in 2006, 2015 and 2022, as a
+share of each year’s cars aged 0 to 30, from
+`mileage_by_age_year_body_fuel.csv`.
 
 ## 9. Maps
 
 All maps show 2022 unless stated (see the summary for why). Grey areas
 have no vehicles.
 
-![Figure 9: Cars observed by postcode area (log
-scale).](mileage_report_figures/map-cars-1.png)
+![](mileage_report_figures/map-cars-1.png)
 
-![Figure 10: Average annual mileage of cars (plausible mileage
-only).](mileage_report_figures/map-mileage-1.png)
+**Figure 12.** Cars observed in each postcode area in 2022, on a log
+colour scale (`mileage_by_pca_year_body_fuel.csv`).
 
-![Figure 11: Average age of observed
-cars.](mileage_report_figures/map-age-1.png)
+![](mileage_report_figures/map-mileage-1.png)
 
-![Figure 12: Share of observed cars that are electric or
-hybrid.](mileage_report_figures/map-electric-1.png)
+**Figure 13.** Average annual mileage of the cars observed in each
+postcode area in 2022: total plausible mileage divided by cars with a
+plausible mileage.
 
-![Figure 13: Change in the number of cars observed since the base
-year.](mileage_report_figures/map-change-1.png)
+![](mileage_report_figures/map-age-1.png)
 
-![Figure 14: Average annual car mileage in selected years, on one scale
-(plausible mileage
-only).](mileage_report_figures/map-mileage-years-1.png)
+**Figure 14.** Average age of the cars observed in each postcode area in
+2022.
+
+![](mileage_report_figures/map-electric-1.png)
+
+**Figure 15.** The share of the cars observed in each postcode area in
+2022 whose fuel group is Electric or Hybrid Electric.
+
+![](mileage_report_figures/map-change-1.png)
+
+**Figure 16.** The change in the cars observed in each postcode area
+from 2015 to 2022, as a share of the 2015 count. Blue is growth and red
+decline; the colour scale stops at 30% either way.
+
+![](mileage_report_figures/map-mileage-years-1.png)
+
+**Figure 17.** Average annual mileage of the cars observed in each
+postcode area in 2006, 2010, 2015, 2019, 2020 and 2022, calculated as in
+the map above, on one colour scale so that the years can be compared.
 
 ## 10. Comparison with DfT small-area counts
 
@@ -663,28 +719,42 @@ end of March of Y + 1. DfT counts here are licensed and SORN vehicles
 together.
 
 The two sources are not expected to agree exactly. DfT counts include
-vehicles under three, which have no MOT. DfT also places a vehicle at
-its keeper’s address, so company and lease cars are counted where the
-company is registered, while the MOT data places a vehicle where it was
-observed. The maps and tables below therefore compare each postcode area
-with the national ratio for 2022 (1.041 MOT cars per DfT car).
+vehicles under three whose first MOT is not yet in the data (once it is,
+Bristol back-fills their area), and the MOT data keeps a vehicle in its
+area for two years after its last test, after DfT has stopped counting
+it if it was scrapped. DfT also places a vehicle at its keeper’s
+address, so company and lease cars are counted where the company is
+registered, while the MOT data places a vehicle where it was observed.
+The maps and tables below therefore compare each postcode area with the
+national ratio for 2022 (1.040 MOT cars per DfT car).
 
-![Figure 15: Vehicles observed in the MOT data for each vehicle in the
-DfT small-area counts (licensed and
-SORN).](mileage_report_figures/dft-national-1.png)
+![](mileage_report_figures/dft-national-1.png)
 
-![Figure 16: Cars observed in the MOT data against the DfT count,
-relative to the national ratio. Blue: more cars in the MOT data than the
-national ratio suggests; red:
-fewer.](mileage_report_figures/map-dft-ratio-1.png)
+**Figure 18.** Vehicles observed in the MOT data each year divided by
+DfT’s licensed and SORN count at the end of March of the following year
+(VEH0125, summed from small areas to postcode areas in
+`inputs/dft_lsoa_vehicles_by_pca.csv`), by body group. At 1 (grey line)
+the two count the same.
 
-![Figure 17: Share of DfT cars kept by a company. High shares mark areas
-where fleet and lease cars are
-registered.](mileage_report_figures/map-dft-company-1.png)
+![](mileage_report_figures/map-dft-ratio-1.png)
 
-![Figure 18: Cars by postcode area in the two sources (log scales). The
-line is the national ratio; labelled areas differ from it by more than
-25%.](mileage_report_figures/dft-scatter-1.png)
+**Figure 19.** For each postcode area in 2022, its ratio of MOT cars to
+DfT cars relative to the national ratio (1.040). Blue: more cars in the
+MOT data than the national ratio suggests; red: fewer. The colour scale
+stops at 40% either way.
+
+![](mileage_report_figures/map-dft-company-1.png)
+
+**Figure 20.** The share of each postcode area’s DfT cars kept by a
+company (VEH0125 keepership), 2022. High shares mark areas where fleet
+and lease cars are registered.
+
+![](mileage_report_figures/dft-scatter-1.png)
+
+**Figure 21.** Each point is a postcode area in 2022: its DfT cars
+against its MOT cars, on log scales, coloured by the share of its DfT
+cars kept by a company. The grey line is the national ratio; labelled
+areas differ from it by more than 25%.
 
 ### Postcode areas furthest from the national ratio, cars 2022
 
@@ -705,34 +775,35 @@ are counted, company registrations explain much of it.
 
 | pca | mot_cars | dft_cars | ratio | difference_from_national | difference_private_only | dft_company_share |
 |:---|---:|---:|---:|:---|:---|:---|
-| NW | 271,728 | 170,194 | 1.60 | 53% | 53% | 11% |
-| CH | 412,740 | 268,890 | 1.53 | 47% | 38% | 5% |
-| CR | 260,021 | 180,064 | 1.44 | 39% | 29% | 4% |
-| SL | 266,458 | 411,838 | 0.65 | -38% | 5% | 47% |
-| W | 109,616 | 158,392 | 0.69 | -33% | -29% | 16% |
-| BL | 291,386 | 210,913 | 1.38 | 33% | 37% | 13% |
-| SN | 318,633 | 437,451 | 0.73 | -30% | -4% | 35% |
-| SK | 396,687 | 533,328 | 0.74 | -29% | 4% | 39% |
-| KW | 28,550 | 37,920 | 0.75 | -28% | -33% | 4% |
-| HS | 14,650 | 18,997 | 0.77 | -26% | -32% | 3% |
-| SM | 81,339 | 103,069 | 0.79 | -24% | -30% | 3% |
-| SW | 193,867 | 244,417 | 0.79 | -24% | -28% | 6% |
-| BB | 319,248 | 248,786 | 1.28 | 23% | 16% | 6% |
-| MK | 400,160 | 499,682 | 0.80 | -23% | 8% | 37% |
-| LU | 243,787 | 191,170 | 1.28 | 23% | 14% | 4% |
-| LD | 28,428 | 34,562 | 0.82 | -21% | -26% | 5% |
-| HG | 105,185 | 83,911 | 1.25 | 20% | 16% | 7% |
-| EN | 226,802 | 181,436 | 1.25 | 20% | 13% | 5% |
-| BD | 332,700 | 271,665 | 1.22 | 18% | 11% | 6% |
-| PA | 178,915 | 207,736 | 0.86 | -17% | -2% | 24% |
+| NW | 271,700 | 170,194 | 1.60 | 54% | 54% | 11% |
+| CH | 412,471 | 268,890 | 1.53 | 48% | 38% | 5% |
+| CR | 259,943 | 180,064 | 1.44 | 39% | 29% | 4% |
+| SL | 266,329 | 411,838 | 0.65 | -38% | 5% | 47% |
+| W | 109,560 | 158,392 | 0.69 | -33% | -29% | 16% |
+| BL | 291,308 | 210,913 | 1.38 | 33% | 37% | 13% |
+| SN | 318,219 | 437,451 | 0.73 | -30% | -4% | 35% |
+| SK | 396,420 | 533,328 | 0.74 | -29% | 4% | 39% |
+| KW | 28,510 | 37,920 | 0.75 | -28% | -33% | 4% |
+| HS | 14,624 | 18,997 | 0.77 | -26% | -32% | 3% |
+| SM | 81,311 | 103,069 | 0.79 | -24% | -30% | 3% |
+| SW | 193,803 | 244,417 | 0.79 | -24% | -28% | 6% |
+| BB | 319,016 | 248,786 | 1.28 | 23% | 17% | 6% |
+| MK | 399,926 | 499,682 | 0.80 | -23% | 8% | 37% |
+| LU | 243,694 | 191,170 | 1.27 | 23% | 14% | 4% |
+| LD | 28,351 | 34,562 | 0.82 | -21% | -26% | 5% |
+| HG | 105,099 | 83,911 | 1.25 | 20% | 16% | 7% |
+| EN | 226,714 | 181,436 | 1.25 | 20% | 13% | 5% |
+| BD | 332,526 | 271,665 | 1.22 | 18% | 11% | 6% |
+| PA | 178,817 | 207,736 | 0.86 | -17% | -2% | 24% |
 
 ### Electric vehicles
 
 Vehicles with harmonised fuel Electric observed in the MOT data, against
 licensed battery electric vehicles in VEH0145 (all body types, end of
-March of the following year). Most electric vehicles are new and so have
-not had an MOT, which keeps the ratio low, and it falls when sales grow
-quickly.
+March of the following year). Most electric vehicles are new, and a
+vehicle appears here only once its first MOT (at three) is in the data,
+which keeps the ratio low in the most recent years and lowers it when
+sales grow quickly.
 
 | year | mot_electric | dft_battery_electric | ratio |
 |:-----|-------------:|---------------------:|------:|
@@ -753,15 +824,21 @@ quickly.
 
 ## 11. Possible problems in the data
 
-![Figure 19: Share of observed vehicles with an annual mileage; share of
-mileage Bristol flagged as implausible and removed; and share of
-recorded mileage Bristol did not
-assess.](mileage_report_figures/check-coverage-1.png)
+![](mileage_report_figures/check-coverage-1.png)
 
-![Figure 20: Recorded annual mileage of cars in the map year (see the
-summary), in 1,000-mile bands, by whether Bristol assessed it. The table
-below counts the mileages outside the range
-shown.](mileage_report_figures/check-distribution-1.png)
+**Figure 22.** Three shares each year, from
+`mileage_by_pca_year_body_fuel.csv`: the observed vehicles with an
+annual mileage; of the vehicles with a mileage before Bristol’s checks,
+those whose mileage it flagged implausible and removed; and of the
+recorded mileages, those it did not assess. The last two count every
+vehicle, whether observed that year or not.
+
+![](mileage_report_figures/check-distribution-1.png)
+
+**Figure 23.** Recorded annual mileage of cars in 2022 in 1,000-mile
+bands from 0 to 50,000, by whether Bristol flagged it plausible or did
+not assess it (`mileage_distribution_by_year_body.csv`). The table below
+counts the mileages outside the range shown.
 
 ### Car mileage outside the chart, 2022
 
@@ -769,7 +846,7 @@ Cars with a recorded annual mileage below 0 or of 50,000 miles or more.
 
 | band             | Plausible |
 |:-----------------|----------:|
-| 50,000 to 99,999 |     2,791 |
+| 50,000 to 99,999 |     2,792 |
 
 ### Mileage and age checks by year
 
@@ -786,32 +863,32 @@ Counts across all in-scope vehicles. Each column other than
 - `n_mileage_not_observed`: vehicles with a mileage in a year where they
   have no postcode area (`unborn`, `dead` or `unknown`): mileage without
   a location
-- `n_negative_age`: observed vehicles seen in a year before the year of
-  their first use
+- `n_negative_age`: vehicles first used after 1 June of the year (age
+  below 0)
 
 | year | n_with_mileage | n_not_assessed | n_mileage_removed | n_negative_mileage | n_over_50k_mileage | n_mileage_not_observed | n_negative_age |
 |:---|---:|---:|---:|---:|---:|---:|---:|
-| 2005 | 32,452,735 | 0 | 218,720 | 0 | 4,384 | 1,300,784 | 41,915 |
-| 2006 | 32,814,077 | 78,783 | 541,099 | 0 | 5,128 | 1,234,618 | 37,312 |
-| 2007 | 33,453,711 | 91,350 | 545,479 | 0 | 4,936 | 1,139,156 | 32,099 |
-| 2008 | 33,775,906 | 101,540 | 527,435 | 0 | 5,514 | 1,044,819 | 27,684 |
-| 2009 | 33,847,006 | 100,690 | 515,834 | 0 | 4,932 | 950,673 | 23,528 |
-| 2010 | 34,105,231 | 93,501 | 540,551 | 0 | 4,976 | 877,658 | 19,479 |
-| 2011 | 34,266,679 | 96,986 | 571,335 | 0 | 5,093 | 803,307 | 16,153 |
-| 2012 | 34,584,164 | 96,511 | 520,620 | 0 | 5,836 | 683,777 | 12,957 |
-| 2013 | 35,209,581 | 94,883 | 449,107 | 0 | 5,373 | 628,688 | 9,171 |
-| 2014 | 36,140,728 | 93,047 | 436,350 | 0 | 5,379 | 593,477 | 6,203 |
-| 2015 | 37,170,928 | 65,801 | 397,347 | 0 | 5,241 | 543,905 | 5,140 |
-| 2016 | 37,964,991 | 4,330 | 358,508 | 0 | 5,740 | 481,398 | 4,054 |
-| 2017 | 37,800,202 | 4,563 | 333,007 | 0 | 5,170 | 386,827 | 3,067 |
-| 2018 | 38,286,966 | 6,991 | 317,630 | 0 | 4,978 | 323,295 | 2,352 |
-| 2019 | 38,657,512 | 7,173 | 283,619 | 0 | 4,116 | 278,710 | 1,757 |
-| 2020 | 39,529,622 | 3,714 | 302,900 | 0 | 5,580 | 610,560 | 1,507 |
-| 2021 | 39,832,221 | 5,136 | 253,213 | 0 | 4,642 | 296,268 | 1,480 |
-| 2022 | 39,936,342 | 5,013 | 238,071 | 0 | 4,832 | 462,143 | 1,308 |
-| 2023 | 38,906,652 | 5,441 | 224,155 | 0 | 4,689 | 1,280,198 | 848 |
-| 2024 | 36,734,471 | 6,030 | 211,841 | 0 | 5,394 | 1,296,739 | 477 |
-| 2025 | 25,803,313 | 8,170 | 147,846 | 0 | 3,590 | 1,844,937 | 149 |
+| 2005 | 32,452,735 | 0 | 218,720 | 0 | 4,384 | 1,300,784 | 1,631,176 |
+| 2006 | 32,814,077 | 78,783 | 541,099 | 0 | 5,128 | 1,234,618 | 1,588,613 |
+| 2007 | 33,453,711 | 91,350 | 545,479 | 0 | 4,936 | 1,139,156 | 1,637,673 |
+| 2008 | 33,775,906 | 101,540 | 527,435 | 0 | 5,514 | 1,044,819 | 1,315,570 |
+| 2009 | 33,847,006 | 100,690 | 515,834 | 0 | 4,932 | 950,673 | 1,409,166 |
+| 2010 | 34,105,231 | 93,501 | 540,551 | 0 | 4,976 | 877,658 | 1,293,198 |
+| 2011 | 34,266,679 | 96,986 | 571,335 | 0 | 5,093 | 803,307 | 1,277,885 |
+| 2012 | 34,584,164 | 96,511 | 520,620 | 0 | 5,836 | 683,777 | 1,353,072 |
+| 2013 | 35,209,581 | 94,883 | 449,107 | 0 | 5,373 | 628,688 | 1,515,204 |
+| 2014 | 36,140,728 | 93,047 | 436,350 | 0 | 5,379 | 593,477 | 1,651,461 |
+| 2015 | 37,170,928 | 65,801 | 397,347 | 0 | 5,241 | 543,905 | 1,764,151 |
+| 2016 | 37,964,991 | 4,330 | 358,508 | 0 | 5,740 | 481,398 | 1,777,323 |
+| 2017 | 37,800,202 | 4,563 | 333,007 | 0 | 5,170 | 386,827 | 1,294,849 |
+| 2018 | 38,286,966 | 6,991 | 317,630 | 0 | 4,978 | 323,295 | 1,523,628 |
+| 2019 | 38,657,512 | 7,173 | 283,619 | 0 | 4,116 | 278,710 | 1,501,049 |
+| 2020 | 39,529,622 | 3,714 | 302,900 | 0 | 5,580 | 610,560 | 1,373,280 |
+| 2021 | 39,832,221 | 5,136 | 253,213 | 0 | 4,642 | 296,268 | 1,142,746 |
+| 2022 | 39,936,342 | 5,013 | 238,071 | 0 | 4,832 | 462,143 | 1,032,856 |
+| 2023 | 38,906,652 | 5,441 | 224,155 | 0 | 4,689 | 1,280,198 | 24,482 |
+| 2024 | 36,734,471 | 6,030 | 211,841 | 0 | 5,394 | 1,296,739 | 12,791 |
+| 2025 | 25,803,313 | 8,170 | 147,846 | 0 | 3,590 | 1,844,937 | 253 |
 
 ### Mileage recorded without a postcode area
 
@@ -861,12 +938,12 @@ year points to a recording problem.
 
 | year | pca | vehicles_previous_year |  vehicles | change | national_change |
 |:-----|:----|-----------------------:|----------:|:-------|:----------------|
-| 2006 | NI  |                264,565 |   325,194 | 23%    | 9%              |
-| 2007 | NI  |                325,194 |   394,129 | 21%    | 8%              |
-| 2009 | NI  |                452,771 |   503,134 | 11%    | 0%              |
-| 2010 | NI  |                503,134 |   557,246 | 11%    | 0%              |
-| 2017 | NI  |              1,060,833 | 1,179,283 | 11%    | 1%              |
-| 2014 | NI  |                750,120 |   840,578 | 12%    | 2%              |
+| 2006 | BT  |                264,565 |   325,194 | 23%    | 9%              |
+| 2007 | BT  |                325,194 |   394,129 | 21%    | 8%              |
+| 2009 | BT  |                452,771 |   503,134 | 11%    | 0%              |
+| 2010 | BT  |                503,134 |   557,246 | 11%    | 0%              |
+| 2017 | BT  |              1,060,833 | 1,179,283 | 11%    | 1%              |
+| 2014 | BT  |                750,120 |   840,578 | 12%    | 2%              |
 
 ### Unusual average car mileage
 
@@ -878,31 +955,31 @@ side points to a problem.
 
 | year | pca | cars_with_mileage | mean_mileage | national_mean | difference |
 |:-----|:----|------------------:|-------------:|--------------:|:-----------|
-| 2020 | NI  |           940,083 |        7,628 |         5,637 | 35%        |
-| 2016 | NI  |           814,595 |        9,127 |         7,204 | 27%        |
-| 2015 | NI  |           720,075 |        9,088 |         7,238 | 26%        |
-| 2010 | SM  |            60,605 |        5,672 |         7,493 | -24%       |
-| 2008 | SM  |            59,095 |        5,850 |         7,699 | -24%       |
-| 2009 | SM  |            59,715 |        5,797 |         7,611 | -24%       |
-| 2018 | SW  |           179,752 |        5,344 |         7,011 | -24%       |
-| 2016 | SW  |           190,879 |        5,499 |         7,204 | -24%       |
-| 2007 | SM  |            58,940 |        5,889 |         7,715 | -24%       |
-| 2017 | SW  |           184,155 |        5,462 |         7,152 | -24%       |
-| 2015 | SW  |           192,747 |        5,534 |         7,238 | -24%       |
-| 2014 | SW  |           191,233 |        5,585 |         7,300 | -23%       |
-| 2024 | SW  |           145,925 |        5,166 |         6,739 | -23%       |
-| 2012 | SW  |           190,583 |        5,684 |         7,388 | -23%       |
-| 2014 | NI  |           637,358 |        8,978 |         7,300 | 23%        |
-| 2011 | SW  |           191,806 |        5,740 |         7,450 | -23%       |
-| 2025 | SW  |            90,849 |        5,159 |         6,692 | -23%       |
-| 2013 | SW  |           192,223 |        5,677 |         7,361 | -23%       |
-| 2017 | NI  |           914,641 |        8,787 |         7,152 | 23%        |
-| 2011 | SM  |            64,435 |        5,749 |         7,450 | -23%       |
-| 2006 | SM  |            59,482 |        6,113 |         7,892 | -23%       |
-| 2010 | SW  |           193,150 |        5,807 |         7,493 | -22%       |
-| 2009 | SW  |           196,592 |        5,907 |         7,611 | -22%       |
-| 2023 | SW  |           156,737 |        5,278 |         6,792 | -22%       |
-| 2008 | SW  |           199,050 |        5,989 |         7,699 | -22%       |
+| 2020 | BT  |           939,421 |        7,629 |         5,641 | 35%        |
+| 2016 | BT  |           813,785 |        9,124 |         7,210 | 27%        |
+| 2015 | BT  |           719,281 |        9,084 |         7,244 | 25%        |
+| 2010 | SM  |            60,495 |        5,674 |         7,500 | -24%       |
+| 2008 | SM  |            58,928 |        5,854 |         7,707 | -24%       |
+| 2009 | SM  |            59,590 |        5,801 |         7,619 | -24%       |
+| 2018 | SW  |           179,682 |        5,345 |         7,016 | -24%       |
+| 2016 | SW  |           190,767 |        5,501 |         7,210 | -24%       |
+| 2007 | SM  |            58,772 |        5,892 |         7,721 | -24%       |
+| 2017 | SW  |           184,077 |        5,464 |         7,157 | -24%       |
+| 2015 | SW  |           192,626 |        5,536 |         7,244 | -24%       |
+| 2014 | SW  |           191,111 |        5,587 |         7,306 | -24%       |
+| 2024 | SW  |           145,902 |        5,167 |         6,742 | -23%       |
+| 2012 | SW  |           190,414 |        5,686 |         7,395 | -23%       |
+| 2011 | SW  |           191,575 |        5,742 |         7,457 | -23%       |
+| 2013 | SW  |           192,077 |        5,679 |         7,368 | -23%       |
+| 2025 | SW  |            90,833 |        5,160 |         6,695 | -23%       |
+| 2011 | SM  |            64,331 |        5,752 |         7,457 | -23%       |
+| 2014 | BT  |           636,588 |        8,973 |         7,306 | 23%        |
+| 2017 | BT  |           913,855 |        8,787 |         7,157 | 23%        |
+| 2006 | SM  |            59,293 |        6,112 |         7,897 | -23%       |
+| 2010 | SW  |           192,874 |        5,809 |         7,500 | -23%       |
+| 2009 | SW  |           196,270 |        5,911 |         7,619 | -22%       |
+| 2023 | SW  |           156,707 |        5,278 |         6,796 | -22%       |
+| 2008 | SW  |           198,684 |        5,992 |         7,707 | -22%       |
 
 ### Vehicles with no body type, 2022
 
@@ -913,7 +990,7 @@ counted under Other in the charts.
 
 | pca | vehicles_no_body_type | share |
 |:----|----------------------:|:------|
-| NI  |                48,720 | 3.5%  |
+| BT  |                51,412 | 3.7%  |
 
 ## 12. Source files and how to rebuild
 
@@ -951,14 +1028,14 @@ nothing here can drift from the build it describes.
 | Issue | Detail |
 |:---|:---|
 | The last year is partial | 2025 holds 25,803,313 vehicle-years with a recorded mileage against 36,734,471 in 2024, and 0.03% of that mileage was never assessed. Do not read a trend into the final year. |
-| Young vehicles are missing from the recent years | A vehicle’s mileage is only known once it has had an MOT, at three years old, so the youngest ages empty out towards the end of the series, and the vehicles that do appear there are the ones tested unusually early. Section 11 quantifies it. |
+| Young vehicles are missing from the recent years | A vehicle’s mileage is only known once it has had an MOT, at three years old; Bristol then estimates the earlier years from that test. So the youngest ages fill in only once the first test is in the data and empty out towards the end of the series, and the vehicles that do appear there are the ones tested unusually early. Section 11 quantifies it. |
 | Unassessed mileage is not zero mileage | Bristol removed the mileage it judged implausible, so a recorded mileage is either plausible or unassessed. Treating the unassessed as zero would lose 8,170 vehicle-years in 2025 alone. |
 | A growing share of the fleet has no location | The `unknown` group reaches 12,640,179 vehicles by 2025. They are in the vehicle counts and in no postcode area row, so the area rows do not sum to the fleet. |
 | The mileage is Bristol’s, not ours | Annual mileage, the postcode area and the plausibility flag all come from Bristol’s annualisation and are taken as given. The pipeline applies no scaling and does not re-derive them. |
-| Two different fuel columns | The test class and fuel tables use the columns as supplied (`test_class_ANON`, `fuel_DVSA`); the area tables use the harmonised `body_type` and `fuel_simple`. The same fleet therefore appears under two fuel schemes, and only the harmonised one separates plug-in hybrids. |
-| Vehicles with no body type | 2,878,353 vehicles (3.08%) have no DfT body type, all of them vehicles with no MOT test class. They are grouped as `Other` rather than dropped. |
+| One definition of age, test class and fuel | Every table uses the churn tables’ definitions: age at 1 June, the harmonised `test_class` and the harmonised `fuel_simple`. Until October 2026 the test class and fuel tables used the columns as supplied (`test_class_ANON`, `fuel_DVSA`) and age was the calendar-year difference, so older copies of these tables are not directly comparable. |
+| Vehicles with no body type | 2,922,885 vehicles (3.13%) have no DfT body type, all of them vehicles with no MOT test class. They are grouped as `Other` rather than dropped. |
 | Vehicles with no age | 123 vehicles (0%) have no first use date, so they appear in the vehicle and mileage tables but in no age table. |
-| Vehicles with no test class | 19,314,753 vehicles (20.69%) have no test class and are absent from the test class tables, which therefore total less than the fleet. |
+| Vehicles with no test class | 5,510,998 vehicles (5.9%) have no test class and are absent from the test class tables, which therefore total less than the fleet. |
 | Negative and very large mileage | Over the whole series 0 vehicle-years carry a mileage below zero and 105,523 above 50,000. Both are left in the published tables and counted separately (`n_negative_mileage`, `n_over_50k_mileage`) rather than removed. |
-| Negative ages are not all errors | `n_negative_age` in the area table counts every year before a vehicle was first used, so it is large by construction and is not a count of errors. Among vehicles actually observed in a postcode area, 248,649 have a first use date after the year they were seen in. |
+| Negative ages are not all errors | `n_negative_age` in the area table counts every year before a vehicle was first used, and every vehicle first used after 1 June of the year, so it is large by construction and is not a count of errors. Among vehicles actually observed in a postcode area, 26,120,435 have a negative age, nearly all first used later in the year. |
 | A mean has a changing denominator | A mean mileage is over the vehicles that have a recorded mileage, not over the fleet, and that denominator changes year by year. The tables carry counts and totals rather than means alone, so a mean can be recomputed over any chosen group. |

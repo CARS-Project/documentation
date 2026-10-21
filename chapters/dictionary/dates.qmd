@@ -25,11 +25,20 @@ of a vehicle's life and how the data records them.
   used date, else the DVLA month of first registration, else `birth_date`.
   `first_use_source` records which.
 - **`birth_date`** is the earliest of the DVSA first used, registration and
-  manufacture dates. It decides when a vehicle is `unborn` in `pca_YYYY`
-  (@sec-dd-location).
+  manufacture dates; for the few vehicles with none of these, it is taken
+  from the DVLA dates, and `birth_date_source` records which. It decides
+  when a vehicle is `unborn` in `pca_YYYY` (@sec-dd-location).
 - **`final_test_date_DVSA`** is the date of the last recorded MOT test, and
   **`last_mot_year`** the year after which the vehicle is treated as `dead`:
   no longer observed, not necessarily scrapped (@sec-pitfalls).
+  `last_mot_year` is the last year in which `is_end_use_YYYY` is `TRUE`
+  (@sec-dd-location).
+- **The MOT test dates as supplied** are carried through unchanged:
+  `first_test_date_DVSA` and `first_test_year_DVSA` for the first test,
+  `final_test_year_DVSA` for the last, and `lastMotTestDate_DVSA`. Use
+  `final_test_date_DVSA` rather than `lastMotTestDate_DVSA`: DVSA put a date
+  in the future in `lastMotTestDate_DVSA` for vehicles that have never been
+  tested.
 - **The supplied dates** (`_DVSA`, `_DVLA`) are kept as received. The DVLA
   month of first registration is accurate to the month only.
 
@@ -69,6 +78,12 @@ The coverage of the supplied dates follows their sources
   (@sec-dd-dvla-status). `monthOfFirstDvlaRegistration_DVLA` is different: it
   is present only for the `r cov_pct(cs, "monthOfFirstDvlaRegistration_DVLA", digits = 1)`
   of vehicles first registered somewhere else, such as imports.
+- **The supplied first and final test dates** (`first_test_date_DVSA`,
+  `first_test_year_DVSA` and `final_test_year_DVSA`) are present for
+  `r cov_pct(cs, "first_test_date_DVSA")` of vehicles, those that have had an
+  MOT test. `lastMotTestDate_DVSA` is present for more,
+  `r cov_pct(cs, "lastMotTestDate_DVSA")`, because it also holds the future
+  dates of untested vehicles.
 - **`last_mot_year`** is blank by design for a vehicle that is still being
   tested, or that was last seen in the final two years of data. Its coverage
   is therefore highest for old vehicles, most of which have left the road, and

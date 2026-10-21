@@ -75,6 +75,74 @@
 "automatedVehicle_DVLA",2025,"value","true",2,5
 "automatedVehicle_DVLA",2026,"blank","",0,1935098
 "automatedVehicle_DVLA",2026,"value","false",1,7067
+"birth_date_source",1990,"value","dvsa",1,576020
+"birth_date_source",1990,"value","monthOfFirstRegistration_DVLA",2,120
+"birth_date_source",1991,"value","dvsa",1,624508
+"birth_date_source",1991,"value","monthOfFirstRegistration_DVLA",2,144
+"birth_date_source",1992,"value","dvsa",1,808865
+"birth_date_source",1992,"value","monthOfFirstRegistration_DVLA",2,198
+"birth_date_source",1993,"value","dvsa",1,1144455
+"birth_date_source",1993,"value","monthOfFirstRegistration_DVLA",2,238
+"birth_date_source",1994,"value","dvsa",1,1475151
+"birth_date_source",1994,"value","monthOfFirstRegistration_DVLA",2,322
+"birth_date_source",1995,"value","dvsa",1,1735260
+"birth_date_source",1995,"value","monthOfFirstRegistration_DVLA",2,341
+"birth_date_source",1996,"value","dvsa",1,1994644
+"birth_date_source",1996,"value","monthOfFirstRegistration_DVLA",2,225
+"birth_date_source",1997,"value","dvsa",1,2295073
+"birth_date_source",1997,"value","monthOfFirstRegistration_DVLA",2,179
+"birth_date_source",1998,"value","dvsa",1,2500726
+"birth_date_source",1998,"value","monthOfFirstRegistration_DVLA",2,177
+"birth_date_source",1999,"value","dvsa",1,2570757
+"birth_date_source",1999,"value","monthOfFirstRegistration_DVLA",2,126
+"birth_date_source",2000,"value","dvsa",1,2716295
+"birth_date_source",2000,"value","monthOfFirstRegistration_DVLA",2,99
+"birth_date_source",2001,"value","dvsa",1,3005331
+"birth_date_source",2001,"value","monthOfFirstRegistration_DVLA",2,71
+"birth_date_source",2002,"value","dvsa",1,3167796
+"birth_date_source",2002,"value","monthOfFirstRegistration_DVLA",2,79
+"birth_date_source",2003,"value","dvsa",1,3192935
+"birth_date_source",2003,"value","monthOfFirstRegistration_DVLA",2,18
+"birth_date_source",2004,"value","dvsa",1,3165996
+"birth_date_source",2004,"value","monthOfFirstRegistration_DVLA",2,10
+"birth_date_source",2005,"value","dvsa",1,3057117
+"birth_date_source",2005,"value","monthOfFirstRegistration_DVLA",2,2
+"birth_date_source",2006,"value","dvsa",1,2968074
+"birth_date_source",2006,"value","monthOfFirstRegistration_DVLA",2,6
+"birth_date_source",2007,"value","dvsa",1,3068126
+"birth_date_source",2007,"value","monthOfFirstRegistration_DVLA",2,2
+"birth_date_source",2008,"value","dvsa",1,2730943
+"birth_date_source",2009,"value","dvsa",1,2419880
+"birth_date_source",2009,"value","monthOfFirstRegistration_DVLA",2,2
+"birth_date_source",2010,"value","dvsa",1,2470263
+"birth_date_source",2010,"value","monthOfFirstRegistration_DVLA",2,1
+"birth_date_source",2011,"value","dvsa",1,2437575
+"birth_date_source",2011,"value","monthOfFirstRegistration_DVLA",2,1
+"birth_date_source",2012,"value","dvsa",1,2538805
+"birth_date_source",2012,"value","monthOfFirstRegistration_DVLA",2,4
+"birth_date_source",2013,"value","dvsa",1,2805497
+"birth_date_source",2014,"value","dvsa",1,3069304
+"birth_date_source",2014,"value","monthOfFirstRegistration_DVLA",2,2
+"birth_date_source",2015,"value","dvsa",1,3301651
+"birth_date_source",2016,"value","dvsa",1,3373847
+"birth_date_source",2017,"value","dvsa",1,3182106
+"birth_date_source",2017,"value","monthOfFirstRegistration_DVLA",2,4
+"birth_date_source",2018,"value","dvsa",1,2999312
+"birth_date_source",2018,"value","monthOfFirstRegistration_DVLA",2,1
+"birth_date_source",2019,"value","dvsa",1,2963144
+"birth_date_source",2019,"value","monthOfFirstRegistration_DVLA",2,1
+"birth_date_source",2020,"value","dvsa",1,2159814
+"birth_date_source",2020,"value","monthOfFirstRegistration_DVLA",2,4
+"birth_date_source",2021,"value","dvsa",1,2255164
+"birth_date_source",2022,"value","dvsa",1,2141102
+"birth_date_source",2022,"value","monthOfFirstRegistration_DVLA",2,3
+"birth_date_source",2023,"value","dvsa",1,2459096
+"birth_date_source",2023,"value","monthOfFirstRegistration_DVLA",2,3
+"birth_date_source",2024,"value","dvsa",1,2500614
+"birth_date_source",2024,"value","monthOfFirstRegistration_DVLA",2,9
+"birth_date_source",2025,"value","dvsa",1,2490451
+"birth_date_source",2025,"value","monthOfFirstRegistration_DVLA",2,2
+"birth_date_source",2026,"value","dvsa",1,1942165
 "body_type",1990,"blank","",0,36298
 "body_type",1990,"value","Cars",1,457667
 "body_type",1990,"value","Light goods vehicles",2,45530
@@ -3460,63 +3528,55 @@
 "euro_standard",2026,"value","3",2,1
 "euro_standard",2026,"value","4",3,8
 "euro_standard",2026,"value","5",4,76898
-"euro_status",1990,"blank","",0,576133
+"euro_status",1990,"other","",0,576133
 "euro_status",1990,"value","EURO 3",1,2
 "euro_status",1990,"value","EURO 4",2,1
 "euro_status",1990,"value","EURO 6 AP",5,2
 "euro_status",1990,"value","EURO 1",7,2
-"euro_status",1991,"blank","",0,624646
-"euro_status",1991,"other","",0,1
+"euro_status",1991,"other","",0,624647
 "euro_status",1991,"value","EURO 2",3,1
 "euro_status",1991,"value","EURO 5",4,1
 "euro_status",1991,"value","EURO 6 AP",5,1
 "euro_status",1991,"value","EURO 6",6,1
 "euro_status",1991,"value","EURO 1",7,1
-"euro_status",1992,"blank","",0,791038
-"euro_status",1992,"other","",0,4
+"euro_status",1992,"other","",0,791042
 "euro_status",1992,"value","EURO 3",1,1
 "euro_status",1992,"value","EURO 4",2,1
 "euro_status",1992,"value","EURO 2",3,2
 "euro_status",1992,"value","EURO 6 AP",5,2
 "euro_status",1992,"value","EURO 1",7,18015
-"euro_status",1993,"blank","",0,132299
-"euro_status",1993,"other","",0,643
+"euro_status",1993,"other","",0,132942
 "euro_status",1993,"value","EURO 3",1,4
 "euro_status",1993,"value","EURO 4",2,2
 "euro_status",1993,"value","EURO 2",3,1
 "euro_status",1993,"value","EURO 5",4,1
 "euro_status",1993,"value","EURO 1",7,1011743
-"euro_status",1994,"blank","",0,147198
-"euro_status",1994,"other","",0,4217
+"euro_status",1994,"other","",0,151415
 "euro_status",1994,"value","EURO 3",1,1
 "euro_status",1994,"value","EURO 4",2,1
 "euro_status",1994,"value","EURO 2",3,1
 "euro_status",1994,"value","EURO 6 AP",5,4
 "euro_status",1994,"value","EURO 6",6,1
 "euro_status",1994,"value","EURO 1",7,1324050
-"euro_status",1995,"blank","",0,97123
-"euro_status",1995,"other","",0,6134
+"euro_status",1995,"other","",0,103257
 "euro_status",1995,"value","EURO 3",1,2
 "euro_status",1995,"value","EURO 2",3,5
 "euro_status",1995,"value","EURO 5",4,1
 "euro_status",1995,"value","EURO 6 AP",5,1
 "euro_status",1995,"value","EURO 1",7,1632335
-"euro_status",1996,"blank","",0,116641
-"euro_status",1996,"other","",0,6614
+"euro_status",1996,"other","",0,123255
 "euro_status",1996,"value","EURO 3",1,2
 "euro_status",1996,"value","EURO 2",3,1
 "euro_status",1996,"value","EURO 5",4,4
 "euro_status",1996,"value","EURO 6 AP",5,1
 "euro_status",1996,"value","EURO 1",7,1871606
-"euro_status",1997,"blank","",0,149593
-"euro_status",1997,"other","",0,6630
+"euro_status",1997,"other","",0,156223
 "euro_status",1997,"value","EURO 3",1,3
 "euro_status",1997,"value","EURO 4",2,3
 "euro_status",1997,"value","EURO 2",3,1992785
 "euro_status",1997,"value","EURO 5",4,3
 "euro_status",1997,"value","EURO 1",7,146235
-"euro_status",1998,"blank","",0,177719
-"euro_status",1998,"other","",0,8382
+"euro_status",1998,"other","",0,186101
 "euro_status",1998,"value","EURO 3",1,2
 "euro_status",1998,"value","EURO 4",2,2
 "euro_status",1998,"value","EURO 2",3,2307458
@@ -3524,15 +3584,13 @@
 "euro_status",1998,"value","EURO 6 AP",5,1
 "euro_status",1998,"value","EURO 6",6,1
 "euro_status",1998,"value","EURO 1",7,7336
-"euro_status",1999,"blank","",0,147590
-"euro_status",1999,"other","",0,8584
+"euro_status",1999,"other","",0,156174
 "euro_status",1999,"value","EURO 3",1,7
 "euro_status",1999,"value","EURO 4",2,3
 "euro_status",1999,"value","EURO 2",3,2346637
 "euro_status",1999,"value","EURO 6 AP",5,4
 "euro_status",1999,"value","EURO 1",7,68058
-"euro_status",2000,"blank","",0,89918
-"euro_status",2000,"other","",0,9598
+"euro_status",2000,"other","",0,99516
 "euro_status",2000,"value","EURO 3",1,19
 "euro_status",2000,"value","EURO 4",2,48294
 "euro_status",2000,"value","EURO 2",3,2428460
@@ -3540,8 +3598,7 @@
 "euro_status",2000,"value","EURO 6 AP",5,6
 "euro_status",2000,"value","EURO 6",6,2
 "euro_status",2000,"value","EURO 1",7,140091
-"euro_status",2001,"blank","",0,88359
-"euro_status",2001,"other","",0,10912
+"euro_status",2001,"other","",0,99271
 "euro_status",2001,"value","EURO 3",1,2510373
 "euro_status",2001,"value","EURO 4",2,3235
 "euro_status",2001,"value","EURO 2",3,249657
@@ -3549,8 +3606,7 @@
 "euro_status",2001,"value","EURO 6 AP",5,6
 "euro_status",2001,"value","EURO 6",6,4
 "euro_status",2001,"value","EURO 1",7,142852
-"euro_status",2002,"blank","",0,91856
-"euro_status",2002,"other","",0,13481
+"euro_status",2002,"other","",0,105337
 "euro_status",2002,"value","EURO 3",1,2914336
 "euro_status",2002,"value","EURO 4",2,44
 "euro_status",2002,"value","EURO 2",3,2782
@@ -3558,8 +3614,7 @@
 "euro_status",2002,"value","EURO 6 AP",5,15
 "euro_status",2002,"value","EURO 6",6,4
 "euro_status",2002,"value","EURO 1",7,145348
-"euro_status",2003,"blank","",0,101258
-"euro_status",2003,"other","",0,14982
+"euro_status",2003,"other","",0,116240
 "euro_status",2003,"value","EURO 3",1,2872185
 "euro_status",2003,"value","EURO 4",2,43690
 "euro_status",2003,"value","EURO 2",3,3736
@@ -3567,8 +3622,7 @@
 "euro_status",2003,"value","EURO 6 AP",5,17
 "euro_status",2003,"value","EURO 6",6,12
 "euro_status",2003,"value","EURO 1",7,157067
-"euro_status",2004,"blank","",0,97510
-"euro_status",2004,"other","",0,15689
+"euro_status",2004,"other","",0,113199
 "euro_status",2004,"value","EURO 3",1,2851935
 "euro_status",2004,"value","EURO 4",2,11708
 "euro_status",2004,"value","EURO 2",3,128830
@@ -3576,8 +3630,7 @@
 "euro_status",2004,"value","EURO 6 AP",5,41244
 "euro_status",2004,"value","EURO 6",6,15
 "euro_status",2004,"value","EURO 1",7,19063
-"euro_status",2005,"blank","",0,85453
-"euro_status",2005,"other","",0,29023
+"euro_status",2005,"other","",0,114476
 "euro_status",2005,"value","EURO 3",1,2432332
 "euro_status",2005,"value","EURO 4",2,362267
 "euro_status",2005,"value","EURO 2",3,131827
@@ -3585,8 +3638,7 @@
 "euro_status",2005,"value","EURO 6 AP",5,28
 "euro_status",2005,"value","EURO 6",6,19
 "euro_status",2005,"value","EURO 1",7,16146
-"euro_status",2006,"blank","",0,80497
-"euro_status",2006,"other","",0,29417
+"euro_status",2006,"other","",0,109914
 "euro_status",2006,"value","EURO 3",1,320405
 "euro_status",2006,"value","EURO 4",2,2394032
 "euro_status",2006,"value","EURO 2",3,132381
@@ -3594,8 +3646,7 @@
 "euro_status",2006,"value","EURO 6 AP",5,58
 "euro_status",2006,"value","EURO 6",6,45
 "euro_status",2006,"value","EURO 1",7,9782
-"euro_status",2007,"blank","",0,104974
-"euro_status",2007,"other","",0,37453
+"euro_status",2007,"other","",0,142427
 "euro_status",2007,"value","EURO 3",1,140723
 "euro_status",2007,"value","EURO 4",2,2774725
 "euro_status",2007,"value","EURO 2",3,3285
@@ -3603,8 +3654,7 @@
 "euro_status",2007,"value","EURO 6 AP",5,73
 "euro_status",2007,"value","EURO 6",6,55
 "euro_status",2007,"value","EURO 1",7,6456
-"euro_status",2008,"blank","",0,112235
-"euro_status",2008,"other","",0,101315
+"euro_status",2008,"other","",0,213550
 "euro_status",2008,"value","EURO 3",1,135242
 "euro_status",2008,"value","EURO 4",2,2357480
 "euro_status",2008,"value","EURO 2",3,3047
@@ -3612,8 +3662,7 @@
 "euro_status",2008,"value","EURO 6 AP",5,17070
 "euro_status",2008,"value","EURO 6",6,375
 "euro_status",2008,"value","EURO 1",7,2922
-"euro_status",2009,"blank","",0,87449
-"euro_status",2009,"other","",0,56178
+"euro_status",2009,"other","",0,143627
 "euro_status",2009,"value","EURO 3",1,108504
 "euro_status",2009,"value","EURO 4",2,1971661
 "euro_status",2009,"value","EURO 2",3,1837
@@ -3621,8 +3670,7 @@
 "euro_status",2009,"value","EURO 6 AP",5,15063
 "euro_status",2009,"value","EURO 6",6,41741
 "euro_status",2009,"value","EURO 1",7,1008
-"euro_status",2010,"blank","",0,80305
-"euro_status",2010,"other","",0,66733
+"euro_status",2010,"other","",0,147038
 "euro_status",2010,"value","EURO 3",1,93946
 "euro_status",2010,"value","EURO 4",2,1959759
 "euro_status",2010,"value","EURO 2",3,1976
@@ -3630,8 +3678,7 @@
 "euro_status",2010,"value","EURO 6 AP",5,124
 "euro_status",2010,"value","EURO 6",6,1805
 "euro_status",2010,"value","EURO 1",7,595
-"euro_status",2011,"blank","",0,93061
-"euro_status",2011,"other","",0,325107
+"euro_status",2011,"other","",0,418168
 "euro_status",2011,"value","EURO 3",1,92568
 "euro_status",2011,"value","EURO 4",2,179651
 "euro_status",2011,"value","EURO 2",3,1198
@@ -3639,8 +3686,7 @@
 "euro_status",2011,"value","EURO 6 AP",5,177
 "euro_status",2011,"value","EURO 6",6,21636
 "euro_status",2011,"value","EURO 1",7,363
-"euro_status",2012,"blank","",0,95685
-"euro_status",2012,"other","",0,425262
+"euro_status",2012,"other","",0,520947
 "euro_status",2012,"value","EURO 3",1,93087
 "euro_status",2012,"value","EURO 4",2,229
 "euro_status",2012,"value","EURO 2",3,733
@@ -3648,8 +3694,7 @@
 "euro_status",2012,"value","EURO 6 AP",5,266
 "euro_status",2012,"value","EURO 6",6,71533
 "euro_status",2012,"value","EURO 1",7,292
-"euro_status",2013,"blank","",0,85897
-"euro_status",2013,"other","",0,819245
+"euro_status",2013,"other","",0,905142
 "euro_status",2013,"value","EURO 3",1,91638
 "euro_status",2013,"value","EURO 4",2,336
 "euro_status",2013,"value","EURO 2",3,588
@@ -3657,8 +3702,7 @@
 "euro_status",2013,"value","EURO 6 AP",5,374
 "euro_status",2013,"value","EURO 6",6,171109
 "euro_status",2013,"value","EURO 1",7,256
-"euro_status",2014,"blank","",0,80374
-"euro_status",2014,"other","",0,945155
+"euro_status",2014,"other","",0,1025529
 "euro_status",2014,"value","EURO 3",1,100831
 "euro_status",2014,"value","EURO 4",2,443
 "euro_status",2014,"value","EURO 2",3,756
@@ -3666,8 +3710,7 @@
 "euro_status",2014,"value","EURO 6 AP",5,56255
 "euro_status",2014,"value","EURO 6",6,400302
 "euro_status",2014,"value","EURO 1",7,278
-"euro_status",2015,"blank","",0,82123
-"euro_status",2015,"other","",0,944629
+"euro_status",2015,"other","",0,1026752
 "euro_status",2015,"value","EURO 3",1,115206
 "euro_status",2015,"value","EURO 4",2,324
 "euro_status",2015,"value","EURO 2",3,888
@@ -3675,8 +3718,7 @@
 "euro_status",2015,"value","EURO 6 AP",5,17955
 "euro_status",2015,"value","EURO 6",6,1120227
 "euro_status",2015,"value","EURO 1",7,454
-"euro_status",2016,"blank","",0,82320
-"euro_status",2016,"other","",0,1038423
+"euro_status",2016,"other","",0,1120743
 "euro_status",2016,"value","EURO 3",1,121229
 "euro_status",2016,"value","EURO 4",2,8314
 "euro_status",2016,"value","EURO 2",3,748
@@ -3684,8 +3726,7 @@
 "euro_status",2016,"value","EURO 6 AP",5,371779
 "euro_status",2016,"value","EURO 6",6,1408895
 "euro_status",2016,"value","EURO 1",7,375
-"euro_status",2017,"blank","",0,78490
-"euro_status",2017,"other","",0,982613
+"euro_status",2017,"other","",0,1061103
 "euro_status",2017,"value","EURO 3",1,1841
 "euro_status",2017,"value","EURO 4",2,103912
 "euro_status",2017,"value","EURO 2",3,596
@@ -3693,8 +3734,7 @@
 "euro_status",2017,"value","EURO 6 AP",5,534696
 "euro_status",2017,"value","EURO 6",6,1472831
 "euro_status",2017,"value","EURO 1",7,270
-"euro_status",2018,"blank","",0,78414
-"euro_status",2018,"other","",0,1794165
+"euro_status",2018,"other","",0,1872579
 "euro_status",2018,"value","EURO 3",1,1520
 "euro_status",2018,"value","EURO 4",2,102757
 "euro_status",2018,"value","EURO 2",3,400
@@ -3702,8 +3742,7 @@
 "euro_status",2018,"value","EURO 6 AP",5,78209
 "euro_status",2018,"value","EURO 6",6,942913
 "euro_status",2018,"value","EURO 1",7,196
-"euro_status",2019,"blank","",0,63916
-"euro_status",2019,"other","",0,2498546
+"euro_status",2019,"other","",0,2562462
 "euro_status",2019,"value","EURO 3",1,2981
 "euro_status",2019,"value","EURO 4",2,108173
 "euro_status",2019,"value","EURO 2",3,543
@@ -3711,8 +3750,7 @@
 "euro_status",2019,"value","EURO 6 AP",5,4443
 "euro_status",2019,"value","EURO 6",6,282680
 "euro_status",2019,"value","EURO 1",7,141
-"euro_status",2020,"blank","",0,50020
-"euro_status",2020,"other","",0,1642308
+"euro_status",2020,"other","",0,1692328
 "euro_status",2020,"value","EURO 3",1,2363
 "euro_status",2020,"value","EURO 4",2,100869
 "euro_status",2020,"value","EURO 2",3,222
@@ -3720,8 +3758,7 @@
 "euro_status",2020,"value","EURO 6 AP",5,275634
 "euro_status",2020,"value","EURO 6",6,82269
 "euro_status",2020,"value","EURO 1",7,122
-"euro_status",2021,"blank","",0,57855
-"euro_status",2021,"other","",0,518533
+"euro_status",2021,"other","",0,576388
 "euro_status",2021,"value","EURO 3",1,1887
 "euro_status",2021,"value","EURO 4",2,22840
 "euro_status",2021,"value","EURO 2",3,120
@@ -3729,8 +3766,7 @@
 "euro_status",2021,"value","EURO 6 AP",5,1416804
 "euro_status",2021,"value","EURO 6",6,143459
 "euro_status",2021,"value","EURO 1",7,70
-"euro_status",2022,"blank","",0,58685
-"euro_status",2022,"other","",0,356393
+"euro_status",2022,"other","",0,415078
 "euro_status",2022,"value","EURO 3",1,113
 "euro_status",2022,"value","EURO 4",2,2350
 "euro_status",2022,"value","EURO 2",3,12
@@ -3738,8 +3774,7 @@
 "euro_status",2022,"value","EURO 6 AP",5,1454585
 "euro_status",2022,"value","EURO 6",6,154184
 "euro_status",2022,"value","EURO 1",7,1
-"euro_status",2023,"blank","",0,62842
-"euro_status",2023,"other","",0,449713
+"euro_status",2023,"other","",0,512555
 "euro_status",2023,"value","EURO 3",1,47
 "euro_status",2023,"value","EURO 4",2,1308
 "euro_status",2023,"value","EURO 2",3,1
@@ -3747,8 +3782,7 @@
 "euro_status",2023,"value","EURO 6 AP",5,1667169
 "euro_status",2023,"value","EURO 6",6,167451
 "euro_status",2023,"value","EURO 1",7,4
-"euro_status",2024,"blank","",0,64553
-"euro_status",2024,"other","",0,1273145
+"euro_status",2024,"other","",0,1337698
 "euro_status",2024,"value","EURO 3",1,28
 "euro_status",2024,"value","EURO 4",2,96
 "euro_status",2024,"value","EURO 2",3,6
@@ -3756,8 +3790,7 @@
 "euro_status",2024,"value","EURO 6 AP",5,787521
 "euro_status",2024,"value","EURO 6",6,271851
 "euro_status",2024,"value","EURO 1",7,2
-"euro_status",2025,"blank","",0,60316
-"euro_status",2025,"other","",0,1756966
+"euro_status",2025,"other","",0,1817282
 "euro_status",2025,"value","EURO 3",1,18
 "euro_status",2025,"value","EURO 4",2,57
 "euro_status",2025,"value","EURO 2",3,3
@@ -3765,8 +3798,7 @@
 "euro_status",2025,"value","EURO 6 AP",5,378183
 "euro_status",2025,"value","EURO 6",6,251006
 "euro_status",2025,"value","EURO 1",7,5
-"euro_status",2026,"blank","",0,130385
-"euro_status",2026,"other","",0,996540
+"euro_status",2026,"other","",0,1126925
 "euro_status",2026,"value","EURO 3",1,1
 "euro_status",2026,"value","EURO 4",2,7
 "euro_status",2026,"value","EURO 5",4,39493
@@ -10601,6 +10633,477 @@
 "primaryColour_DVSA",2026,"value","Grey",5,492259
 "primaryColour_DVSA",2026,"value","Red",6,101011
 "primaryColour_DVSA",2026,"value","Green",7,118993
+"racf_link_level",1990,"blank","",0,118473
+"racf_link_level",1990,"value","model",1,332387
+"racf_link_level",1990,"value","genmodel",2,113879
+"racf_link_level",1990,"value","none",3,11401
+"racf_link_level",1991,"blank","",0,108662
+"racf_link_level",1991,"value","model",1,371885
+"racf_link_level",1991,"value","genmodel",2,128448
+"racf_link_level",1991,"value","none",3,15657
+"racf_link_level",1992,"blank","",0,119026
+"racf_link_level",1992,"value","model",1,490606
+"racf_link_level",1992,"value","genmodel",2,183350
+"racf_link_level",1992,"value","none",3,16081
+"racf_link_level",1993,"blank","",0,129021
+"racf_link_level",1993,"value","model",1,695046
+"racf_link_level",1993,"value","genmodel",2,304942
+"racf_link_level",1993,"value","none",3,15684
+"racf_link_level",1994,"blank","",0,168671
+"racf_link_level",1994,"value","model",1,912807
+"racf_link_level",1994,"value","genmodel",2,379842
+"racf_link_level",1994,"value","none",3,14153
+"racf_link_level",1995,"blank","",0,208110
+"racf_link_level",1995,"value","model",1,979461
+"racf_link_level",1995,"value","genmodel",2,529333
+"racf_link_level",1995,"value","none",3,18697
+"racf_link_level",1996,"blank","",0,237325
+"racf_link_level",1996,"value","model",1,1065214
+"racf_link_level",1996,"value","genmodel",2,673165
+"racf_link_level",1996,"value","none",3,19165
+"racf_link_level",1997,"blank","",0,294048
+"racf_link_level",1997,"value","model",1,1163051
+"racf_link_level",1997,"value","genmodel",2,817554
+"racf_link_level",1997,"value","none",3,20599
+"racf_link_level",1998,"blank","",0,341682
+"racf_link_level",1998,"value","model",1,1217046
+"racf_link_level",1998,"value","genmodel",2,923952
+"racf_link_level",1998,"value","none",3,18223
+"racf_link_level",1999,"blank","",0,373209
+"racf_link_level",1999,"value","model",1,1205864
+"racf_link_level",1999,"value","genmodel",2,970820
+"racf_link_level",1999,"value","none",3,20990
+"racf_link_level",2000,"blank","",0,441706
+"racf_link_level",2000,"value","model",1,1163602
+"racf_link_level",2000,"value","genmodel",2,1084458
+"racf_link_level",2000,"value","none",3,26628
+"racf_link_level",2001,"blank","",0,475927
+"racf_link_level",2001,"value","model",1,1259921
+"racf_link_level",2001,"value","genmodel",2,1250288
+"racf_link_level",2001,"value","none",3,19266
+"racf_link_level",2002,"blank","",0,502088
+"racf_link_level",2002,"value","model",1,1336485
+"racf_link_level",2002,"value","genmodel",2,1311173
+"racf_link_level",2002,"value","none",3,18129
+"racf_link_level",2003,"blank","",0,544403
+"racf_link_level",2003,"value","model",1,1326348
+"racf_link_level",2003,"value","genmodel",2,1303251
+"racf_link_level",2003,"value","none",3,18951
+"racf_link_level",2004,"blank","",0,557434
+"racf_link_level",2004,"value","model",1,1238107
+"racf_link_level",2004,"value","genmodel",2,1351730
+"racf_link_level",2004,"value","none",3,18735
+"racf_link_level",2005,"blank","",0,566279
+"racf_link_level",2005,"value","model",1,1172950
+"racf_link_level",2005,"value","genmodel",2,1299037
+"racf_link_level",2005,"value","none",3,18853
+"racf_link_level",2006,"blank","",0,568876
+"racf_link_level",2006,"value","model",1,1089616
+"racf_link_level",2006,"value","genmodel",2,1290973
+"racf_link_level",2006,"value","none",3,18615
+"racf_link_level",2007,"blank","",0,598488
+"racf_link_level",2007,"value","model",1,1068731
+"racf_link_level",2007,"value","genmodel",2,1378061
+"racf_link_level",2007,"value","none",3,22848
+"racf_link_level",2008,"blank","",0,554797
+"racf_link_level",2008,"value","model",1,938680
+"racf_link_level",2008,"value","genmodel",2,1216717
+"racf_link_level",2008,"value","none",3,20749
+"racf_link_level",2009,"blank","",0,397798
+"racf_link_level",2009,"value","model",1,845809
+"racf_link_level",2009,"value","genmodel",2,1160920
+"racf_link_level",2009,"value","none",3,15355
+"racf_link_level",2010,"blank","",0,417187
+"racf_link_level",2010,"value","model",1,846424
+"racf_link_level",2010,"value","genmodel",2,1191787
+"racf_link_level",2010,"value","none",3,14866
+"racf_link_level",2011,"blank","",0,470530
+"racf_link_level",2011,"value","model",1,797853
+"racf_link_level",2011,"value","genmodel",2,1154715
+"racf_link_level",2011,"value","none",3,14478
+"racf_link_level",2012,"blank","",0,455865
+"racf_link_level",2012,"value","model",1,844787
+"racf_link_level",2012,"value","genmodel",2,1220161
+"racf_link_level",2012,"value","none",3,17996
+"racf_link_level",2013,"blank","",0,488889
+"racf_link_level",2013,"value","model",1,895661
+"racf_link_level",2013,"value","genmodel",2,1409192
+"racf_link_level",2013,"value","none",3,11755
+"racf_link_level",2014,"blank","",0,533466
+"racf_link_level",2014,"value","model",1,975801
+"racf_link_level",2014,"value","genmodel",2,1547452
+"racf_link_level",2014,"value","none",3,12587
+"racf_link_level",2015,"blank","",0,611078
+"racf_link_level",2015,"value","model",1,1005107
+"racf_link_level",2015,"value","genmodel",2,1662625
+"racf_link_level",2015,"value","none",3,22841
+"racf_link_level",2016,"blank","",0,629870
+"racf_link_level",2016,"value","model",1,973807
+"racf_link_level",2016,"value","genmodel",2,1754537
+"racf_link_level",2016,"value","none",3,15633
+"racf_link_level",2017,"blank","",0,598194
+"racf_link_level",2017,"value","model",1,841540
+"racf_link_level",2017,"value","genmodel",2,1725981
+"racf_link_level",2017,"value","none",3,16395
+"racf_link_level",2018,"blank","",0,595171
+"racf_link_level",2018,"value","model",1,727070
+"racf_link_level",2018,"value","genmodel",2,1649324
+"racf_link_level",2018,"value","none",3,27748
+"racf_link_level",2019,"blank","",0,612276
+"racf_link_level",2019,"value","model",1,839171
+"racf_link_level",2019,"value","genmodel",2,1476771
+"racf_link_level",2019,"value","none",3,34927
+"racf_link_level",2020,"blank","",0,501609
+"racf_link_level",2020,"value","model",1,981430
+"racf_link_level",2020,"value","genmodel",2,661183
+"racf_link_level",2020,"value","none",3,15596
+"racf_link_level",2021,"blank","",0,589995
+"racf_link_level",2021,"value","model",1,1286669
+"racf_link_level",2021,"value","genmodel",2,367313
+"racf_link_level",2021,"value","none",3,11187
+"racf_link_level",2022,"blank","",0,519175
+"racf_link_level",2022,"value","model",1,1400222
+"racf_link_level",2022,"value","genmodel",2,213940
+"racf_link_level",2022,"value","none",3,7768
+"racf_link_level",2023,"blank","",0,581301
+"racf_link_level",2023,"value","model",1,1782498
+"racf_link_level",2023,"value","genmodel",2,88403
+"racf_link_level",2023,"value","none",3,6897
+"racf_link_level",2024,"blank","",0,592237
+"racf_link_level",2024,"value","model",1,1885015
+"racf_link_level",2024,"value","genmodel",2,16443
+"racf_link_level",2024,"value","none",3,6928
+"racf_link_level",2025,"blank","",0,528369
+"racf_link_level",2025,"value","model",1,1895565
+"racf_link_level",2025,"value","genmodel",2,42321
+"racf_link_level",2025,"value","none",3,24198
+"racf_link_level",2026,"blank","",0,449620
+"racf_link_level",2026,"value","none",3,1492545
+"racf_smmt_type",1990,"blank","",0,247967
+"racf_smmt_type",1990,"other","",0,30708
+"racf_smmt_type",1990,"value","Lower Medium",1,149245
+"racf_smmt_type",1990,"value","Supermini",2,65521
+"racf_smmt_type",1990,"value","Dual Purpose",3,14249
+"racf_smmt_type",1990,"value","Upper Medium",4,27429
+"racf_smmt_type",1990,"value","Mini",5,28067
+"racf_smmt_type",1990,"value","MPV",6,2041
+"racf_smmt_type",1990,"value","Executive",7,10913
+"racf_smmt_type",1991,"blank","",0,243803
+"racf_smmt_type",1991,"other","",0,30024
+"racf_smmt_type",1991,"value","Lower Medium",1,168728
+"racf_smmt_type",1991,"value","Supermini",2,84565
+"racf_smmt_type",1991,"value","Dual Purpose",3,19201
+"racf_smmt_type",1991,"value","Upper Medium",4,33644
+"racf_smmt_type",1991,"value","Mini",5,25711
+"racf_smmt_type",1991,"value","MPV",6,3080
+"racf_smmt_type",1991,"value","Executive",7,15896
+"racf_smmt_type",1992,"blank","",0,307097
+"racf_smmt_type",1992,"other","",0,29772
+"racf_smmt_type",1992,"value","Lower Medium",1,239080
+"racf_smmt_type",1992,"value","Supermini",2,107875
+"racf_smmt_type",1992,"value","Dual Purpose",3,28841
+"racf_smmt_type",1992,"value","Upper Medium",4,41985
+"racf_smmt_type",1992,"value","Mini",5,30233
+"racf_smmt_type",1992,"value","MPV",6,4871
+"racf_smmt_type",1992,"value","Executive",7,19309
+"racf_smmt_type",1993,"blank","",0,373738
+"racf_smmt_type",1993,"other","",0,31443
+"racf_smmt_type",1993,"value","Lower Medium",1,333665
+"racf_smmt_type",1993,"value","Supermini",2,177150
+"racf_smmt_type",1993,"value","Dual Purpose",3,50453
+"racf_smmt_type",1993,"value","Upper Medium",4,93580
+"racf_smmt_type",1993,"value","Mini",5,51238
+"racf_smmt_type",1993,"value","MPV",6,8084
+"racf_smmt_type",1993,"value","Executive",7,25342
+"racf_smmt_type",1994,"blank","",0,421980
+"racf_smmt_type",1994,"other","",0,35269
+"racf_smmt_type",1994,"value","Lower Medium",1,437055
+"racf_smmt_type",1994,"value","Supermini",2,243714
+"racf_smmt_type",1994,"value","Dual Purpose",3,59821
+"racf_smmt_type",1994,"value","Upper Medium",4,157393
+"racf_smmt_type",1994,"value","Mini",5,63517
+"racf_smmt_type",1994,"value","MPV",6,9811
+"racf_smmt_type",1994,"value","Executive",7,46913
+"racf_smmt_type",1995,"blank","",0,471915
+"racf_smmt_type",1995,"other","",0,49015
+"racf_smmt_type",1995,"value","Lower Medium",1,491280
+"racf_smmt_type",1995,"value","Supermini",2,291908
+"racf_smmt_type",1995,"value","Dual Purpose",3,69671
+"racf_smmt_type",1995,"value","Upper Medium",4,214912
+"racf_smmt_type",1995,"value","Mini",5,70918
+"racf_smmt_type",1995,"value","MPV",6,14336
+"racf_smmt_type",1995,"value","Executive",7,61646
+"racf_smmt_type",1996,"blank","",0,455368
+"racf_smmt_type",1996,"other","",0,60871
+"racf_smmt_type",1996,"value","Lower Medium",1,553832
+"racf_smmt_type",1996,"value","Supermini",2,359855
+"racf_smmt_type",1996,"value","Dual Purpose",3,75390
+"racf_smmt_type",1996,"value","Upper Medium",4,331594
+"racf_smmt_type",1996,"value","Mini",5,69110
+"racf_smmt_type",1996,"value","MPV",6,27060
+"racf_smmt_type",1996,"value","Executive",7,61789
+"racf_smmt_type",1997,"blank","",0,546604
+"racf_smmt_type",1997,"other","",0,77529
+"racf_smmt_type",1997,"value","Lower Medium",1,634620
+"racf_smmt_type",1997,"value","Supermini",2,407826
+"racf_smmt_type",1997,"value","Dual Purpose",3,79996
+"racf_smmt_type",1997,"value","Upper Medium",4,390481
+"racf_smmt_type",1997,"value","Mini",5,56901
+"racf_smmt_type",1997,"value","MPV",6,31562
+"racf_smmt_type",1997,"value","Executive",7,69733
+"racf_smmt_type",1998,"blank","",0,565543
+"racf_smmt_type",1998,"other","",0,88359
+"racf_smmt_type",1998,"value","Lower Medium",1,708708
+"racf_smmt_type",1998,"value","Supermini",2,416598
+"racf_smmt_type",1998,"value","Dual Purpose",3,104684
+"racf_smmt_type",1998,"value","Upper Medium",4,442408
+"racf_smmt_type",1998,"value","Mini",5,66273
+"racf_smmt_type",1998,"value","MPV",6,33075
+"racf_smmt_type",1998,"value","Executive",7,75255
+"racf_smmt_type",1999,"blank","",0,570492
+"racf_smmt_type",1999,"other","",0,91271
+"racf_smmt_type",1999,"value","Lower Medium",1,703384
+"racf_smmt_type",1999,"value","Supermini",2,460220
+"racf_smmt_type",1999,"value","Dual Purpose",3,110069
+"racf_smmt_type",1999,"value","Upper Medium",4,435793
+"racf_smmt_type",1999,"value","Mini",5,73639
+"racf_smmt_type",1999,"value","MPV",6,41181
+"racf_smmt_type",1999,"value","Executive",7,84834
+"racf_smmt_type",2000,"blank","",0,649035
+"racf_smmt_type",2000,"other","",0,83597
+"racf_smmt_type",2000,"value","Lower Medium",1,705231
+"racf_smmt_type",2000,"value","Supermini",2,500380
+"racf_smmt_type",2000,"value","Dual Purpose",3,119328
+"racf_smmt_type",2000,"value","Upper Medium",4,424240
+"racf_smmt_type",2000,"value","Mini",5,80096
+"racf_smmt_type",2000,"value","MPV",6,62167
+"racf_smmt_type",2000,"value","Executive",7,92320
+"racf_smmt_type",2001,"blank","",0,660612
+"racf_smmt_type",2001,"other","",0,77379
+"racf_smmt_type",2001,"value","Lower Medium",1,795896
+"racf_smmt_type",2001,"value","Supermini",2,588863
+"racf_smmt_type",2001,"value","Dual Purpose",3,140292
+"racf_smmt_type",2001,"value","Upper Medium",4,468565
+"racf_smmt_type",2001,"value","Mini",5,82866
+"racf_smmt_type",2001,"value","MPV",6,93724
+"racf_smmt_type",2001,"value","Executive",7,97205
+"racf_smmt_type",2002,"blank","",0,676820
+"racf_smmt_type",2002,"other","",0,81970
+"racf_smmt_type",2002,"value","Lower Medium",1,820695
+"racf_smmt_type",2002,"value","Supermini",2,652718
+"racf_smmt_type",2002,"value","Dual Purpose",3,155713
+"racf_smmt_type",2002,"value","Upper Medium",4,484400
+"racf_smmt_type",2002,"value","Mini",5,80021
+"racf_smmt_type",2002,"value","MPV",6,107054
+"racf_smmt_type",2002,"value","Executive",7,108484
+"racf_smmt_type",2003,"blank","",0,705170
+"racf_smmt_type",2003,"other","",0,93900
+"racf_smmt_type",2003,"value","Lower Medium",1,747660
+"racf_smmt_type",2003,"value","Supermini",2,671292
+"racf_smmt_type",2003,"value","Dual Purpose",3,172738
+"racf_smmt_type",2003,"value","Upper Medium",4,474038
+"racf_smmt_type",2003,"value","Mini",5,88709
+"racf_smmt_type",2003,"value","MPV",6,130990
+"racf_smmt_type",2003,"value","Executive",7,108456
+"racf_smmt_type",2004,"blank","",0,705011
+"racf_smmt_type",2004,"other","",0,93898
+"racf_smmt_type",2004,"value","Lower Medium",1,728453
+"racf_smmt_type",2004,"value","Supermini",2,635367
+"racf_smmt_type",2004,"value","Dual Purpose",3,189890
+"racf_smmt_type",2004,"value","Upper Medium",4,447215
+"racf_smmt_type",2004,"value","Mini",5,85818
+"racf_smmt_type",2004,"value","MPV",6,177284
+"racf_smmt_type",2004,"value","Executive",7,103070
+"racf_smmt_type",2005,"blank","",0,664851
+"racf_smmt_type",2005,"other","",0,83781
+"racf_smmt_type",2005,"value","Lower Medium",1,751647
+"racf_smmt_type",2005,"value","Supermini",2,579218
+"racf_smmt_type",2005,"value","Dual Purpose",3,195686
+"racf_smmt_type",2005,"value","Upper Medium",4,430314
+"racf_smmt_type",2005,"value","Mini",5,88659
+"racf_smmt_type",2005,"value","MPV",6,171623
+"racf_smmt_type",2005,"value","Executive",7,91340
+"racf_smmt_type",2006,"blank","",0,650159
+"racf_smmt_type",2006,"other","",0,84242
+"racf_smmt_type",2006,"value","Lower Medium",1,732974
+"racf_smmt_type",2006,"value","Supermini",2,577431
+"racf_smmt_type",2006,"value","Dual Purpose",3,181269
+"racf_smmt_type",2006,"value","Upper Medium",4,408378
+"racf_smmt_type",2006,"value","Mini",5,97464
+"racf_smmt_type",2006,"value","MPV",6,157626
+"racf_smmt_type",2006,"value","Executive",7,78537
+"racf_smmt_type",2007,"blank","",0,674967
+"racf_smmt_type",2007,"other","",0,87758
+"racf_smmt_type",2007,"value","Lower Medium",1,761796
+"racf_smmt_type",2007,"value","Supermini",2,628833
+"racf_smmt_type",2007,"value","Dual Purpose",3,199134
+"racf_smmt_type",2007,"value","Upper Medium",4,397777
+"racf_smmt_type",2007,"value","Mini",5,81523
+"racf_smmt_type",2007,"value","MPV",6,157629
+"racf_smmt_type",2007,"value","Executive",7,78711
+"racf_smmt_type",2008,"blank","",0,618249
+"racf_smmt_type",2008,"other","",0,69472
+"racf_smmt_type",2008,"value","Lower Medium",1,657942
+"racf_smmt_type",2008,"value","Supermini",2,567720
+"racf_smmt_type",2008,"value","Dual Purpose",3,160112
+"racf_smmt_type",2008,"value","Upper Medium",4,342455
+"racf_smmt_type",2008,"value","Mini",5,114377
+"racf_smmt_type",2008,"value","MPV",6,130481
+"racf_smmt_type",2008,"value","Executive",7,70135
+"racf_smmt_type",2009,"blank","",0,446573
+"racf_smmt_type",2009,"other","",0,55655
+"racf_smmt_type",2009,"value","Lower Medium",1,561951
+"racf_smmt_type",2009,"value","Supermini",2,578076
+"racf_smmt_type",2009,"value","Dual Purpose",3,167465
+"racf_smmt_type",2009,"value","Upper Medium",4,284489
+"racf_smmt_type",2009,"value","Mini",5,172933
+"racf_smmt_type",2009,"value","MPV",6,91142
+"racf_smmt_type",2009,"value","Executive",7,61598
+"racf_smmt_type",2010,"blank","",0,465896
+"racf_smmt_type",2010,"other","",0,51429
+"racf_smmt_type",2010,"value","Lower Medium",1,563596
+"racf_smmt_type",2010,"value","Supermini",2,564409
+"racf_smmt_type",2010,"value","Dual Purpose",3,222259
+"racf_smmt_type",2010,"value","Upper Medium",4,258689
+"racf_smmt_type",2010,"value","Mini",5,164032
+"racf_smmt_type",2010,"value","MPV",6,110194
+"racf_smmt_type",2010,"value","Executive",7,69760
+"racf_smmt_type",2011,"blank","",0,513475
+"racf_smmt_type",2011,"other","",0,45104
+"racf_smmt_type",2011,"value","Lower Medium",1,508371
+"racf_smmt_type",2011,"value","Supermini",2,528553
+"racf_smmt_type",2011,"value","Dual Purpose",3,261488
+"racf_smmt_type",2011,"value","Upper Medium",4,262922
+"racf_smmt_type",2011,"value","Mini",5,142317
+"racf_smmt_type",2011,"value","MPV",6,98044
+"racf_smmt_type",2011,"value","Executive",7,77302
+"racf_smmt_type",2012,"blank","",0,505527
+"racf_smmt_type",2012,"other","",0,44391
+"racf_smmt_type",2012,"value","Lower Medium",1,507586
+"racf_smmt_type",2012,"value","Supermini",2,570238
+"racf_smmt_type",2012,"value","Dual Purpose",3,314448
+"racf_smmt_type",2012,"value","Upper Medium",4,252767
+"racf_smmt_type",2012,"value","Mini",5,176863
+"racf_smmt_type",2012,"value","MPV",6,86419
+"racf_smmt_type",2012,"value","Executive",7,80570
+"racf_smmt_type",2013,"blank","",0,531781
+"racf_smmt_type",2013,"other","",0,47983
+"racf_smmt_type",2013,"value","Lower Medium",1,559521
+"racf_smmt_type",2013,"value","Supermini",2,633361
+"racf_smmt_type",2013,"value","Dual Purpose",3,411627
+"racf_smmt_type",2013,"value","Upper Medium",4,225703
+"racf_smmt_type",2013,"value","Mini",5,211105
+"racf_smmt_type",2013,"value","MPV",6,93071
+"racf_smmt_type",2013,"value","Executive",7,91345
+"racf_smmt_type",2014,"blank","",0,576068
+"racf_smmt_type",2014,"other","",0,51894
+"racf_smmt_type",2014,"value","Lower Medium",1,609780
+"racf_smmt_type",2014,"value","Supermini",2,661623
+"racf_smmt_type",2014,"value","Dual Purpose",3,509776
+"racf_smmt_type",2014,"value","Upper Medium",4,239713
+"racf_smmt_type",2014,"value","Mini",5,237295
+"racf_smmt_type",2014,"value","MPV",6,91494
+"racf_smmt_type",2014,"value","Executive",7,91663
+"racf_smmt_type",2015,"blank","",0,655728
+"racf_smmt_type",2015,"other","",0,57839
+"racf_smmt_type",2015,"value","Lower Medium",1,645642
+"racf_smmt_type",2015,"value","Supermini",2,663594
+"racf_smmt_type",2015,"value","Dual Purpose",3,627103
+"racf_smmt_type",2015,"value","Upper Medium",4,266103
+"racf_smmt_type",2015,"value","Mini",5,229316
+"racf_smmt_type",2015,"value","MPV",6,66977
+"racf_smmt_type",2015,"value","Executive",7,89349
+"racf_smmt_type",2016,"blank","",0,662894
+"racf_smmt_type",2016,"other","",0,68173
+"racf_smmt_type",2016,"value","Lower Medium",1,634181
+"racf_smmt_type",2016,"value","Supermini",2,603862
+"racf_smmt_type",2016,"value","Dual Purpose",3,768785
+"racf_smmt_type",2016,"value","Upper Medium",4,263928
+"racf_smmt_type",2016,"value","Mini",5,217412
+"racf_smmt_type",2016,"value","MPV",6,67134
+"racf_smmt_type",2016,"value","Executive",7,87478
+"racf_smmt_type",2017,"blank","",0,637231
+"racf_smmt_type",2017,"other","",0,63742
+"racf_smmt_type",2017,"value","Lower Medium",1,578698
+"racf_smmt_type",2017,"value","Supermini",2,510913
+"racf_smmt_type",2017,"value","Dual Purpose",3,814481
+"racf_smmt_type",2017,"value","Upper Medium",4,242989
+"racf_smmt_type",2017,"value","Mini",5,186998
+"racf_smmt_type",2017,"value","MPV",6,65158
+"racf_smmt_type",2017,"value","Executive",7,81900
+"racf_smmt_type",2018,"blank","",0,642985
+"racf_smmt_type",2018,"other","",0,53195
+"racf_smmt_type",2018,"value","Lower Medium",1,474383
+"racf_smmt_type",2018,"value","Supermini",2,471867
+"racf_smmt_type",2018,"value","Dual Purpose",3,892579
+"racf_smmt_type",2018,"value","Upper Medium",4,178574
+"racf_smmt_type",2018,"value","Mini",5,163563
+"racf_smmt_type",2018,"value","MPV",6,43641
+"racf_smmt_type",2018,"value","Executive",7,78526
+"racf_smmt_type",2019,"blank","",0,657969
+"racf_smmt_type",2019,"other","",0,50710
+"racf_smmt_type",2019,"value","Lower Medium",1,437327
+"racf_smmt_type",2019,"value","Supermini",2,440156
+"racf_smmt_type",2019,"value","Dual Purpose",3,966007
+"racf_smmt_type",2019,"value","Upper Medium",4,166186
+"racf_smmt_type",2019,"value","Mini",5,134677
+"racf_smmt_type",2019,"value","MPV",6,41633
+"racf_smmt_type",2019,"value","Executive",7,68480
+"racf_smmt_type",2020,"blank","",0,523870
+"racf_smmt_type",2020,"other","",0,35970
+"racf_smmt_type",2020,"value","Lower Medium",1,295660
+"racf_smmt_type",2020,"value","Supermini",2,316352
+"racf_smmt_type",2020,"value","Dual Purpose",3,748543
+"racf_smmt_type",2020,"value","Upper Medium",4,111723
+"racf_smmt_type",2020,"value","Mini",5,71133
+"racf_smmt_type",2020,"value","MPV",6,22720
+"racf_smmt_type",2020,"value","Executive",7,33847
+"racf_smmt_type",2021,"blank","",0,611716
+"racf_smmt_type",2021,"other","",0,37263
+"racf_smmt_type",2021,"value","Lower Medium",1,254641
+"racf_smmt_type",2021,"value","Supermini",2,306726
+"racf_smmt_type",2021,"value","Dual Purpose",3,809646
+"racf_smmt_type",2021,"value","Upper Medium",4,114067
+"racf_smmt_type",2021,"value","Mini",5,79192
+"racf_smmt_type",2021,"value","MPV",6,17094
+"racf_smmt_type",2021,"value","Executive",7,24819
+"racf_smmt_type",2022,"blank","",0,541282
+"racf_smmt_type",2022,"other","",0,36016
+"racf_smmt_type",2022,"value","Lower Medium",1,212468
+"racf_smmt_type",2022,"value","Supermini",2,300377
+"racf_smmt_type",2022,"value","Dual Purpose",3,863270
+"racf_smmt_type",2022,"value","Upper Medium",4,78976
+"racf_smmt_type",2022,"value","Mini",5,64125
+"racf_smmt_type",2022,"value","MPV",6,18375
+"racf_smmt_type",2022,"value","Executive",7,26216
+"racf_smmt_type",2023,"blank","",0,600574
+"racf_smmt_type",2023,"other","",0,42961
+"racf_smmt_type",2023,"value","Lower Medium",1,272297
+"racf_smmt_type",2023,"value","Supermini",2,312471
+"racf_smmt_type",2023,"value","Dual Purpose",3,1041802
+"racf_smmt_type",2023,"value","Upper Medium",4,77706
+"racf_smmt_type",2023,"value","Mini",5,64119
+"racf_smmt_type",2023,"value","MPV",6,22114
+"racf_smmt_type",2023,"value","Executive",7,25055
+"racf_smmt_type",2024,"blank","",0,644947
+"racf_smmt_type",2024,"other","",0,37708
+"racf_smmt_type",2024,"value","Lower Medium",1,257776
+"racf_smmt_type",2024,"value","Supermini",2,285181
+"racf_smmt_type",2024,"value","Dual Purpose",3,1087266
+"racf_smmt_type",2024,"value","Upper Medium",4,70905
+"racf_smmt_type",2024,"value","Mini",5,52968
+"racf_smmt_type",2024,"value","MPV",6,32060
+"racf_smmt_type",2024,"value","Executive",7,31812
+"racf_smmt_type",2025,"blank","",0,797820
+"racf_smmt_type",2025,"other","",0,33434
+"racf_smmt_type",2025,"value","Lower Medium",1,205329
+"racf_smmt_type",2025,"value","Supermini",2,265132
+"racf_smmt_type",2025,"value","Dual Purpose",3,1012961
+"racf_smmt_type",2025,"value","Upper Medium",4,62678
+"racf_smmt_type",2025,"value","Mini",5,43295
+"racf_smmt_type",2025,"value","MPV",6,35183
+"racf_smmt_type",2025,"value","Executive",7,34621
+"racf_smmt_type",2026,"blank","",0,1942165
 "realDrivingEmissions_DVLA",1990,"blank","",0,576137
 "realDrivingEmissions_DVLA",1990,"value","2",1,3
 "realDrivingEmissions_DVLA",1991,"blank","",0,624642

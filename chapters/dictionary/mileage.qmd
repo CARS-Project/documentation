@@ -5,6 +5,7 @@ source("R/book.R")
 by_year <- read_coverage("coverage_by_year")
 by_year$share_mileage <- by_year$n_mileage / by_year$n_on_road
 by_year$share_legit <- by_year$n_legit_mileage / by_year$n_mileage
+by_year$share_odometer <- by_year$n_odometer_est / by_year$n_on_road
 yr <- function(y, col) fmt_pct(by_year[[col]][by_year$year == y], 0)
 mc <- read_pipeline("outputs", "quality", "mileage_checks.csv")
 ```
@@ -25,6 +26,10 @@ made, and @sec-mot-test what the MOT records.
 - **`total_mileage`** is the sum of the annual mileages over all years. It is
   0 for a vehicle with no recorded mileage, and decides `scope_mileage`
   (@sec-dd-identifiers).
+- **`odometer_est_YYYY`** is the Bristol team's estimate of the odometer
+  reading in year YYYY, carried through as supplied. The pipeline does not
+  use it: some estimates exceed 1,000,000 miles and some fall from one year to
+  the next. It is in the maximal table only.
 
 The pipeline takes the annual mileages as supplied (methodology,
 [section 2](../../reports/methodology.md#input-data)), and summarises them in
@@ -68,6 +73,10 @@ implausible is at most `r fmt_pct(max(mc$n_not_legit / mc$n_with_mileage), 1)`
 in any year. `total_mileage` is never blank, but is 0 for vehicles with no mileage in any
 year.
 
+`odometer_est_YYYY` is present in each year for as many vehicles as have a
+plausible mileage (`r yr(2015, "share_odometer")` of those on the road in
+2015), so it adds no years that `mileage_YYYY` does not already cover.
+
 ```{r}
 #| label: fig-dd-mileage
 #| fig-cap: "Share of the vehicles on the road in each year that have a mileage for that year."
@@ -82,15 +91,16 @@ ggplot(by_year, aes(year, share_mileage)) +
 
 ```{r}
 #| label: tbl-dd-mileage-coverage
-#| tbl-cap: "Vehicles on the road in each year, and the share with a mileage and with a plausible mileage."
+#| tbl-cap: "Vehicles on the road in each year, and the share with a mileage, with a plausible mileage and with an estimated odometer reading."
 out <- data.frame(
   Year = by_year$year,
   `On the road` = fmt_n(by_year$n_on_road),
   `With a mileage` = fmt_pct(by_year$share_mileage),
   `Plausible, of those with a mileage` = fmt_pct(by_year$share_legit),
+  `With an odometer estimate` = fmt_pct(by_year$share_odometer),
   check.names = FALSE
 )
-kable(out, row.names = FALSE, align = c("l", "r", "r", "r"))
+kable(out, row.names = FALSE, align = c("l", "r", "r", "r", "r"))
 ```
 
 ## Values

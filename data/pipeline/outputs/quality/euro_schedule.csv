@@ -1,6 +1,6 @@
 "body_type","schedule","standard","euro_status","from"
 "Buses and coaches","heavy",1,"EURO I",1993-10-01
-"Buses and coaches","heavy",2,"EURO II",1997-10-01
+"Buses and coaches","heavy",2,"EURO II",1996-10-01
 "Buses and coaches","heavy",3,"EURO III",2001-10-01
 "Buses and coaches","heavy",4,"EURO IV",2006-10-01
 "Buses and coaches","heavy",5,"EURO V",2009-10-01
@@ -12,7 +12,7 @@
 "Cars","cars",5,"EURO 5",2011-01-01
 "Cars","cars",6,"EURO 6",2015-09-01
 "Heavy goods vehicles","heavy",1,"EURO I",1993-10-01
-"Heavy goods vehicles","heavy",2,"EURO II",1997-10-01
+"Heavy goods vehicles","heavy",2,"EURO II",1996-10-01
 "Heavy goods vehicles","heavy",3,"EURO III",2001-10-01
 "Heavy goods vehicles","heavy",4,"EURO IV",2006-10-01
 "Heavy goods vehicles","heavy",5,"EURO V",2009-10-01

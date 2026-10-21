@@ -1,10 +1,14 @@
-# Location {#sec-dd-location}
+# Location and yearly status {#sec-dd-location}
 
 ```{r}
 source("R/book.R")
 by_year <- read_coverage("coverage_by_year")
 by_year$share_pca <- by_year$n_pca / by_year$n_on_road
 yr <- function(y) fmt_pct(by_year$share_pca[by_year$year == y], 0)
+flag <- function(f, y, true = FALSE) {
+  x <- by_year[by_year$year == y, ]
+  fmt_pct(x[[paste0("n_", f, if (true) "_true")]] / x$n_on_road, 0)
+}
 st <- read_pipeline("outputs", "quality", "pca_status_by_year.csv")
 ```
 
@@ -17,7 +21,8 @@ but not always, near where it is kept. @sec-geography explains postcode areas
 and the limits of analysing vehicles at this scale.
 
 - **`pca_YYYY`** is the postcode area in year YYYY, from
-  `r min(st$year)` to `r max(st$year)`. Northern Ireland is coded `NI`.
+  `r min(st$year)` to `r max(st$year)`. Northern Ireland is coded `BT`,
+  its real postcode area (older deliveries' `NI` is recoded to `BT`).
 - **In a year with no recorded postcode area**, the pipeline replaces the blank
   with the vehicle's status:
   - `unborn`: the vehicle had not yet been made or registered;
@@ -34,9 +39,20 @@ how the statuses describe a vehicle's life in @sec-lifecycle. A vehicle is
 these vehicles is the usual first step of any analysis of a year
 (@sec-vehicle-table).
 
+The Bristol team also supplied three yearly status flags, which the pipeline
+carries through to the maximal table only:
+
+- **`is_new_vehicle_YYYY`** is Bristol's new-vehicle flag for the year, and
+  **`is_intertest_YYYY`** its inter-test flag. The pipeline does not use
+  them.
+- **`is_end_use_YYYY`** is `TRUE` in the year of the vehicle's final MOT
+  test, and only where testing has stopped. The last year in which it is
+  `TRUE` gives `last_mot_year` (@sec-dd-dates), and so the years in which
+  `pca_YYYY` is `dead`.
+
 ```{r}
 #| label: tbl-dd-location
-#| tbl-cap: "Location columns."
+#| tbl-cap: "Location and yearly status columns."
 dict_table("location")
 ```
 
@@ -53,6 +69,14 @@ vehicles that missed a test. The share falls in the final years, to `r yr(2025)`
 in `r max(by_year$year)`: a vehicle last tested in the final two years of data
 may not yet be due another test, so it stays `unknown` rather than `dead`
 (@sec-pitfalls).
+
+The three status flags are present for about `r flag("is_end_use", 2015)` of
+the vehicles on the road in each year (@tbl-dd-location-flags).
+`is_intertest_YYYY` is `TRUE` for most of them (`r flag("is_intertest", 2015, TRUE)`
+in 2015), and `is_new_vehicle_YYYY` for `r flag("is_new_vehicle", 2015, TRUE)`.
+`is_end_use_YYYY` is `TRUE` for about `r flag("is_end_use", 2015, TRUE)` of
+vehicles in a typical year, but for `r flag("is_end_use", 2025, TRUE)` in
+`r max(by_year$year)`, the last year of data.
 
 ```{r}
 #| label: fig-dd-location
@@ -78,6 +102,20 @@ out <- data.frame(
   check.names = FALSE
 )
 kable(out, row.names = FALSE, align = c("l", rep("r", 5)))
+```
+
+```{r}
+#| label: tbl-dd-location-flags
+#| tbl-cap: "Share of the vehicles on the road in each year with a value in the status flags (is_new_vehicle_YYYY is blank for slightly more), and with each flag TRUE."
+f <- c("is_new_vehicle", "is_intertest", "is_end_use")
+out <- data.frame(Year = by_year$year,
+                  `With a value` = fmt_pct(by_year$n_is_end_use / by_year$n_on_road),
+                  check.names = FALSE)
+for (k in f) {
+  out[[paste0("`", k, "_YYYY` TRUE")]] <-
+    fmt_pct(by_year[[paste0("n_", k, "_true")]] / by_year$n_on_road)
+}
+kable(out, row.names = FALSE, align = c("l", rep("r", 4)))
 ```
 
 ## Values

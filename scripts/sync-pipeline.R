@@ -81,7 +81,7 @@ git <- function(...) {
   )
   if (length(out) == 0) NA_character_ else out[1]
 }
-parquet <- file.path(pipeline_dir, "outputs", "vehicles_enhanced.parquet")
+parquet <- file.path(pipeline_dir, "outputs", "vehicles_enhanced_maximal.parquet")
 provenance <- data.frame(
   item = c("pipeline_commit", "pipeline_commit_date", "pipeline_branch",
            "pipeline_uncommitted_changes", "parquet_modified", "synced_at"),

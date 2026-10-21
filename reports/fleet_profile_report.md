@@ -11,8 +11,8 @@ vehicle characteristic, counted (Analyses 1 and 3) and averaged over
 mileage (Analyses 2 and 4), with and without an age band.
 
 They are built by `R/summary_profile.R` from
-`vehicles_enhanced.parquet`, and cover 2005–2025 for Buses and coaches,
-Cars, Light goods vehicles and Motorcycles.
+`vehicles_enhanced_maximal.parquet`, and cover 2005–2025 for Buses and
+coaches, Cars, Light goods vehicles and Motorcycles.
 
 ## What is counted
 
@@ -22,9 +22,14 @@ A vehicle is in a table for a year when all of these hold:
   and Motorcycles (`fleet_profile.body_types`)
 - it was in a real postcode area that year, that is not `unborn`, `dead`
   or `unknown`
-- it was not in Northern Ireland (`exclude_ni`: TRUE)
+- it was not in Northern Ireland (postcode area `BT`; `exclude_ni`:
+  TRUE)
 - its mileage that year passes `mileage_filter` (legit). `legit` keeps
   only the vehicle-years whose mileage Bristol judged plausible.
+
+**Age** is whole years at 1 June of the year since first use, and the
+fuel group is the harmonised `fuel_simple`, both as in the churn tables.
+A vehicle first used after 1 June of the year is in the `<0` age band.
 
 **The mileage filter is per vehicle-year, not per vehicle.** A vehicle
 counts in the years its mileage was judged plausible and not in the
@@ -34,27 +39,79 @@ others, so the same vehicle can appear in 2018 and not in 2019.
 
 | year | Buses and coaches |       Cars | Light goods vehicles | Motorcycles |
 |:-----|------------------:|-----------:|---------------------:|------------:|
-| 2005 |            16,924 | 27,089,377 |            2,379,709 |   1,420,083 |
-| 2006 |            18,361 | 27,255,099 |            2,504,659 |   1,429,510 |
-| 2007 |            20,321 | 27,723,765 |            2,661,278 |   1,453,809 |
-| 2008 |            22,800 | 27,940,914 |            2,768,151 |   1,473,440 |
-| 2009 |            23,910 | 28,029,505 |            2,789,976 |   1,475,476 |
-| 2010 |            25,343 | 28,265,642 |            2,837,056 |   1,472,153 |
-| 2011 |            26,075 | 28,382,117 |            2,909,305 |   1,459,569 |
-| 2012 |            28,867 | 28,684,326 |            2,989,066 |   1,449,688 |
-| 2013 |            31,401 | 29,207,211 |            3,086,048 |   1,435,880 |
-| 2014 |            33,414 | 29,945,182 |            3,232,231 |   1,429,661 |
-| 2015 |            35,964 | 30,754,495 |            3,422,794 |   1,434,020 |
-| 2016 |            38,011 | 31,386,438 |            3,585,825 |   1,439,990 |
-| 2017 |            39,253 | 31,200,922 |            3,630,227 |   1,388,456 |
-| 2018 |            40,431 | 31,586,135 |            3,767,614 |   1,371,208 |
-| 2019 |            40,282 | 31,924,552 |            3,917,088 |   1,349,015 |
-| 2020 |            40,493 | 32,257,409 |            4,076,694 |   1,353,844 |
-| 2021 |            39,675 | 32,633,014 |            4,297,475 |   1,346,141 |
-| 2022 |            32,670 | 32,605,123 |            4,337,705 |   1,278,363 |
-| 2023 |            31,906 | 31,137,034 |            4,115,653 |   1,161,616 |
-| 2024 |            32,857 | 29,435,606 |            3,854,560 |   1,022,777 |
-| 2025 |            21,803 | 20,108,580 |            2,511,857 |     644,786 |
+| 2005 |            20,027 | 27,000,384 |            2,459,867 |   1,426,678 |
+| 2006 |            21,927 | 27,172,580 |            2,577,837 |   1,435,921 |
+| 2007 |            24,376 | 27,646,239 |            2,728,994 |   1,460,132 |
+| 2008 |            27,584 | 27,868,958 |            2,829,682 |   1,479,585 |
+| 2009 |            28,892 | 27,962,905 |            2,845,877 |   1,481,453 |
+| 2010 |            30,601 | 28,204,618 |            2,886,831 |   1,477,787 |
+| 2011 |            31,216 | 28,326,497 |            2,954,029 |   1,464,846 |
+| 2012 |            33,996 | 28,633,190 |            3,029,224 |   1,454,595 |
+| 2013 |            36,380 | 29,160,001 |            3,122,449 |   1,440,539 |
+| 2014 |            38,213 | 29,902,169 |            3,264,861 |   1,434,044 |
+| 2015 |            40,544 | 30,714,344 |            3,452,998 |   1,438,140 |
+| 2016 |            42,517 | 31,349,137 |            3,613,511 |   1,443,840 |
+| 2017 |            43,556 | 31,166,251 |            3,655,828 |   1,391,932 |
+| 2018 |            44,380 | 31,553,592 |            3,791,798 |   1,374,331 |
+| 2019 |            43,787 | 31,894,062 |            3,939,896 |   1,351,913 |
+| 2020 |            43,272 | 32,228,661 |            4,098,565 |   1,356,545 |
+| 2021 |            42,048 | 32,606,190 |            4,318,034 |   1,348,569 |
+| 2022 |            34,336 | 32,580,727 |            4,356,926 |   1,280,460 |
+| 2023 |            33,388 | 31,115,036 |            4,132,933 |   1,163,445 |
+| 2024 |            34,251 | 29,416,281 |            3,869,543 |   1,024,323 |
+| 2025 |            22,584 | 20,097,376 |            2,520,249 |     645,737 |
+
+## How much of the fleet the tables cover
+
+**The Analysis 1 and 3 “counts” are not fleet counts.** They count the
+vehicle-years that pass the mileage filter, so they are smaller than the
+number of vehicles on the road, and the shortfall is not random: it is
+concentrated in the youngest vehicles (no MOT yet) and the most recent
+years (tests not yet in the data). The figure and table below give the
+share of the located fleet (in a real postcode area, Northern Ireland
+excluded) that each year’s tables cover. Means (Analyses 2 and 4) are
+over the covered vehicles only.
+
+### Share of located vehicles covered by the tables
+
+Covered vehicles / vehicles of the body type in a real postcode area
+that year, from the mileage area table
+(`tables/mileage/mileage_by_pca_year_body_fuel.csv`). The two are built
+by different code; the covered counts are cross-checked against that
+table’s plausible-mileage counts in `quality/cross_checks.csv`.
+
+| year | Buses and coaches | Cars  | Light goods vehicles | Motorcycles |
+|:-----|:------------------|:------|:---------------------|:------------|
+| 2005 | 96.4%             | 97.9% | 97.4%                | 98.7%       |
+| 2006 | 91%               | 91%   | 91%                  | 92.8%       |
+| 2007 | 87.3%             | 85.8% | 86.9%                | 88.2%       |
+| 2008 | 85.8%             | 82.4% | 83.9%                | 84.9%       |
+| 2009 | 85.4%             | 82.4% | 83.6%                | 84.4%       |
+| 2010 | 85.9%             | 83%   | 83.5%                | 84.2%       |
+| 2011 | 85.6%             | 83.3% | 83.5%                | 83.7%       |
+| 2012 | 85.4%             | 83.8% | 83.8%                | 83.3%       |
+| 2013 | 85.5%             | 84.2% | 84.4%                | 82.8%       |
+| 2014 | 85.9%             | 84.8% | 85.8%                | 83%         |
+| 2015 | 86%               | 85.2% | 86.5%                | 83.2%       |
+| 2016 | 85.3%             | 84.9% | 86.4%                | 82.8%       |
+| 2017 | 83.7%             | 83.9% | 85.3%                | 81.3%       |
+| 2018 | 82.3%             | 83.9% | 84.9%                | 80.5%       |
+| 2019 | 80.2%             | 84.3% | 85.2%                | 79.8%       |
+| 2020 | 80.3%             | 85.8% | 87%                  | 81.4%       |
+| 2021 | 80.5%             | 86.9% | 88.2%                | 81.4%       |
+| 2022 | 81.7%             | 88%   | 88.6%                | 81.1%       |
+| 2023 | 82%               | 87.4% | 86.6%                | 78%         |
+| 2024 | 81.8%             | 86.3% | 84.2%                | 74.4%       |
+| 2025 | 57.5%             | 62.5% | 58.9%                | 53.6%       |
+
+![](fleet_profile_report_figures/coverage-1.png)
+
+**Figure 1.** The table above as a chart: for each body type and year,
+the vehicles counted in the fleet profile tables
+(`profile_categorical_by_year.csv`, summed over the fuel categories)
+divided by the vehicles of that body type in a real postcode area that
+year (`mileage_by_pca_year_body_fuel.csv`). A vehicle is covered when it
+is in a real postcode area and passes the mileage filter that year.
 
 ## The tables
 
@@ -79,6 +136,127 @@ under `(missing)` rather than dropped.
 The long tables carry counts and totals, not means alone, so any coarser
 grouping can be derived from them without rebuilding: `mean_mileage` is
 `total_mileage / n_with_mileage`.
+
+## The covered fleet, by body type
+
+Three figures per body type, drawn from the tables above: the
+composition of the covered vehicles (Analysis 1), their mean mileage by
+category (Analysis 2), and the age-banded count and mean mileage
+(Analyses 3 and 4). The characteristics are described in the next
+section, and the youngest age band is discussed under *Known limits*.
+
+### Buses and coaches
+
+![](fleet_profile_report_figures/bodies-1.png)
+
+**Figure 2.** Buses and coaches: the share of each year’s covered
+vehicles in each category of six characteristics
+(`a1_counts_buses_and_coaches.csv`, the long form being
+`profile_categorical_by_year.csv`). Each panel adds up to 100% of the
+year’s covered vehicles; vehicles with no value are counted as
+`(missing)`, drawn in grey.
+
+![](fleet_profile_report_figures/bodies-2.png)
+
+**Figure 3.** Buses and coaches: the mean annual mileage of the covered
+vehicles in each category of four characteristics, by year
+(`a2_mean_mileage_buses_and_coaches.csv`): the category’s total mileage
+divided by its vehicles with a mileage. Categories with fewer than 100
+such vehicles in a year, and `(missing)`, are not drawn. Each panel has
+its own scale.
+
+![](fleet_profile_report_figures/bodies-3.png)
+
+**Figure 4.** Buses and coaches by age band: covered vehicles (left,
+`a3_counts_buses_and_coaches_by_age.csv`) and their mean annual mileage
+(right, `a4_mean_mileage_buses_and_coaches_by_age.csv`), summed over the
+fuel categories. Means over fewer than 100 vehicles are not drawn. The
+youngest band is a biased sample in the last three years (see *Known
+limits*).
+
+### Cars
+
+![](fleet_profile_report_figures/bodies-4.png)
+
+**Figure 5.** Cars: the share of each year’s covered vehicles in each
+category of six characteristics (`a1_counts_cars.csv`, the long form
+being `profile_categorical_by_year.csv`). Each panel adds up to 100% of
+the year’s covered vehicles; vehicles with no value are counted as
+`(missing)`, drawn in grey.
+
+![](fleet_profile_report_figures/bodies-5.png)
+
+**Figure 6.** Cars: the mean annual mileage of the covered vehicles in
+each category of four characteristics, by year
+(`a2_mean_mileage_cars.csv`): the category’s total mileage divided by
+its vehicles with a mileage. Categories with fewer than 100 such
+vehicles in a year, and `(missing)`, are not drawn. Each panel has its
+own scale.
+
+![](fleet_profile_report_figures/bodies-6.png)
+
+**Figure 7.** Cars by age band: covered vehicles (left,
+`a3_counts_cars_by_age.csv`) and their mean annual mileage (right,
+`a4_mean_mileage_cars_by_age.csv`), summed over the fuel categories.
+Means over fewer than 100 vehicles are not drawn. The youngest band is a
+biased sample in the last three years (see *Known limits*).
+
+### Light goods vehicles
+
+![](fleet_profile_report_figures/bodies-7.png)
+
+**Figure 8.** Light goods vehicles: the share of each year’s covered
+vehicles in each category of six characteristics
+(`a1_counts_light_goods_vehicles.csv`, the long form being
+`profile_categorical_by_year.csv`). Each panel adds up to 100% of the
+year’s covered vehicles; vehicles with no value are counted as
+`(missing)`, drawn in grey.
+
+![](fleet_profile_report_figures/bodies-8.png)
+
+**Figure 9.** Light goods vehicles: the mean annual mileage of the
+covered vehicles in each category of four characteristics, by year
+(`a2_mean_mileage_light_goods_vehicles.csv`): the category’s total
+mileage divided by its vehicles with a mileage. Categories with fewer
+than 100 such vehicles in a year, and `(missing)`, are not drawn. Each
+panel has its own scale.
+
+![](fleet_profile_report_figures/bodies-9.png)
+
+**Figure 10.** Light goods vehicles by age band: covered vehicles (left,
+`a3_counts_light_goods_vehicles_by_age.csv`) and their mean annual
+mileage (right, `a4_mean_mileage_light_goods_vehicles_by_age.csv`),
+summed over the fuel categories. Means over fewer than 100 vehicles are
+not drawn. The youngest band is a biased sample in the last three years
+(see *Known limits*).
+
+### Motorcycles
+
+![](fleet_profile_report_figures/bodies-10.png)
+
+**Figure 11.** Motorcycles: the share of each year’s covered vehicles in
+each category of six characteristics (`a1_counts_motorcycles.csv`, the
+long form being `profile_categorical_by_year.csv`). Each panel adds up
+to 100% of the year’s covered vehicles; vehicles with no value are
+counted as `(missing)`, drawn in grey.
+
+![](fleet_profile_report_figures/bodies-11.png)
+
+**Figure 12.** Motorcycles: the mean annual mileage of the covered
+vehicles in each category of four characteristics, by year
+(`a2_mean_mileage_motorcycles.csv`): the category’s total mileage
+divided by its vehicles with a mileage. Categories with fewer than 100
+such vehicles in a year, and `(missing)`, are not drawn. Each panel has
+its own scale.
+
+![](fleet_profile_report_figures/bodies-12.png)
+
+**Figure 13.** Motorcycles by age band: covered vehicles (left,
+`a3_counts_motorcycles_by_age.csv`) and their mean annual mileage
+(right, `a4_mean_mileage_motorcycles_by_age.csv`), summed over the fuel
+categories. Means over fewer than 100 vehicles are not drawn. The
+youngest band is a biased sample in the last three years (see *Known
+limits*).
 
 ## Characteristics
 
@@ -115,7 +293,7 @@ cleared early in the pipeline, before the backfill (`R/fuel_engine.R`),
 and the vehicle is filled from similar vehicles instead. The `co2` here
 is therefore either a real value or missing, and only Electric and Fuel
 Cells vehicles reach the `0` band. `co2_check` in
-`vehicles_enhanced.parquet` says which vehicles were affected.
+`vehicles_enhanced_maximal.parquet` says which vehicles were affected.
 
 ### CO2 is reported for motorcycles and buses, but barely exists
 
@@ -129,8 +307,8 @@ this caveat.
 
 | body_type         | year | vehicles | pct_co2_missing |
 |:------------------|:-----|---------:|----------------:|
-| Motorcycles       | 2025 |  644,786 |            69.5 |
-| Buses and coaches | 2025 |   21,803 |             5.4 |
+| Motorcycles       | 2025 |  645,737 |            87.9 |
+| Buses and coaches | 2025 |   22,584 |             7.4 |
 
 ### Euro standard is mostly derived, not recorded
 
@@ -144,11 +322,11 @@ against age largely reproduces the age variable.
 
 | category        | n_vehicles | share |
 |:----------------|-----------:|:------|
-| variant         | 11,100,183 | 55.2% |
-| dvla            |  4,607,311 | 22.9% |
-| model_year_fuel |  2,186,425 | 10.9% |
-| euro_schedule   |  2,136,740 | 10.6% |
-| (missing)       |     77,921 | 0.4%  |
+| euro_schedule   |  6,974,655 | 34.7% |
+| variant         |  5,659,675 | 28.2% |
+| dvla            |  4,607,565 | 22.9% |
+| model_year_fuel |  2,779,456 | 13.8% |
+| (missing)       |     76,025 | 0.4%  |
 
 ### SMMT body type covers cars only
 
@@ -166,24 +344,35 @@ consistent enough (`smmt_min_share`), and of its generic model otherwise
 
 | body_type            | n_vehicles | n_with_smmt_type | pct_with_smmt_type |
 |:---------------------|-----------:|-----------------:|-------------------:|
-| Buses and coaches    |     21,803 |                0 |               0.00 |
-| Cars                 | 20,108,580 |       19,772,540 |              98.33 |
-| Light goods vehicles |  2,511,857 |                0 |               0.00 |
-| Motorcycles          |    644,786 |                0 |               0.00 |
+| Buses and coaches    |     22,584 |                0 |               0.00 |
+| Cars                 | 20,097,376 |       19,761,002 |              98.33 |
+| Light goods vehicles |  2,520,249 |                0 |               0.00 |
+| Motorcycles          |    645,737 |                0 |               0.00 |
+
+![](fleet_profile_report_figures/smmt-coverage-1.png)
+
+**Figure 14.** The share of covered cars given an SMMT body type, by
+year (`quality/profile_smmt_coverage.csv`, `pct_with_smmt_type`; the
+table above is its latest year). Other body types have no SMMT type by
+design, so are not drawn.
 
 ## Known limits
 
 ### Young vehicles are missing from the recent years
 
 A vehicle’s mileage is only known once it has had an MOT, at three years
-old, so the youngest age bands empty out towards the end of the series.
-In 2019 there were 1.50M vehicles aged 0 with a recorded postcode area;
-in 2024 there were 12,703, and in 2025, 2,576.
+old; Bristol then estimates the years before the first test from that
+test’s odometer reading, and copies its postcode area back. So the
+youngest age bands are filled in only once the first test is in the
+data, and empty out towards the end of the series. Cars aged 0-2 covered
+by these tables numbered 6,586,088 in 2019 and 585,661 in 2025.
 
 **The `0-2` age band is not usable for the last three years**, and the
 vehicles that do appear there are a biased sample: only those tested
-unusually early, which are the high-mileage ones. Mean mileage at age 1
-was 8,599 in 2019 and 18,608 in 2025 for that reason.
+unusually early, which tend to be high-mileage ones (taxis, fleet cars).
+Their mean mileage was 7,597 in 2019 and 8,249 in 2025. For the years
+before the first test, mileage is an estimate, not a reading, at every
+age band.
 
 2025 is also a partial year.
 
@@ -191,17 +380,27 @@ was 8,599 in 2019 and 18,608 in 2025 for that reason.
 
 `engine_cc`, `co2` and `revenue_weight` are recorded where the DVLA
 supplied them and otherwise backfilled from the most common value of
-similar vehicles. For cars, 61.0% of CO2 and only 27.0% of weights are
-recorded. The `*_src` columns in `vehicles_enhanced.parquet` give the
-provenance per vehicle; the profile tables do not split by it, so a mean
-is over the mix.
+similar vehicles. For cars, most weights and a large share of CO2 values
+are borrowed rather than recorded (the data quality report gives the
+shares). The `*_src` columns in `vehicles_enhanced_maximal.parquet` give
+the provenance per vehicle; the profile tables do not split by it, so a
+mean is over the mix.
 
-Revenue weight is effectively absent for motorcycles — 2.18% coverage,
-and only 652 of 3.94M recorded by the DVLA — so `revenue_weight` should
-not be read for that body type at all.
+Revenue weight is effectively absent for motorcycles (see the
+`revenue_weight` row of the continuous table: almost no motorcycles have
+one), so `revenue_weight` should not be read for that body type at all.
+
+![](fleet_profile_report_figures/continuous-1.png)
+
+**Figure 15.** The median (line) and interquartile range (band) of each
+continuous measure of the covered vehicles, by body type and year
+(`profile_continuous_by_year.csv`, columns `p50`, `p25` and `p75`). A
+year is drawn only where at least 100 vehicles have the measure, which
+is why some panels are empty. The backfilled measures (`engine_cc`,
+`co2`, `revenue_weight`) mix recorded and borrowed values.
 
 ### Buses and coaches are mostly minibuses
 
-There are only 138,716 in the whole dataset, most of them MOT class 5,
-so cells split by year, age band and engine size are frequently in
+There are few of them (22,584 covered in 2025), most of them MOT class
+5, so cells split by year, age band and engine size are frequently in
 single figures.

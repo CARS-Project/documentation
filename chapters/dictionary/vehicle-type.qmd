@@ -21,9 +21,12 @@ classifications and how they relate.
   [section 4.6](../../reports/methodology.md#body-type)).
 - **`test_class`** is the MOT test class (1 to 7) and **`type_approval`** the
   European type approval category (M1, N1, L3 and so on). Both take the
-  recorded value where there is one, and otherwise the most common value among
-  vehicles of the same make, model, birth year, fuel and engine size. Each has
-  a `_src` column saying which (methodology,
+  recorded value where there is one (`test_class_ANON` and the DVLA type
+  approval), and otherwise the most common value among similar vehicles that
+  share the other one, first of the same make, model, birth year, fuel and
+  engine size, then of the same make, model, birth year and fuel. A borrowed
+  value that contradicts the other classifications, the wheel plan or the
+  engine size is not used. Each has a `_src` column saying which (methodology,
   [section 5.6](../../reports/methodology.md#other-attributes)).
 - **The supplied columns** (`_DVLA`, `_ANON`) are the values as received,
   including the DVLA flag for automated vehicles, which the pipeline does not

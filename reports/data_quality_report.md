@@ -23,26 +23,36 @@ file.*
 - **Make and model:** 94.9% of in-scope vehicles have a DfT generic
   model; 0.8% have a raw model that matched nothing, and 4.3% a
   placeholder such as `UNKNOWN`.
-- **Against DfT counts (cars):** in 2025, 33,298,028 cars were observed
+- **Against DfT counts (cars):** in 2025, 33,273,833 cars were observed
   here against 38,490,385 licensed or SORN in the DfT statistics
-  (86.5%); for cars first used three or more years earlier, 103.7%.
+  (86.4%); for cars first used three or more years earlier, 103.6%.
   Buses, HGVs and other vehicles are tested outside the MOT scheme, so
   few are here.
 - **Fuel checks:** 3,733 fuels corrected to Electric, and 55 fuels
   implausible for their make/model.
 - **Plug-in hybrids:** 94.5% of in-scope vehicles have a `fuel_DFT` from
-  the DfT statistics, and 1,090,074 are plug-in hybrids or
+  the DfT statistics, and 1,089,905 are plug-in hybrids or
   range-extended electrics, which neither DVSA nor DVLA distinguishes.
   244,402 vehicles are of a make/model that DfT sells both as a plug-in
   and not, with nothing to say which this one is, so they keep their
   recorded fuel.
-- **Euro status:** 91.3% of in-scope vehicles have one, of which
-  33,468,440 come from the date the standard became compulsory.
-  10,332,946 vehicles carry a status naming a standard that did not
-  exist when they were made; these are flagged in `euro_check`, not
-  changed.
+- **Euro status:** 91.2% of in-scope vehicles have one, of which
+  51,515,075 come from the date the standard became compulsory.
+  3,285,486 vehicles carry a status naming a standard that did not exist
+  when they were made; these are flagged in `euro_check`, not changed.
 - **Mileage:** 25,803,313 vehicles have a 2025 mileage, 70.2% of the
   36,734,471 in 2024, so 2025 looks like a partial year.
+- **Cross-checks:** 1,226 of 1,238 checks pass, 1 fail and 11 warn
+  (`cross_checks.csv`, section below). Every pair of published numbers
+  that must agree is compared; the warnings are plausibility checks
+  against DfT.
+- **A location is not always an observation.** Bristol gives a vehicle a
+  postcode area from its first registration (copied back from its first
+  MOT) to two years after its last MOT, so the vehicles “in a postcode
+  area” in a year include vehicles not tested that year: see
+  *Observation behind the postcode areas* below. This is why more cars
+  aged 3+ are placed in a postcode area than DfT counts as licensed or
+  SORN.
 
 ## Scope
 
@@ -64,9 +74,9 @@ all-FALSE row.
 | TRUE          | TRUE      | TRUE       | TRUE                | 41,908,935 |
 | TRUE          | TRUE      | FALSE      | TRUE                | 15,097,523 |
 | TRUE          | TRUE      | FALSE      | FALSE               | 13,517,483 |
-| FALSE         | FALSE     | TRUE       | TRUE                |  8,620,778 |
+| FALSE         | FALSE     | TRUE       | TRUE                |  8,620,825 |
 | TRUE          | TRUE      | TRUE       | FALSE               |  4,246,909 |
-| FALSE         | FALSE     | FALSE      | TRUE                |  3,760,674 |
+| FALSE         | FALSE     | FALSE      | TRUE                |  3,760,627 |
 | FALSE         | FALSE     | TRUE       | FALSE               |  3,038,750 |
 | TRUE          | FALSE     | TRUE       | TRUE                |  1,041,754 |
 | TRUE          | FALSE     | FALSE      | TRUE                |    948,288 |
@@ -76,6 +86,13 @@ all-FALSE row.
 | TRUE          | FALSE     | TRUE       | FALSE               |    102,224 |
 | FALSE         | TRUE      | TRUE       | TRUE                |     48,419 |
 | FALSE         | TRUE      | TRUE       | FALSE               |     40,560 |
+
+![](data_quality_report_figures/scope-1.png)
+
+**Figure 1.** The ten largest rows of the table above
+(`scope_combinations.csv`): in-scope vehicles by the combination of
+scope tests they pass. A bar labelled `mileage + PCA + born` is the
+vehicles that pass those three tests and not the DVLA activity test.
 
 ## First use date source
 
@@ -95,47 +112,157 @@ used date, the DVLA month of first registration, then `birth_date`
 | firstUsedDate_DVSA            | 76,835,393 |                 1,255,577 |
 | monthOfFirstRegistration_DVLA | 13,210,475 |                11,601,612 |
 | birth_date                    |  3,306,250 |                         0 |
-|                               |        123 |                        NA |
+| NA                            |        123 |                        NA |
+
+## Cross-checks
+
+Internal consistency checks (R/cross_checks.R): every pair of numbers in
+the published tables that must agree, compared exactly. `fleet` checks
+that every table partitioning the in-scope fleet adds up to it;
+`mileage` that the five mileage tables agree on vehicles and miles;
+`churn` that the churn sets reconcile with the churn base and with each
+other (including the Set 1d and Set 4 identities); `profile` that the
+fleet profile tables agree with the mileage area table, which is
+computed by different code. `external` compares with DfT and only warns.
+
+Every check, with both values, is in `cross_checks.csv`. The checks that
+did not pass:
+
+- `pass`: checks whose two values agree within tolerance
+- `fail`: checks that disagree: a bug or a broken assumption
+- `warn`: plausibility checks outside their expected range
+
+| area     | pass | fail | warn |
+|:---------|-----:|-----:|-----:|
+| churn    |  351 |    0 |    0 |
+| external |   13 |    0 |   11 |
+| fleet    |  199 |    1 |    0 |
+| mileage  |  252 |    0 |    0 |
+| profile  |  253 |    0 |    0 |
+| racf     |  158 |    0 |    0 |
+
+| area | check | key | a | b | difference |
+|:---|:---|:---|---:|---:|---:|
+| fleet | harmonised_missing_vs_dictionary | euro_status | 8,246,617 | 0 | 8,246,617.00 |
+| external | cars_age3plus_vs_dft | 2014 | 29,169,962 | 24,574,254 | 1.19 |
+| external | cars_age3plus_vs_dft | 2015 | 29,463,801 | 25,039,352 | 1.18 |
+| external | cars_age3plus_vs_dft | 2016 | 30,044,421 | 25,767,275 | 1.17 |
+| external | cars_age3plus_vs_dft | 2017 | 30,872,866 | 26,401,132 | 1.17 |
+| external | cars_age3plus_vs_dft | 2018 | 31,724,806 | 27,180,537 | 1.17 |
+| external | cars_age3plus_vs_dft | 2019 | 32,418,756 | 28,175,598 | 1.15 |
+| external | cars_age3plus_vs_dft | 2020 | 32,527,730 | 29,170,337 | 1.12 |
+| external | cars_age3plus_vs_dft | 2021 | 33,210,238 | 30,053,603 | 1.10 |
+| external | cars_age3plus_vs_dft | 2022 | 33,418,401 | 31,105,145 | 1.07 |
+| external | cars_age3plus_vs_dft | 2023 | 33,543,954 | 31,445,098 | 1.07 |
+| external | cars_age3plus_vs_dft | 2024 | 33,620,228 | 31,692,714 | 1.06 |
+
+![](data_quality_report_figures/cross-checks-1.png)
+
+**Figure 2.** The checks in `cross_checks.csv` by area and result, as
+counted in the table above. Each check compares the same quantity
+computed by two different tables; the ones that did not pass are listed
+above.
 
 ## PCA status by year
 
 In-scope vehicles by their `pca_YYYY` status in each year
 (methodology.md, Section 3.3). Each row adds up to the in-scope total.
-In the latest years `pca` falls as `unknown` rises: vehicles not yet
-observed in those years, for example because their tests are not yet in
-the data.
+In the latest years `pca` falls as `unknown` rises: vehicles whose tests
+in those years are not yet in the data.
 
-- `pca`: a postcode area is recorded: the vehicle was observed that year
+- `pca`: Bristol supplied a postcode area for the year. That is not
+  proof of a test that year: Bristol copies a vehicle’s first-test area
+  back to its first registration, and carries its last-test area on for
+  two years after its last MOT (see the next table)
 - `unborn`: not yet born (birth year the same as or later than the year)
-- `unknown`: born, not observed, and not after its last MOT year;
-  includes new cars before their first MOT and vehicles with no last MOT
-  year
-- `dead`: after the vehicle’s last MOT year: no longer observed, not
-  necessarily scrapped
+- `unknown`: born, no postcode area supplied, and not after its last MOT
+  year (for example a gap between tests); rare, because the years before
+  the first MOT are back-filled
+- `dead`: no postcode area supplied, and after the vehicle’s last MOT
+  year. Because the area is carried on for two years after the last MOT,
+  `dead` begins about two years after the vehicle stopped being tested;
+  not necessarily scrapped (it may be exported or SORN)
 
 | year |        pca |     unborn |    unknown |       dead |
 |:-----|-----------:|-----------:|-----------:|-----------:|
-| 2005 | 31,888,912 | 56,178,373 |  5,284,956 |          0 |
-| 2006 | 34,662,542 | 53,232,861 |  5,431,132 |     25,706 |
-| 2007 | 37,490,453 | 50,200,685 |  5,499,773 |    161,330 |
-| 2008 | 39,496,248 | 47,499,511 |  5,564,702 |    791,780 |
-| 2009 | 39,687,978 | 45,042,733 |  5,650,842 |  2,970,688 |
-| 2010 | 39,868,271 | 42,587,125 |  5,695,137 |  5,201,708 |
-| 2011 | 40,001,268 | 40,189,168 |  5,740,321 |  7,421,484 |
-| 2012 | 40,325,572 | 37,673,152 |  5,735,103 |  9,618,414 |
-| 2013 | 40,947,776 | 34,889,992 |  5,816,923 | 11,697,550 |
-| 2014 | 41,740,695 | 31,835,556 |  5,984,679 | 13,791,311 |
-| 2015 | 42,827,668 | 28,575,344 |  6,105,666 | 15,843,563 |
-| 2016 | 44,042,339 | 25,229,711 |  6,234,849 | 17,845,342 |
-| 2017 | 44,441,732 | 22,729,628 |  6,367,107 | 19,813,774 |
-| 2018 | 45,204,703 | 19,065,810 |  7,137,469 | 21,944,259 |
-| 2019 | 45,687,132 | 16,123,035 |  7,251,821 | 24,290,253 |
-| 2020 | 45,534,442 | 13,936,889 |  7,111,868 | 26,769,042 |
-| 2021 | 45,673,106 | 11,729,712 |  6,800,620 | 29,148,803 |
-| 2022 | 45,018,795 |  9,699,920 |  7,066,091 | 31,567,435 |
-| 2023 | 43,394,273 |  9,306,856 |  7,293,705 | 33,357,407 |
-| 2024 | 41,576,160 |  6,952,496 |  9,561,904 | 35,261,681 |
-| 2025 | 39,129,586 |  4,481,192 | 12,640,179 | 37,101,284 |
+| 2005 | 31,888,912 | 56,178,420 |  5,284,909 |          0 |
+| 2006 | 34,662,542 | 53,232,906 |  5,431,127 |     25,666 |
+| 2007 | 37,490,453 | 50,200,724 |  5,499,770 |    161,294 |
+| 2008 | 39,496,248 | 47,499,548 |  5,564,699 |    791,746 |
+| 2009 | 39,687,978 | 45,042,770 |  5,650,839 |  2,970,654 |
+| 2010 | 39,868,271 | 42,587,160 |  5,695,134 |  5,201,676 |
+| 2011 | 40,001,268 | 40,189,202 |  5,740,318 |  7,421,453 |
+| 2012 | 40,325,572 | 37,673,185 |  5,735,100 |  9,618,384 |
+| 2013 | 40,947,776 | 34,890,021 |  5,816,920 | 11,697,524 |
+| 2014 | 41,740,695 | 31,835,585 |  5,984,676 | 13,791,285 |
+| 2015 | 42,827,668 | 28,575,371 |  6,105,663 | 15,843,539 |
+| 2016 | 44,042,339 | 25,229,738 |  6,234,846 | 17,845,318 |
+| 2017 | 44,441,732 | 22,729,655 |  6,367,104 | 19,813,750 |
+| 2018 | 45,204,703 | 19,065,833 |  7,137,467 | 21,944,238 |
+| 2019 | 45,687,132 | 16,123,057 |  7,251,819 | 24,290,233 |
+| 2020 | 45,534,442 | 13,936,910 |  7,111,866 | 26,769,023 |
+| 2021 | 45,673,106 | 11,729,729 |  6,800,619 | 29,148,787 |
+| 2022 | 45,018,795 |  9,699,937 |  7,066,090 | 31,567,419 |
+| 2023 | 43,394,273 |  9,306,870 |  7,293,704 | 33,357,394 |
+| 2024 | 41,576,160 |  6,952,507 |  9,561,903 | 35,261,671 |
+| 2025 | 39,129,586 |  4,481,194 | 12,640,179 | 37,101,282 |
+
+![](data_quality_report_figures/pca-status-1.png)
+
+**Figure 3.** The table above as a chart: in-scope vehicles by their
+`pca_YYYY` status in each year (`pca_status_by_year.csv`), so each
+year’s stack is the whole in-scope fleet. `pca` is a postcode area
+supplied by Bristol, not necessarily a test that year.
+
+## Observation behind the postcode areas
+
+How many of each year’s vehicles in a real postcode area were not tested
+that year. On the October 2026 build, 95% of the vehicles last tested in
+2015 still had a postcode area in 2016 and 2017. A scrapped vehicle
+therefore stays in its area’s stock for about two years, which inflates
+stock counts of older vehicles (see the DfT comparison), shifts every
+‘dead’ and ‘leaver’ count two years late, and puts copies, not
+observations, in the years before the first MOT.
+
+- `n_real_pca`: vehicles in a real postcode area that year
+- `n_after_last_mot`: of those, vehicles past their last MOT year
+- `n_before_first_use`: of those, vehicles first used after the year
+  (should be 0)
+- `n_without_mileage`: of those, vehicles with no mileage for the year
+- `n_age_under_3`: of those, vehicles first used fewer than three years
+  earlier: no MOT due, so the area is a copy
+
+| year | n_real_pca | n_after_last_mot | n_before_first_use | n_without_mileage | n_age_under_3 |
+|:---|---:|---:|---:|---:|---:|
+| 2005 | 31,888,912 | 0 | 41,915 | 736,961 | 8,843,657 |
+| 2006 | 34,662,542 | 484,498 | 37,312 | 3,083,083 | 8,597,579 |
+| 2007 | 37,490,453 | 2,526,795 | 32,099 | 5,175,898 | 8,468,162 |
+| 2008 | 39,496,248 | 4,143,279 | 27,684 | 6,765,161 | 8,131,955 |
+| 2009 | 39,687,978 | 4,197,131 | 23,528 | 6,791,645 | 7,622,090 |
+| 2010 | 39,868,271 | 4,170,011 | 19,479 | 6,640,698 | 7,075,819 |
+| 2011 | 40,001,268 | 4,025,853 | 16,153 | 6,537,896 | 6,815,018 |
+| 2012 | 40,325,572 | 3,950,299 | 12,957 | 6,425,185 | 6,902,404 |
+| 2013 | 40,947,776 | 3,953,792 | 9,171 | 6,366,883 | 7,199,067 |
+| 2014 | 41,740,695 | 3,864,682 | 6,203 | 6,193,444 | 7,817,254 |
+| 2015 | 42,827,668 | 3,772,557 | 5,140 | 6,200,645 | 8,548,204 |
+| 2016 | 44,042,339 | 3,865,731 | 4,054 | 6,558,746 | 9,077,308 |
+| 2017 | 44,441,732 | 4,239,066 | 3,067 | 7,028,357 | 8,486,098 |
+| 2018 | 45,204,703 | 4,628,381 | 2,352 | 7,241,032 | 8,188,823 |
+| 2019 | 45,687,132 | 4,644,271 | 1,757 | 7,308,330 | 7,794,577 |
+| 2020 | 45,534,442 | 4,599,423 | 1,507 | 6,615,380 | 7,502,745 |
+| 2021 | 45,673,106 | 4,043,199 | 1,480 | 6,137,153 | 6,777,917 |
+| 2022 | 45,018,795 | 3,491,713 | 1,308 | 5,544,596 | 5,876,766 |
+| 2023 | 43,394,273 | 3,572,211 | 848 | 5,767,819 | 4,002,870 |
+| 2024 | 41,576,160 | 3,740,483 | 477 | 6,138,428 | 1,975,437 |
+| 2025 | 39,129,586 | 4,125,050 | 149 | 15,171,210 | 133,199 |
+
+![](data_quality_report_figures/observation-1.png)
+
+**Figure 4.** From the table above (`pca_observation_by_year.csv`): of
+each year’s vehicles in a real postcode area (`n_real_pca`), the share
+past their last MOT year (`n_after_last_mot`), first used fewer than
+three years earlier (`n_age_under_3`) and with no mileage for the year
+(`n_without_mileage`). The groups overlap, so the shares do not add up.
 
 ## PCA sequence checks
 
@@ -225,8 +352,8 @@ model) and unmatched.
 | alias | fuzzy | 38 | 68 | 68 | 68 | 68 | 0 |
 | prefix | make_only | 62 | 67 | 67 | 52 | 52 | 21 |
 | alias | words | 36 | 65 | 65 | 65 | 65 | 0 |
-| prefix | ambiguous | 61 | 64 | 64 | 64 | 64 | 15 |
 | punctuation | words | 27 | 64 | 64 | 64 | 64 | 0 |
+| prefix | ambiguous | 61 | 64 | 64 | 64 | 64 | 15 |
 | dvla | ambiguous | 35 | 58 | 58 | 58 | 58 | 6 |
 | punctuation | fuzzy | 41 | 46 | 46 | 46 | 46 | 0 |
 | fuzzy | fuzzy | 32 | 32 | 32 | 32 | 32 | 0 |
@@ -235,6 +362,13 @@ model) and unmatched.
 | fuzzy | words | 16 | 16 | 16 | 16 | 16 | 0 |
 | fuzzy | make_only | 14 | 14 | 14 | 9 | 9 | 3 |
 | prefix | fuzzy | 8 | 10 | 10 | 10 | 10 | 0 |
+
+![](data_quality_report_figures/make-model-1.png)
+
+**Figure 5.** In-scope vehicles by how their model was matched to the
+DfT names (`model_method` in the table above, `make_model_method.csv`,
+summed over the make methods), split by whether the vehicle has a DfT
+generic model (`n_with_dft_genmodel`). Methods are ordered by vehicles.
 
 ## Largest unmatched make/models
 
@@ -256,28 +390,28 @@ lists suggestions.
 |:---|:---|:---|:---|:---|:---|---:|
 | LDV | PILOT | LDV | exact | PILOT | unmatched | 10,942 |
 | NISSAN | PICKUP | NISSAN | exact | PICKUP | unmatched | 10,637 |
-| SDC | N/A | SDC | unmatched |  | placeholder | 9,462 |
-|  | TIGGO 8 SUMMIT PHEV AUTO |  | placeholder | TIGGO 8 SUMMIT PHEV AUTO | unmatched | 8,422 |
+| SDC | N/A | SDC | unmatched | NA | placeholder | 9,462 |
+| NA | TIGGO 8 SUMMIT PHEV AUTO | NA | placeholder | TIGGO 8 SUMMIT PHEV AUTO | unmatched | 8,422 |
 | VOLKSWAGEN | CAMPER | VOLKSWAGEN | exact | CAMPER | unmatched | 7,851 |
 | KAWASAKI | ZZR600 | KAWASAKI | exact | ZZR600 | unmatched | 6,486 |
 | NISSAN | FIGARO | NISSAN | exact | FIGARO | unmatched | 5,895 |
 | TRIUMPH | S | TRIUMPH | exact | S | unmatched | 4,804 |
 | KAWASAKI | ZZ-R1100 | KAWASAKI | exact | ZZ R1100 | unmatched | 4,021 |
-| DIRECT BIKES |  | DIRECT BIKES | unmatched |  | placeholder | 3,873 |
-|  | STARRAY EM-I MAX PHEV AUTO |  | placeholder | STARRAY EM I MAX PHEV AUTO | unmatched | 3,679 |
+| DIRECT BIKES | NA | DIRECT BIKES | unmatched | NA | placeholder | 3,873 |
+| NA | STARRAY EM-I MAX PHEV AUTO | NA | placeholder | STARRAY EM I MAX PHEV AUTO | unmatched | 3,679 |
 | KAWASAKI | GPZ500S | KAWASAKI | exact | GPZ500S | unmatched | 3,197 |
 | OMODA | 7 NOBLE PHEV AUTO | OMODA | exact | 7 NOBLE PHEV AUTO | unmatched | 3,188 |
-|  | EX5 MAX |  | placeholder | EX5 MAX | unmatched | 3,126 |
-|  | TIGGO 7 SUMMIT PHEV AUTO |  | placeholder | TIGGO 7 SUMMIT PHEV AUTO | unmatched | 3,072 |
-|  | STARRAY EM-I ULTRA PHEV AUTO |  | placeholder | STARRAY EM I ULTRA PHEV AUTO | unmatched | 2,872 |
-|  | TIGGO 9 SUMMIT PHEV AWD AUTO |  | placeholder | TIGGO 9 SUMMIT PHEV AWD AUTO | unmatched | 2,831 |
-|  | TIGGO 7 SUMMIT AUTO |  | placeholder | TIGGO 7 SUMMIT AUTO | unmatched | 2,817 |
+| NA | EX5 MAX | NA | placeholder | EX5 MAX | unmatched | 3,126 |
+| NA | TIGGO 7 SUMMIT PHEV AUTO | NA | placeholder | TIGGO 7 SUMMIT PHEV AUTO | unmatched | 3,072 |
+| NA | STARRAY EM-I ULTRA PHEV AUTO | NA | placeholder | STARRAY EM I ULTRA PHEV AUTO | unmatched | 2,872 |
+| NA | TIGGO 9 SUMMIT PHEV AWD AUTO | NA | placeholder | TIGGO 9 SUMMIT PHEV AWD AUTO | unmatched | 2,831 |
+| NA | TIGGO 7 SUMMIT AUTO | NA | placeholder | TIGGO 7 SUMMIT AUTO | unmatched | 2,817 |
 | LAMBRETTA | LI125 | LAMBRETTA | exact | LI125 | unmatched | 2,741 |
 | APRILIA | HABANA | APRILIA | exact | HABANA | unmatched | 2,664 |
 | FIAT | MOTORHOME | FIAT | exact | MOTORHOME | unmatched | 2,639 |
 | LAMBRETTA | LI150 | LAMBRETTA | exact | LI150 | unmatched | 2,633 |
-| SCHMITZ | N/A | SCHMITZ | unmatched |  | placeholder | 2,600 |
-|  | TIGGO 8 ASPIRE PHEV AUTO |  | placeholder | TIGGO 8 ASPIRE PHEV AUTO | unmatched | 2,490 |
+| SCHMITZ | N/A | SCHMITZ | unmatched | NA | placeholder | 2,600 |
+| NA | TIGGO 8 ASPIRE PHEV AUTO | NA | placeholder | TIGGO 8 ASPIRE PHEV AUTO | unmatched | 2,490 |
 | CATERHAM | SEVEN (S3) | CATERHAM | exact | SEVEN S3 | unmatched | 2,440 |
 
 ## Body type
@@ -296,42 +430,210 @@ empty `body_type` means no source gave one.
 
 | body_type            | body_type_src | n_vehicles |
 |:---------------------|:--------------|-----------:|
-| Buses and coaches    | type_approval |     89,813 |
+| Buses and coaches    | type_approval |     95,748 |
 | Buses and coaches    | model         |     43,046 |
-| Buses and coaches    | test_class    |     11,580 |
-| Buses and coaches    | genmodel      |      1,137 |
+| Buses and coaches    | test_class    |     12,413 |
+| Buses and coaches    | genmodel      |      1,213 |
 | Cars                 | model         | 39,017,210 |
-| Cars                 | type_approval | 34,322,859 |
-| Cars                 | genmodel      |  1,893,185 |
-| Cars                 | test_class    |    402,715 |
-| Heavy goods vehicles | type_approval |    574,797 |
+| Cars                 | type_approval | 31,678,966 |
+| Cars                 | genmodel      |  4,403,660 |
+| Cars                 | test_class    |    415,913 |
+| Heavy goods vehicles | type_approval |    572,341 |
 | Heavy goods vehicles | model         |    200,758 |
-| Heavy goods vehicles | genmodel      |     25,484 |
-| Light goods vehicles | type_approval |  5,861,331 |
+| Heavy goods vehicles | genmodel      |     26,038 |
+| Light goods vehicles | type_approval |  5,603,099 |
 | Light goods vehicles | model         |  2,840,368 |
-| Light goods vehicles | genmodel      |    572,908 |
-| Light goods vehicles | test_class    |     15,474 |
+| Light goods vehicles | genmodel      |    911,756 |
+| Light goods vehicles | test_class    |     15,629 |
 | Motorcycles          | model         |  2,136,833 |
-| Motorcycles          | type_approval |    840,626 |
-| Motorcycles          | genmodel      |    667,662 |
-| Motorcycles          | test_class    |    384,299 |
+| Motorcycles          | genmodel      |    804,401 |
+| Motorcycles          | type_approval |    690,523 |
+| Motorcycles          | test_class    |    389,019 |
 | Other vehicles       | model         |    330,410 |
-| Other vehicles       | type_approval |    184,239 |
-| Other vehicles       | genmodel      |     46,707 |
-| Other vehicles       | test_class    |     10,447 |
-|                      |               |  2,878,353 |
+| Other vehicles       | type_approval |    177,980 |
+| Other vehicles       | genmodel      |     51,547 |
+| Other vehicles       | test_class    |     10,485 |
+| NA                   | NA            |  2,922,885 |
+
+![](data_quality_report_figures/body-type-1.png)
+
+**Figure 6.** The table above as a chart: in-scope vehicles by DfT body
+type, coloured by the source that gave it (`body_type.csv`). The scale
+is square-root so that the small body types show; `(none)` is vehicles
+that no source gave a body type.
+
+## Type approval against test class
+
+In-scope vehicles by the family of their harmonised type approval
+category (`type_approval`: the DVLA value where the VES record is the
+same vehicle, else backfilled from similar vehicles) and their
+harmonised MOT test class (`test_class`). The two come from different
+registers, so they check each other: a car (M1) should be class 4 (or 7,
+a heavy motor caravan), a van (N1) class 4 or 7 depending on its weight,
+a motorcycle (L1-L3) class 1 or 2 (L2 three-wheel mopeds also 3) and a
+bus (M2-M3) class 5, or 4 with 9-12 seats. Lorries (N2-N3) are tested
+outside the MOT scheme, so few appear. The backfill fills the two
+together and never makes a pair that is not allowed (methodology.md,
+Section 5.6), so what remains here is in the records; *Consistency
+across variables* below has the exact rules.
+
+The full table, with the codes as supplied and as harmonised and the
+test class as supplied and harmonised (1,102 rows), is
+`type_approval_by_test_class.csv`.
+
+- `family`: type approval family
+- `class N`: vehicles in MOT test class N
+- `class (none)`: vehicles with no test class
+
+| family | class 1 | class 2 | class 3 | class 4 | class 5 | class 7 | class (none) |
+|:---|---:|---:|---:|---:|---:|---:|---:|
+| M1 (car) | 2,109 | 26,302 | 112 | 63,353,746 | 907 | 39,956 | 1,068,657 |
+| N1 (van) | 265 | 391 | 5 | 5,704,864 | 7,193 | 2,349,602 | 135,033 |
+| L1-L3 (two-wheeler) | 836,464 | 1,225,845 | 785 | 534 | 0 | 0 | 77,379 |
+| L4-L7 (tricycle, quad) | 39 | 1,022 | 9,096 | 25,812 | 0 | 0 | 6,484 |
+| M2-M3 (bus) | 18 | 18 | 0 | 8,972 | 75,078 | 3,950 | 46,044 |
+| N2-N3 (lorry) | 7 | 15 | 0 | 27,255 | 5,829 | 40,624 | 572,421 |
+| T (tractor) | 16 | 22 | 4 | 25,224 | 0 | 0 | 249,475 |
+| other code | 3,588 | 1,941 | 3 | 509 | 37 | 20 | 19,391 |
+| (none) | 628,313 | 1,165,897 | 29,356 | 11,965,240 | 44,133 | 230,125 | 3,336,114 |
+
+How often each family with an expected class is in another one
+(`n_with_class` excludes vehicles with no test class):
+
+| family | expected_classes | n_with_class | n_unexpected_class | pct_unexpected |
+|:---|:---|---:|---:|---:|
+| M1 (car) | 4 or 7 | 63,423,132 | 29,430 | 0.05 |
+| N1 (van) | 4 or 7 | 8,062,320 | 7,854 | 0.10 |
+| L1-L3 (two-wheeler) | 1 or 2 or 3 | 2,063,628 | 534 | 0.03 |
+| M2-M3 (bus) | 4 or 5 or 7 | 88,036 | 36 | 0.04 |
+
+![](data_quality_report_figures/type-approval-1.png)
+
+**Figure 7.** The first table above as shares: each row is a type
+approval family (the harmonised `type_approval` grouped by its leading
+code) and each cell the share of the family’s in-scope vehicles in a
+harmonised MOT test class, from `type_approval_by_test_class.csv`. Each
+row adds up to 100%; cells under 0.5% are not labelled.
+
+## Consistency across variables
+
+Combinations of two or more variables that cannot, or should not, occur
+together, checked on every in-scope vehicle (`R/consistency.R`;
+methodology.md, Section 9.2). A violation is *recorded* when every
+variable involved is the vehicle’s own recorded value, so the conflict
+is in the source data; otherwise at least one value was backfilled,
+derived or imputed by the pipeline or by Bristol. Recorded values are
+never changed, so recorded violations stay; they are listed so that
+analyses can exclude them.
+
+*Enforced* rules are ones the backfill guarantees: it never fills a
+value that breaks them, and the cross-checks fail if it does. The others
+describe the data; several of them (revenue weight against test class,
+CO2 against fuel) show where a register is not reliable on its own.
+
+- `rule`: rule identifier
+- `enforced`: TRUE if the backfill guarantees the rule
+- `description`: what must hold
+- `n_applies`: vehicles the rule applies to (all variables present)
+- `n_violations`: vehicles that break it
+- `pct_violations`: `n_violations` as a percentage of `n_applies`
+- `n_recorded`: violations where every variable is recorded
+- `n_pipeline`: violations where at least one variable was filled
+
+| rule | enforced | description | n_applies | n_violations | pct_violations | n_recorded | n_pipeline |
+|:---|:---|:---|---:|---:|---:|---:|---:|
+| type_approval_test_class | TRUE | The test class is one the type approval category allows (L1/L3 in 1-2, M1 in 4 or 7, N1 in 4 or 7, M2 in 4, 5 or 7, …) | 73,778,179 | 38,487 | 0.05 | 38,487 | 0 |
+| wheelplan_test_class | TRUE | Two-wheelers are in class 1 or 2, and classes 1 and 2 hold two- or three-wheelers | 87,737,584 | 4,951 | 0.01 | 4,951 | 0 |
+| wheelplan_type_approval | TRUE | Mopeds and motorcycles (L1, L3) have two or three wheels; cars, vans, buses and lorries (M, N) do not | 75,953,063 | 35,744 | 0.05 | 35,744 | 0 |
+| engine_fuel | TRUE | Electric and fuel cell vehicles have an engine size of 0; any other engine size is positive | 92,548,417 | 0 | 0.00 | 0 | 0 |
+| engine_moped | FALSE | Mopeds (L1, L2) have an engine of at most 50cc | 215,700 | 11,622 | 5.39 | 11,622 | 0 |
+| engine_test_class_1 | FALSE | Class 1 motorcycles have an engine of at most 200cc | 1,470,811 | 2,807 | 0.19 | 2,807 | 0 |
+| revenue_weight_class_7 | FALSE | Class 7 goods vehicles weigh 3,000-3,500 kg (revenue weight) | 2,634,546 | 118,804 | 4.51 | 27,939 | 90,865 |
+| revenue_weight_class_4_goods | FALSE | Light goods vehicles (N1) in class 4 weigh at most 3,000 kg (over 3,000 kg is class 7) | 5,549,394 | 1,589,285 | 28.64 | 490,421 | 1,098,864 |
+| revenue_weight_type_approval | FALSE | N1 goods vehicles weigh at most 3,500 kg, N2 3,500-12,000 kg and N3 at least 12,000 kg | 8,660,659 | 127,910 | 1.48 | 46,454 | 81,456 |
+| co2_fuel | FALSE | Electric vehicles emit 0 g/km; petrol and diesel vehicles at least 50 g/km | 64,335,728 | 50,285 | 0.08 | 20,147 | 30,138 |
+| co2_range | FALSE | CO2 is at most 600 g/km | 69,087,791 | 4,758 | 0.01 | 1,325 | 3,433 |
+| body_type_test_class | FALSE | The DfT body type matches the test class: motorcycles in 1-3, cars and vans in 4 or 7, buses in 4 or 5 | 87,546,864 | 43,027 | 0.05 | 0 | 43,027 |
+| first_use_after_birth | FALSE | The vehicle was first used no earlier than the month it was made (DVLA dates are months) | 93,352,118 | 130,706 | 0.14 | 130,706 | 0 |
+| manufacture_year | FALSE | The DVLA year of manufacture is no later than the year after first use | 71,533,335 | 21,695 | 0.03 | 21,695 | 0 |
+| last_test_after_first_use | FALSE | The last MOT test is no earlier than first use | 78,131,657 | 28,003 | 0.04 | 28,003 | 0 |
+| plate_not_newer | FALSE | A dated plate is not newer than the vehicle’s first use (30 days’ tolerance) | 93,275,878 | 175,510 | 0.19 | 175,510 | 0 |
+| fleet_after_birth | FALSE | The vehicle has no postcode area (or dead status) in a year before the year it was made | 93,352,118 | 41,513 | 0.04 | 0 | 41,513 |
+
+The three largest combinations behind each rule’s violations (all of
+them, up to 25 per rule, are in `variable_consistency_detail.csv`;
+numbers are shown in bands):
+
+| rule | values | sources | n_vehicles |
+|:---|:---|:---|---:|
+| type_approval_test_class | type_approval=M1; test_class=2 | type_approval=dvla; test_class=dvsa | 26,302 |
+| type_approval_test_class | type_approval=N1; test_class=5 | type_approval=dvla; test_class=dvsa | 7,193 |
+| type_approval_test_class | type_approval=M1; test_class=1 | type_approval=dvla; test_class=dvsa | 2,109 |
+| wheelplan_test_class | wheelplan=2 WHEEL; test_class=4 | wheelplan=dvla; test_class=dvsa | 3,604 |
+| wheelplan_test_class | wheelplan=2 WHEEL; test_class=3 | wheelplan=dvla; test_class=dvsa | 528 |
+| wheelplan_test_class | wheelplan=2 AXLE RIGID BODY; test_class=2 | wheelplan=dvla; test_class=dvsa | 472 |
+| wheelplan_type_approval | wheelplan=2 WHEEL; type_approval=M1 | wheelplan=dvla; type_approval=dvla | 33,823 |
+| wheelplan_type_approval | wheelplan=2 WHEEL; type_approval=N1 | wheelplan=dvla; type_approval=dvla | 935 |
+| wheelplan_type_approval | wheelplan=2 AXLE RIGID BODY; type_approval=L1 | wheelplan=dvla; type_approval=dvla | 593 |
+| engine_moped | engine_cc=51-125; type_approval=L1 | engine_cc=dvsa; type_approval=dvla | 4,318 |
+| engine_moped | engine_cc=201-1000; type_approval=L1 | engine_cc=dvsa; type_approval=dvla | 2,968 |
+| engine_moped | engine_cc=51-125; type_approval=L1 | engine_cc=dvla; type_approval=dvla | 1,299 |
+| engine_test_class_1 | engine_cc=201-1000; test_class=1 | engine_cc=dvsa; test_class=dvsa | 2,356 |
+| engine_test_class_1 | engine_cc=1001-3000; test_class=1 | engine_cc=dvsa; test_class=dvsa | 442 |
+| engine_test_class_1 | engine_cc=3001+; test_class=1 | engine_cc=dvsa; test_class=dvsa | 9 |
+| revenue_weight_class_7 | revenue_weight=3501-12000; test_class=7 | revenue_weight=dvla; test_class=variant | 36,107 |
+| revenue_weight_class_7 | revenue_weight=\<3000; test_class=7 | revenue_weight=dvla; test_class=dvsa | 17,464 |
+| revenue_weight_class_7 | revenue_weight=\<3000; test_class=7 | revenue_weight=variant; test_class=dvsa | 10,712 |
+| revenue_weight_class_4_goods | revenue_weight=3000-3500; test_class=4; type_approval=N1 | revenue_weight=dvla; test_class=dvsa; type_approval=dvla | 485,362 |
+| revenue_weight_class_4_goods | revenue_weight=3000-3500; test_class=4; type_approval=N1 | revenue_weight=variant; test_class=dvsa; type_approval=dvla | 327,494 |
+| revenue_weight_class_4_goods | revenue_weight=3000-3500; test_class=4; type_approval=N1 | revenue_weight=dvla; test_class=variant; type_approval=dvla | 240,918 |
+| revenue_weight_type_approval | revenue_weight=3501-12000; type_approval=N1 | revenue_weight=dvla; type_approval=variant | 38,479 |
+| revenue_weight_type_approval | revenue_weight=12001+; type_approval=N1 | revenue_weight=dvla; type_approval=dvla | 23,714 |
+| revenue_weight_type_approval | revenue_weight=3501-12000; type_approval=N1 | revenue_weight=dvla; type_approval=dvla | 20,952 |
+| co2_fuel | co2=1-49; fuel=Petrol | co2=dvla; fuel=dvsa | 12,807 |
+| co2_fuel | co2=1-49; fuel=Petrol | co2=variant; fuel=dvsa | 10,709 |
+| co2_fuel | co2=1-49; fuel=Diesel | co2=variant; fuel=dvsa | 7,574 |
+| co2_range | co2=601+ | co2=variant | 3,171 |
+| co2_range | co2=601+ | co2=dvla | 1,325 |
+| co2_range | co2=601+ | co2=model_year_fuel | 262 |
+| body_type_test_class | body_type=Light goods vehicles; test_class=5 | body_type=genmodel; test_class=dvsa | 32,159 |
+| body_type_test_class | body_type=Buses and coaches; test_class=7 | body_type=type_approval; test_class=model_year_fuel | 1,426 |
+| body_type_test_class | body_type=Light goods vehicles; test_class=5 | body_type=model; test_class=dvsa | 1,167 |
+| first_use_after_birth | dates=monthOfFirstRegistration_DVLA | dates=recorded | 130,706 |
+| manufacture_year | dates=firstUsedDate_DVSA | dates=recorded | 20,985 |
+| manufacture_year | dates=monthOfFirstRegistration_DVLA | dates=recorded | 710 |
+| last_test_after_first_use | dates=firstUsedDate_DVSA | dates=recorded | 27,075 |
+| last_test_after_first_use | dates=monthOfFirstRegistration_DVLA | dates=recorded | 925 |
+| last_test_after_first_use | dates=birth_date | dates=recorded | 3 |
+| plate_not_newer | dates=firstUsedDate_DVSA | dates=recorded | 145,541 |
+| plate_not_newer | dates=monthOfFirstRegistration_DVLA | dates=recorded | 24,566 |
+| plate_not_newer | dates=birth_date | dates=recorded | 5,403 |
+| fleet_after_birth | pca=pca; dates=monthOfFirstRegistration_DVLA | pca=bristol; dates=recorded | 24,641 |
+| fleet_after_birth | pca=pca; dates=birth_date | pca=bristol; dates=recorded | 16,872 |
+
+![](data_quality_report_figures/consistency-1.png)
+
+**Figure 8.** The violations of each rule in the first table above
+(`variable_consistency.csv`), split into conflicts in the recorded data
+(`n_recorded`) and those where at least one value was filled by the
+pipeline or Bristol (`n_pipeline`). Labels give the vehicles breaking
+the rule and their percentage of the vehicles it applies to
+(`pct_violations`). The rules the backfill enforces (`enforced`) can
+only have recorded violations.
 
 ## Vehicles against DfT counts by year and body type
 
 A check of coverage and naming against DfT table VEH0124
 (methodology.md, Section 4.8). A ratio near 1 means the MOT data holds
-about as many vehicles as DfT. Ratios for all ages are below 1 because
-vehicles under three (four in Northern Ireland) have no MOT;
-`ratio_age3plus` is the fairer test. Buses, HGVs and other vehicles are
-tested outside the MOT scheme, so their ratios are low by design, and
+about as many vehicles as DfT. For cars the ratio is above 1 in most
+years, and more so for cars aged 3+: more cars are placed in a postcode
+area than DfT counts as licensed or SORN, because a vehicle keeps its
+area for two years after its last MOT (see *Observation behind the
+postcode areas*). The excess peaks at around 13-18 years old
+(`dft_stock_by_age.csv`). Buses, HGVs and other vehicles are tested
+outside the MOT scheme, so their ratios are low by design, and
 motorcycles are low because many are SORN. The make and model breakdown
-is in `dft_stock_by_make_model.csv`, and the breakdown by age in
-`dft_stock_by_age.csv`.
+is in `dft_stock_by_make_model.csv`.
 
 - `n_mot`: in-scope vehicles observed in a postcode area that year (not
   unborn, dead or unknown), UK
@@ -346,90 +648,101 @@ is in `dft_stock_by_make_model.csv`, and the breakdown by age in
 
 | year | body_type | n_mot | n_dft | n_dft_licensed | ratio_mot_to_dft | n_mot_age3plus | n_dft_age3plus | ratio_age3plus |
 |:---|:---|---:|---:|---:|---:|---:|---:|---:|
-| 2014 | Buses and coaches | 40,280 | 189,729 | 167,793 | 0.21 | 28,552 | 155,302 | 0.18 |
-| 2014 | Cars | 35,971,996 | 31,919,157 | 30,330,225 | 1.13 | 29,228,827 | 24,574,254 | 1.19 |
-| 2014 | Heavy goods vehicles | 32,726 | 573,138 | 493,706 | 0.06 | 21,163 | 411,535 | 0.05 |
-| 2014 | Light goods vehicles | 3,838,391 | 3,866,068 | 3,545,806 | 0.99 | 3,037,061 | 2,903,259 | 1.05 |
-| 2014 | Motorcycles | 1,745,724 | 1,977,316 | 1,230,555 | 0.88 | 1,516,378 | 1,500,177 | 1.01 |
-| 2014 | Other vehicles | 60,087 | 818,388 | 725,704 | 0.07 | 52,252 | 537,780 | 0.10 |
-| 2014 |  | 51,491 | 0 | 0 | NA | 39,207 | 0 | NA |
-| 2015 | Buses and coaches | 43,261 | 192,900 | 167,163 | 0.22 | 31,278 | 158,699 | 0.20 |
-| 2015 | Cars | 36,847,579 | 32,926,134 | 30,987,527 | 1.12 | 29,517,816 | 25,039,352 | 1.18 |
-| 2015 | Heavy goods vehicles | 36,106 | 597,748 | 502,138 | 0.06 | 24,458 | 428,834 | 0.06 |
-| 2015 | Light goods vehicles | 4,038,758 | 4,091,005 | 3,709,206 | 0.99 | 3,108,012 | 3,000,437 | 1.04 |
-| 2015 | Motorcycles | 1,748,719 | 2,077,649 | 1,242,936 | 0.84 | 1,503,509 | 1,565,155 | 0.96 |
-| 2015 | Other vehicles | 60,064 | 848,464 | 735,541 | 0.07 | 52,172 | 565,935 | 0.09 |
-| 2015 |  | 53,181 | 0 | 0 | NA | 42,218 | 0 | NA |
-| 2016 | Buses and coaches | 46,068 | 197,098 | 167,056 | 0.23 | 34,266 | 162,039 | 0.21 |
-| 2016 | Cars | 37,825,767 | 34,081,888 | 31,792,259 | 1.11 | 30,094,350 | 25,767,275 | 1.17 |
-| 2016 | Heavy goods vehicles | 40,175 | 629,165 | 517,039 | 0.06 | 28,678 | 461,206 | 0.06 |
-| 2016 | Light goods vehicles | 4,250,308 | 4,337,588 | 3,889,786 | 0.98 | 3,218,164 | 3,136,021 | 1.03 |
-| 2016 | Motorcycles | 1,765,580 | 2,185,421 | 1,270,216 | 0.81 | 1,493,808 | 1,622,989 | 0.92 |
-| 2016 | Other vehicles | 59,506 | 881,978 | 751,858 | 0.07 | 51,220 | 595,091 | 0.09 |
-| 2016 |  | 54,935 | 0 | 0 | NA | 44,544 | 0 | NA |
-| 2017 | Buses and coaches | 48,663 | 198,738 | 164,026 | 0.24 | 36,566 | 163,605 | 0.22 |
-| 2017 | Cars | 38,125,041 | 34,724,188 | 32,159,943 | 1.10 | 30,918,496 | 26,401,132 | 1.17 |
-| 2017 | Heavy goods vehicles | 43,743 | 655,446 | 523,242 | 0.07 | 31,750 | 474,251 | 0.07 |
-| 2017 | Light goods vehicles | 4,373,784 | 4,523,723 | 4,011,416 | 0.97 | 3,380,828 | 3,284,949 | 1.03 |
-| 2017 | Motorcycles | 1,736,919 | 2,278,254 | 1,255,860 | 0.76 | 1,490,533 | 1,700,266 | 0.88 |
-| 2017 | Other vehicles | 57,422 | 932,044 | 778,840 | 0.06 | 50,349 | 635,492 | 0.08 |
-| 2017 |  | 56,160 | 0 | 0 | NA | 47,111 | 0 | NA |
-| 2018 | Buses and coaches | 51,227 | 199,475 | 160,519 | 0.26 | 39,376 | 165,663 | 0.24 |
-| 2018 | Cars | 38,688,990 | 35,236,719 | 32,493,258 | 1.10 | 31,767,336 | 27,180,537 | 1.17 |
-| 2018 | Heavy goods vehicles | 47,114 | 675,918 | 524,477 | 0.07 | 35,172 | 494,384 | 0.07 |
-| 2018 | Light goods vehicles | 4,568,376 | 4,694,380 | 4,127,645 | 0.97 | 3,581,061 | 3,465,806 | 1.03 |
-| 2018 | Motorcycles | 1,735,358 | 2,357,871 | 1,265,142 | 0.74 | 1,493,618 | 1,772,773 | 0.84 |
-| 2018 | Other vehicles | 56,327 | 963,038 | 793,528 | 0.06 | 49,598 | 658,039 | 0.07 |
-| 2018 |  | 57,311 | 0 | 0 | NA | 49,718 | 0 | NA |
-| 2019 | Buses and coaches | 52,466 | 199,843 | 157,467 | 0.26 | 41,543 | 168,577 | 0.25 |
-| 2019 | Cars | 39,001,138 | 35,868,441 | 32,884,320 | 1.09 | 32,458,245 | 28,175,598 | 1.15 |
-| 2019 | Heavy goods vehicles | 50,310 | 699,210 | 525,652 | 0.07 | 39,014 | 514,652 | 0.08 |
-| 2019 | Light goods vehicles | 4,744,195 | 4,874,759 | 4,246,449 | 0.97 | 3,755,079 | 3,655,547 | 1.03 |
-| 2019 | Motorcycles | 1,724,639 | 2,432,938 | 1,273,379 | 0.71 | 1,497,707 | 1,849,272 | 0.81 |
-| 2019 | Other vehicles | 55,913 | 989,885 | 803,195 | 0.06 | 48,481 | 676,492 | 0.07 |
-| 2019 |  | 58,471 | 0 | 0 | NA | 52,485 | 0 | NA |
-| 2020 | Buses and coaches | 52,720 | 198,176 | 141,545 | 0.27 | 42,612 | 170,386 | 0.25 |
-| 2020 | Cars | 38,772,513 | 35,959,398 | 32,697,408 | 1.08 | 32,564,308 | 29,170,337 | 1.12 |
-| 2020 | Heavy goods vehicles | 51,753 | 712,441 | 509,950 | 0.07 | 41,637 | 541,355 | 0.08 |
-| 2020 | Light goods vehicles | 4,845,722 | 5,030,639 | 4,348,508 | 0.96 | 3,834,640 | 3,870,266 | 0.99 |
-| 2020 | Motorcycles | 1,699,793 | 2,512,043 | 1,297,802 | 0.68 | 1,449,869 | 1,915,631 | 0.76 |
-| 2020 | Other vehicles | 53,921 | 1,010,343 | 805,711 | 0.05 | 45,720 | 699,529 | 0.06 |
-| 2020 |  | 58,020 | 0 | 0 | NA | 52,910 | 0 | NA |
-| 2021 | Buses and coaches | 51,821 | 198,454 | 145,730 | 0.26 | 43,379 | 174,009 | 0.25 |
-| 2021 | Cars | 38,734,494 | 36,189,987 | 32,889,462 | 1.07 | 33,244,514 | 30,053,603 | 1.11 |
-| 2021 | Heavy goods vehicles | 52,310 | 738,345 | 529,202 | 0.07 | 43,185 | 572,963 | 0.07 |
-| 2021 | Light goods vehicles | 5,036,999 | 5,242,393 | 4,541,097 | 0.96 | 4,028,481 | 4,082,828 | 0.99 |
-| 2021 | Motorcycles | 1,690,959 | 2,604,637 | 1,341,566 | 0.65 | 1,442,507 | 1,983,714 | 0.73 |
-| 2021 | Other vehicles | 52,160 | 1,045,159 | 827,731 | 0.05 | 43,751 | 727,870 | 0.06 |
-| 2021 |  | 54,363 | 0 | 0 | NA | 49,372 | 0 | NA |
-| 2022 | Buses and coaches | 42,755 | 197,930 | 143,203 | 0.22 | 36,123 | 176,200 | 0.20 |
-| 2022 | Cars | 38,155,912 | 36,593,163 | 33,187,308 | 1.04 | 33,450,068 | 31,105,145 | 1.07 |
-| 2022 | Heavy goods vehicles | 50,355 | 762,950 | 536,519 | 0.07 | 42,831 | 606,800 | 0.07 |
-| 2022 | Light goods vehicles | 5,061,824 | 5,376,451 | 4,623,911 | 0.94 | 4,154,719 | 4,296,093 | 0.97 |
-| 2022 | Motorcycles | 1,611,826 | 2,686,520 | 1,363,661 | 0.60 | 1,375,612 | 2,049,367 | 0.67 |
-| 2022 | Other vehicles | 47,403 | 1,075,395 | 843,051 | 0.04 | 39,291 | 752,651 | 0.05 |
-| 2022 |  | 48,720 | 0 | 0 | NA | 43,385 | 0 | NA |
-| 2023 | Buses and coaches | 41,975 | 198,538 | 141,311 | 0.21 | 36,394 | 176,140 | 0.21 |
-| 2023 | Cars | 36,760,212 | 37,207,362 | 33,579,946 | 0.99 | 33,573,674 | 31,445,098 | 1.07 |
-| 2023 | Heavy goods vehicles | 49,976 | 785,655 | 534,969 | 0.06 | 43,496 | 616,332 | 0.07 |
-| 2023 | Light goods vehicles | 4,925,346 | 5,529,660 | 4,710,275 | 0.89 | 4,294,270 | 4,403,044 | 0.98 |
-| 2023 | Motorcycles | 1,524,653 | 2,747,751 | 1,353,937 | 0.56 | 1,364,172 | 2,098,518 | 0.65 |
-| 2023 | Other vehicles | 44,726 | 1,103,032 | 854,840 | 0.04 | 37,105 | 766,564 | 0.05 |
-| 2023 |  | 47,385 | 0 | 0 | NA | 42,292 | 0 | NA |
-| 2024 | Buses and coaches | 43,491 | 196,409 | 142,903 | 0.22 | 36,358 | 168,644 | 0.22 |
-| 2024 | Cars | 35,242,295 | 37,753,146 | 33,966,632 | 0.93 | 33,647,675 | 31,692,714 | 1.06 |
-| 2024 | Heavy goods vehicles | 48,801 | 788,907 | 534,310 | 0.06 | 43,484 | 613,396 | 0.07 |
-| 2024 | Light goods vehicles | 4,746,452 | 5,682,253 | 4,796,955 | 0.84 | 4,465,413 | 4,557,857 | 0.98 |
-| 2024 | Motorcycles | 1,409,151 | 2,797,884 | 1,355,104 | 0.50 | 1,332,442 | 2,139,645 | 0.62 |
-| 2024 | Other vehicles | 41,611 | 1,129,175 | 868,526 | 0.04 | 35,502 | 788,758 | 0.04 |
-| 2024 |  | 44,359 | 0 | 0 | NA | 39,849 | 0 | NA |
-| 2025 | Buses and coaches | 41,124 | 197,704 | 143,231 | 0.21 | 35,745 | 164,307 | 0.22 |
-| 2025 | Cars | 33,298,028 | 38,490,385 | 34,485,453 | 0.86 | 33,199,903 | 32,007,644 | 1.04 |
-| 2025 | Heavy goods vehicles | 45,329 | 803,492 | 537,476 | 0.06 | 42,182 | 626,474 | 0.07 |
-| 2025 | Light goods vehicles | 4,433,198 | 5,840,871 | 4,886,854 | 0.76 | 4,415,359 | 4,680,153 | 0.94 |
-| 2025 | Motorcycles | 1,234,985 | 2,881,717 | 1,360,270 | 0.43 | 1,231,805 | 2,232,505 | 0.55 |
-| 2025 | Other vehicles | 36,817 | 1,149,687 | 870,230 | 0.03 | 33,700 | 808,344 | 0.04 |
-| 2025 |  | 40,105 | 0 | 0 | NA | 37,693 | 0 | NA |
+| 2014 | Buses and coaches | 45,900 | 189,729 | 167,793 | 0.24 | 33,702 | 155,302 | 0.22 |
+| 2014 | Cars | 35,913,902 | 31,919,157 | 30,330,225 | 1.12 | 29,169,962 | 24,574,254 | 1.19 |
+| 2014 | Heavy goods vehicles | 32,541 | 573,138 | 493,706 | 0.06 | 20,936 | 411,535 | 0.05 |
+| 2014 | Light goods vehicles | 3,883,057 | 3,866,068 | 3,545,806 | 1.00 | 3,083,533 | 2,903,259 | 1.06 |
+| 2014 | Motorcycles | 1,750,895 | 1,977,316 | 1,230,555 | 0.88 | 1,521,624 | 1,500,177 | 1.01 |
+| 2014 | Other vehicles | 60,138 | 818,388 | 725,704 | 0.07 | 52,256 | 537,780 | 0.10 |
+| 2014 | NA | 54,262 | 0 | 0 | NA | 41,427 | 0 | NA |
+| 2015 | Buses and coaches | 48,856 | 192,900 | 167,163 | 0.25 | 36,384 | 158,699 | 0.23 |
+| 2015 | Cars | 36,794,357 | 32,926,134 | 30,987,527 | 1.12 | 29,463,801 | 25,039,352 | 1.18 |
+| 2015 | Heavy goods vehicles | 35,882 | 597,748 | 502,138 | 0.06 | 24,669 | 428,834 | 0.06 |
+| 2015 | Light goods vehicles | 4,078,829 | 4,091,005 | 3,709,206 | 1.00 | 3,149,493 | 3,000,437 | 1.05 |
+| 2015 | Motorcycles | 1,753,582 | 2,077,649 | 1,242,936 | 0.84 | 1,508,441 | 1,565,155 | 0.96 |
+| 2015 | Other vehicles | 60,141 | 848,464 | 735,541 | 0.07 | 52,187 | 565,935 | 0.09 |
+| 2015 | NA | 56,021 | 0 | 0 | NA | 44,488 | 0 | NA |
+| 2016 | Buses and coaches | 51,783 | 197,098 | 167,056 | 0.26 | 39,214 | 162,039 | 0.24 |
+| 2016 | Cars | 37,776,648 | 34,081,888 | 31,792,259 | 1.11 | 30,044,421 | 25,767,275 | 1.17 |
+| 2016 | Heavy goods vehicles | 39,808 | 629,165 | 517,039 | 0.06 | 28,814 | 461,206 | 0.06 |
+| 2016 | Light goods vehicles | 4,286,394 | 4,337,588 | 3,889,786 | 0.99 | 3,255,732 | 3,136,021 | 1.04 |
+| 2016 | Motorcycles | 1,770,177 | 2,185,421 | 1,270,216 | 0.81 | 1,498,455 | 1,622,989 | 0.92 |
+| 2016 | Other vehicles | 59,601 | 881,978 | 751,858 | 0.07 | 51,274 | 595,091 | 0.09 |
+| 2016 | NA | 57,928 | 0 | 0 | NA | 47,120 | 0 | NA |
+| 2017 | Buses and coaches | 54,258 | 198,738 | 164,026 | 0.27 | 41,374 | 163,605 | 0.25 |
+| 2017 | Cars | 38,079,551 | 34,724,188 | 32,159,943 | 1.10 | 30,872,866 | 26,401,132 | 1.17 |
+| 2017 | Heavy goods vehicles | 43,303 | 655,446 | 523,242 | 0.07 | 31,659 | 474,251 | 0.07 |
+| 2017 | Light goods vehicles | 4,406,616 | 4,523,723 | 4,011,416 | 0.97 | 3,414,515 | 3,284,949 | 1.04 |
+| 2017 | Motorcycles | 1,741,228 | 2,278,254 | 1,255,860 | 0.76 | 1,494,873 | 1,700,266 | 0.88 |
+| 2017 | Other vehicles | 57,541 | 932,044 | 778,840 | 0.06 | 50,434 | 635,492 | 0.08 |
+| 2017 | NA | 59,235 | 0 | 0 | NA | 49,912 | 0 | NA |
+| 2018 | Buses and coaches | 56,464 | 199,475 | 160,519 | 0.28 | 43,941 | 165,663 | 0.26 |
+| 2018 | Cars | 38,646,595 | 35,236,719 | 32,493,258 | 1.10 | 31,724,806 | 27,180,537 | 1.17 |
+| 2018 | Heavy goods vehicles | 46,648 | 675,918 | 524,477 | 0.07 | 35,004 | 494,384 | 0.07 |
+| 2018 | Light goods vehicles | 4,598,662 | 4,694,380 | 4,127,645 | 0.98 | 3,612,098 | 3,465,806 | 1.04 |
+| 2018 | Motorcycles | 1,739,410 | 2,357,871 | 1,265,142 | 0.74 | 1,497,701 | 1,772,773 | 0.84 |
+| 2018 | Other vehicles | 56,492 | 963,038 | 793,528 | 0.06 | 49,734 | 658,039 | 0.08 |
+| 2018 | NA | 60,432 | 0 | 0 | NA | 52,595 | 0 | NA |
+| 2019 | Buses and coaches | 57,320 | 199,843 | 157,467 | 0.29 | 46,074 | 168,577 | 0.27 |
+| 2019 | Cars | 38,961,756 | 35,868,441 | 32,884,320 | 1.09 | 32,418,756 | 28,175,598 | 1.15 |
+| 2019 | Heavy goods vehicles | 49,839 | 699,210 | 525,652 | 0.07 | 38,695 | 514,652 | 0.07 |
+| 2019 | Light goods vehicles | 4,772,098 | 4,874,759 | 4,246,449 | 0.98 | 3,783,394 | 3,655,547 | 1.03 |
+| 2019 | Motorcycles | 1,728,405 | 2,432,938 | 1,273,379 | 0.71 | 1,501,502 | 1,849,272 | 0.81 |
+| 2019 | Other vehicles | 56,085 | 989,885 | 803,195 | 0.06 | 48,618 | 676,492 | 0.07 |
+| 2019 | NA | 61,629 | 0 | 0 | NA | 55,515 | 0 | NA |
+| 2020 | Buses and coaches | 56,746 | 198,176 | 141,545 | 0.29 | 46,910 | 170,386 | 0.28 |
+| 2020 | Cars | 38,736,380 | 35,959,398 | 32,697,408 | 1.08 | 32,527,730 | 29,170,337 | 1.11 |
+| 2020 | Heavy goods vehicles | 51,437 | 712,441 | 509,950 | 0.07 | 41,277 | 541,355 | 0.08 |
+| 2020 | Light goods vehicles | 4,871,530 | 5,030,639 | 4,348,508 | 0.97 | 3,860,725 | 3,870,266 | 1.00 |
+| 2020 | Motorcycles | 1,703,135 | 2,512,043 | 1,297,802 | 0.68 | 1,453,244 | 1,915,631 | 0.76 |
+| 2020 | Other vehicles | 54,108 | 1,010,343 | 805,711 | 0.05 | 45,887 | 699,529 | 0.07 |
+| 2020 | NA | 61,106 | 0 | 0 | NA | 55,923 | 0 | NA |
+| 2021 | Buses and coaches | 55,373 | 198,454 | 145,730 | 0.28 | 47,284 | 174,009 | 0.27 |
+| 2021 | Cars | 38,700,627 | 36,189,987 | 32,889,462 | 1.07 | 33,210,238 | 30,053,603 | 1.10 |
+| 2021 | Heavy goods vehicles | 52,178 | 738,345 | 529,202 | 0.07 | 42,871 | 572,963 | 0.07 |
+| 2021 | Light goods vehicles | 5,061,345 | 5,242,393 | 4,541,097 | 0.96 | 4,053,107 | 4,082,828 | 0.99 |
+| 2021 | Motorcycles | 1,693,937 | 2,604,637 | 1,341,566 | 0.65 | 1,445,509 | 1,983,714 | 0.73 |
+| 2021 | Other vehicles | 52,343 | 1,045,159 | 827,731 | 0.05 | 43,947 | 727,870 | 0.06 |
+| 2021 | NA | 57,303 | 0 | 0 | NA | 52,233 | 0 | NA |
+| 2022 | Buses and coaches | 45,287 | 197,930 | 143,203 | 0.23 | 39,037 | 176,200 | 0.22 |
+| 2022 | Cars | 38,124,631 | 36,593,163 | 33,187,308 | 1.04 | 33,418,401 | 31,105,145 | 1.07 |
+| 2022 | Heavy goods vehicles | 50,264 | 762,950 | 536,519 | 0.07 | 42,573 | 606,800 | 0.07 |
+| 2022 | Light goods vehicles | 5,085,133 | 5,376,451 | 4,623,911 | 0.95 | 4,178,232 | 4,296,093 | 0.97 |
+| 2022 | Motorcycles | 1,614,499 | 2,686,520 | 1,363,661 | 0.60 | 1,378,308 | 2,049,367 | 0.67 |
+| 2022 | Other vehicles | 47,569 | 1,075,395 | 843,051 | 0.04 | 39,483 | 752,651 | 0.05 |
+| 2022 | NA | 51,412 | 0 | 0 | NA | 45,995 | 0 | NA |
+| 2023 | Buses and coaches | 44,094 | 198,538 | 141,311 | 0.22 | 38,511 | 176,140 | 0.22 |
+| 2023 | Cars | 36,730,468 | 37,207,362 | 33,579,946 | 0.99 | 33,543,954 | 31,445,098 | 1.07 |
+| 2023 | Heavy goods vehicles | 49,871 | 785,655 | 534,969 | 0.06 | 43,373 | 616,332 | 0.07 |
+| 2023 | Light goods vehicles | 4,947,780 | 5,529,660 | 4,710,275 | 0.90 | 4,316,749 | 4,403,044 | 0.98 |
+| 2023 | Motorcycles | 1,527,145 | 2,747,751 | 1,353,937 | 0.56 | 1,366,680 | 2,098,518 | 0.65 |
+| 2023 | Other vehicles | 44,908 | 1,103,032 | 854,840 | 0.04 | 37,307 | 766,564 | 0.05 |
+| 2023 | NA | 50,007 | 0 | 0 | NA | 44,829 | 0 | NA |
+| 2024 | Buses and coaches | 45,361 | 196,409 | 142,903 | 0.23 | 38,105 | 168,644 | 0.23 |
+| 2024 | Cars | 35,214,860 | 37,753,146 | 33,966,632 | 0.93 | 33,620,228 | 31,692,714 | 1.06 |
+| 2024 | Heavy goods vehicles | 48,784 | 788,907 | 534,310 | 0.06 | 43,552 | 613,396 | 0.07 |
+| 2024 | Light goods vehicles | 4,767,164 | 5,682,253 | 4,796,955 | 0.84 | 4,486,213 | 4,557,857 | 0.98 |
+| 2024 | Motorcycles | 1,411,359 | 2,797,884 | 1,355,104 | 0.50 | 1,334,663 | 2,139,645 | 0.62 |
+| 2024 | Other vehicles | 41,785 | 1,129,175 | 868,526 | 0.04 | 35,675 | 788,758 | 0.04 |
+| 2024 | NA | 46,847 | 0 | 0 | NA | 42,287 | 0 | NA |
+| 2025 | Buses and coaches | 42,718 | 197,704 | 143,231 | 0.22 | 37,221 | 164,307 | 0.23 |
+| 2025 | Cars | 33,273,833 | 38,490,385 | 34,485,453 | 0.86 | 33,175,714 | 32,007,644 | 1.04 |
+| 2025 | Heavy goods vehicles | 45,447 | 803,492 | 537,476 | 0.06 | 42,350 | 626,474 | 0.07 |
+| 2025 | Light goods vehicles | 4,451,461 | 5,840,871 | 4,886,854 | 0.76 | 4,433,701 | 4,680,153 | 0.95 |
+| 2025 | Motorcycles | 1,236,842 | 2,881,717 | 1,360,270 | 0.43 | 1,233,670 | 2,232,505 | 0.55 |
+| 2025 | Other vehicles | 36,976 | 1,149,687 | 870,230 | 0.03 | 33,854 | 808,344 | 0.04 |
+| 2025 | NA | 42,309 | 0 | 0 | NA | 39,877 | 0 | NA |
+
+![](data_quality_report_figures/dft-1.png)
+
+**Figure 9.** Vehicles placed in a postcode area in the MOT data divided
+by DfT’s licensed + SORN count (VEH0124). Left: for cars, vans and
+motorcycles first used at least three years before the year
+(`ratio_age3plus` in the table above). Right: all body types by years
+since first use, in 2014, 2019 and 2025 (`ratio_mot_to_dft` in
+`dft_stock_by_age.csv`). Above 1 (dashed line), more vehicles are placed
+than are registered, mostly vehicles past their last MOT whose postcode
+area is carried on; below 1 at ages 0-2, vehicles not yet due an MOT.
 
 ## Number plates
 
@@ -439,34 +752,45 @@ no pattern and `Error` could not be decoded.
 
 - `n_vehicles`: vehicles with that plate format
 - `n_vanity`: vehicles whose birth date is outside the plate’s issue
-  period (with tolerance): cherished plates, but also imports, Q plates
-  and re-registered vehicles
+  period (with tolerance): cherished plates, but also imports, Q plates,
+  re-registered vehicles and vehicles whose manufacture date is well
+  before registration. The issue periods were corrected in the October
+  2026 audit: the DVLAAPI periods flagged ~99% of cars registered in
+  January, February, July and August as vanity plates
 - `n_vanity_unknown`: vehicles that could not be checked, because the
   format has no dated period or the vehicle has no birth date
 
-| plate_type | n_vehicles | n_vanity | n_vanity_unknown |
-|:---|---:|---:|---:|
-| Post 2001 Great Britain plate | 64,088,440 | 15,049,750 | 98 |
-| 1983 to 2001 GB plate | 25,009,903 | 4,659,017 | 2,667 |
-| GB prefix or NI plate | 2,098,978 | 1,958,089 | 45 |
-| 1963 to 1984 GB plate | 1,461,898 | 338,891 | 85 |
-| Dateless numbers first plate GB plate | 363,793 | 213,799 | 12 |
-| 1983 to 2001 Kit car (Q plate) | 235,946 | 194,199 | 7 |
-| Unknown | 65,106 | NA | 65,106 |
-| Republic of Ireland (1987-2012) plate | 7,253 | 2,820 | 0 |
-| Diplomatic | 6,430 | NA | 6,430 |
-| French plate (modern format) | 5,750 | 3,686 | 1 |
-| French plate (old format) | 3,128 | 73 | 0 |
-| Guernsey plate | 1,754 | NA | 1,754 |
-| Jersey plate | 1,611 | NA | 1,611 |
-| Republic of Ireland (post 2013) plate | 753 | 174 | 0 |
-| Switzerland plate | 658 | NA | 658 |
-| Suspected classic VIN | 256 | NA | 256 |
-| Gibraltar plate | 160 | NA | 160 |
-| Kit car (Q plate) | 159 | 159 | 0 |
-| US Military in Germany | 146 | NA | 146 |
-| Isle of Man plate | 110 | NA | 110 |
-| Error | 9 | NA | 9 |
+| plate_type                            | n_vehicles |  n_vanity | n_vanity_unknown |
+|:--------------------------------------|-----------:|----------:|-----------------:|
+| Post 2001 Great Britain plate         | 64,088,440 | 2,237,522 |               11 |
+| 1983 to 2001 GB plate                 | 25,009,903 | 4,364,466 |              109 |
+| GB prefix or NI plate                 |  2,098,978 | 1,957,109 |                2 |
+| 1963 to 1984 GB plate                 |  1,461,898 |   336,044 |                0 |
+| Dateless numbers first plate GB plate |    363,793 |   212,747 |                0 |
+| 1983 to 2001 Kit car (Q plate)        |    235,946 |   194,076 |                0 |
+| Unknown                               |     65,106 |        NA |           65,106 |
+| Republic of Ireland (1987-2012) plate |      7,253 |     2,783 |                0 |
+| Diplomatic                            |      6,430 |        NA |            6,430 |
+| French plate (modern format)          |      5,750 |     3,686 |                1 |
+| French plate (old format)             |      3,128 |        71 |                0 |
+| Guernsey plate                        |      1,754 |        NA |            1,754 |
+| Jersey plate                          |      1,611 |        NA |            1,611 |
+| Republic of Ireland (post 2013) plate |        753 |       166 |                0 |
+| Switzerland plate                     |        658 |        NA |              658 |
+| Suspected classic VIN                 |        256 |        NA |              256 |
+| Gibraltar plate                       |        160 |        NA |              160 |
+| Kit car (Q plate)                     |        159 |       159 |                0 |
+| US Military in Germany                |        146 |        NA |              146 |
+| Isle of Man plate                     |        110 |        NA |              110 |
+| Error                                 |          9 |        NA |                9 |
+
+![](data_quality_report_figures/plates-1.png)
+
+**Figure 10.** For each plate format with at least 1,000 in-scope
+vehicles in the table above (`plate_types.csv`), the share flagged as a
+vanity plate among the vehicles that could be checked: `n_vanity` /
+(`n_vehicles` - `n_vanity_unknown`). Labels give the vehicles with the
+format, and the formats are ordered by them.
 
 ## VES match
 
@@ -477,12 +801,14 @@ returns means no VES values are available for the vehicle.
 
 - `has_ves_record`: the registration is in the VES lookup file
 - `ves_error`: the last VES lookup returned an error
+- `n_ves_checks`: how many VES checks were linked to the vehicle, errors
+  included (grouped)
 - `n_ves_checks_dvla`: how many VES checks were made against the DVLA
   registration alone, errors included (grouped)
 - `n_ves_returns`: how many of those queries returned a record (grouped)
 - `n_vehicles`: vehicles
 
-| has_ves_record | ves_error | n_ves_checks_linked_dvsa | n_ves_checks_dvla | n_ves_returns | n_vehicles |
+| has_ves_record | ves_error | n_ves_checks | n_ves_checks_dvla | n_ves_returns | n_vehicles |
 |:---|:---|:---|:---|:---|---:|
 | TRUE | FALSE | 2-3 | 2-3 | 2-3 | 31,725,774 |
 | TRUE | FALSE | 4+ | 4+ | 4+ | 26,473,222 |
@@ -513,6 +839,12 @@ returns means no VES values are available for the vehicle.
 | TRUE | TRUE | 2-3 | 4+ | 0 | 89 |
 | TRUE | TRUE | 1 | 4+ | 0 | 56 |
 
+![](data_quality_report_figures/ves-1.png)
+
+**Figure 11.** In-scope vehicles by the outcome of their VES lookups:
+the combinations of `has_ves_record` and `ves_error` in the table above
+(`ves_match.csv`), summed over the numbers of checks and returns.
+
 ## VES changes between checks
 
 Flags set by Bristol when repeated VES checks returned different answers
@@ -531,13 +863,13 @@ vehicle.
 - `ever_export_marked`: a count, not a flag: the numbered columns give
   the number of checks that found the vehicle marked for export
 
-| flag | missing | false | true | 6.0 | 7.0 | 3.0 | 5.0 | 9.0 | 4.0 | 2.0 | 0.0 | 1.0 |
+| flag | missing | true | false | 7.0 | 2.0 | 3.0 | 0.0 | 1.0 | 6.0 | 4.0 | 5.0 | 9.0 |
 |:---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| plate_ever_changed_VES | 2,743,929 | 88,802,807 | 1,805,505 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| ever_SORN | 21,503,826 | 59,932,243 | 11,916,172 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| v5C_issue_date_ever_changed | 2,743,929 | 72,347,750 | 18,260,562 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| change_in_other_VES_field | 2,743,929 | 90,283,739 | 324,573 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| ever_export_marked | 21,503,826 | 0 | 0 | 4 | 1 | 1,426,572 | 109 | 1 | 559,218 | 1,683,713 | 67,839,282 | 339,515 |
+| plate_ever_changed_VES | 2,743,929 | 1,805,505 | 88,802,807 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| ever_SORN | 21,503,826 | 11,916,172 | 59,932,243 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| v5C_issue_date_ever_changed | 2,743,929 | 18,260,562 | 72,347,750 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| change_in_other_VES_field | 2,743,929 | 324,573 | 90,283,739 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| ever_export_marked | 21,503,826 | 0 | 0 | 1 | 1,683,713 | 1,426,572 | 67,839,282 | 339,515 | 4 | 559,218 | 109 | 1 |
 
 ## Plate changes against the record match
 
@@ -585,18 +917,32 @@ sources that apply to an attribute are non-zero.
 - `euro_schedule`: Euro status assumed from the standard that was
   compulsory for new registrations of that body type when the vehicle
   was made (methodology.md, Section 5.7)
+- `conflict`: type approval, wheel plan or test class left missing
+  because every value similar vehicles could give contradicts the
+  vehicle’s other values (methodology.md, Section 5.6)
 - `missing`: no value
 
-| attribute | dvsa | variant | dvla | dft | model | missing | model_fuel | no_engine | model_year_fuel | euro_schedule |
-|:---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| fuel | 91,962,471 | 4,894 | 291,069 | 1,090,074 | 3,733 | 0 | 0 | 0 | 0 | 0 |
-| engine_cc | 77,259,027 | 0 | 10,192,094 | 0 | 0 | 794,133 | 16,817 | 2,741,714 | 2,348,456 | 0 |
-| revenue_weight | 0 | 43,032,998 | 28,397,795 | 0 | 0 | 12,786,715 | 0 | 0 | 9,134,733 | 0 |
-| co2 | 0 | 20,372,169 | 50,425,196 | 0 | 0 | 19,491,679 | 0 | 0 | 3,063,197 | 0 |
-| euro_status | 0 | 29,489,179 | 13,557,834 | 0 | 0 | 8,136,404 | 0 | 0 | 8,700,384 | 33,468,440 |
-| type_approval | 0 | 24,322,515 | 55,096,399 | 0 | 0 | 10,634,382 | 0 | 0 | 3,298,945 | 0 |
-| wheelplan | 0 | 21,162,014 | 71,725,260 | 0 | 0 | 424,273 | 0 | 0 | 40,694 | 0 |
-| test_class | 74,037,488 | 11,927,710 | 0 | 0 | 0 | 7,061,391 | 0 | 0 | 325,652 | 0 |
+| attribute | dvla | dft | variant | dvsa | model | missing | model_year_fuel | no_engine | model_fuel | euro_schedule | conflict |
+|:---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| fuel | 291,069 | 1,089,905 | 4,894 | 91,962,640 | 3,733 | 0 | 0 | 0 | 0 | 0 | 0 |
+| engine_cc | 10,192,094 | 0 | 0 | 77,259,027 | 0 | 803,824 | 2,296,610 | 2,741,714 | 58,972 | 0 | 0 |
+| revenue_weight | 28,397,795 | 0 | 23,800,285 | 0 | 0 | 28,236,685 | 12,917,476 | 0 | 0 | 0 | 0 |
+| co2 | 50,425,196 | 0 | 16,836,592 | 0 | 0 | 24,264,450 | 1,826,003 | 0 | 0 | 0 | 0 |
+| euro_status | 13,557,834 | 0 | 14,152,752 | 0 | 0 | 8,246,617 | 5,879,963 | 0 | 0 | 51,515,075 | 0 |
+| type_approval | 55,096,399 | 0 | 16,800,657 | 0 | 0 | 17,374,784 | 4,056,007 | 0 | 0 | 0 | 24,394 |
+| wheelplan | 71,725,260 | 0 | 20,971,846 | 0 | 0 | 506,902 | 148,118 | 0 | 0 | 0 | 115 |
+| test_class | 0 | 0 | 12,973,341 | 74,037,488 | 0 | 5,501,381 | 830,414 | 0 | 0 | 0 | 9,617 |
+
+![](data_quality_report_figures/sources-1.png)
+
+**Figure 12.** The table above as shares: for each harmonised attribute,
+the share of in-scope vehicles whose value came from each source
+(`harmonised_sources.csv`). Blues are recorded values and green an
+engine size of 0 for an electric vehicle; pink and yellow are fuels
+replaced by the DfT plug-in value or the make/model check; orange to
+brown are borrowed from similar vehicles; grey is a Euro status assumed
+from the date, red a value left missing because of a conflict, and light
+grey no value.
 
 ## DVSA-DVLA record match
 
@@ -618,6 +964,14 @@ size are compared. Every `different` row of the input is listed in
 | no_dvla    |             0 | 21,503,826 |
 | same       |             0 | 71,198,556 |
 | same       |             1 |    526,704 |
+
+![](data_quality_report_figures/dvla-match-1.png)
+
+**Figure 13.** The table above as a chart: in-scope vehicles by the
+result of the record match (`dvla_match`) and the number of the make,
+year and engine comparisons that disagree (`dvla_evidence`), from
+`dvla_match.csv`. The scale is square-root so that the small groups
+show.
 
 ## VES values not used
 
@@ -652,12 +1006,12 @@ fuel, or DVSA `Electric` corrected to a hybrid.
 
 | fuel_DVSA | fuel | fuel_src | n_vehicles |
 |:---|:---|:---|---:|
-| Hybrid Electric (Clean) | Plug-in Hybrid Electric (Petrol) | dft | 1,055,416 |
+| Hybrid Electric (Clean) | Plug-in Hybrid Electric (Petrol) | dft | 1,055,403 |
 | Other | Petrol | dvla | 233,265 |
 | Electric | Hybrid Electric (Clean) | dvla | 31,609 |
 | Other | Hybrid Electric (Clean) | dvla | 19,291 |
 | Hybrid Electric (Clean) | Range Extended Electric | dft | 15,411 |
-| Electric Diesel | Plug-in Hybrid Electric (Diesel) | dft | 11,056 |
+| Electric Diesel | Plug-in Hybrid Electric (Diesel) | dft | 10,900 |
 | Electric | Plug-in Hybrid Electric (Petrol) | dft | 6,062 |
 | Electric | Hybrid Electric (Clean) | variant | 3,765 |
 | Other | Electric Diesel | dvla | 2,359 |
@@ -673,8 +1027,8 @@ fuel, or DVSA `Electric` corrected to a hybrid.
 | Other | Gas Bi-Fuel | dvla | 231 |
 | Other | Plug-in Hybrid Electric (Diesel) | dft | 155 |
 | Electric | Electric Diesel | variant | 83 |
-| Other | Gas | dvla | 77 |
 | Hybrid Electric (Clean) | Electric | model | 77 |
+| Other | Gas | dvla | 77 |
 | Electric | Gas Bi-Fuel | dvla | 48 |
 | Other | LPG | dvla | 31 |
 | Fuel Cells | Plug-in Hybrid Electric (Petrol) | dft | 28 |
@@ -692,11 +1046,11 @@ fuel, or DVSA `Electric` corrected to a hybrid.
 | Petrol | Electric | model | 3 |
 | Other | Steam | dvla | 3 |
 | Other | Fuel Cells | dvla | 2 |
-| Electric | Gas Diesel | dvla | 1 |
-| Fuel Cells | LPG | dvla | 1 |
-| Fuel Cells | Diesel | dvla | 1 |
-| Diesel | Electric | model | 1 |
 | Fuel Cells | Range Extended Electric | dft | 1 |
+| Diesel | Electric | model | 1 |
+| Fuel Cells | Diesel | dvla | 1 |
+| Fuel Cells | LPG | dvla | 1 |
+| Electric | Gas Diesel | dvla | 1 |
 
 ## Fuel checks
 
@@ -715,25 +1069,32 @@ each row. Make/models behind each issue are in `fuel_engine_issues.csv`.
 - `corrected_electric`: the same as implausible_for_model but with only
   one fuel label, so set to Electric
 
-| fuel | ok | rare_conversion | no_reference | rare_for_model | implausible_for_model | corrected_electric | unknown_fuel |
+| fuel | no_reference | ok | rare_conversion | rare_for_model | implausible_for_model | corrected_electric | unknown_fuel |
 |:---|---:|---:|---:|---:|---:|---:|---:|
-| CNG | 2 | 208 | 11 | 0 | 0 | 0 | 0 |
-| Diesel | 30,933,809 | 0 | 2,560,391 | 5,482 | 12 | 0 | 0 |
-| Electric | 2,429,944 | 3,334 | 304,602 | 0 | 0 | 3,733 | 0 |
-| Electric Diesel | 141,970 | 0 | 636 | 1,311 | 0 | 0 | 0 |
-| Fuel Cells | 54 | 0 | 31 | 16 | 0 | 0 | 0 |
-| Gas | 1,347 | 540 | 10,210 | 0 | 0 | 0 | 0 |
-| Gas Bi-Fuel | 10,951 | 12,044 | 1,594 | 0 | 0 | 0 | 0 |
-| Gas Diesel | 80 | 136 | 2,078 | 0 | 0 | 0 | 0 |
-| Hybrid Electric (Clean) | 3,513,989 | 0 | 36,593 | 2,231 | 26 | 0 | 0 |
-| LNG | 0 | 97 | 6 | 0 | 0 | 0 | 0 |
-| LPG | 17,784 | 31,058 | 3,556 | 0 | 0 | 0 | 0 |
+| CNG | 11 | 2 | 208 | 0 | 0 | 0 | 0 |
+| Diesel | 2,560,391 | 30,933,809 | 0 | 5,482 | 12 | 0 | 0 |
+| Electric | 304,602 | 2,429,944 | 3,334 | 0 | 0 | 3,733 | 0 |
+| Electric Diesel | 636 | 142,126 | 0 | 1,311 | 0 | 0 | 0 |
+| Fuel Cells | 31 | 54 | 0 | 16 | 0 | 0 | 0 |
+| Gas | 10,210 | 1,347 | 540 | 0 | 0 | 0 | 0 |
+| Gas Bi-Fuel | 1,594 | 10,951 | 12,044 | 0 | 0 | 0 | 0 |
+| Gas Diesel | 2,078 | 80 | 136 | 0 | 0 | 0 | 0 |
+| Hybrid Electric (Clean) | 36,605 | 3,513,989 | 0 | 2,232 | 26 | 0 | 0 |
+| LNG | 6 | 0 | 97 | 0 | 0 | 0 | 0 |
+| LPG | 3,556 | 17,784 | 31,058 | 0 | 0 | 0 | 0 |
 | Other | 0 | 0 | 0 | 0 | 0 | 0 | 128,451 |
-| Petrol | 50,616,761 | 0 | 1,478,911 | 4,397 | 17 | 0 | 0 |
-| Plug-in Hybrid Electric (Diesel) | 11,126 | 0 | 25 | 85 | 0 | 0 | 0 |
-| Plug-in Hybrid Electric (Petrol) | 1,062,604 | 0 | 179 | 240 | 0 | 0 | 0 |
-| Range Extended Electric | 15,787 | 0 | 0 | 28 | 0 | 0 | 0 |
-| Steam | 0 | 0 | 3,682 | 82 | 0 | 0 | 0 |
+| Petrol | 1,478,911 | 50,616,761 | 0 | 4,397 | 17 | 0 | 0 |
+| Plug-in Hybrid Electric (Diesel) | 25 | 10,970 | 0 | 85 | 0 | 0 | 0 |
+| Plug-in Hybrid Electric (Petrol) | 167 | 1,062,604 | 0 | 239 | 0 | 0 | 0 |
+| Range Extended Electric | 0 | 15,787 | 0 | 28 | 0 | 0 | 0 |
+| Steam | 3,682 | 0 | 0 | 82 | 0 | 0 | 0 |
+
+![](data_quality_report_figures/fuel-1.png)
+
+**Figure 14.** Top: the twelve largest changes from the DVSA fuel to the
+harmonised fuel, labelled `DVSA fuel -> harmonised fuel (source)`, from
+`fuel_changes.csv`. Bottom: the result of the make/model fuel check as a
+share of each harmonised fuel, from the table above (`fuel_check.csv`).
 
 ## Plug-in hybrids: coverage of the DfT fuel detail
 
@@ -751,12 +1112,19 @@ from other hybrids, so this is the coverage of that distinction.
 
 | fuel_DFT_src       | n_vehicles | n_with_fuel_DFT | n_fuel_replaced |
 |:-------------------|-----------:|----------------:|----------------:|
-| dft_model          | 49,215,969 |      49,215,969 |         966,261 |
-| dft_genmodel       | 38,965,844 |      38,965,844 |         123,813 |
+| dft_model          | 49,215,969 |      49,215,969 |         966,221 |
+| dft_genmodel       | 38,965,844 |      38,965,844 |         123,684 |
 | no_reference       |  4,793,811 |               0 |               0 |
 | ambiguous_genmodel |    244,401 |               0 |               0 |
 | (no fuel group)    |    132,215 |               0 |               0 |
 | ambiguous_model    |          1 |               0 |               0 |
+
+![](data_quality_report_figures/fuel-dft-1.png)
+
+**Figure 15.** The table above as a chart: in-scope vehicles by how
+their DfT fuel detail was found (`fuel_DFT_src` in
+`fuel_dft_coverage.csv`). Labels give the vehicles whose harmonised fuel
+was replaced by a plug-in hybrid value (`n_fuel_replaced`).
 
 ## Plug-in hybrids: the DfT fuel against the harmonised fuel
 
@@ -783,6 +1151,8 @@ is refused and the vehicle keeps its recorded fuel.
 | Electric Diesel | (none) | ambiguous_genmodel | 11,219 |
 | Electric Diesel | HYBRID ELECTRIC (DIESEL) | dft_genmodel | 4,049 |
 | Electric Diesel | (none) | no_reference | 768 |
+| Electric Diesel | PLUG-IN HYBRID ELECTRIC (DIESEL) | dft_genmodel | 129 |
+| Electric Diesel | PLUG-IN HYBRID ELECTRIC (DIESEL) | dft_model | 27 |
 | Fuel Cells | (none) | no_reference | 69 |
 | Fuel Cells | FUEL CELL ELECTRIC | dft_genmodel | 28 |
 | Fuel Cells | FUEL CELL ELECTRIC | dft_model | 4 |
@@ -790,11 +1160,11 @@ is refused and the vehicle keeps its recorded fuel.
 | Hybrid Electric (Clean) | HYBRID ELECTRIC (PETROL) | dft_genmodel | 570,756 |
 | Hybrid Electric (Clean) | (none) | ambiguous_genmodel | 233,182 |
 | Hybrid Electric (Clean) | (none) | no_reference | 78,259 |
+| Hybrid Electric (Clean) | PLUG-IN HYBRID ELECTRIC (PETROL) | dft_model | 14 |
 | Hybrid Electric (Clean) | (none) | ambiguous_model | 1 |
-| Hybrid Electric (Clean) | PLUG-IN HYBRID ELECTRIC (PETROL) | dft_model | 1 |
-| Plug-in Hybrid Electric (Diesel) | PLUG-IN HYBRID ELECTRIC (DIESEL) | dft_model | 10,511 |
-| Plug-in Hybrid Electric (Diesel) | PLUG-IN HYBRID ELECTRIC (DIESEL) | dft_genmodel | 725 |
-| Plug-in Hybrid Electric (Petrol) | PLUG-IN HYBRID ELECTRIC (PETROL) | dft_model | 950,250 |
+| Plug-in Hybrid Electric (Diesel) | PLUG-IN HYBRID ELECTRIC (DIESEL) | dft_model | 10,484 |
+| Plug-in Hybrid Electric (Diesel) | PLUG-IN HYBRID ELECTRIC (DIESEL) | dft_genmodel | 596 |
+| Plug-in Hybrid Electric (Petrol) | PLUG-IN HYBRID ELECTRIC (PETROL) | dft_model | 950,237 |
 | Plug-in Hybrid Electric (Petrol) | PLUG-IN HYBRID ELECTRIC (PETROL) | dft_genmodel | 112,773 |
 | Range Extended Electric | RANGE EXTENDED ELECTRIC | dft_genmodel | 10,315 |
 | Range Extended Electric | RANGE EXTENDED ELECTRIC | dft_model | 5,500 |
@@ -805,26 +1175,29 @@ How each body type’s Euro status was arrived at (methodology.md, Section
 5.7). A Euro status is recorded for a minority of vehicles, so most come
 from the date the standard became compulsory for new registrations of
 that body type. `Other vehicles` and vehicles with no body type follow
-none of the timetables and are left missing.
+none of the timetables and get no standard. A vehicle with no standard
+has the reason in `euro_status` (`pre_euro`, `no_schedule` or
+`no_date`).
 
 - `body_type`: DfT body type
 - `n_vehicles`: vehicles
 - `n_recorded_or_backfilled`: a Euro status from the VES record or the
   variant backfill
 - `n_assumed_from_date`: no recorded status: filled from the schedule
-- `n_missing`: still no Euro status
+- `n_missing`: still no Euro status: `euro_status` holds the reason
+  instead
 - `n_later_than_date`: has a status naming a standard that did not exist
   when the vehicle was made
 
 | body_type | n_vehicles | n_recorded_or_backfilled | n_assumed_from_date | n_missing | n_later_than_date |
 |:---|---:|---:|---:|---:|---:|
-| Cars | 75,635,969 | 43,802,797 | 28,436,585 | 3,396,587 | 8,921,982 |
-| Light goods vehicles | 9,290,081 | 6,259,219 | 2,597,979 | 432,883 | 1,288,036 |
-| Motorcycles | 4,029,420 | 1,176,779 | 1,933,183 | 919,458 | 108,847 |
-| (none) | 2,878,353 | 7,649 | 0 | 2,870,704 | 0 |
-| Heavy goods vehicles | 801,039 | 340,850 | 448,250 | 11,939 | 5,608 |
-| Other vehicles | 571,803 | 72,707 | 0 | 499,096 | 0 |
-| Buses and coaches | 145,576 | 87,396 | 52,443 | 5,737 | 8,473 |
+| Cars | 75,515,749 | 27,884,601 | 44,210,004 | 3,421,144 | 2,679,886 |
+| Light goods vehicles | 9,370,852 | 4,531,635 | 4,371,296 | 467,921 | 584,188 |
+| Motorcycles | 4,020,776 | 721,776 | 2,388,310 | 910,690 | 15,594 |
+| (none) | 2,922,885 | 7,473 | 0 | 2,915,412 | 0 |
+| Heavy goods vehicles | 799,137 | 314,033 | 473,166 | 11,938 | 665 |
+| Other vehicles | 570,422 | 55,993 | 0 | 514,429 | 0 |
+| Buses and coaches | 152,420 | 75,038 | 72,299 | 5,083 | 5,153 |
 
 ## Euro status against the registration date
 
@@ -845,13 +1218,20 @@ has a wrong VES value and `backfill.min_vehicles` is 1.
 - `no_schedule`: body type with no schedule
 - `no_date`: no date to place the vehicle
 
-| euro_status_src | no_date | ok | later_than_date | assumed | no_schedule | pre_euro |
+| euro_status_src | no_schedule | pre_euro | later_than_date | no_date | ok | assumed |
 |:---|---:|---:|---:|---:|---:|---:|
-| dvla | 0 | 13,533,021 | 24,813 | 0 | 0 | 0 |
-| euro_schedule | 0 | 0 | 0 | 33,468,440 | 0 | 0 |
-| model_year_fuel | 0 | 5,280,550 | 3,419,834 | 0 | 0 | 0 |
-| variant | 0 | 22,600,880 | 6,888,299 | 0 | 0 | 0 |
-|  | 123 | 0 | 0 | 0 | 3,369,678 | 4,766,603 |
+| dvla | 0 | 0 | 24,796 | 0 | 13,533,038 | 0 |
+| euro_schedule | 0 | 0 | 0 | 0 | 0 | 51,515,075 |
+| model_year_fuel | 0 | 0 | 1,114,108 | 0 | 4,765,855 | 0 |
+| variant | 0 | 0 | 2,146,582 | 0 | 12,006,170 | 0 |
+| NA | 3,429,719 | 4,816,775 | 0 | 123 | 0 | 0 |
+
+![](data_quality_report_figures/euro-1.png)
+
+**Figure 16.** Top: in-scope vehicles by body type and how their Euro
+status was arrived at, from the Euro status coverage table
+(`euro_status_fill.csv`). Bottom: the `euro_check` result by the source
+of the Euro status, from the table above (`euro_check.csv`).
 
 ## When each Euro standard became compulsory
 
@@ -869,7 +1249,7 @@ Roman numerals, as the register does for them.
 | body_type            | schedule    | standard | euro_status | from       |
 |:---------------------|:------------|---------:|:------------|:-----------|
 | Buses and coaches    | heavy       |        1 | EURO I      | 1993-10-01 |
-| Buses and coaches    | heavy       |        2 | EURO II     | 1997-10-01 |
+| Buses and coaches    | heavy       |        2 | EURO II     | 1996-10-01 |
 | Buses and coaches    | heavy       |        3 | EURO III    | 2001-10-01 |
 | Buses and coaches    | heavy       |        4 | EURO IV     | 2006-10-01 |
 | Buses and coaches    | heavy       |        5 | EURO V      | 2009-10-01 |
@@ -881,7 +1261,7 @@ Roman numerals, as the register does for them.
 | Cars                 | cars        |        5 | EURO 5      | 2011-01-01 |
 | Cars                 | cars        |        6 | EURO 6      | 2015-09-01 |
 | Heavy goods vehicles | heavy       |        1 | EURO I      | 1993-10-01 |
-| Heavy goods vehicles | heavy       |        2 | EURO II     | 1997-10-01 |
+| Heavy goods vehicles | heavy       |        2 | EURO II     | 1996-10-01 |
 | Heavy goods vehicles | heavy       |        3 | EURO III    | 2001-10-01 |
 | Heavy goods vehicles | heavy       |        4 | EURO IV     | 2006-10-01 |
 | Heavy goods vehicles | heavy       |        5 | EURO V      | 2009-10-01 |
@@ -909,25 +1289,25 @@ Vehicles whose engine size needed attention, by harmonised fuel
   engine size, set to 0
 - `zero_replaced`: a fuel with an engine recorded as 0cc, backfilled
 
-| fuel | zero_replaced | missing | engine_removed | ok |
+| fuel | ok | zero_replaced | missing | engine_removed |
 |:---|---:|---:|---:|---:|
-| CNG | 0 | 0 | 0 | 221 |
-| Diesel | 10,596 | 651,122 | 0 | 32,837,976 |
-| Electric | 0 | 0 | 4,409 | 2,737,204 |
-| Electric Diesel | 7 | 408 | 0 | 143,502 |
-| Fuel Cells | 0 | 0 | 28 | 73 |
-| Gas | 0 | 1,547 | 0 | 10,550 |
-| Gas Bi-Fuel | 29 | 181 | 0 | 24,379 |
-| Gas Diesel | 0 | 955 | 0 | 1,339 |
-| Hybrid Electric (Clean) | 170 | 35,690 | 0 | 3,516,979 |
-| LNG | 0 | 0 | 0 | 103 |
-| LPG | 4 | 480 | 0 | 51,914 |
-| Other | 0 | 0 | 0 | 128,451 |
-| Petrol | 691 | 63,741 | 0 | 52,035,654 |
-| Plug-in Hybrid Electric (Diesel) | 1 | 0 | 0 | 11,235 |
-| Plug-in Hybrid Electric (Petrol) | 220 | 0 | 0 | 1,062,803 |
-| Range Extended Electric | 3 | 0 | 0 | 15,812 |
-| Steam | 0 | 0 | 0 | 3,764 |
+| CNG | 221 | 0 | 0 | 0 |
+| Diesel | 32,837,279 | 10,286 | 652,129 | 0 |
+| Electric | 2,737,204 | 0 | 0 | 4,409 |
+| Electric Diesel | 143,501 | 7 | 565 | 0 |
+| Fuel Cells | 73 | 0 | 0 | 28 |
+| Gas | 10,541 | 0 | 1,556 | 0 |
+| Gas Bi-Fuel | 24,379 | 27 | 183 | 0 |
+| Gas Diesel | 1,334 | 0 | 960 | 0 |
+| Hybrid Electric (Clean) | 3,510,167 | 153 | 42,532 | 0 |
+| LNG | 103 | 0 | 0 | 0 |
+| LPG | 51,908 | 3 | 487 | 0 |
+| Other | 128,451 | 0 | 0 | 0 |
+| Petrol | 52,034,038 | 650 | 65,398 | 0 |
+| Plug-in Hybrid Electric (Diesel) | 11,079 | 1 | 0 | 0 |
+| Plug-in Hybrid Electric (Petrol) | 1,062,790 | 220 | 0 | 0 |
+| Range Extended Electric | 15,812 | 3 | 0 | 0 |
+| Steam | 3,764 | 0 | 0 | 0 |
 
 ## Engine size by fuel
 
@@ -946,26 +1326,36 @@ Petrol suggest typing errors in the recorded size.
 
 | fuel_simple | missing | cc_0 | cc_1_49 | cc_50_599 | cc_600_7000 | cc_over_7000 |
 |:---|---:|---:|---:|---:|---:|---:|
-| Diesel | 651,122 | 0 | 6,638 | 19,638 | 31,981,322 | 840,974 |
+| Diesel | 652,129 | 0 | 6,612 | 19,565 | 31,980,413 | 840,975 |
 | Electric | 0 | 2,741,613 | 0 | 0 | 0 | 0 |
-| Hybrid Electric | 36,098 | 0 | 50 | 155 | 3,660,406 | 47 |
-| Other | 43,172 | 101 | 2,876 | 1,421 | 171,017 | 5,431 |
-| Petrol | 63,741 | 0 | 429,343 | 2,420,567 | 49,172,611 | 13,824 |
-| Plug-in Hybrid Electric | 0 | 0 | 9 | 2 | 1,090,060 | 3 |
+| Hybrid Electric | 43,097 | 0 | 50 | 154 | 3,653,577 | 47 |
+| Other | 43,200 | 101 | 2,876 | 1,419 | 170,995 | 5,427 |
+| Petrol | 65,398 | 0 | 429,430 | 2,418,824 | 49,172,635 | 13,799 |
+| Plug-in Hybrid Electric | 0 | 0 | 9 | 2 | 1,089,891 | 3 |
+
+![](data_quality_report_figures/engine-1.png)
+
+**Figure 17.** The table above as shares: the harmonised `engine_cc` in
+bands as a share of each simplified fuel group
+(`engine_size_by_fuel.csv`). Only Electric should be at 0cc; the engine
+size checks table (`engine_check.csv`) gives the reasons for the
+changes.
 
 ## Mileage checks
 
-The annual mileage for each year (methodology.md, Section 8).
-Implausible mileage is kept in the data and reported here. A final year
-with far fewer vehicles than the one before is usually incomplete.
+The annual mileage for each year (methodology.md, Section 8). Bristol
+removes mileage it judges implausible (`legit_mileage` = FALSE leaves
+`mileage` empty), so the recorded mileages are those flagged plausible
+plus a small number never assessed (no flag). A final year with far
+fewer vehicles than the one before is usually incomplete.
 
 - `n_with_mileage`: vehicles with a mileage recorded for the year
 - `n_negative`: mileage below 0
 - `n_over_50k`: mileage above 50,000 miles
 - `n_not_legit`: mileage flagged implausible by Bristol (`legit_mileage`
-  = FALSE)
-- `mean_mileage`: mean annual mileage (all recorded values, including
-  implausible ones)
+  = FALSE) and removed
+- `mean_mileage`: mean annual mileage over the recorded values
+  (plausible or unassessed)
 - `median_mileage`: median annual mileage
 
 | year | n_with_mileage | n_negative | n_over_50k | n_not_legit | mean_mileage | median_mileage |
@@ -992,11 +1382,19 @@ with far fewer vehicles than the one before is usually incomplete.
 | 2024 | 36,734,471 | 0 | 5,394 | 211,841 | 6,883.56 | 5,721 |
 | 2025 | 25,803,313 | 0 | 3,590 | 147,846 | 6,775.53 | 5,592 |
 
+![](data_quality_report_figures/mileage-1.png)
+
+**Figure 18.** From the table above (`mileage_checks.csv`), for vehicles
+of every type: the vehicles with an annual mileage recorded for each
+year (left), and the mean and median of those mileages (right). The
+recorded mileages are the ones Bristol flagged plausible plus a few it
+never assessed.
+
 ## Column missingness (year columns omitted)
 
-Every column of `vehicles_enhanced.parquet` except the per-year columns,
-with its type and the percentage of in-scope vehicles where it is
-missing. Descriptions are in `outputs/data_dictionary.csv`.
+Every column of `vehicles_enhanced_maximal.parquet` except the per-year
+columns, with its type and the percentage of in-scope vehicles where it
+is missing. Descriptions are in `outputs/data_dictionary.csv`.
 
 - `column_name`: the column
 - `column_type`: its DuckDB type
@@ -1021,37 +1419,52 @@ missing. Descriptions are in `outputs/data_dictionary.csv`.
 | make_final                        | VARCHAR     |        0.56 |
 | model_final                       | VARCHAR     |        4.27 |
 | derivative_final                  | VARCHAR     |       75.63 |
-| body_type                         | VARCHAR     |        3.08 |
+| body_type                         | VARCHAR     |        3.13 |
 | dft_genmodel                      | VARCHAR     |        5.07 |
 | dft_model                         | VARCHAR     |       47.12 |
 | make_method                       | VARCHAR     |        0.00 |
 | model_method                      | VARCHAR     |        0.00 |
 | model_confidence                  | DOUBLE      |        5.07 |
-| body_type_src                     | VARCHAR     |        3.08 |
+| body_type_src                     | VARCHAR     |        3.13 |
 | fuel                              | VARCHAR     |        0.00 |
 | fuel_src                          | VARCHAR     |        0.00 |
 | fuel_check                        | VARCHAR     |        0.00 |
 | fuel_simple                       | VARCHAR     |        0.00 |
 | fuel_DFT                          | VARCHAR     |        5.54 |
 | fuel_DFT_src                      | VARCHAR     |        0.14 |
-| engine_cc                         | INTEGER     |        0.85 |
-| engine_cc_src                     | VARCHAR     |        0.85 |
+| engine_cc                         | INTEGER     |        0.86 |
+| engine_cc_src                     | VARCHAR     |        0.86 |
 | engine_check                      | VARCHAR     |        0.00 |
-| revenue_weight                    | INTEGER     |       13.70 |
-| revenue_weight_src                | VARCHAR     |       13.70 |
-| co2                               | INTEGER     |       20.88 |
-| co2_src                           | VARCHAR     |       20.88 |
+| revenue_weight                    | INTEGER     |       30.25 |
+| revenue_weight_src                | VARCHAR     |       30.25 |
+| co2                               | INTEGER     |       25.99 |
+| co2_src                           | VARCHAR     |       25.99 |
 | co2_check                         | VARCHAR     |        0.00 |
-| euro_status                       | VARCHAR     |        8.72 |
-| euro_status_src                   | VARCHAR     |        8.72 |
-| euro_standard                     | INTEGER     |        8.72 |
+| euro_status                       | VARCHAR     |        0.00 |
+| euro_status_src                   | VARCHAR     |        8.83 |
+| euro_standard                     | INTEGER     |        8.83 |
 | euro_check                        | VARCHAR     |        0.00 |
-| type_approval                     | VARCHAR     |       11.39 |
-| type_approval_src                 | VARCHAR     |       11.39 |
-| wheelplan                         | VARCHAR     |        0.45 |
-| wheelplan_src                     | VARCHAR     |        0.45 |
-| test_class                        | INTEGER     |        7.56 |
-| test_class_src                    | VARCHAR     |        7.56 |
+| type_approval                     | VARCHAR     |       18.64 |
+| type_approval_src                 | VARCHAR     |       18.61 |
+| wheelplan                         | VARCHAR     |        0.54 |
+| wheelplan_src                     | VARCHAR     |        0.54 |
+| test_class                        | INTEGER     |        5.90 |
+| test_class_src                    | VARCHAR     |        5.89 |
+| racf_link_level                   | VARCHAR     |       19.11 |
+| racf_mass_kg                      | DOUBLE      |       25.69 |
+| racf_kerb_weight_kg               | DOUBLE      |       23.01 |
+| racf_footprint_m2                 | DOUBLE      |       28.92 |
+| racf_length_mm                    | DOUBLE      |       49.22 |
+| racf_width_mm                     | DOUBLE      |       60.54 |
+| racf_height_mm                    | DOUBLE      |       39.83 |
+| racf_wheelbase_mm                 | DOUBLE      |       28.28 |
+| racf_co2_nedc                     | DOUBLE      |       34.61 |
+| racf_co2_wltp                     | DOUBLE      |       85.35 |
+| racf_e_consumption_wh_km          | DOUBLE      |       91.79 |
+| racf_e_range_km                   | DOUBLE      |       94.46 |
+| racf_smmt_type                    | VARCHAR     |       26.15 |
+| racf_suv_share                    | DOUBLE      |       26.47 |
+| racf_eu_exact_share               | DOUBLE      |       21.98 |
 | fuel_DVSA                         | VARCHAR     |        0.00 |
 | fuelType_DVLA                     | VARCHAR     |       23.05 |
 | engineSize_DVSA                   | INTEGER     |       17.11 |
@@ -1073,6 +1486,7 @@ missing. Descriptions are in `outputs/data_dictionary.csv`.
 | motStatus_DVLA                    | VARCHAR     |       23.04 |
 | motExpiryDate_DVLA                | DATE        |       37.43 |
 | birth_date                        | DATE        |        0.00 |
+| birth_date_source                 | VARCHAR     |        0.00 |
 | first_use_date                    | DATE        |        0.00 |
 | first_use_source                  | VARCHAR     |        0.00 |
 | firstUsedDate_DVSA                | DATE        |       17.69 |
@@ -1107,3 +1521,16 @@ missing. Descriptions are in `outputs/data_dictionary.csv`.
 | scope_born                        | BOOLEAN     |        0.00 |
 | scope_dvla_activity               | BOOLEAN     |        0.00 |
 | total_mileage                     | INTEGER     |        0.00 |
+| first_test_date_DVSA              | DATE        |       16.30 |
+| first_test_year_DVSA              | BIGINT      |       16.30 |
+| final_test_year_DVSA              | BIGINT      |       16.30 |
+| registration_at_first_test        | VARCHAR     |        0.00 |
+| lastMotTestDate_DVSA              | DATE        |        6.28 |
+| n_DVLA_makes                      | BIGINT      |        2.94 |
+
+![](data_quality_report_figures/missing-1.png)
+
+**Figure 19.** The 45 columns of the table above most often missing: the
+share of in-scope vehicles with no value (`pct_missing` in
+`data_dictionary.csv`), year columns omitted. Columns never missing are
+not drawn.

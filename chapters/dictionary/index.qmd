@@ -7,9 +7,26 @@ d <- dict_columns()
 cv_prov <- readLines("data/coverage/provenance.txt")
 ```
 
-This part describes every column of the vehicle table,
-`vehicles_enhanced.parquet`. The `r nrow(dd)` columns are grouped by theme,
-one chapter per group, and each chapter has the same three sections:
+This part describes every column of the vehicle table. The pipeline writes
+the table in two versions:
+
+- **`vehicles_enhanced_maximal.parquet`**, the maximal table, has all
+  `r nrow(dd)` columns: every column of the input and every column the
+  pipeline makes, including the source (`_src`) and check (`_check`) column
+  of each harmonised attribute, the values as supplied by DVSA and the DVLA,
+  and the record of the DVLA lookups. Every table and report the pipeline
+  publishes is built from it.
+- **`vehicles_enhanced_simplified.parquet`**, the simplified table, is a
+  strict subset of the maximal one for everyday use: the same vehicles, with
+  only the finished, cleaned value of each attribute. It has
+  `r sum(dd$in_simplified)` of the columns (`r sum(d$in_simplified)` once the
+  year-by-year columns are counted once each), and no `_src`, `_check` or
+  `_method` columns, values as supplied, scope flags or lookup records.
+
+This part describes the maximal table, and the **Simplified** column of each
+chapter's table says whether a column is also in the simplified table. A
+column has the same name, type and values in both. The columns are grouped by
+theme, one chapter per group, and each chapter has the same three sections:
 
 - **Overview** explains what the columns contain and where their values come
   from, lists each column with its type, source and description, and links to
@@ -30,22 +47,26 @@ the years.
 
 ```{r}
 #| label: tbl-dictionary-groups
-#| tbl-cap: "The chapters of the data dictionary."
+#| tbl-cap: "The chapters of the data dictionary, with the number of columns in the maximal table and how many of them are also in the simplified table (year-by-year columns counted once)."
 chapters <- c(
   identifiers = "@sec-dd-identifiers", registration = "@sec-dd-registration",
   make_model = "@sec-dd-make-model", vehicle_type = "@sec-dd-vehicle-type",
   colour = "@sec-dd-colour", wheelplan = "@sec-dd-wheelplan",
   weight = "@sec-dd-weight",
   fuel_engine = "@sec-dd-fuel-engine", emissions = "@sec-dd-emissions",
-  dates = "@sec-dd-dates", mileage = "@sec-dd-mileage",
+  racf = "@sec-dd-racf", dates = "@sec-dd-dates", mileage = "@sec-dd-mileage",
   location = "@sec-dd-location", dvla_status = "@sec-dd-dvla-status"
 )
 g <- data.frame(
   Chapter = chapters[names(dict_groups)],
   Columns = vapply(dict_groups, length, integer(1)),
+  `In simplified` = vapply(dict_groups, function(x) {
+    sum(d$in_simplified[d$column_name %in% x])
+  }, integer(1)),
   Examples = vapply(dict_groups, function(x) {
     paste0("`", head(x, 3), "`", collapse = ", ")
-  }, character(1))
+  }, character(1)),
+  check.names = FALSE
 )
 kable(g, row.names = FALSE)
 ```

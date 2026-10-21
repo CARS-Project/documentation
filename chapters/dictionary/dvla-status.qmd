@@ -29,7 +29,9 @@ pipeline's check of whether the VES record describes the same vehicle.
 - **The lookups**: when the registration was first and last queried and first
   and last returned a record, how many queries were made, and the error from
   the last one where it failed (methodology,
-  [section 2](../../reports/methodology.md#input-data)).
+  [section 2](../../reports/methodology.md#input-data)). `n_DVLA_makes`
+  is the number of different makes the lookups returned: more than one
+  suggests the plate moved between vehicles.
 - **`dvla_match`** says whether the VES record describes the same vehicle as
   the DVSA record. A registration can move between vehicles, so a lookup can
   return another vehicle's record. Where at least two of make, year of

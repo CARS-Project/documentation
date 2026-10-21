@@ -6,9 +6,10 @@
 # columns are taken from the synced data dictionary):
 #   Rscript scripts/run-coverage.R
 #
-# The vehicle table is found as in scripts/run-examples.R: CARS_PARQUET, or
-# <MOT_PIPELINE_DIR>/outputs/vehicles_enhanced.parquet. DuckDB's memory limit
-# is DUCKDB_MEMORY_LIMIT (default 16GB).
+# The vehicle table is CARS_PARQUET, or the maximal table
+# <MOT_PIPELINE_DIR>/outputs/vehicles_enhanced_maximal.parquet, which has every
+# column of the data dictionary. DuckDB's memory limit is DUCKDB_MEMORY_LIMIT
+# (default 16GB).
 #
 # Outputs:
 #   coverage_by_first_use_year.csv  every column that is not year by year:
@@ -18,12 +19,13 @@
 #     first use
 #   coverage_by_year.csv            the year-by-year columns: in each year,
 #     vehicles on the road (pca_YYYY not unborn or dead), and how many of
-#     them have a postcode area, a mileage and a plausible mileage
+#     them have a postcode area, a mileage and a plausible mileage, a value
+#     in each other year-by-year column and, for flags, the flag TRUE
 
 pipeline_dir <- Sys.getenv("MOT_PIPELINE_DIR", "../MOT-pipline")
 parquet <- Sys.getenv(
   "CARS_PARQUET",
-  file.path(pipeline_dir, "outputs", "vehicles_enhanced.parquet")
+  file.path(pipeline_dir, "outputs", "vehicles_enhanced_maximal.parquet")
 )
 if (!file.exists(parquet)) stop("Vehicle table not found: ", parquet)
 parquet <- normalizePath(parquet, winslash = "/")
@@ -86,15 +88,27 @@ message(sprintf("true_by_first_use_year.csv: %d rows in %.0f s",
 # ---- Year-by-year columns: vehicles on the road in each year -----------------
 
 t0 <- Sys.time()
+# The other year-by-year columns (carried through from the input): how many
+# on the road have a value, as n_<stem>, and for flags how many are TRUE, as
+# n_<stem>_true
+stems <- unique(sub("_[0-9]{4}$", "", dd$column_name[is_year]))
+extra <- setdiff(stems, c("pca", "mileage", "legit_mileage"))
+extra_flag <- extra %in% sub("_[0-9]{4}$", "",
+                             dd$column_name[is_year & dd$column_type == "BOOLEAN"])
 per_year <- vapply(years, function(y) {
   on_road <- sprintf("pca_%d NOT IN ('unborn', 'dead')", y)
+  more <- c(sprintf("count(%s_%d) FILTER (WHERE %s) AS n_%s", extra, y,
+                    on_road, extra),
+            sprintf("count(*) FILTER (WHERE %s AND %s_%d) AS n_%s_true",
+                    on_road, extra[extra_flag], y, extra[extra_flag]))
   sprintf(
     "SELECT %d AS year,
   count(*) FILTER (WHERE %s) AS n_on_road,
   count(*) FILTER (WHERE %s AND pca_%d <> 'unknown') AS n_pca,
   count(mileage_%d) FILTER (WHERE %s) AS n_mileage,
-  count(*) FILTER (WHERE %s AND legit_mileage_%d) AS n_legit_mileage
-FROM %s", y, on_road, on_road, y, y, on_road, on_road, y, src)
+  count(*) FILTER (WHERE %s AND legit_mileage_%d) AS n_legit_mileage%s
+FROM %s", y, on_road, on_road, y, y, on_road, on_road, y,
+    paste0(",\n  ", more, collapse = ""), src)
 }, character(1))
 by_year <- DBI::dbGetQuery(con, paste(per_year, collapse = "\nUNION ALL\n"))
 by_year <- by_year[order(by_year$year), ]

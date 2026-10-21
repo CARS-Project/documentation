@@ -8,7 +8,7 @@ dd <- read_pipeline("outputs", "data_dictionary.csv")
 n_miss <- setNames(dd$n_missing, dd$column_name)
 tf <- read_coverage("true_by_first_use_year")
 cov_vanity <- function(y) {
-  x <- tf[tf$column_name == "vanity_plate" & tf$first_use_year == y, ]
+  x <- tf[tf$column_name == "vanity_plate" & tf$first_use_year %in% y, ]
   fmt_pct(x$n_true / x$n_vehicles, 0)
 }
 ```
@@ -27,6 +27,10 @@ share, and the key used to link them (@sec-sources-linkage).
   (@sec-dd-dvla-status) says whether the VES record can be trusted.
 - **`registration_clean`** is the DVSA plate upper-cased with spaces and
   punctuation removed. Use it for joins.
+- **`registration_at_first_test`** is the plate the vehicle carried at its
+  first MOT test, as supplied by the Bristol team. It differs from
+  `registration_DVSA` where the plate has changed since, for example to a
+  cherished plate. The pipeline carries it through without using it.
 - **The `plate_` columns** decode the plate's format: its type (current
   style, prefix, suffix, dateless and others), the period in which a plate of
   that form was issued, and the issuing office or region.

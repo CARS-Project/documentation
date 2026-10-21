@@ -15,7 +15,9 @@ lorries from articulated ones, and two-wheeled from three-wheeled motorcycles
 
 - **`wheelplan`** is the harmonised wheel plan: the DVLA value where the VES
   record describes this vehicle, and otherwise the most common value among
-  vehicles of the same make, model, birth year, fuel and engine size.
+  similar vehicles with the same test class, else among similar vehicles. A
+  borrowed wheel plan that contradicts the test class or type approval is
+  never used; `wheelplan_src` is then `conflict`.
 - **`wheelplan_src`** says which (`dvla`, `variant` or `model_year_fuel`).
 - **`wheelplan_DVLA`** is the value as supplied.
 

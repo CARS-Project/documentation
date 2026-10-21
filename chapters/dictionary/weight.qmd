@@ -13,8 +13,9 @@ kilograms, as the DVLA records it. It matters most for goods vehicles and
 buses, which are classed by weight.
 
 - **`revenue_weight`** is the harmonised weight: the DVLA value where the VES
-  record describes this vehicle, and otherwise the most common value among
-  vehicles of the same make, model, birth year, fuel and engine size.
+  record describes this vehicle, otherwise the most common value among
+  vehicles of the same make, model, birth year, fuel and engine size, and
+  failing that of the same make, model, birth year and fuel.
 - **`revenue_weight_src`** says which (`dvla`, `variant` or
   `model_year_fuel`).
 - **`revenueWeight_DVLA`** is the value as supplied.

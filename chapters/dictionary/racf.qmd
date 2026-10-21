@@ -1,0 +1,109 @@
+# Car size and model attributes {#sec-dd-racf}
+
+```{r}
+source("R/book.R")
+cols <- dict_groups$racf
+cs <- coverage_share(cols)
+```
+
+## Overview
+
+These columns attach to each car the size, mass and official emissions of its
+model, from the RACF car fleet. That fleet is DfT's car fleet by make, model,
+year of first use and fuel, enriched with each model's SMMT segment
+(supermini, SUV and so on; @sec-vehicle-types) and with its mass, dimensions,
+CO~2~, energy use and electric range from the EU type-approval and Dutch RDW
+registers. It holds counts and model attributes only, not vehicle records.
+
+- **`racf_link_level`** says how the car was linked to the RACF fleet:
+  - `model`: the same make, DfT generic model and model string, year of first
+    use and fuel group;
+  - `genmodel`: failing that, the same make, generic model, year and fuel
+    group, averaging over the generic model's model strings;
+  - `none`: not linked.
+
+  Only cars (`body_type` Cars) are linked, so the column and every `racf_`
+  column is blank for other vehicles.
+- **`racf_smmt_type`** is the SMMT segment with the largest fleet among the
+  linked RACF rows, and **`racf_suv_share`** the share of that fleet the SMMT
+  calls a crossover / SUV or an off-roader.
+- **The size and mass columns** are the EU mass in running order
+  (`racf_mass_kg`), the RDW kerb weight, length, width and height, the
+  wheelbase, and the footprint (wheelbase times track, in m²).
+- **The emissions and energy columns** are the EU NEDC and WLTP CO~2~ figures
+  in g/km, the energy use in Wh/km and the electric range in km.
+- **`racf_eu_exact_share`** is the share of the linked RACF fleet matched to
+  the EU type-approval data for its exact year. The rest borrows another
+  year's or fuel's values.
+
+Each value is the fleet-weighted mean over the linked RACF rows with a
+plausible value, so it describes the model, not the individual car. How the
+link is made is set out in the methodology,
+[section 6](../../reports/methodology.md#stage-4-derived-fields-and-number-plates)
+and [section 9.3](../../reports/methodology.md#the-racf-smmt-linked-fleet).
+
+::: {.callout-important title="Model values, not measurements"}
+A car's `racf_co2_nedc` is the average for its model, year and fuel, not its
+own figure, which is in `co2` (@sec-dd-emissions). The `racf_` columns are
+best used to describe groups of cars, such as the fleet's average size or the
+share of SUVs, and for cars with `racf_eu_exact_share` well below 1 they are
+borrowed from another year or fuel.
+:::
+
+`racf_link_level`, `racf_suv_share` and `racf_eu_exact_share` are in the
+maximal table only. The SMMT segment and the size, mass, CO~2~ and energy
+columns are also in the simplified table.
+
+```{r}
+#| label: tbl-dd-racf
+#| tbl-cap: "Car size and model attribute columns."
+dict_table("racf")
+```
+
+## Coverage
+
+`racf_link_level` is present for the `r cov_pct(cs, "racf_link_level")` of
+vehicles that are cars. Most of those link to a model, so
+`racf_smmt_type` is present for `r cov_pct(cs, "racf_smmt_type")` of all
+vehicles. The other columns are present only where the linked RACF rows have
+a plausible value, and their coverage follows the registers they come from
+(@fig-dd-racf):
+
+- **The EU mass and footprint** and the **RDW kerb weight** are present for
+  most cars: `racf_mass_kg` for `r cov_pct(cs, "racf_mass_kg")` of all
+  vehicles. The RDW width and length are present for fewer.
+- **NEDC CO~2~** applies to cars approved before the WLTP test replaced it,
+  so `racf_co2_nedc` is present for most cars first used up to 2020 and
+  `racf_co2_wltp` for most of those first used from 2018
+  (`r cov_year("racf_co2_wltp", 2022)` of vehicles first used in 2022). Cars
+  first used from 2018 to 2020 often have both.
+- **Energy use and electric range** apply only to plug-in cars, so they are
+  present for `r cov_pct(cs, "racf_e_range_km", digits = 1)` of vehicles,
+  rising for the newest.
+
+```{r}
+#| label: tbl-dd-racf-coverage
+#| tbl-cap: "Share of vehicles with a value, by year of first use."
+coverage_table(cols)
+```
+
+```{r}
+#| label: fig-dd-racf
+#| fig-cap: "Share of vehicles with a value in selected RACF columns, by year of first use."
+#| fig-height: 4.6
+coverage_plot(c("racf_link_level", "racf_mass_kg", "racf_co2_nedc",
+                "racf_co2_wltp"))
+```
+
+## Values
+
+How the values of each column change over time, by year of first use, from 1990. Numeric columns and
+dates show the minimum, lower quartile (Q1), median, upper quartile (Q3) and
+maximum; other columns show the share of vehicles with each value, with the
+less common values grouped as *All other values* and missing values as
+*Blank*.
+
+```{r}
+#| output: asis
+cat(dict_values("racf"))
+```

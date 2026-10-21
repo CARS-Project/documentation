@@ -16,7 +16,80 @@ users of the outputs can judge how far to rely on each column.
 
 The code for each stage is named in its section. Column-level
 definitions are in `outputs/data_dictionary.csv`, which the pipeline
-writes.
+writes. The pipeline was audited end to end in October 2026;
+`pipeline_audit.md` records what was checked, what was found and what
+changed.
+
+### How to read this document
+
+It is written for two readers. **If you use the outputs but not the
+code**, read the plain-language summary below, then the *Assumptions*
+paragraph at the end of each section and the summary table in Section
+12: they say what each column and table can and cannot support. You do
+not need to read SQL. **If you maintain the code**, each section starts
+with the file that implements it, and the table below maps every stage
+to its code and its `targets` target, so you can go from a sentence here
+to the function that does it.
+
+### The method in plain language
+
+The Bristol team supply one row per vehicle that has appeared in the MOT
+(roadworthiness test) records, with its make, model and fuel as recorded
+at its tests, a postcode area and annual mileage for every year, and the
+matching record from the DVLA vehicle register. The pipeline:
+
+1.  **keeps every vehicle that existed from 2005** (Section 3), and
+    marks each year in which the vehicle has no postcode area as not yet
+    born, gone (`dead`) or simply not located (`unknown`);
+2.  **gives every vehicle a standard make and model**, the names DfT
+    uses in its vehicle licensing statistics, so the data can be
+    compared with and joined to official tables (Section 4);
+3.  **checks the DVLA record belongs to the same vehicle**, because a
+    moved number plate can attach another vehicle’s record (Section
+    5.1);
+4.  **fills gaps** in engine size, CO2, weight, Euro status and other
+    attributes from similar vehicles (same make, model, year and fuel),
+    always recording that the value was borrowed, and never borrowing
+    across fuels (Section 5);
+5.  **builds the published tables**: where vehicles are and how they
+    move between postcode areas (the churn tables, Section 7), mileage
+    (Section 8), fleet profiles, and quality checks, then **cross-checks
+    every pair of tables that should agree** (Section 9.1).
+
+Three facts about the source data matter for every result and are easy
+to miss:
+
+- **A postcode area in a year is not always a test in that year.**
+  Bristol copies a vehicle’s first-test area back to its first
+  registration, and carries its last-test area forward for two years
+  after its last test (Section 3.3). Young vehicles therefore cannot be
+  seen to move before their first test, and a scrapped vehicle stays in
+  its area’s counts for about two years. As a result, more cars aged 3+
+  are placed in a postcode area than DfT counts as licensed or SORN.
+- **Most Euro statuses, weights and many CO2 values are borrowed or
+  assumed, not recorded** on the vehicle’s own record (Sections 5.6 and
+  5.7).
+- **The old churn “movement rate” falls with age by construction**
+  (Section 7.3); the windowed rate is the one to compare.
+
+### Code map
+
+| Stage | What it does | Code | Main targets |
+|----|----|----|----|
+| Configuration | Settings, profiles | [`R/config.R`](R/config.R), [`config.yml`](config.yml) | `cfg`, `cfg_*` |
+| 1 Core table | Scope, dates, PCA status | [`R/stage_core.R`](R/stage_core.R) | `core_parquet` |
+| 2 Make / model | DfT naming, body type | [`R/make_model.R`](R/make_model.R) | `dft_reference`, `make_model_lookup` |
+| 3a Record match | DVSA vs DVLA record | [`R/dvla_match.R`](R/dvla_match.R) | `dvla_make_aliases`, `dvla_mismatch_file` |
+| 3b Fuel, engine | Harmonised fuel and engine size | [`R/fuel_engine.R`](R/fuel_engine.R), [`R/fuel_dft.R`](R/fuel_dft.R) | `fuel_refs` |
+| 3c Backfill | Gaps from similar vehicles | [`R/backfill.R`](R/backfill.R), [`R/euro_status.R`](R/euro_status.R) | `backfill_refs` |
+| 4 Enhanced tables | Joins, derived fields, plates | [`R/assemble.R`](R/assemble.R), [`R/plates.R`](R/plates.R) | `enhanced_parquet` (maximal), `simplified_parquet`, `data_dictionary` |
+| 5 Churn | Sets 0-7, life paths | [`R/summary_churn.R`](R/summary_churn.R), [`R/report_churn.R`](R/report_churn.R), [`R/lifepath_alluvial.R`](R/lifepath_alluvial.R) | `churn_*`, `lifepath_figures` |
+| 6 Mileage, profile | Mileage and fleet profile tables | [`R/summary_mileage.R`](R/summary_mileage.R), [`R/report_mileage.R`](R/report_mileage.R), [`R/summary_profile.R`](R/summary_profile.R), [`R/racf_fleet.R`](R/racf_fleet.R) | `mileage_*`, `profile_*` |
+| 6b RACF linked fleet | SMMT segment and EU / RDW model attributes linked to the MOT cars | [`R/racf_linked.R`](R/racf_linked.R) | `racf_reference`, `racf_linked_tables` |
+| 7 Quality | Quality tables, DfT comparison, cross-checks | [`R/report_quality.R`](R/report_quality.R), [`R/dft_compare.R`](R/dft_compare.R), [`R/report_inputs.R`](R/report_inputs.R), [`R/cross_checks.R`](R/cross_checks.R) | `quality_tables`, `dft_comparison`, `cross_checks` |
+| Reports | Quarto templates rendered to Markdown | [`R/reports.R`](R/reports.R), [`reports/`](reports/) | `*_report`, `methodology_doc` |
+| Shared | DuckDB helpers, CSV writer | [`R/utils_duckdb.R`](R/utils_duckdb.R) | \- |
+| Pipeline | Every target and its inputs | [`_targets.R`](_targets.R) | \- |
 
 ## Contents
 
@@ -161,7 +234,10 @@ Assumptions about the input:
 
 - **`birth_date`** is the earliest of DVSA first used date, registration
   date and manufacture date. Only 10,030 input vehicles have none of
-  these.
+  these; for them it is the DVLA month of first registration, else the
+  DVLA month of first DVLA registration, else 1 July of the DVLA year of
+  manufacture (mid-year, so the year is right). `birth_date_source`
+  records which (`dvsa` for nearly every vehicle).
 - **`first_use_date`** is the first available of:
   1.  DVSA first used date
   2.  DVLA month of first registration
@@ -184,19 +260,43 @@ keeps no last MOT year and stays `unknown`.
 
 Assumptions:
 
-- **Birth date is the earliest recorded date.** For vehicles that sat in
-  stock, or were imported, the manufacture date can be well before first
-  use.
+- **Birth date is the earliest recorded DVSA date.** For vehicles that
+  sat in stock, or were imported, the manufacture date can be well
+  before first use. The DVLA fallback cannot be checked against DVSA
+  dates; for the vehicles that use it, the DVLA record matches the
+  vehicle on make and engine.
 - **The DVLA month of first registration is the first of that month,**
   so it is accurate to the month only.
 - **Vehicles with no dates get no invented one.** The previous code
   assigned 2000-01-01 to such vehicles; that placeholder has been
-  removed.
+  removed. Only a vehicle with no DVSA and no DVLA date has no birth
+  date.
 
 ### 3.3 Postcode area status infill
 
-Bristol’s `pca_YYYY` is blank in any year where the vehicle was not
-observed. Each blank is replaced with a status:
+Bristol supplies a postcode area for most years of a vehicle’s life, not
+only the years it was tested. Two features of Bristol’s annualisation,
+found in the October 2026 audit, matter for every table built on
+`pca_YYYY`:
+
+- **Back-fill before the first test.** A new car has no MOT until it is
+  three years old (four in Northern Ireland), but Bristol copies its
+  first test’s postcode area back to the year it was first registered:
+  of the vehicles first used in 2016, 99.4% have the same area in 2016,
+  2017 and 2018. So a vehicle cannot be seen to move before its first
+  test, and those years’ areas are not observations. Bristol estimates
+  mileage for those years too.
+- **Carry-forward after the last test.** A vehicle keeps its last test’s
+  area for two more years: 95% of the vehicles last tested in 2015 still
+  have a postcode area in 2016 and 2017, with no mileage, and become
+  `dead` in 2018. In 2019, 4,644,271 of the 45,687,132 vehicles in a
+  postcode area (10.2%) were past their last MOT year. This is why the
+  MOT stock of cars aged 3+ exceeds DfT’s licensed + SORN count (Section
+  4.8), and why every `dead` and “leaver” count lags the end of testing
+  by about two years.
+
+`quality/pca_observation_by_year.csv` measures both every build. Where
+Bristol supplies no area, the blank is replaced with a status:
 
 | Condition (checked in order) | `pca_YYYY` becomes |
 |----|----|
@@ -211,19 +311,21 @@ Assumptions:
   in every year after the year of its last MOT. This includes vehicles
   that were exported, declared off-road (SORN), or simply stopped being
   tested.
-- **Unobserved years before the last MOT are “unknown”.** For example, a
-  new car in its first three years before its first MOT is `unknown`
-  rather than `dead`. This prevents vehicles from apparently coming back
-  to life when their first MOT appears.
+- **Unobserved years before the last MOT are “unknown”.** This prevents
+  vehicles from apparently coming back to life when a later test
+  appears. It is rare (tens of thousands of vehicles a year), because
+  Bristol back-fills the years before the first test (above).
 - **Birth is compared by calendar year.** A vehicle born during 2010
   with no recorded PCA in 2010 is `unborn` for 2010.
 - **A vehicle with no dates is treated as already born** in every year.
   It is then `dead` or `unknown` by the rules above.
 - **Recorded postcode areas are used as supplied,** including
-  single-letter areas (B, G, L, …). The data covers the whole UK:
-  Northern Ireland is coded `NI` rather than its postcode area BT (which
-  does not occur), and a small number of vehicles have the code `XX`,
-  left as supplied.
+  single-letter areas (B, G, L, …). The data covers the whole UK, and
+  Northern Ireland is its real postcode area `BT`, as Bristol’s
+  deliveries code it since October 2026 and as the boundary, area name
+  and DfT reference files in `inputs/` do. An older delivery’s `NI` is
+  recoded to `BT` (`pca_bt_sql()` in `R/stage_core.R`). A small number
+  of vehicles have the code `XX`, left as supplied.
 
 ### 3.4 Scope: which vehicles are kept
 
@@ -236,14 +338,14 @@ of these is true (scope start date 2005-01-01, set in `config.yml`):
 |----|----|----|
 | `scope_mileage` | Total mileage across all years \> 0 | 77,265,716 |
 | `scope_pca` | A postcode area recorded in any year | 75,437,173 |
-| `scope_born` | `birth_date` on or after the start date | 59,048,329 |
+| `scope_born` | `birth_date` on or after the start date | 59,048,376 |
 | `scope_dvla_activity` | DVLA tax due, last V5C issue, MOT expiry or first registration date on or after the start date | 71,810,699 |
 
 Vehicles kept under each rule:
 
 | Rule                                      | Vehicles kept  |
 |-------------------------------------------|----------------|
-| Previous code: mileage OR born since 2005 | 89,014,223     |
+| Previous code: mileage OR born since 2005 | 89,014,270     |
 | This pipeline: any of the four flags      | **93,352,241** |
 
 Assumptions:
@@ -272,9 +374,14 @@ Assumptions:
   missing rather than invented on the rest. A delivery that has only
   `lastMotTestDate_DVSA` falls back to it, converted from text to a
   date.
-- **The `is_new_vehicle`, `is_intertest` and `is_end_use` flags are
-  dropped** after use. `legit_mileage_YYYY` is kept for the mileage
-  summaries.
+- **Every other input column is carried through unchanged** to the
+  maximal enhanced table: the `is_new_vehicle`, `is_intertest` and
+  `is_end_use` flags, `odometer_est_YYYY`, `n_DVLA_makes`,
+  `lastMotTestDate_DVSA` and anything a later delivery adds. The
+  pipeline uses only `is_end_use_YYYY` (for `last_mot_year`) and
+  `legit_mileage_YYYY` (for the mileage summaries). Mileage,
+  plausibility and PCA columns for years outside `years` in `config.yml`
+  are dropped.
 
 ## 4. Stage 2: Make and model
 
@@ -417,9 +524,9 @@ wins (`body_type_src`):
 | `body_type_src` | Rule | Vehicles |
 |----|----|---:|
 | `model` | The DfT model string’s body type, where at least 90% of its vehicles have one | 44,568,625 |
-| `type_approval` | The type approval (L1–L3 Motorcycles; L5–L7 and T Other vehicles; M1 Cars; M2–M3 Buses and coaches; N1 Light goods vehicles; N2–N3 Heavy goods vehicles), where DfT has vehicles of the generic model with that body type | 41,873,665 |
-| `genmodel` | The generic model’s most common body type | 3,207,083 |
-| `test_class` | The MOT test class (1–2 Motorcycles, 3 Other vehicles, 4 Cars, 5 Buses and coaches, 7 Light goods vehicles) | 824,515 |
+| `type_approval` | The type approval (L1–L3 Motorcycles; L5–L7 and T Other vehicles; M1 Cars; M2–M3 Buses and coaches; N1 Light goods vehicles; N2–N3 Heavy goods vehicles), where DfT has vehicles of the generic model with that body type and the type approval is allowed with the test class (Section 9.2) | 38,818,657 |
+| `genmodel` | The generic model’s most common body type | 6,198,615 |
+| `test_class` | The MOT test class (1–2 Motorcycles, 3 Other vehicles, 4 Cars, 5 Buses and coaches, 7 Light goods vehicles) | 843,459 |
 
 The type approval mapping was checked against vehicles whose DfT model
 string has a single body type: 94% of N1 vehicles and over 99% of M1 and
@@ -586,7 +693,7 @@ Electric.
 
 | `fuel_src` | Meaning                                 | Vehicles   |
 |------------|-----------------------------------------|------------|
-| `dvsa`     | DVSA fuel                               | 91,962,471 |
+| `dvsa`     | DVSA fuel                               | 91,962,640 |
 | `dvla`     | VES fuel (steps 1.1, 1.2 or 1.4)        | 291,069    |
 | `variant`  | fuel from engine size (step 2)          | 4,894      |
 | `model`    | set to Electric by the make/model check | 3,733      |
@@ -665,21 +772,21 @@ The most common make/models behind each outcome in this build (from
 | `dvsa`            | 77,259,027 |
 | `dvla`            | 10,192,094 |
 | `no_engine`       | 2,741,714  |
-| `model_year_fuel` | 2,348,456  |
-| `model_fuel`      | 16,817     |
-| missing           | 794,133    |
+| `model_year_fuel` | 2,296,610  |
+| `model_fuel`      | 58,972     |
+| missing           | 803,824    |
 
 `engine_check` flags vehicles where the engine size needed attention:
 
 | `engine_check` | Meaning | Vehicles |
 |----|----|----|
 | `engine_removed` | Electric or Fuel Cells, with a recorded engine size that was replaced by 0 | 4,437 |
-| `zero_replaced` | A fuel with an engine, recorded as 0cc, filled by steps 3–4 | 11,721 |
-| `missing` | A fuel with an engine and still no engine size | 754,124 |
-| `ok` | Everything else | 92,581,959 |
+| `zero_replaced` | A fuel with an engine, recorded as 0cc, filled by steps 3–4 | 11,350 |
+| `missing` | A fuel with an engine and still no engine size | 763,810 |
+| `ok` | Everything else | 92,572,644 |
 
 The most common make/models with a removed engine size are BMW IX, AUDI
-Q4, AUDI E-TRON and BMW I4. Of the vehicles still `missing`, 651,122 are
+Q4, AUDI E-TRON and BMW I4. Of the vehicles still `missing`, 652,129 are
 diesel; these are mostly tractors and plant with no model, so there is
 nothing to backfill from.
 
@@ -765,10 +872,10 @@ becomes `dft` where the replacement was made.
 
 | New `fuel` value                                   | Vehicles  |
 |----------------------------------------------------|-----------|
-| `Plug-in Hybrid Electric (Petrol)`                 | 1,063,023 |
-| `Plug-in Hybrid Electric (Diesel)`                 | 11,236    |
+| `Plug-in Hybrid Electric (Petrol)`                 | 1,063,010 |
+| `Plug-in Hybrid Electric (Diesel)`                 | 11,080    |
 | `Range Extended Electric`                          | 15,815    |
-| plug-in in DfT but no engine size, so not replaced | 1         |
+| plug-in in DfT but no engine size, so not replaced | 170       |
 
 Nothing else is overwritten: a full hybrid that DfT confirms as a full
 hybrid keeps the fuel it already had, and `fuel_check` (Section 5.3)
@@ -784,7 +891,7 @@ The match is only as good as Section 4, and `model_confidence` is the
 guide to that. Nor can it find a plug-in hybrid whose make/model DfT
 does not record at all (`no_reference`), or one of an ambiguous generic
 model: those vehicles are undercounted as ordinary hybrids, which makes
-1,090,074 a lower bound on the plug-in fleet.
+1,089,905 a lower bound on the plug-in fleet.
 
 ### 5.6 Other attributes
 
@@ -806,9 +913,9 @@ around the words TEMP, EVAP, ISC, FCM, BIS, OBD, WLTP and PLUS (“EURO 6
 D-TEMP-EVAP-ISC”, “EURO VI OBD-E”). Spaces are kept only between two
 numbers (“EURO VI 66D0”, “EURO 5 134 2014”).
 
-Each takes the first available of:
+Revenue weight, CO2 and Euro status each take the first available of:
 
-1.  **the recorded value** (`*_src` = `dvla` or `dvsa`)
+1.  **the recorded value** (`*_src` = `dvla`)
 2.  **the most common value for the same make, model, birth year, fuel
     and engine size** (`variant`). The engine size is the vehicle’s
     `engine_cc` from 5.4, so it may itself be backfilled, and electric
@@ -819,6 +926,41 @@ Each takes the first available of:
     registrations when the vehicle was made** (`euro_schedule`, Section
     5.7)
 5.  **otherwise missing** (`*_src` empty)
+
+**Type approval, wheel plan and test class are filled together**,
+because they describe one thing: what kind of vehicle it is. Filled each
+on its own, as the pipeline did until October 2026, they produced
+562,000 impossible combinations, such as motorcycles with a car’s type
+approval, mostly because a few wrong recorded values (an M1 on a
+motorcycle) filled whole groups (`pipeline_audit.md`, F26). The rules
+(`R/backfill.R`, `category_fill_ctes_sql()` in `R/assemble.R`):
+
+- **Donors must be consistent.** A vehicle gives its recorded type
+  approval, wheel plan or test class to others only if its own recorded
+  values break no consistency rule involving it (Section 9.2): a
+  recorded M1 on a class 2 motorcycle, or an L1 (moped) approval on a
+  600cc bike, gives nothing.
+- **Test class first.** From vehicles with the same recorded type
+  approval (variant, then model-year-fuel), else from the group as a
+  whole. Minibuses (class 5) have their first MOT at one year and cars
+  and vans at three, so in the latest birth years most of the vehicles
+  already tested are minibuses, and until October 2026 untested vans
+  born in 2023-2025 took class 5. Within one type approval the bias is
+  small, so that step uses every year; the group step uses only donors
+  born at least 3 years (`backfill.test_class_min_age`) before the last
+  year of data, and younger vehicles borrow from that birth year.
+- **Then type approval and wheel plan,** from vehicles with the same
+  final test class, else from the group.
+- **A borrowed value must fit the vehicle’s other values.** One that
+  would make a pair the rules do not allow (Section 9.2) is skipped and
+  the next candidate tried; if none fits, the value stays missing and
+  its `*_src` is `conflict`.
+- `*_src` is `variant` or `model_year_fuel` by the level the value came
+  from, whether it was matched on the other attribute or taken from the
+  group.
+- **The DfT body type** (Section 4.6) uses the type approval only when
+  it is allowed with the test class, so a recorded M1 on a class 2
+  motorcycle no longer makes it a car.
 
 For vehicles with a mismatched VES record, recorded VES values are
 ignored and filled as if missing. This affects the CO2 value of 115,761
@@ -846,7 +988,7 @@ its zero goes too. `co2Emissions_DVLA` keeps the value as supplied, and
 
 A Euro status is recorded for only a minority of vehicles. The VES
 returns one mostly for vehicles first registered from 2018 onwards, so
-after the variant backfill of Section 5.6 44.6% of in-scope vehicles
+after the variant backfill of Section 5.6 64.0% of in-scope vehicles
 still had none.
 
 The standards were phased in on fixed dates, though, and a vehicle
@@ -890,7 +1032,7 @@ for 77% of the lorries and 53% of the buses that have a recorded status.
 | body_type            | standard | euro_status | from       |
 |:---------------------|---------:|:------------|:-----------|
 | Buses and coaches    |        1 | EURO I      | 1993-10-01 |
-| Buses and coaches    |        2 | EURO II     | 1997-10-01 |
+| Buses and coaches    |        2 | EURO II     | 1996-10-01 |
 | Buses and coaches    |        3 | EURO III    | 2001-10-01 |
 | Buses and coaches    |        4 | EURO IV     | 2006-10-01 |
 | Buses and coaches    |        5 | EURO V      | 2009-10-01 |
@@ -902,7 +1044,7 @@ for 77% of the lorries and 53% of the buses that have a recorded status.
 | Cars                 |        5 | EURO 5      | 2011-01-01 |
 | Cars                 |        6 | EURO 6      | 2015-09-01 |
 | Heavy goods vehicles |        1 | EURO I      | 1993-10-01 |
-| Heavy goods vehicles |        2 | EURO II     | 1997-10-01 |
+| Heavy goods vehicles |        2 | EURO II     | 1996-10-01 |
 | Heavy goods vehicles |        3 | EURO III    | 2001-10-01 |
 | Heavy goods vehicles |        4 | EURO IV     | 2006-10-01 |
 | Heavy goods vehicles |        5 | EURO V      | 2009-10-01 |
@@ -924,9 +1066,12 @@ quadricycles, tractors and the rest) follow none of these timetables:
 against the vehicles that do have a recorded status, the car schedule is
 right for 32% of them and the motorcycle schedule for 45%, so neither is
 used. Vehicles with no body type are no better (69% on the car schedule)
-and are also left missing. Vehicles made before the first standard of
-their class keep a missing Euro status, since there is no standard to
-give them.
+and are also left without a standard. Vehicles made before the first
+standard of their class get none either, since there is no standard to
+give them. Rather than leave these empty, `euro_status` holds the
+reason: `pre_euro`, `no_schedule` or `no_date`, the `euro_check` labels
+of the same name. `euro_status_src` and `euro_standard` stay empty for
+them, so count real statuses by either of those columns.
 
 Checked against the vehicles that do have a recorded status, the
 schedule reproduces it exactly for 99.8% of cars, 99.8% of vans, 99.1%
@@ -937,9 +1082,9 @@ built.
 
 | Euro status                          | Vehicles   |
 |--------------------------------------|------------|
-| recorded or backfilled (Section 5.6) | 51,747,397 |
-| assumed from the schedule            | 33,468,440 |
-| still missing                        | 8,136,404  |
+| recorded or backfilled (Section 5.6) | 33,590,549 |
+| assumed from the schedule            | 51,515,075 |
+| still missing                        | 8,246,617  |
 
 `euro_check` records how each vehicle’s Euro status stands against its
 age. Nothing is overwritten, so a value that contradicts the vehicle’s
@@ -947,22 +1092,25 @@ age is flagged rather than corrected:
 
 | `euro_check` | Meaning | Vehicles |
 |----|----|----|
-| `ok` | A status that the vehicle’s age allows | 41,414,451 |
-| `later_than_date` | A status naming a standard that did not exist when the vehicle was made. Kept as it is. | 10,332,946 |
-| `assumed` | Filled from the schedule | 33,468,440 |
-| `pre_euro` | No status, and made before the first standard of its class | 4,766,603 |
-| `no_schedule` | No status, and a body type with no schedule | 3,369,678 |
+| `ok` | A status that the vehicle’s age allows | 30,305,063 |
+| `later_than_date` | A status naming a standard that did not exist when the vehicle was made. Kept as it is. | 3,285,486 |
+| `assumed` | Filled from the schedule | 51,515,075 |
+| `pre_euro` | No status, and made before the first standard of its class | 4,816,775 |
+| `no_schedule` | No status, and a body type with no schedule | 3,429,719 |
 | `no_date` | No status, and no date to place the vehicle | 123 |
 
 `later_than_date` is worth reading as a check on the variant backfill
-rather than on the register. Of the 10,332,946 vehicles flagged, 24,813
+rather than on the register. Of the 3,285,486 vehicles flagged, 24,796
 have a recorded VES value and the rest were backfilled from similar
-vehicles. With `backfill.min_vehicles` at 1, a single wrong VES value
-spreads to every vehicle of its make, model, birth year, fuel and engine
-size, and the Euro status is the attribute where that shows most
-clearly. Raising the setting, or capping backfilled Euro statuses at the
-schedule, would reduce it; neither is done here, because the brief was
-to fill missing values rather than to change existing ones.
+vehicles. With `backfill.min_vehicles` at 1, as it was until October
+2026, a single wrong VES value spread to every vehicle of its make,
+model, birth year, fuel and engine size, and the Euro status is the
+attribute where that showed most clearly. The setting is now 5: a
+group’s value needs that many vehicles behind it, and vehicles in
+smaller groups fall through to the next step (for the Euro status, the
+schedule). Capping backfilled Euro statuses at the schedule would reduce
+it further; that is not done, because the brief was to fill missing
+values rather than to change existing ones.
 
 ### 5.8 How “most common” is calculated
 
@@ -972,9 +1120,14 @@ The pipeline builds these reference tables:
 |----|----|----|
 | Fuel by engine size | make_final + model_final + birth year + engine size | fuel (step 2 of 5.2), from vehicles with a fuel that has an engine |
 | Fuel profile | make_final + model_final (+ birth year) + fuel | vehicle counts for the fuel check |
-| Variant | make_final + model_final + birth year + fuel + engine size | weight, CO2, Euro status, type approval, wheel plan, test class |
-| Model-year-fuel | make_final + model_final + birth year + fuel | the same six, plus engine size |
+| Variant | make_final + model_final + birth year + fuel + engine size | weight, CO2, Euro status |
+| Model-year-fuel | make_final + model_final + birth year + fuel | the same three, plus engine size |
 | Model-fuel | make_final + model_final + fuel | engine size |
+| Category, variant and model-year-fuel | the variant or model-year-fuel group + test class (or any) | type approval and wheel plan, from consistent donors |
+| Test class, variant and model-year-fuel | the variant or model-year-fuel group + type approval (or any, born early enough) | test class, from consistent donors |
+
+Every table also records each value’s support (`n_<attribute>`: the
+vehicles with a value in the group).
 
 - **Only recorded values are counted,** plus the 0 engine size given to
   vehicles with no engine. Backfilled values are never fed back into the
@@ -982,7 +1135,8 @@ The pipeline builds these reference tables:
 - **Ties go to the lowest value** (the smallest number, or
   alphabetically first for text), so results are the same on every run.
 - **A group’s value is used only if at least `backfill.min_vehicles`
-  vehicles had it recorded.** The setting is 1.
+  vehicles had it recorded.** The setting is 5 (it was 1 until October
+  2026, when one vehicle’s value could fill its whole group).
 - **Vehicles without a make, model or fuel** contribute to no table and
   receive no backfilled values. Vehicles without a birth year are used
   only for the model-fuel table.
@@ -1038,8 +1192,8 @@ The pipeline builds these reference tables:
 12. **A vehicle with a backfilled engine size matches the most common
     variant** of its make, model, year and fuel, and takes that
     variant’s attributes.
-13. **A single recorded vehicle is enough to fill a group.** This
-    follows from `min_vehicles` = 1.
+13. **5 recorded vehicles are needed to fill a group.** This follows
+    from `min_vehicles` = 5.
 14. **Missing values are not random.** VES values are mostly missing
     where no VES record was found, which is more common for older and
     scrapped vehicles. Their gaps are filled from vehicles that do have
@@ -1061,8 +1215,35 @@ default.
 
 ## 6. Stage 4: Derived fields and number plates
 
-*Code: `R/assemble.R`, `R/plates.R` · Output:
-`outputs/vehicles_enhanced.parquet`*
+*Code: `R/assemble.R`, `R/plates.R` · Outputs:
+`outputs/vehicles_enhanced_maximal.parquet`,
+`outputs/vehicles_enhanced_simplified.parquet`*
+
+The enhanced table is written twice. The **maximal** table has every
+column of the input and every column the pipeline makes, including each
+harmonised attribute’s `*_src` and `*_check` columns and the values as
+supplied; every table and report the pipeline publishes is built from
+it. The **simplified** table is a strict subset of it for everyday use:
+the vehicle id and cleaned registration, `make_final`, `model_final`,
+`derivative_final`, `dft_genmodel`, `body_type`, the harmonised fuel
+(`fuel`, `fuel_simple`, `fuel_DFT`), `engine_cc`, `revenue_weight`,
+`co2`, `euro_status`, `euro_standard`, `type_approval`, `wheelplan`,
+`test_class`, the RACF size, mass and CO2 columns below, `birth_date`,
+`first_use_date`, `last_mot_year`, `total_mileage`, and the
+`mileage_YYYY`, `legit_mileage_YYYY` and `pca_YYYY` columns.
+`in_simplified` in the data dictionary marks them.
+
+**RACF / SMMT attributes.** Each car (`body_type` Cars) is linked to the
+RACF enriched DfT car fleet as in the RACF linked report
+(`R/racf_linked.R`): by make, DfT generic model, model string, year of
+first use and fuel group, else without the model string.
+`racf_link_level` says which (`model`, `genmodel` or `none`; missing for
+other vehicles). The `racf_*` columns are the fleet-weighted means over
+the linked RACF rows: the SMMT segment (`racf_smmt_type`), EU mass, RDW
+kerb weight, footprint, length, width, height, wheelbase, NEDC and WLTP
+CO2, energy use and electric range, plus the SUV share and the share
+matched to the EU data for the exact year. They describe the model, not
+the individual car. The RACF fleet counts are not carried.
 
 ### 6.1 Derived fields
 
@@ -1093,7 +1274,7 @@ The main formats are:
 
 | Format | Example | Issue period from | Location from |
 |----|----|----|----|
-| GB current (2001 onwards) | AB12CDE | the age identifier: 12 = Jan–Jun 2012, 62 = Jul–Dec 2012 | first two letters, the DVLA local office |
+| GB current (2001 onwards) | AB12CDE | the age identifier: 12 = Mar–Aug 2012, 62 = Sep 2012–Feb 2013 | first two letters, the DVLA local office |
 | GB prefix (1983–2001) | A123BCD | first letter | Great Britain |
 | GB suffix (1963–1983) | ABC123D | last letter | Great Britain |
 | Dateless / NI style | ABC1234 | assumed 1932–1953 | “Great Britain or Northern Ireland” |
@@ -1103,7 +1284,15 @@ Man, Republic of Ireland, French, Channel Islands, Gibraltar, Swiss, and
 strings that look like a VIN.
 
 - **The plate period** gives `plate_date`, `plate_date_from` (first day
-  of the first month) and `plate_date_to` (first day of the last month).
+  of the first month) and `plate_date_to` (last day of the last month).
+- **Two of DVLAAPI’s periods are corrected.** DVLAAPI dates the
+  post-2001 age identifiers January-June and July-December, but they are
+  issued March-August and September-February; and it ends the T, W and Y
+  prefixes in July and starts V and X in August, when from 1999 the
+  letters changed on 1 March and 1 September. Before the October 2026
+  audit about 99% of cars registered in January, February, July or
+  August were flagged as vanity plates for that reason
+  (`pipeline_audit.md`).
 - **`vanity_plate`** is TRUE when `birth_date` falls outside the plate
   period, widened by 30 days (`plates.vanity_tolerance_days`) at each
   end.
@@ -1122,8 +1311,11 @@ Assumptions and limitations:
   - re-registered vehicles
   - vehicles whose earliest date (often manufacture) is well before
     first registration
-- **The period end is the first day of the last month,** so the 30-day
-  tolerance partly serves to cover the rest of that month.
+- **The tolerance runs from the true end of the period** (the last day
+  of its last month). `birth_date` is the earliest DVSA date, often the
+  manufacture date, so a vehicle built a few months before it was
+  registered is still flagged; that, not cherished plates, is the
+  commonest reason for a flag on a current-format plate.
 
 ## 7. Stage 5: Churn tables
 
@@ -1159,12 +1351,12 @@ variable is.
 
 - **Status relative to a reference year:**
 
-  | Status      | Meaning                                                     |
-  |-------------|-------------------------------------------------------------|
-  | `dead`      | `dead` in the comparison year                               |
-  | `unborn`    | `unborn` in the comparison year                             |
-  | `same`      | same postcode area as the reference year                    |
-  | `different` | anything else, including a different area **and `unknown`** |
+  | Status | Meaning |
+  |----|----|
+  | `dead` | `dead` in the comparison year |
+  | `unborn` | `unborn` in the comparison year |
+  | `same` | same postcode area as the reference year |
+  | `different` | anything else, including a different area, **`unknown`**, and - where the reference year is the earlier one (Sets 1b, 1c) - a reference-year status of `unborn`, so **new vehicles** |
 
 - **Age** is whole years at 1 June of the year:
   `floor((1 June − first_use_date) in days / 365.25)`.
@@ -1184,9 +1376,10 @@ variable is.
 - **A move** is a change of postcode area between two consecutive years
   in which **both** years hold a real PCA. A sequence such as LS →
   unknown → BD therefore counts no moves.
-- **`movement_rate`** is the number of moves between 2007 and 2017
-  divided by (age in 2017 − 3). It is only calculated for vehicles aged
-  4 or more in 2017.
+- **`movement_rate`** (churn v2) is the number of moves between 2007 and
+  2017 divided by (age in 2017 − 3). It is only calculated for vehicles
+  aged 4 or more in 2017. See Section 7.3 before comparing it across
+  groups.
 - **`movement_rate_window`** is the same number of moves divided by the
   number of consecutive-year pairs in which the vehicle was in a real
   PCA in both years.
@@ -1206,27 +1399,34 @@ variable is.
 
 ### 7.3 Assumptions
 
-- **(age − 3) is the time a vehicle has been observable.** This assumes
-  a first MOT at three years old. Northern Ireland tests at four, and
-  early tests happen.
+- **`movement_rate` is biased by age in both directions, and should not
+  be compared across ages or anything correlated with age.** Its
+  numerator counts moves over at most ten year pairs (2007-2017),
+  including the back-filled years before the first test, while its
+  denominator is (age − 3). A vehicle aged 4 has about 4.5 observed year
+  pairs over a denominator of 1, so its rate is inflated; a vehicle aged
+  20 has at most 10 over a denominator of 17, so its rate is deflated.
+  On the October 2026 build the mean churn v2 rate falls steadily from
+  0.47 at age 4 to 0.04 at 25+, while `movement_rate_window` stays
+  between 0.10 and 0.20. Use the windowed rate. Even it is a lower
+  bound, because the back-filled and carried-forward years are counted
+  as observed pairs although no move can appear in them.
 
-- **`movement_rate` understates movement for vehicles older than about
-  14.** The numerator covers only the 11-year window, but the
-  denominator keeps growing with age. `movement_rate_window` is the
-  check for older vehicles.
-
-- **`different` mixes two things:** genuine moves and vehicles that
-  became unobserved (`unknown`).
+- **`different` mixes three things:** genuine moves, vehicles that
+  became unobserved (`unknown`), and in Sets 1b and 1c new vehicles.
+  About 30% of Set 1b’s `different` are new vehicles; Set 1d separates
+  the flows.
 
 - **The CAZ categories use first use date,** not the Euro status. Set 7
   includes a cross-check of the proxy against the harmonised
-  `euro_status`, which now covers 91.3% of in-scope vehicles against
+  `euro_status`, which now covers 91.2% of in-scope vehicles against
   14.5% with a VES value. Read that cross-check with care: since Section
   5.7 fills a missing Euro status from the date the vehicle was made,
   most of the Euro statuses it compares are themselves derived from a
-  date, so agreement is partly built in. `euro_status_src` on the
-  enhanced table separates the recorded values, and `churn.euro_column`
-  can be set to `euroStatus_DVLA` to check against recorded values only.
+  date, so agreement is partly built in.
+  `set7_check_caz_proxy_agreement_by_source.csv` splits the agreement by
+  `euro_status_src`; only `dvla`, `variant` and `model_year_fuel` values
+  are an independent test.
 
 - **The data end in 2025, and 2025 is partial.** 25,803,313 vehicles
   have a 2025 mileage against 36,734,471 in 2024, so a vehicle last seen
@@ -1271,13 +1471,13 @@ variable is.
 | Set | Contents |
 |----|----|
 | 0 | Where the first use date came from |
-| 1 | Counts by PCA of each year’s status relative to 2017, and relative to 1, 2 or 3 years earlier (all ages, and aged 4+) |
+| 1 | Counts by PCA of each year’s status relative to 2017, and relative to 1, 2 or 3 years earlier (all ages, and aged 4+); Set 1d: year-on-year flows (stayed, moved in / out, new, dead, unobserved) that reconcile each area’s stock exactly |
 | 2 | Vehicle counts by PCA × year by age, mileage, fuel and engine bands. Share of 2017 vehicles aged 4+ that stayed static 2016–2018, by characteristic and pairwise |
 | 3 | Components of each PCA’s 2017 stock: a 3 × 3 cross-tab of 2016 status against 2018 status that sums to the total. Also mileage, age, fuel and engine counts, and the movement rate distribution |
 | 4 | Electric vehicles by PCA: presence in 2017 and 2022, arrivals, departures, born here, high mileage |
 | 5 | Mileage of vehicles that stayed, arrived or were new in 2016–2017 |
 | 6 | Mean movement rate by characteristic, and pairwise |
-| 7 | CAZ categories by PCA and year, and vehicles present in 2018 but gone by 2023, by characteristic |
+| 7 | CAZ categories by PCA and year, and vehicles present in 2018 but gone by 2023, by characteristic; the proxy’s agreement with the Euro standard, by source |
 
 ### 7.5 Life path charts
 
@@ -1314,7 +1514,11 @@ the first year or still `unborn` in the last.
 Assumptions:
 
 - **“Scrapped” means the trajectory ends `dead`,** which is the end of
-  MOT testing and not necessarily scrapping (Section 3.3).
+  MOT testing and not necessarily scrapping, and arrives about two years
+  after the last test because Bristol carries the area forward (Section
+  3.3).
+- **“New vehicle” arrivals are placed in the area from their first
+  registration,** using the area of their first test (Section 3.3).
 - **A vehicle counted as stable is stable only within the chart years.**
   It may have moved before or after them.
 
@@ -1328,8 +1532,10 @@ contributes one row, and the rows are summed into:
 - **total annual mileage, vehicle count and mean** by PCA (or status),
   year and the Bristol `legit_mileage` flag
 - **total mileage by legit flag and year**
-- **total mileage by test class and year,** with class labels
-- **total mileage by DVSA fuel and year**
+- **total mileage by test class and year,** with class labels (the
+  harmonised `test_class`, as in the churn tables)
+- **total mileage by fuel group and year** (the harmonised
+  `fuel_simple`, as in the churn tables)
 
 Each breakdown is written in long form and wide form (years as columns).
 
@@ -1341,8 +1547,9 @@ sums and counts, so any grouping can be rebuilt from them:
   (postcode area or status), body type and `fuel_simple`: vehicles;
   vehicles with a mileage, with a mileage flagged plausible, and with a
   mileage Bristol removed; total and plausible mileage; negative and
-  over-50,000 mileages; and the total and count of ages (the year minus
-  the first use year), with negative ages counted apart.
+  over-50,000 mileages; and the total and count of ages (whole years at
+  1 June since first use, as in the churn tables, Section 7.1), with
+  negative ages (first used after 1 June) counted apart.
 - `mileage_by_age_year_body_fuel.csv`: observed vehicles (a real PCA) by
   year, body type, fuel and age (capped at 40; -1 for a negative age),
   with their plausible mileage.
@@ -1422,9 +1629,122 @@ build:
 | `make_model_cleaning_audit.md` | `reports/make_model_cleaning_audit.qmd` | `make_model_audit_doc` |
 | `outputs/reports/mileage_report.md` (figures in `mileage_report_figures/`) | `reports/mileage_report.qmd` | `mileage_report` |
 
+`outputs/reports/churn_tables_report.md` (figures in
+`churn_tables_report_figures/`) \| `reports/churn_tables_report.qmd` \|
+`churn_tables_report` \|\
+`outputs/reports/fleet_profile_report.md` (figures in
+`fleet_profile_report_figures/`) \| `reports/fleet_profile_report.qmd`
+\| `profile_report` \|\
+`outputs/reports/racf_linked_report.md` (figures in
+`racf_linked_report_figures/`) \| `reports/racf_linked_report.qmd` \|
+`racf_linked_report` \|
+
+Every report with figures writes them as PNG files at 300 DPI next to
+the Markdown, one graph or map per table or family of tables.
+
 Rendering needs the Quarto command-line tool. The pipeline finds it on
 the PATH, through `QUARTO_PATH`, through `quarto_path` in `config.yml`,
-or in the usual install locations.
+or in the usual install locations. Set `MOT_QUARTO_VERBOSE=1` to see
+Quarto’s messages when a report fails.
+
+### 9.1 Cross-checks between tables
+
+`R/cross_checks.R` (target `cross_checks`) compares every pair of
+published numbers that must agree, reading only the published CSVs:
+
+- **Fleet:** every table that partitions the in-scope fleet (body type,
+  fuel, harmonised sources, make/model method, plate type, PCA status in
+  each year, the mileage area tables, the DfT comparison) adds up to the
+  same count.
+- **Mileage:** the five mileage tables and the quality table agree on
+  the vehicles with a mileage and on the total miles, each year.
+- **Churn:** the churn base is the configured test class; Set 2’s stock,
+  Set 1b, Set 1d and Set 7A add up to each year’s stock; Set 1d’s flows
+  reconcile each area’s stock exactly and moves balance nationally; Set
+  5’s groups equal Set 1d’s 2017 flows; Sets 2 and 6 count the same
+  vehicles; Set 3 and Set 4 satisfy their identities; Set 7B’s six
+  breakdowns count the same leavers.
+- **Profile:** every characteristic of the fleet profile partitions the
+  same vehicles, and the car counts and miles equal the mileage area
+  table’s plausible-mileage counts, which are computed by different
+  code.
+- **External:** cars aged 3+ against DfT licensed + SORN counts (a
+  warning, not an identity).
+
+In this build 1,226 of 1,238 checks pass, 1 fail and 11 warn. The data
+quality report lists every check that does not pass.
+
+### 9.2 Consistency across variables
+
+*Code: `R/consistency.R`; target `consistency_tables`; outputs
+`quality/variable_consistency.csv` and
+`variable_consistency_detail.csv`.*
+
+Some combinations of values cannot occur on one vehicle: a car in a
+motorcycle test class, a moped with a 600cc engine, a vehicle in the
+fleet before it was made. `consistency_rules()` lists them, each with
+the vehicles it applies to and the condition they must meet, and every
+in-scope vehicle is checked. Each violation is classed as *recorded*
+(every variable involved is the vehicle’s own recorded value, so the
+conflict is in the source data) or *pipeline* (at least one was
+backfilled, derived or imputed, by this pipeline or by Bristol).
+
+**The allowed type approval / test class pairs** come from the MOT class
+definitions and the EU type approval categories, widened where the
+recorded data show that converted vehicles keep their original approval:
+
+| Type approval | Test classes |
+|----|----|
+| L1 (moped), L3 (motorcycle), L4 (with sidecar) | 1, 2 |
+| L2 (three-wheel moped) | 1, 2, 3 |
+| L5 (tricycle) | 2, 3, 4 |
+| L6, L7 (quadricycles) | 3, 4 |
+| M1 (car) | 4; 7 for a motor caravan over 3,000 kg |
+| M2 (bus up to 5 t) | 4 (9-12 seats), 5; 7 if converted |
+| M3 (bus over 5 t) | 4, 5 |
+| N1 (van up to 3.5 t) | 4, 7 |
+| N2, N3 (lorries) | 4, 5, 7 (converted to motor caravans or minibuses) |
+
+Other categories (tractors, special purpose, non-standard codes) are not
+checked.
+
+Four rules are *enforced*: the backfill never fills a value that breaks
+them (Section 5.6), and the cross-checks fail if it does: type approval
+against test class, wheel plan against test class, wheel plan against
+type approval, and engine size against fuel. The others describe the
+data and show where a register cannot be relied on alone; the widest is
+revenue weight against test class, where many 3,500 kg vans are recorded
+in class 4 although class 4 goods vehicles must weigh no more than 3,000
+kg.
+
+In this build, 2,425,107 rule violations were found on 17 rules,
+1,035,811 of them wholly in the recorded data; the enforced rules have 0
+violations involving a filled value. The data quality report
+(*Consistency across variables*) lists every rule with its counts and
+the largest combinations behind each.
+
+### 9.3 The RACF / SMMT linked fleet
+
+*Code: `R/racf_linked.R`; targets `racf_reference`,
+`racf_linked_tables`, `racf_linked_report`; outputs
+`outputs/tables/racf/` and `outputs/reports/racf_linked_report.md`.*
+
+The RACF reference (DfT’s car fleet by model, year of first use and
+fuel, with the SMMT segment and EU / RDW model attributes) is reduced to
+one row per make, generic model, model string (or the generic model
+alone), year and fuel group, with fleet-weighted mean attributes over
+the rows where a value is present and plausible (`racf_attributes()`). A
+CO2 above 0 on an electric row is dropped: RACF’s fuel-agnostic match
+gives some electric models a combustion variant’s CO2. Each MOT car
+links at the model string if it can, else at the generic model, always
+by year of first use and fuel group (RACF keeps non-plug-in hybrids with
+petrol and diesel). The report validates the link and both registers
+(the MOT stock against DfT’s by fuel and segment, fuel shares model by
+model, VES CO2 against EU CO2, revenue weight against EU mass, SMMT
+segment against type approval) and describes the located car fleet’s
+size, mass, CO2 and SUV share by year, cohort and area, and its mileage
+by size. Every table’s car count is cross-checked against the DfT
+comparison and the fleet profile, and the RACF totals against VEH0124.
 
 ## 10. Reproducibility
 
@@ -1435,11 +1755,19 @@ or in the usual install locations.
 - **All settings that change results are in `config.yml`.**
 - **The reference inputs are version-controlled in `inputs/`,** with
   their source recorded in `inputs/README.md`.
-- **Package versions are recorded in `renv.lock`.**
+- **Package versions are recorded with every build** in
+  `outputs/session_info.csv` (R, DuckDB engine, Quarto and the R
+  packages the pipeline uses). There is no `renv.lock`; adopting renv is
+  recommended in `pipeline_audit.md`.
+- **Text files are checked out with LF line endings** (`.gitattributes`)
+  and the pipeline writes LF, so a fresh clone hashes identically to the
+  build that produced it and does not trigger a rebuild.
 - **Results are deterministic:**
   - backfill and fuel ties are broken by value
   - make/model matching has no random element, and per-vehicle model
-    choices break ties by candidate order
+    choices break ties by weight and then by model name (a single
+    `arg_max` over the model and its DfT generic model, so the two can
+    never come from different candidates)
   - the sample project draws a 1% Bernoulli sample of input rows with
     seed 42
 - **The make aliases are derived from the input,** so a new Bristol
@@ -1495,7 +1823,12 @@ that validation and are not recomputed.
   Section 5.1 gives the current figures.
 - **Plate decoding** returned identical plate type, date and location to
   `DVLAAPI::registration_analysis()` for 40,038 registrations, and
-  identical vanity flags.
+  identical vanity flags. Since the October 2026 audit the issue periods
+  deliberately differ from DVLAAPI where its dates are wrong (Section
+  6.2); the plate types and locations still match it, and the unit tests
+  check both.
+- **Cross-checks** (Section 9.1) run with every build; their result is
+  in `quality/cross_checks.csv` and the data quality report.
 - **Make/model cleaning** was first a port of the legacy rules plus an
   AI lookup, audited in `make_model_cleaning_audit.md`. It has been
   replaced by the DfT naming in Section 4, whose comparison with DfT
@@ -1532,7 +1865,7 @@ that validation and are not recomputed.
 | Input | Bristol’s annual mileage, PCA and flags are correct | Bristol documentation |
 | Scope | A DVLA record dated 2005 or later shows the vehicle existed then | `scope_*` flags |
 | Dates | The earliest DVSA date is the birth date; vehicles without dates stay undated | `birth_date`, `first_use_source` |
-| PCA status | No PCA after the last MOT means the vehicle has left (not necessarily scrapped) | `last_mot_year` |
+| PCA status | No PCA after the last MOT means the vehicle has left (not necessarily scrapped). Bristol’s areas include back-filled years before the first test and two carried-forward years after the last, which the pipeline takes as supplied | `last_mot_year`, `quality/pca_observation_by_year.csv` |
 | Make/model | The DfT licensing statistics’ names are the target; a raw spelling means the same vehicle everywhere; prefixes and word sets are trusted at 90% | `make_method`, `model_method`, `model_confidence`, `make_model_review.csv`, `dft_stock_*.csv` |
 | VES match | Two of make / year / engine disagreeing means a different vehicle; naming pairs are found from the data | `dvla_match`, `dvla_evidence`, `checks.dvla_alias_*` |
 | Fuel | DVSA fuel unless VES or the engine size shows a hybrid or an engine; rare fuels are flagged, only electric-only models are corrected | `fuel_src`, `fuel_check`, `checks.*` |
@@ -1540,8 +1873,9 @@ that validation and are not recomputed.
 | Plug-in hybrids | A model string’s DfT fuel is its vehicles’ fuel; models DfT sells both as a plug-in and not are left alone | `fuel_DFT`, `fuel_DFT_src`, `checks.dft_fuel_share` |
 | Euro status | A vehicle registered new after a standard became compulsory meets it; the date it was made places it | `euro_status_src`, `euro_check`, `euro_schedule.csv` |
 | Backfill | Vehicles of the same make/model/birth year and fuel (and engine size) share attributes; values are never borrowed across fuels | `*_src`, `backfill.min_vehicles` |
-| Plates | Plate formats are recognised by simple patterns; vanity flags any plate/age mismatch | `plate_type`, `vanity_plate` |
-| Churn | Vehicles are observable from age 3; `unknown` counts as a change | `movement_rate_window`, `churn.*` settings |
+| Plates | Plate formats are recognised by simple patterns; vanity flags any plate/age mismatch, using corrected issue periods | `plate_type`, `vanity_plate` |
+| Churn | `unknown` (and, in Sets 1b/1c, a new vehicle) counts as a change; the churn v2 movement rate is age-biased by construction | `movement_rate_window`, Set 1d, `churn.*` settings |
 | CAZ | First use year is a proxy for Euro standard. The Set 7 check against `euro_status` is weak now that most Euro statuses are themselves derived from a date | `churn.euro_column`, `euro_status_src` |
-| Mileage | Implausible mileage is reported separately, not removed | `legit_mileage` grouping |
+| Mileage | Bristol removes implausible mileage (flag FALSE, value empty); unassessed mileage (no flag) is kept; years before the first test are Bristol’s estimates | `legit_mileage` grouping |
+| Consistency | Every pair of published numbers that must agree is compared each build | `quality/cross_checks.csv` |
 | Every table | Counts are exact; means and proportions are rounded to 5 dp when written, because DuckDB’s parallel sums differ by ~1e-15 between runs | `csv_decimal_places` |

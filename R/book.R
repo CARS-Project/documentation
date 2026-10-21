@@ -103,15 +103,18 @@ pca_statuses <- c("unborn", "dead", "unknown")
 
 # ---- Data dictionary -------------------------------------------------------
 # The chapters of the Data dictionary part each describe one group of columns
-# of the vehicle table. The groups are defined here, once, so the part's
-# introduction can check that every column belongs to exactly one of them.
-# Year-by-year columns are named with YYYY for the year.
+# of the vehicle table: the maximal table, vehicles_enhanced_maximal.parquet,
+# of which the simplified table is a strict subset (in_simplified in the data
+# dictionary). The groups are defined here, once, so the part's introduction
+# can check that every column belongs to exactly one of them. Year-by-year
+# columns are named with YYYY for the year.
 
 dict_groups <- list(
   identifiers = c("vehicle_id", "dup_vrm", "scope_mileage", "scope_pca",
                   "scope_born", "scope_dvla_activity"),
   registration = c("registration_DVSA", "registration_DVLA",
-                   "registration_clean", "plate_type", "plate_date",
+                   "registration_clean", "registration_at_first_test",
+                   "plate_type", "plate_date",
                    "plate_date_from", "plate_date_to", "plate_location",
                    "vanity_plate", "plate_ever_changed_VES"),
   make_model = c("make_final", "model_final", "derivative_final",
@@ -131,13 +134,23 @@ dict_groups <- list(
   emissions = c("co2", "co2_src", "co2_check", "co2Emissions_DVLA",
                 "euro_status", "euro_status_src", "euro_standard",
                 "euro_check", "euroStatus_DVLA", "realDrivingEmissions_DVLA"),
-  dates = c("birth_date", "first_use_date", "first_use_source",
+  racf = c("racf_link_level", "racf_smmt_type", "racf_suv_share",
+           "racf_eu_exact_share", "racf_mass_kg", "racf_kerb_weight_kg",
+           "racf_length_mm", "racf_width_mm", "racf_height_mm",
+           "racf_wheelbase_mm", "racf_footprint_m2", "racf_co2_nedc",
+           "racf_co2_wltp", "racf_e_consumption_wh_km", "racf_e_range_km"),
+  dates = c("birth_date", "birth_date_source", "first_use_date",
+            "first_use_source",
             "firstUsedDate_DVSA", "registrationDate_DVSA",
             "manufactureDate_DVSA", "monthOfFirstRegistration_DVLA",
             "monthOfFirstDvlaRegistration_DVLA", "yearOfManufacture_DVLA",
-            "final_test_date_DVSA", "last_mot_year"),
-  mileage = c("mileage_YYYY", "legit_mileage_YYYY", "total_mileage"),
-  location = c("pca_YYYY"),
+            "first_test_date_DVSA", "first_test_year_DVSA",
+            "final_test_date_DVSA", "lastMotTestDate_DVSA",
+            "final_test_year_DVSA", "last_mot_year"),
+  mileage = c("mileage_YYYY", "legit_mileage_YYYY", "total_mileage",
+              "odometer_est_YYYY"),
+  location = c("pca_YYYY", "is_new_vehicle_YYYY", "is_intertest_YYYY",
+               "is_end_use_YYYY"),
   dvla_status = c("taxStatus_DVLA", "taxDueDate_DVLA", "motStatus_DVLA",
                   "motExpiryDate_DVLA", "markedForExport_DVLA",
                   "ever_export_marked", "ever_SORN", "artEndDate_DVLA",
@@ -147,7 +160,7 @@ dict_groups <- list(
                   "n_VES_checks_to_linked_DVSA_regs",
                   "n_VES_checks_for_DVLA_reg", "n_VES_returns",
                   "first_VES_check", "first_VES_return", "last_VES_check",
-                  "last_VES_return")
+                  "last_VES_return", "n_DVLA_makes")
 )
 
 # How a column's values are summarised over time: "numeric" and "date" by
@@ -155,7 +168,7 @@ dict_groups <- list(
 # to each vehicle) not at all. Used by scripts/run-values.R and the Values
 # sections of the data dictionary chapters.
 dict_ids <- c("vehicle_id", "registration_DVSA", "registration_DVLA",
-              "registration_clean")
+              "registration_clean", "registration_at_first_test")
 dict_coded <- c("test_class", "test_class_ANON", "euro_standard",
                 "dvla_evidence", "ever_export_marked")
 
@@ -168,7 +181,8 @@ dict_kind <- function(column_name, column_type) {
 }
 
 # The data dictionary with year-by-year columns folded into one row each
-# (column_name ending _YYYY), their missing share given as a range
+# (column_name ending _YYYY), their missing share given as a range.
+# in_simplified is TRUE for the columns also in the simplified table.
 dict_columns <- function() {
   dd <- read_pipeline("outputs", "data_dictionary.csv")
   dd$stem <- sub("_[0-9]{4}$", "_YYYY", dd$column_name)
@@ -177,6 +191,7 @@ dict_columns <- function() {
     rng <- range(x$pct_missing)
     data.frame(column_name = x$stem[1], column_type = x$column_type[1],
                source = x$source[1], description = x$description[1],
+               in_simplified = x$in_simplified[1],
                missing = if (rng[1] == rng[2]) paste0(rng[1], "%")
                          else paste0(rng[1], "–", rng[2], "%"))
   }))
@@ -193,8 +208,12 @@ dict_table <- function(group) {
   }
   d <- d[match(cols, d$column_name), ]
   d$column_name <- paste0("`", d$column_name, "`")
+  d$in_simplified <- ifelse(d$in_simplified, "Yes", "No")
+  d <- d[c("column_name", "in_simplified", "column_type", "source",
+           "description", "missing")]
   kable(d, row.names = FALSE,
-        col.names = c("Column", "Type", "Source", "Description", "Missing"))
+        col.names = c("Column", "Simplified", "Type", "Source", "Description",
+                      "Missing"))
 }
 
 read_coverage <- function(name) {
