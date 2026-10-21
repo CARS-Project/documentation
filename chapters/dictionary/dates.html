@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>28&nbsp; Dates and age – Using the CARS vehicle data</title>
+<title>29&nbsp; Dates and age – Using the CARS vehicle data</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -37,7 +37,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
 <link href="../../chapters/dictionary/mileage.html" rel="next">
-<link href="../../chapters/dictionary/emissions.html" rel="prev">
+<link href="../../chapters/dictionary/racf.html" rel="prev">
 <link href="../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -89,7 +89,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/dictionary/index.html">Data dictionary</a></li><li class="breadcrumb-item"><a href="../../chapters/dictionary/dates.html"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Dates and age</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/dictionary/index.html">Data dictionary</a></li><li class="breadcrumb-item"><a href="../../chapters/dictionary/dates.html"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Dates and age</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -333,26 +333,32 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../chapters/dictionary/racf.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Car size and model attributes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/dates.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Dates and age</span></span></a>
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Dates and age</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/mileage.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Mileage</span></span></a>
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Mileage</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/location.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Location</span></span></a>
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Location and yearly status</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/dvla-status.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Licensing status and DVLA lookups</span></span></a>
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Licensing status and DVLA lookups</span></span></a>
   </div>
 </li>
       </ul>
@@ -443,18 +449,18 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">28.1</span> Overview</a></li>
-  <li><a href="#coverage" id="toc-coverage" class="nav-link" data-scroll-target="#coverage"><span class="header-section-number">28.2</span> Coverage</a></li>
-  <li><a href="#values" id="toc-values" class="nav-link" data-scroll-target="#values"><span class="header-section-number">28.3</span> Values</a></li>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">29.1</span> Overview</a></li>
+  <li><a href="#coverage" id="toc-coverage" class="nav-link" data-scroll-target="#coverage"><span class="header-section-number">29.2</span> Coverage</a></li>
+  <li><a href="#values" id="toc-values" class="nav-link" data-scroll-target="#values"><span class="header-section-number">29.3</span> Values</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/CARS-Project/documentation/edit/main/chapters/dictionary/dates.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/CARS-Project/documentation/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/dictionary/index.html">Data dictionary</a></li><li class="breadcrumb-item"><a href="../../chapters/dictionary/dates.html"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Dates and age</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/dictionary/index.html">Data dictionary</a></li><li class="breadcrumb-item"><a href="../../chapters/dictionary/dates.html"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Dates and age</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="sec-dd-dates" class="quarto-section-identifier"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Dates and age</span></span></h1>
+<h1 class="title"><span id="sec-dd-dates" class="quarto-section-identifier"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Dates and age</span></span></h1>
 </div>
 
 
@@ -471,35 +477,38 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="overview" class="level2" data-number="28.1">
-<h2 data-number="28.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">28.1</span> Overview</h2>
+<section id="overview" class="level2" data-number="29.1">
+<h2 data-number="29.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">29.1</span> Overview</h2>
 <p>A vehicle has several dates that mark the start of its life: when it was made, when it was first registered, and when it was first used on the road. For most vehicles these are within weeks of each other, but they can be years apart for an import or a vehicle that sat in stock. <a href="../vehicle-lifecycle.html" class="quarto-xref"><span>Chapter 6</span></a> describes the stages of a vehicle’s life and how the data records them.</p>
 <ul>
 <li><strong><code>first_use_date</code></strong> is the date to use for a vehicle’s age: the DVSA first used date, else the DVLA month of first registration, else <code>birth_date</code>. <code>first_use_source</code> records which.</li>
-<li><strong><code>birth_date</code></strong> is the earliest of the DVSA first used, registration and manufacture dates. It decides when a vehicle is <code>unborn</code> in <code>pca_YYYY</code> (<a href="location.html" class="quarto-xref"><span>Chapter 30</span></a>).</li>
-<li><strong><code>final_test_date_DVSA</code></strong> is the date of the last recorded MOT test, and <strong><code>last_mot_year</code></strong> the year after which the vehicle is treated as <code>dead</code>: no longer observed, not necessarily scrapped (<a href="../pitfalls.html" class="quarto-xref"><span>Chapter 14</span></a>).</li>
+<li><strong><code>birth_date</code></strong> is the earliest of the DVSA first used, registration and manufacture dates; for the few vehicles with none of these, it is taken from the DVLA dates, and <code>birth_date_source</code> records which. It decides when a vehicle is <code>unborn</code> in <code>pca_YYYY</code> (<a href="location.html" class="quarto-xref"><span>Chapter 31</span></a>).</li>
+<li><strong><code>final_test_date_DVSA</code></strong> is the date of the last recorded MOT test, and <strong><code>last_mot_year</code></strong> the year after which the vehicle is treated as <code>dead</code>: no longer observed, not necessarily scrapped (<a href="../pitfalls.html" class="quarto-xref"><span>Chapter 14</span></a>). <code>last_mot_year</code> is the last year in which <code>is_end_use_YYYY</code> is <code>TRUE</code> (<a href="location.html" class="quarto-xref"><span>Chapter 31</span></a>).</li>
+<li><strong>The MOT test dates as supplied</strong> are carried through unchanged: <code>first_test_date_DVSA</code> and <code>first_test_year_DVSA</code> for the first test, <code>final_test_year_DVSA</code> for the last, and <code>lastMotTestDate_DVSA</code>. Use <code>final_test_date_DVSA</code> rather than <code>lastMotTestDate_DVSA</code>: DVSA put a date in the future in <code>lastMotTestDate_DVSA</code> for vehicles that have never been tested.</li>
 <li><strong>The supplied dates</strong> (<code>_DVSA</code>, <code>_DVLA</code>) are kept as received. The DVLA month of first registration is accurate to the month only.</li>
 </ul>
-<p>How these dates are built is set out in the methodology, <a href="../../reports/methodology.html#dates">section 3.2</a>, and how the last MOT test date is read in <a href="../../reports/methodology.html#tidying">section 3.5</a>. Other DVLA dates, such as tax due and MOT expiry, are described with the licensing status in <a href="dvla-status.html" class="quarto-xref"><span>Chapter 31</span></a>.</p>
+<p>How these dates are built is set out in the methodology, <a href="../../reports/methodology.html#dates">section 3.2</a>, and how the last MOT test date is read in <a href="../../reports/methodology.html#tidying">section 3.5</a>. Other DVLA dates, such as tax due and MOT expiry, are described with the licensing status in <a href="dvla-status.html" class="quarto-xref"><span>Chapter 32</span></a>.</p>
 <div class="cell" data-layout-align="center">
 <div id="tbl-dd-dates" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-dd-dates-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;28.1: Date columns.
+Table&nbsp;29.1: Date columns.
 </figcaption>
 <div aria-describedby="tbl-dd-dates-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
 <table class="cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 10%">
+<col style="width: 3%">
 <col style="width: 2%">
 <col style="width: 4%">
-<col style="width: 80%">
+<col style="width: 77%">
 <col style="width: 2%">
 </colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Column</th>
+<th style="text-align: left;">Simplified</th>
 <th style="text-align: left;">Type</th>
 <th style="text-align: left;">Source</th>
 <th style="text-align: left;">Description</th>
@@ -509,79 +518,130 @@ Table&nbsp;28.1: Date columns.
 <tbody>
 <tr class="odd">
 <td style="text-align: left;"><code>birth_date</code></td>
+<td style="text-align: left;">Yes</td>
 <td style="text-align: left;">DATE</td>
 <td style="text-align: left;">pipeline</td>
-<td style="text-align: left;">Earliest of DVSA first used, registration and manufacture dates</td>
+<td style="text-align: left;">Earliest of DVSA first used, registration and manufacture dates; where there is none, the DVLA first registration month, else the DVLA first DVLA registration month, else 1 July of the DVLA year of manufacture (see birth_date_source)</td>
 <td style="text-align: left;">0%</td>
 </tr>
 <tr class="even">
+<td style="text-align: left;"><code>birth_date_source</code></td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">VARCHAR</td>
+<td style="text-align: left;">pipeline</td>
+<td style="text-align: left;">Source of birth_date: dvsa, monthOfFirstRegistration_DVLA, monthOfFirstDvlaRegistration_DVLA or yearOfManufacture_DVLA; missing where the vehicle has no date at all</td>
+<td style="text-align: left;">0%</td>
+</tr>
+<tr class="odd">
 <td style="text-align: left;"><code>first_use_date</code></td>
+<td style="text-align: left;">Yes</td>
 <td style="text-align: left;">DATE</td>
 <td style="text-align: left;">pipeline</td>
 <td style="text-align: left;">First use date: DVSA first used, else DVLA month of first registration, else birth_date</td>
 <td style="text-align: left;">0%</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;"><code>first_use_source</code></td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">pipeline</td>
 <td style="text-align: left;">Which column first_use_date came from</td>
 <td style="text-align: left;">0%</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;"><code>firstUsedDate_DVSA</code></td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">DATE</td>
 <td style="text-align: left;">Bristol (DVSA)</td>
 <td style="text-align: left;">As supplied by DVSA</td>
 <td style="text-align: left;">17.69%</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;"><code>registrationDate_DVSA</code></td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">DATE</td>
 <td style="text-align: left;">Bristol (DVSA)</td>
 <td style="text-align: left;">As supplied by DVSA</td>
 <td style="text-align: left;">0.07%</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;"><code>manufactureDate_DVSA</code></td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">DATE</td>
 <td style="text-align: left;">Bristol (DVSA)</td>
 <td style="text-align: left;">As supplied by DVSA</td>
 <td style="text-align: left;">0.52%</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;"><code>monthOfFirstRegistration_DVLA</code></td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">DATE</td>
 <td style="text-align: left;">Bristol (VES)</td>
 <td style="text-align: left;">As returned by the DVLA Vehicle Enquiry Service</td>
 <td style="text-align: left;">23.04%</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;"><code>monthOfFirstDvlaRegistration_DVLA</code></td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">DATE</td>
 <td style="text-align: left;">Bristol (VES)</td>
 <td style="text-align: left;">As returned by the DVLA Vehicle Enquiry Service</td>
 <td style="text-align: left;">99%</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;"><code>yearOfManufacture_DVLA</code></td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">INTEGER</td>
 <td style="text-align: left;">Bristol (VES)</td>
 <td style="text-align: left;">As returned by the DVLA Vehicle Enquiry Service</td>
 <td style="text-align: left;">23.24%</td>
 </tr>
+<tr class="odd">
+<td style="text-align: left;"><code>first_test_date_DVSA</code></td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">DATE</td>
+<td style="text-align: left;">Bristol (DVSA)</td>
+<td style="text-align: left;">Date of the vehicle’s first MOT test, as supplied</td>
+<td style="text-align: left;">16.3%</td>
+</tr>
 <tr class="even">
+<td style="text-align: left;"><code>first_test_year_DVSA</code></td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">BIGINT</td>
+<td style="text-align: left;">Bristol (DVSA)</td>
+<td style="text-align: left;">Year of the vehicle’s first MOT test, as supplied</td>
+<td style="text-align: left;">16.3%</td>
+</tr>
+<tr class="odd">
 <td style="text-align: left;"><code>final_test_date_DVSA</code></td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">DATE</td>
 <td style="text-align: left;">Bristol (DVSA)</td>
 <td style="text-align: left;">Date of the vehicle’s last recorded MOT test, from Bristol’s final_test_date_DVSA where the delivery has it. Missing for a vehicle that has never been tested; earlier deliveries supplied only lastMotTestDate_DVSA, which DVSA now fill with a future date for untested vehicles</td>
 <td style="text-align: left;">16.3%</td>
 </tr>
+<tr class="even">
+<td style="text-align: left;"><code>lastMotTestDate_DVSA</code></td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">DATE</td>
+<td style="text-align: left;">Bristol (DVSA)</td>
+<td style="text-align: left;">Date of the last MOT test as supplied. DVSA fill a future date for vehicles never tested; use final_test_date_DVSA</td>
+<td style="text-align: left;">6.28%</td>
+</tr>
 <tr class="odd">
+<td style="text-align: left;"><code>final_test_year_DVSA</code></td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">BIGINT</td>
+<td style="text-align: left;">Bristol (DVSA)</td>
+<td style="text-align: left;">Year of the vehicle’s final MOT test, as supplied</td>
+<td style="text-align: left;">16.3%</td>
+</tr>
+<tr class="even">
 <td style="text-align: left;"><code>last_mot_year</code></td>
+<td style="text-align: left;">Yes</td>
 <td style="text-align: left;">INTEGER</td>
 <td style="text-align: left;">pipeline</td>
-<td style="text-align: left;">Year of the last is_end_use flag (last MOT year)</td>
+<td style="text-align: left;">Last MOT year: the latest year Bristol flags is_end_use; where no year is flagged, the last year with a recorded PCA, provided that is at least two years before the last year of data. Missing for vehicles still in service. Drives the dead status of pca_YYYY</td>
 <td style="text-align: left;">44.01%</td>
 </tr>
 </tbody>
@@ -592,20 +652,21 @@ Table&nbsp;28.1: Date columns.
 </div>
 </div>
 </section>
-<section id="coverage" class="level2" data-number="28.2">
-<h2 data-number="28.2" class="anchored" data-anchor-id="coverage"><span class="header-section-number">28.2</span> Coverage</h2>
+<section id="coverage" class="level2" data-number="29.2">
+<h2 data-number="29.2" class="anchored" data-anchor-id="coverage"><span class="header-section-number">29.2</span> Coverage</h2>
 <p>Because three sources are combined, <code>first_use_date</code> and <code>birth_date</code> are missing for almost no vehicles. 82% of first use dates are the DVSA first used date, 14% the DVLA month of first registration and 4% the birth date. A few dates are implausible: 123 vehicles have a first use date before 1900 or after 2026.</p>
-<p>The coverage of the supplied dates follows their sources (<a href="#fig-dd-dates" class="quarto-xref">Figure&nbsp;<span>28.1</span></a>):</p>
+<p>The coverage of the supplied dates follows their sources (<a href="#fig-dd-dates" class="quarto-xref">Figure&nbsp;<span>29.1</span></a>):</p>
 <ul>
 <li><strong>The DVSA first used date and last test date</strong> come from the MOT history, so they are present for tested vehicles only. Coverage falls sharply for vehicles first used since 2023, most of which have not had their first MOT: 38% for 2023 and 1% for 2024. The DVSA registration and manufacture dates are present for almost every vehicle.</li>
-<li><strong>The DVLA dates</strong> are present wherever a VES record was found (<a href="dvla-status.html" class="quarto-xref"><span>Chapter 31</span></a>). <code>monthOfFirstDvlaRegistration_DVLA</code> is different: it is present only for the 1.0% of vehicles first registered somewhere else, such as imports.</li>
+<li><strong>The DVLA dates</strong> are present wherever a VES record was found (<a href="dvla-status.html" class="quarto-xref"><span>Chapter 32</span></a>). <code>monthOfFirstDvlaRegistration_DVLA</code> is different: it is present only for the 1.0% of vehicles first registered somewhere else, such as imports.</li>
+<li><strong>The supplied first and final test dates</strong> (<code>first_test_date_DVSA</code>, <code>first_test_year_DVSA</code> and <code>final_test_year_DVSA</code>) are present for 84% of vehicles, those that have had an MOT test. <code>lastMotTestDate_DVSA</code> is present for more, 94%, because it also holds the future dates of untested vehicles.</li>
 <li><strong><code>last_mot_year</code></strong> is blank by design for a vehicle that is still being tested, or that was last seen in the final two years of data. Its coverage is therefore highest for old vehicles, most of which have left the road, and close to zero for new ones.</li>
 </ul>
 <div class="cell" data-layout-align="center">
 <div id="tbl-dd-dates-coverage" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-dd-dates-coverage-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;28.2: Share of vehicles with a value, by year of first use.
+Table&nbsp;29.2: Share of vehicles with a value, by year of first use.
 </figcaption>
 <div aria-describedby="tbl-dd-dates-coverage-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
@@ -638,6 +699,14 @@ Table&nbsp;28.2: Share of vehicles with a value, by year of first use.
 <td style="text-align: right;">100.0%</td>
 </tr>
 <tr class="even">
+<td style="text-align: left;"><code>birth_date_source</code></td>
+<td style="text-align: right;">100.0%</td>
+<td style="text-align: right;">100.0%</td>
+<td style="text-align: right;">100.0%</td>
+<td style="text-align: right;">100.0%</td>
+<td style="text-align: right;">100.0%</td>
+</tr>
+<tr class="odd">
 <td style="text-align: left;"><code>first_use_date</code></td>
 <td style="text-align: right;">100.0%</td>
 <td style="text-align: right;">100.0%</td>
@@ -645,7 +714,7 @@ Table&nbsp;28.2: Share of vehicles with a value, by year of first use.
 <td style="text-align: right;">100.0%</td>
 <td style="text-align: right;">100.0%</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;"><code>first_use_source</code></td>
 <td style="text-align: right;">100.0%</td>
 <td style="text-align: right;">100.0%</td>
@@ -653,7 +722,7 @@ Table&nbsp;28.2: Share of vehicles with a value, by year of first use.
 <td style="text-align: right;">100.0%</td>
 <td style="text-align: right;">100.0%</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;"><code>firstUsedDate_DVSA</code></td>
 <td style="text-align: right;">82.3%</td>
 <td style="text-align: right;">84.2%</td>
@@ -661,7 +730,7 @@ Table&nbsp;28.2: Share of vehicles with a value, by year of first use.
 <td style="text-align: right;">91.3%</td>
 <td style="text-align: right;">43.0%</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;"><code>registrationDate_DVSA</code></td>
 <td style="text-align: right;">99.9%</td>
 <td style="text-align: right;">100.0%</td>
@@ -669,7 +738,7 @@ Table&nbsp;28.2: Share of vehicles with a value, by year of first use.
 <td style="text-align: right;">99.9%</td>
 <td style="text-align: right;">100.0%</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;"><code>manufactureDate_DVSA</code></td>
 <td style="text-align: right;">99.5%</td>
 <td style="text-align: right;">98.2%</td>
@@ -677,7 +746,7 @@ Table&nbsp;28.2: Share of vehicles with a value, by year of first use.
 <td style="text-align: right;">99.7%</td>
 <td style="text-align: right;">99.9%</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;"><code>monthOfFirstRegistration_DVLA</code></td>
 <td style="text-align: right;">77.0%</td>
 <td style="text-align: right;">61.9%</td>
@@ -685,7 +754,7 @@ Table&nbsp;28.2: Share of vehicles with a value, by year of first use.
 <td style="text-align: right;">96.3%</td>
 <td style="text-align: right;">82.0%</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;"><code>monthOfFirstDvlaRegistration_DVLA</code></td>
 <td style="text-align: right;">1.0%</td>
 <td style="text-align: right;">1.2%</td>
@@ -693,7 +762,7 @@ Table&nbsp;28.2: Share of vehicles with a value, by year of first use.
 <td style="text-align: right;">1.1%</td>
 <td style="text-align: right;">0.2%</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;"><code>yearOfManufacture_DVLA</code></td>
 <td style="text-align: right;">76.8%</td>
 <td style="text-align: right;">61.8%</td>
@@ -701,8 +770,16 @@ Table&nbsp;28.2: Share of vehicles with a value, by year of first use.
 <td style="text-align: right;">96.0%</td>
 <td style="text-align: right;">81.8%</td>
 </tr>
+<tr class="odd">
+<td style="text-align: left;"><code>first_test_date_DVSA</code></td>
+<td style="text-align: right;">83.7%</td>
+<td style="text-align: right;">84.4%</td>
+<td style="text-align: right;">95.0%</td>
+<td style="text-align: right;">93.6%</td>
+<td style="text-align: right;">43.9%</td>
+</tr>
 <tr class="even">
-<td style="text-align: left;"><code>final_test_date_DVSA</code></td>
+<td style="text-align: left;"><code>first_test_year_DVSA</code></td>
 <td style="text-align: right;">83.7%</td>
 <td style="text-align: right;">84.4%</td>
 <td style="text-align: right;">95.0%</td>
@@ -710,6 +787,30 @@ Table&nbsp;28.2: Share of vehicles with a value, by year of first use.
 <td style="text-align: right;">43.9%</td>
 </tr>
 <tr class="odd">
+<td style="text-align: left;"><code>final_test_date_DVSA</code></td>
+<td style="text-align: right;">83.7%</td>
+<td style="text-align: right;">84.4%</td>
+<td style="text-align: right;">95.0%</td>
+<td style="text-align: right;">93.6%</td>
+<td style="text-align: right;">43.9%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>lastMotTestDate_DVSA</code></td>
+<td style="text-align: right;">93.7%</td>
+<td style="text-align: right;">84.4%</td>
+<td style="text-align: right;">96.4%</td>
+<td style="text-align: right;">96.2%</td>
+<td style="text-align: right;">95.2%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>final_test_year_DVSA</code></td>
+<td style="text-align: right;">83.7%</td>
+<td style="text-align: right;">84.4%</td>
+<td style="text-align: right;">95.0%</td>
+<td style="text-align: right;">93.6%</td>
+<td style="text-align: right;">43.9%</td>
+</tr>
+<tr class="even">
 <td style="text-align: left;"><code>last_mot_year</code></td>
 <td style="text-align: right;">56.0%</td>
 <td style="text-align: right;">82.4%</td>
@@ -732,20 +833,20 @@ Table&nbsp;28.2: Share of vehicles with a value, by year of first use.
 <img src="dates_files/figure-html/fig-dd-dates-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-dates-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;28.1: Share of vehicles with a value in selected date columns, by year of first use.
+Figure&nbsp;29.1: Share of vehicles with a value in selected date columns, by year of first use.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="values" class="level2" data-number="28.3">
-<h2 data-number="28.3" class="anchored" data-anchor-id="values"><span class="header-section-number">28.3</span> Values</h2>
+<section id="values" class="level2" data-number="29.3">
+<h2 data-number="29.3" class="anchored" data-anchor-id="values"><span class="header-section-number">29.3</span> Values</h2>
 <p>How the values of each column change over time, by year of first use, from 1990. Numeric columns and dates show the minimum, lower quartile (Q1), median, upper quartile (Q3) and maximum; other columns show the share of vehicles with each value, with the less common values grouped as <em>All other values</em> and missing values as <em>Blank</em>.</p>
 <div class="cell" data-layout-align="center">
 <section id="birth_date" class="level3">
 <h3 class="anchored" data-anchor-id="birth_date"><code>birth_date</code></h3>
-<p>Earliest of DVSA first used, registration and manufacture dates.</p>
+<p>Earliest of DVSA first used, registration and manufacture dates; where there is none, the DVLA first registration month, else the DVLA first DVLA registration month, else 1 July of the DVLA year of manufacture (see birth_date_source).</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-dd-v-birth-date" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -754,7 +855,25 @@ Figure&nbsp;28.1: Share of vehicles with a value in selected date columns, by ye
 <img src="dates_files/figure-html/fig-dd-v-birth-date-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-v-birth-date-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;28.2: Minimum, quartiles and maximum of birth_date, by year of first use, among vehicles with a value. Extreme minimums and maximums run off the chart.
+Figure&nbsp;29.2: Minimum, quartiles and maximum of birth_date, by year of first use, among vehicles with a value. Extreme minimums and maximums run off the chart.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="birth_date_source" class="level3">
+<h3 class="anchored" data-anchor-id="birth_date_source"><code>birth_date_source</code></h3>
+<p>Source of birth_date: dvsa, monthOfFirstRegistration_DVLA, monthOfFirstDvlaRegistration_DVLA or yearOfManufacture_DVLA; missing where the vehicle has no date at all.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-dd-v-birth-date-source" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dd-v-birth-date-source-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="dates_files/figure-html/fig-dd-v-birth-date-source-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-v-birth-date-source-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;29.3: Share of vehicles by value of birth_date_source, by year of first use.
 </figcaption>
 </figure>
 </div>
@@ -772,7 +891,7 @@ Figure&nbsp;28.2: Minimum, quartiles and maximum of birth_date, by year of first
 <img src="dates_files/figure-html/fig-dd-v-first-use-date-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-v-first-use-date-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;28.3: Minimum, quartiles and maximum of first_use_date, by year of first use, among vehicles with a value. Extreme minimums and maximums run off the chart.
+Figure&nbsp;29.4: Minimum, quartiles and maximum of first_use_date, by year of first use, among vehicles with a value. Extreme minimums and maximums run off the chart.
 </figcaption>
 </figure>
 </div>
@@ -790,7 +909,7 @@ Figure&nbsp;28.3: Minimum, quartiles and maximum of first_use_date, by year of f
 <img src="dates_files/figure-html/fig-dd-v-first-use-source-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-v-first-use-source-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;28.4: Share of vehicles by value of first_use_source, by year of first use.
+Figure&nbsp;29.5: Share of vehicles by value of first_use_source, by year of first use.
 </figcaption>
 </figure>
 </div>
@@ -808,7 +927,7 @@ Figure&nbsp;28.4: Share of vehicles by value of first_use_source, by year of fir
 <img src="dates_files/figure-html/fig-dd-v-firstuseddate-dvsa-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-v-firstuseddate-dvsa-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;28.5: Minimum, quartiles and maximum of firstUsedDate_DVSA, by year of first use, among vehicles with a value. Extreme minimums and maximums run off the chart.
+Figure&nbsp;29.6: Minimum, quartiles and maximum of firstUsedDate_DVSA, by year of first use, among vehicles with a value. Extreme minimums and maximums run off the chart.
 </figcaption>
 </figure>
 </div>
@@ -826,7 +945,7 @@ Figure&nbsp;28.5: Minimum, quartiles and maximum of firstUsedDate_DVSA, by year 
 <img src="dates_files/figure-html/fig-dd-v-registrationdate-dvsa-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-v-registrationdate-dvsa-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;28.6: Minimum, quartiles and maximum of registrationDate_DVSA, by year of first use, among vehicles with a value. Extreme minimums and maximums run off the chart.
+Figure&nbsp;29.7: Minimum, quartiles and maximum of registrationDate_DVSA, by year of first use, among vehicles with a value. Extreme minimums and maximums run off the chart.
 </figcaption>
 </figure>
 </div>
@@ -844,7 +963,7 @@ Figure&nbsp;28.6: Minimum, quartiles and maximum of registrationDate_DVSA, by ye
 <img src="dates_files/figure-html/fig-dd-v-manufacturedate-dvsa-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-v-manufacturedate-dvsa-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;28.7: Minimum, quartiles and maximum of manufactureDate_DVSA, by year of first use, among vehicles with a value. Extreme minimums and maximums run off the chart.
+Figure&nbsp;29.8: Minimum, quartiles and maximum of manufactureDate_DVSA, by year of first use, among vehicles with a value. Extreme minimums and maximums run off the chart.
 </figcaption>
 </figure>
 </div>
@@ -862,7 +981,7 @@ Figure&nbsp;28.7: Minimum, quartiles and maximum of manufactureDate_DVSA, by yea
 <img src="dates_files/figure-html/fig-dd-v-monthoffirstregistration-dvla-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-v-monthoffirstregistration-dvla-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;28.8: Minimum, quartiles and maximum of monthOfFirstRegistration_DVLA, by year of first use, among vehicles with a value. Extreme minimums and maximums run off the chart.
+Figure&nbsp;29.9: Minimum, quartiles and maximum of monthOfFirstRegistration_DVLA, by year of first use, among vehicles with a value. Extreme minimums and maximums run off the chart.
 </figcaption>
 </figure>
 </div>
@@ -880,7 +999,7 @@ Figure&nbsp;28.8: Minimum, quartiles and maximum of monthOfFirstRegistration_DVL
 <img src="dates_files/figure-html/fig-dd-v-monthoffirstdvlaregistration-dvla-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-v-monthoffirstdvlaregistration-dvla-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;28.9: Minimum, quartiles and maximum of monthOfFirstDvlaRegistration_DVLA, by year of first use, among vehicles with a value. Extreme minimums and maximums run off the chart.
+Figure&nbsp;29.10: Minimum, quartiles and maximum of monthOfFirstDvlaRegistration_DVLA, by year of first use, among vehicles with a value. Extreme minimums and maximums run off the chart.
 </figcaption>
 </figure>
 </div>
@@ -898,7 +1017,43 @@ Figure&nbsp;28.9: Minimum, quartiles and maximum of monthOfFirstDvlaRegistration
 <img src="dates_files/figure-html/fig-dd-v-yearofmanufacture-dvla-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-v-yearofmanufacture-dvla-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;28.10: Minimum, quartiles and maximum of yearOfManufacture_DVLA, by year of first use, among vehicles with a value.
+Figure&nbsp;29.11: Minimum, quartiles and maximum of yearOfManufacture_DVLA, by year of first use, among vehicles with a value.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="first_test_date_dvsa" class="level3">
+<h3 class="anchored" data-anchor-id="first_test_date_dvsa"><code>first_test_date_DVSA</code></h3>
+<p>Date of the vehicle’s first MOT test, as supplied.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-dd-v-first-test-date-dvsa" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dd-v-first-test-date-dvsa-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="dates_files/figure-html/fig-dd-v-first-test-date-dvsa-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-v-first-test-date-dvsa-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;29.12: Minimum, quartiles and maximum of first_test_date_DVSA, by year of first use, among vehicles with a value. Extreme minimums and maximums run off the chart.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="first_test_year_dvsa" class="level3">
+<h3 class="anchored" data-anchor-id="first_test_year_dvsa"><code>first_test_year_DVSA</code></h3>
+<p>Year of the vehicle’s first MOT test, as supplied.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-dd-v-first-test-year-dvsa" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dd-v-first-test-year-dvsa-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="dates_files/figure-html/fig-dd-v-first-test-year-dvsa-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-v-first-test-year-dvsa-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;29.13: Minimum, quartiles and maximum of first_test_year_DVSA, by year of first use, among vehicles with a value.
 </figcaption>
 </figure>
 </div>
@@ -916,7 +1071,43 @@ Figure&nbsp;28.10: Minimum, quartiles and maximum of yearOfManufacture_DVLA, by 
 <img src="dates_files/figure-html/fig-dd-v-final-test-date-dvsa-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-v-final-test-date-dvsa-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;28.11: Minimum, quartiles and maximum of final_test_date_DVSA, by year of first use, among vehicles with a value. Extreme minimums and maximums run off the chart.
+Figure&nbsp;29.14: Minimum, quartiles and maximum of final_test_date_DVSA, by year of first use, among vehicles with a value. Extreme minimums and maximums run off the chart.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="lastmottestdate_dvsa" class="level3">
+<h3 class="anchored" data-anchor-id="lastmottestdate_dvsa"><code>lastMotTestDate_DVSA</code></h3>
+<p>Date of the last MOT test as supplied. DVSA fill a future date for vehicles never tested; use final_test_date_DVSA.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-dd-v-lastmottestdate-dvsa" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dd-v-lastmottestdate-dvsa-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="dates_files/figure-html/fig-dd-v-lastmottestdate-dvsa-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-v-lastmottestdate-dvsa-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;29.15: Minimum, quartiles and maximum of lastMotTestDate_DVSA, by year of first use, among vehicles with a value. Extreme minimums and maximums run off the chart.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="final_test_year_dvsa" class="level3">
+<h3 class="anchored" data-anchor-id="final_test_year_dvsa"><code>final_test_year_DVSA</code></h3>
+<p>Year of the vehicle’s final MOT test, as supplied.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-dd-v-final-test-year-dvsa" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dd-v-final-test-year-dvsa-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="dates_files/figure-html/fig-dd-v-final-test-year-dvsa-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-v-final-test-year-dvsa-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;29.16: Minimum, quartiles and maximum of final_test_year_DVSA, by year of first use, among vehicles with a value.
 </figcaption>
 </figure>
 </div>
@@ -925,7 +1116,7 @@ Figure&nbsp;28.11: Minimum, quartiles and maximum of final_test_date_DVSA, by ye
 </section>
 <section id="last_mot_year" class="level3">
 <h3 class="anchored" data-anchor-id="last_mot_year"><code>last_mot_year</code></h3>
-<p>Year of the last is_end_use flag (last MOT year).</p>
+<p>Last MOT year: the latest year Bristol flags is_end_use; where no year is flagged, the last year with a recorded PCA, provided that is at least two years before the last year of data. Missing for vehicles still in service. Drives the dead status of pca_YYYY.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-dd-v-last-mot-year" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -934,7 +1125,7 @@ Figure&nbsp;28.11: Minimum, quartiles and maximum of final_test_date_DVSA, by ye
 <img src="dates_files/figure-html/fig-dd-v-last-mot-year-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-v-last-mot-year-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;28.12: Minimum, quartiles and maximum of last_mot_year, by year of first use, among vehicles with a value.
+Figure&nbsp;29.17: Minimum, quartiles and maximum of last_mot_year, by year of first use, among vehicles with a value.
 </figcaption>
 </figure>
 </div>
@@ -1349,13 +1540,13 @@ Figure&nbsp;28.12: Minimum, quartiles and maximum of last_mot_year, by year of f
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../chapters/dictionary/emissions.html" class="pagination-link" aria-label="Emissions">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Emissions</span></span>
+      <a href="../../chapters/dictionary/racf.html" class="pagination-link" aria-label="Car size and model attributes">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Car size and model attributes</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="../../chapters/dictionary/mileage.html" class="pagination-link" aria-label="Mileage">
-        <span class="nav-page-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Mileage</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Mileage</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

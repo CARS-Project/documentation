@@ -333,26 +333,32 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../chapters/dictionary/racf.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Car size and model attributes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/dates.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Dates and age</span></span></a>
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Dates and age</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/mileage.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Mileage</span></span></a>
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Mileage</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/location.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Location</span></span></a>
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Location and yearly status</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/dvla-status.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Licensing status and DVLA lookups</span></span></a>
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Licensing status and DVLA lookups</span></span></a>
   </div>
 </li>
       </ul>
@@ -490,15 +496,17 @@ Table&nbsp;19.1: Identifier and scope columns.
 <div class="cell-output-display">
 <table class="cell caption-top table table-sm table-striped small">
 <colgroup>
-<col style="width: 14%">
+<col style="width: 13%">
+<col style="width: 6%">
+<col style="width: 4%">
 <col style="width: 5%">
-<col style="width: 5%">
-<col style="width: 70%">
-<col style="width: 5%">
+<col style="width: 65%">
+<col style="width: 4%">
 </colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Column</th>
+<th style="text-align: left;">Simplified</th>
 <th style="text-align: left;">Type</th>
 <th style="text-align: left;">Source</th>
 <th style="text-align: left;">Description</th>
@@ -508,6 +516,7 @@ Table&nbsp;19.1: Identifier and scope columns.
 <tbody>
 <tr class="odd">
 <td style="text-align: left;"><code>vehicle_id</code></td>
+<td style="text-align: left;">Yes</td>
 <td style="text-align: left;">BIGINT</td>
 <td style="text-align: left;">pipeline</td>
 <td style="text-align: left;">Row number in the Bristol input file (stable id for this input)</td>
@@ -515,6 +524,7 @@ Table&nbsp;19.1: Identifier and scope columns.
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>dup_vrm</code></td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">BOOLEAN</td>
 <td style="text-align: left;">pipeline</td>
 <td style="text-align: left;">TRUE if the DVSA registration appears on more than one row of the input</td>
@@ -522,6 +532,7 @@ Table&nbsp;19.1: Identifier and scope columns.
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>scope_mileage</code></td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">BOOLEAN</td>
 <td style="text-align: left;">pipeline</td>
 <td style="text-align: left;">In scope because total mileage &gt; 0</td>
@@ -529,6 +540,7 @@ Table&nbsp;19.1: Identifier and scope columns.
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>scope_pca</code></td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">BOOLEAN</td>
 <td style="text-align: left;">pipeline</td>
 <td style="text-align: left;">In scope because a PCA is recorded in at least one year</td>
@@ -536,6 +548,7 @@ Table&nbsp;19.1: Identifier and scope columns.
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>scope_born</code></td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">BOOLEAN</td>
 <td style="text-align: left;">pipeline</td>
 <td style="text-align: left;">In scope because birth_date is on or after the scope start date</td>
@@ -543,6 +556,7 @@ Table&nbsp;19.1: Identifier and scope columns.
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>scope_dvla_activity</code></td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">BOOLEAN</td>
 <td style="text-align: left;">pipeline</td>
 <td style="text-align: left;">In scope because of DVLA activity (tax due, V5C, MOT expiry or first registration) since the scope start date</td>

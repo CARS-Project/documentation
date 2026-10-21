@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>30&nbsp; Location – Using the CARS vehicle data</title>
+<title>31&nbsp; Location and yearly status – Using the CARS vehicle data</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -89,7 +89,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/dictionary/index.html">Data dictionary</a></li><li class="breadcrumb-item"><a href="../../chapters/dictionary/location.html"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Location</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/dictionary/index.html">Data dictionary</a></li><li class="breadcrumb-item"><a href="../../chapters/dictionary/location.html"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Location and yearly status</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -333,26 +333,32 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../chapters/dictionary/racf.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Car size and model attributes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/dates.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Dates and age</span></span></a>
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Dates and age</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/mileage.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Mileage</span></span></a>
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Mileage</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/location.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Location</span></span></a>
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Location and yearly status</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/dvla-status.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Licensing status and DVLA lookups</span></span></a>
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Licensing status and DVLA lookups</span></span></a>
   </div>
 </li>
       </ul>
@@ -443,21 +449,18 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">30.1</span> Overview</a></li>
-  <li><a href="#coverage" id="toc-coverage" class="nav-link" data-scroll-target="#coverage"><span class="header-section-number">30.2</span> Coverage</a></li>
-  <li><a href="#values" id="toc-values" class="nav-link" data-scroll-target="#values"><span class="header-section-number">30.3</span> Values</a>
-  <ul class="collapse">
-  <li><a href="#pca_yyyy" id="toc-pca_yyyy" class="nav-link" data-scroll-target="#pca_yyyy"><code>pca_YYYY</code></a></li>
-  </ul></li>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">31.1</span> Overview</a></li>
+  <li><a href="#coverage" id="toc-coverage" class="nav-link" data-scroll-target="#coverage"><span class="header-section-number">31.2</span> Coverage</a></li>
+  <li><a href="#values" id="toc-values" class="nav-link" data-scroll-target="#values"><span class="header-section-number">31.3</span> Values</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/CARS-Project/documentation/edit/main/chapters/dictionary/location.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/CARS-Project/documentation/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/dictionary/index.html">Data dictionary</a></li><li class="breadcrumb-item"><a href="../../chapters/dictionary/location.html"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Location</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/dictionary/index.html">Data dictionary</a></li><li class="breadcrumb-item"><a href="../../chapters/dictionary/location.html"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Location and yearly status</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="sec-dd-location" class="quarto-section-identifier"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Location</span></span></h1>
+<h1 class="title"><span id="sec-dd-location" class="quarto-section-identifier"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Location and yearly status</span></span></h1>
 </div>
 
 
@@ -474,11 +477,11 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="overview" class="level2" data-number="30.1">
-<h2 data-number="30.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">30.1</span> Overview</h2>
+<section id="overview" class="level2" data-number="31.1">
+<h2 data-number="31.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">31.1</span> Overview</h2>
 <p>The only location in the data is the <strong>postcode area</strong> of the testing station where the vehicle had its MOT test in each year: <code>LS</code> for Leeds, <code>B</code> for Birmingham, and so on. It is where the vehicle was tested, which is usually, but not always, near where it is kept. <a href="../geography.html" class="quarto-xref"><span>Chapter 7</span></a> explains postcode areas and the limits of analysing vehicles at this scale.</p>
 <ul>
-<li><strong><code>pca_YYYY</code></strong> is the postcode area in year YYYY, from 2005 to 2025. Northern Ireland is coded <code>NI</code>.</li>
+<li><strong><code>pca_YYYY</code></strong> is the postcode area in year YYYY, from 2005 to 2025. Northern Ireland is coded <code>BT</code>, its real postcode area (older deliveries’ <code>NI</code> is recoded to <code>BT</code>).</li>
 <li><strong>In a year with no recorded postcode area</strong>, the pipeline replaces the blank with the vehicle’s status:
 <ul>
 <li><code>unborn</code>: the vehicle had not yet been made or registered;</li>
@@ -487,25 +490,32 @@ ul.task-list li input[type="checkbox"] {
 </ul></li>
 </ul>
 <p>The status rules are set out in the methodology, <a href="../../reports/methodology.html#postcode-area-status-infill">section 3.3</a>, and how the statuses describe a vehicle’s life in <a href="../vehicle-lifecycle.html" class="quarto-xref"><span>Chapter 6</span></a>. A vehicle is <em>observed</em> in a year when <code>pca_YYYY</code> holds a real postcode area, and selecting these vehicles is the usual first step of any analysis of a year (<a href="../vehicle-table.html" class="quarto-xref"><span>Chapter 11</span></a>).</p>
+<p>The Bristol team also supplied three yearly status flags, which the pipeline carries through to the maximal table only:</p>
+<ul>
+<li><strong><code>is_new_vehicle_YYYY</code></strong> is Bristol’s new-vehicle flag for the year, and <strong><code>is_intertest_YYYY</code></strong> its inter-test flag. The pipeline does not use them.</li>
+<li><strong><code>is_end_use_YYYY</code></strong> is <code>TRUE</code> in the year of the vehicle’s final MOT test, and only where testing has stopped. The last year in which it is <code>TRUE</code> gives <code>last_mot_year</code> (<a href="dates.html" class="quarto-xref"><span>Chapter 29</span></a>), and so the years in which <code>pca_YYYY</code> is <code>dead</code>.</li>
+</ul>
 <div class="cell" data-layout-align="center">
 <div id="tbl-dd-location" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-dd-location-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;30.1: Location columns.
+Table&nbsp;31.1: Location and yearly status columns.
 </figcaption>
 <div aria-describedby="tbl-dd-location-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
 <table class="cell caption-top table table-sm table-striped small">
 <colgroup>
-<col style="width: 8%">
 <col style="width: 6%">
-<col style="width: 14%">
-<col style="width: 63%">
-<col style="width: 6%">
+<col style="width: 3%">
+<col style="width: 2%">
+<col style="width: 5%">
+<col style="width: 79%">
+<col style="width: 3%">
 </colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Column</th>
+<th style="text-align: left;">Simplified</th>
 <th style="text-align: left;">Type</th>
 <th style="text-align: left;">Source</th>
 <th style="text-align: left;">Description</th>
@@ -515,10 +525,35 @@ Table&nbsp;30.1: Location columns.
 <tbody>
 <tr class="odd">
 <td style="text-align: left;"><code>pca_YYYY</code></td>
+<td style="text-align: left;">Yes</td>
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">Bristol + pipeline</td>
-<td style="text-align: left;">Postcode area in that year, or unborn / dead / unknown where no PCA was recorded</td>
+<td style="text-align: left;">Postcode area in that year (Northern Ireland is BT), or unborn / dead / unknown where Bristol supplied none. Bristol attributes a PCA to years before the first MOT (from the first test) and up to two years after the last one, so a real PCA does not mean the vehicle was tested that year</td>
 <td style="text-align: left;">0%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>is_new_vehicle_YYYY</code></td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">BOOLEAN</td>
+<td style="text-align: left;">Bristol</td>
+<td style="text-align: left;">Bristol’s new-vehicle status flag for that year, as supplied. Not used by the pipeline</td>
+<td style="text-align: left;">48.46–63.7%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>is_intertest_YYYY</code></td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">BOOLEAN</td>
+<td style="text-align: left;">Bristol</td>
+<td style="text-align: left;">Bristol’s inter-test status flag for that year, as supplied. Not used by the pipeline</td>
+<td style="text-align: left;">48.45–63.63%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>is_end_use_YYYY</code></td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">BOOLEAN</td>
+<td style="text-align: left;">Bristol</td>
+<td style="text-align: left;">Bristol flag for that year: the year of the vehicle’s final MOT test, set only where testing has stopped. Drives last_mot_year</td>
+<td style="text-align: left;">48.45–63.63%</td>
 </tr>
 </tbody>
 </table>
@@ -528,10 +563,11 @@ Table&nbsp;30.1: Location columns.
 </div>
 </div>
 </section>
-<section id="coverage" class="level2" data-number="30.2">
-<h2 data-number="30.2" class="anchored" data-anchor-id="coverage"><span class="header-section-number">30.2</span> Coverage</h2>
-<p><code>pca_YYYY</code> is never blank, because every blank is replaced by a status, so its coverage is the share of vehicles with a real postcode area rather than a status. Among the vehicles on the road in a year (those that are not <code>unborn</code> or <code>dead</code>), this share is the proportion observed, shown in <a href="#fig-dd-location" class="quarto-xref">Figure&nbsp;<span>30.1</span></a>.</p>
+<section id="coverage" class="level2" data-number="31.2">
+<h2 data-number="31.2" class="anchored" data-anchor-id="coverage"><span class="header-section-number">31.2</span> Coverage</h2>
+<p><code>pca_YYYY</code> is never blank, because every blank is replaced by a status, so its coverage is the share of vehicles with a real postcode area rather than a status. Among the vehicles on the road in a year (those that are not <code>unborn</code> or <code>dead</code>), this share is the proportion observed, shown in <a href="#fig-dd-location" class="quarto-xref">Figure&nbsp;<span>31.1</span></a>.</p>
 <p>It is about 88% through the 2010s. The vehicles on the road but not observed are <code>unknown</code>: mostly new vehicles before their first MOT, and vehicles that missed a test. The share falls in the final years, to 76% in 2025: a vehicle last tested in the final two years of data may not yet be due another test, so it stays <code>unknown</code> rather than <code>dead</code> (<a href="../pitfalls.html" class="quarto-xref"><span>Chapter 14</span></a>).</p>
+<p>The three status flags are present for about 91% of the vehicles on the road in each year (<a href="#tbl-dd-location-flags" class="quarto-xref">Table&nbsp;<span>31.3</span></a>). <code>is_intertest_YYYY</code> is <code>TRUE</code> for most of them (55% in 2015), and <code>is_new_vehicle_YYYY</code> for 19%. <code>is_end_use_YYYY</code> is <code>TRUE</code> for about 4% of vehicles in a typical year, but for 21% in 2025, the last year of data.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-dd-location" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -540,7 +576,7 @@ Table&nbsp;30.1: Location columns.
 <img src="location_files/figure-html/fig-dd-location-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-location-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;30.1: Share of the vehicles on the road in each year that were observed, with a postcode area in that year.
+Figure&nbsp;31.1: Share of the vehicles on the road in each year that were observed, with a postcode area in that year.
 </figcaption>
 </figure>
 </div>
@@ -550,7 +586,7 @@ Figure&nbsp;30.1: Share of the vehicles on the road in each year that were obser
 <div id="tbl-dd-location-coverage" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-dd-location-coverage-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;30.2: Vehicles by status of pca_YYYY in each year.
+Table&nbsp;31.2: Vehicles by status of pca_YYYY in each year.
 </figcaption>
 <div aria-describedby="tbl-dd-location-coverage-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
@@ -577,169 +613,169 @@ Table&nbsp;30.2: Vehicles by status of pca_YYYY in each year.
 <tr class="odd">
 <td style="text-align: left;">2,005</td>
 <td style="text-align: right;">31,888,912</td>
-<td style="text-align: right;">5,284,956</td>
+<td style="text-align: right;">5,284,909</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">56,178,373</td>
+<td style="text-align: right;">56,178,420</td>
 <td style="text-align: right;">85.8%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2,006</td>
 <td style="text-align: right;">34,662,542</td>
-<td style="text-align: right;">5,431,132</td>
-<td style="text-align: right;">25,706</td>
-<td style="text-align: right;">53,232,861</td>
+<td style="text-align: right;">5,431,127</td>
+<td style="text-align: right;">25,666</td>
+<td style="text-align: right;">53,232,906</td>
 <td style="text-align: right;">86.5%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2,007</td>
 <td style="text-align: right;">37,490,453</td>
-<td style="text-align: right;">5,499,773</td>
-<td style="text-align: right;">161,330</td>
-<td style="text-align: right;">50,200,685</td>
+<td style="text-align: right;">5,499,770</td>
+<td style="text-align: right;">161,294</td>
+<td style="text-align: right;">50,200,724</td>
 <td style="text-align: right;">87.2%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2,008</td>
 <td style="text-align: right;">39,496,248</td>
-<td style="text-align: right;">5,564,702</td>
-<td style="text-align: right;">791,780</td>
-<td style="text-align: right;">47,499,511</td>
+<td style="text-align: right;">5,564,699</td>
+<td style="text-align: right;">791,746</td>
+<td style="text-align: right;">47,499,548</td>
 <td style="text-align: right;">87.7%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2,009</td>
 <td style="text-align: right;">39,687,978</td>
-<td style="text-align: right;">5,650,842</td>
-<td style="text-align: right;">2,970,688</td>
-<td style="text-align: right;">45,042,733</td>
+<td style="text-align: right;">5,650,839</td>
+<td style="text-align: right;">2,970,654</td>
+<td style="text-align: right;">45,042,770</td>
 <td style="text-align: right;">87.5%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2,010</td>
 <td style="text-align: right;">39,868,271</td>
-<td style="text-align: right;">5,695,137</td>
-<td style="text-align: right;">5,201,708</td>
-<td style="text-align: right;">42,587,125</td>
+<td style="text-align: right;">5,695,134</td>
+<td style="text-align: right;">5,201,676</td>
+<td style="text-align: right;">42,587,160</td>
 <td style="text-align: right;">87.5%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2,011</td>
 <td style="text-align: right;">40,001,268</td>
-<td style="text-align: right;">5,740,321</td>
-<td style="text-align: right;">7,421,484</td>
-<td style="text-align: right;">40,189,168</td>
+<td style="text-align: right;">5,740,318</td>
+<td style="text-align: right;">7,421,453</td>
+<td style="text-align: right;">40,189,202</td>
 <td style="text-align: right;">87.5%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2,012</td>
 <td style="text-align: right;">40,325,572</td>
-<td style="text-align: right;">5,735,103</td>
-<td style="text-align: right;">9,618,414</td>
-<td style="text-align: right;">37,673,152</td>
+<td style="text-align: right;">5,735,100</td>
+<td style="text-align: right;">9,618,384</td>
+<td style="text-align: right;">37,673,185</td>
 <td style="text-align: right;">87.5%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2,013</td>
 <td style="text-align: right;">40,947,776</td>
-<td style="text-align: right;">5,816,923</td>
-<td style="text-align: right;">11,697,550</td>
-<td style="text-align: right;">34,889,992</td>
+<td style="text-align: right;">5,816,920</td>
+<td style="text-align: right;">11,697,524</td>
+<td style="text-align: right;">34,890,021</td>
 <td style="text-align: right;">87.6%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2,014</td>
 <td style="text-align: right;">41,740,695</td>
-<td style="text-align: right;">5,984,679</td>
-<td style="text-align: right;">13,791,311</td>
-<td style="text-align: right;">31,835,556</td>
+<td style="text-align: right;">5,984,676</td>
+<td style="text-align: right;">13,791,285</td>
+<td style="text-align: right;">31,835,585</td>
 <td style="text-align: right;">87.5%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2,015</td>
 <td style="text-align: right;">42,827,668</td>
-<td style="text-align: right;">6,105,666</td>
-<td style="text-align: right;">15,843,563</td>
-<td style="text-align: right;">28,575,344</td>
+<td style="text-align: right;">6,105,663</td>
+<td style="text-align: right;">15,843,539</td>
+<td style="text-align: right;">28,575,371</td>
 <td style="text-align: right;">87.5%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2,016</td>
 <td style="text-align: right;">44,042,339</td>
-<td style="text-align: right;">6,234,849</td>
-<td style="text-align: right;">17,845,342</td>
-<td style="text-align: right;">25,229,711</td>
+<td style="text-align: right;">6,234,846</td>
+<td style="text-align: right;">17,845,318</td>
+<td style="text-align: right;">25,229,738</td>
 <td style="text-align: right;">87.6%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2,017</td>
 <td style="text-align: right;">44,441,732</td>
-<td style="text-align: right;">6,367,107</td>
-<td style="text-align: right;">19,813,774</td>
-<td style="text-align: right;">22,729,628</td>
+<td style="text-align: right;">6,367,104</td>
+<td style="text-align: right;">19,813,750</td>
+<td style="text-align: right;">22,729,655</td>
 <td style="text-align: right;">87.5%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2,018</td>
 <td style="text-align: right;">45,204,703</td>
-<td style="text-align: right;">7,137,469</td>
-<td style="text-align: right;">21,944,259</td>
-<td style="text-align: right;">19,065,810</td>
+<td style="text-align: right;">7,137,467</td>
+<td style="text-align: right;">21,944,238</td>
+<td style="text-align: right;">19,065,833</td>
 <td style="text-align: right;">86.4%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2,019</td>
 <td style="text-align: right;">45,687,132</td>
-<td style="text-align: right;">7,251,821</td>
-<td style="text-align: right;">24,290,253</td>
-<td style="text-align: right;">16,123,035</td>
+<td style="text-align: right;">7,251,819</td>
+<td style="text-align: right;">24,290,233</td>
+<td style="text-align: right;">16,123,057</td>
 <td style="text-align: right;">86.3%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2,020</td>
 <td style="text-align: right;">45,534,442</td>
-<td style="text-align: right;">7,111,868</td>
-<td style="text-align: right;">26,769,042</td>
-<td style="text-align: right;">13,936,889</td>
+<td style="text-align: right;">7,111,866</td>
+<td style="text-align: right;">26,769,023</td>
+<td style="text-align: right;">13,936,910</td>
 <td style="text-align: right;">86.5%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2,021</td>
 <td style="text-align: right;">45,673,106</td>
-<td style="text-align: right;">6,800,620</td>
-<td style="text-align: right;">29,148,803</td>
-<td style="text-align: right;">11,729,712</td>
+<td style="text-align: right;">6,800,619</td>
+<td style="text-align: right;">29,148,787</td>
+<td style="text-align: right;">11,729,729</td>
 <td style="text-align: right;">87.0%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2,022</td>
 <td style="text-align: right;">45,018,795</td>
-<td style="text-align: right;">7,066,091</td>
-<td style="text-align: right;">31,567,435</td>
-<td style="text-align: right;">9,699,920</td>
+<td style="text-align: right;">7,066,090</td>
+<td style="text-align: right;">31,567,419</td>
+<td style="text-align: right;">9,699,937</td>
 <td style="text-align: right;">86.4%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2,023</td>
 <td style="text-align: right;">43,394,273</td>
-<td style="text-align: right;">7,293,705</td>
-<td style="text-align: right;">33,357,407</td>
-<td style="text-align: right;">9,306,856</td>
+<td style="text-align: right;">7,293,704</td>
+<td style="text-align: right;">33,357,394</td>
+<td style="text-align: right;">9,306,870</td>
 <td style="text-align: right;">85.6%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2,024</td>
 <td style="text-align: right;">41,576,160</td>
-<td style="text-align: right;">9,561,904</td>
-<td style="text-align: right;">35,261,681</td>
-<td style="text-align: right;">6,952,496</td>
+<td style="text-align: right;">9,561,903</td>
+<td style="text-align: right;">35,261,671</td>
+<td style="text-align: right;">6,952,507</td>
 <td style="text-align: right;">81.3%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2,025</td>
 <td style="text-align: right;">39,129,586</td>
 <td style="text-align: right;">12,640,179</td>
-<td style="text-align: right;">37,101,284</td>
-<td style="text-align: right;">4,481,192</td>
+<td style="text-align: right;">37,101,282</td>
+<td style="text-align: right;">4,481,194</td>
 <td style="text-align: right;">75.6%</td>
 </tr>
 </tbody>
@@ -749,13 +785,194 @@ Table&nbsp;30.2: Vehicles by status of pca_YYYY in each year.
 </figure>
 </div>
 </div>
+<div class="cell" data-layout-align="center">
+<div id="tbl-dd-location-flags" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-dd-location-flags-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;31.3: Share of the vehicles on the road in each year with a value in the status flags (is_new_vehicle_YYYY is blank for slightly more), and with each flag TRUE.
+</figcaption>
+<div aria-describedby="tbl-dd-location-flags-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 6%">
+<col style="width: 13%">
+<col style="width: 28%">
+<col style="width: 26%">
+<col style="width: 24%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Year</th>
+<th style="text-align: right;">With a value</th>
+<th style="text-align: right;"><code>is_new_vehicle_YYYY</code> TRUE</th>
+<th style="text-align: right;"><code>is_intertest_YYYY</code> TRUE</th>
+<th style="text-align: right;"><code>is_end_use_YYYY</code> TRUE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">2,005</td>
+<td style="text-align: right;">90.8%</td>
+<td style="text-align: right;">31.0%</td>
+<td style="text-align: right;">13.9%</td>
+<td style="text-align: right;">1.4%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2,006</td>
+<td style="text-align: right;">91.5%</td>
+<td style="text-align: right;">22.9%</td>
+<td style="text-align: right;">55.4%</td>
+<td style="text-align: right;">5.4%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2,007</td>
+<td style="text-align: right;">91.9%</td>
+<td style="text-align: right;">21.1%</td>
+<td style="text-align: right;">54.9%</td>
+<td style="text-align: right;">5.2%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2,008</td>
+<td style="text-align: right;">92.0%</td>
+<td style="text-align: right;">19.5%</td>
+<td style="text-align: right;">53.7%</td>
+<td style="text-align: right;">5.0%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2,009</td>
+<td style="text-align: right;">91.8%</td>
+<td style="text-align: right;">18.3%</td>
+<td style="text-align: right;">54.6%</td>
+<td style="text-align: right;">4.9%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2,010</td>
+<td style="text-align: right;">91.6%</td>
+<td style="text-align: right;">17.0%</td>
+<td style="text-align: right;">56.0%</td>
+<td style="text-align: right;">4.6%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2,011</td>
+<td style="text-align: right;">91.3%</td>
+<td style="text-align: right;">16.2%</td>
+<td style="text-align: right;">56.6%</td>
+<td style="text-align: right;">4.6%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2,012</td>
+<td style="text-align: right;">91.0%</td>
+<td style="text-align: right;">16.2%</td>
+<td style="text-align: right;">56.5%</td>
+<td style="text-align: right;">4.5%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2,013</td>
+<td style="text-align: right;">90.7%</td>
+<td style="text-align: right;">16.6%</td>
+<td style="text-align: right;">56.3%</td>
+<td style="text-align: right;">4.3%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2,014</td>
+<td style="text-align: right;">90.6%</td>
+<td style="text-align: right;">17.6%</td>
+<td style="text-align: right;">55.8%</td>
+<td style="text-align: right;">4.1%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2,015</td>
+<td style="text-align: right;">90.6%</td>
+<td style="text-align: right;">18.7%</td>
+<td style="text-align: right;">54.8%</td>
+<td style="text-align: right;">4.3%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2,016</td>
+<td style="text-align: right;">90.5%</td>
+<td style="text-align: right;">19.3%</td>
+<td style="text-align: right;">53.8%</td>
+<td style="text-align: right;">4.7%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2,017</td>
+<td style="text-align: right;">90.3%</td>
+<td style="text-align: right;">18.0%</td>
+<td style="text-align: right;">54.5%</td>
+<td style="text-align: right;">5.0%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2,018</td>
+<td style="text-align: right;">90.2%</td>
+<td style="text-align: right;">18.3%</td>
+<td style="text-align: right;">54.9%</td>
+<td style="text-align: right;">4.5%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2,019</td>
+<td style="text-align: right;">90.1%</td>
+<td style="text-align: right;">17.3%</td>
+<td style="text-align: right;">54.4%</td>
+<td style="text-align: right;">4.6%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2,020</td>
+<td style="text-align: right;">89.7%</td>
+<td style="text-align: right;">15.4%</td>
+<td style="text-align: right;">57.0%</td>
+<td style="text-align: right;">3.5%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2,021</td>
+<td style="text-align: right;">89.2%</td>
+<td style="text-align: right;">14.0%</td>
+<td style="text-align: right;">60.1%</td>
+<td style="text-align: right;">3.5%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2,022</td>
+<td style="text-align: right;">88.8%</td>
+<td style="text-align: right;">12.4%</td>
+<td style="text-align: right;">63.0%</td>
+<td style="text-align: right;">3.5%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2,023</td>
+<td style="text-align: right;">88.1%</td>
+<td style="text-align: right;">9.1%</td>
+<td style="text-align: right;">65.2%</td>
+<td style="text-align: right;">4.0%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2,024</td>
+<td style="text-align: right;">87.8%</td>
+<td style="text-align: right;">9.3%</td>
+<td style="text-align: right;">64.9%</td>
+<td style="text-align: right;">4.4%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2,025</td>
+<td style="text-align: right;">87.7%</td>
+<td style="text-align: right;">9.9%</td>
+<td style="text-align: right;">47.5%</td>
+<td style="text-align: right;">21.3%</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
 </section>
-<section id="values" class="level2" data-number="30.3">
-<h2 data-number="30.3" class="anchored" data-anchor-id="values"><span class="header-section-number">30.3</span> Values</h2>
+<section id="values" class="level2" data-number="31.3">
+<h2 data-number="31.3" class="anchored" data-anchor-id="values"><span class="header-section-number">31.3</span> Values</h2>
 <p>How the values of each column change over time, for each year. Numeric columns and dates show the minimum, lower quartile (Q1), median, upper quartile (Q3) and maximum; other columns show the share of vehicles with each value, with the less common values grouped as <em>All other values</em> and missing values as <em>Blank</em>.</p>
-<section id="pca_yyyy" class="level3 cell" data-layout-align="center">
+<div class="cell" data-layout-align="center">
+<section id="pca_yyyy" class="level3">
 <h3 class="anchored" data-anchor-id="pca_yyyy"><code>pca_YYYY</code></h3>
-<p>Postcode area in that year, or unborn / dead / unknown where no PCA was recorded.</p>
+<p>Postcode area in that year (Northern Ireland is BT), or unborn / dead / unknown where Bristol supplied none. Bristol attributes a PCA to years before the first MOT (from the first test) and up to two years after the last one, so a real PCA does not mean the vehicle was tested that year.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-dd-v-pca-yyyy" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -764,13 +981,68 @@ Table&nbsp;30.2: Vehicles by status of pca_YYYY in each year.
 <img src="location_files/figure-html/fig-dd-v-pca-yyyy-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-v-pca-yyyy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;30.2: Share of vehicles by value of pca_YYYY, by year.
+Figure&nbsp;31.2: Share of vehicles by value of pca_YYYY, by year.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
 </section>
+<section id="is_new_vehicle_yyyy" class="level3">
+<h3 class="anchored" data-anchor-id="is_new_vehicle_yyyy"><code>is_new_vehicle_YYYY</code></h3>
+<p>Bristol’s new-vehicle status flag for that year, as supplied. Not used by the pipeline.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-dd-v-is-new-vehicle-yyyy" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dd-v-is-new-vehicle-yyyy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="location_files/figure-html/fig-dd-v-is-new-vehicle-yyyy-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-v-is-new-vehicle-yyyy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;31.3: Share of vehicles by value of is_new_vehicle_YYYY, by year.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="is_intertest_yyyy" class="level3">
+<h3 class="anchored" data-anchor-id="is_intertest_yyyy"><code>is_intertest_YYYY</code></h3>
+<p>Bristol’s inter-test status flag for that year, as supplied. Not used by the pipeline.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-dd-v-is-intertest-yyyy" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dd-v-is-intertest-yyyy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="location_files/figure-html/fig-dd-v-is-intertest-yyyy-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-v-is-intertest-yyyy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;31.4: Share of vehicles by value of is_intertest_YYYY, by year.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="is_end_use_yyyy" class="level3">
+<h3 class="anchored" data-anchor-id="is_end_use_yyyy"><code>is_end_use_YYYY</code></h3>
+<p>Bristol flag for that year: the year of the vehicle’s final MOT test, set only where testing has stopped. Drives last_mot_year.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-dd-v-is-end-use-yyyy" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dd-v-is-end-use-yyyy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="location_files/figure-html/fig-dd-v-is-end-use-yyyy-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-v-is-end-use-yyyy-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;31.5: Share of vehicles by value of is_end_use_YYYY, by year.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</div>
 
 
 </section>
@@ -1179,12 +1451,12 @@ Figure&nbsp;30.2: Share of vehicles by value of pca_YYYY, by year.
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="../../chapters/dictionary/mileage.html" class="pagination-link" aria-label="Mileage">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Mileage</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Mileage</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="../../chapters/dictionary/dvla-status.html" class="pagination-link" aria-label="Licensing status and DVLA lookups">
-        <span class="nav-page-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Licensing status and DVLA lookups</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Licensing status and DVLA lookups</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

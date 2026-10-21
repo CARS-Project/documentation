@@ -368,26 +368,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../chapters/dictionary/racf.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Car size and model attributes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../chapters/dictionary/dates.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Dates and age</span></span></a>
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Dates and age</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/dictionary/mileage.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Mileage</span></span></a>
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Mileage</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/dictionary/location.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Location</span></span></a>
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Location and yearly status</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/dictionary/dvla-status.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Licensing status and DVLA lookups</span></span></a>
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Licensing status and DVLA lookups</span></span></a>
   </div>
 </li>
       </ul>
@@ -572,12 +578,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="summary" class="level2">
 <h2 class="anchored" data-anchor-id="summary">Summary</h2>
 <ul>
-<li><strong>Vehicles observed in 2022:</strong> 45,018,795, of which 38,155,912 (84.8%) are cars. 39,474,199 (87.7%) have an annual mileage for the year.</li>
-<li><strong>Average annual mileage of cars:</strong> 6,619 miles in 2022, against 7,892 in
+<li><strong>Vehicles observed in 2022:</strong> 45,018,795, of which 38,124,631 (84.7%) are cars. 39,474,199 (87.7%) have an annual mileage for the year.</li>
+<li><strong>Average annual mileage of cars:</strong> 6,623 miles in 2022, against 7,897 in
 <ol start="2006" type="1">
 <li></li>
 </ol></li>
-<li><strong>Average age of cars:</strong> 9.4 years in 2022, against 6.6 in
+<li><strong>Average age of cars:</strong> 9.0 years in 2022, against 6.3 in
 <ol start="2006" type="1">
 <li></li>
 </ol></li>
@@ -585,12 +591,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p><strong>Definitions used throughout:</strong></p>
 <ul>
-<li><code>observed</code>: a vehicle is counted in a year when <code>pca_YYYY</code> is a postcode area (not <code>unborn</code>, <code>dead</code> or <code>unknown</code>): it was seen, usually at an MOT test, that year. Vehicles under three (four in Northern Ireland) have no MOT, so are largely missing.</li>
+<li><code>observed</code>: a vehicle is counted in a year when <code>pca_YYYY</code> is a postcode area (not <code>unborn</code>, <code>dead</code> or <code>unknown</code>). That is not always a test that year: Bristol copies a vehicle’s first-test area back to its first registration, and carries its last-test area forward for two years after its last MOT (methodology.md, Section 3.3). So vehicles under three appear once their first test is in the data, and scrapped vehicles stay counted for about two years.</li>
 <li><code>annual mileage</code>: Bristol’s <code>mileage_YYYY</code>. Averages use only mileage Bristol flagged as plausible (<code>legit_mileage_YYYY</code> is TRUE). Bristol has already removed the mileage it flagged as implausible, and a mileage with no flag was not assessed; section 6 counts both.</li>
-<li><code>age</code>: the year minus the year of first use.</li>
+<li><code>age</code>: whole years at 1 June of the year since first use, as in the churn tables.</li>
 <li><code>body type</code>: the DfT body type from make and model matching (methodology.md, Section 4.6). <code>Other</code> groups buses and coaches, heavy goods vehicles, other vehicles and vehicles with no body type.</li>
 <li><code>fuel</code>: the harmonised fuel grouped into Petrol, Diesel, Hybrid Electric, Electric and Other (<code>fuel_simple</code>).</li>
-<li><code>postcode area</code>: as recorded by Bristol. Northern Ireland is <code>NI</code>; <code>XX</code> has no boundary. Maps show Greater London enlarged in a box.</li>
+<li><code>postcode area</code>: as recorded by Bristol. Northern Ireland is <code>BT</code>; <code>XX</code> has no boundary. Maps show Greater London enlarged in a box.</li>
 </ul>
 </section>
 <section id="where-the-data-comes-from" class="level2">
@@ -624,7 +630,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Stages 2-3</td>
-<td style="text-align: left;"><code>outputs/vehicles_enhanced.parquet</code></td>
+<td style="text-align: left;"><code>outputs/vehicles_enhanced_maximal.parquet</code></td>
 <td style="text-align: left;">Cleaned make/model, harmonised fuel, engine size, body type and Euro status (93,352,241 vehicles)</td>
 </tr>
 <tr class="even">
@@ -699,8 +705,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td style="text-align: left;">vehicles_with_no_body_type</td>
-<td style="text-align: right;">2,878,353</td>
-<td style="text-align: right;">3.08</td>
+<td style="text-align: right;">2,922,885</td>
+<td style="text-align: right;">3.13</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">vehicles_with_no_first_use_date</td>
@@ -709,8 +715,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td style="text-align: left;">vehicles_with_no_test_class</td>
-<td style="text-align: right;">19,314,753</td>
-<td style="text-align: right;">20.69</td>
+<td style="text-align: right;">5,510,998</td>
+<td style="text-align: right;">5.90</td>
 </tr>
 </tbody>
 </table>
@@ -749,11 +755,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="odd">
 <td style="text-align: left;">test_class_column</td>
-<td style="text-align: left;">test_class_ANON (as supplied)</td>
+<td style="text-align: left;">test_class (harmonised)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">fuel_column</td>
-<td style="text-align: left;">fuel_DVSA (as supplied)</td>
+<td style="text-align: left;">fuel_simple (harmonised)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">body_type_column</td>
@@ -827,7 +833,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: right;">147</td>
 <td style="text-align: right;">5</td>
 <td style="text-align: left;">year x MOT test class</td>
-<td style="text-align: left;">Vehicles and total mileage by the test class as supplied, with its label</td>
+<td style="text-align: left;">Vehicles and total mileage by the harmonised test class (as in the churn tables), with its label</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">mileage_by_test_class_wide.csv</td>
@@ -838,35 +844,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td style="text-align: left;">mileage_by_fuel_year_long.csv</td>
-<td style="text-align: right;">294</td>
+<td style="text-align: right;">126</td>
 <td style="text-align: right;">4</td>
-<td style="text-align: left;">year x DVSA fuel</td>
-<td style="text-align: left;">Vehicles and total mileage by the fuel as supplied, unharmonised</td>
+<td style="text-align: left;">year x fuel group</td>
+<td style="text-align: left;">Vehicles and total mileage by the harmonised fuel group (fuel_simple, as in the churn tables)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">mileage_by_fuel_wide.csv</td>
-<td style="text-align: right;">14</td>
+<td style="text-align: right;">6</td>
 <td style="text-align: right;">22</td>
-<td style="text-align: left;">DVSA fuel, one column per year</td>
+<td style="text-align: left;">fuel group, one column per year</td>
 <td style="text-align: left;">The total mileage of the long table, pivoted</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">mileage_by_pca_year_body_fuel.csv</td>
-<td style="text-align: right;">53,123</td>
+<td style="text-align: right;">52,861</td>
 <td style="text-align: right;">15</td>
 <td style="text-align: left;">year x pca_YYYY x body type x fuel group</td>
 <td style="text-align: left;">The area table behind the report: vehicles, mileage coverage, mileage, the negative and over-50,000 tails, and age</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">mileage_by_age_year_body_fuel.csv</td>
-<td style="text-align: right;">19,556</td>
+<td style="text-align: right;">19,635</td>
 <td style="text-align: right;">8</td>
 <td style="text-align: left;">year x body type x fuel group x age</td>
 <td style="text-align: left;">Observed vehicles and their plausible mileage by age, for vehicles in a real postcode area</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">mileage_distribution_by_year_body.csv</td>
-<td style="text-align: right;">11,176</td>
+<td style="text-align: right;">11,190</td>
 <td style="text-align: right;">5</td>
 <td style="text-align: left;">year x body type x plausibility flag x mileage band</td>
 <td style="text-align: left;">Recorded mileage in bands of 1,000 to 50,000, then wider</td>
@@ -906,49 +912,49 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">year</td>
 <td style="text-align: left;">Calendar year the row describes</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.00</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">body_type</td>
 <td style="text-align: left;">DfT body type of the vehicle (R/assemble.R)</td>
-<td style="text-align: right;">2,698</td>
-<td style="text-align: right;">13.8</td>
+<td style="text-align: right;">2,703</td>
+<td style="text-align: right;">13.77</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">fuel_simple</td>
 <td style="text-align: left;">Fuel in six groups, including Plug-in Hybrid Electric</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.00</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">age</td>
-<td style="text-align: left;">Year minus the year of first use, capped at 40; -1 holds every negative age</td>
+<td style="text-align: left;">Whole years at 1 June of the year since first use, as in the churn tables, capped at 40; -1 holds every negative age (first used after 1 June)</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.00</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">n_vehicles</td>
 <td style="text-align: left;">Vehicles in the group</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.00</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">n_with_mileage</td>
 <td style="text-align: left;">Of those, how many have a mileage recorded that year</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.00</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">n_legit_mileage</td>
 <td style="text-align: left;">Of those, how many have a mileage Bristol judged plausible</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.00</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">total_legit_mileage</td>
 <td style="text-align: left;">Total annual mileage Bristol judged plausible</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.00</td>
 </tr>
 </tbody>
 </table>
@@ -972,8 +978,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">fuel_DVSA</td>
-<td style="text-align: left;">Fuel as supplied by DVSA, unharmonised</td>
+<td style="text-align: left;">fuel_simple</td>
+<td style="text-align: left;">Fuel in six groups, including Plug-in Hybrid Electric</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
 </tr>
@@ -990,10 +996,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h4 class="anchored" data-anchor-id="mileage_by_fuel_year_long.csv"><code>mileage_by_fuel_year_long.csv</code></h4>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 16%">
-<col style="width: 55%">
-<col style="width: 12%">
-<col style="width: 15%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -1011,8 +1017,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">fuel_DVSA</td>
-<td style="text-align: left;">Fuel as supplied by DVSA, unharmonised</td>
+<td style="text-align: left;">fuel_simple</td>
+<td style="text-align: left;">Fuel in six groups, including Plug-in Hybrid Electric</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
 </tr>
@@ -1149,7 +1155,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">body_type</td>
 <td style="text-align: left;">DfT body type of the vehicle (R/assemble.R)</td>
 <td style="text-align: right;">1,415</td>
-<td style="text-align: right;">2.66</td>
+<td style="text-align: right;">2.68</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">fuel_simple</td>
@@ -1207,7 +1213,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="odd">
 <td style="text-align: left;">n_with_age</td>
-<td style="text-align: left;">Vehicles with an age of zero or more</td>
+<td style="text-align: left;">Vehicles with an age of zero or more (first used by 1 June of the year)</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0.00</td>
 </tr>
@@ -1219,7 +1225,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="odd">
 <td style="text-align: left;">n_negative_age</td>
-<td style="text-align: left;">Vehicles first used after the year they were observed in</td>
+<td style="text-align: left;">Vehicles first used after 1 June of the year (most of them later in the same year)</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0.00</td>
 </tr>
@@ -1302,13 +1308,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">test_class_ANON</td>
-<td style="text-align: left;">Anonymised MOT test class as supplied by DVSA</td>
+<td style="text-align: left;">test_class</td>
+<td style="text-align: left;">Harmonised MOT test class (test_class: the anonymised class, else that of similar vehicles), as in the churn tables</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">14.29</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">test_class</td>
+<td style="text-align: left;">test_class_label</td>
 <td style="text-align: left;">Label of that test class</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">14.29</td>
@@ -1347,8 +1353,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: right;">0.00</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">test_class_ANON</td>
-<td style="text-align: left;">Anonymised MOT test class as supplied by DVSA</td>
+<td style="text-align: left;">test_class</td>
+<td style="text-align: left;">Harmonised MOT test class (test_class: the anonymised class, else that of similar vehicles), as in the churn tables</td>
 <td style="text-align: right;">21</td>
 <td style="text-align: right;">14.29</td>
 </tr>
@@ -1365,7 +1371,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: right;">0.00</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">test_class</td>
+<td style="text-align: left;">test_class_label</td>
 <td style="text-align: left;">Label of that test class</td>
 <td style="text-align: right;">21</td>
 <td style="text-align: right;">14.29</td>
@@ -1400,14 +1406,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="even">
 <td style="text-align: left;">body_type</td>
 <td style="text-align: left;">DfT body type of the vehicle (R/assemble.R)</td>
-<td style="text-align: right;">1,656</td>
-<td style="text-align: right;">14.82</td>
+<td style="text-align: right;">1,675</td>
+<td style="text-align: right;">14.97</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">legit_mileage</td>
 <td style="text-align: left;">Bristol’s flag: TRUE where it judged the mileage plausible, blank where it did not assess it. Mileage it judged implausible has already been removed, so FALSE never carries a mileage</td>
-<td style="text-align: right;">3,679</td>
-<td style="text-align: right;">32.92</td>
+<td style="text-align: right;">3,693</td>
+<td style="text-align: right;">33.00</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">mileage_from</td>
@@ -1430,11 +1436,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="the-vocabulary-pedantically" class="level2">
 <h2 class="anchored" data-anchor-id="the-vocabulary-pedantically">3. The vocabulary, pedantically</h2>
 <p><strong><code>legit_mileage</code></strong> is Bristol’s judgement, and it has three states, not two. <code>TRUE</code> is a mileage it judged plausible. A blank is a mileage it did not assess. <code>FALSE</code> means it judged the mileage implausible and <strong>removed it</strong>, so a <code>FALSE</code> row never carries a mileage; <code>n_mileage_removed</code> counts those vehicles. Totals in this report are plausible mileage unless they say otherwise, and section 4.2 gives the size of the unassessed group year by year.</p>
-<p><strong>A postcode area</strong> is <code>pca_YYYY</code>: either a real area, or one of <code>unborn</code> (before the vehicle existed), <code>dead</code> (after its last MOT) or <code>unknown</code> (a year inside its life with no area recorded, which includes a new vehicle’s first years before its first MOT). “Observed” in this report means a real area.</p>
+<p><strong>A postcode area</strong> is <code>pca_YYYY</code>: either a real area, or one of <code>unborn</code> (before the vehicle existed), <code>dead</code> (after its last MOT, which begins about two years after the last test because Bristol carries the area forward) or <code>unknown</code> (a year inside its life with no area recorded; rare, because Bristol back-fills a new vehicle’s years before its first MOT with its first test’s area). “Observed” in this report means a real area, not necessarily a test.</p>
 <p><strong><code>body_type</code></strong> is the DfT body type attached in Stage 2, not the MOT test class, so it exists for vehicles with no test class.</p>
 <p>The charts group it as <code>Cars</code>, <code>Light goods vehicles</code>, <code>Motorcycles</code> and <code>Other</code>, with everything else in <code>Other</code>.</p>
-<p><strong><code>fuel_simple</code></strong> is the harmonised fuel in six groups, which separates plug-in hybrids from other hybrids. <code>fuel_DVSA</code> is the fuel exactly as supplied, with every rare spelling, and is used only in the fuel tables.</p>
-<p><strong>Age</strong> is the year minus the year of first use. It can be negative, when a vehicle was observed before the date it was first used; those are counted separately rather than dropped (<code>n_negative_age</code>). The age table caps age at 40 and holds every negative age at -1.</p>
+<p><strong><code>fuel_simple</code></strong> is the harmonised fuel in six groups, which separates plug-in hybrids from other hybrids; every table uses it, as the churn tables do. <strong><code>test_class</code></strong> is the harmonised MOT test class (the anonymised class, else that of similar vehicles), as in the churn tables.</p>
+<p><strong>Age</strong> is the number of whole years between the first use date and 1 June of the year, as in the churn tables. A vehicle first used after 1 June has a negative age; those are counted separately rather than dropped (<code>n_negative_age</code>). The age table caps age at 40 and holds every negative age at -1 (the churn tables’ <code>&lt;0</code>).</p>
 <p><strong>Mileage bands</strong> in <code>mileage_distribution_by_year_body.csv</code> are named by their lower edge in miles: bands of 1,000 up to 50,000, then three wider bands, with negative mileage at -1000.</p>
 <section id="every-mileage-band-all-years-and-body-types-together" class="level4">
 <h4 class="anchored" data-anchor-id="every-mileage-band-all-years-and-body-types-together">Every mileage band, all years and body types together</h4>
@@ -1782,55 +1788,48 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">test_class_ANON</td>
+<td style="text-align: left;">test_class</td>
 <td style="text-align: left;">INTEGER</td>
-<td style="text-align: right;">19,314,753</td>
-<td style="text-align: right;">20.69</td>
-<td style="text-align: left;">Anonymised MOT test class as supplied; the test class tables are grouped by it</td>
+<td style="text-align: right;">5,510,998</td>
+<td style="text-align: right;">5.90</td>
+<td style="text-align: left;">Harmonised MOT test class; the test class tables are grouped by it</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">fuel_DVSA</td>
-<td style="text-align: left;">VARCHAR</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0.00</td>
-<td style="text-align: left;">Fuel as supplied; the fuel tables are grouped by it</td>
-</tr>
-<tr class="odd">
 <td style="text-align: left;">body_type</td>
 <td style="text-align: left;">VARCHAR</td>
-<td style="text-align: right;">2,878,353</td>
-<td style="text-align: right;">3.08</td>
+<td style="text-align: right;">2,922,885</td>
+<td style="text-align: right;">3.13</td>
 <td style="text-align: left;">DfT body type; the area tables are grouped by it</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">fuel_simple</td>
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0.00</td>
-<td style="text-align: left;">Harmonised fuel group; the area tables are grouped by it</td>
+<td style="text-align: left;">Harmonised fuel group; the fuel and area tables are grouped by it</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">first_use_date</td>
 <td style="text-align: left;">DATE</td>
 <td style="text-align: right;">123</td>
 <td style="text-align: right;">0.00</td>
 <td style="text-align: left;">First use date, which every age in the tables is measured from</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">body_type_src</td>
 <td style="text-align: left;">VARCHAR</td>
-<td style="text-align: right;">2,878,353</td>
-<td style="text-align: right;">3.08</td>
+<td style="text-align: right;">2,922,885</td>
+<td style="text-align: right;">3.13</td>
 <td style="text-align: left;">How the body type was decided</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">fuel_src</td>
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0.00</td>
 <td style="text-align: left;">Where the harmonised fuel came from</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">total_mileage</td>
 <td style="text-align: left;">INTEGER</td>
 <td style="text-align: right;">0</td>
@@ -2115,7 +2114,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 <p><img src="mileage_report_figures/profile-coverage-1.png" class="img-fluid"></p>
-<p>Two things to read off these charts. The unassessed share is small in the middle of the series and large at the end: 0.03% of the mileage recorded in 2025 was never assessed, against 0.18% in 2015, because the last year is partial. And the <code>unknown</code> group grows from 5,284,956 vehicles in 2005 to 12,640,179 in 2025, so a larger share of the fleet each year has no location at all. Those vehicles are in the vehicle counts but in none of the postcode area rows.</p>
+<p><strong>Figure 1.</strong> Top: the vehicle-years with a recorded mileage each year, split into mileage Bristol judged plausible and mileage it did not assess, with the vehicles whose mileage it removed as implausible (the <code>n_legit_mileage</code>, <code>n_unassessed_mileage</code> and <code>n_mileage_removed</code> columns of the table above). Bottom: every in-scope vehicle each year by its postcode area status (<code>pca_YYYY</code>). Both are summed from <code>mileage_by_pca_year_body_fuel.csv</code>.</p>
+<p>Two things to read off these charts. The unassessed share is small in the middle of the series and large at the end: 0.03% of the mileage recorded in 2025 was never assessed, against 0.18% in 2015, because the last year is partial. And the <code>unknown</code> group grows from 5,284,909 vehicles in 2005 to 12,640,179 in 2025, so a larger share of the fleet each year has no location at all. Those vehicles are in the vehicle counts but in none of the postcode area rows.</p>
 </section>
 </section>
 </section>
@@ -2146,52 +2146,52 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Cars</td>
-<td style="text-align: right;">1,588,355,349</td>
-<td style="text-align: right;">81.02</td>
-<td style="text-align: right;">4,578.79</td>
-<td style="text-align: right;">85.07</td>
+<td style="text-align: right;">1,585,830,729</td>
+<td style="text-align: right;">80.89</td>
+<td style="text-align: right;">4,574.11</td>
+<td style="text-align: right;">84.98</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Light goods vehicles</td>
-<td style="text-align: right;">195,091,701</td>
-<td style="text-align: right;">9.95</td>
-<td style="text-align: right;">727.22</td>
-<td style="text-align: right;">13.51</td>
+<td style="text-align: right;">196,787,892</td>
+<td style="text-align: right;">10.04</td>
+<td style="text-align: right;">730.20</td>
+<td style="text-align: right;">13.57</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Motorcycles</td>
-<td style="text-align: right;">84,617,820</td>
-<td style="text-align: right;">4.32</td>
-<td style="text-align: right;">45.07</td>
+<td style="text-align: right;">84,436,296</td>
+<td style="text-align: right;">4.31</td>
+<td style="text-align: right;">45.09</td>
 <td style="text-align: right;">0.84</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">(none)</td>
-<td style="text-align: right;">60,445,413</td>
-<td style="text-align: right;">3.08</td>
-<td style="text-align: right;">7.91</td>
-<td style="text-align: right;">0.15</td>
+<td style="text-align: right;">61,380,585</td>
+<td style="text-align: right;">3.13</td>
+<td style="text-align: right;">9.04</td>
+<td style="text-align: right;">0.17</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Heavy goods vehicles</td>
-<td style="text-align: right;">16,821,819</td>
+<td style="text-align: right;">16,781,877</td>
 <td style="text-align: right;">0.86</td>
-<td style="text-align: right;">6.67</td>
+<td style="text-align: right;">6.48</td>
 <td style="text-align: right;">0.12</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Other vehicles</td>
-<td style="text-align: right;">12,007,863</td>
+<td style="text-align: right;">11,978,862</td>
 <td style="text-align: right;">0.61</td>
-<td style="text-align: right;">10.47</td>
+<td style="text-align: right;">10.48</td>
 <td style="text-align: right;">0.19</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Buses and coaches</td>
-<td style="text-align: right;">3,057,096</td>
+<td style="text-align: right;">3,200,820</td>
 <td style="text-align: right;">0.16</td>
-<td style="text-align: right;">6.50</td>
-<td style="text-align: right;">0.12</td>
+<td style="text-align: right;">7.23</td>
+<td style="text-align: right;">0.13</td>
 </tr>
 </tbody>
 </table>
@@ -2233,7 +2233,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Hybrid Electric</td>
-<td style="text-align: right;">77,631,876</td>
+<td style="text-align: right;">77,635,425</td>
 <td style="text-align: right;">3.96</td>
 <td style="text-align: right;">88.91</td>
 <td style="text-align: right;">1.65</td>
@@ -2247,7 +2247,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Plug-in Hybrid Electric</td>
-<td style="text-align: right;">22,891,554</td>
+<td style="text-align: right;">22,888,005</td>
 <td style="text-align: right;">1.17</td>
 <td style="text-align: right;">19.69</td>
 <td style="text-align: right;">0.37</td>
@@ -2262,8 +2262,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 </section>
-<section id="mot-test-class-test_class_anon-as-supplied" class="level4">
-<h4 class="anchored" data-anchor-id="mot-test-class-test_class_anon-as-supplied">MOT test class (<code>test_class_ANON</code>, as supplied)</h4>
+<section id="mot-test-class-test_class-harmonised" class="level4">
+<h4 class="anchored" data-anchor-id="mot-test-class-test_class-harmonised">MOT test class (<code>test_class</code>, harmonised)</h4>
 <p>Vehicle-years over the whole series, so a vehicle present for twenty years counts twenty times. <code>pct_of_mileage</code> is the share of total mileage, which is what makes the rare fuels rare. <code>total_mileage_bn</code> is billions of miles.</p>
 <table class="caption-top table">
 <colgroup>
@@ -2285,58 +2285,58 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Cars, Vans and Small Motorhomes</td>
-<td style="text-align: right;">674,006,210</td>
-<td style="text-align: right;">89.72</td>
-<td style="text-align: right;">4,910.72</td>
-<td style="text-align: right;">91.10</td>
+<td style="text-align: right;">697,229,319</td>
+<td style="text-align: right;">92.81</td>
+<td style="text-align: right;">5,089.13</td>
+<td style="text-align: right;">94.41</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">(none)</td>
-<td style="text-align: right;">29,092,723</td>
-<td style="text-align: right;">3.87</td>
-<td style="text-align: right;">211.29</td>
-<td style="text-align: right;">3.92</td>
-</tr>
-<tr class="odd">
 <td style="text-align: left;">Motorcycles over 200cc</td>
-<td style="text-align: right;">20,988,148</td>
-<td style="text-align: right;">2.79</td>
-<td style="text-align: right;">29.77</td>
-<td style="text-align: right;">0.55</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Light Goods Vehicles</td>
-<td style="text-align: right;">17,986,033</td>
-<td style="text-align: right;">2.39</td>
-<td style="text-align: right;">216.56</td>
-<td style="text-align: right;">4.02</td>
+<td style="text-align: right;">22,138,601</td>
+<td style="text-align: right;">2.95</td>
+<td style="text-align: right;">31.28</td>
+<td style="text-align: right;">0.58</td>
 </tr>
 <tr class="odd">
+<td style="text-align: left;">Light Goods Vehicles</td>
+<td style="text-align: right;">18,590,425</td>
+<td style="text-align: right;">2.47</td>
+<td style="text-align: right;">224.30</td>
+<td style="text-align: right;">4.16</td>
+</tr>
+<tr class="even">
 <td style="text-align: left;">Motorcycles up to 200cc</td>
-<td style="text-align: right;">7,925,207</td>
-<td style="text-align: right;">1.05</td>
-<td style="text-align: right;">13.10</td>
-<td style="text-align: right;">0.24</td>
+<td style="text-align: right;">8,420,781</td>
+<td style="text-align: right;">1.12</td>
+<td style="text-align: right;">13.74</td>
+<td style="text-align: right;">0.25</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">(none)</td>
+<td style="text-align: right;">3,579,053</td>
+<td style="text-align: right;">0.48</td>
+<td style="text-align: right;">22.63</td>
+<td style="text-align: right;">0.42</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Minibuses and Larger Passenger Vehicles</td>
-<td style="text-align: right;">969,743</td>
+<td style="text-align: right;">998,691</td>
 <td style="text-align: right;">0.13</td>
-<td style="text-align: right;">8.37</td>
+<td style="text-align: right;">8.71</td>
 <td style="text-align: right;">0.16</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Three-wheeled vehicles up to 450kg</td>
-<td style="text-align: right;">304,974</td>
+<td style="text-align: right;">316,168</td>
 <td style="text-align: right;">0.04</td>
-<td style="text-align: right;">0.44</td>
+<td style="text-align: right;">0.46</td>
 <td style="text-align: right;">0.01</td>
 </tr>
 </tbody>
 </table>
 </section>
-<section id="fuel-as-supplied-fuel_dvsa" class="level4">
-<h4 class="anchored" data-anchor-id="fuel-as-supplied-fuel_dvsa">Fuel as supplied (<code>fuel_DVSA</code>)</h4>
+<section id="fuel-group-every-recorded-mileage-fuel_simple" class="level4">
+<h4 class="anchored" data-anchor-id="fuel-group-every-recorded-mileage-fuel_simple">Fuel group, every recorded mileage (<code>fuel_simple</code>)</h4>
 <p>Vehicle-years over the whole series, so a vehicle present for twenty years counts twenty times. <code>pct_of_mileage</code> is the share of total mileage, which is what makes the rare fuels rare. <code>total_mileage_bn</code> is billions of miles.</p>
 <table class="caption-top table">
 <colgroup>
@@ -2358,110 +2358,56 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Petrol</td>
-<td style="text-align: right;">441,550,926</td>
-<td style="text-align: right;">58.77</td>
-<td style="text-align: right;">2,517.90</td>
-<td style="text-align: right;">46.71</td>
+<td style="text-align: right;">443,941,658</td>
+<td style="text-align: right;">59.09</td>
+<td style="text-align: right;">2,531.54</td>
+<td style="text-align: right;">46.97</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Diesel</td>
-<td style="text-align: right;">289,125,779</td>
-<td style="text-align: right;">38.48</td>
-<td style="text-align: right;">2,706.77</td>
+<td style="text-align: right;">289,135,971</td>
+<td style="text-align: right;">38.49</td>
+<td style="text-align: right;">2,706.87</td>
 <td style="text-align: right;">50.22</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Hybrid Electric (Clean)</td>
-<td style="text-align: right;">11,156,661</td>
-<td style="text-align: right;">1.49</td>
-<td style="text-align: right;">95.92</td>
-<td style="text-align: right;">1.78</td>
+<td style="text-align: left;">Hybrid Electric</td>
+<td style="text-align: right;">10,369,071</td>
+<td style="text-align: right;">1.38</td>
+<td style="text-align: right;">88.92</td>
+<td style="text-align: right;">1.65</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Electric</td>
-<td style="text-align: right;">4,346,526</td>
-<td style="text-align: right;">0.58</td>
-<td style="text-align: right;">34.62</td>
-<td style="text-align: right;">0.64</td>
+<td style="text-align: right;">3,826,995</td>
+<td style="text-align: right;">0.51</td>
+<td style="text-align: right;">29.62</td>
+<td style="text-align: right;">0.55</td>
 </tr>
 <tr class="odd">
+<td style="text-align: left;">Plug-in Hybrid Electric</td>
+<td style="text-align: right;">2,107,787</td>
+<td style="text-align: right;">0.28</td>
+<td style="text-align: right;">19.69</td>
+<td style="text-align: right;">0.37</td>
+</tr>
+<tr class="even">
 <td style="text-align: left;">Other</td>
-<td style="text-align: right;">3,904,559</td>
-<td style="text-align: right;">0.52</td>
-<td style="text-align: right;">24.05</td>
-<td style="text-align: right;">0.45</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Electric Diesel</td>
-<td style="text-align: right;">513,635</td>
-<td style="text-align: right;">0.07</td>
-<td style="text-align: right;">5.06</td>
-<td style="text-align: right;">0.09</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">LPG</td>
-<td style="text-align: right;">494,441</td>
-<td style="text-align: right;">0.07</td>
-<td style="text-align: right;">4.33</td>
-<td style="text-align: right;">0.08</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Gas Bi-Fuel</td>
-<td style="text-align: right;">163,765</td>
-<td style="text-align: right;">0.02</td>
-<td style="text-align: right;">1.48</td>
-<td style="text-align: right;">0.03</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Fuel Cells</td>
-<td style="text-align: right;">6,819</td>
-<td style="text-align: right;">0.00</td>
-<td style="text-align: right;">0.06</td>
-<td style="text-align: right;">0.00</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Gas</td>
-<td style="text-align: right;">3,850</td>
-<td style="text-align: right;">0.00</td>
-<td style="text-align: right;">0.03</td>
-<td style="text-align: right;">0.00</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">CNG</td>
-<td style="text-align: right;">2,435</td>
-<td style="text-align: right;">0.00</td>
-<td style="text-align: right;">0.02</td>
-<td style="text-align: right;">0.00</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Gas Diesel</td>
-<td style="text-align: right;">1,551</td>
-<td style="text-align: right;">0.00</td>
-<td style="text-align: right;">0.01</td>
-<td style="text-align: right;">0.00</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">LNG</td>
-<td style="text-align: right;">1,079</td>
-<td style="text-align: right;">0.00</td>
-<td style="text-align: right;">0.01</td>
-<td style="text-align: right;">0.00</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Steam</td>
-<td style="text-align: right;">1,012</td>
-<td style="text-align: right;">0.00</td>
-<td style="text-align: right;">0.00</td>
-<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">1,891,556</td>
+<td style="text-align: right;">0.25</td>
+<td style="text-align: right;">13.61</td>
+<td style="text-align: right;">0.25</td>
 </tr>
 </tbody>
 </table>
 <p><img src="mileage_report_figures/profile-shares-1.png" class="img-fluid"></p>
+<p><strong>Figure 2.</strong> The share of all vehicle-years in each body type and fuel group (<code>pct_of_vehicle_years</code> in the tables above), over the whole series, so a vehicle present for twenty years counts twenty times. Values under 0.01% are left out.</p>
 </section>
 </section>
 <section id="where-the-mileage-sits" class="level3">
 <h3 class="anchored" data-anchor-id="where-the-mileage-sits">5.2 Where the mileage sits</h3>
 <p><img src="mileage_report_figures/profile-bands-1.png" class="img-fluid"></p>
+<p><strong>Figure 3.</strong> Recorded annual mileage over every year and body type, in 1,000-mile bands from 0 to 50,000: vehicle-years with a mileage, whether Bristol judged it plausible or did not assess it. The subtitle counts the vehicle-years outside the range shown.</p>
 </section>
 <section id="mileage-by-age" class="level3">
 <h3 class="anchored" data-anchor-id="mileage-by-age">5.3 Mileage by age</h3>
@@ -2480,159 +2426,159 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tbody>
 <tr class="odd">
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">45,558,600</td>
-<td style="text-align: right;">45,353,286</td>
-<td style="text-align: right;">4,971.3</td>
+<td style="text-align: right;">47,398,905</td>
+<td style="text-align: right;">47,172,679</td>
+<td style="text-align: right;">9,126.1</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">48,527,995</td>
-<td style="text-align: right;">48,293,819</td>
-<td style="text-align: right;">10,086.4</td>
+<td style="text-align: right;">50,164,550</td>
+<td style="text-align: right;">49,909,753</td>
+<td style="text-align: right;">10,112.5</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">2</td>
-<td style="text-align: right;">51,501,714</td>
-<td style="text-align: right;">51,156,157</td>
-<td style="text-align: right;">10,091.1</td>
+<td style="text-align: right;">53,156,888</td>
+<td style="text-align: right;">51,943,989</td>
+<td style="text-align: right;">9,448.4</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">3</td>
-<td style="text-align: right;">54,641,760</td>
-<td style="text-align: right;">52,926,937</td>
-<td style="text-align: right;">9,026.0</td>
+<td style="text-align: right;">55,401,606</td>
+<td style="text-align: right;">53,290,659</td>
+<td style="text-align: right;">8,803.4</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">4</td>
-<td style="text-align: right;">55,985,203</td>
-<td style="text-align: right;">53,503,535</td>
-<td style="text-align: right;">8,619.8</td>
+<td style="text-align: right;">56,449,859</td>
+<td style="text-align: right;">53,559,826</td>
+<td style="text-align: right;">8,418.0</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">5</td>
-<td style="text-align: right;">56,414,312</td>
-<td style="text-align: right;">53,313,877</td>
-<td style="text-align: right;">8,247.4</td>
+<td style="text-align: right;">55,978,564</td>
+<td style="text-align: right;">52,766,800</td>
+<td style="text-align: right;">8,054.2</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">6</td>
-<td style="text-align: right;">56,081,893</td>
-<td style="text-align: right;">52,706,454</td>
-<td style="text-align: right;">7,893.6</td>
+<td style="text-align: right;">55,515,531</td>
+<td style="text-align: right;">51,956,592</td>
+<td style="text-align: right;">7,701.3</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">7</td>
-<td style="text-align: right;">54,971,808</td>
-<td style="text-align: right;">51,260,099</td>
-<td style="text-align: right;">7,550.4</td>
+<td style="text-align: right;">54,316,609</td>
+<td style="text-align: right;">50,185,632</td>
+<td style="text-align: right;">7,358.3</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">8</td>
-<td style="text-align: right;">53,656,487</td>
-<td style="text-align: right;">49,127,210</td>
-<td style="text-align: right;">7,207.3</td>
+<td style="text-align: right;">52,948,485</td>
+<td style="text-align: right;">47,688,121</td>
+<td style="text-align: right;">7,010.8</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">9</td>
-<td style="text-align: right;">51,799,773</td>
-<td style="text-align: right;">46,001,553</td>
-<td style="text-align: right;">6,860.4</td>
+<td style="text-align: right;">50,423,357</td>
+<td style="text-align: right;">43,694,047</td>
+<td style="text-align: right;">6,666.9</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">10</td>
-<td style="text-align: right;">49,326,337</td>
-<td style="text-align: right;">41,834,047</td>
-<td style="text-align: right;">6,523.4</td>
+<td style="text-align: right;">47,648,260</td>
+<td style="text-align: right;">39,038,213</td>
+<td style="text-align: right;">6,343.1</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">11</td>
-<td style="text-align: right;">46,336,809</td>
-<td style="text-align: right;">36,868,015</td>
-<td style="text-align: right;">6,204.2</td>
+<td style="text-align: right;">44,328,203</td>
+<td style="text-align: right;">33,772,004</td>
+<td style="text-align: right;">6,027.1</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">12</td>
-<td style="text-align: right;">42,710,719</td>
-<td style="text-align: right;">31,394,952</td>
-<td style="text-align: right;">5,881.9</td>
+<td style="text-align: right;">40,437,172</td>
+<td style="text-align: right;">28,324,187</td>
+<td style="text-align: right;">5,698.9</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">13</td>
-<td style="text-align: right;">38,329,924</td>
-<td style="text-align: right;">25,832,723</td>
-<td style="text-align: right;">5,557.9</td>
+<td style="text-align: right;">35,511,408</td>
+<td style="text-align: right;">22,796,368</td>
+<td style="text-align: right;">5,376.3</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">14</td>
-<td style="text-align: right;">33,413,814</td>
-<td style="text-align: right;">20,668,452</td>
-<td style="text-align: right;">5,234.5</td>
+<td style="text-align: right;">30,393,077</td>
+<td style="text-align: right;">18,008,658</td>
+<td style="text-align: right;">5,047.9</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">15</td>
-<td style="text-align: right;">28,159,785</td>
-<td style="text-align: right;">16,160,936</td>
-<td style="text-align: right;">4,897.6</td>
+<td style="text-align: right;">25,081,987</td>
+<td style="text-align: right;">13,891,788</td>
+<td style="text-align: right;">4,703.4</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">16</td>
-<td style="text-align: right;">22,814,534</td>
-<td style="text-align: right;">12,336,095</td>
-<td style="text-align: right;">4,547.0</td>
+<td style="text-align: right;">19,909,848</td>
+<td style="text-align: right;">10,538,907</td>
+<td style="text-align: right;">4,343.8</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">17</td>
-<td style="text-align: right;">17,835,227</td>
-<td style="text-align: right;">9,262,988</td>
-<td style="text-align: right;">4,188.4</td>
+<td style="text-align: right;">15,305,517</td>
+<td style="text-align: right;">7,836,680</td>
+<td style="text-align: right;">3,983.9</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">18</td>
-<td style="text-align: right;">13,488,563</td>
-<td style="text-align: right;">6,857,581</td>
-<td style="text-align: right;">3,818.5</td>
+<td style="text-align: right;">11,306,456</td>
+<td style="text-align: right;">5,759,400</td>
+<td style="text-align: right;">3,609.2</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">19</td>
-<td style="text-align: right;">9,850,458</td>
-<td style="text-align: right;">5,039,657</td>
-<td style="text-align: right;">3,444.4</td>
+<td style="text-align: right;">8,203,309</td>
+<td style="text-align: right;">4,251,218</td>
+<td style="text-align: right;">3,236.1</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">20</td>
-<td style="text-align: right;">7,124,996</td>
-<td style="text-align: right;">3,738,472</td>
-<td style="text-align: right;">3,076.9</td>
+<td style="text-align: right;">5,959,912</td>
+<td style="text-align: right;">3,199,849</td>
+<td style="text-align: right;">2,873.3</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">21</td>
-<td style="text-align: right;">5,147,370</td>
-<td style="text-align: right;">2,810,179</td>
-<td style="text-align: right;">2,730.6</td>
+<td style="text-align: right;">4,284,893</td>
+<td style="text-align: right;">2,405,007</td>
+<td style="text-align: right;">2,548.6</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">22</td>
-<td style="text-align: right;">3,744,390</td>
-<td style="text-align: right;">2,147,526</td>
-<td style="text-align: right;">2,418.0</td>
+<td style="text-align: right;">3,135,094</td>
+<td style="text-align: right;">1,858,563</td>
+<td style="text-align: right;">2,246.6</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">23</td>
-<td style="text-align: right;">2,759,127</td>
-<td style="text-align: right;">1,673,885</td>
-<td style="text-align: right;">2,125.1</td>
+<td style="text-align: right;">2,348,091</td>
+<td style="text-align: right;">1,471,557</td>
+<td style="text-align: right;">1,977.6</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">24</td>
-<td style="text-align: right;">2,099,406</td>
-<td style="text-align: right;">1,349,441</td>
-<td style="text-align: right;">1,874.6</td>
+<td style="text-align: right;">1,844,526</td>
+<td style="text-align: right;">1,223,419</td>
+<td style="text-align: right;">1,752.3</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">25</td>
-<td style="text-align: right;">1,668,452</td>
-<td style="text-align: right;">1,128,283</td>
-<td style="text-align: right;">1,677.0</td>
+<td style="text-align: right;">1,484,493</td>
+<td style="text-align: right;">1,027,728</td>
+<td style="text-align: right;">1,588.4</td>
 </tr>
 </tbody>
 </table>
@@ -2641,18 +2587,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="the-fleet-over-time" class="level2">
 <h2 class="anchored" data-anchor-id="the-fleet-over-time">6. The fleet over time</h2>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="mileage_report_figures/fleet-by-body-1.png" class="img-fluid figure-img"></p>
-<figcaption>Figure 1: Vehicles observed each year, by body type. Each panel has its own scale.</figcaption>
-</figure>
-</div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="mileage_report_figures/fleet-fuel-1.png" class="img-fluid figure-img"></p>
-<figcaption>Figure 2: Share of observed cars by fuel.</figcaption>
-</figure>
-</div>
+<p><img src="mileage_report_figures/fleet-by-body-1.png" class="img-fluid"></p>
+<p><strong>Figure 4.</strong> Vehicles observed each year (in a real postcode area), by body type, summed from <code>mileage_by_pca_year_body_fuel.csv</code>. <code>Other</code> groups buses and coaches, heavy goods vehicles, other vehicles and vehicles with no body type. Each panel has its own scale.</p>
+<p><img src="mileage_report_figures/fleet-fuel-1.png" class="img-fluid"></p>
+<p><strong>Figure 5.</strong> The share of each year’s observed cars in each fuel group (<code>fuel_simple</code>), from <code>mileage_by_pca_year_body_fuel.csv</code>.</p>
 <section id="vehicles-observed-by-body-type" class="level3">
 <h3 class="anchored" data-anchor-id="vehicles-observed-by-body-type">Vehicles observed by body type</h3>
 <p>Vehicles observed in selected years, by DfT body type. Buses, heavy goods vehicles and other vehicles are mostly tested outside the MOT scheme, so few are here. The fall in the latest years is mainly vehicles not yet observed in those years, rather than vehicles leaving the fleet.</p>
@@ -2678,59 +2616,59 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Cars</td>
-<td style="text-align: right;">30,198,306</td>
-<td style="text-align: right;">34,507,621</td>
-<td style="text-align: right;">36,847,579</td>
-<td style="text-align: right;">38,772,513</td>
-<td style="text-align: right;">38,155,912</td>
+<td style="text-align: right;">30,107,251</td>
+<td style="text-align: right;">34,426,709</td>
+<td style="text-align: right;">36,794,357</td>
+<td style="text-align: right;">38,736,380</td>
+<td style="text-align: right;">38,124,631</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Light goods vehicles</td>
-<td style="text-align: right;">2,779,913</td>
-<td style="text-align: right;">3,439,257</td>
-<td style="text-align: right;">4,038,758</td>
-<td style="text-align: right;">4,845,722</td>
-<td style="text-align: right;">5,061,824</td>
+<td style="text-align: right;">2,860,477</td>
+<td style="text-align: right;">3,506,363</td>
+<td style="text-align: right;">4,078,829</td>
+<td style="text-align: right;">4,871,530</td>
+<td style="text-align: right;">5,085,133</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Motorcycles</td>
-<td style="text-align: right;">1,555,293</td>
-<td style="text-align: right;">1,767,272</td>
-<td style="text-align: right;">1,748,719</td>
-<td style="text-align: right;">1,699,793</td>
-<td style="text-align: right;">1,611,826</td>
+<td style="text-align: right;">1,561,917</td>
+<td style="text-align: right;">1,773,776</td>
+<td style="text-align: right;">1,753,582</td>
+<td style="text-align: right;">1,703,135</td>
+<td style="text-align: right;">1,614,499</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Heavy goods vehicles</td>
-<td style="text-align: right;">10,711</td>
-<td style="text-align: right;">19,879</td>
-<td style="text-align: right;">36,106</td>
-<td style="text-align: right;">51,753</td>
-<td style="text-align: right;">50,355</td>
+<td style="text-align: left;">Unknown</td>
+<td style="text-align: right;">49,443</td>
+<td style="text-align: right;">47,237</td>
+<td style="text-align: right;">56,021</td>
+<td style="text-align: right;">61,106</td>
+<td style="text-align: right;">51,412</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Unknown</td>
-<td style="text-align: right;">47,990</td>
-<td style="text-align: right;">45,127</td>
-<td style="text-align: right;">53,181</td>
-<td style="text-align: right;">58,020</td>
-<td style="text-align: right;">48,720</td>
+<td style="text-align: left;">Heavy goods vehicles</td>
+<td style="text-align: right;">9,240</td>
+<td style="text-align: right;">19,129</td>
+<td style="text-align: right;">35,882</td>
+<td style="text-align: right;">51,437</td>
+<td style="text-align: right;">50,264</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Other vehicles</td>
-<td style="text-align: right;">49,518</td>
-<td style="text-align: right;">58,537</td>
-<td style="text-align: right;">60,064</td>
-<td style="text-align: right;">53,921</td>
-<td style="text-align: right;">47,403</td>
+<td style="text-align: right;">49,695</td>
+<td style="text-align: right;">58,626</td>
+<td style="text-align: right;">60,141</td>
+<td style="text-align: right;">54,108</td>
+<td style="text-align: right;">47,569</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Buses and coaches</td>
-<td style="text-align: right;">20,811</td>
-<td style="text-align: right;">30,578</td>
-<td style="text-align: right;">43,261</td>
-<td style="text-align: right;">52,720</td>
-<td style="text-align: right;">42,755</td>
+<td style="text-align: right;">24,519</td>
+<td style="text-align: right;">36,431</td>
+<td style="text-align: right;">48,856</td>
+<td style="text-align: right;">56,746</td>
+<td style="text-align: right;">45,287</td>
 </tr>
 </tbody>
 </table>
@@ -2738,30 +2676,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="annual-mileage" class="level2">
 <h2 class="anchored" data-anchor-id="annual-mileage">7. Annual mileage</h2>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="mileage_report_figures/mileage-body-1.png" class="img-fluid figure-img"></p>
-<figcaption>Figure 3: Average annual mileage by body type (plausible mileage only). Mileage in a partial final year covers fewer vehicles.</figcaption>
-</figure>
-</div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="mileage_report_figures/mileage-fuel-1.png" class="img-fluid figure-img"></p>
-<figcaption>Figure 4: Average annual mileage of cars by fuel (plausible mileage only). Years where a fuel has fewer than 1,000 cars with a plausible mileage are left out.</figcaption>
-</figure>
-</div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="mileage_report_figures/vehicle-miles-1.png" class="img-fluid figure-img"></p>
-<figcaption>Figure 5: Total annual vehicle miles recorded, by body type (plausible mileage only). This is the recorded total, not an estimate for the whole fleet.</figcaption>
-</figure>
-</div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="mileage_report_figures/mileage-age-1.png" class="img-fluid figure-img"></p>
-<figcaption>Figure 6: Average annual mileage of cars by age and fuel (plausible mileage only; ages with fewer than 500 such cars left out). Few cars are tested before age three, and those that are, such as taxis and private hire cars, are driven much further than most.</figcaption>
-</figure>
-</div>
+<p><img src="mileage_report_figures/mileage-body-1.png" class="img-fluid"></p>
+<p><strong>Figure 6.</strong> Average annual mileage of the observed vehicles by body type: each year’s total plausible mileage divided by the vehicles with a plausible mileage (<code>mileage_by_pca_year_body_fuel.csv</code>). Years with no mileage are left out, and mileage in a partial final year covers fewer vehicles.</p>
+<p><img src="mileage_report_figures/mileage-fuel-1.png" class="img-fluid"></p>
+<p><strong>Figure 7.</strong> Average annual mileage of observed cars by fuel group, calculated as in the previous figure. Years where a fuel has fewer than 1,000 cars with a plausible mileage are left out.</p>
+<p><img src="mileage_report_figures/vehicle-miles-1.png" class="img-fluid"></p>
+<p><strong>Figure 8.</strong> The total plausible annual mileage recorded each year, by body type (<code>total_legit_mileage</code> summed from <code>mileage_by_pca_year_body_fuel.csv</code>). It is the total over the vehicles with a plausible mileage, not an estimate for the whole fleet.</p>
+<p><img src="mileage_report_figures/mileage-age-1.png" class="img-fluid"></p>
+<p><strong>Figure 9.</strong> Average annual mileage of cars in 2022 by age and fuel group: total plausible mileage divided by cars with a plausible mileage, from <code>mileage_by_age_year_body_fuel.csv</code>. Ages with fewer than 500 such cars are left out. Few cars are tested before age three, and those that are, such as taxis and private hire cars, are driven much further than most.</p>
 <section id="average-annual-mileage-by-body-type" class="level3">
 <h3 class="anchored" data-anchor-id="average-annual-mileage-by-body-type">Average annual mileage by body type</h3>
 <p>Miles per vehicle per year, plausible mileage only.</p>
@@ -2779,59 +2701,59 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Buses and coaches</td>
-<td style="text-align: right;">11,918</td>
-<td style="text-align: right;">10,960</td>
-<td style="text-align: right;">9,731</td>
-<td style="text-align: right;">5,811</td>
-<td style="text-align: right;">7,373</td>
+<td style="text-align: right;">12,216</td>
+<td style="text-align: right;">11,052</td>
+<td style="text-align: right;">9,615</td>
+<td style="text-align: right;">5,697</td>
+<td style="text-align: right;">7,234</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Cars</td>
-<td style="text-align: right;">7,892</td>
-<td style="text-align: right;">7,493</td>
-<td style="text-align: right;">7,238</td>
-<td style="text-align: right;">5,637</td>
-<td style="text-align: right;">6,619</td>
+<td style="text-align: right;">7,897</td>
+<td style="text-align: right;">7,500</td>
+<td style="text-align: right;">7,244</td>
+<td style="text-align: right;">5,641</td>
+<td style="text-align: right;">6,623</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Heavy goods vehicles</td>
-<td style="text-align: right;">14,002</td>
-<td style="text-align: right;">14,049</td>
-<td style="text-align: right;">16,163</td>
-<td style="text-align: right;">13,688</td>
-<td style="text-align: right;">12,611</td>
+<td style="text-align: right;">14,877</td>
+<td style="text-align: right;">13,652</td>
+<td style="text-align: right;">15,661</td>
+<td style="text-align: right;">13,109</td>
+<td style="text-align: right;">12,167</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Light goods vehicles</td>
-<td style="text-align: right;">11,230</td>
-<td style="text-align: right;">10,672</td>
-<td style="text-align: right;">10,089</td>
-<td style="text-align: right;">9,189</td>
-<td style="text-align: right;">9,443</td>
+<td style="text-align: right;">11,082</td>
+<td style="text-align: right;">10,552</td>
+<td style="text-align: right;">10,016</td>
+<td style="text-align: right;">9,147</td>
+<td style="text-align: right;">9,408</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Motorcycles</td>
 <td style="text-align: right;">1,677</td>
-<td style="text-align: right;">1,477</td>
-<td style="text-align: right;">1,392</td>
-<td style="text-align: right;">1,234</td>
-<td style="text-align: right;">1,502</td>
+<td style="text-align: right;">1,476</td>
+<td style="text-align: right;">1,391</td>
+<td style="text-align: right;">1,232</td>
+<td style="text-align: right;">1,501</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Other vehicles</td>
-<td style="text-align: right;">12,401</td>
-<td style="text-align: right;">13,036</td>
-<td style="text-align: right;">11,346</td>
-<td style="text-align: right;">5,695</td>
-<td style="text-align: right;">10,338</td>
+<td style="text-align: right;">12,382</td>
+<td style="text-align: right;">13,033</td>
+<td style="text-align: right;">11,316</td>
+<td style="text-align: right;">5,662</td>
+<td style="text-align: right;">10,287</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Unknown</td>
-<td style="text-align: right;">9,448</td>
-<td style="text-align: right;">11,434</td>
-<td style="text-align: right;">11,925</td>
-<td style="text-align: right;">5,962</td>
-<td style="text-align: right;">9,549</td>
+<td style="text-align: right;">9,676</td>
+<td style="text-align: right;">11,792</td>
+<td style="text-align: right;">12,448</td>
+<td style="text-align: right;">6,579</td>
+<td style="text-align: right;">9,959</td>
 </tr>
 </tbody>
 </table>
@@ -2840,87 +2762,39 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="age" class="level2">
 <h2 class="anchored" data-anchor-id="age">8. Age</h2>
 <p>Average ages describe the vehicles still being tested. Compared with DfT’s counts (<code>outputs/quality/dft_stock_by_age.csv</code>), the MOT data holds about as many vehicles aged 3 to 16 as DfT does, but fewer and fewer older ones (at 25 years, roughly half as many): old vehicles declared off the road (SORN) stay in DfT’s counts but are not tested.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="mileage_report_figures/age-body-1.png" class="img-fluid figure-img"></p>
-<figcaption>Figure 7: Average age of observed vehicles by body type.</figcaption>
-</figure>
-</div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="mileage_report_figures/age-distribution-1.png" class="img-fluid figure-img"></p>
-<figcaption>Figure 8: Age of observed cars in selected years, as a share of each year’s observed cars.</figcaption>
-</figure>
-</div>
+<p><img src="mileage_report_figures/age-body-1.png" class="img-fluid"></p>
+<p><strong>Figure 10.</strong> Average age of the observed vehicles each year, by body type: whole years at 1 June since first use, averaged over the vehicles with an age (<code>mileage_by_pca_year_body_fuel.csv</code>).</p>
+<p><img src="mileage_report_figures/age-distribution-1.png" class="img-fluid"></p>
+<p><strong>Figure 11.</strong> The age of observed cars in 2006, 2015 and 2022, as a share of each year’s cars aged 0 to 30, from <code>mileage_by_age_year_body_fuel.csv</code>.</p>
 </section>
 <section id="maps" class="level2">
 <h2 class="anchored" data-anchor-id="maps">9. Maps</h2>
 <p>All maps show 2022 unless stated (see the summary for why). Grey areas have no vehicles.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="mileage_report_figures/map-cars-1.png" class="img-fluid figure-img"></p>
-<figcaption>Figure 9: Cars observed by postcode area (log scale).</figcaption>
-</figure>
-</div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="mileage_report_figures/map-mileage-1.png" class="img-fluid figure-img"></p>
-<figcaption>Figure 10: Average annual mileage of cars (plausible mileage only).</figcaption>
-</figure>
-</div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="mileage_report_figures/map-age-1.png" class="img-fluid figure-img"></p>
-<figcaption>Figure 11: Average age of observed cars.</figcaption>
-</figure>
-</div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="mileage_report_figures/map-electric-1.png" class="img-fluid figure-img"></p>
-<figcaption>Figure 12: Share of observed cars that are electric or hybrid.</figcaption>
-</figure>
-</div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="mileage_report_figures/map-change-1.png" class="img-fluid figure-img"></p>
-<figcaption>Figure 13: Change in the number of cars observed since the base year.</figcaption>
-</figure>
-</div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="mileage_report_figures/map-mileage-years-1.png" class="img-fluid figure-img"></p>
-<figcaption>Figure 14: Average annual car mileage in selected years, on one scale (plausible mileage only).</figcaption>
-</figure>
-</div>
+<p><img src="mileage_report_figures/map-cars-1.png" class="img-fluid"></p>
+<p><strong>Figure 12.</strong> Cars observed in each postcode area in 2022, on a log colour scale (<code>mileage_by_pca_year_body_fuel.csv</code>).</p>
+<p><img src="mileage_report_figures/map-mileage-1.png" class="img-fluid"></p>
+<p><strong>Figure 13.</strong> Average annual mileage of the cars observed in each postcode area in 2022: total plausible mileage divided by cars with a plausible mileage.</p>
+<p><img src="mileage_report_figures/map-age-1.png" class="img-fluid"></p>
+<p><strong>Figure 14.</strong> Average age of the cars observed in each postcode area in 2022.</p>
+<p><img src="mileage_report_figures/map-electric-1.png" class="img-fluid"></p>
+<p><strong>Figure 15.</strong> The share of the cars observed in each postcode area in 2022 whose fuel group is Electric or Hybrid Electric.</p>
+<p><img src="mileage_report_figures/map-change-1.png" class="img-fluid"></p>
+<p><strong>Figure 16.</strong> The change in the cars observed in each postcode area from 2015 to 2022, as a share of the 2015 count. Blue is growth and red decline; the colour scale stops at 30% either way.</p>
+<p><img src="mileage_report_figures/map-mileage-years-1.png" class="img-fluid"></p>
+<p><strong>Figure 17.</strong> Average annual mileage of the cars observed in each postcode area in 2006, 2010, 2015, 2019, 2020 and 2022, calculated as in the map above, on one colour scale so that the years can be compared.</p>
 </section>
 <section id="comparison-with-dft-small-area-counts" class="level2">
 <h2 class="anchored" data-anchor-id="comparison-with-dft-small-area-counts">10. Comparison with DfT small-area counts</h2>
 <p>DfT publishes vehicle counts for small areas (LSOAs and their equivalents) in tables VEH0125 (all vehicles by body type, keepership and licence status), VEH0135 (ultra low emission vehicles) and VEH0145 (plug-in vehicles). <code>data-raw/build_dft_lsoa_vehicles_by_pca.R</code> takes these tables from the PlaceBasedCarbonCalculator build, where the counts DfT suppresses are reconstructed, and adds them up to postcode areas (<code>inputs/dft_lsoa_vehicles_by_pca.csv</code>). The tables give the first quarter of each year, so MOT year Y is compared with DfT counts at the end of March of Y + 1. DfT counts here are licensed and SORN vehicles together.</p>
-<p>The two sources are not expected to agree exactly. DfT counts include vehicles under three, which have no MOT. DfT also places a vehicle at its keeper’s address, so company and lease cars are counted where the company is registered, while the MOT data places a vehicle where it was observed. The maps and tables below therefore compare each postcode area with the national ratio for 2022 (1.041 MOT cars per DfT car).</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="mileage_report_figures/dft-national-1.png" class="img-fluid figure-img"></p>
-<figcaption>Figure 15: Vehicles observed in the MOT data for each vehicle in the DfT small-area counts (licensed and SORN).</figcaption>
-</figure>
-</div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="mileage_report_figures/map-dft-ratio-1.png" class="img-fluid figure-img"></p>
-<figcaption>Figure 16: Cars observed in the MOT data against the DfT count, relative to the national ratio. Blue: more cars in the MOT data than the national ratio suggests; red: fewer.</figcaption>
-</figure>
-</div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="mileage_report_figures/map-dft-company-1.png" class="img-fluid figure-img"></p>
-<figcaption>Figure 17: Share of DfT cars kept by a company. High shares mark areas where fleet and lease cars are registered.</figcaption>
-</figure>
-</div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="mileage_report_figures/dft-scatter-1.png" class="img-fluid figure-img"></p>
-<figcaption>Figure 18: Cars by postcode area in the two sources (log scales). The line is the national ratio; labelled areas differ from it by more than 25%.</figcaption>
-</figure>
-</div>
+<p>The two sources are not expected to agree exactly. DfT counts include vehicles under three whose first MOT is not yet in the data (once it is, Bristol back-fills their area), and the MOT data keeps a vehicle in its area for two years after its last test, after DfT has stopped counting it if it was scrapped. DfT also places a vehicle at its keeper’s address, so company and lease cars are counted where the company is registered, while the MOT data places a vehicle where it was observed. The maps and tables below therefore compare each postcode area with the national ratio for 2022 (1.040 MOT cars per DfT car).</p>
+<p><img src="mileage_report_figures/dft-national-1.png" class="img-fluid"></p>
+<p><strong>Figure 18.</strong> Vehicles observed in the MOT data each year divided by DfT’s licensed and SORN count at the end of March of the following year (VEH0125, summed from small areas to postcode areas in <code>inputs/dft_lsoa_vehicles_by_pca.csv</code>), by body group. At 1 (grey line) the two count the same.</p>
+<p><img src="mileage_report_figures/map-dft-ratio-1.png" class="img-fluid"></p>
+<p><strong>Figure 19.</strong> For each postcode area in 2022, its ratio of MOT cars to DfT cars relative to the national ratio (1.040). Blue: more cars in the MOT data than the national ratio suggests; red: fewer. The colour scale stops at 40% either way.</p>
+<p><img src="mileage_report_figures/map-dft-company-1.png" class="img-fluid"></p>
+<p><strong>Figure 20.</strong> The share of each postcode area’s DfT cars kept by a company (VEH0125 keepership), 2022. High shares mark areas where fleet and lease cars are registered.</p>
+<p><img src="mileage_report_figures/dft-scatter-1.png" class="img-fluid"></p>
+<p><strong>Figure 21.</strong> Each point is a postcode area in 2022: its DfT cars against its MOT cars, on log scales, coloured by the share of its DfT cars kept by a company. The grey line is the national ratio; labelled areas differ from it by more than 25%.</p>
 <section id="postcode-areas-furthest-from-the-national-ratio-cars-2022" class="level3">
 <h3 class="anchored" data-anchor-id="postcode-areas-furthest-from-the-national-ratio-cars-2022">Postcode areas furthest from the national ratio, cars 2022</h3>
 <p>The 20 postcode areas whose ratio of MOT to DfT cars differs most from the national ratio. Areas with no MOT cars are listed in section 6 instead. Where the difference shrinks when only privately kept DfT cars are counted, company registrations explain much of it.</p>
@@ -2956,25 +2830,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">NW</td>
-<td style="text-align: right;">271,728</td>
+<td style="text-align: right;">271,700</td>
 <td style="text-align: right;">170,194</td>
 <td style="text-align: right;">1.60</td>
-<td style="text-align: left;">53%</td>
-<td style="text-align: left;">53%</td>
+<td style="text-align: left;">54%</td>
+<td style="text-align: left;">54%</td>
 <td style="text-align: left;">11%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">CH</td>
-<td style="text-align: right;">412,740</td>
+<td style="text-align: right;">412,471</td>
 <td style="text-align: right;">268,890</td>
 <td style="text-align: right;">1.53</td>
-<td style="text-align: left;">47%</td>
+<td style="text-align: left;">48%</td>
 <td style="text-align: left;">38%</td>
 <td style="text-align: left;">5%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">CR</td>
-<td style="text-align: right;">260,021</td>
+<td style="text-align: right;">259,943</td>
 <td style="text-align: right;">180,064</td>
 <td style="text-align: right;">1.44</td>
 <td style="text-align: left;">39%</td>
@@ -2983,7 +2857,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td style="text-align: left;">SL</td>
-<td style="text-align: right;">266,458</td>
+<td style="text-align: right;">266,329</td>
 <td style="text-align: right;">411,838</td>
 <td style="text-align: right;">0.65</td>
 <td style="text-align: left;">-38%</td>
@@ -2992,7 +2866,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="odd">
 <td style="text-align: left;">W</td>
-<td style="text-align: right;">109,616</td>
+<td style="text-align: right;">109,560</td>
 <td style="text-align: right;">158,392</td>
 <td style="text-align: right;">0.69</td>
 <td style="text-align: left;">-33%</td>
@@ -3001,7 +2875,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td style="text-align: left;">BL</td>
-<td style="text-align: right;">291,386</td>
+<td style="text-align: right;">291,308</td>
 <td style="text-align: right;">210,913</td>
 <td style="text-align: right;">1.38</td>
 <td style="text-align: left;">33%</td>
@@ -3010,7 +2884,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="odd">
 <td style="text-align: left;">SN</td>
-<td style="text-align: right;">318,633</td>
+<td style="text-align: right;">318,219</td>
 <td style="text-align: right;">437,451</td>
 <td style="text-align: right;">0.73</td>
 <td style="text-align: left;">-30%</td>
@@ -3019,7 +2893,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td style="text-align: left;">SK</td>
-<td style="text-align: right;">396,687</td>
+<td style="text-align: right;">396,420</td>
 <td style="text-align: right;">533,328</td>
 <td style="text-align: right;">0.74</td>
 <td style="text-align: left;">-29%</td>
@@ -3028,7 +2902,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="odd">
 <td style="text-align: left;">KW</td>
-<td style="text-align: right;">28,550</td>
+<td style="text-align: right;">28,510</td>
 <td style="text-align: right;">37,920</td>
 <td style="text-align: right;">0.75</td>
 <td style="text-align: left;">-28%</td>
@@ -3037,7 +2911,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td style="text-align: left;">HS</td>
-<td style="text-align: right;">14,650</td>
+<td style="text-align: right;">14,624</td>
 <td style="text-align: right;">18,997</td>
 <td style="text-align: right;">0.77</td>
 <td style="text-align: left;">-26%</td>
@@ -3046,7 +2920,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="odd">
 <td style="text-align: left;">SM</td>
-<td style="text-align: right;">81,339</td>
+<td style="text-align: right;">81,311</td>
 <td style="text-align: right;">103,069</td>
 <td style="text-align: right;">0.79</td>
 <td style="text-align: left;">-24%</td>
@@ -3055,7 +2929,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td style="text-align: left;">SW</td>
-<td style="text-align: right;">193,867</td>
+<td style="text-align: right;">193,803</td>
 <td style="text-align: right;">244,417</td>
 <td style="text-align: right;">0.79</td>
 <td style="text-align: left;">-24%</td>
@@ -3064,16 +2938,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="odd">
 <td style="text-align: left;">BB</td>
-<td style="text-align: right;">319,248</td>
+<td style="text-align: right;">319,016</td>
 <td style="text-align: right;">248,786</td>
 <td style="text-align: right;">1.28</td>
 <td style="text-align: left;">23%</td>
-<td style="text-align: left;">16%</td>
+<td style="text-align: left;">17%</td>
 <td style="text-align: left;">6%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">MK</td>
-<td style="text-align: right;">400,160</td>
+<td style="text-align: right;">399,926</td>
 <td style="text-align: right;">499,682</td>
 <td style="text-align: right;">0.80</td>
 <td style="text-align: left;">-23%</td>
@@ -3082,16 +2956,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="odd">
 <td style="text-align: left;">LU</td>
-<td style="text-align: right;">243,787</td>
+<td style="text-align: right;">243,694</td>
 <td style="text-align: right;">191,170</td>
-<td style="text-align: right;">1.28</td>
+<td style="text-align: right;">1.27</td>
 <td style="text-align: left;">23%</td>
 <td style="text-align: left;">14%</td>
 <td style="text-align: left;">4%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">LD</td>
-<td style="text-align: right;">28,428</td>
+<td style="text-align: right;">28,351</td>
 <td style="text-align: right;">34,562</td>
 <td style="text-align: right;">0.82</td>
 <td style="text-align: left;">-21%</td>
@@ -3100,7 +2974,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="odd">
 <td style="text-align: left;">HG</td>
-<td style="text-align: right;">105,185</td>
+<td style="text-align: right;">105,099</td>
 <td style="text-align: right;">83,911</td>
 <td style="text-align: right;">1.25</td>
 <td style="text-align: left;">20%</td>
@@ -3109,7 +2983,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td style="text-align: left;">EN</td>
-<td style="text-align: right;">226,802</td>
+<td style="text-align: right;">226,714</td>
 <td style="text-align: right;">181,436</td>
 <td style="text-align: right;">1.25</td>
 <td style="text-align: left;">20%</td>
@@ -3118,7 +2992,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="odd">
 <td style="text-align: left;">BD</td>
-<td style="text-align: right;">332,700</td>
+<td style="text-align: right;">332,526</td>
 <td style="text-align: right;">271,665</td>
 <td style="text-align: right;">1.22</td>
 <td style="text-align: left;">18%</td>
@@ -3127,7 +3001,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td style="text-align: left;">PA</td>
-<td style="text-align: right;">178,915</td>
+<td style="text-align: right;">178,817</td>
 <td style="text-align: right;">207,736</td>
 <td style="text-align: right;">0.86</td>
 <td style="text-align: left;">-17%</td>
@@ -3139,7 +3013,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="electric-vehicles" class="level3">
 <h3 class="anchored" data-anchor-id="electric-vehicles">Electric vehicles</h3>
-<p>Vehicles with harmonised fuel Electric observed in the MOT data, against licensed battery electric vehicles in VEH0145 (all body types, end of March of the following year). Most electric vehicles are new and so have not had an MOT, which keeps the ratio low, and it falls when sales grow quickly.</p>
+<p>Vehicles with harmonised fuel Electric observed in the MOT data, against licensed battery electric vehicles in VEH0145 (all body types, end of March of the following year). Most electric vehicles are new, and a vehicle appears here only once its first MOT (at three) is in the data, which keeps the ratio low in the most recent years and lowers it when sales grow quickly.</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -3240,18 +3114,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="possible-problems-in-the-data" class="level2">
 <h2 class="anchored" data-anchor-id="possible-problems-in-the-data">11. Possible problems in the data</h2>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="mileage_report_figures/check-coverage-1.png" class="img-fluid figure-img"></p>
-<figcaption>Figure 19: Share of observed vehicles with an annual mileage; share of mileage Bristol flagged as implausible and removed; and share of recorded mileage Bristol did not assess.</figcaption>
-</figure>
-</div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="mileage_report_figures/check-distribution-1.png" class="img-fluid figure-img"></p>
-<figcaption>Figure 20: Recorded annual mileage of cars in the map year (see the summary), in 1,000-mile bands, by whether Bristol assessed it. The table below counts the mileages outside the range shown.</figcaption>
-</figure>
-</div>
+<p><img src="mileage_report_figures/check-coverage-1.png" class="img-fluid"></p>
+<p><strong>Figure 22.</strong> Three shares each year, from <code>mileage_by_pca_year_body_fuel.csv</code>: the observed vehicles with an annual mileage; of the vehicles with a mileage before Bristol’s checks, those whose mileage it flagged implausible and removed; and of the recorded mileages, those it did not assess. The last two count every vehicle, whether observed that year or not.</p>
+<p><img src="mileage_report_figures/check-distribution-1.png" class="img-fluid"></p>
+<p><strong>Figure 23.</strong> Recorded annual mileage of cars in 2022 in 1,000-mile bands from 0 to 50,000, by whether Bristol flagged it plausible or did not assess it (<code>mileage_distribution_by_year_body.csv</code>). The table below counts the mileages outside the range shown.</p>
 <section id="car-mileage-outside-the-chart-2022" class="level3">
 <h3 class="anchored" data-anchor-id="car-mileage-outside-the-chart-2022">Car mileage outside the chart, 2022</h3>
 <p>Cars with a recorded annual mileage below 0 or of 50,000 miles or more.</p>
@@ -3265,7 +3131,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">50,000 to 99,999</td>
-<td style="text-align: right;">2,791</td>
+<td style="text-align: right;">2,792</td>
 </tr>
 </tbody>
 </table>
@@ -3280,7 +3146,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><code>n_negative_mileage</code>: annual mileage below 0</li>
 <li><code>n_over_50k_mileage</code>: annual mileage above 50,000 miles</li>
 <li><code>n_mileage_not_observed</code>: vehicles with a mileage in a year where they have no postcode area (<code>unborn</code>, <code>dead</code> or <code>unknown</code>): mileage without a location</li>
-<li><code>n_negative_age</code>: observed vehicles seen in a year before the year of their first use</li>
+<li><code>n_negative_age</code>: vehicles first used after 1 June of the year (age below 0)</li>
 </ul>
 <table class="caption-top table">
 <colgroup>
@@ -3314,7 +3180,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">4,384</td>
 <td style="text-align: right;">1,300,784</td>
-<td style="text-align: right;">41,915</td>
+<td style="text-align: right;">1,631,176</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2006</td>
@@ -3324,7 +3190,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">5,128</td>
 <td style="text-align: right;">1,234,618</td>
-<td style="text-align: right;">37,312</td>
+<td style="text-align: right;">1,588,613</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2007</td>
@@ -3334,7 +3200,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">4,936</td>
 <td style="text-align: right;">1,139,156</td>
-<td style="text-align: right;">32,099</td>
+<td style="text-align: right;">1,637,673</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2008</td>
@@ -3344,7 +3210,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">5,514</td>
 <td style="text-align: right;">1,044,819</td>
-<td style="text-align: right;">27,684</td>
+<td style="text-align: right;">1,315,570</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2009</td>
@@ -3354,7 +3220,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">4,932</td>
 <td style="text-align: right;">950,673</td>
-<td style="text-align: right;">23,528</td>
+<td style="text-align: right;">1,409,166</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2010</td>
@@ -3364,7 +3230,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">4,976</td>
 <td style="text-align: right;">877,658</td>
-<td style="text-align: right;">19,479</td>
+<td style="text-align: right;">1,293,198</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2011</td>
@@ -3374,7 +3240,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">5,093</td>
 <td style="text-align: right;">803,307</td>
-<td style="text-align: right;">16,153</td>
+<td style="text-align: right;">1,277,885</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2012</td>
@@ -3384,7 +3250,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">5,836</td>
 <td style="text-align: right;">683,777</td>
-<td style="text-align: right;">12,957</td>
+<td style="text-align: right;">1,353,072</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2013</td>
@@ -3394,7 +3260,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">5,373</td>
 <td style="text-align: right;">628,688</td>
-<td style="text-align: right;">9,171</td>
+<td style="text-align: right;">1,515,204</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2014</td>
@@ -3404,7 +3270,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">5,379</td>
 <td style="text-align: right;">593,477</td>
-<td style="text-align: right;">6,203</td>
+<td style="text-align: right;">1,651,461</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2015</td>
@@ -3414,7 +3280,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">5,241</td>
 <td style="text-align: right;">543,905</td>
-<td style="text-align: right;">5,140</td>
+<td style="text-align: right;">1,764,151</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2016</td>
@@ -3424,7 +3290,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">5,740</td>
 <td style="text-align: right;">481,398</td>
-<td style="text-align: right;">4,054</td>
+<td style="text-align: right;">1,777,323</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2017</td>
@@ -3434,7 +3300,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">5,170</td>
 <td style="text-align: right;">386,827</td>
-<td style="text-align: right;">3,067</td>
+<td style="text-align: right;">1,294,849</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2018</td>
@@ -3444,7 +3310,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">4,978</td>
 <td style="text-align: right;">323,295</td>
-<td style="text-align: right;">2,352</td>
+<td style="text-align: right;">1,523,628</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2019</td>
@@ -3454,7 +3320,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">4,116</td>
 <td style="text-align: right;">278,710</td>
-<td style="text-align: right;">1,757</td>
+<td style="text-align: right;">1,501,049</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2020</td>
@@ -3464,7 +3330,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">5,580</td>
 <td style="text-align: right;">610,560</td>
-<td style="text-align: right;">1,507</td>
+<td style="text-align: right;">1,373,280</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2021</td>
@@ -3474,7 +3340,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">4,642</td>
 <td style="text-align: right;">296,268</td>
-<td style="text-align: right;">1,480</td>
+<td style="text-align: right;">1,142,746</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2022</td>
@@ -3484,7 +3350,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">4,832</td>
 <td style="text-align: right;">462,143</td>
-<td style="text-align: right;">1,308</td>
+<td style="text-align: right;">1,032,856</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2023</td>
@@ -3494,7 +3360,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">4,689</td>
 <td style="text-align: right;">1,280,198</td>
-<td style="text-align: right;">848</td>
+<td style="text-align: right;">24,482</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2024</td>
@@ -3504,7 +3370,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">5,394</td>
 <td style="text-align: right;">1,296,739</td>
-<td style="text-align: right;">477</td>
+<td style="text-align: right;">12,791</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2025</td>
@@ -3514,7 +3380,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">3,590</td>
 <td style="text-align: right;">1,844,937</td>
-<td style="text-align: right;">149</td>
+<td style="text-align: right;">253</td>
 </tr>
 </tbody>
 </table>
@@ -3693,7 +3559,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">2006</td>
-<td style="text-align: left;">NI</td>
+<td style="text-align: left;">BT</td>
 <td style="text-align: right;">264,565</td>
 <td style="text-align: right;">325,194</td>
 <td style="text-align: left;">23%</td>
@@ -3701,7 +3567,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td style="text-align: left;">2007</td>
-<td style="text-align: left;">NI</td>
+<td style="text-align: left;">BT</td>
 <td style="text-align: right;">325,194</td>
 <td style="text-align: right;">394,129</td>
 <td style="text-align: left;">21%</td>
@@ -3709,7 +3575,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2009</td>
-<td style="text-align: left;">NI</td>
+<td style="text-align: left;">BT</td>
 <td style="text-align: right;">452,771</td>
 <td style="text-align: right;">503,134</td>
 <td style="text-align: left;">11%</td>
@@ -3717,7 +3583,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td style="text-align: left;">2010</td>
-<td style="text-align: left;">NI</td>
+<td style="text-align: left;">BT</td>
 <td style="text-align: right;">503,134</td>
 <td style="text-align: right;">557,246</td>
 <td style="text-align: left;">11%</td>
@@ -3725,7 +3591,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2017</td>
-<td style="text-align: left;">NI</td>
+<td style="text-align: left;">BT</td>
 <td style="text-align: right;">1,060,833</td>
 <td style="text-align: right;">1,179,283</td>
 <td style="text-align: left;">11%</td>
@@ -3733,7 +3599,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td style="text-align: left;">2014</td>
-<td style="text-align: left;">NI</td>
+<td style="text-align: left;">BT</td>
 <td style="text-align: right;">750,120</td>
 <td style="text-align: right;">840,578</td>
 <td style="text-align: left;">12%</td>
@@ -3767,202 +3633,202 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">2020</td>
-<td style="text-align: left;">NI</td>
-<td style="text-align: right;">940,083</td>
-<td style="text-align: right;">7,628</td>
-<td style="text-align: right;">5,637</td>
+<td style="text-align: left;">BT</td>
+<td style="text-align: right;">939,421</td>
+<td style="text-align: right;">7,629</td>
+<td style="text-align: right;">5,641</td>
 <td style="text-align: left;">35%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2016</td>
-<td style="text-align: left;">NI</td>
-<td style="text-align: right;">814,595</td>
-<td style="text-align: right;">9,127</td>
-<td style="text-align: right;">7,204</td>
+<td style="text-align: left;">BT</td>
+<td style="text-align: right;">813,785</td>
+<td style="text-align: right;">9,124</td>
+<td style="text-align: right;">7,210</td>
 <td style="text-align: left;">27%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2015</td>
-<td style="text-align: left;">NI</td>
-<td style="text-align: right;">720,075</td>
-<td style="text-align: right;">9,088</td>
-<td style="text-align: right;">7,238</td>
-<td style="text-align: left;">26%</td>
+<td style="text-align: left;">BT</td>
+<td style="text-align: right;">719,281</td>
+<td style="text-align: right;">9,084</td>
+<td style="text-align: right;">7,244</td>
+<td style="text-align: left;">25%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2010</td>
 <td style="text-align: left;">SM</td>
-<td style="text-align: right;">60,605</td>
-<td style="text-align: right;">5,672</td>
-<td style="text-align: right;">7,493</td>
+<td style="text-align: right;">60,495</td>
+<td style="text-align: right;">5,674</td>
+<td style="text-align: right;">7,500</td>
 <td style="text-align: left;">-24%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2008</td>
 <td style="text-align: left;">SM</td>
-<td style="text-align: right;">59,095</td>
-<td style="text-align: right;">5,850</td>
-<td style="text-align: right;">7,699</td>
+<td style="text-align: right;">58,928</td>
+<td style="text-align: right;">5,854</td>
+<td style="text-align: right;">7,707</td>
 <td style="text-align: left;">-24%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2009</td>
 <td style="text-align: left;">SM</td>
-<td style="text-align: right;">59,715</td>
-<td style="text-align: right;">5,797</td>
-<td style="text-align: right;">7,611</td>
+<td style="text-align: right;">59,590</td>
+<td style="text-align: right;">5,801</td>
+<td style="text-align: right;">7,619</td>
 <td style="text-align: left;">-24%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2018</td>
 <td style="text-align: left;">SW</td>
-<td style="text-align: right;">179,752</td>
-<td style="text-align: right;">5,344</td>
-<td style="text-align: right;">7,011</td>
+<td style="text-align: right;">179,682</td>
+<td style="text-align: right;">5,345</td>
+<td style="text-align: right;">7,016</td>
 <td style="text-align: left;">-24%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2016</td>
 <td style="text-align: left;">SW</td>
-<td style="text-align: right;">190,879</td>
-<td style="text-align: right;">5,499</td>
-<td style="text-align: right;">7,204</td>
+<td style="text-align: right;">190,767</td>
+<td style="text-align: right;">5,501</td>
+<td style="text-align: right;">7,210</td>
 <td style="text-align: left;">-24%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2007</td>
 <td style="text-align: left;">SM</td>
-<td style="text-align: right;">58,940</td>
-<td style="text-align: right;">5,889</td>
-<td style="text-align: right;">7,715</td>
+<td style="text-align: right;">58,772</td>
+<td style="text-align: right;">5,892</td>
+<td style="text-align: right;">7,721</td>
 <td style="text-align: left;">-24%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2017</td>
 <td style="text-align: left;">SW</td>
-<td style="text-align: right;">184,155</td>
-<td style="text-align: right;">5,462</td>
-<td style="text-align: right;">7,152</td>
+<td style="text-align: right;">184,077</td>
+<td style="text-align: right;">5,464</td>
+<td style="text-align: right;">7,157</td>
 <td style="text-align: left;">-24%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2015</td>
 <td style="text-align: left;">SW</td>
-<td style="text-align: right;">192,747</td>
-<td style="text-align: right;">5,534</td>
-<td style="text-align: right;">7,238</td>
+<td style="text-align: right;">192,626</td>
+<td style="text-align: right;">5,536</td>
+<td style="text-align: right;">7,244</td>
 <td style="text-align: left;">-24%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2014</td>
 <td style="text-align: left;">SW</td>
-<td style="text-align: right;">191,233</td>
-<td style="text-align: right;">5,585</td>
-<td style="text-align: right;">7,300</td>
-<td style="text-align: left;">-23%</td>
+<td style="text-align: right;">191,111</td>
+<td style="text-align: right;">5,587</td>
+<td style="text-align: right;">7,306</td>
+<td style="text-align: left;">-24%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2024</td>
 <td style="text-align: left;">SW</td>
-<td style="text-align: right;">145,925</td>
-<td style="text-align: right;">5,166</td>
-<td style="text-align: right;">6,739</td>
+<td style="text-align: right;">145,902</td>
+<td style="text-align: right;">5,167</td>
+<td style="text-align: right;">6,742</td>
 <td style="text-align: left;">-23%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2012</td>
 <td style="text-align: left;">SW</td>
-<td style="text-align: right;">190,583</td>
-<td style="text-align: right;">5,684</td>
-<td style="text-align: right;">7,388</td>
+<td style="text-align: right;">190,414</td>
+<td style="text-align: right;">5,686</td>
+<td style="text-align: right;">7,395</td>
 <td style="text-align: left;">-23%</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">2014</td>
-<td style="text-align: left;">NI</td>
-<td style="text-align: right;">637,358</td>
-<td style="text-align: right;">8,978</td>
-<td style="text-align: right;">7,300</td>
-<td style="text-align: left;">23%</td>
-</tr>
-<tr class="even">
 <td style="text-align: left;">2011</td>
 <td style="text-align: left;">SW</td>
-<td style="text-align: right;">191,806</td>
-<td style="text-align: right;">5,740</td>
-<td style="text-align: right;">7,450</td>
-<td style="text-align: left;">-23%</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">2025</td>
-<td style="text-align: left;">SW</td>
-<td style="text-align: right;">90,849</td>
-<td style="text-align: right;">5,159</td>
-<td style="text-align: right;">6,692</td>
+<td style="text-align: right;">191,575</td>
+<td style="text-align: right;">5,742</td>
+<td style="text-align: right;">7,457</td>
 <td style="text-align: left;">-23%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2013</td>
 <td style="text-align: left;">SW</td>
-<td style="text-align: right;">192,223</td>
-<td style="text-align: right;">5,677</td>
-<td style="text-align: right;">7,361</td>
+<td style="text-align: right;">192,077</td>
+<td style="text-align: right;">5,679</td>
+<td style="text-align: right;">7,368</td>
 <td style="text-align: left;">-23%</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">2017</td>
-<td style="text-align: left;">NI</td>
-<td style="text-align: right;">914,641</td>
-<td style="text-align: right;">8,787</td>
-<td style="text-align: right;">7,152</td>
-<td style="text-align: left;">23%</td>
+<td style="text-align: left;">2025</td>
+<td style="text-align: left;">SW</td>
+<td style="text-align: right;">90,833</td>
+<td style="text-align: right;">5,160</td>
+<td style="text-align: right;">6,695</td>
+<td style="text-align: left;">-23%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2011</td>
 <td style="text-align: left;">SM</td>
-<td style="text-align: right;">64,435</td>
-<td style="text-align: right;">5,749</td>
-<td style="text-align: right;">7,450</td>
+<td style="text-align: right;">64,331</td>
+<td style="text-align: right;">5,752</td>
+<td style="text-align: right;">7,457</td>
 <td style="text-align: left;">-23%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2014</td>
+<td style="text-align: left;">BT</td>
+<td style="text-align: right;">636,588</td>
+<td style="text-align: right;">8,973</td>
+<td style="text-align: right;">7,306</td>
+<td style="text-align: left;">23%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2017</td>
+<td style="text-align: left;">BT</td>
+<td style="text-align: right;">913,855</td>
+<td style="text-align: right;">8,787</td>
+<td style="text-align: right;">7,157</td>
+<td style="text-align: left;">23%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2006</td>
 <td style="text-align: left;">SM</td>
-<td style="text-align: right;">59,482</td>
-<td style="text-align: right;">6,113</td>
-<td style="text-align: right;">7,892</td>
+<td style="text-align: right;">59,293</td>
+<td style="text-align: right;">6,112</td>
+<td style="text-align: right;">7,897</td>
 <td style="text-align: left;">-23%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2010</td>
 <td style="text-align: left;">SW</td>
-<td style="text-align: right;">193,150</td>
-<td style="text-align: right;">5,807</td>
-<td style="text-align: right;">7,493</td>
-<td style="text-align: left;">-22%</td>
+<td style="text-align: right;">192,874</td>
+<td style="text-align: right;">5,809</td>
+<td style="text-align: right;">7,500</td>
+<td style="text-align: left;">-23%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2009</td>
 <td style="text-align: left;">SW</td>
-<td style="text-align: right;">196,592</td>
-<td style="text-align: right;">5,907</td>
-<td style="text-align: right;">7,611</td>
+<td style="text-align: right;">196,270</td>
+<td style="text-align: right;">5,911</td>
+<td style="text-align: right;">7,619</td>
 <td style="text-align: left;">-22%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2023</td>
 <td style="text-align: left;">SW</td>
-<td style="text-align: right;">156,737</td>
+<td style="text-align: right;">156,707</td>
 <td style="text-align: right;">5,278</td>
-<td style="text-align: right;">6,792</td>
+<td style="text-align: right;">6,796</td>
 <td style="text-align: left;">-22%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2008</td>
 <td style="text-align: left;">SW</td>
-<td style="text-align: right;">199,050</td>
-<td style="text-align: right;">5,989</td>
-<td style="text-align: right;">7,699</td>
+<td style="text-align: right;">198,684</td>
+<td style="text-align: right;">5,992</td>
+<td style="text-align: right;">7,707</td>
 <td style="text-align: left;">-22%</td>
 </tr>
 </tbody>
@@ -3981,9 +3847,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">NI</td>
-<td style="text-align: right;">48,720</td>
-<td style="text-align: left;">3.5%</td>
+<td style="text-align: left;">BT</td>
+<td style="text-align: right;">51,412</td>
+<td style="text-align: left;">3.7%</td>
 </tr>
 </tbody>
 </table>
@@ -4025,7 +3891,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td style="text-align: left;">Young vehicles are missing from the recent years</td>
-<td style="text-align: left;">A vehicle’s mileage is only known once it has had an MOT, at three years old, so the youngest ages empty out towards the end of the series, and the vehicles that do appear there are the ones tested unusually early. Section 11 quantifies it.</td>
+<td style="text-align: left;">A vehicle’s mileage is only known once it has had an MOT, at three years old; Bristol then estimates the earlier years from that test. So the youngest ages fill in only once the first test is in the data and empty out towards the end of the series, and the vehicles that do appear there are the ones tested unusually early. Section 11 quantifies it.</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Unassessed mileage is not zero mileage</td>
@@ -4040,12 +3906,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Annual mileage, the postcode area and the plausibility flag all come from Bristol’s annualisation and are taken as given. The pipeline applies no scaling and does not re-derive them.</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Two different fuel columns</td>
-<td style="text-align: left;">The test class and fuel tables use the columns as supplied (<code>test_class_ANON</code>, <code>fuel_DVSA</code>); the area tables use the harmonised <code>body_type</code> and <code>fuel_simple</code>. The same fleet therefore appears under two fuel schemes, and only the harmonised one separates plug-in hybrids.</td>
+<td style="text-align: left;">One definition of age, test class and fuel</td>
+<td style="text-align: left;">Every table uses the churn tables’ definitions: age at 1 June, the harmonised <code>test_class</code> and the harmonised <code>fuel_simple</code>. Until October 2026 the test class and fuel tables used the columns as supplied (<code>test_class_ANON</code>, <code>fuel_DVSA</code>) and age was the calendar-year difference, so older copies of these tables are not directly comparable.</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Vehicles with no body type</td>
-<td style="text-align: left;">2,878,353 vehicles (3.08%) have no DfT body type, all of them vehicles with no MOT test class. They are grouped as <code>Other</code> rather than dropped.</td>
+<td style="text-align: left;">2,922,885 vehicles (3.13%) have no DfT body type, all of them vehicles with no MOT test class. They are grouped as <code>Other</code> rather than dropped.</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Vehicles with no age</td>
@@ -4053,7 +3919,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Vehicles with no test class</td>
-<td style="text-align: left;">19,314,753 vehicles (20.69%) have no test class and are absent from the test class tables, which therefore total less than the fleet.</td>
+<td style="text-align: left;">5,510,998 vehicles (5.9%) have no test class and are absent from the test class tables, which therefore total less than the fleet.</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Negative and very large mileage</td>
@@ -4061,7 +3927,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Negative ages are not all errors</td>
-<td style="text-align: left;"><code>n_negative_age</code> in the area table counts every year before a vehicle was first used, so it is large by construction and is not a count of errors. Among vehicles actually observed in a postcode area, 248,649 have a first use date after the year they were seen in.</td>
+<td style="text-align: left;"><code>n_negative_age</code> in the area table counts every year before a vehicle was first used, and every vehicle first used after 1 June of the year, so it is large by construction and is not a count of errors. Among vehicles actually observed in a postcode area, 26,120,435 have a negative age, nearly all first used later in the year.</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">A mean has a changing denominator</td>

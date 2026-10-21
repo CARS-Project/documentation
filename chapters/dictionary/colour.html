@@ -333,26 +333,32 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../chapters/dictionary/racf.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Car size and model attributes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/dates.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Dates and age</span></span></a>
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Dates and age</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/mileage.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Mileage</span></span></a>
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Mileage</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/location.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Location</span></span></a>
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Location and yearly status</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/dvla-status.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Licensing status and DVLA lookups</span></span></a>
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Licensing status and DVLA lookups</span></span></a>
   </div>
 </li>
       </ul>
@@ -489,15 +495,17 @@ Table&nbsp;23.1: Colour columns.
 <div class="cell-output-display">
 <table class="cell caption-top table table-sm table-striped small">
 <colgroup>
-<col style="width: 22%">
+<col style="width: 20%">
+<col style="width: 9%">
 <col style="width: 7%">
-<col style="width: 14%">
-<col style="width: 47%">
+<col style="width: 13%">
+<col style="width: 42%">
 <col style="width: 7%">
 </colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Column</th>
+<th style="text-align: left;">Simplified</th>
 <th style="text-align: left;">Type</th>
 <th style="text-align: left;">Source</th>
 <th style="text-align: left;">Description</th>
@@ -507,6 +515,7 @@ Table&nbsp;23.1: Colour columns.
 <tbody>
 <tr class="odd">
 <td style="text-align: left;"><code>primaryColour_DVSA</code></td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">Bristol (DVSA)</td>
 <td style="text-align: left;">As supplied by DVSA</td>
@@ -514,6 +523,7 @@ Table&nbsp;23.1: Colour columns.
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>secondaryColour_DVSA</code></td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">Bristol (DVSA)</td>
 <td style="text-align: left;">As supplied by DVSA</td>
@@ -521,6 +531,7 @@ Table&nbsp;23.1: Colour columns.
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>colour_DVLA</code></td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">Bristol (VES)</td>
 <td style="text-align: left;">As returned by the DVLA Vehicle Enquiry Service</td>
@@ -537,7 +548,7 @@ Table&nbsp;23.1: Colour columns.
 <section id="coverage" class="level2" data-number="23.2">
 <h2 data-number="23.2" class="anchored" data-anchor-id="coverage"><span class="header-section-number">23.2</span> Coverage</h2>
 <p>The DVSA primary colour is present for every vehicle and the secondary colour for 91%. The secondary colour is less often present for vehicles first used in 2023 and 2024 (41% for 2024) than for older or newer ones (<a href="#fig-dd-colour" class="quarto-xref">Figure&nbsp;<span>23.1</span></a>). A value is not necessarily a colour, though: most vehicles have the secondary colour <code>Not Stated</code> (<a href="#fig-dd-v-secondarycolour-dvsa" class="quarto-xref">Figure&nbsp;<span>23.3</span></a>), so the column says little about most vehicles.</p>
-<p>The DVLA colour, like every VES field, is present only where a VES record was found: 77% of vehicles, fewer for those first used before 2010, most of which have left the register (<a href="dvla-status.html" class="quarto-xref"><span>Chapter 31</span></a>).</p>
+<p>The DVLA colour, like every VES field, is present only where a VES record was found: 77% of vehicles, fewer for those first used before 2010, most of which have left the register (<a href="dvla-status.html" class="quarto-xref"><span>Chapter 32</span></a>).</p>
 <div class="cell" data-layout-align="center">
 <div id="tbl-dd-colour-coverage" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
 <figure class="quarto-float quarto-float-tbl figure">

@@ -333,26 +333,32 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../chapters/dictionary/racf.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Car size and model attributes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/dates.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Dates and age</span></span></a>
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Dates and age</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/mileage.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Mileage</span></span></a>
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Mileage</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/location.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Location</span></span></a>
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Location and yearly status</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/dvla-status.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Licensing status and DVLA lookups</span></span></a>
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Licensing status and DVLA lookups</span></span></a>
   </div>
 </li>
       </ul>
@@ -481,6 +487,7 @@ ul.task-list li input[type="checkbox"] {
 <li>says whether the VES record can be trusted.</li>
 </ol></li>
 <li><strong><code>registration_clean</code></strong> is the DVSA plate upper-cased with spaces and punctuation removed. Use it for joins.</li>
+<li><strong><code>registration_at_first_test</code></strong> is the plate the vehicle carried at its first MOT test, as supplied by the Bristol team. It differs from <code>registration_DVSA</code> where the plate has changed since, for example to a cherished plate. The pipeline carries it through without using it.</li>
 <li><strong>The <code>plate_</code> columns</strong> decode the plate’s format: its type (current style, prefix, suffix, dateless and others), the period in which a plate of that form was issued, and the issuing office or region.</li>
 <li><strong><code>vanity_plate</code></strong> is <code>TRUE</code> where the vehicle’s birth date falls outside the plate’s issue period. This flags cherished plates, but also imports, Q plates and other re-registered vehicles.</li>
 <li><strong><code>plate_ever_changed_VES</code></strong> is <code>TRUE</code> where the registration returned a different vehicle between VES lookups.</li>
@@ -509,15 +516,17 @@ Table&nbsp;20.1: Registration and number plate columns.
 <div class="cell-output-display">
 <table class="cell caption-top table table-sm table-striped small">
 <colgroup>
-<col style="width: 16%">
-<col style="width: 5%">
-<col style="width: 9%">
-<col style="width: 64%">
-<col style="width: 5%">
+<col style="width: 8%">
+<col style="width: 3%">
+<col style="width: 2%">
+<col style="width: 3%">
+<col style="width: 80%">
+<col style="width: 2%">
 </colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Column</th>
+<th style="text-align: left;">Simplified</th>
 <th style="text-align: left;">Type</th>
 <th style="text-align: left;">Source</th>
 <th style="text-align: left;">Description</th>
@@ -527,6 +536,7 @@ Table&nbsp;20.1: Registration and number plate columns.
 <tbody>
 <tr class="odd">
 <td style="text-align: left;"><code>registration_DVSA</code></td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">Bristol</td>
 <td style="text-align: left;">Vehicle registration mark as supplied by DVSA</td>
@@ -534,6 +544,7 @@ Table&nbsp;20.1: Registration and number plate columns.
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>registration_DVLA</code></td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">Bristol (VES)</td>
 <td style="text-align: left;">Registration returned by the DVLA Vehicle Enquiry Service</td>
@@ -541,55 +552,71 @@ Table&nbsp;20.1: Registration and number plate columns.
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>registration_clean</code></td>
+<td style="text-align: left;">Yes</td>
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">pipeline</td>
 <td style="text-align: left;">Registration upper-cased with non-alphanumerics removed, as used for plate decoding</td>
 <td style="text-align: left;">0%</td>
 </tr>
 <tr class="even">
+<td style="text-align: left;"><code>registration_at_first_test</code></td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">VARCHAR</td>
+<td style="text-align: left;">Bristol</td>
+<td style="text-align: left;">Registration the vehicle carried at its first MOT test, as supplied (differs from registration_DVSA after a plate change)</td>
+<td style="text-align: left;">0%</td>
+</tr>
+<tr class="odd">
 <td style="text-align: left;"><code>plate_type</code></td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">pipeline</td>
 <td style="text-align: left;">Plate format (port of DVLAAPI::registration_analysis)</td>
 <td style="text-align: left;">0%</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;"><code>plate_date</code></td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">pipeline</td>
-<td style="text-align: left;">Issue period implied by the plate, as text</td>
+<td style="text-align: left;">Issue period implied by the plate, as text (post-2001 age identifiers: March-August and September-February; DVLAAPI’s January-June / July-December periods were corrected in the October 2026 audit)</td>
 <td style="text-align: left;">0%</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;"><code>plate_date_from</code></td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">DATE</td>
 <td style="text-align: left;">pipeline</td>
-<td style="text-align: left;">First month of the plate issue period</td>
+<td style="text-align: left;">First day of the plate issue period</td>
+<td style="text-align: left;">0.08%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>plate_date_to</code></td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">DATE</td>
+<td style="text-align: left;">pipeline</td>
+<td style="text-align: left;">Last day of the plate issue period</td>
 <td style="text-align: left;">0.08%</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><code>plate_date_to</code></td>
-<td style="text-align: left;">DATE</td>
-<td style="text-align: left;">pipeline</td>
-<td style="text-align: left;">Last month of the plate issue period (first day of that month)</td>
-<td style="text-align: left;">0.08%</td>
-</tr>
-<tr class="even">
 <td style="text-align: left;"><code>plate_location</code></td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">pipeline</td>
 <td style="text-align: left;">Issuing office or region implied by the plate</td>
 <td style="text-align: left;">0%</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;"><code>vanity_plate</code></td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">BOOLEAN</td>
 <td style="text-align: left;">pipeline</td>
-<td style="text-align: left;">TRUE if birth_date falls outside the plate issue period (with tolerance): a cherished/vanity plate</td>
+<td style="text-align: left;">TRUE if birth_date falls more than plates.vanity_tolerance_days outside the plate issue period: a cherished/vanity plate, or a vehicle whose earliest recorded date (often the manufacture date) predates its first registration. NA where the plate carries no date or birth_date is missing</td>
 <td style="text-align: left;">0.08%</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;"><code>plate_ever_changed_VES</code></td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">BOOLEAN</td>
 <td style="text-align: left;">Bristol (VES)</td>
 <td style="text-align: left;">TRUE if the registration returned a different vehicle between VES checks: the plate moved</td>
@@ -617,9 +644,9 @@ Table&nbsp;20.2: Share of vehicles with a value, by year of first use.
 <div class="cell-output-display">
 <table class="cell caption-top table table-sm table-striped small">
 <colgroup>
-<col style="width: 33%">
-<col style="width: 17%">
+<col style="width: 37%">
 <col style="width: 16%">
+<col style="width: 15%">
 <col style="width: 10%">
 <col style="width: 10%">
 <col style="width: 10%">
@@ -660,6 +687,14 @@ Table&nbsp;20.2: Share of vehicles with a value, by year of first use.
 <td style="text-align: right;">100.0%</td>
 </tr>
 <tr class="even">
+<td style="text-align: left;"><code>registration_at_first_test</code></td>
+<td style="text-align: right;">100.0%</td>
+<td style="text-align: right;">100.0%</td>
+<td style="text-align: right;">100.0%</td>
+<td style="text-align: right;">100.0%</td>
+<td style="text-align: right;">100.0%</td>
+</tr>
+<tr class="odd">
 <td style="text-align: left;"><code>plate_type</code></td>
 <td style="text-align: right;">100.0%</td>
 <td style="text-align: right;">100.0%</td>
@@ -667,7 +702,7 @@ Table&nbsp;20.2: Share of vehicles with a value, by year of first use.
 <td style="text-align: right;">100.0%</td>
 <td style="text-align: right;">100.0%</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;"><code>plate_date</code></td>
 <td style="text-align: right;">100.0%</td>
 <td style="text-align: right;">100.0%</td>
@@ -675,7 +710,7 @@ Table&nbsp;20.2: Share of vehicles with a value, by year of first use.
 <td style="text-align: right;">100.0%</td>
 <td style="text-align: right;">100.0%</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;"><code>plate_date_from</code></td>
 <td style="text-align: right;">99.9%</td>
 <td style="text-align: right;">99.9%</td>
@@ -683,7 +718,7 @@ Table&nbsp;20.2: Share of vehicles with a value, by year of first use.
 <td style="text-align: right;">99.9%</td>
 <td style="text-align: right;">99.9%</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;"><code>plate_date_to</code></td>
 <td style="text-align: right;">99.9%</td>
 <td style="text-align: right;">99.9%</td>
@@ -691,7 +726,7 @@ Table&nbsp;20.2: Share of vehicles with a value, by year of first use.
 <td style="text-align: right;">99.9%</td>
 <td style="text-align: right;">99.9%</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;"><code>plate_location</code></td>
 <td style="text-align: right;">100.0%</td>
 <td style="text-align: right;">100.0%</td>
@@ -699,7 +734,7 @@ Table&nbsp;20.2: Share of vehicles with a value, by year of first use.
 <td style="text-align: right;">100.0%</td>
 <td style="text-align: right;">100.0%</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;"><code>vanity_plate</code></td>
 <td style="text-align: right;">99.9%</td>
 <td style="text-align: right;">99.9%</td>
@@ -707,7 +742,7 @@ Table&nbsp;20.2: Share of vehicles with a value, by year of first use.
 <td style="text-align: right;">99.9%</td>
 <td style="text-align: right;">99.9%</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;"><code>plate_ever_changed_VES</code></td>
 <td style="text-align: right;">97.1%</td>
 <td style="text-align: right;">99.9%</td>
@@ -736,7 +771,7 @@ Figure&nbsp;20.1: Share of vehicles with a DVLA registration, by year of first u
 </div>
 </div>
 </div>
-<p><code>vanity_plate</code> is almost never blank, but the share of vehicles flagged varies a good deal with age (<a href="#fig-dd-vanity" class="quarto-xref">Figure&nbsp;<span>20.2</span></a>), from about 4%, NA% of vehicles first used in 1995 to 17%, NA% of those first used in 2018. Take this into account before reading the decoded plate period or location as the vehicle’s own.</p>
+<p><code>vanity_plate</code> is almost never blank, but the share of vehicles flagged varies a good deal with age (<a href="#fig-dd-vanity" class="quarto-xref">Figure&nbsp;<span>20.2</span></a>), from about 4% of vehicles first used in 1995 to 17% of those first used in 2018. Take this into account before reading the decoded plate period or location as the vehicle’s own.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-dd-vanity" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -771,6 +806,11 @@ Figure&nbsp;20.2: Share of vehicles whose plate does not match their age (vanity
 <p>Registration upper-cased with non-alphanumerics removed, as used for plate decoding.</p>
 <p>Each value belongs to one vehicle, so the values are not summarised.</p>
 </section>
+<section id="registration_at_first_test" class="level3">
+<h3 class="anchored" data-anchor-id="registration_at_first_test"><code>registration_at_first_test</code></h3>
+<p>Registration the vehicle carried at its first MOT test, as supplied (differs from registration_DVSA after a plate change).</p>
+<p>Each value belongs to one vehicle, so the values are not summarised.</p>
+</section>
 <section id="plate_type" class="level3">
 <h3 class="anchored" data-anchor-id="plate_type"><code>plate_type</code></h3>
 <p>Plate format (port of DVLAAPI::registration_analysis).</p>
@@ -791,7 +831,7 @@ Figure&nbsp;20.3: Share of vehicles by value of plate_type, by year of first use
 </section>
 <section id="plate_date" class="level3">
 <h3 class="anchored" data-anchor-id="plate_date"><code>plate_date</code></h3>
-<p>Issue period implied by the plate, as text.</p>
+<p>Issue period implied by the plate, as text (post-2001 age identifiers: March-August and September-February; DVLAAPI’s January-June / July-December periods were corrected in the October 2026 audit).</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-dd-v-plate-date" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -809,7 +849,7 @@ Figure&nbsp;20.4: Share of vehicles by value of plate_date, by year of first use
 </section>
 <section id="plate_date_from" class="level3">
 <h3 class="anchored" data-anchor-id="plate_date_from"><code>plate_date_from</code></h3>
-<p>First month of the plate issue period.</p>
+<p>First day of the plate issue period.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-dd-v-plate-date-from" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -827,7 +867,7 @@ Figure&nbsp;20.5: Minimum, quartiles and maximum of plate_date_from, by year of 
 </section>
 <section id="plate_date_to" class="level3">
 <h3 class="anchored" data-anchor-id="plate_date_to"><code>plate_date_to</code></h3>
-<p>Last month of the plate issue period (first day of that month).</p>
+<p>Last day of the plate issue period.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-dd-v-plate-date-to" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -863,7 +903,7 @@ Figure&nbsp;20.7: Share of vehicles by value of plate_location, by year of first
 </section>
 <section id="vanity_plate" class="level3">
 <h3 class="anchored" data-anchor-id="vanity_plate"><code>vanity_plate</code></h3>
-<p>TRUE if birth_date falls outside the plate issue period (with tolerance): a cherished/vanity plate.</p>
+<p>TRUE if birth_date falls more than plates.vanity_tolerance_days outside the plate issue period: a cherished/vanity plate, or a vehicle whose earliest recorded date (often the manufacture date) predates its first registration. NA where the plate carries no date or birth_date is missing.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-dd-v-vanity-plate" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">

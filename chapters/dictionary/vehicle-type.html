@@ -333,26 +333,32 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../chapters/dictionary/racf.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Car size and model attributes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/dates.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Dates and age</span></span></a>
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Dates and age</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/mileage.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Mileage</span></span></a>
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Mileage</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/location.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Location</span></span></a>
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Location and yearly status</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/dvla-status.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Licensing status and DVLA lookups</span></span></a>
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Licensing status and DVLA lookups</span></span></a>
   </div>
 </li>
       </ul>
@@ -476,7 +482,7 @@ ul.task-list li input[type="checkbox"] {
 <p>These columns say what kind of vehicle each row is. The sources classify vehicles in different ways, none of which matches the categories most analyses want, so the pipeline harmonises them. <a href="../vehicle-types.html" class="quarto-xref"><span>Chapter 3</span></a> explains the classifications and how they relate.</p>
 <ul>
 <li><strong><code>body_type</code></strong> is the DfT body type: Cars, Light goods vehicles, Motorcycles, Buses and coaches, Heavy goods vehicles or Other vehicles. It is the usual way to select, for example, cars only. <code>body_type_src</code> records whether it came from the DfT model, the DVLA type approval, the generic model or the MOT test class (methodology, <a href="../../reports/methodology.html#body-type">section 4.6</a>).</li>
-<li><strong><code>test_class</code></strong> is the MOT test class (1 to 7) and <strong><code>type_approval</code></strong> the European type approval category (M1, N1, L3 and so on). Both take the recorded value where there is one, and otherwise the most common value among vehicles of the same make, model, birth year, fuel and engine size. Each has a <code>_src</code> column saying which (methodology, <a href="../../reports/methodology.html#other-attributes">section 5.6</a>).</li>
+<li><strong><code>test_class</code></strong> is the MOT test class (1 to 7) and <strong><code>type_approval</code></strong> the European type approval category (M1, N1, L3 and so on). Both take the recorded value where there is one (<code>test_class_ANON</code> and the DVLA type approval), and otherwise the most common value among similar vehicles that share the other one, first of the same make, model, birth year, fuel and engine size, then of the same make, model, birth year and fuel. A borrowed value that contradicts the other classifications, the wheel plan or the engine size is not used. Each has a <code>_src</code> column saying which (methodology, <a href="../../reports/methodology.html#other-attributes">section 5.6</a>).</li>
 <li><strong>The supplied columns</strong> (<code>_DVLA</code>, <code>_ANON</code>) are the values as received, including the DVLA flag for automated vehicles, which the pipeline does not use.</li>
 </ul>
 <p>The vehicle’s colour, wheel plan and weight are described in <a href="colour.html" class="quarto-xref"><span>Chapter 23</span></a>, <a href="wheelplan.html" class="quarto-xref"><span>Chapter 24</span></a> and <a href="weight.html" class="quarto-xref"><span>Chapter 25</span></a>.</p>
@@ -490,15 +496,17 @@ Table&nbsp;22.1: Vehicle type columns.
 <div class="cell-output-display">
 <table class="cell caption-top table table-sm table-striped small">
 <colgroup>
-<col style="width: 9%">
 <col style="width: 3%">
-<col style="width: 5%">
-<col style="width: 79%">
-<col style="width: 3%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 2%">
+<col style="width: 91%">
+<col style="width: 1%">
 </colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Column</th>
+<th style="text-align: left;">Simplified</th>
 <th style="text-align: left;">Type</th>
 <th style="text-align: left;">Source</th>
 <th style="text-align: left;">Description</th>
@@ -508,34 +516,39 @@ Table&nbsp;22.1: Vehicle type columns.
 <tbody>
 <tr class="odd">
 <td style="text-align: left;"><code>body_type</code></td>
+<td style="text-align: left;">Yes</td>
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">pipeline</td>
 <td style="text-align: left;">DfT body type: Cars, Light goods vehicles, Motorcycles, Buses and coaches, Heavy goods vehicles or Other vehicles (see body_type_src)</td>
-<td style="text-align: left;">3.08%</td>
+<td style="text-align: left;">3.13%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>body_type_src</code></td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">pipeline</td>
 <td style="text-align: left;">Source of body_type: model (the DfT model string’s body type), type_approval (DVLA type approval, where the generic model has that body type), genmodel (the generic model’s most common body type) or test_class</td>
-<td style="text-align: left;">3.08%</td>
+<td style="text-align: left;">3.13%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>test_class</code></td>
+<td style="text-align: left;">Yes</td>
 <td style="text-align: left;">INTEGER</td>
 <td style="text-align: left;">pipeline</td>
-<td style="text-align: left;">MOT test class: DVSA, else variant backfill</td>
-<td style="text-align: left;">7.56%</td>
+<td style="text-align: left;">MOT test class: test_class_ANON, else the most common class of similar vehicles with the same recorded type approval (variant, then model_year_fuel), else of similar vehicles born at least backfill.test_class_min_age years before the last year, so that minibuses (first tested at one year) do not outnumber vans and cars (three); a borrowed class that contradicts the type approval, wheel plan or engine size is not used (test_class_src conflict). Imputed for vehicles never tested and for most vehicles in Northern Ireland (the anonymised class is missing for NI tests); the backfill does not use weight, so a van near the class 4 / 7 boundary can take the wrong class</td>
+<td style="text-align: left;">5.9%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>test_class_src</code></td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">pipeline</td>
 <td style="text-align: left;">Source of the matching harmonised column: dvsa or dvla (recorded), variant (same make/model/birth year/fuel/engine size) or model_year_fuel (same make/model/birth year/fuel)</td>
-<td style="text-align: left;">7.56%</td>
+<td style="text-align: left;">5.89%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>test_class_ANON</code></td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">INTEGER</td>
 <td style="text-align: left;">Bristol (DVSA)</td>
 <td style="text-align: left;">Anonymised MOT test class as supplied</td>
@@ -543,20 +556,23 @@ Table&nbsp;22.1: Vehicle type columns.
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>type_approval</code></td>
+<td style="text-align: left;">Yes</td>
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">pipeline</td>
-<td style="text-align: left;">Type approval category: DVLA, else variant backfill</td>
-<td style="text-align: left;">11.39%</td>
+<td style="text-align: left;">Type approval category: DVLA (same vehicle only), else the most common category of similar vehicles with the same test class (variant, then model_year_fuel), else of similar vehicles; a borrowed category that would contradict the test class, wheel plan or engine size is not used (type_approval_src conflict). See R/backfill.R</td>
+<td style="text-align: left;">18.64%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>type_approval_src</code></td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">pipeline</td>
 <td style="text-align: left;">Source of the matching harmonised column: dvsa or dvla (recorded), variant (same make/model/birth year/fuel/engine size) or model_year_fuel (same make/model/birth year/fuel)</td>
-<td style="text-align: left;">11.39%</td>
+<td style="text-align: left;">18.61%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>typeApproval_DVLA</code></td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">Bristol (VES)</td>
 <td style="text-align: left;">As returned by the DVLA Vehicle Enquiry Service</td>
@@ -564,6 +580,7 @@ Table&nbsp;22.1: Vehicle type columns.
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>automatedVehicle_DVLA</code></td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">BOOLEAN</td>
 <td style="text-align: left;">Bristol (VES)</td>
 <td style="text-align: left;">As returned by the DVLA Vehicle Enquiry Service</td>
@@ -585,7 +602,7 @@ Table&nbsp;22.1: Vehicle type columns.
 <li><strong><code>type_approval</code></strong> is rare for vehicles first used before 2000 (26%), because the DVLA rarely records a type approval category for them, and the backfill can only copy values that similar vehicles have. From the mid-2000s it is present for more than 90%.</li>
 <li><strong><code>test_class</code></strong> comes from the anonymised MOT data, so it is present only for vehicles that have been tested, or are like vehicles that have. Coverage falls for vehicles first used since 2023, which are too new for their first MOT test: 78% for 2025.</li>
 </ul>
-<p><code>typeApproval_DVLA</code> shares the pattern of every VES field, being present only where a VES record was found (<a href="dvla-status.html" class="quarto-xref"><span>Chapter 31</span></a>). <code>automatedVehicle_DVLA</code> is present only for some vehicles first used since 2021 (25% of those first used in 2025).</p>
+<p><code>typeApproval_DVLA</code> shares the pattern of every VES field, being present only where a VES record was found (<a href="dvla-status.html" class="quarto-xref"><span>Chapter 32</span></a>). <code>automatedVehicle_DVLA</code> is present only for some vehicles first used since 2021 (25% of those first used in 2025).</p>
 <div class="cell" data-layout-align="center">
 <div id="tbl-dd-vehicle-type-coverage" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
 <figure class="quarto-float quarto-float-tbl figure">
@@ -750,7 +767,7 @@ Figure&nbsp;22.3: Share of vehicles by value of body_type_src, by year of first 
 </section>
 <section id="test_class" class="level3">
 <h3 class="anchored" data-anchor-id="test_class"><code>test_class</code></h3>
-<p>MOT test class: DVSA, else variant backfill.</p>
+<p>MOT test class: test_class_ANON, else the most common class of similar vehicles with the same recorded type approval (variant, then model_year_fuel), else of similar vehicles born at least backfill.test_class_min_age years before the last year, so that minibuses (first tested at one year) do not outnumber vans and cars (three); a borrowed class that contradicts the type approval, wheel plan or engine size is not used (test_class_src conflict). Imputed for vehicles never tested and for most vehicles in Northern Ireland (the anonymised class is missing for NI tests); the backfill does not use weight, so a van near the class 4 / 7 boundary can take the wrong class.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-dd-v-test-class" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -804,7 +821,7 @@ Figure&nbsp;22.6: Share of vehicles by value of test_class_ANON, by year of firs
 </section>
 <section id="type_approval" class="level3">
 <h3 class="anchored" data-anchor-id="type_approval"><code>type_approval</code></h3>
-<p>Type approval category: DVLA, else variant backfill.</p>
+<p>Type approval category: DVLA (same vehicle only), else the most common category of similar vehicles with the same test class (variant, then model_year_fuel), else of similar vehicles; a borrowed category that would contradict the test class, wheel plan or engine size is not used (type_approval_src conflict). See R/backfill.R.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-dd-v-type-approval" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">

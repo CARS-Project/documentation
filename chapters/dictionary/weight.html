@@ -333,26 +333,32 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../chapters/dictionary/racf.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Car size and model attributes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/dates.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Dates and age</span></span></a>
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Dates and age</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/mileage.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Mileage</span></span></a>
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Mileage</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/location.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Location</span></span></a>
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Location and yearly status</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/dvla-status.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Licensing status and DVLA lookups</span></span></a>
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Licensing status and DVLA lookups</span></span></a>
   </div>
 </li>
       </ul>
@@ -475,7 +481,7 @@ ul.task-list li input[type="checkbox"] {
 <h2 data-number="25.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">25.1</span> Overview</h2>
 <p>The revenue weight is the vehicle’s maximum permitted gross weight in kilograms, as the DVLA records it. It matters most for goods vehicles and buses, which are classed by weight.</p>
 <ul>
-<li><strong><code>revenue_weight</code></strong> is the harmonised weight: the DVLA value where the VES record describes this vehicle, and otherwise the most common value among vehicles of the same make, model, birth year, fuel and engine size.</li>
+<li><strong><code>revenue_weight</code></strong> is the harmonised weight: the DVLA value where the VES record describes this vehicle, otherwise the most common value among vehicles of the same make, model, birth year, fuel and engine size, and failing that of the same make, model, birth year and fuel.</li>
 <li><strong><code>revenue_weight_src</code></strong> says which (<code>dvla</code>, <code>variant</code> or <code>model_year_fuel</code>).</li>
 <li><strong><code>revenueWeight_DVLA</code></strong> is the value as supplied.</li>
 </ul>
@@ -490,15 +496,17 @@ Table&nbsp;25.1: Weight columns.
 <div class="cell-output-display">
 <table class="cell caption-top table table-sm table-striped small">
 <colgroup>
-<col style="width: 9%">
+<col style="width: 7%">
 <col style="width: 3%">
-<col style="width: 6%">
-<col style="width: 77%">
-<col style="width: 3%">
+<col style="width: 2%">
+<col style="width: 4%">
+<col style="width: 79%">
+<col style="width: 2%">
 </colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Column</th>
+<th style="text-align: left;">Simplified</th>
 <th style="text-align: left;">Type</th>
 <th style="text-align: left;">Source</th>
 <th style="text-align: left;">Description</th>
@@ -508,20 +516,23 @@ Table&nbsp;25.1: Weight columns.
 <tbody>
 <tr class="odd">
 <td style="text-align: left;"><code>revenue_weight</code></td>
+<td style="text-align: left;">Yes</td>
 <td style="text-align: left;">INTEGER</td>
 <td style="text-align: left;">pipeline</td>
-<td style="text-align: left;">Revenue weight (kg): DVLA, else variant backfill</td>
-<td style="text-align: left;">13.7%</td>
+<td style="text-align: left;">Revenue weight (kg): DVLA (same vehicle only), else the most common value of vehicles with the same make/model/birth year/fuel/engine size (variant), else of the same make/model/birth year/fuel (model_year_fuel); see revenue_weight_src</td>
+<td style="text-align: left;">30.25%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>revenue_weight_src</code></td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">pipeline</td>
 <td style="text-align: left;">Source of the matching harmonised column: dvsa or dvla (recorded), variant (same make/model/birth year/fuel/engine size) or model_year_fuel (same make/model/birth year/fuel)</td>
-<td style="text-align: left;">13.7%</td>
+<td style="text-align: left;">30.25%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>revenueWeight_DVLA</code></td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">INTEGER</td>
 <td style="text-align: left;">Bristol (VES)</td>
 <td style="text-align: left;">As returned by the DVLA Vehicle Enquiry Service</td>
@@ -619,7 +630,7 @@ Figure&nbsp;25.1: Share of vehicles with a revenue weight, as supplied by the DV
 <div class="cell" data-layout-align="center">
 <section id="revenue_weight" class="level3">
 <h3 class="anchored" data-anchor-id="revenue_weight"><code>revenue_weight</code></h3>
-<p>Revenue weight (kg): DVLA, else variant backfill.</p>
+<p>Revenue weight (kg): DVLA (same vehicle only), else the most common value of vehicles with the same make/model/birth year/fuel/engine size (variant), else of the same make/model/birth year/fuel (model_year_fuel); see revenue_weight_src.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-dd-v-revenue-weight" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">

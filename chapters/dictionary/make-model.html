@@ -333,26 +333,32 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../chapters/dictionary/racf.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Car size and model attributes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/dates.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Dates and age</span></span></a>
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Dates and age</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/mileage.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Mileage</span></span></a>
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Mileage</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/location.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Location</span></span></a>
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Location and yearly status</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/dvla-status.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Licensing status and DVLA lookups</span></span></a>
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Licensing status and DVLA lookups</span></span></a>
   </div>
 </li>
       </ul>
@@ -493,14 +499,16 @@ Table&nbsp;21.1: Make and model columns.
 <table class="cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 6%">
+<col style="width: 3%">
 <col style="width: 2%">
 <col style="width: 4%">
-<col style="width: 83%">
+<col style="width: 81%">
 <col style="width: 2%">
 </colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Column</th>
+<th style="text-align: left;">Simplified</th>
 <th style="text-align: left;">Type</th>
 <th style="text-align: left;">Source</th>
 <th style="text-align: left;">Description</th>
@@ -510,6 +518,7 @@ Table&nbsp;21.1: Make and model columns.
 <tbody>
 <tr class="odd">
 <td style="text-align: left;"><code>make_final</code></td>
+<td style="text-align: left;">Yes</td>
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">pipeline</td>
 <td style="text-align: left;">Make in the DfT vehicle licensing statistics naming (VEH0220 / VEH0124), upper case; makes DfT spells two ways are merged (inputs/make_aliases.csv). The raw make, upper-cased, where it matches no DfT make; NA where it is a placeholder such as UNKNOWN</td>
@@ -517,6 +526,7 @@ Table&nbsp;21.1: Make and model columns.
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>model_final</code></td>
+<td style="text-align: left;">Yes</td>
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">pipeline</td>
 <td style="text-align: left;">DfT generic model without the make (“C CLASS”, “FIESTA”); the normalised raw model where it matches no DfT generic model (then dft_genmodel is NA); NA where the model is a placeholder</td>
@@ -524,6 +534,7 @@ Table&nbsp;21.1: Make and model columns.
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>derivative_final</code></td>
+<td style="text-align: left;">Yes</td>
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">pipeline</td>
 <td style="text-align: left;">The rest of the raw DVSA model text after the words that give the model (trim, engine, body style), upper case, not standardised</td>
@@ -531,6 +542,7 @@ Table&nbsp;21.1: Make and model columns.
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>dft_genmodel</code></td>
+<td style="text-align: left;">Yes</td>
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">pipeline</td>
 <td style="text-align: left;">DfT GenModel of make_final + model_final, for joining to DfT tables (NA when model_final is not a DfT generic model)</td>
@@ -538,6 +550,7 @@ Table&nbsp;21.1: Make and model columns.
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>dft_model</code></td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">pipeline</td>
 <td style="text-align: left;">DfT model string, when the raw DVSA model is exactly one</td>
@@ -545,6 +558,7 @@ Table&nbsp;21.1: Make and model columns.
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>make_method</code></td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">pipeline</td>
 <td style="text-align: left;">How make_final was found: exact, punctuation, alias, dvla (the raw make’s vehicles mostly have that DVLA make), prefix, fuzzy (spelling fix), dvla_vehicle (this vehicle’s DVLA make, for a missing or unmatched DVSA make), override, placeholder or unmatched</td>
@@ -552,6 +566,7 @@ Table&nbsp;21.1: Make and model columns.
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>model_method</code></td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">pipeline</td>
 <td style="text-align: left;">How model_final was found: exact (a DfT model string), generic (a DfT generic model name), prefix, words, fuzzy (spelling fix), ambiguous / make_only (chosen per vehicle from fuel, engine size and year of first use), override, placeholder or unmatched</td>
@@ -559,6 +574,7 @@ Table&nbsp;21.1: Make and model columns.
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>model_confidence</code></td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">DOUBLE</td>
 <td style="text-align: left;">pipeline</td>
 <td style="text-align: left;">Share of the DfT vehicles under the matched text that have this generic model; for ambiguous / make_only, the chosen model’s share of the per-vehicle weight</td>
@@ -566,6 +582,7 @@ Table&nbsp;21.1: Make and model columns.
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>make_DVSA</code></td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">Bristol</td>
 <td style="text-align: left;">Make as supplied by DVSA</td>
@@ -573,6 +590,7 @@ Table&nbsp;21.1: Make and model columns.
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>model_DVSA</code></td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">Bristol</td>
 <td style="text-align: left;">Model as supplied by DVSA</td>
@@ -580,6 +598,7 @@ Table&nbsp;21.1: Make and model columns.
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>make_DVLA</code></td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">Bristol (VES)</td>
 <td style="text-align: left;">Make as returned by VES</td>
@@ -597,7 +616,7 @@ Table&nbsp;21.1: Make and model columns.
 <h2 data-number="21.2" class="anchored" data-anchor-id="coverage"><span class="header-section-number">21.2</span> Coverage</h2>
 <p>The DVSA make and model are present for almost every vehicle, and the cleaned make for 99.4%: it is blank only where the supplied make is a placeholder such as <code>UNKNOWN</code>. A generic model is found for 96% of vehicles. Matching is a little weaker for the oldest vehicles, first used before 2000 (92%), more of whose models do not appear in the DfT statistics.</p>
 <p>The derivative and the exact DfT model string change most over time (<a href="#fig-dd-make-model" class="quarto-xref">Figure&nbsp;<span>21.1</span></a>). Both depend on how much detail DVSA’s model text holds, and DVSA records much fuller model names for recent vehicles: the derivative is present for 10% of vehicles first used in 2015, but 95% of those first used in 2024.</p>
-<p>The DVLA make is present wherever a VES record was found, which is rarer for older vehicles: see <a href="dvla-status.html" class="quarto-xref"><span>Chapter 31</span></a>.</p>
+<p>The DVLA make is present wherever a VES record was found, which is rarer for older vehicles: see <a href="dvla-status.html" class="quarto-xref"><span>Chapter 32</span></a>.</p>
 <div class="cell" data-layout-align="center">
 <div id="tbl-dd-make-model-coverage" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
 <figure class="quarto-float quarto-float-tbl figure">

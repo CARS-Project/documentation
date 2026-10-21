@@ -333,26 +333,32 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../chapters/dictionary/racf.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Car size and model attributes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/dates.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Dates and age</span></span></a>
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Dates and age</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/mileage.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Mileage</span></span></a>
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Mileage</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/location.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Location</span></span></a>
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Location and yearly status</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/dvla-status.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Licensing status and DVLA lookups</span></span></a>
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Licensing status and DVLA lookups</span></span></a>
   </div>
 </li>
       </ul>
@@ -469,7 +475,12 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>This part describes every column of the vehicle table, <code>vehicles_enhanced.parquet</code>. The 166 columns are grouped by theme, one chapter per group, and each chapter has the same three sections:</p>
+<p>This part describes every column of the vehicle table. The pipeline writes the table in two versions:</p>
+<ul>
+<li><strong><code>vehicles_enhanced_maximal.parquet</code></strong>, the maximal table, has all 272 columns: every column of the input and every column the pipeline makes, including the source (<code>_src</code>) and check (<code>_check</code>) column of each harmonised attribute, the values as supplied by DVSA and the DVLA, and the record of the DVLA lookups. Every table and report the pipeline publishes is built from it.</li>
+<li><strong><code>vehicles_enhanced_simplified.parquet</code></strong>, the simplified table, is a strict subset of the maximal one for everyday use: the same vehicles, with only the finished, cleaned value of each attribute. It has 97 of the columns (37 once the year-by-year columns are counted once each), and no <code>_src</code>, <code>_check</code> or <code>_method</code> columns, values as supplied, scope flags or lookup records.</li>
+</ul>
+<p>This part describes the maximal table, and the <strong>Simplified</strong> column of each chapter’s table says whether a column is also in the simplified table. A column has the same name, type and values in both. The columns are grouped by theme, one chapter per group, and each chapter has the same three sections:</p>
 <ul>
 <li><strong>Overview</strong> explains what the columns contain and where their values come from, lists each column with its type, source and description, and links to the parts of the book and of the pipeline methodology (<a href="../../reports/methodology.html">Methodology</a>) that explain how they are made.</li>
 <li><strong>Coverage</strong> shows what share of vehicles have a value in each column, and how that changes over time.</li>
@@ -480,20 +491,22 @@ ul.task-list li input[type="checkbox"] {
 <div id="tbl-dictionary-groups" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-dictionary-groups-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;1: The chapters of the data dictionary.
+Table&nbsp;1: The chapters of the data dictionary, with the number of columns in the maximal table and how many of them are also in the simplified table (year-by-year columns counted once).
 </figcaption>
 <div aria-describedby="tbl-dictionary-groups-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
 <table class="cell caption-top table table-sm table-striped small">
 <colgroup>
-<col style="width: 22%">
-<col style="width: 8%">
-<col style="width: 68%">
+<col style="width: 19%">
+<col style="width: 7%">
+<col style="width: 13%">
+<col style="width: 59%">
 </colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Chapter</th>
 <th style="text-align: right;">Columns</th>
+<th style="text-align: right;">In simplified</th>
 <th style="text-align: left;">Examples</th>
 </tr>
 </thead>
@@ -501,66 +514,85 @@ Table&nbsp;1: The chapters of the data dictionary.
 <tr class="odd">
 <td style="text-align: left;"><a href="identifiers.html" class="quarto-xref"><span>19&nbsp; Identifiers and scope</span></a></td>
 <td style="text-align: right;">6</td>
+<td style="text-align: right;">1</td>
 <td style="text-align: left;"><code>vehicle_id</code>, <code>dup_vrm</code>, <code>scope_mileage</code></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><a href="registration.html" class="quarto-xref"><span>20&nbsp; Registration and number plates</span></a></td>
-<td style="text-align: right;">10</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">1</td>
 <td style="text-align: left;"><code>registration_DVSA</code>, <code>registration_DVLA</code>, <code>registration_clean</code></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><a href="make-model.html" class="quarto-xref"><span>21&nbsp; Make and model</span></a></td>
 <td style="text-align: right;">11</td>
+<td style="text-align: right;">4</td>
 <td style="text-align: left;"><code>make_final</code>, <code>model_final</code>, <code>derivative_final</code></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><a href="vehicle-type.html" class="quarto-xref"><span>22&nbsp; Vehicle type</span></a></td>
 <td style="text-align: right;">9</td>
+<td style="text-align: right;">3</td>
 <td style="text-align: left;"><code>body_type</code>, <code>body_type_src</code>, <code>test_class</code></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><a href="colour.html" class="quarto-xref"><span>23&nbsp; Colour</span></a></td>
 <td style="text-align: right;">3</td>
+<td style="text-align: right;">0</td>
 <td style="text-align: left;"><code>primaryColour_DVSA</code>, <code>secondaryColour_DVSA</code>, <code>colour_DVLA</code></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><a href="wheelplan.html" class="quarto-xref"><span>24&nbsp; Wheel plan</span></a></td>
 <td style="text-align: right;">3</td>
+<td style="text-align: right;">1</td>
 <td style="text-align: left;"><code>wheelplan</code>, <code>wheelplan_src</code>, <code>wheelplan_DVLA</code></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><a href="weight.html" class="quarto-xref"><span>25&nbsp; Weight</span></a></td>
 <td style="text-align: right;">3</td>
+<td style="text-align: right;">1</td>
 <td style="text-align: left;"><code>revenue_weight</code>, <code>revenue_weight_src</code>, <code>revenueWeight_DVLA</code></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><a href="fuel-engine.html" class="quarto-xref"><span>26&nbsp; Fuel and engine</span></a></td>
 <td style="text-align: right;">13</td>
+<td style="text-align: right;">4</td>
 <td style="text-align: left;"><code>fuel</code>, <code>fuel_src</code>, <code>fuel_check</code></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><a href="emissions.html" class="quarto-xref"><span>27&nbsp; Emissions</span></a></td>
 <td style="text-align: right;">10</td>
+<td style="text-align: right;">3</td>
 <td style="text-align: left;"><code>co2</code>, <code>co2_src</code>, <code>co2_check</code></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><a href="dates.html" class="quarto-xref"><span>28&nbsp; Dates and age</span></a></td>
-<td style="text-align: right;">11</td>
-<td style="text-align: left;"><code>birth_date</code>, <code>first_use_date</code>, <code>first_use_source</code></td>
+<td style="text-align: left;"><a href="racf.html" class="quarto-xref"><span>28&nbsp; Car size and model attributes</span></a></td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: left;"><code>racf_link_level</code>, <code>racf_smmt_type</code>, <code>racf_suv_share</code></td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><a href="mileage.html" class="quarto-xref"><span>29&nbsp; Mileage</span></a></td>
+<td style="text-align: left;"><a href="dates.html" class="quarto-xref"><span>29&nbsp; Dates and age</span></a></td>
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: left;"><code>birth_date</code>, <code>birth_date_source</code>, <code>first_use_date</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><a href="mileage.html" class="quarto-xref"><span>30&nbsp; Mileage</span></a></td>
+<td style="text-align: right;">4</td>
 <td style="text-align: right;">3</td>
 <td style="text-align: left;"><code>mileage_YYYY</code>, <code>legit_mileage_YYYY</code>, <code>total_mileage</code></td>
 </tr>
-<tr class="even">
-<td style="text-align: left;"><a href="location.html" class="quarto-xref"><span>30&nbsp; Location</span></a></td>
-<td style="text-align: right;">1</td>
-<td style="text-align: left;"><code>pca_YYYY</code></td>
-</tr>
 <tr class="odd">
-<td style="text-align: left;"><a href="dvla-status.html" class="quarto-xref"><span>31&nbsp; Licensing status and DVLA lookups</span></a></td>
-<td style="text-align: right;">23</td>
+<td style="text-align: left;"><a href="location.html" class="quarto-xref"><span>31&nbsp; Location and yearly status</span></a></td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;"><code>pca_YYYY</code>, <code>is_new_vehicle_YYYY</code>, <code>is_intertest_YYYY</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><a href="dvla-status.html" class="quarto-xref"><span>32&nbsp; Licensing status and DVLA lookups</span></a></td>
+<td style="text-align: right;">24</td>
+<td style="text-align: right;">0</td>
 <td style="text-align: left;"><code>taxStatus_DVLA</code>, <code>taxDueDate_DVLA</code>, <code>motStatus_DVLA</code></td>
 </tr>
 </tbody>
@@ -579,7 +611,7 @@ Table&nbsp;1: The chapters of the data dictionary.
 <li><strong>A value is not necessarily a recorded value.</strong> Many harmonised columns are filled from similar vehicles where the sources are blank. The <code>_src</code> column next to each says which values were recorded and which were filled (<a href="../pitfalls.html" class="quarto-xref"><span>14&nbsp; Concepts and pitfalls</span></a>).</li>
 <li><strong>Some values mean “not known”.</strong> A column that is never blank can still hold <code>unknown</code>, <code>no_reference</code> or <code>missing</code>, as <code>pca_YYYY</code> and the <code>_check</code> columns do. The overview of each chapter says where this applies.</li>
 </ul>
-<p>The coverage figures were counted from the vehicle table by <code>scripts/run-coverage.R</code> (run 2026-10-20 14:28), and the values by <code>scripts/run-values.R</code>.</p>
+<p>The coverage figures were counted from the vehicle table by <code>scripts/run-coverage.R</code> (run 2026-10-21 20:01), and the values by <code>scripts/run-values.R</code>.</p>
 
 
 </section>

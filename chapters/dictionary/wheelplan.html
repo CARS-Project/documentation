@@ -333,26 +333,32 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../chapters/dictionary/racf.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Car size and model attributes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/dates.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Dates and age</span></span></a>
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Dates and age</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/mileage.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Mileage</span></span></a>
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Mileage</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/location.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Location</span></span></a>
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Location and yearly status</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/dvla-status.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Licensing status and DVLA lookups</span></span></a>
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Licensing status and DVLA lookups</span></span></a>
   </div>
 </li>
       </ul>
@@ -475,7 +481,7 @@ ul.task-list li input[type="checkbox"] {
 <h2 data-number="24.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">24.1</span> Overview</h2>
 <p>The wheel plan is the DVLA’s description of a vehicle’s axles and wheels, such as <code>2 AXLE RIGID BODY</code> or <code>2 WHEEL</code>. It separates, for example, rigid lorries from articulated ones, and two-wheeled from three-wheeled motorcycles (<a href="../vehicle-types.html" class="quarto-xref"><span>Chapter 3</span></a>).</p>
 <ul>
-<li><strong><code>wheelplan</code></strong> is the harmonised wheel plan: the DVLA value where the VES record describes this vehicle, and otherwise the most common value among vehicles of the same make, model, birth year, fuel and engine size.</li>
+<li><strong><code>wheelplan</code></strong> is the harmonised wheel plan: the DVLA value where the VES record describes this vehicle, and otherwise the most common value among similar vehicles with the same test class, else among similar vehicles. A borrowed wheel plan that contradicts the test class or type approval is never used; <code>wheelplan_src</code> is then <code>conflict</code>.</li>
 <li><strong><code>wheelplan_src</code></strong> says which (<code>dvla</code>, <code>variant</code> or <code>model_year_fuel</code>).</li>
 <li><strong><code>wheelplan_DVLA</code></strong> is the value as supplied.</li>
 </ul>
@@ -490,15 +496,17 @@ Table&nbsp;24.1: Wheel plan columns.
 <div class="cell-output-display">
 <table class="cell caption-top table table-sm table-striped small">
 <colgroup>
-<col style="width: 7%">
+<col style="width: 5%">
 <col style="width: 3%">
-<col style="width: 6%">
-<col style="width: 78%">
-<col style="width: 3%">
+<col style="width: 2%">
+<col style="width: 4%">
+<col style="width: 79%">
+<col style="width: 2%">
 </colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Column</th>
+<th style="text-align: left;">Simplified</th>
 <th style="text-align: left;">Type</th>
 <th style="text-align: left;">Source</th>
 <th style="text-align: left;">Description</th>
@@ -508,20 +516,23 @@ Table&nbsp;24.1: Wheel plan columns.
 <tbody>
 <tr class="odd">
 <td style="text-align: left;"><code>wheelplan</code></td>
+<td style="text-align: left;">Yes</td>
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">pipeline</td>
-<td style="text-align: left;">Wheel plan: DVLA, else variant backfill</td>
-<td style="text-align: left;">0.45%</td>
+<td style="text-align: left;">Wheel plan: DVLA (same vehicle only), else the most common wheel plan of similar vehicles with the same test class, else of similar vehicles; never one that contradicts the test class or type approval (wheelplan_src conflict)</td>
+<td style="text-align: left;">0.54%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>wheelplan_src</code></td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">pipeline</td>
 <td style="text-align: left;">Source of the matching harmonised column: dvsa or dvla (recorded), variant (same make/model/birth year/fuel/engine size) or model_year_fuel (same make/model/birth year/fuel)</td>
-<td style="text-align: left;">0.45%</td>
+<td style="text-align: left;">0.54%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>wheelplan_DVLA</code></td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">Bristol (VES)</td>
 <td style="text-align: left;">As returned by the DVLA Vehicle Enquiry Service</td>
@@ -537,7 +548,7 @@ Table&nbsp;24.1: Wheel plan columns.
 </section>
 <section id="coverage" class="level2" data-number="24.2">
 <h2 data-number="24.2" class="anchored" data-anchor-id="coverage"><span class="header-section-number">24.2</span> Coverage</h2>
-<p>The DVLA wheel plan is present wherever a VES record was found, 77% of vehicles (<a href="dvla-status.html" class="quarto-xref"><span>Chapter 31</span></a>). Because the wheel plan of similar vehicles is almost always known, the backfill makes <code>wheelplan</code> nearly complete at every age: 99.5% of vehicles (<a href="#fig-dd-wheelplan" class="quarto-xref">Figure&nbsp;<span>24.1</span></a>).</p>
+<p>The DVLA wheel plan is present wherever a VES record was found, 77% of vehicles (<a href="dvla-status.html" class="quarto-xref"><span>Chapter 32</span></a>). Because the wheel plan of similar vehicles is almost always known, the backfill makes <code>wheelplan</code> nearly complete at every age: 99.5% of vehicles (<a href="#fig-dd-wheelplan" class="quarto-xref">Figure&nbsp;<span>24.1</span></a>).</p>
 <div class="cell" data-layout-align="center">
 <div id="tbl-dd-wheelplan-coverage" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
 <figure class="quarto-float quarto-float-tbl figure">
@@ -618,7 +629,7 @@ Figure&nbsp;24.1: Share of vehicles with a wheel plan, as supplied by the DVLA a
 <div class="cell" data-layout-align="center">
 <section id="wheelplan" class="level3">
 <h3 class="anchored" data-anchor-id="wheelplan"><code>wheelplan</code></h3>
-<p>Wheel plan: DVLA, else variant backfill.</p>
+<p>Wheel plan: DVLA (same vehicle only), else the most common wheel plan of similar vehicles with the same test class, else of similar vehicles; never one that contradicts the test class or type approval (wheelplan_src conflict).</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-dd-v-wheelplan" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">

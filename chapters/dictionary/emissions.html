@@ -36,7 +36,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../chapters/dictionary/dates.html" rel="next">
+<link href="../../chapters/dictionary/racf.html" rel="next">
 <link href="../../chapters/dictionary/fuel-engine.html" rel="prev">
 <link href="../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
@@ -333,26 +333,32 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../chapters/dictionary/racf.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Car size and model attributes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/dates.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Dates and age</span></span></a>
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Dates and age</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/mileage.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Mileage</span></span></a>
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Mileage</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/location.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Location</span></span></a>
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Location and yearly status</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/dvla-status.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Licensing status and DVLA lookups</span></span></a>
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Licensing status and DVLA lookups</span></span></a>
   </div>
 </li>
       </ul>
@@ -475,7 +481,7 @@ ul.task-list li input[type="checkbox"] {
 <h2 data-number="27.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">27.1</span> Overview</h2>
 <p>These columns describe the vehicle’s official emissions: its CO<sub>2</sub> figure and the Euro emission standard it was approved to. Both are recorded by the DVLA, not DVSA, and both are filled from similar vehicles where the DVLA has no value. <a href="../fuels-emissions.html" class="quarto-xref"><span>Chapter 4</span></a> explains what the figures mean and their limits.</p>
 <ul>
-<li><strong><code>co2</code></strong> is the official CO<sub>2</sub> figure in g/km, measured when the model was type approved. It is the DVLA value, or else the most common value among vehicles of the same make, model, birth year, fuel and engine size. A recorded 0 g/km is kept only for vehicles with no engine; anywhere else it is cleared and filled from similar vehicles. <code>co2_src</code> and <code>co2_check</code> record what was done (methodology, <a href="../../reports/methodology.html#other-attributes">section 5.6</a>).</li>
+<li><strong><code>co2</code></strong> is the official CO<sub>2</sub> figure in g/km, measured when the model was type approved. It is the DVLA value where the VES record describes this vehicle, or else the most common value among vehicles of the same make, model, birth year, fuel and engine size, and failing that of the same make, model, birth year and fuel. A recorded 0 g/km is kept only for vehicles with no engine; anywhere else it is cleared and filled from similar vehicles. <code>co2_src</code> and <code>co2_check</code> record what was done (methodology, <a href="../../reports/methodology.html#other-attributes">section 5.6</a>).</li>
 <li><strong><code>euro_status</code></strong> is the Euro standard as text (<code>EURO 6 AP</code>), standardised from the DVLA’s many spellings, backfilled from similar vehicles, and otherwise assumed to be the standard compulsory for new vehicles of that type when the vehicle was made (<a href="../../reports/methodology.html#euro-status-from-the-registration-date">section 5.7</a>). <strong><code>euro_standard</code></strong> is its number (1 to 6), and <code>euro_status_src</code> and <code>euro_check</code> record where it came from and whether it fits the vehicle’s age.</li>
 <li><strong><code>co2Emissions_DVLA</code></strong>, <strong><code>euroStatus_DVLA</code></strong> and <strong><code>realDrivingEmissions_DVLA</code></strong> are the values as supplied.</li>
 </ul>
@@ -502,15 +508,17 @@ Table&nbsp;27.1: Emissions columns.
 <div class="cell-output-display">
 <table class="cell caption-top table table-sm table-striped small">
 <colgroup>
-<col style="width: 6%">
+<col style="width: 5%">
+<col style="width: 2%">
 <col style="width: 1%">
-<col style="width: 3%">
+<col style="width: 2%">
 <col style="width: 86%">
 <col style="width: 1%">
 </colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Column</th>
+<th style="text-align: left;">Simplified</th>
 <th style="text-align: left;">Type</th>
 <th style="text-align: left;">Source</th>
 <th style="text-align: left;">Description</th>
@@ -520,20 +528,23 @@ Table&nbsp;27.1: Emissions columns.
 <tbody>
 <tr class="odd">
 <td style="text-align: left;"><code>co2</code></td>
+<td style="text-align: left;">Yes</td>
 <td style="text-align: left;">INTEGER</td>
 <td style="text-align: left;">pipeline</td>
-<td style="text-align: left;">CO2 emissions (g/km): DVLA, else variant backfill. A recorded 0 is kept only for Electric and Fuel Cells vehicles; for anything else it is impossible, so it is cleared before the backfill and the vehicle is filled from similar vehicles (see co2_check)</td>
-<td style="text-align: left;">20.88%</td>
+<td style="text-align: left;">CO2 emissions (g/km): DVLA (same vehicle only), else variant, else model_year_fuel backfill (see co2_src). A recorded 0 is kept only for Electric and Fuel Cells vehicles; for anything else it is impossible, so it is cleared before the backfill and the vehicle is filled from similar vehicles (see co2_check)</td>
+<td style="text-align: left;">25.99%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>co2_src</code></td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">pipeline</td>
 <td style="text-align: left;">Source of the matching harmonised column: dvsa or dvla (recorded), variant (same make/model/birth year/fuel/engine size) or model_year_fuel (same make/model/birth year/fuel)</td>
-<td style="text-align: left;">20.88%</td>
+<td style="text-align: left;">25.99%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>co2_check</code></td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">pipeline</td>
 <td style="text-align: left;">CO2 check: ok; zero_replaced (a recorded 0 g/km on a vehicle with an engine, backfilled from similar vehicles); zero_removed (the same, but no backfill value was available); missing (no CO2 recorded or backfilled)</td>
@@ -541,6 +552,7 @@ Table&nbsp;27.1: Emissions columns.
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>co2Emissions_DVLA</code></td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">INTEGER</td>
 <td style="text-align: left;">Bristol (VES)</td>
 <td style="text-align: left;">As returned by the DVLA Vehicle Enquiry Service</td>
@@ -548,27 +560,31 @@ Table&nbsp;27.1: Emissions columns.
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>euro_status</code></td>
+<td style="text-align: left;">Yes</td>
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">pipeline</td>
-<td style="text-align: left;">Euro status: DVLA with the spelling standardised (‘EURO 6AP’ and ‘EURO6 (AP)’ become ‘EURO 6 AP’; see R/euro_status.R), else variant backfill, else the standard that was compulsory for new registrations of that body type when the vehicle was made</td>
-<td style="text-align: left;">8.72%</td>
+<td style="text-align: left;">Euro status: DVLA with the spelling standardised (‘EURO 6AP’ and ‘EURO6 (AP)’ become ‘EURO 6 AP’; see R/euro_status.R), else variant backfill, else the standard that was compulsory for new registrations of that body type when the vehicle was made; where there is none, why: pre_euro (made before the first standard of its class), no_schedule (body type with no schedule: Other vehicles, or none) or no_date (no date to place the vehicle)</td>
+<td style="text-align: left;">0%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>euro_status_src</code></td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">pipeline</td>
 <td style="text-align: left;">Source of euro_status: dvla (recorded), variant or model_year_fuel (backfilled from similar vehicles), or euro_schedule (the standard that was compulsory for new registrations of that body type when the vehicle was made)</td>
-<td style="text-align: left;">8.72%</td>
+<td style="text-align: left;">8.83%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>euro_standard</code></td>
+<td style="text-align: left;">Yes</td>
 <td style="text-align: left;">INTEGER</td>
 <td style="text-align: left;">pipeline</td>
 <td style="text-align: left;">Euro emission standard number parsed from euro_status (Roman numerals converted)</td>
-<td style="text-align: left;">8.72%</td>
+<td style="text-align: left;">8.83%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>euro_check</code></td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">pipeline</td>
 <td style="text-align: left;">Euro status against the vehicle’s age: ok; later_than_date (the recorded or backfilled status names a standard that did not exist when the vehicle was made - kept, not changed); assumed (filled from the registration-date schedule); pre_euro (made before the first standard of its class); no_schedule (body type with no schedule: Other vehicles, or none); no_date</td>
@@ -576,6 +592,7 @@ Table&nbsp;27.1: Emissions columns.
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>euroStatus_DVLA</code></td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">Bristol (VES)</td>
 <td style="text-align: left;">As returned by the DVLA Vehicle Enquiry Service</td>
@@ -583,6 +600,7 @@ Table&nbsp;27.1: Emissions columns.
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>realDrivingEmissions_DVLA</code></td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">Bristol (VES)</td>
 <td style="text-align: left;">As returned by the DVLA Vehicle Enquiry Service</td>
@@ -598,8 +616,8 @@ Table&nbsp;27.1: Emissions columns.
 </section>
 <section id="coverage" class="level2" data-number="27.2">
 <h2 data-number="27.2" class="anchored" data-anchor-id="coverage"><span class="header-section-number">27.2</span> Coverage</h2>
-<p>CO<sub>2</sub> has been recorded since vehicle tax began to depend on it, for cars registered from March 2001, so the DVLA figure is almost never present for vehicles first used before then (<a href="#fig-dd-emissions" class="quarto-xref">Figure&nbsp;<span>27.1</span></a>). The backfill cannot help here, as similar vehicles of the same age have no figure either: <code>co2</code> is present for only 9% of vehicles first used before 2000, against 93% of those first used in the 2010s. The DVLA figure dips again for the newest vehicles, not yet looked up in the VES (<a href="dvla-status.html" class="quarto-xref"><span>Chapter 31</span></a>), and the backfill fills most of that gap.</p>
-<p>The DVLA recorded a Euro status for only 15% of vehicles, almost all first used since 2018. The backfill and the assumed standard raise this to 91%, but most of the values are therefore not records. For cars, 38% of Euro statuses are assumed from the date. <code>euro_status</code> is blank for most vehicles made before the first Euro standard, in 1992, and for body types with no Euro schedule.</p>
+<p>CO<sub>2</sub> has been recorded since vehicle tax began to depend on it, for cars registered from March 2001, so the DVLA figure is almost never present for vehicles first used before then (<a href="#fig-dd-emissions" class="quarto-xref">Figure&nbsp;<span>27.1</span></a>). The backfill cannot help here, as similar vehicles of the same age have no figure either: <code>co2</code> is present for only 9% of vehicles first used before 2000, against 93% of those first used in the 2010s. The DVLA figure dips again for the newest vehicles, not yet looked up in the VES (<a href="dvla-status.html" class="quarto-xref"><span>Chapter 32</span></a>), and the backfill fills most of that gap.</p>
+<p>The DVLA recorded a Euro status for only 15% of vehicles, almost all first used since 2018. The backfill and the assumed standard raise this to 91% with a standard (<code>euro_standard</code>), but most of the values are therefore not records. For cars, 59% of Euro statuses are assumed from the date. <code>euro_status</code> is never blank: where no standard applies it says why instead, <code>pre_euro</code> for vehicles made before the first standard of their class (in 1992 for cars), <code>no_schedule</code> for body types with no Euro schedule and <code>no_date</code> where the vehicle has no date to place it. <code>euro_standard</code> is blank for these.</p>
 <p><code>realDrivingEmissions_DVLA</code>, the DVLA’s Real Driving Emissions (RDE) field, is present only for some vehicles first used since 2019, and is not used by the pipeline.</p>
 <div class="cell" data-layout-align="center">
 <div id="tbl-dd-emissions-coverage" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
@@ -663,11 +681,11 @@ Table&nbsp;27.2: Share of vehicles with a value, by year of first use.
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>euro_status</code></td>
-<td style="text-align: right;">91.2%</td>
-<td style="text-align: right;">68.0%</td>
-<td style="text-align: right;">96.8%</td>
-<td style="text-align: right;">97.2%</td>
-<td style="text-align: right;">97.0%</td>
+<td style="text-align: right;">100.0%</td>
+<td style="text-align: right;">100.0%</td>
+<td style="text-align: right;">100.0%</td>
+<td style="text-align: right;">100.0%</td>
+<td style="text-align: right;">100.0%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>euro_status_src</code></td>
@@ -724,7 +742,7 @@ Table&nbsp;27.2: Share of vehicles with a value, by year of first use.
 <img src="emissions_files/figure-html/fig-dd-emissions-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-emissions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;27.1: Share of vehicles with a CO<sub>2</sub> figure and a Euro status, as supplied by the DVLA and harmonised, by year of first use.
+Figure&nbsp;27.1: Share of vehicles with a CO<sub>2</sub> figure and a Euro standard, as supplied by the DVLA and harmonised, by year of first use.
 </figcaption>
 </figure>
 </div>
@@ -737,7 +755,7 @@ Figure&nbsp;27.1: Share of vehicles with a CO<sub>2</sub> figure and a Euro stat
 <div class="cell" data-layout-align="center">
 <section id="co2" class="level3">
 <h3 class="anchored" data-anchor-id="co2"><code>co2</code></h3>
-<p>CO2 emissions (g/km): DVLA, else variant backfill. A recorded 0 is kept only for Electric and Fuel Cells vehicles; for anything else it is impossible, so it is cleared before the backfill and the vehicle is filled from similar vehicles (see co2_check).</p>
+<p>CO2 emissions (g/km): DVLA (same vehicle only), else variant, else model_year_fuel backfill (see co2_src). A recorded 0 is kept only for Electric and Fuel Cells vehicles; for anything else it is impossible, so it is cleared before the backfill and the vehicle is filled from similar vehicles (see co2_check).</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-dd-v-co2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -809,7 +827,7 @@ Figure&nbsp;27.5: Minimum, quartiles and maximum of co2Emissions_DVLA, by year o
 </section>
 <section id="euro_status" class="level3">
 <h3 class="anchored" data-anchor-id="euro_status"><code>euro_status</code></h3>
-<p>Euro status: DVLA with the spelling standardised (‘EURO 6AP’ and ‘EURO6 (AP)’ become ‘EURO 6 AP’; see R/euro_status.R), else variant backfill, else the standard that was compulsory for new registrations of that body type when the vehicle was made.</p>
+<p>Euro status: DVLA with the spelling standardised (‘EURO 6AP’ and ‘EURO6 (AP)’ become ‘EURO 6 AP’; see R/euro_status.R), else variant backfill, else the standard that was compulsory for new registrations of that body type when the vehicle was made; where there is none, why: pre_euro (made before the first standard of its class), no_schedule (body type with no schedule: Other vehicles, or none) or no_date (no date to place the vehicle).</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-dd-v-euro-status" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -1328,8 +1346,8 @@ Figure&nbsp;27.11: Share of vehicles by value of realDrivingEmissions_DVLA, by y
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../chapters/dictionary/dates.html" class="pagination-link" aria-label="Dates and age">
-        <span class="nav-page-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Dates and age</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../chapters/dictionary/racf.html" class="pagination-link" aria-label="Car size and model attributes">
+        <span class="nav-page-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Car size and model attributes</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

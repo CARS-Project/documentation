@@ -333,26 +333,32 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../chapters/dictionary/racf.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Car size and model attributes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/dates.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Dates and age</span></span></a>
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Dates and age</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/mileage.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Mileage</span></span></a>
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Mileage</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/location.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Location</span></span></a>
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Location and yearly status</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/dvla-status.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Licensing status and DVLA lookups</span></span></a>
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Licensing status and DVLA lookups</span></span></a>
   </div>
 </li>
       </ul>
@@ -504,15 +510,17 @@ Table&nbsp;26.1: Fuel and engine columns.
 <div class="cell-output-display">
 <table class="cell caption-top table table-sm table-striped small">
 <colgroup>
-<col style="width: 6%">
+<col style="width: 5%">
+<col style="width: 2%">
 <col style="width: 2%">
 <col style="width: 4%">
-<col style="width: 85%">
+<col style="width: 82%">
 <col style="width: 2%">
 </colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: left;">Column</th>
+<th style="text-align: left;">Simplified</th>
 <th style="text-align: left;">Type</th>
 <th style="text-align: left;">Source</th>
 <th style="text-align: left;">Description</th>
@@ -522,6 +530,7 @@ Table&nbsp;26.1: Fuel and engine columns.
 <tbody>
 <tr class="odd">
 <td style="text-align: left;"><code>fuel</code></td>
+<td style="text-align: left;">Yes</td>
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">pipeline</td>
 <td style="text-align: left;">Fuel type: DVSA; DVLA (same vehicle only, mapped to DVSA terms) where DVSA is ‘Other’, or says Electric/Fuel Cells for a DVLA vehicle with an engine; fuel of same-engine vehicles for an Electric/Fuel Cells vehicle with a recorded engine size; Electric where the make/model check corrects it. Never backfilled</td>
@@ -529,6 +538,7 @@ Table&nbsp;26.1: Fuel and engine columns.
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>fuel_src</code></td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">pipeline</td>
 <td style="text-align: left;">Source of fuel: dvsa, dvla, variant (most common fuel of the same make/model/birth year/engine size), model (set to Electric by the make/model check) or dft (replaced by the DfT plug-in hybrid value)</td>
@@ -536,6 +546,7 @@ Table&nbsp;26.1: Fuel and engine columns.
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>fuel_check</code></td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">pipeline</td>
 <td style="text-align: left;">Fuel compared with the same make/model: ok, rare_conversion, rare_for_model, implausible_for_model, corrected_electric, unknown_fuel or no_reference (see methodology.md)</td>
@@ -543,6 +554,7 @@ Table&nbsp;26.1: Fuel and engine columns.
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>fuel_simple</code></td>
+<td style="text-align: left;">Yes</td>
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">pipeline</td>
 <td style="text-align: left;">Fuel grouped as Petrol / Diesel / Electric / Hybrid Electric / Plug-in Hybrid Electric / Other</td>
@@ -550,6 +562,7 @@ Table&nbsp;26.1: Fuel and engine columns.
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>fuel_DFT</code></td>
+<td style="text-align: left;">Yes</td>
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">DfT VEH0220</td>
 <td style="text-align: left;">Fuel as the DfT vehicle licensing statistics record it for this make and model (VEH0220), which unlike DVSA and DVLA separates plug-in hybrids from other hybrids. NA where the make/model has no DfT vehicles of this fuel group, or where no one DfT fuel is common enough to choose (see fuel_DFT_src)</td>
@@ -557,6 +570,7 @@ Table&nbsp;26.1: Fuel and engine columns.
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>fuel_DFT_src</code></td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">pipeline</td>
 <td style="text-align: left;">How fuel_DFT was found: dft_model (the DfT model string’s most common fuel of this group), dft_genmodel (the generic model’s), ambiguous_model / ambiguous_genmodel (a match, but no single DfT fuel reaches the checks.dft_fuel_share threshold) or no_reference</td>
@@ -564,6 +578,7 @@ Table&nbsp;26.1: Fuel and engine columns.
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>fuel_DVSA</code></td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">Bristol (DVSA)</td>
 <td style="text-align: left;">As supplied by DVSA</td>
@@ -571,6 +586,7 @@ Table&nbsp;26.1: Fuel and engine columns.
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>fuelType_DVLA</code></td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">Bristol (VES)</td>
 <td style="text-align: left;">As returned by the DVLA Vehicle Enquiry Service</td>
@@ -578,20 +594,23 @@ Table&nbsp;26.1: Fuel and engine columns.
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>engine_cc</code></td>
+<td style="text-align: left;">Yes</td>
 <td style="text-align: left;">INTEGER</td>
 <td style="text-align: left;">pipeline</td>
 <td style="text-align: left;">Engine size (cc): DVSA if &gt; 0, else DVLA if &gt; 0 (same vehicle only); 0 for Electric and Fuel Cells; else most common for the same make/model/birth year/fuel, then make/model/fuel</td>
-<td style="text-align: left;">0.85%</td>
+<td style="text-align: left;">0.86%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>engine_cc_src</code></td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">pipeline</td>
 <td style="text-align: left;">Source of engine_cc: dvsa, dvla, no_engine (Electric / Fuel Cells), model_year_fuel or model_fuel</td>
-<td style="text-align: left;">0.85%</td>
+<td style="text-align: left;">0.86%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>engine_check</code></td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">pipeline</td>
 <td style="text-align: left;">Engine size check: ok; engine_removed (Electric / Fuel Cells vehicle with a recorded engine size, set to 0); zero_replaced (fuel with an engine recorded as 0cc, backfilled); missing (fuel with an engine and no engine size after backfill)</td>
@@ -599,6 +618,7 @@ Table&nbsp;26.1: Fuel and engine columns.
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>engineSize_DVSA</code></td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">INTEGER</td>
 <td style="text-align: left;">Bristol (DVSA)</td>
 <td style="text-align: left;">As supplied by DVSA</td>
@@ -606,6 +626,7 @@ Table&nbsp;26.1: Fuel and engine columns.
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>engineCapacity_DVLA</code></td>
+<td style="text-align: left;">No</td>
 <td style="text-align: left;">INTEGER</td>
 <td style="text-align: left;">Bristol (VES)</td>
 <td style="text-align: left;">As returned by the DVLA Vehicle Enquiry Service</td>
