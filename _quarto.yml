@@ -44,7 +44,13 @@ book:
         - chapters/getting-started.qmd
         - chapters/examples-spreadsheet.qmd
         - chapters/examples-code.qmd
-    - chapters/methodology.qmd
+    - part: chapters/methodology/index.qmd
+      chapters:
+        - chapters/methodology/data-sources.qmd
+        - chapters/methodology/linking-anon-dvsa.qmd
+        - chapters/methodology/linking-ves.qmd
+        - chapters/methodology/annualising.qmd
+        - chapters/methodology/cleaning.qmd
     - part: chapters/dictionary/index.qmd
       chapters:
         - chapters/dictionary/identifiers.qmd

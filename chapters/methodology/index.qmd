@@ -1,0 +1,3 @@
+# Methodology {#sec-methodology}
+
+This part describes how the CARS vehicle table is made: where the source data comes from, how the sources are linked and annualised, and how the pipeline cleans and enhances the result. The pipeline's own, fuller account is the [Methodology report](../../reports/methodology.md), included as an appendix.

@@ -1,38 +1,14 @@
 ---
-number-depth: 4
+number-depth: 3
 ---
 
-# Methodology {#sec-methodology}
-
-This chapter describes how the CARS vehicle table is made: where the source data comes from, how the sources are linked and annualised, and how the pipeline cleans and enhances the result. The pipeline's own, fuller account is the [Methodology report](../reports/methodology.md), included as an appendix.
-
-## Description and acquisition of the primary data sources {#sec-meth-data-sources}
-
-::: {.callout-note .todo title="To be written"}
-:::
-
-## Linking the anonymous and DVSA data sets {#sec-meth-linking-anon-dvsa}
-
-::: {.callout-note .todo title="To be written"}
-:::
-
-## Linking the VES data set {#sec-meth-linking-ves}
-
-::: {.callout-note .todo title="To be written"}
-:::
-
-## Annualising the data {#sec-meth-annualising}
-
-::: {.callout-note .todo title="To be written"}
-:::
-
-## Cleaning and enhancing the vehicle data {#sec-meth-cleaning}
+# Cleaning and enhancing the vehicle data {#sec-meth-cleaning}
 
 After the three dataset have been joined and converted to annualised dataset a process of cleaning and enhancement is done to make the data more consistent and easier to use.
 
-### Core vehicle variables
+## Core vehicle variables
 
-#### Dates {#sec-meth-dates}
+### Dates {#sec-meth-dates}
 
 Standerdised Birth/dead dates needed - Perhap this should be moved to Bristol?
 
@@ -48,7 +24,7 @@ Standerdised Birth/dead dates needed - Perhap this should be moved to Bristol?
 
 - **`last_mot_year`** is the latest year with `is_end_use_YYYY = TRUE`. Where no year is flagged, it is the last year with a recorded postcode area, unless that year is one of the final two years of data.
 
-#### Postcode area status infill {#sec-meth-postcode-area-status-infill}
+### Postcode area status infill {#sec-meth-postcode-area-status-infill}
 
 The `pca_YYYY` variables thus far include the postcode area for each year a vehicle is observed. If the vehicle has not been observed in any given year the field is blank. At this stage blank values are infilled with an explanatory variable which descibes why the vehicle has not been observed, described below.
 
@@ -65,7 +41,7 @@ While these values are intended to make it easier to understanding the status of
 
 - **Unobserved years before the last MOT are “unknown”.** Sometimes we loose track of a vehicle either because it did not have an MOT test in a particular year or because we could not match the DVSA MOT record to the anonymised MOT record. This means that we know the vehicle existed in that year and may have mileage associated with that vehicle, however we can't give it a location. `unknown` vehicles increase substantially in the last few years due to vehicles that have not had their first MOT which we know exist from the DVLA / DVSA data but do not appear in the Anoymmised MOT dataset.
 
-#### Scope: which vehicles are kept {#sec-meth-scope-which-vehicles-are-kept}
+### Scope: which vehicles are kept {#sec-meth-scope-which-vehicles-are-kept}
 
 The DVSA MOT dataset contains around 138 million vehicles, however many of these have no MOT history and were likely scrapped before the first digital MOT test records were created in 2005. Therfe for the CARS output tables aim to only include vehicles that have **existed since the** **1st of January 2005**. As within the data there is no single way to confirm whether a vehicle exists we use four tests to define if the vehicle is in scope:
 
@@ -78,7 +54,7 @@ The DVSA MOT dataset contains around 138 million vehicles, however many of these
 
 While most of these tests also mean that we have some data about the vehicles usage the DVLA activity flag can include vehicles that are over 40 years old and so no longer require a MOT test. While they are included in the output datasets we can say very little about how they are used and if or when they reached end of life.
 
-### Make and model cleaning {#sec-meth-make-and-model}
+## Make and model cleaning {#sec-meth-make-and-model}
 
 *Code: `R/make_model.R` · Outputs: `outputs/intermediate/dft_*.parquet`, `outputs/intermediate/make_model_*.parquet`, `outputs/quality/make_model_review.csv`*
 
@@ -96,7 +72,7 @@ Makes and models follow the naming of the **DfT vehicle licensing statistics**: 
 
 Of 93,352,241 in-scope vehicles, 94.9% have a DfT generic model, 4.3% have a placeholder model such as `UNKNOWN` (so no model), and 0.8% keep their normalised raw model because nothing matched.
 
-#### The DfT reference {#sec-meth-the-dft-reference}
+### The DfT reference {#sec-meth-the-dft-reference}
 
 `inputs/df_VEH0220.csv` and `inputs/df_VEH0124_AM.csv` / `_NZ.csv` are read as Latin-1 text. Each count is the number of vehicles (licensed plus SORN) at the end of a year, from 2014. To name models, each row is weighted by its largest count in any year, so a model that has since left the fleet still counts.
 
@@ -109,7 +85,7 @@ DfT’s coding has some quirks, which are tidied before matching:
 
 Four reference tables come out of this (`outputs/intermediate/dft_*.parquet`): model names and body types, fuel group by engine band (used to settle ambiguous models, @sec-meth-choices-made-per-vehicle), year of first use, and the **fuel as DfT records it**, which is the only source that separates plug-in hybrids from other hybrids and is used in @sec-meth-plug-in-hybrids-the-dft.
 
-#### Makes {#sec-meth-makes}
+### Makes {#sec-meth-makes}
 
 Each distinct raw make is resolved once. The first step that matches wins:
 
@@ -126,7 +102,7 @@ Each distinct raw make is resolved once. The first step that matches wins:
 | `override` | `inputs/make_model_overrides.csv` (@sec-meth-reviewed-decisions-and-the-review) | 101 |
 | `unmatched` | Kept as recorded, upper case. Many are trailer makers, or old makes DfT groups as OTHER BRITISH | 130,079 |
 
-#### Models {#sec-meth-models}
+### Models {#sec-meth-models}
 
 Each distinct make and model text is matched once, within its make. Text is compared in upper case with punctuation as spaces. The first step that matches wins:
 
@@ -147,17 +123,17 @@ Text that starts with the make’s name (MINI COOPER) is also tried without it. 
 
 `model_confidence` is the share of the DfT vehicles under the matched text that have the chosen generic model: 1 for `exact` and `generic`, at least 0.9 for `prefix` and `words`.
 
-#### Choices made per vehicle {#sec-meth-choices-made-per-vehicle}
+### Choices made per vehicle {#sec-meth-choices-made-per-vehicle}
 
 For `ambiguous` and `make_only` text, each candidate generic model starts from its share of the DfT vehicles under the text. That share is multiplied by how common the vehicle’s fuel group and engine size band, and its year of first use, are among DfT vehicles of that generic model (with add-half smoothing, so a combination DfT never records is unlikely but possible). The candidate with the largest weight is chosen, and `model_confidence` is its share of the total weight. 936,073 vehicles are chosen this way, and 129,941 vehicles have a `model_confidence` below 0.5.
 
 Engine size bands follow DfT: up to 50cc, 51–125cc, 126–200cc, then 100cc steps. Fuel groups are petrol, diesel, electric, hybrid (including plug-in and range extended), gas and other.
 
-#### Derivative {#sec-meth-derivative}
+### Derivative {#sec-meth-derivative}
 
 `derivative_final` is the raw model text after the words that gave the make and model, kept as recorded apart from case and spacing. FIESTA ZETEC CLIMATE gives ZETEC CLIMATE; 118I M SPORT keeps all its words, because the badge is not part of the generic model name 1 SERIES. It is not standardised: it keeps the detail the DfT scheme drops (Discovery SPORT, C4 GRAND PICASSO) for analyses that need it. A derivative that only repeats the start of the model name (E for E CLASS) is dropped.
 
-#### Body type {#sec-meth-body-type}
+### Body type {#sec-meth-body-type}
 
 `body_type` uses the DfT body types. The first source that gives one wins (`body_type_src`):
 
@@ -170,7 +146,7 @@ Engine size bands follow DfT: up to 50cc, 51–125cc, 126–200cc, then 100cc st
 
 The type approval mapping was checked against vehicles whose DfT model string has a single body type: 94% of N1 vehicles and over 99% of M1 and L3 vehicles agree.
 
-#### Reviewed decisions and the review list {#sec-meth-reviewed-decisions-and-the-review}
+### Reviewed decisions and the review list {#sec-meth-reviewed-decisions-and-the-review}
 
 - **`inputs/make_model_overrides.csv`** is applied last and wins over every step. Each row fixes one raw make/model spelling, gives the DfT make, generic model and derivative, and states the evidence. It is checked when read: a make is required, each raw pair may appear once, every row needs a reason, and a model must be a DfT generic model of the make. It has 15 rows. The first came from the fuel checks in @sec-meth-fuel-check-against-the-make, which caught an earlier lookup giving electric models to old petrol vehicles (PORSCHE TARGA as a Taycan).
 - **`inputs/make_aliases.csv`** merges make spellings (@sec-meth-the-dft-reference and @sec-meth-makes), with a reason for each.
@@ -178,7 +154,7 @@ The type approval mapping was checked against vehicles whose DfT model string ha
 
 Edit these files in R or a text editor. A spreadsheet re-saves numbers in its own format (`45.160` becomes `45.16`, `130E18` becomes `1.3E+020`), which changes the raw keys.
 
-#### Comparison with the DfT counts {#sec-meth-comparison-with-the-dft-counts}
+### Comparison with the DfT counts {#sec-meth-comparison-with-the-dft-counts}
 
 `R/dft_compare.R` counts the in-scope vehicles observed in each year (a real PCA, not `unborn`, `dead` or `unknown`) by body type, age and make/model, and sets them against VEH0124’s licensed plus SORN counts (`outputs/quality/dft_stock_*.csv`). `unknown` is left out because it never ends for a vehicle with no last MOT year. Both sources cover the whole UK, Northern Ireland included. They differ by design: vehicles under three years old (four in Northern Ireland) have no MOT, and a SORN vehicle stays in DfT’s count but is not tested. The `age3plus` columns compare only vehicles first used at least three years earlier.
 
@@ -204,7 +180,7 @@ Assumptions:
 - **Prefixes and word sets are trusted at 90%.** Raw text whose DfT vehicles are split more evenly is chosen per vehicle, or left unmatched.
 - **Spelling fixes need a clear target.** A misspelling must be rare next to the word it is corrected to, so real models DfT barely records (Toyota Sienna, Norton Commander) are left alone.
 
-### Stage 3: Record matching, fuel and engine checks, and backfill {#sec-meth-record-matching-fuel-and-engine}
+## Stage 3: Record matching, fuel and engine checks, and backfill {#sec-meth-record-matching-fuel-and-engine}
 
 *Code: `R/dvla_match.R`, `R/fuel_engine.R`, `R/euro_status.R`, `R/backfill.R` (reference tables) and `R/assemble.R` (application) · Outputs: `outputs/quality/dvla_make_aliases.csv`, `outputs/quality/suspected_dvla_mismatches.csv`, `outputs/intermediate/fuel_*.parquet`, `outputs/intermediate/backfill_*.parquet`, then columns in the enhanced table*
 
@@ -217,7 +193,7 @@ Eight attributes are harmonised: `fuel`, `engine_cc`, `revenue_weight`, `co2`, `
 
 Figures below are for the 93,352,241 in-scope vehicles.
 
-#### DVSA–DVLA record match {#sec-meth-dvsa-dvla-record-match}
+### DVSA–DVLA record match {#sec-meth-dvsa-dvla-record-match}
 
 The DVSA and VES records of each vehicle are compared in three independent ways:
 
@@ -245,7 +221,7 @@ Some make pairs are the same vehicle under another name: CHRYSLER-JEEP / JEEP, R
 
 Every such row of the input file (123,360, including out-of-scope vehicles) is listed with its evidence in `suspected_dvla_mismatches.csv`, for Bristol to check.
 
-#### Fuel {#sec-meth-fuel}
+### Fuel {#sec-meth-fuel}
 
 Fuel is taken from the records and is **never backfilled**. VES fuel is mapped to DVSA terms with `inputs/fuel_dvla_to_dvsa.csv` (e.g. `ELECTRICITY` becomes `Electric`, `PETROL/GAS` becomes `LPG`), and is used only when `dvla_match` is `same`.
 
@@ -283,7 +259,7 @@ The main changes from the DVSA fuel are:
 
 The Electric and Fuel Cells changes are mostly Toyota, Lexus, Hyundai and Honda hybrids. DVSA fuel is never missing; 128,451 vehicles (0.14%) are “Other” in both sources.
 
-#### Fuel check against the make/model {#sec-meth-fuel-check-against-the-make}
+### Fuel check against the make/model {#sec-meth-fuel-check-against-the-make}
 
 Each vehicle’s fuel is compared with the fuels of all vehicles of its make/model (`make_final` + `model_final`). The result is `fuel_check`:
 
@@ -309,7 +285,7 @@ The most common make/models behind each outcome in this build (from `fuel_engine
 - **`corrected_electric`:** BMW IX, AUDI Q4, AUDI E-TRON and BMW I4: vehicles recorded by DVSA as Electric whose VES record, for another vehicle of the same make and year, said petrol or diesel.
 - **`implausible_for_model`:** usually make/model cleaning errors, which go into the overrides file once reviewed (@sec-meth-reviewed-decisions-and-the-review). The largest in this build are NISSAN LEAF recorded as Hybrid Electric (Clean) (10 vehicles, born 2011–2018), AUDI Q4 recorded as Hybrid Electric (Clean) (8 vehicles, born 2023–2024) and MERCEDES EQC CLASS recorded as Diesel (3 vehicles, born 2021–2021).
 
-#### Engine size {#sec-meth-engine-size}
+### Engine size {#sec-meth-engine-size}
 
 `engine_cc` is the first of:
 
@@ -339,7 +315,7 @@ The most common make/models behind each outcome in this build (from `fuel_engine
 
 The most common make/models with a removed engine size are BMW IX, AUDI Q4, AUDI E-TRON and BMW I4. Of the vehicles still `missing`, 651,122 are diesel; these are mostly tractors and plant with no model, so there is nothing to backfill from.
 
-#### Plug-in hybrids: the DfT fuel detail {#sec-meth-plug-in-hybrids-the-dft}
+### Plug-in hybrids: the DfT fuel detail {#sec-meth-plug-in-hybrids-the-dft}
 
 Neither source distinguishes a plug-in hybrid from any other hybrid. DVSA records `Hybrid Electric (Clean)` for a mild hybrid, a full hybrid and a plug-in alike, and `Electric Diesel` for both kinds of diesel hybrid; the VES fuel types map onto the same two labels. The DfT vehicle licensing statistics do distinguish them: table VEH0220, already read for the make/model naming scheme (@sec-meth-the-dft-reference), records eleven fuels, among them PLUG-IN HYBRID ELECTRIC (PETROL), PLUG-IN HYBRID ELECTRIC (DIESEL) and RANGE EXTENDED ELECTRIC.
 
@@ -386,11 +362,11 @@ The harmonised `fuel` is then replaced **only** for the three plug-in fuels, and
 | `Range Extended Electric`                          | 15,815    |
 | plug-in in DfT but no engine size, so not replaced | 1         |
 
-Nothing else is overwritten: a full hybrid that DfT confirms as a full hybrid keeps the fuel it already had, and `fuel_check` (@sec-meth-fuel-check-against-the-make) still describes the fuel as it was before this step. `fuel_simple` gains a sixth group, `Plug-in Hybrid Electric`, so the distinction is visible in every summary that uses it; the churn tables use the same six groups ([section 7.1 of the methodology report](../reports/methodology.md#population-and-definitions)).
+Nothing else is overwritten: a full hybrid that DfT confirms as a full hybrid keeps the fuel it already had, and `fuel_check` (@sec-meth-fuel-check-against-the-make) still describes the fuel as it was before this step. `fuel_simple` gains a sixth group, `Plug-in Hybrid Electric`, so the distinction is visible in every summary that uses it; the churn tables use the same six groups ([section 7.1 of the methodology report](../../reports/methodology.md#population-and-definitions)).
 
 **What this does not do.** The DfT fuel is a property of the make, model and variant, not of the individual vehicle, so a vehicle whose model text was matched to the wrong model string takes the wrong fuel with it. The match is only as good as @sec-meth-make-and-model, and `model_confidence` is the guide to that. Nor can it find a plug-in hybrid whose make/model DfT does not record at all (`no_reference`), or one of an ambiguous generic model: those vehicles are undercounted as ordinary hybrids, which makes 1,090,074 a lower bound on the plug-in fleet.
 
-#### Other attributes {#sec-meth-other-attributes}
+### Other attributes {#sec-meth-other-attributes}
 
 | Attribute | Recorded value |
 |------------------------------------|------------------------------------|
@@ -418,7 +394,7 @@ For vehicles with a mismatched VES record, recorded VES values are ignored and f
 | `zero_removed` | The same, but no backfill value was available, so CO2 is missing |
 | `missing` | No CO2 recorded or backfilled |
 
-#### Euro status from the registration date {#sec-meth-euro-status-from-the-registration}
+### Euro status from the registration date {#sec-meth-euro-status-from-the-registration}
 
 A Euro status is recorded for only a minority of vehicles. The VES returns one mostly for vehicles first registered from 2018 onwards, so after the variant backfill of @sec-meth-other-attributes 44.6% of in-scope vehicles still had none.
 
@@ -488,7 +464,7 @@ Checked against the vehicles that do have a recorded status, the schedule reprod
 
 `later_than_date` is worth reading as a check on the variant backfill rather than on the register. Of the 10,332,946 vehicles flagged, 24,813 have a recorded VES value and the rest were backfilled from similar vehicles. With `backfill.min_vehicles` at 1, a single wrong VES value spreads to every vehicle of its make, model, birth year, fuel and engine size, and the Euro status is the attribute where that shows most clearly. Raising the setting, or capping backfilled Euro statuses at the schedule, would reduce it; neither is done here, because the brief was to fill missing values rather than to change existing ones.
 
-#### How “most common” is calculated {#sec-meth-how-most-common-is-calculated}
+### How “most common” is calculated {#sec-meth-how-most-common-is-calculated}
 
 The pipeline builds these reference tables:
 
@@ -505,7 +481,7 @@ The pipeline builds these reference tables:
 - **A group’s value is used only if at least `backfill.min_vehicles` vehicles had it recorded.** The setting is 1.
 - **Vehicles without a make, model or fuel** contribute to no table and receive no backfilled values. Vehicles without a birth year are used only for the model-fuel table.
 
-#### Assumptions and limitations {#sec-meth-assumptions-and-limitations}
+### Assumptions and limitations {#sec-meth-assumptions-and-limitations}
 
 1.  **Two disagreements between DVSA and VES mean different vehicles.** One disagreement is common for genuine matches: imports registered years after manufacture, and engine sizes recorded differently. A registration moved between two vehicles of the same make and year, where one engine size is missing, is not detected; the fuel check catches some of these.
 2.  **DVSA fuel is trusted unless another record contradicts it.** VES overrides it only for “Other”, and for Electric / Fuel Cells vehicles that VES shows as hybrids or as having an engine.
@@ -527,11 +503,11 @@ The pipeline builds these reference tables:
 
 For analysis sensitive to these assumptions, filter to recorded values with `*_src IN ('dvsa', 'dvla')`, or to `fuel_check = 'ok'`. The churn tables use the recorded DVSA fuel, engine size and test class columns by default.
 
-### Stage 4: Derived fields and number plates {#sec-meth-derived-fields-and-number-plates}
+## Stage 4: Derived fields and number plates {#sec-meth-derived-fields-and-number-plates}
 
 *Code: `R/assemble.R`, `R/plates.R` · Output: `outputs/vehicles_enhanced.parquet`*
 
-#### Derived fields {#sec-meth-derived-fields}
+### Derived fields {#sec-meth-derived-fields}
 
 - **`fuel_simple`** groups the harmonised fuel into six categories:
 
@@ -546,7 +522,7 @@ For analysis sensitive to these assumptions, filter to recorded values with `*_s
 
 - **`euro_standard`** is the Euro emission standard number taken from the `euro_status` text, with Roman numerals converted. For example, “EURO 6 AP” gives 6 and “EURO VI E” gives 6. Heavy-duty (Roman) and light-duty (Arabic) standards share one scale, although they are different regulations.
 
-#### Number plate decoding {#sec-meth-number-plate-decoding}
+### Number plate decoding {#sec-meth-number-plate-decoding}
 
 The registration is upper-cased and stripped of non-alphanumeric characters (`registration_clean`). It is then matched against a sequence of plate formats, and the first match wins. The rules are an SQL translation of `DVLAAPI::registration_analysis()`, in the same order. The main formats are:
 
