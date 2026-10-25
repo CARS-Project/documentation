@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>18&nbsp; Methodology – Using the CARS vehicle data</title>
+<title>22&nbsp; Cleaning and enhancing the vehicle data – Using the CARS vehicle data</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -29,26 +29,26 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../site_libs/quarto-nav/headroom.min.js"></script>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../">
-<link href="../chapters/dictionary/index.html" rel="next">
-<link href="../chapters/examples-code.html" rel="prev">
-<link href="../images/favicon.png" rel="icon" type="image/png">
-<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/popper.min.js"></script>
-<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-6042582f9b753895188e055ed7464af9.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../chapters/dictionary/index.html" rel="next">
+<link href="../../chapters/methodology/annualising.html" rel="prev">
+<link href="../../images/favicon.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-c08868c37ca8912c446ae25c80bf22ff.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -89,7 +89,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/methodology.html"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Methodology</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/methodology/index.html">Methodology</a></li><li class="breadcrumb-item"><a href="../../chapters/methodology/cleaning.html"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Cleaning and enhancing the vehicle data</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -103,12 +103,12 @@ ul.task-list li input[type="checkbox"] {
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
-      <a href="../index.html" class="sidebar-logo-link">
-      <img src="../images/CARS_logo.webp" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
-      <img src="../images/CARS_logo.webp" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      <a href="../../index.html" class="sidebar-logo-link">
+      <img src="../../images/CARS_logo.webp" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="../../images/CARS_logo.webp" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
       </a>
     <div class="sidebar-title mb-0 py-0">
-      <a href="../">Using the CARS vehicle data</a> 
+      <a href="../../">Using the CARS vehicle data</a> 
         <div class="sidebar-tools-main">
     <a href="https://github.com/CARS-Project/documentation" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
 </div>
@@ -123,7 +123,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Preface</span></a>
   </div>
 </li>
@@ -138,43 +138,43 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/mot-test.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapters/mot-test.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">The MOT test</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/data-landscape.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapters/data-landscape.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Who holds vehicle data in the UK</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/vehicle-types.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapters/vehicle-types.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Classifying vehicles</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/fuels-emissions.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapters/fuels-emissions.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Fuels, emissions and Euro standards</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/number-plates.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapters/number-plates.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Number plates</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/vehicle-lifecycle.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapters/vehicle-lifecycle.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">The life of a vehicle</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/geography.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapters/geography.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Geography: postcode areas</span></span></a>
   </div>
 </li>
@@ -191,37 +191,37 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/sources-linkage.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapters/sources-linkage.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Source data and linkage</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/pipeline.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapters/pipeline.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">From linked data to research-ready data</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/data-products.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapters/data-products.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Data products and access</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/vehicle-table.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapters/vehicle-table.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">The vehicle table</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/aggregate-tables.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapters/aggregate-tables.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">The aggregate tables</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/data-quality.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapters/data-quality.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">How good is the data?</span></span></a>
   </div>
 </li>
@@ -238,40 +238,34 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/pitfalls.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapters/pitfalls.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Concepts and pitfalls</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/getting-started.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapters/getting-started.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Getting started</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/examples-spreadsheet.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapters/examples-spreadsheet.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Worked examples: spreadsheets</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/examples-code.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapters/examples-code.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Worked examples: code</span></span></a>
   </div>
 </li>
       </ul>
   </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/methodology.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Methodology</span></span></a>
-  </div>
-</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../chapters/dictionary/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Data dictionary</span></a>
+            <a href="../../chapters/methodology/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Methodology</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -279,100 +273,40 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/dictionary/identifiers.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Identifiers and scope</span></span></a>
+  <a href="../../chapters/methodology/data-sources.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Description and acquisition of the primary data sources</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/dictionary/registration.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Registration and number plates</span></span></a>
+  <a href="../../chapters/methodology/linking-anon-dvsa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Linking the anonymous and DVSA data sets</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/dictionary/make-model.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Make and model</span></span></a>
+  <a href="../../chapters/methodology/linking-ves.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Linking the VES data set</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/dictionary/vehicle-type.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Vehicle type</span></span></a>
+  <a href="../../chapters/methodology/annualising.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Annualising the data</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/dictionary/colour.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Colour</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/dictionary/wheelplan.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Wheel plan</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/dictionary/weight.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Weight</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/dictionary/fuel-engine.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Fuel and engine</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/dictionary/emissions.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Emissions</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/dictionary/racf.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Car size and model attributes</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/dictionary/dates.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Dates and age</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/dictionary/mileage.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Mileage</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/dictionary/location.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Location and yearly status</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/dictionary/dvla-status.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Licensing status and DVLA lookups</span></span></a>
+  <a href="../../chapters/methodology/cleaning.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Cleaning and enhancing the vehicle data</span></span></a>
   </div>
 </li>
       </ul>
   </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../chapters/references.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">References</span></a>
-  </div>
-</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
- <span class="menu-text">Appendices</span></a>
+            <a href="../../chapters/dictionary/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data dictionary</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -380,58 +314,159 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/glossary.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapters/dictionary/identifiers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Identifiers and scope</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/dictionary/registration.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Registration and number plates</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/dictionary/make-model.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Make and model</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/dictionary/vehicle-type.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Vehicle type</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/dictionary/colour.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Colour</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/dictionary/wheelplan.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Wheel plan</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/dictionary/weight.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Weight</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/dictionary/fuel-engine.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Fuel and engine</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/dictionary/emissions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Emissions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/dictionary/racf.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Car size and model attributes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/dictionary/dates.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Dates and age</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/dictionary/mileage.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Mileage</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/dictionary/location.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Location and yearly status</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/dictionary/dvla-status.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Licensing status and DVLA lookups</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/glossary.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Glossary</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/table-catalogue.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapters/table-catalogue.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Catalogue of aggregate tables</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/maintaining.html" class="sidebar-item-text sidebar-link">
+  <a href="../../chapters/maintaining.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Maintaining this book</span></span></a>
   </div>
 </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
  <span class="menu-text">Pipeline reports</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth2 ">  
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../reports/methodology.html" class="sidebar-item-text sidebar-link">
+  <a href="../../reports/methodology.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Methodology</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../reports/data_quality_report.html" class="sidebar-item-text sidebar-link">
+  <a href="../../reports/data_quality_report.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Data quality report</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../reports/mileage_report.html" class="sidebar-item-text sidebar-link">
+  <a href="../../reports/mileage_report.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Vehicles and mileage by postcode area</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../reports/churn_tables_report.html" class="sidebar-item-text sidebar-link">
+  <a href="../../reports/churn_tables_report.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Churn tables: what each one contains and exactly how it was made</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../reports/fleet_profile_report.html" class="sidebar-item-text sidebar-link">
+  <a href="../../reports/fleet_profile_report.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Fleet profile tables</span></a>
   </div>
 </li>
@@ -449,26 +484,49 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#sec-meth-data-sources" id="toc-sec-meth-data-sources" class="nav-link active" data-scroll-target="#sec-meth-data-sources"><span class="header-section-number">18.1</span> Description and acquisition of the primary data sources</a></li>
-  <li><a href="#sec-meth-linking-anon-dvsa" id="toc-sec-meth-linking-anon-dvsa" class="nav-link" data-scroll-target="#sec-meth-linking-anon-dvsa"><span class="header-section-number">18.2</span> Linking the anonymous and DVSA data sets</a></li>
-  <li><a href="#sec-meth-linking-ves" id="toc-sec-meth-linking-ves" class="nav-link" data-scroll-target="#sec-meth-linking-ves"><span class="header-section-number">18.3</span> Linking the VES data set</a></li>
-  <li><a href="#sec-meth-annualising" id="toc-sec-meth-annualising" class="nav-link" data-scroll-target="#sec-meth-annualising"><span class="header-section-number">18.4</span> Annualising the data</a></li>
-  <li><a href="#sec-meth-cleaning" id="toc-sec-meth-cleaning" class="nav-link" data-scroll-target="#sec-meth-cleaning"><span class="header-section-number">18.5</span> Cleaning and enhancing the vehicle data</a>
+  <li><a href="#core-vehicle-variables" id="toc-core-vehicle-variables" class="nav-link active" data-scroll-target="#core-vehicle-variables"><span class="header-section-number">22.1</span> Core vehicle variables</a>
   <ul class="collapse">
-  <li><a href="#core-vehicle-variables" id="toc-core-vehicle-variables" class="nav-link" data-scroll-target="#core-vehicle-variables"><span class="header-section-number">18.5.1</span> Core vehicle variables</a></li>
-  <li><a href="#sec-meth-make-and-model" id="toc-sec-meth-make-and-model" class="nav-link" data-scroll-target="#sec-meth-make-and-model"><span class="header-section-number">18.5.2</span> Make and model cleaning</a></li>
-  <li><a href="#sec-meth-record-matching-fuel-and-engine" id="toc-sec-meth-record-matching-fuel-and-engine" class="nav-link" data-scroll-target="#sec-meth-record-matching-fuel-and-engine"><span class="header-section-number">18.5.3</span> Stage 3: Record matching, fuel and engine checks, and backfill</a></li>
-  <li><a href="#sec-meth-derived-fields-and-number-plates" id="toc-sec-meth-derived-fields-and-number-plates" class="nav-link" data-scroll-target="#sec-meth-derived-fields-and-number-plates"><span class="header-section-number">18.5.4</span> Stage 4: Derived fields and number plates</a></li>
+  <li><a href="#sec-meth-dates" id="toc-sec-meth-dates" class="nav-link" data-scroll-target="#sec-meth-dates"><span class="header-section-number">22.1.1</span> Dates</a></li>
+  <li><a href="#sec-meth-postcode-area-status-infill" id="toc-sec-meth-postcode-area-status-infill" class="nav-link" data-scroll-target="#sec-meth-postcode-area-status-infill"><span class="header-section-number">22.1.2</span> Postcode area status infill</a></li>
+  <li><a href="#sec-meth-scope-which-vehicles-are-kept" id="toc-sec-meth-scope-which-vehicles-are-kept" class="nav-link" data-scroll-target="#sec-meth-scope-which-vehicles-are-kept"><span class="header-section-number">22.1.3</span> Scope: which vehicles are kept</a></li>
+  </ul></li>
+  <li><a href="#sec-meth-make-and-model" id="toc-sec-meth-make-and-model" class="nav-link" data-scroll-target="#sec-meth-make-and-model"><span class="header-section-number">22.2</span> Make and model cleaning</a>
+  <ul class="collapse">
+  <li><a href="#sec-meth-the-dft-reference" id="toc-sec-meth-the-dft-reference" class="nav-link" data-scroll-target="#sec-meth-the-dft-reference"><span class="header-section-number">22.2.1</span> The DfT reference</a></li>
+  <li><a href="#sec-meth-makes" id="toc-sec-meth-makes" class="nav-link" data-scroll-target="#sec-meth-makes"><span class="header-section-number">22.2.2</span> Makes</a></li>
+  <li><a href="#sec-meth-models" id="toc-sec-meth-models" class="nav-link" data-scroll-target="#sec-meth-models"><span class="header-section-number">22.2.3</span> Models</a></li>
+  <li><a href="#sec-meth-choices-made-per-vehicle" id="toc-sec-meth-choices-made-per-vehicle" class="nav-link" data-scroll-target="#sec-meth-choices-made-per-vehicle"><span class="header-section-number">22.2.4</span> Choices made per vehicle</a></li>
+  <li><a href="#sec-meth-derivative" id="toc-sec-meth-derivative" class="nav-link" data-scroll-target="#sec-meth-derivative"><span class="header-section-number">22.2.5</span> Derivative</a></li>
+  <li><a href="#sec-meth-body-type" id="toc-sec-meth-body-type" class="nav-link" data-scroll-target="#sec-meth-body-type"><span class="header-section-number">22.2.6</span> Body type</a></li>
+  <li><a href="#sec-meth-reviewed-decisions-and-the-review" id="toc-sec-meth-reviewed-decisions-and-the-review" class="nav-link" data-scroll-target="#sec-meth-reviewed-decisions-and-the-review"><span class="header-section-number">22.2.7</span> Reviewed decisions and the review list</a></li>
+  <li><a href="#sec-meth-comparison-with-the-dft-counts" id="toc-sec-meth-comparison-with-the-dft-counts" class="nav-link" data-scroll-target="#sec-meth-comparison-with-the-dft-counts"><span class="header-section-number">22.2.8</span> Comparison with the DfT counts</a></li>
+  </ul></li>
+  <li><a href="#sec-meth-record-matching-fuel-and-engine" id="toc-sec-meth-record-matching-fuel-and-engine" class="nav-link" data-scroll-target="#sec-meth-record-matching-fuel-and-engine"><span class="header-section-number">22.3</span> Stage 3: Record matching, fuel and engine checks, and backfill</a>
+  <ul class="collapse">
+  <li><a href="#sec-meth-dvsa-dvla-record-match" id="toc-sec-meth-dvsa-dvla-record-match" class="nav-link" data-scroll-target="#sec-meth-dvsa-dvla-record-match"><span class="header-section-number">22.3.1</span> DVSA–DVLA record match</a></li>
+  <li><a href="#sec-meth-fuel" id="toc-sec-meth-fuel" class="nav-link" data-scroll-target="#sec-meth-fuel"><span class="header-section-number">22.3.2</span> Fuel</a></li>
+  <li><a href="#sec-meth-fuel-check-against-the-make" id="toc-sec-meth-fuel-check-against-the-make" class="nav-link" data-scroll-target="#sec-meth-fuel-check-against-the-make"><span class="header-section-number">22.3.3</span> Fuel check against the make/model</a></li>
+  <li><a href="#sec-meth-engine-size" id="toc-sec-meth-engine-size" class="nav-link" data-scroll-target="#sec-meth-engine-size"><span class="header-section-number">22.3.4</span> Engine size</a></li>
+  <li><a href="#sec-meth-plug-in-hybrids-the-dft" id="toc-sec-meth-plug-in-hybrids-the-dft" class="nav-link" data-scroll-target="#sec-meth-plug-in-hybrids-the-dft"><span class="header-section-number">22.3.5</span> Plug-in hybrids: the DfT fuel detail</a></li>
+  <li><a href="#sec-meth-other-attributes" id="toc-sec-meth-other-attributes" class="nav-link" data-scroll-target="#sec-meth-other-attributes"><span class="header-section-number">22.3.6</span> Other attributes</a></li>
+  <li><a href="#sec-meth-euro-status-from-the-registration" id="toc-sec-meth-euro-status-from-the-registration" class="nav-link" data-scroll-target="#sec-meth-euro-status-from-the-registration"><span class="header-section-number">22.3.7</span> Euro status from the registration date</a></li>
+  <li><a href="#sec-meth-how-most-common-is-calculated" id="toc-sec-meth-how-most-common-is-calculated" class="nav-link" data-scroll-target="#sec-meth-how-most-common-is-calculated"><span class="header-section-number">22.3.8</span> How “most common” is calculated</a></li>
+  <li><a href="#sec-meth-assumptions-and-limitations" id="toc-sec-meth-assumptions-and-limitations" class="nav-link" data-scroll-target="#sec-meth-assumptions-and-limitations"><span class="header-section-number">22.3.9</span> Assumptions and limitations</a></li>
+  </ul></li>
+  <li><a href="#sec-meth-derived-fields-and-number-plates" id="toc-sec-meth-derived-fields-and-number-plates" class="nav-link" data-scroll-target="#sec-meth-derived-fields-and-number-plates"><span class="header-section-number">22.4</span> Stage 4: Derived fields and number plates</a>
+  <ul class="collapse">
+  <li><a href="#sec-meth-derived-fields" id="toc-sec-meth-derived-fields" class="nav-link" data-scroll-target="#sec-meth-derived-fields"><span class="header-section-number">22.4.1</span> Derived fields</a></li>
+  <li><a href="#sec-meth-number-plate-decoding" id="toc-sec-meth-number-plate-decoding" class="nav-link" data-scroll-target="#sec-meth-number-plate-decoding"><span class="header-section-number">22.4.2</span> Number plate decoding</a></li>
   </ul></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/CARS-Project/documentation/edit/main/chapters/methodology.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/CARS-Project/documentation/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/CARS-Project/documentation/edit/main/chapters/methodology/cleaning.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/CARS-Project/documentation/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/methodology/index.html">Methodology</a></li><li class="breadcrumb-item"><a href="../../chapters/methodology/cleaning.html"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Cleaning and enhancing the vehicle data</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="sec-methodology" class="quarto-section-identifier"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Methodology</span></span></h1>
+<h1 class="title"><span id="sec-meth-cleaning" class="quarto-section-identifier"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Cleaning and enhancing the vehicle data</span></span></h1>
 </div>
 
 
@@ -485,78 +543,11 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>This chapter describes how the CARS vehicle table is made: where the source data comes from, how the sources are linked and annualised, and how the pipeline cleans and enhances the result. The pipeline’s own, fuller account is the <a href="../reports/methodology.html">Methodology report</a>, included as an appendix.</p>
-<section id="sec-meth-data-sources" class="level2" data-number="18.1">
-<h2 data-number="18.1" class="anchored" data-anchor-id="sec-meth-data-sources"><span class="header-section-number">18.1</span> Description and acquisition of the primary data sources</h2>
-<div class="todo callout callout-style-default callout-note callout-empty-content callout-titled" title="To be written">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>To be written
-</div>
-</div>
-<div class="callout-body-container callout-body">
-
-</div>
-</div>
-</section>
-<section id="sec-meth-linking-anon-dvsa" class="level2" data-number="18.2">
-<h2 data-number="18.2" class="anchored" data-anchor-id="sec-meth-linking-anon-dvsa"><span class="header-section-number">18.2</span> Linking the anonymous and DVSA data sets</h2>
-<div class="todo callout callout-style-default callout-note callout-empty-content callout-titled" title="To be written">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>To be written
-</div>
-</div>
-<div class="callout-body-container callout-body">
-
-</div>
-</div>
-</section>
-<section id="sec-meth-linking-ves" class="level2" data-number="18.3">
-<h2 data-number="18.3" class="anchored" data-anchor-id="sec-meth-linking-ves"><span class="header-section-number">18.3</span> Linking the VES data set</h2>
-<div class="todo callout callout-style-default callout-note callout-empty-content callout-titled" title="To be written">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>To be written
-</div>
-</div>
-<div class="callout-body-container callout-body">
-
-</div>
-</div>
-</section>
-<section id="sec-meth-annualising" class="level2" data-number="18.4">
-<h2 data-number="18.4" class="anchored" data-anchor-id="sec-meth-annualising"><span class="header-section-number">18.4</span> Annualising the data</h2>
-<div class="todo callout callout-style-default callout-note callout-empty-content callout-titled" title="To be written">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>To be written
-</div>
-</div>
-<div class="callout-body-container callout-body">
-
-</div>
-</div>
-</section>
-<section id="sec-meth-cleaning" class="level2" data-number="18.5">
-<h2 data-number="18.5" class="anchored" data-anchor-id="sec-meth-cleaning"><span class="header-section-number">18.5</span> Cleaning and enhancing the vehicle data</h2>
 <p>After the three dataset have been joined and converted to annualised dataset a process of cleaning and enhancement is done to make the data more consistent and easier to use.</p>
-<section id="core-vehicle-variables" class="level3" data-number="18.5.1">
-<h3 data-number="18.5.1" class="anchored" data-anchor-id="core-vehicle-variables"><span class="header-section-number">18.5.1</span> Core vehicle variables</h3>
-<section id="sec-meth-dates" class="level4" data-number="18.5.1.1">
-<h4 data-number="18.5.1.1" class="anchored" data-anchor-id="sec-meth-dates"><span class="header-section-number">18.5.1.1</span> Dates</h4>
+<section id="core-vehicle-variables" class="level2" data-number="22.1">
+<h2 data-number="22.1" class="anchored" data-anchor-id="core-vehicle-variables"><span class="header-section-number">22.1</span> Core vehicle variables</h2>
+<section id="sec-meth-dates" class="level3" data-number="22.1.1">
+<h3 data-number="22.1.1" class="anchored" data-anchor-id="sec-meth-dates"><span class="header-section-number">22.1.1</span> Dates</h3>
 <p>Standerdised Birth/dead dates needed - Perhap this should be moved to Bristol?</p>
 <ul>
 <li><p><strong><code>birth_date</code></strong> is the earliest of DVSA first used date, registration date and manufacture date. Only 10,030 input vehicles have none of these.</p></li>
@@ -570,8 +561,8 @@ ul.task-list li input[type="checkbox"] {
 <li><p><strong><code>last_mot_year</code></strong> is the latest year with <code>is_end_use_YYYY = TRUE</code>. Where no year is flagged, it is the last year with a recorded postcode area, unless that year is one of the final two years of data.</p></li>
 </ul>
 </section>
-<section id="sec-meth-postcode-area-status-infill" class="level4" data-number="18.5.1.2">
-<h4 data-number="18.5.1.2" class="anchored" data-anchor-id="sec-meth-postcode-area-status-infill"><span class="header-section-number">18.5.1.2</span> Postcode area status infill</h4>
+<section id="sec-meth-postcode-area-status-infill" class="level3" data-number="22.1.2">
+<h3 data-number="22.1.2" class="anchored" data-anchor-id="sec-meth-postcode-area-status-infill"><span class="header-section-number">22.1.2</span> Postcode area status infill</h3>
 <p>The <code>pca_YYYY</code> variables thus far include the postcode area for each year a vehicle is observed. If the vehicle has not been observed in any given year the field is blank. At this stage blank values are infilled with an explanatory variable which descibes why the vehicle has not been observed, described below.</p>
 <table class="caption-top table">
 <thead>
@@ -605,8 +596,8 @@ ul.task-list li input[type="checkbox"] {
 <li><p><strong>Unobserved years before the last MOT are “unknown”.</strong> Sometimes we loose track of a vehicle either because it did not have an MOT test in a particular year or because we could not match the DVSA MOT record to the anonymised MOT record. This means that we know the vehicle existed in that year and may have mileage associated with that vehicle, however we can’t give it a location. <code>unknown</code> vehicles increase substantially in the last few years due to vehicles that have not had their first MOT which we know exist from the DVLA / DVSA data but do not appear in the Anoymmised MOT dataset.</p></li>
 </ul>
 </section>
-<section id="sec-meth-scope-which-vehicles-are-kept" class="level4" data-number="18.5.1.3">
-<h4 data-number="18.5.1.3" class="anchored" data-anchor-id="sec-meth-scope-which-vehicles-are-kept"><span class="header-section-number">18.5.1.3</span> Scope: which vehicles are kept</h4>
+<section id="sec-meth-scope-which-vehicles-are-kept" class="level3" data-number="22.1.3">
+<h3 data-number="22.1.3" class="anchored" data-anchor-id="sec-meth-scope-which-vehicles-are-kept"><span class="header-section-number">22.1.3</span> Scope: which vehicles are kept</h3>
 <p>The DVSA MOT dataset contains around 138 million vehicles, however many of these have no MOT history and were likely scrapped before the first digital MOT test records were created in 2005. Therfe for the CARS output tables aim to only include vehicles that have <strong>existed since the</strong> <strong>1st of January 2005</strong>. As within the data there is no single way to confirm whether a vehicle exists we use four tests to define if the vehicle is in scope:</p>
 <table class="caption-top table">
 <colgroup>
@@ -647,8 +638,8 @@ ul.task-list li input[type="checkbox"] {
 <p>While most of these tests also mean that we have some data about the vehicles usage the DVLA activity flag can include vehicles that are over 40 years old and so no longer require a MOT test. While they are included in the output datasets we can say very little about how they are used and if or when they reached end of life.</p>
 </section>
 </section>
-<section id="sec-meth-make-and-model" class="level3" data-number="18.5.2">
-<h3 data-number="18.5.2" class="anchored" data-anchor-id="sec-meth-make-and-model"><span class="header-section-number">18.5.2</span> Make and model cleaning</h3>
+<section id="sec-meth-make-and-model" class="level2" data-number="22.2">
+<h2 data-number="22.2" class="anchored" data-anchor-id="sec-meth-make-and-model"><span class="header-section-number">22.2</span> Make and model cleaning</h2>
 <p><em>Code: <code>R/make_model.R</code> · Outputs: <code>outputs/intermediate/dft_*.parquet</code>, <code>outputs/intermediate/make_model_*.parquet</code>, <code>outputs/quality/make_model_review.csv</code></em></p>
 <p>Makes and models follow the naming of the <strong>DfT vehicle licensing statistics</strong>: tables VEH0220 (vehicles by make, generic model, model, fuel and engine size) and VEH0124 (by make, generic model, model and year of first use), which DfT builds from the DVLA register. Using the same names means MOT results can be joined to, and checked against, the official counts. No language model is used: every step is a rule, and every result records how it was reached.</p>
 <table class="caption-top table">
@@ -694,8 +685,8 @@ ul.task-list li input[type="checkbox"] {
 </tbody>
 </table>
 <p>Of 93,352,241 in-scope vehicles, 94.9% have a DfT generic model, 4.3% have a placeholder model such as <code>UNKNOWN</code> (so no model), and 0.8% keep their normalised raw model because nothing matched.</p>
-<section id="sec-meth-the-dft-reference" class="level4" data-number="18.5.2.1">
-<h4 data-number="18.5.2.1" class="anchored" data-anchor-id="sec-meth-the-dft-reference"><span class="header-section-number">18.5.2.1</span> The DfT reference</h4>
+<section id="sec-meth-the-dft-reference" class="level3" data-number="22.2.1">
+<h3 data-number="22.2.1" class="anchored" data-anchor-id="sec-meth-the-dft-reference"><span class="header-section-number">22.2.1</span> The DfT reference</h3>
 <p><code>inputs/df_VEH0220.csv</code> and <code>inputs/df_VEH0124_AM.csv</code> / <code>_NZ.csv</code> are read as Latin-1 text. Each count is the number of vehicles (licensed plus SORN) at the end of a year, from 2014. To name models, each row is weighted by its largest count in any year, so a model that has since left the fleet still counts.</p>
 <p>DfT’s coding has some quirks, which are tidied before matching:</p>
 <ul>
@@ -704,10 +695,10 @@ ul.task-list li input[type="checkbox"] {
 <li><strong>A long generic model name that extends a much more common one joins it,</strong> when it adds two or more words and has a tenth of the vehicles or fewer.</li>
 <li><strong><code>MODEL MISSING</code> is no model.</strong></li>
 </ul>
-<p>Four reference tables come out of this (<code>outputs/intermediate/dft_*.parquet</code>): model names and body types, fuel group by engine band (used to settle ambiguous models, <a href="#sec-meth-choices-made-per-vehicle" class="quarto-xref"><span>Section 18.5.2.4</span></a>), year of first use, and the <strong>fuel as DfT records it</strong>, which is the only source that separates plug-in hybrids from other hybrids and is used in <a href="#sec-meth-plug-in-hybrids-the-dft" class="quarto-xref"><span>Section 18.5.3.5</span></a>.</p>
+<p>Four reference tables come out of this (<code>outputs/intermediate/dft_*.parquet</code>): model names and body types, fuel group by engine band (used to settle ambiguous models, <a href="#sec-meth-choices-made-per-vehicle" class="quarto-xref"><span>Section 22.2.4</span></a>), year of first use, and the <strong>fuel as DfT records it</strong>, which is the only source that separates plug-in hybrids from other hybrids and is used in <a href="#sec-meth-plug-in-hybrids-the-dft" class="quarto-xref"><span>Section 22.3.5</span></a>.</p>
 </section>
-<section id="sec-meth-makes" class="level4" data-number="18.5.2.2">
-<h4 data-number="18.5.2.2" class="anchored" data-anchor-id="sec-meth-makes"><span class="header-section-number">18.5.2.2</span> Makes</h4>
+<section id="sec-meth-makes" class="level3" data-number="22.2.2">
+<h3 data-number="22.2.2" class="anchored" data-anchor-id="sec-meth-makes"><span class="header-section-number">22.2.2</span> Makes</h3>
 <p>Each distinct raw make is resolved once. The first step that matches wins:</p>
 <table class="caption-top table">
 <colgroup>
@@ -765,7 +756,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td><code>override</code></td>
-<td><code>inputs/make_model_overrides.csv</code> (<a href="#sec-meth-reviewed-decisions-and-the-review" class="quarto-xref"><span>Section 18.5.2.7</span></a>)</td>
+<td><code>inputs/make_model_overrides.csv</code> (<a href="#sec-meth-reviewed-decisions-and-the-review" class="quarto-xref"><span>Section 22.2.7</span></a>)</td>
 <td style="text-align: right;">101</td>
 </tr>
 <tr class="even">
@@ -776,8 +767,8 @@ ul.task-list li input[type="checkbox"] {
 </tbody>
 </table>
 </section>
-<section id="sec-meth-models" class="level4" data-number="18.5.2.3">
-<h4 data-number="18.5.2.3" class="anchored" data-anchor-id="sec-meth-models"><span class="header-section-number">18.5.2.3</span> Models</h4>
+<section id="sec-meth-models" class="level3" data-number="22.2.3">
+<h3 data-number="22.2.3" class="anchored" data-anchor-id="sec-meth-models"><span class="header-section-number">22.2.3</span> Models</h3>
 <p>Each distinct make and model text is matched once, within its make. Text is compared in upper case with punctuation as spaces. The first step that matches wins:</p>
 <table class="caption-top table">
 <colgroup>
@@ -827,7 +818,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td><code>ambiguous</code></td>
-<td>The longest prefix is split between generic models, or the text is a series: chosen per vehicle (<a href="#sec-meth-choices-made-per-vehicle" class="quarto-xref"><span>Section 18.5.2.4</span></a>)</td>
+<td>The longest prefix is split between generic models, or the text is a series: chosen per vehicle (<a href="#sec-meth-choices-made-per-vehicle" class="quarto-xref"><span>Section 22.2.4</span></a>)</td>
 <td>LEXUS NX → NX 300 / NX 350; VOLVO 400 SERIES → 440 / 480</td>
 <td style="text-align: right;">500,689</td>
 </tr>
@@ -860,17 +851,17 @@ ul.task-list li input[type="checkbox"] {
 <p>Text that starts with the make’s name (MINI COOPER) is also tried without it. Matches from the <code>prefix</code>, <code>words</code> and <code>fuzzy</code> steps must fit the vehicles’ MOT test class: motorcycles (classes 1 and 2) need a generic model that DfT mostly records as motorcycles, and other classes one it mostly does not. This stops HONDA S-WING 125 becoming the S800 car.</p>
 <p><code>model_confidence</code> is the share of the DfT vehicles under the matched text that have the chosen generic model: 1 for <code>exact</code> and <code>generic</code>, at least 0.9 for <code>prefix</code> and <code>words</code>.</p>
 </section>
-<section id="sec-meth-choices-made-per-vehicle" class="level4" data-number="18.5.2.4">
-<h4 data-number="18.5.2.4" class="anchored" data-anchor-id="sec-meth-choices-made-per-vehicle"><span class="header-section-number">18.5.2.4</span> Choices made per vehicle</h4>
+<section id="sec-meth-choices-made-per-vehicle" class="level3" data-number="22.2.4">
+<h3 data-number="22.2.4" class="anchored" data-anchor-id="sec-meth-choices-made-per-vehicle"><span class="header-section-number">22.2.4</span> Choices made per vehicle</h3>
 <p>For <code>ambiguous</code> and <code>make_only</code> text, each candidate generic model starts from its share of the DfT vehicles under the text. That share is multiplied by how common the vehicle’s fuel group and engine size band, and its year of first use, are among DfT vehicles of that generic model (with add-half smoothing, so a combination DfT never records is unlikely but possible). The candidate with the largest weight is chosen, and <code>model_confidence</code> is its share of the total weight. 936,073 vehicles are chosen this way, and 129,941 vehicles have a <code>model_confidence</code> below 0.5.</p>
 <p>Engine size bands follow DfT: up to 50cc, 51–125cc, 126–200cc, then 100cc steps. Fuel groups are petrol, diesel, electric, hybrid (including plug-in and range extended), gas and other.</p>
 </section>
-<section id="sec-meth-derivative" class="level4" data-number="18.5.2.5">
-<h4 data-number="18.5.2.5" class="anchored" data-anchor-id="sec-meth-derivative"><span class="header-section-number">18.5.2.5</span> Derivative</h4>
+<section id="sec-meth-derivative" class="level3" data-number="22.2.5">
+<h3 data-number="22.2.5" class="anchored" data-anchor-id="sec-meth-derivative"><span class="header-section-number">22.2.5</span> Derivative</h3>
 <p><code>derivative_final</code> is the raw model text after the words that gave the make and model, kept as recorded apart from case and spacing. FIESTA ZETEC CLIMATE gives ZETEC CLIMATE; 118I M SPORT keeps all its words, because the badge is not part of the generic model name 1 SERIES. It is not standardised: it keeps the detail the DfT scheme drops (Discovery SPORT, C4 GRAND PICASSO) for analyses that need it. A derivative that only repeats the start of the model name (E for E CLASS) is dropped.</p>
 </section>
-<section id="sec-meth-body-type" class="level4" data-number="18.5.2.6">
-<h4 data-number="18.5.2.6" class="anchored" data-anchor-id="sec-meth-body-type"><span class="header-section-number">18.5.2.6</span> Body type</h4>
+<section id="sec-meth-body-type" class="level3" data-number="22.2.6">
+<h3 data-number="22.2.6" class="anchored" data-anchor-id="sec-meth-body-type"><span class="header-section-number">22.2.6</span> Body type</h3>
 <p><code>body_type</code> uses the DfT body types. The first source that gives one wins (<code>body_type_src</code>):</p>
 <table class="caption-top table">
 <colgroup>
@@ -910,17 +901,17 @@ ul.task-list li input[type="checkbox"] {
 </table>
 <p>The type approval mapping was checked against vehicles whose DfT model string has a single body type: 94% of N1 vehicles and over 99% of M1 and L3 vehicles agree.</p>
 </section>
-<section id="sec-meth-reviewed-decisions-and-the-review" class="level4" data-number="18.5.2.7">
-<h4 data-number="18.5.2.7" class="anchored" data-anchor-id="sec-meth-reviewed-decisions-and-the-review"><span class="header-section-number">18.5.2.7</span> Reviewed decisions and the review list</h4>
+<section id="sec-meth-reviewed-decisions-and-the-review" class="level3" data-number="22.2.7">
+<h3 data-number="22.2.7" class="anchored" data-anchor-id="sec-meth-reviewed-decisions-and-the-review"><span class="header-section-number">22.2.7</span> Reviewed decisions and the review list</h3>
 <ul>
-<li><strong><code>inputs/make_model_overrides.csv</code></strong> is applied last and wins over every step. Each row fixes one raw make/model spelling, gives the DfT make, generic model and derivative, and states the evidence. It is checked when read: a make is required, each raw pair may appear once, every row needs a reason, and a model must be a DfT generic model of the make. It has 15 rows. The first came from the fuel checks in <a href="#sec-meth-fuel-check-against-the-make" class="quarto-xref"><span>Section 18.5.3.3</span></a>, which caught an earlier lookup giving electric models to old petrol vehicles (PORSCHE TARGA as a Taycan).</li>
-<li><strong><code>inputs/make_aliases.csv</code></strong> merges make spellings (<a href="#sec-meth-the-dft-reference" class="quarto-xref"><span>Section 18.5.2.1</span></a> and <a href="#sec-meth-makes" class="quarto-xref"><span>Section 18.5.2.2</span></a>), with a reason for each.</li>
+<li><strong><code>inputs/make_model_overrides.csv</code></strong> is applied last and wins over every step. Each row fixes one raw make/model spelling, gives the DfT make, generic model and derivative, and states the evidence. It is checked when read: a make is required, each raw pair may appear once, every row needs a reason, and a model must be a DfT generic model of the make. It has 15 rows. The first came from the fuel checks in <a href="#sec-meth-fuel-check-against-the-make" class="quarto-xref"><span>Section 22.3.3</span></a>, which caught an earlier lookup giving electric models to old petrol vehicles (PORSCHE TARGA as a Taycan).</li>
+<li><strong><code>inputs/make_aliases.csv</code></strong> merges make spellings (<a href="#sec-meth-the-dft-reference" class="quarto-xref"><span>Section 22.2.1</span></a> and <a href="#sec-meth-makes" class="quarto-xref"><span>Section 22.2.2</span></a>), with a reason for each.</li>
 <li><strong><code>outputs/quality/make_model_review.csv</code></strong> lists the raw pairs most worth reviewing, by vehicles: those matched by spelling fixes, word sets or vehicle attributes, or not matched at all, with the three nearest generic models of the make. Adding reviewed rows to the overrides file is how the matching improves.</li>
 </ul>
 <p>Edit these files in R or a text editor. A spreadsheet re-saves numbers in its own format (<code>45.160</code> becomes <code>45.16</code>, <code>130E18</code> becomes <code>1.3E+020</code>), which changes the raw keys.</p>
 </section>
-<section id="sec-meth-comparison-with-the-dft-counts" class="level4" data-number="18.5.2.8">
-<h4 data-number="18.5.2.8" class="anchored" data-anchor-id="sec-meth-comparison-with-the-dft-counts"><span class="header-section-number">18.5.2.8</span> Comparison with the DfT counts</h4>
+<section id="sec-meth-comparison-with-the-dft-counts" class="level3" data-number="22.2.8">
+<h3 data-number="22.2.8" class="anchored" data-anchor-id="sec-meth-comparison-with-the-dft-counts"><span class="header-section-number">22.2.8</span> Comparison with the DfT counts</h3>
 <p><code>R/dft_compare.R</code> counts the in-scope vehicles observed in each year (a real PCA, not <code>unborn</code>, <code>dead</code> or <code>unknown</code>) by body type, age and make/model, and sets them against VEH0124’s licensed plus SORN counts (<code>outputs/quality/dft_stock_*.csv</code>). <code>unknown</code> is left out because it never ends for a vehicle with no last MOT year. Both sources cover the whole UK, Northern Ireland included. They differ by design: vehicles under three years old (four in Northern Ireland) have no MOT, and a SORN vehicle stays in DfT’s count but is not tested. The <code>age3plus</code> columns compare only vehicles first used at least three years earlier.</p>
 <table class="caption-top table">
 <colgroup>
@@ -1057,14 +1048,14 @@ ul.task-list li input[type="checkbox"] {
 <p>Assumptions:</p>
 <ul>
 <li><strong>The DfT scheme is the target.</strong> Its generic models are sometimes coarser than a buyer would use (DISCOVERY includes the Discovery Sport; ZX covers Kawasaki’s ZX-6R and ZX-10R) and sometimes finer (Lexus NX 300 and NX 450). The derivative keeps the raw detail.</li>
-<li><strong>A raw spelling means the same vehicle wherever it appears.</strong> Matching is per raw make/model pair, except where <a href="#sec-meth-choices-made-per-vehicle" class="quarto-xref"><span>Section 18.5.2.4</span></a> uses each vehicle’s own fuel, engine size and year.</li>
+<li><strong>A raw spelling means the same vehicle wherever it appears.</strong> Matching is per raw make/model pair, except where <a href="#sec-meth-choices-made-per-vehicle" class="quarto-xref"><span>Section 22.2.4</span></a> uses each vehicle’s own fuel, engine size and year.</li>
 <li><strong>Prefixes and word sets are trusted at 90%.</strong> Raw text whose DfT vehicles are split more evenly is chosen per vehicle, or left unmatched.</li>
 <li><strong>Spelling fixes need a clear target.</strong> A misspelling must be rare next to the word it is corrected to, so real models DfT barely records (Toyota Sienna, Norton Commander) are left alone.</li>
 </ul>
 </section>
 </section>
-<section id="sec-meth-record-matching-fuel-and-engine" class="level3" data-number="18.5.3">
-<h3 data-number="18.5.3" class="anchored" data-anchor-id="sec-meth-record-matching-fuel-and-engine"><span class="header-section-number">18.5.3</span> Stage 3: Record matching, fuel and engine checks, and backfill</h3>
+<section id="sec-meth-record-matching-fuel-and-engine" class="level2" data-number="22.3">
+<h2 data-number="22.3" class="anchored" data-anchor-id="sec-meth-record-matching-fuel-and-engine"><span class="header-section-number">22.3</span> Stage 3: Record matching, fuel and engine checks, and backfill</h2>
 <p><em>Code: <code>R/dvla_match.R</code>, <code>R/fuel_engine.R</code>, <code>R/euro_status.R</code>, <code>R/backfill.R</code> (reference tables) and <code>R/assemble.R</code> (application) · Outputs: <code>outputs/quality/dvla_make_aliases.csv</code>, <code>outputs/quality/suspected_dvla_mismatches.csv</code>, <code>outputs/intermediate/fuel_*.parquet</code>, <code>outputs/intermediate/backfill_*.parquet</code>, then columns in the enhanced table</em></p>
 <p>Eight attributes are harmonised: <code>fuel</code>, <code>engine_cc</code>, <code>revenue_weight</code>, <code>co2</code>, <code>euro_status</code>, <code>type_approval</code>, <code>wheelplan</code> and <code>test_class</code>. The stage runs in four steps:</p>
 <ol type="1">
@@ -1074,8 +1065,8 @@ ul.task-list li input[type="checkbox"] {
 <li>Fill remaining gaps from vehicles with the same fuel (5.5, 5.6).</li>
 </ol>
 <p>Figures below are for the 93,352,241 in-scope vehicles.</p>
-<section id="sec-meth-dvsa-dvla-record-match" class="level4" data-number="18.5.3.1">
-<h4 data-number="18.5.3.1" class="anchored" data-anchor-id="sec-meth-dvsa-dvla-record-match"><span class="header-section-number">18.5.3.1</span> DVSA–DVLA record match</h4>
+<section id="sec-meth-dvsa-dvla-record-match" class="level3" data-number="22.3.1">
+<h3 data-number="22.3.1" class="anchored" data-anchor-id="sec-meth-dvsa-dvla-record-match"><span class="header-section-number">22.3.1</span> DVSA–DVLA record match</h3>
 <p>The DVSA and VES records of each vehicle are compared in three independent ways:</p>
 <table class="caption-top table">
 <colgroup>
@@ -1142,8 +1133,8 @@ ul.task-list li input[type="checkbox"] {
 </table>
 <p>Every such row of the input file (123,360, including out-of-scope vehicles) is listed with its evidence in <code>suspected_dvla_mismatches.csv</code>, for Bristol to check.</p>
 </section>
-<section id="sec-meth-fuel" class="level4" data-number="18.5.3.2">
-<h4 data-number="18.5.3.2" class="anchored" data-anchor-id="sec-meth-fuel"><span class="header-section-number">18.5.3.2</span> Fuel</h4>
+<section id="sec-meth-fuel" class="level3" data-number="22.3.2">
+<h3 data-number="22.3.2" class="anchored" data-anchor-id="sec-meth-fuel"><span class="header-section-number">22.3.2</span> Fuel</h3>
 <p>Fuel is taken from the records and is <strong>never backfilled</strong>. VES fuel is mapped to DVSA terms with <code>inputs/fuel_dvla_to_dvsa.csv</code> (e.g.&nbsp;<code>ELECTRICITY</code> becomes <code>Electric</code>, <code>PETROL/GAS</code> becomes <code>LPG</code>), and is used only when <code>dvla_match</code> is <code>same</code>.</p>
 <p><strong>Step 1: recorded fuel.</strong> The first that applies:</p>
 <ol type="1">
@@ -1238,8 +1229,8 @@ ul.task-list li input[type="checkbox"] {
 </table>
 <p>The Electric and Fuel Cells changes are mostly Toyota, Lexus, Hyundai and Honda hybrids. DVSA fuel is never missing; 128,451 vehicles (0.14%) are “Other” in both sources.</p>
 </section>
-<section id="sec-meth-fuel-check-against-the-make" class="level4" data-number="18.5.3.3">
-<h4 data-number="18.5.3.3" class="anchored" data-anchor-id="sec-meth-fuel-check-against-the-make"><span class="header-section-number">18.5.3.3</span> Fuel check against the make/model</h4>
+<section id="sec-meth-fuel-check-against-the-make" class="level3" data-number="22.3.3">
+<h3 data-number="22.3.3" class="anchored" data-anchor-id="sec-meth-fuel-check-against-the-make"><span class="header-section-number">22.3.3</span> Fuel check against the make/model</h3>
 <p>Each vehicle’s fuel is compared with the fuels of all vehicles of its make/model (<code>make_final</code> + <code>model_final</code>). The result is <code>fuel_check</code>:</p>
 <table class="caption-top table">
 <colgroup>
@@ -1302,11 +1293,11 @@ ul.task-list li input[type="checkbox"] {
 <li><strong><code>rare_conversion</code>:</strong> LPG VAUXHALL ASTRA, LPG FORD TRANSIT, LPG VAUXHALL VECTRA and LPG TOYOTA AVENSIS. Many are factory or aftermarket conversions.</li>
 <li><strong><code>rare_for_model</code>:</strong> Petrol MERCEDES SPRINTER, Hybrid Electric (Clean) FORD FIESTA, Diesel FORD KA and Petrol MERCEDES VITO. These are genuine but uncommon variants, or make/model cleaning merges.</li>
 <li><strong><code>corrected_electric</code>:</strong> BMW IX, AUDI Q4, AUDI E-TRON and BMW I4: vehicles recorded by DVSA as Electric whose VES record, for another vehicle of the same make and year, said petrol or diesel.</li>
-<li><strong><code>implausible_for_model</code>:</strong> usually make/model cleaning errors, which go into the overrides file once reviewed (<a href="#sec-meth-reviewed-decisions-and-the-review" class="quarto-xref"><span>Section 18.5.2.7</span></a>). The largest in this build are NISSAN LEAF recorded as Hybrid Electric (Clean) (10 vehicles, born 2011–2018), AUDI Q4 recorded as Hybrid Electric (Clean) (8 vehicles, born 2023–2024) and MERCEDES EQC CLASS recorded as Diesel (3 vehicles, born 2021–2021).</li>
+<li><strong><code>implausible_for_model</code>:</strong> usually make/model cleaning errors, which go into the overrides file once reviewed (<a href="#sec-meth-reviewed-decisions-and-the-review" class="quarto-xref"><span>Section 22.2.7</span></a>). The largest in this build are NISSAN LEAF recorded as Hybrid Electric (Clean) (10 vehicles, born 2011–2018), AUDI Q4 recorded as Hybrid Electric (Clean) (8 vehicles, born 2023–2024) and MERCEDES EQC CLASS recorded as Diesel (3 vehicles, born 2021–2021).</li>
 </ul>
 </section>
-<section id="sec-meth-engine-size" class="level4" data-number="18.5.3.4">
-<h4 data-number="18.5.3.4" class="anchored" data-anchor-id="sec-meth-engine-size"><span class="header-section-number">18.5.3.4</span> Engine size</h4>
+<section id="sec-meth-engine-size" class="level3" data-number="22.3.4">
+<h3 data-number="22.3.4" class="anchored" data-anchor-id="sec-meth-engine-size"><span class="header-section-number">22.3.4</span> Engine size</h3>
 <p><code>engine_cc</code> is the first of:</p>
 <ol type="1">
 <li><strong>0 if the fuel is Electric or Fuel Cells</strong> (<code>engine_cc_src</code> = <code>no_engine</code>), whatever engine size is recorded</li>
@@ -1388,9 +1379,9 @@ ul.task-list li input[type="checkbox"] {
 </table>
 <p>The most common make/models with a removed engine size are BMW IX, AUDI Q4, AUDI E-TRON and BMW I4. Of the vehicles still <code>missing</code>, 651,122 are diesel; these are mostly tractors and plant with no model, so there is nothing to backfill from.</p>
 </section>
-<section id="sec-meth-plug-in-hybrids-the-dft" class="level4" data-number="18.5.3.5">
-<h4 data-number="18.5.3.5" class="anchored" data-anchor-id="sec-meth-plug-in-hybrids-the-dft"><span class="header-section-number">18.5.3.5</span> Plug-in hybrids: the DfT fuel detail</h4>
-<p>Neither source distinguishes a plug-in hybrid from any other hybrid. DVSA records <code>Hybrid Electric (Clean)</code> for a mild hybrid, a full hybrid and a plug-in alike, and <code>Electric Diesel</code> for both kinds of diesel hybrid; the VES fuel types map onto the same two labels. The DfT vehicle licensing statistics do distinguish them: table VEH0220, already read for the make/model naming scheme (<a href="#sec-meth-the-dft-reference" class="quarto-xref"><span>Section 18.5.2.1</span></a>), records eleven fuels, among them PLUG-IN HYBRID ELECTRIC (PETROL), PLUG-IN HYBRID ELECTRIC (DIESEL) and RANGE EXTENDED ELECTRIC.</p>
+<section id="sec-meth-plug-in-hybrids-the-dft" class="level3" data-number="22.3.5">
+<h3 data-number="22.3.5" class="anchored" data-anchor-id="sec-meth-plug-in-hybrids-the-dft"><span class="header-section-number">22.3.5</span> Plug-in hybrids: the DfT fuel detail</h3>
+<p>Neither source distinguishes a plug-in hybrid from any other hybrid. DVSA records <code>Hybrid Electric (Clean)</code> for a mild hybrid, a full hybrid and a plug-in alike, and <code>Electric Diesel</code> for both kinds of diesel hybrid; the VES fuel types map onto the same two labels. The DfT vehicle licensing statistics do distinguish them: table VEH0220, already read for the make/model naming scheme (<a href="#sec-meth-the-dft-reference" class="quarto-xref"><span>Section 22.2.1</span></a>), records eleven fuels, among them PLUG-IN HYBRID ELECTRIC (PETROL), PLUG-IN HYBRID ELECTRIC (DIESEL) and RANGE EXTENDED ELECTRIC.</p>
 <p>VEH0220 counts vehicles rather than naming them, so the detail is attached by make and model (<code>R/fuel_dft.R</code>). Every DfT fuel and every harmonised fuel is put into the same set of narrow groups, and a vehicle is only ever matched against DfT rows in its own group:</p>
 <table class="caption-top table">
 <colgroup>
@@ -1446,7 +1437,7 @@ ul.task-list li input[type="checkbox"] {
 <p>The groups are what makes the replacement safe. A vehicle recorded as Electric can only match BATTERY ELECTRIC, so it can never become a hybrid; a petrol vehicle can only match PETROL, so it can never pick up a diesel fuel; and a petrol hybrid can only become one of the three petrol hybrid fuels. A range extender sits with the petrol hybrids, not with battery electric, because it has a petrol engine and DVSA records those vehicles as hybrids. <code>Other</code> and <code>Steam</code> have no DfT counterpart and are matched in no group at all.</p>
 <p>Within its group a vehicle takes the most common DfT fuel for:</p>
 <ol type="1">
-<li><strong>its DfT model string</strong> (<code>fuel_DFT_src</code> = <code>dft_model</code>), the value of <code>dft_model</code> from <a href="#sec-meth-models" class="quarto-xref"><span>Section 18.5.2.3</span></a></li>
+<li><strong>its DfT model string</strong> (<code>fuel_DFT_src</code> = <code>dft_model</code>), the value of <code>dft_model</code> from <a href="#sec-meth-models" class="quarto-xref"><span>Section 22.2.3</span></a></li>
 <li><strong>its generic model</strong> (<code>dft_genmodel</code>), when the raw model text gave no DfT model string</li>
 </ol>
 <p>A level is used only when one DfT fuel holds at least 0.9 of that level’s DfT vehicles in the group. Otherwise the vehicle is left unmatched and recorded as <code>ambiguous_model</code> or <code>ambiguous_genmodel</code>.</p>
@@ -1513,11 +1504,11 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 </tbody>
 </table>
-<p>Nothing else is overwritten: a full hybrid that DfT confirms as a full hybrid keeps the fuel it already had, and <code>fuel_check</code> (<a href="#sec-meth-fuel-check-against-the-make" class="quarto-xref"><span>Section 18.5.3.3</span></a>) still describes the fuel as it was before this step. <code>fuel_simple</code> gains a sixth group, <code>Plug-in Hybrid Electric</code>, so the distinction is visible in every summary that uses it; the churn tables use the same six groups (<a href="../reports/methodology.html#population-and-definitions">section 7.1 of the methodology report</a>).</p>
-<p><strong>What this does not do.</strong> The DfT fuel is a property of the make, model and variant, not of the individual vehicle, so a vehicle whose model text was matched to the wrong model string takes the wrong fuel with it. The match is only as good as <a href="#sec-meth-make-and-model" class="quarto-xref"><span>Section 18.5.2</span></a>, and <code>model_confidence</code> is the guide to that. Nor can it find a plug-in hybrid whose make/model DfT does not record at all (<code>no_reference</code>), or one of an ambiguous generic model: those vehicles are undercounted as ordinary hybrids, which makes 1,090,074 a lower bound on the plug-in fleet.</p>
+<p>Nothing else is overwritten: a full hybrid that DfT confirms as a full hybrid keeps the fuel it already had, and <code>fuel_check</code> (<a href="#sec-meth-fuel-check-against-the-make" class="quarto-xref"><span>Section 22.3.3</span></a>) still describes the fuel as it was before this step. <code>fuel_simple</code> gains a sixth group, <code>Plug-in Hybrid Electric</code>, so the distinction is visible in every summary that uses it; the churn tables use the same six groups (<a href="../../reports/methodology.html#population-and-definitions">section 7.1 of the methodology report</a>).</p>
+<p><strong>What this does not do.</strong> The DfT fuel is a property of the make, model and variant, not of the individual vehicle, so a vehicle whose model text was matched to the wrong model string takes the wrong fuel with it. The match is only as good as <a href="#sec-meth-make-and-model" class="quarto-xref"><span>Section 22.2</span></a>, and <code>model_confidence</code> is the guide to that. Nor can it find a plug-in hybrid whose make/model DfT does not record at all (<code>no_reference</code>), or one of an ambiguous generic model: those vehicles are undercounted as ordinary hybrids, which makes 1,090,074 a lower bound on the plug-in fleet.</p>
 </section>
-<section id="sec-meth-other-attributes" class="level4" data-number="18.5.3.6">
-<h4 data-number="18.5.3.6" class="anchored" data-anchor-id="sec-meth-other-attributes"><span class="header-section-number">18.5.3.6</span> Other attributes</h4>
+<section id="sec-meth-other-attributes" class="level3" data-number="22.3.6">
+<h3 data-number="22.3.6" class="anchored" data-anchor-id="sec-meth-other-attributes"><span class="header-section-number">22.3.6</span> Other attributes</h3>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 50%">
@@ -1546,7 +1537,7 @@ ul.task-list li input[type="checkbox"] {
 <li><strong>the recorded value</strong> (<code>*_src</code> = <code>dvla</code> or <code>dvsa</code>)</li>
 <li><strong>the most common value for the same make, model, birth year, fuel and engine size</strong> (<code>variant</code>). The engine size is the vehicle’s <code>engine_cc</code> from 5.4, so it may itself be backfilled, and electric vehicles match other electric vehicles at 0.</li>
 <li><strong>the most common value for the same make, model, birth year and fuel</strong> (<code>model_year_fuel</code>)</li>
-<li><strong>for <code>euro_status</code> only, the standard that was compulsory for new registrations when the vehicle was made</strong> (<code>euro_schedule</code>, <a href="#sec-meth-euro-status-from-the-registration" class="quarto-xref"><span>Section 18.5.3.7</span></a>)</li>
+<li><strong>for <code>euro_status</code> only, the standard that was compulsory for new registrations when the vehicle was made</strong> (<code>euro_schedule</code>, <a href="#sec-meth-euro-status-from-the-registration" class="quarto-xref"><span>Section 22.3.7</span></a>)</li>
 <li><strong>otherwise missing</strong> (<code>*_src</code> empty)</li>
 </ol>
 <p>For vehicles with a mismatched VES record, recorded VES values are ignored and filled as if missing. This affects the CO2 value of 115,761 vehicles.</p>
@@ -1582,14 +1573,14 @@ ul.task-list li input[type="checkbox"] {
 </tbody>
 </table>
 </section>
-<section id="sec-meth-euro-status-from-the-registration" class="level4" data-number="18.5.3.7">
-<h4 data-number="18.5.3.7" class="anchored" data-anchor-id="sec-meth-euro-status-from-the-registration"><span class="header-section-number">18.5.3.7</span> Euro status from the registration date</h4>
-<p>A Euro status is recorded for only a minority of vehicles. The VES returns one mostly for vehicles first registered from 2018 onwards, so after the variant backfill of <a href="#sec-meth-other-attributes" class="quarto-xref"><span>Section 18.5.3.6</span></a> 44.6% of in-scope vehicles still had none.</p>
+<section id="sec-meth-euro-status-from-the-registration" class="level3" data-number="22.3.7">
+<h3 data-number="22.3.7" class="anchored" data-anchor-id="sec-meth-euro-status-from-the-registration"><span class="header-section-number">22.3.7</span> Euro status from the registration date</h3>
+<p>A Euro status is recorded for only a minority of vehicles. The VES returns one mostly for vehicles first registered from 2018 onwards, so after the variant backfill of <a href="#sec-meth-other-attributes" class="quarto-xref"><span>Section 22.3.6</span></a> 44.6% of in-scope vehicles still had none.</p>
 <p>The standards were phased in on fixed dates, though, and a vehicle cannot have been registered new in Great Britain after the date a standard became compulsory without meeting it. So where nothing else says otherwise, a missing Euro status takes the standard in force when the vehicle was made (<code>R/euro_status.R</code>, <code>euro_status_src</code> = <code>euro_schedule</code>).</p>
 <p>Three decisions make that assumption as weak as the rules allow:</p>
 <ul>
 <li><strong>The compulsory dates, not the type-approval dates.</strong> Each standard opened for new type approvals a year or more before it became compulsory for all new registrations. Using the later date means a vehicle may well meet a newer standard than it is given here, but it cannot meet an older one.</li>
-<li><strong>The date the vehicle was made, not its British registration date.</strong> <code>birth_date</code> is the earliest of the DVSA first-used, registration and manufacture dates (<a href="#sec-meth-dates" class="quarto-xref"><span>Section 18.5.1.1</span></a>), which for an import is the manufacture date rather than the later British first registration. Tested against the 11.3 million vehicles whose <code>birth_date</code> is more than a year before their <code>first_use_date</code>, <code>birth_date</code> errs towards an older standard and <code>first_use_date</code> towards a newer one, so <code>birth_date</code> is used (<code>first_use_date</code> only where <code>birth_date</code> is missing).</li>
+<li><strong>The date the vehicle was made, not its British registration date.</strong> <code>birth_date</code> is the earliest of the DVSA first-used, registration and manufacture dates (<a href="#sec-meth-dates" class="quarto-xref"><span>Section 22.1.1</span></a>), which for an import is the manufacture date rather than the later British first registration. Tested against the 11.3 million vehicles whose <code>birth_date</code> is more than a year before their <code>first_use_date</code>, <code>birth_date</code> errs towards an older standard and <code>first_use_date</code> towards a newer one, so <code>birth_date</code> is used (<code>first_use_date</code> only where <code>birth_date</code> is missing).</li>
 </ul>
 <p>The percentages in the rest of this section were measured once, against the full build, by comparing the schedule with the vehicles that do have a recorded Euro status; they are a record of that check and are not recomputed here. - <strong>One schedule per vehicle class.</strong> Vans were a year or two behind cars, lorries and buses ran on the heavy-duty timetable, and motorcycles reached Euro 4 only in 2017. Applying the car dates to motorcycles would be too new for 99.98% of the motorcycles that do have a recorded status.</p>
 <p>The dates are below; the pipeline prints the same table in the data quality report, so the documented dates are always the ones the code uses. Lorries and buses get Roman numerals, as the register writes them for 77% of the lorries and 53% of the buses that have a recorded status.</p>
@@ -1790,7 +1781,7 @@ ul.task-list li input[type="checkbox"] {
 </thead>
 <tbody>
 <tr class="odd">
-<td>recorded or backfilled (<a href="#sec-meth-other-attributes" class="quarto-xref"><span>Section 18.5.3.6</span></a>)</td>
+<td>recorded or backfilled (<a href="#sec-meth-other-attributes" class="quarto-xref"><span>Section 22.3.6</span></a>)</td>
 <td>51,747,397</td>
 </tr>
 <tr class="even">
@@ -1852,8 +1843,8 @@ ul.task-list li input[type="checkbox"] {
 </table>
 <p><code>later_than_date</code> is worth reading as a check on the variant backfill rather than on the register. Of the 10,332,946 vehicles flagged, 24,813 have a recorded VES value and the rest were backfilled from similar vehicles. With <code>backfill.min_vehicles</code> at 1, a single wrong VES value spreads to every vehicle of its make, model, birth year, fuel and engine size, and the Euro status is the attribute where that shows most clearly. Raising the setting, or capping backfilled Euro statuses at the schedule, would reduce it; neither is done here, because the brief was to fill missing values rather than to change existing ones.</p>
 </section>
-<section id="sec-meth-how-most-common-is-calculated" class="level4" data-number="18.5.3.8">
-<h4 data-number="18.5.3.8" class="anchored" data-anchor-id="sec-meth-how-most-common-is-calculated"><span class="header-section-number">18.5.3.8</span> How “most common” is calculated</h4>
+<section id="sec-meth-how-most-common-is-calculated" class="level3" data-number="22.3.8">
+<h3 data-number="22.3.8" class="anchored" data-anchor-id="sec-meth-how-most-common-is-calculated"><span class="header-section-number">22.3.8</span> How “most common” is calculated</h3>
 <p>The pipeline builds these reference tables:</p>
 <table class="caption-top table">
 <colgroup>
@@ -1903,8 +1894,8 @@ ul.task-list li input[type="checkbox"] {
 <li><strong>Vehicles without a make, model or fuel</strong> contribute to no table and receive no backfilled values. Vehicles without a birth year are used only for the model-fuel table.</li>
 </ul>
 </section>
-<section id="sec-meth-assumptions-and-limitations" class="level4" data-number="18.5.3.9">
-<h4 data-number="18.5.3.9" class="anchored" data-anchor-id="sec-meth-assumptions-and-limitations"><span class="header-section-number">18.5.3.9</span> Assumptions and limitations</h4>
+<section id="sec-meth-assumptions-and-limitations" class="level3" data-number="22.3.9">
+<h3 data-number="22.3.9" class="anchored" data-anchor-id="sec-meth-assumptions-and-limitations"><span class="header-section-number">22.3.9</span> Assumptions and limitations</h3>
 <ol type="1">
 <li><strong>Two disagreements between DVSA and VES mean different vehicles.</strong> One disagreement is common for genuine matches: imports registered years after manufacture, and engine sizes recorded differently. A registration moved between two vehicles of the same make and year, where one engine size is missing, is not detected; the fuel check catches some of these.</li>
 <li><strong>DVSA fuel is trusted unless another record contradicts it.</strong> VES overrides it only for “Other”, and for Electric / Fuel Cells vehicles that VES shows as hybrids or as having an engine.</li>
@@ -1915,8 +1906,8 @@ ul.task-list li input[type="checkbox"] {
 </ol></li>
 <li><strong>Rare fuels are flagged, not corrected.</strong> LPG conversions, electric conversions of classic cars and uncommon factory variants are all legitimate, so only electric-only models, where the records disagree, are corrected.</li>
 <li><strong>The fuel check depends on the make/model cleaning.</strong> Merged or wrong models produce <code>rare_for_model</code> and <code>implausible_for_model</code> flags; these point to raw spellings worth reviewing. Small make/models (under 100 vehicles) are not checked, and on the 1% sample most make/models are <code>no_reference</code>.</li>
-<li><strong>A model’s DfT fuel is its vehicles’ fuel.</strong> The plug-in distinction of <a href="#sec-meth-plug-in-hybrids-the-dft" class="quarto-xref"><span>Section 18.5.3.5</span></a> is a property of the model string, not of the individual vehicle, so it is only as good as the make/model match and cannot find a plug-in hybrid of a model DfT records both ways. The plug-in counts are a lower bound.</li>
-<li><strong>A vehicle registered new after a standard became compulsory meets it.</strong> The Euro status of <a href="#sec-meth-euro-status-from-the-registration" class="quarto-xref"><span>Section 18.5.3.7</span></a> is an assumption about the rules, not an observation of the vehicle. It is wrong for used imports and rebuilt vehicles, which take a British registration long after they were built; <code>birth_date</code> limits that, and <code>euro_status_src</code> separates assumed values from recorded ones so they can be dropped.</li>
+<li><strong>A model’s DfT fuel is its vehicles’ fuel.</strong> The plug-in distinction of <a href="#sec-meth-plug-in-hybrids-the-dft" class="quarto-xref"><span>Section 22.3.5</span></a> is a property of the model string, not of the individual vehicle, so it is only as good as the make/model match and cannot find a plug-in hybrid of a model DfT records both ways. The plug-in counts are a lower bound.</li>
+<li><strong>A vehicle registered new after a standard became compulsory meets it.</strong> The Euro status of <a href="#sec-meth-euro-status-from-the-registration" class="quarto-xref"><span>Section 22.3.7</span></a> is an assumption about the rules, not an observation of the vehicle. It is wrong for used imports and rebuilt vehicles, which take a British registration long after they were built; <code>birth_date</code> limits that, and <code>euro_status_src</code> separates assumed values from recorded ones so they can be dropped.</li>
 <li><strong>Vehicles of the same make, model, birth year and fuel share attributes.</strong> This is reasonable for wheel plan, type approval and test class. It is weaker for CO2 and weight, which vary with trim, gearbox and body style.</li>
 <li><strong>Birth year stands in for model year.</strong></li>
 <li><strong>At the variant level, engine size must match to the cc.</strong> Near-identical engines (1596 cc vs 1598 cc) form separate groups; the model-year-fuel level then applies.</li>
@@ -1924,16 +1915,16 @@ ul.task-list li input[type="checkbox"] {
 <li><strong>A single recorded vehicle is enough to fill a group.</strong> This follows from <code>min_vehicles</code> = 1.</li>
 <li><strong>Missing values are not random.</strong> VES values are mostly missing where no VES record was found, which is more common for older and scrapped vehicles. Their gaps are filled from vehicles that do have records.</li>
 <li><strong>“Other” is treated as one fuel group,</strong> although it covers a mix of fuels.</li>
-<li><strong>Euro status spellings are standardised, not interpreted</strong> (5.6). The letters after the standard are kept together, because the stage letter and the emission code cannot be told apart once the spacing varies: “EURO 6D AR” and “EURO 6 DAR” are both “EURO 6 DAR”, and stay separate from “EURO 6 AR”. Other misspellings still count as separate values. The derived <code>euro_standard</code> column (<a href="#sec-meth-derived-fields" class="quarto-xref"><span>Section 18.5.4.1</span></a>) is more robust.</li>
+<li><strong>Euro status spellings are standardised, not interpreted</strong> (5.6). The letters after the standard are kept together, because the stage letter and the emission code cannot be told apart once the spacing varies: “EURO 6D AR” and “EURO 6 DAR” are both “EURO 6 DAR”, and stay separate from “EURO 6 AR”. Other misspellings still count as separate values. The derived <code>euro_standard</code> column (<a href="#sec-meth-derived-fields" class="quarto-xref"><span>Section 22.4.1</span></a>) is more robust.</li>
 </ol>
 <p>For analysis sensitive to these assumptions, filter to recorded values with <code>*_src IN ('dvsa', 'dvla')</code>, or to <code>fuel_check = 'ok'</code>. The churn tables use the recorded DVSA fuel, engine size and test class columns by default.</p>
 </section>
 </section>
-<section id="sec-meth-derived-fields-and-number-plates" class="level3" data-number="18.5.4">
-<h3 data-number="18.5.4" class="anchored" data-anchor-id="sec-meth-derived-fields-and-number-plates"><span class="header-section-number">18.5.4</span> Stage 4: Derived fields and number plates</h3>
+<section id="sec-meth-derived-fields-and-number-plates" class="level2" data-number="22.4">
+<h2 data-number="22.4" class="anchored" data-anchor-id="sec-meth-derived-fields-and-number-plates"><span class="header-section-number">22.4</span> Stage 4: Derived fields and number plates</h2>
 <p><em>Code: <code>R/assemble.R</code>, <code>R/plates.R</code> · Output: <code>outputs/vehicles_enhanced.parquet</code></em></p>
-<section id="sec-meth-derived-fields" class="level4" data-number="18.5.4.1">
-<h4 data-number="18.5.4.1" class="anchored" data-anchor-id="sec-meth-derived-fields"><span class="header-section-number">18.5.4.1</span> Derived fields</h4>
+<section id="sec-meth-derived-fields" class="level3" data-number="22.4.1">
+<h3 data-number="22.4.1" class="anchored" data-anchor-id="sec-meth-derived-fields"><span class="header-section-number">22.4.1</span> Derived fields</h3>
 <ul>
 <li><p><strong><code>fuel_simple</code></strong> groups the harmonised fuel into six categories:</p>
 <table class="caption-top table">
@@ -1966,7 +1957,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td>Plug-in Hybrid Electric</td>
-<td>Plug-in Hybrid Electric (Petrol), Plug-in Hybrid Electric (Diesel), Range Extended Electric (all from the DfT fuel detail, <a href="#sec-meth-plug-in-hybrids-the-dft" class="quarto-xref"><span>Section 18.5.3.5</span></a>)</td>
+<td>Plug-in Hybrid Electric (Petrol), Plug-in Hybrid Electric (Diesel), Range Extended Electric (all from the DfT fuel detail, <a href="#sec-meth-plug-in-hybrids-the-dft" class="quarto-xref"><span>Section 22.3.5</span></a>)</td>
 </tr>
 <tr class="even">
 <td>Other</td>
@@ -1977,8 +1968,8 @@ ul.task-list li input[type="checkbox"] {
 <li><p><strong><code>euro_standard</code></strong> is the Euro emission standard number taken from the <code>euro_status</code> text, with Roman numerals converted. For example, “EURO 6 AP” gives 6 and “EURO VI E” gives 6. Heavy-duty (Roman) and light-duty (Arabic) standards share one scale, although they are different regulations.</p></li>
 </ul>
 </section>
-<section id="sec-meth-number-plate-decoding" class="level4" data-number="18.5.4.2">
-<h4 data-number="18.5.4.2" class="anchored" data-anchor-id="sec-meth-number-plate-decoding"><span class="header-section-number">18.5.4.2</span> Number plate decoding</h4>
+<section id="sec-meth-number-plate-decoding" class="level3" data-number="22.4.2">
+<h3 data-number="22.4.2" class="anchored" data-anchor-id="sec-meth-number-plate-decoding"><span class="header-section-number">22.4.2</span> Number plate decoding</h3>
 <p>The registration is upper-cased and stripped of non-alphanumeric characters (<code>registration_clean</code>). It is then matched against a sequence of plate formats, and the first match wins. The rules are an SQL translation of <code>DVLAAPI::registration_analysis()</code>, in the same order. The main formats are:</p>
 <table class="caption-top table">
 <colgroup>
@@ -2043,7 +2034,6 @@ ul.task-list li input[type="checkbox"] {
 </ul>
 
 
-</section>
 </section>
 </section>
 
@@ -2450,12 +2440,12 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../chapters/examples-code.html" class="pagination-link" aria-label="Worked examples: code">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Worked examples: code</span></span>
+      <a href="../../chapters/methodology/annualising.html" class="pagination-link" aria-label="Annualising the data">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Annualising the data</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../chapters/dictionary/index.html" class="pagination-link" aria-label="Data dictionary">
+      <a href="../../chapters/dictionary/index.html" class="pagination-link" aria-label="Data dictionary">
         <span class="nav-page-text">Data dictionary</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
@@ -2468,7 +2458,7 @@ ul.task-list li input[type="checkbox"] {
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/CARS-Project/documentation/edit/main/chapters/methodology.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/CARS-Project/documentation/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/CARS-Project/documentation/edit/main/chapters/methodology/cleaning.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/CARS-Project/documentation/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p><a href="https://cars-project.github.io/">cars-project.github.io</a></p>
 </div>
