@@ -16,7 +16,7 @@ supplied and does not modify them.
 - **`colour_DVLA`** is the colour on the DVLA register, as returned by the
   Vehicle Enquiry Service (VES).
 
-Vehicles can change colour over time (although most don't). The DVSA do not provide a record of colour changes over time so the **`primaryColour_DVSA`** and **`secondaryColour_DVSA`** are likely to be the most recent values. The DVLA VES API also does not provide a record of colour changes over time, but repeted quering of the API may have found some vehicles that have changed colour. However in the main CARS ouputs only the most recent colour is kept.
+Vehicles can change colour over time (although most don't). The DVSA do not provide a record of colour changes over time so the **`primaryColour_DVSA`** and **`secondaryColour_DVSA`** are likely to be the most recent values. The DVLA VES API also does not provide a record of colour changes over time, but repeated querying of the API may have found some vehicles that have changed colour. However in the main CARS outputs only the most recent colour is kept.
 
 The DVSA and DVLA columns are described among the input data in the methodology,
 [section 2](../../reports/methodology.md#input-data).
@@ -35,10 +35,10 @@ often present for vehicles first used in 2023 and 2024
 (`r cov_year("secondaryColour_DVSA", 2024)` for 2024) than for older or newer
 ones (@fig-dd-colour). A value is not necessarily a colour, though: most
 vehicles have the secondary colour `Not Stated` (@fig-dd-v-secondarycolour-dvsa),
-so the column is not particually useful.
+so the column is not particularly useful.
 
-The **`colour_DVLA`**, like every VES field, is only present only where a VES record was
-found: `r cov_pct(cs, "colour_DVLA")` of vehicles. When a vehicle does exist in the VES API it alsmost always has a colour value. The **`colour_DVLA`** is less present for those first used
+The **`colour_DVLA`**, like every VES field, is present only where a VES record was
+found: `r cov_pct(cs, "colour_DVLA")` of vehicles. When a vehicle does exist in the VES API it almost always has a colour value. The **`colour_DVLA`** is less present for those first used
 before 2010, most of which have left the fleet and so are no longer included in the VES API (@sec-dd-dvla-status).
 
 Data coverage is shown in the table and charts below.
@@ -58,7 +58,7 @@ coverage_plot(cols, ncol = 3)
 
 ## Values
 
-The charts below show an overview of how the values of each variaible change over time (based on a vehicles first use date). These charts are intedned to help data users understand what to expect in the CARS data an are not inteneded to used as factual descriptions of the vehicle fleet becuase they do not account for biases and limitations in the CARS data. Some vehicles are excluded due to missing first use date or a date before 1990.
+The charts below show an overview of how the values of each variable change over time (based on a vehicle's first use date). These charts are intended to help data users understand what to expect in the CARS data and are not intended to be used as factual descriptions of the vehicle fleet because they do not account for biases and limitations in the CARS data. Some vehicles are excluded due to missing first use date or a date before 1990.
 
 
 ```{r}
