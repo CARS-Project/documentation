@@ -89,10 +89,9 @@ coverage_table(cols)
 
 ```{r}
 #| label: fig-dd-racf
-#| fig-cap: "Share of vehicles with a value in selected RACF columns, by year of first use."
-#| fig-height: 4.6
-coverage_plot(c("racf_link_level", "racf_mass_kg", "racf_co2_nedc",
-                "racf_co2_wltp"))
+#| fig-cap: "Share of vehicles with a value in each RACF column, by year of first use."
+#| fig-height: !expr coverage_height(cols)
+coverage_plot(cols)
 ```
 
 ## Values

@@ -67,9 +67,9 @@ coverage_table(cols)
 
 ```{r}
 #| label: fig-dd-make-model
-#| fig-cap: "Share of vehicles with a value in selected make and model columns, by year of first use."
-#| fig-height: 4.6
-coverage_plot(c("make_final", "model_final", "derivative_final", "dft_model"))
+#| fig-cap: "Share of vehicles with a value in each make and model column, by year of first use."
+#| fig-height: !expr coverage_height(cols)
+coverage_plot(cols)
 ```
 
 ## Values

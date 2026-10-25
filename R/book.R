@@ -256,9 +256,28 @@ coverage_table <- function(cols) {
         align = c("l", rep("r", length(coverage_bands) + 1)))
 }
 
+# Long column names wrapped at underscores so they fit a narrow panel
+wrap_name <- function(x, width = 21) {
+  vapply(x, function(k) {
+    parts <- strsplit(k, "(?<=_)", perl = TRUE)[[1]]
+    lines <- parts[1]
+    for (p in parts[-1]) {
+      n <- length(lines)
+      if (nchar(lines[n]) + nchar(p) > width) lines <- c(lines, p)
+      else lines[n] <- paste0(lines[n], p)
+    }
+    paste(lines, collapse = "\n")
+  }, character(1), USE.NAMES = FALSE)
+}
+
+# Height in inches of a coverage_plot(), for fig-height: !expr
+coverage_height <- function(cols, ncol = 4) {
+  0.7 + 1.45 * ceiling(length(cols) / ncol)
+}
+
 # Small multiples, one panel per column, by year of first use: the share of
 # vehicles with a value or, with flags = TRUE, the share with the flag TRUE
-coverage_plot <- function(cols, from = 1990, ncol = 2, flags = FALSE) {
+coverage_plot <- function(cols, from = 1990, ncol = 4, flags = FALSE) {
   if (flags) {
     cv <- read_coverage("true_by_first_use_year")
     cv$n_present <- cv$n_true
@@ -272,13 +291,17 @@ coverage_plot <- function(cols, from = 1990, ncol = 2, flags = FALSE) {
   cv$column_name <- factor(cv$column_name, cols)
   ggplot(cv, aes(first_use_year, share)) +
     geom_line(colour = cars_cols[1], linewidth = 0.7) +
-    facet_wrap(~column_name, ncol = ncol) +
+    facet_wrap(~column_name, ncol = ncol,
+               labeller = as_labeller(function(x) wrap_name(x))) +
     scale_y_continuous(labels = scales::label_percent(), limits = c(0, 1),
                        breaks = c(0, 0.5, 1)) +
+    scale_x_continuous(breaks = seq(1990, 2020, 15)) +
     labs(x = "Year of first use",
          y = if (flags) "Vehicles with TRUE" else "Vehicles with a value") +
-    theme_cars() +
-    theme(panel.spacing.x = grid::unit(1.2, "lines"))
+    theme_cars(base_size = 8) +
+    theme(panel.spacing.x = grid::unit(1, "lines"),
+          strip.text = element_text(colour = ink, face = "bold", hjust = 0,
+                                    vjust = 0, lineheight = 0.9))
 }
 
 # Share with a value as text, for one column of coverage_share() output
@@ -306,8 +329,10 @@ read_values <- function(name) {
                   na.strings = "")
 }
 
-# Validated categorical order (slots 1-8), then neutrals for Other and Blank
-values_cols <- c(cars_cols, "#e87ba4", "#008300", "#6250d6", "#e34948")
+# Validated categorical order (slots 1-8), four more for the 12 values kept by
+# scripts/run-values.R, then neutrals for Other and Blank
+values_cols <- c(cars_cols, "#e87ba4", "#008300", "#6250d6", "#e34948",
+                 "#0aa2c0", "#8f5a2b", "#23346e", "#a7a82a")
 other_col <- "#a3a29b"
 blank_col <- "#dddcd6"
 
@@ -325,8 +350,8 @@ colour_fills <- function(values) {
   key <- toupper(trimws(values))
   out <- unname(vehicle_colours[key])
   not_colour <- is.na(out)
-  out[not_colour] <- c("#9b8fc0", "#c8bfe0", "#6e6496")[
-    seq_len(sum(not_colour))]
+  out[not_colour] <- rep_len(c("#9b8fc0", "#c8bfe0", "#6e6496"),
+                             sum(not_colour))
   setNames(out, values)
 }
 

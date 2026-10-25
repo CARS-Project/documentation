@@ -142,6 +142,13 @@ office, and flagged where it does not match the vehicle's age
 (@sec-number-plates). Simplified groupings such as `fuel_simple` and
 `euro_standard` are added.
 
+Each car is also linked to the RACF car fleet, DfT's car fleet by model, year
+of first use and fuel enriched with each model's SMMT segment and its mass,
+dimensions, CO~2~, energy use and electric range from the EU type-approval
+and Dutch RDW registers. The `racf_` columns give the fleet-weighted average
+of these for the car's model, not measurements of the car itself
+(@sec-dd-racf).
+
 ### Outputs
 
 The result is the vehicle table, `vehicles_enhanced.parquet`, with its data

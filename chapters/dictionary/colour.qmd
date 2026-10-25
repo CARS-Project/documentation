@@ -52,8 +52,8 @@ coverage_table(cols)
 ```{r}
 #| label: fig-dd-colour
 #| fig-cap: "Share of vehicles with a value in each colour column, by year of first use."
-#| fig-height: 2.6
-coverage_plot(cols, ncol = 3)
+#| fig-height: !expr coverage_height(cols)
+coverage_plot(cols)
 ```
 
 ## Values

@@ -86,10 +86,9 @@ coverage_table(cols)
 
 ```{r}
 #| label: fig-dd-dvla-status
-#| fig-cap: "Share of vehicles looked up in the VES, returned a record, and with a tax due date and MOT expiry date, by year of first use."
-#| fig-height: 4.6
-coverage_plot(c("first_VES_check", "first_VES_return", "taxDueDate_DVLA",
-                "motExpiryDate_DVLA"))
+#| fig-cap: "Share of vehicles with a value in each licensing status and DVLA lookup column, by year of first use."
+#| fig-height: !expr coverage_height(cols)
+coverage_plot(cols)
 ```
 
 ## Values

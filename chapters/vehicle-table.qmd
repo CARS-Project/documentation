@@ -53,6 +53,7 @@ from:
 | ends `_check` | The result of a consistency check | `fuel_check`, `euro_check` |
 | ends `_method` | How a make or model was matched | `model_method` |
 | starts `scope_` | Why the vehicle is included | `scope_mileage` |
+| starts `racf_` | For cars, the size, mass and emissions of the car's model, from the RACF car fleet (@sec-dd-racf) | `racf_smmt_type`, `racf_mass_kg` |
 
 ::: {.callout-tip title="Supplied or harmonised?"}
 For most purposes use the harmonised columns (`fuel`, `engine_cc`, `co2`,
@@ -68,18 +69,20 @@ result does not depend on the pipeline's choices.
 #| tbl-cap: "The columns of the vehicle table, by group."
 fam <- function(x) {
   ifelse(grepl("^(mileage|legit_mileage|pca)_[0-9]{4}$", x), "Year by year",
+  ifelse(grepl("^racf_", x), "Car model attributes (RACF)",
   ifelse(grepl("^scope_|^total_mileage$", x), "Scope",
   ifelse(grepl("^(registration_(DVSA|DVLA|clean)$|plate_|vanity|dup_vrm|vehicle_id)", x), "Identity and number plate",
   ifelse(grepl("^(make|model|derivative|dft_|body_type)", x), "Make, model and body type",
   ifelse(grepl("^(n_VES|first_VES|last_VES|is_error|error|collectionDate|plate_ever|ever_|v5C_|change_in|dvla_match|dvla_evidence)", x), "DVLA lookup and record match",
   ifelse(grepl("(Date|date|_year|Year|Registration_DVLA|artEnd)", x), "Dates",
   ifelse(grepl("_(DVSA|DVLA|ANON)$", x), "Attributes as supplied",
-  "Attributes harmonised by the pipeline")))))))
+  "Attributes harmonised by the pipeline"))))))))
 }
 dd$group <- fam(dd$column_name)
 order_groups <- c("Identity and number plate", "Make, model and body type",
                   "Attributes harmonised by the pipeline",
-                  "Attributes as supplied", "Dates",
+                  "Attributes as supplied", "Car model attributes (RACF)",
+                  "Dates",
                   "DVLA lookup and record match", "Scope", "Year by year")
 g <- do.call(rbind, lapply(order_groups, function(k) {
   cols <- dd$column_name[dd$group == k]
@@ -112,6 +115,9 @@ pm <- setNames(dd$pct_missing, dd$column_name)
   `r pm["co2"]`% against `r pm["co2Emissions_DVLA"]`% for
   `co2Emissions_DVLA`, and `euro_status` for `r pm["euro_status"]`% against
   `r pm["euroStatus_DVLA"]`%.
+- **The `racf_` columns are blank for every vehicle that is not a car**, and
+  for cars whose model could not be linked: `racf_smmt_type` is missing for
+  `r pm["racf_smmt_type"]`% of vehicles.
 - **Year-by-year columns are blank in most years for most vehicles**, because
   a vehicle is only on the road for part of the period. `mileage_2019` is
   blank for `r pm["mileage_2019"]`% of vehicles.

@@ -16,14 +16,14 @@
 #     quartiles and maximum by year of first use (dates as days since
 #     1970-01-01)
 #   categorical_by_first_use_year.csv  other columns: vehicles by value and
-#     year of first use, for the 7 commonest values; the rest are counted as
+#     year of first use, for the 12 commonest values; the rest are counted as
 #     group "other", and blanks as group "blank"
 #   numeric_by_year.csv, categorical_by_year.csv  the same for the
 #     year-by-year columns, by calendar year
 # Years of first use outside 1990 to the current year are left out.
 
 source("R/book.R")
-n_top <- 7
+n_top <- 12
 first_year <- 1990
 last_year <- as.integer(format(Sys.Date(), "%Y"))
 

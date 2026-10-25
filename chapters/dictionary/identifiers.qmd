@@ -4,6 +4,9 @@
 source("R/book.R")
 sc <- read_pipeline("outputs", "quality", "scope_counts.csv")
 n_sc <- setNames(sc$n_vehicles, sc$measure)
+# Every column has a value for every vehicle, so the chart shows the flags
+flag_cols <- c("dup_vrm", "scope_mileage", "scope_pca", "scope_born",
+               "scope_dvla_activity")
 ```
 
 ## Overview
@@ -48,10 +51,9 @@ MOT test.
 
 ```{r}
 #| label: fig-dd-scope
-#| fig-cap: "Share of vehicles meeting each scope rule, by year of first use."
-#| fig-height: 4.6
-coverage_plot(c("scope_mileage", "scope_pca", "scope_born",
-                "scope_dvla_activity"), flags = TRUE)
+#| fig-cap: "Share of vehicles with each flag TRUE: a duplicated registration and each scope rule, by year of first use."
+#| fig-height: !expr coverage_height(flag_cols)
+coverage_plot(flag_cols, flags = TRUE)
 ```
 
 ## Values

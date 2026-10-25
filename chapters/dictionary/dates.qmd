@@ -97,10 +97,9 @@ coverage_table(cols)
 
 ```{r}
 #| label: fig-dd-dates
-#| fig-cap: "Share of vehicles with a value in selected date columns, by year of first use."
-#| fig-height: 4.6
-coverage_plot(c("firstUsedDate_DVSA", "final_test_date_DVSA",
-                "monthOfFirstRegistration_DVLA", "last_mot_year"))
+#| fig-cap: "Share of vehicles with a value in each date column, by year of first use."
+#| fig-height: !expr coverage_height(cols)
+coverage_plot(cols)
 ```
 
 ## Values

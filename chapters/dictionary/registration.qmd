@@ -79,9 +79,9 @@ coverage_table(cols)
 
 ```{r}
 #| label: fig-dd-registration
-#| fig-cap: "Share of vehicles with a DVLA registration, by year of first use."
-#| fig-height: 2.6
-coverage_plot("registration_DVLA", ncol = 1)
+#| fig-cap: "Share of vehicles with a value in each registration column, by year of first use."
+#| fig-height: !expr coverage_height(cols)
+coverage_plot(cols)
 ```
 
 `vanity_plate` is almost never blank, but the share of vehicles flagged

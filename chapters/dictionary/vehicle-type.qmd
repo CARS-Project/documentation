@@ -73,9 +73,9 @@ coverage_table(cols)
 
 ```{r}
 #| label: fig-dd-vehicle-type
-#| fig-cap: "Share of vehicles with a value in the harmonised vehicle type columns, by year of first use."
-#| fig-height: 2.6
-coverage_plot(c("body_type", "type_approval", "test_class"), ncol = 3)
+#| fig-cap: "Share of vehicles with a value in each vehicle type column, by year of first use."
+#| fig-height: !expr coverage_height(cols)
+coverage_plot(cols)
 ```
 
 ## Values

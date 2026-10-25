@@ -81,10 +81,9 @@ coverage_table(cols)
 
 ```{r}
 #| label: fig-dd-fuel-engine
-#| fig-cap: "Share of vehicles with an engine size, as supplied by each source and harmonised, and with a DfT fuel, by year of first use."
-#| fig-height: 4.6
-coverage_plot(c("engineSize_DVSA", "engineCapacity_DVLA", "engine_cc",
-                "fuel_DFT"))
+#| fig-cap: "Share of vehicles with a value in each fuel and engine column, by year of first use."
+#| fig-height: !expr coverage_height(cols)
+coverage_plot(cols)
 ```
 
 ## Values
