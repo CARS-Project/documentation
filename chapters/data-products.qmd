@@ -20,13 +20,15 @@ the pitfalls described in @sec-pitfalls.
 
 The aggregate tables count vehicles and sum their mileage by postcode area
 and year, broken down by body type, fuel, age, engine size and other
-characteristics. There are three families, described in
+characteristics. There are four families, described in
 @sec-aggregate-tables and catalogued in @sec-table-catalogue:
 
 - **mileage tables**: vehicles and annual mileage by postcode area, year, body
   type and fuel;
 - **fleet profile tables**: the make-up of the fleet by year, body type and
   age band;
+- **car size and model tables**: the size, mass, CO~2~ and SUV share of the
+  cars in each year and postcode area, from the RACF car fleet;
 - **churn tables**: how the vehicles in each postcode area change from year to
   year as vehicles arrive, move, age and leave.
 

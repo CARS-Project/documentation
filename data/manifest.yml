@@ -41,6 +41,7 @@ data:
   - outputs/tables/churn/README_outputs.csv
   - outputs/tables/mileage/README_outputs.csv
   - outputs/tables/profile/README_outputs.csv
+  - outputs/tables/racf/README_outputs.csv
   - outputs/tables/mileage/mileage_by_pca_year_body_fuel.csv
   - outputs/tables/mileage/mileage_by_legit_flag_year.csv
   - outputs/tables/churn/set4_electric_vehicles_by_pca.csv
@@ -62,3 +63,6 @@ reports:
     dest: reports/churn_tables_report.md
   - source: outputs/reports/fleet_profile_report.md
     dest: reports/fleet_profile_report.md
+  - source: outputs/reports/racf_linked_report.md
+    dest: reports/racf_linked_report.md
+    figures: outputs/reports/racf_linked_report_figures

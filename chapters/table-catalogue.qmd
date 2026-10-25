@@ -4,7 +4,7 @@
 source("R/book.R")
 ```
 
-The aggregate tables are in three folders. These lists are generated from the
+The aggregate tables are in four folders. These lists are generated from the
 index file (`README_outputs.csv`) that the pipeline writes into each folder.
 An asterisk in a file name stands for several files: `set2_static_by_*.csv`
 is one file for each characteristic. @sec-aggregate-tables explains how to
@@ -28,6 +28,16 @@ Details: [Fleet profile tables](../reports/fleet_profile_report.md).
 p <- read_pipeline("outputs", "tables", "profile", "README_outputs.csv")
 p$file <- paste0("`", p$file, "`")
 kable(p, col.names = c("File", "Form", "Contents"))
+```
+
+## Car size and model tables: `tables/racf/`
+
+Details: [The RACF / SMMT car fleet, linked to the MOT data](../reports/racf_linked_report.md).
+
+```{r}
+r <- read_pipeline("outputs", "tables", "racf", "README_outputs.csv")
+r$file <- paste0("`", r$file, "`")
+kable(r, col.names = c("File", "Group", "Contents"))
 ```
 
 ## Churn tables: `tables/churn/`

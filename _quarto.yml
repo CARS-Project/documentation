@@ -79,6 +79,7 @@ book:
         - reports/mileage_report.md
         - reports/churn_tables_report.md
         - reports/fleet_profile_report.md
+        - reports/racf_linked_report.md
 
 bibliography: references.bib
 lang: en-GB

@@ -8,7 +8,7 @@ area <- read_pipeline("outputs", "tables", "mileage",
 
 The aggregate tables are CSV files that open in any spreadsheet. They answer
 most common questions without the vehicle table, and they have been built so
-that results can be combined correctly. This chapter explains the three
+that results can be combined correctly. This chapter explains the four
 families of table and the ideas common to all of them. @sec-table-catalogue
 lists every file, and each family has a detailed report among the appendices.
 
@@ -92,6 +92,32 @@ count and mean mileage of each. They come in long form
 
 These tables cover Great Britain only (Northern Ireland is excluded) and count
 a vehicle in a year only if it has a plausible mileage that year.
+
+## Car size and model tables
+
+*Folder `tables/racf/` · report: [The RACF / SMMT car fleet, linked to the MOT data](../reports/racf_linked_report.md)*
+
+These tables describe cars by the size, mass and official emissions of their
+model, from the RACF car fleet linked to each car (the `racf_` columns of the
+vehicle table, @sec-dd-racf). They count the **cars located in a real
+postcode area** in each year, as in the comparison with DfT's statistics
+(@sec-data-quality), and fall into three groups:
+
+- **the link and its validation**: how many cars could be linked, the MOT cars
+  against the RACF fleet by fuel and SMMT segment, and the DVLA CO~2~ and
+  revenue weight against the EU figures;
+- **the fleet's characteristics**: the average size, mass, CO~2~ and SUV
+  share of the cars located each year (`racf_characteristics_by_year.csv`),
+  by year of first use, and by postcode area (`racf_by_area.csv`);
+- **mileage by size**: annual mileage by SMMT segment, SUV, footprint and mass
+  band, counted as in the fleet profile tables.
+
+::: {.callout-important title="Pitfall: model averages, not measurements"}
+Every size, mass and CO~2~ figure is the fleet-weighted average for the car's
+model, year and fuel, not a measurement of the car. The tables are suited to
+describing groups of cars, such as the share of SUVs in an area, not to
+comparing individual models closely.
+:::
 
 ## Churn tables
 
