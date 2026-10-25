@@ -43,18 +43,18 @@ version is where mistakes come from. Column and file names appear
   splits them either by year or by a characteristic (age, mileage, fuel,
   engine size, emissions category).
 - The biggest limitation is not missing data in the usual sense: it is
-  what a “location” is. Bristol gives a vehicle a postcode area in every
-  year from its first registration to two years after its last MOT: the
-  years before the first MOT (at age three) copy the first test’s area,
-  and the two years after the last one carry it on. So a vehicle’s area
-  in a year is not always a year in which it was tested there, and a
-  scrapped vehicle stays in its area’s stock for about two years
-  (section 5 and section 12). In 2019, the best covered year, 52.3% of
-  the churn-base vehicles had a postcode area.
+  what a “location” is. The annualisation gives a vehicle a postcode
+  area in every year from its first registration to two years after its
+  last MOT: the years before the first MOT (at age three) copy the first
+  test’s area, and the two years after the last one carry it on. So a
+  vehicle’s area in a year is not always a year in which it was tested
+  there, and a scrapped vehicle stays in its area’s stock for about two
+  years (section 5 and section 12). In 2019, the best covered year,
+  52.3% of the churn-base vehicles had a postcode area.
 - The pipeline cross-checks every count that two tables should agree on
   (`outputs/quality/cross_checks.csv`, summarised in the data quality
-  report): the Set 2 stock, Set 1b, Set 1d, Set 3, Set 4, Set 7A and Set
-  7B totals all reconcile with the churn base.
+  report): the Set 2 stock, Set 1b, Set 1d, Set 3, Set 4, Set 7A, 7B and
+  7C totals all reconcile with the churn base.
 
 ## 3. Where the data comes from
 
@@ -204,7 +204,7 @@ vehicle; see section 7.
 | movement_rate_window | DOUBLE | 56,205,537 | 24,906,619 | 30.71 | Moves per observed year pair: `n_moves_2007_2017 / n_obs_2007_2017` |
 | movement_rate_2022 | DOUBLE | 64,489,834 | 16,622,322 | 20.49 | As `movement_rate`, measured to 2022 |
 | ever_moved_pca | BOOLEAN | 81,112,156 | 0 | 0.00 | TRUE if any year’s real postcode area differs from `first_real_pca` |
-| caz_cat | VARCHAR | 81,112,156 | 0 | 0.00 | Clean Air Zone proxy from fuel and first use year: `petrol_pre2006`, `diesel_pre2015` or `other` |
+| caz_cat | VARCHAR | 81,112,156 | 0 | 0.00 | Clean Air Zone proxy from fuel and first use year alone: `petrol_pre2006`, `diesel_pre2015` or `other`. Used by the Set 7 proxy checks; the Set 7 tables add the Euro standard (`caz_status`, computed in Set 7) |
 
 The year columns are described separately below, because there are 41 of
 them.
@@ -219,7 +219,7 @@ when the vehicle had no pair of MOTs spanning that year.
 | prefix | n_columns | first_year | last_year | description |
 |:---|---:|:---|:---|:---|
 | pca_YYYY | 21 | 2005 | 2025 | Postcode area the vehicle was seen in that year, or `unborn`, `dead` or `unknown` |
-| mileage_YYYY | 20 | 2006 | 2025 | Annual miles for that year, as annualised by Bristol from the MOT odometer readings. Years before a vehicle’s first MOT are estimated from its first test, so they are not separate measurements |
+| mileage_YYYY | 20 | 2006 | 2025 | Annual miles for that year, as annualised from the MOT odometer readings. Years before a vehicle’s first MOT are estimated from its first test, so they are not separate measurements |
 
 ### 4.2 Coverage year by year
 
@@ -279,8 +279,8 @@ years are still being recorded.
 **Figure 1.** The table above as a chart: all 81,112,156 churn-base
 vehicles (test class 4) by their location status in each year
 (`quality/churn_profile/by_year.csv`). `dead` starts two years after a
-vehicle’s last MOT, because Bristol keeps its postcode area for two
-years after it.
+vehicle’s last MOT, because the annualisation keeps its postcode area
+for two years after it.
 
 ## 5. The vocabulary, pedantically
 
@@ -347,11 +347,11 @@ over in 2017. The idea was “moves per year of life after the first
 three, when a car has no MOT”. It does not measure that, for two
 reasons, and **it should not be compared across ages**:
 
-- Bristol back-fills a vehicle’s postcode area into the years before its
-  first MOT, so those years are “located” and a move between them can be
-  counted (though, being copies, they rarely show one). The numerator
-  therefore counts moves over up to ten year pairs (2007-2017) while the
-  denominator counts years of life after the third.
+- The annualisation back-fills a vehicle’s postcode area into the years
+  before its first MOT, so those years are “located” and a move between
+  them can be counted (though, being copies, they rarely show one). The
+  numerator therefore counts moves over up to ten year pairs (2007-2017)
+  while the denominator counts years of life after the third.
 - For a vehicle aged 4 the denominator is 1 but there are about 4.5
   observed year pairs; for a vehicle aged 20 it is 17 but there are at
   most 10.
@@ -400,15 +400,16 @@ lands in the `NA` column, and in a per-category table it is dropped.
 |:---|---:|:---|:---|:---|
 | age | 22 | includes its lower bound, excludes its upper bound | Set 2 age counts by year | \<0 \| 0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6 \| 7 \| 8 \| 9 \| 10 \| 11 \| 12 \| 13 \| 14 \| 15 \| 16 \| 17 \| 18 \| 19 \| 20+ |
 | age5 | 6 | includes its lower bound, excludes its upper bound | Set 3 age counts | \<0 \| 0-3 \| 4-5 \| 6-8 \| 9-17 \| 18+ |
-| age6 | 7 | includes its lower bound, excludes its upper bound | Set 7B leavers by age | \<0 \| 0-3 \| 4-5 \| 6-8 \| 9-12 \| 13-17 \| 18+ |
+| age6 | 7 | includes its lower bound, excludes its upper bound | Sets 7B and 7C by age in 2018 | \<0 \| 0-3 \| 4-5 \| 6-8 \| 9-12 \| 13-17 \| 18+ |
 | mileage | 27 | includes its lower bound, excludes its upper bound | Set 2 mileage counts by year, Set 2/6 by mileage (detail) | \<0 \| 0-1000 \| 1000-2000 \| 2000-3000 \| 3000-4000 \| 4000-5000 \| 5000-6000 \| 6000-7000 \| 7000-8000 \| 8000-9000 \| 9000-10000 \| 10000-11000 \| 11000-12000 \| 12000-13000 \| 13000-14000 \| 14000-15000 \| 15000-16000 \| 16000-17000 \| 17000-18000 \| 18000-19000 \| 19000-20000 \| 20000-21000 \| 21000-22000 \| 22000-23000 \| 23000-24000 \| 24000-25000 \| 25000+ |
-| mileage3 | 3 | includes its lower bound, excludes its upper bound | Sets 2, 3, 5, 6 and 7B | \<5k \| 5-12k \| \>12k |
+| mileage3 | 3 | includes its lower bound, excludes its upper bound | Sets 2, 3, 5, 6, 7B and 7C | \<5k \| 5-12k \| \>12k |
 | engine | 26 | includes its lower bound, excludes its upper bound; `0 (electric)` is exactly 0 | Set 2 engine counts by year (detailed) | \<0 \| 0 (electric) \| 1-1000 \| 1000-1100 \| 1100-1200 \| 1200-1300 \| 1300-1400 \| 1400-1500 \| 1500-1600 \| 1600-1700 \| 1700-1800 \| 1800-1900 \| 1900-2000 \| 2000-2100 \| 2100-2200 \| 2200-2300 \| 2300-2400 \| 2400-2500 \| 2500-2600 \| 2600-2700 \| 2700-2800 \| 2800-2900 \| 2900-3000 \| 3000-4000 \| 4000-5000 \| 5000+ |
 | engine100 | 37 | includes its lower bound, excludes its upper bound; `0 (electric)` is exactly 0 | Set 2 and 6 engine 100cc tables | 0 (electric) \| 1-600 \| 600-700 \| 700-800 \| 800-900 \| 900-1000 \| 1000-1100 \| 1100-1200 \| 1200-1300 \| 1300-1400 \| 1400-1500 \| 1500-1600 \| 1600-1700 \| 1700-1800 \| 1800-1900 \| 1900-2000 \| 2000-2100 \| 2100-2200 \| 2200-2300 \| 2300-2400 \| 2400-2500 \| 2500-2600 \| 2600-2700 \| 2700-2800 \| 2800-2900 \| 2900-3000 \| 3000-3100 \| 3100-3200 \| 3200-3300 \| 3300-3400 \| 3400-3500 \| 3500-3600 \| 3600-3700 \| 3700-3800 \| 3800-3900 \| 3900-4000 \| 4000+ |
 | engine3 | 4 | includes its lower bound, excludes its upper bound; `0 (electric)` is exactly 0 | Set 2 and 6 engine 3-band tables | 0 (electric) \| 1-1400 \| 1400-2000 \| \>2000 |
-| engine4 | 5 | includes its lower bound, excludes its upper bound; `0 (electric)` is exactly 0 | Set 2, 3, 6 and 7B engine 4-band tables | 0 (electric) \| 1-1400 \| 1400-\<1700 \| 1700-2000 \| \>2000 |
+| engine4 | 5 | includes its lower bound, excludes its upper bound; `0 (electric)` is exactly 0 | Set 2, 3, 6, 7B and 7C engine 4-band tables | 0 (electric) \| 1-1400 \| 1400-\<1700 \| 1700-2000 \| \>2000 |
 | movement_rate | 9 | excludes its lower bound, includes its upper bound | Set 3 movement rate distributions | 0 \| (0-0.1\] \| (0.1-0.2\] \| (0.2-0.3\] \| (0.3-0.4\] \| (0.4-0.5\] \| (0.5-0.75\] \| (0.75-1\] \| \>1 |
-| fuel_simple | 6 | one group per fuel, not a numeric band | Sets 2, 3, 6 and 7B fuel tables | Petrol \| Diesel \| Electric \| Hybrid Electric \| Plug-in Hybrid Electric \| Other |
+| fuel_simple | 6 | one group per fuel, not a numeric band | Sets 2, 3 and 6 fuel tables | Petrol \| Diesel \| Electric \| Hybrid Electric \| Plug-in Hybrid Electric \| Other |
+| fuel4 | 5 | fuel_simple with the two hybrid groups merged | Sets 7B and 7C fuel breakdown | Petrol \| Diesel \| Electric \| Hybrid \| Other |
 | fuel3 | 3 | one group per fuel, not a numeric band | Set 4 petrol/diesel/other tables | Petrol \| Diesel \| Other |
 
 **The `NA` column** - several wide tables have a final column headed
@@ -423,7 +424,7 @@ tables, filled with 0 where no vehicle matched. A 0 means “none”, not
 “not measured”.
 
 **Rounding** - counts are exact. Proportions in Sets 2 and 6 are written
-at full precision. Average mileages in Set 7A are rounded to one decimal
+at full precision. Average mileages in Set 7 are rounded to one decimal
 place; percentages in Set 0 to two.
 
 ## 6. How complete the variables are
@@ -444,8 +445,9 @@ the 81,112,156 vehicles:
   status for only a minority of vehicles, and where it holds none the
   enhanced table fills in the standard that was compulsory for new
   registrations of that body type when the vehicle was made
-  (methodology.md, Section 5.7). Euro status is used only in the Set 7
-  check table.
+  (methodology.md, Section 5.7). Euro status is used only in Set 7,
+  where it decides the Clean Air Zone category together with the first
+  use date.
 - **Movement rate** is missing for 30,878,242 vehicles (38.1%) - those
   aged under 4 in 2017, for whom it is not defined.
 - **`birth_pca`** (the area a vehicle first appeared in) is missing for
@@ -823,10 +825,10 @@ next figure, separates them.
 **Figure 5.** The year-on-year flows of `set1d_pca_flows_year-1.csv`
 summed over all areas, with the flows into areas above zero and those
 out of them below. Nationally the two `moved` flows are equal. The
-`dead` flow lags scrapping by about two years, because Bristol keeps a
-postcode area for two years after the last MOT, and new vehicles of the
-last two or three years are missing until their first MOT is in the
-data.
+`dead` flow lags scrapping by about two years, because the annualisation
+keeps a postcode area for two years after the last MOT, and new vehicles
+of the last two or three years are missing until their first MOT is in
+the data.
 
 ![](churn_tables_report_figures/set1d-map-1.png)
 
@@ -1105,80 +1107,141 @@ than 1,000 vehicles.
 (right, `set6_cross_fuel_engine100_long.csv`). \* marks cells with fewer
 than 1,000 vehicles.
 
-### Set 7 - Clean Air Zone categories and leavers
+### Set 7 - Clean Air Zone categories, leavers and stayers
 
-- **Question.** Where are the vehicles a Clean Air Zone would charge,
-  and do they leave?
-- **Vehicles.** In a real area in 2018 (42,034,312) for the check and
-  the leavers; for the yearly counts, whoever was in a real area in each
-  year from 2018 to 2023.
-- **Variables.** `caz_cat`, assigned from fuel and first use year by the
-  first rule that matches: petrol first used before 2006 →
-  `petrol_pre2006`; diesel first used before 2015 → `diesel_pre2015`;
-  everything else → `other`. Plus `euro_status`, mileage, and the 2018
-  values of age, mileage, fuel and engine band.
+- **Question.** Where are the vehicles a Clean Air Zone or the ULEZ
+  would charge, and do they leave the area or stay?
+- **Rows.** Every postcode area (`geography = pca`), plus three groups
+  (`geography = group`):
+  - Inner London (E N NW SE SW W)
+  - Outer London (BR CR EN HA IG RM SM TW UB)
+  - All other: every other area, apart from the areas partly in London,
+    the clean air zone areas and BT XX
+
+  Some areas are repeated straight after the London groups:
+  - the areas partly in Greater London (KT, DA, WD,
+    `geography = partial_london_pca`)
+  - each area with a charging clean air zone (BA, B, PO, OX, BD, BS, NE,
+    S, G, `geography = caz_pca`)
+
+  These areas belong to no group. `set7_area_definitions.csv` lists the
+  schemes, their class and when charging started, and the config `set7`
+  section holds the lists. **Sum the `pca` rows only**; the other rows
+  group or repeat them.
+- **Vehicles.** In each year from 2018 to 2023, the vehicles in a real
+  area. 7B and 7C start from the vehicles in a real area in 2018
+  (42,034,312).
+- **Variables.** `caz_status` is worked out in Set 7 from fuel, first
+  use year and the Euro standard. Both conditions of the charging rule
+  must hold:
+  - **petrol** first used before 2006 and not Euro 4 or later →
+    `petrol_pre2006_not_euro4`
+  - **diesel** first used before 2015 and not Euro 6 or later →
+    `diesel_pre2015_not_euro6`
+  - everything else → `other`
+
+  A vehicle with no Euro standard (`pre_euro`, `no_schedule`, or none)
+  is placed by its date alone. Mileage is annual mileage, averaged only
+  over the vehicles that have one.
+- **Present.** A vehicle counts as “present” in 2023 if it is still in
+  the same row: the same area for an area row, or anywhere in the group
+  for a group row. A move from E to N therefore stays in Inner London,
+  and a move from LS to M stays in All other. As a result, the group
+  rows of 7B and 7C are not the sums of their area rows.
 - **Files.**
-  - `set7_check_caz_category_vs_eurostatus.csv` - a check, not a result:
-    how the date-based category lines up with the Euro standard, by
-    category and fuel. It is about the proxy’s credibility, not a count
-    of the fleet - and it is a weak check, because many Euro statuses
-    are themselves worked out from the date the vehicle was made, so the
-    two sides are not independent.
-  - `set7_check_caz_proxy_agreement_by_source.csv` - the same check as
-    an agreement rate, split by `euro_status_src`. Only `dvla` (recorded
-    on the vehicle) and `variant` / `model_year_fuel` (the recorded
-    value of similar vehicles) are an independent test of the proxy;
-    `euro_schedule` rows agree almost by construction. Only about 0.6%
-    of the vehicles have a status recorded on their own record. **The
-    independent part shows the petrol proxy is poor:** of the
-    `petrol_pre2006` cars with a recorded or borrowed standard, only
-    8.4% are below Euro 4, because many petrol cars of 2001-2005 already
-    met it; for `diesel_pre2015` the figure is 76.5%. The
-    `petrol_pre2006` counts in Set 7A and 7B therefore overstate the
-    petrol vehicles a Clean Air Zone would charge.
   - `set7a_pca_caz_categories.csv` and its long form
     `set7a_pca_caz_category_by_year_long.csv` - counts and average
-    mileage by area, category and year, 2018 to 2023. Average mileage is
-    rounded to one decimal place and averaged only over vehicles with a
-    recorded mileage.
-  - `set7b_leavers_2018_to_2023_by_*.csv` - vehicles in a real area in
-    2018 that are **not in that same area** in 2023 (26,793,137
-    vehicles, 63.7% of the 2018 stock), split six ways: by 2018 mileage
-    band, engine band, fuel, age band, CAZ category, and by outcome. In
-    the outcome file the `same` and `unborn` columns are present but
-    always 0, because a leaver is by definition not in the same area,
-    and a vehicle in a real area in 2018 cannot be `unborn` later; the
-    counts are therefore in `different` and `dead`.
-- **Trap.** “Leaver” includes vehicles that were scrapped, and vehicles
-  simply not observed in 2023. The by-outcome file is the one that
-  separates those: `dead` is scrapped, `different` is elsewhere or
-  unobserved.
+    mileage by row, category and year, with `total_vehicles_YYYY`. The
+    wide file also has the vehicles present in the row in both 2018
+    and 2023. The long form gives the count behind each average
+    (`n_with_mileage`).
+  - `set7b_leavers_2018_to_2023.csv` - vehicles in the row in 2018 that
+    are **not in it** in 2023 (26,793,137 over the area rows, 63.7% of
+    the 2018 stock). For each category: the count and the average
+    mileage in 2018 and in 2023 for all leavers, then the same split by
+    where the leaver was in 2023:
+    - `moved`: in another area and still running
+    - `dead`: scrapped
+    - `unknown`: not located
+
+    The column names are `n_moved_*`, `n_dead_*`, `n_unknown_*` and
+    `avg_mileage_YYYY_{outcome}_*`.
+  - `set7c_stayers_2018_to_2023.csv` - the same for vehicles in the row
+    in both years. In each row, 7B + 7C is the 7A 2018 total.
+  - `set7b_..._by_breakdown_long.csv` and
+    `set7c_..._by_breakdown_long.csv` - the same measures by category
+    and by each of these 2018 characteristics:
+    - mileage band (with a `no mileage` band)
+    - engine size in four bands
+    - fuel (Petrol, Diesel, Electric, Hybrid, Other)
+    - age band
+
+    The `all` breakdown is the whole row, and every other breakdown adds
+    up to it. In 7B every line is also split by `outcome_2023` (`all`,
+    `moved`, `dead`, `unknown`). Only combinations with vehicles are
+    listed.
+  - `set7_check_caz_status_change.csv` - how the Euro condition changes
+    the date-only category, by where the Euro status came from. Of the
+    7,833,289 petrol vehicles first used before 2006, 416,641 are Euro 4
+    or later and move to `other`. Of the 13,376,907 diesels first used
+    before 2015, 764,407 are Euro 6 and move. Almost all of these moves
+    rest on a recorded or borrowed standard. Where the standard was
+    assumed from the date (`euro_schedule`), the Euro condition repeats
+    the date test and moves almost nothing. The categories therefore
+    partly reflect which vehicles have a recorded standard.
+  - `set7_check_caz_category_vs_eurostatus.csv` and
+    `set7_check_caz_proxy_agreement_by_source.csv` - checks of the
+    date-only proxy (`caz_cat`) against the Euro standard. Only `dvla`
+    (recorded on the vehicle) and `variant` / `model_year_fuel` (the
+    recorded value of similar vehicles) test the proxy independently. Of
+    the `petrol_pre2006` cars with one of those standards, only 8.4% are
+    below Euro 4; for `diesel_pre2015` the figure is 76.5%.
+- **Traps.**
+  - “Leaver” includes vehicles that were scrapped and vehicles not
+    located in
+    2023. The `moved` / `dead` / `unknown` split separates them. A
+          scrapped leaver seldom has a 2023 mileage, so the all-leaver
+          `avg_mileage_2023` mostly describes the leavers still running
+          elsewhere; use the `moved` columns for those.
+  - Postcode areas do not follow the Greater London boundary, and a zone
+    covers only part of its area (B includes Solihull, for example).
+  - Class B and C zones do not charge private cars.
+  - Most zones began charging in 2021-2023, so there are few years after
+    the start.
 
 ![](churn_tables_report_figures/set7a-1.png)
 
-**Figure 23.** The vehicles located each year by Clean Air Zone proxy
-category, summed over areas from
-`set7a_pca_caz_category_by_year_long.csv`. The category comes from fuel
-and first use year, not the recorded Euro standard, and `petrol_pre2006`
-overstates the petrol vehicles a zone would charge.
+**Figure 23.** The vehicles located each year by Clean Air Zone
+category, summed over the area rows of
+`set7a_pca_caz_category_by_year_long.csv`. Both the first use date and
+the Euro standard must put a vehicle in a chargeable category.
 
 ![](churn_tables_report_figures/set7a-map-1.png)
 
 **Figure 24.** The share of each postcode area’s located vehicles in
-2023 in a chargeable proxy category, petrol first used before 2006 or
-diesel before 2015 (`set7a_pca_caz_category_by_year_long.csv`).
+2023 that are petrol first used before 2006 and not Euro 4+, or diesel
+first used before 2015 and not Euro 6+
+(`set7a_pca_caz_category_by_year_long.csv`).
+
+![](churn_tables_report_figures/set7bc-1.png)
+
+**Figure 25.** For the group and clean air zone rows of
+`set7b_leavers_2018_to_2023.csv` and `set7c_stayers_2018_to_2023.csv`:
+leavers as a share of the 2018 vehicles, by category. Leaving includes
+being scrapped. All other spans most of the country, so its vehicles
+rarely leave it except by being scrapped, and its share is not directly
+comparable with a single area’s.
 
 ![](churn_tables_report_figures/set7b-1.png)
 
-**Figure 25.** The 26,793,137 vehicles in a real area in 2018 but not in
-that area in 2023, split six ways by the
-`set7b_leavers_2018_to_2023_by_*.csv` tables summed over areas: each bar
-is one table and adds up to 100%, and segments over 6% are labelled.
-`different` includes vehicles not located in 2023.
+**Figure 26.** The 26,793,137 vehicles in a real area in 2018 but not in
+that area in 2023, by each breakdown of
+`set7b_leavers_2018_to_2023_by_breakdown_long.csv` summed over the area
+rows. Each bar adds up to 100%, and segments over 6% are labelled.
 
 ![](churn_tables_report_figures/set7-check-1.png)
 
-**Figure 26.** From `set7_check_caz_proxy_agreement_by_source.csv`: for
+**Figure 27.** From `set7_check_caz_proxy_agreement_by_source.csv`: for
 each proxy category and fuel, how often the vehicle’s Euro standard
 agrees with the proxy, by where the standard came from, sized by the
 vehicles with a standard. Only `dvla` (recorded) and `variant` /
@@ -1202,7 +1265,7 @@ index written alongside the tables.
 
 | file | question_set | n_rows | n_cols | size_kb |
 |:---|:---|---:|---:|---:|
-| README_outputs.csv | \- | 20 | 3 | 2.4 |
+| README_outputs.csv | \- | 25 | 3 | 3.4 |
 | set0_first_use_date_provenance.csv | SET0 | 4 | 4 | 0.2 |
 | set1a_pca_vehicle_counts_change_from_2017.csv | SET1A | 123 | 82 | 52.0 |
 | set1a2_pca_vehicle_counts_change_from_2017_cohort_only.csv | SET1A2 | 120 | 82 | 50.8 |
@@ -1265,16 +1328,16 @@ index written alongside the tables.
 | set6_moverate_by_fuel.csv | SET6 | 6 | 5 | 0.3 |
 | set6_moverate_by_mileageband_3.csv | SET6 | 3 | 5 | 0.2 |
 | set6_moverate_by_mileageband_detail.csv | SET6 | 26 | 5 | 1.2 |
+| set7_area_definitions.csv | SET7 | 16 | 6 | 1.0 |
 | set7_check_caz_category_vs_eurostatus.csv | SET7 | 403 | 4 | 14.3 |
 | set7_check_caz_proxy_agreement_by_source.csv | SET7 | 20 | 8 | 1.3 |
-| set7a_pca_caz_categories.csv | SET7A | 120 | 46 | 36.7 |
-| set7a_pca_caz_category_by_year_long.csv | SET7A | 2,160 | 5 | 87.0 |
-| set7b_leavers_2018_to_2023_by_ageband.csv | SET7B | 120 | 8 | 5.4 |
-| set7b_leavers_2018_to_2023_by_caz_category.csv | SET7B | 120 | 4 | 2.8 |
-| set7b_leavers_2018_to_2023_by_engine_4band.csv | SET7B | 120 | 7 | 4.2 |
-| set7b_leavers_2018_to_2023_by_fuel.csv | SET7B | 120 | 7 | 4.1 |
-| set7b_leavers_2018_to_2023_by_mileageband.csv | SET7B | 120 | 5 | 3.4 |
-| set7b_leavers_2018_to_2023_by_outcome.csv | SET7B | 120 | 5 | 2.6 |
+| set7_check_caz_status_change.csv | SET7 | 22 | 4 | 1.1 |
+| set7a_pca_caz_categories.csv | SET7A | 135 | 49 | 43.9 |
+| set7a_pca_caz_category_by_year_long.csv | SET7A | 2,430 | 9 | 173.1 |
+| set7b_leavers_2018_to_2023.csv | SET7B | 135 | 44 | 38.0 |
+| set7b_leavers_2018_to_2023_by_breakdown_long.csv | SET7B | 27,898 | 13 | 2,597.9 |
+| set7c_stayers_2018_to_2023.csv | SET7C | 135 | 14 | 12.0 |
+| set7c_stayers_2018_to_2023_by_breakdown_long.csv | SET7C | 7,080 | 12 | 619.4 |
 
 ### The index written with the tables (README_outputs.csv)
 
@@ -1295,11 +1358,16 @@ index written alongside the tables.
 | set5_move_vs_mileage.csv | Set 5 | Does moving PCA affect mileage |
 | set6_moverate_by\_\*.csv | Set 6 | Mean movement rate by characteristic, new definition |
 | set6_cross\_\*\_long/wide_mean.csv | Set 6 | The same, cross-tabulated pairwise |
-| set7a_pca_caz_categories.csv | Set 7A | Pre-2006 petrol / pre-2015 diesel / other by PCA and year, with average mileage |
-| set7a_pca_caz_category_by_year_long.csv | Set 7A | Long form of the same |
-| set7_check_caz_category_vs_eurostatus.csv | Set 7A | Check of the registration-date proxy against the euro status (recorded, backfilled or assumed from the date) |
-| set7_check_caz_proxy_agreement_by_source.csv | Set 7A | Agreement of the proxy with the Euro standard, split by where the standard came from; only dvla / variant / model_year_fuel are an independent check |
-| set7b_leavers_2018_to_2023_by\_\*.csv | Set 7B | Vehicles present in 2018 but not in the same PCA in 2023, by 2018 characteristics |
+| set7_area_definitions.csv | Set 7 | The Set 7 rows beyond single PCAs: Inner London, Outer London and All other with the PCAs each holds, and the partly-London and clean air zone PCAs reported on their own |
+| set7a_pca_caz_categories.csv | Set 7A | Pre-2006 petrol not Euro 4+ / pre-2015 diesel not Euro 6+ / other by area and year, with average mileage and the vehicles present in 2018 and 2023; sum geography = pca rows only |
+| set7a_pca_caz_category_by_year_long.csv | Set 7A | Long form of the same, with the vehicles behind each average |
+| set7b_leavers_2018_to_2023.csv | Set 7B | Vehicles in an area in 2018 but not in it in 2023 (judged at the row’s own geography), by category, with average 2018 and 2023 mileage, split into moved (still running elsewhere), dead and unknown |
+| set7b_leavers_2018_to_2023_by_breakdown_long.csv | Set 7B | The same by 2018 mileage band, engine size, fuel and age band, each split by where the vehicle was in 2023 |
+| set7c_stayers_2018_to_2023.csv | Set 7C | Vehicles in an area in both 2018 and 2023, by category, with average 2018 and 2023 mileage |
+| set7c_stayers_2018_to_2023_by_breakdown_long.csv | Set 7C | The same by 2018 mileage band, engine size, fuel and age band |
+| set7_check_caz_status_change.csv | Set 7 | How many vehicles the Euro condition moves out of the date-only category, by where the Euro status came from |
+| set7_check_caz_category_vs_eurostatus.csv | Set 7 | Check of the registration-date proxy against the euro status (recorded, backfilled or assumed from the date) |
+| set7_check_caz_proxy_agreement_by_source.csv | Set 7 | Agreement of the proxy with the Euro standard, split by where the standard came from; only dvla / variant / model_year_fuel are an independent check |
 
 ## 11. How to rebuild this
 
@@ -1320,22 +1388,23 @@ generated `.md` file, which is overwritten on every run.
 
 ## 12. Things to be careful about, in one place
 
-1.  **`different` includes `unknown`.** In Set 1 and in Set 7B’s outcome
-    table, a vehicle that was simply not seen counts as not being in the
-    same place.
+1.  **`different` includes `unknown`.** In Set 1 and among Set 7B’s
+    leavers, a vehicle that was simply not seen counts as not being in
+    the same place (Set 7B shows these separately as `unknown`).
 2.  **Moves are only counted between two observed years.** A move across
     a gap in observation is invisible, so move counts and movement rates
     are floors, not estimates.
 3.  **A location is not always an observation.** A car under three has
-    no MOT, and Bristol copies its first test’s postcode area back to
-    its first registration; after the last MOT, the area is carried on
-    for two years before the vehicle becomes `dead`. So a young vehicle
-    cannot be seen to move before its first test, and a scrapped vehicle
-    stays in its area’s stock for about two years. Against DfT’s
-    licensed + SORN counts, the cars aged 3+ located in a postcode area
-    are 6-19% too many, depending on the year (data quality report,
-    cross-checks). The last two or three years of data are also
-    incomplete, because recent first tests are not yet back-filled.
+    no MOT, and the annualisation copies its first test’s postcode area
+    back to its first registration; after the last MOT, the area is
+    carried on for two years before the vehicle becomes `dead`. So a
+    young vehicle cannot be seen to move before its first test, and a
+    scrapped vehicle stays in its area’s stock for about two years.
+    Against DfT’s licensed + SORN counts, the cars aged 3+ located in a
+    postcode area are 6-19% too many, depending on the year (data
+    quality report, cross-checks). The last two or three years of data
+    are also incomplete, because recent first tests are not yet
+    back-filled.
 4.  **`movement_rate` (churn v2) falls with age by construction.** Use
     the windowed rate for any comparison across ages or characteristics
     (section 5).

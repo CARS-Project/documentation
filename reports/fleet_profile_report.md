@@ -25,7 +25,8 @@ A vehicle is in a table for a year when all of these hold:
 - it was not in Northern Ireland (postcode area `BT`; `exclude_ni`:
   TRUE)
 - its mileage that year passes `mileage_filter` (legit). `legit` keeps
-  only the vehicle-years whose mileage Bristol judged plausible.
+  only the vehicle-years whose mileage the annualisation judged
+  plausible.
 
 **Age** is whole years at 1 June of the year since first use, and the
 fuel group is the harmonised `fuel_simple`, both as in the churn tables.
@@ -361,9 +362,9 @@ design, so are not drawn.
 ### Young vehicles are missing from the recent years
 
 A vehicle’s mileage is only known once it has had an MOT, at three years
-old; Bristol then estimates the years before the first test from that
-test’s odometer reading, and copies its postcode area back. So the
-youngest age bands are filled in only once the first test is in the
+old; The annualisation then estimates the years before the first test
+from that test’s odometer reading, and copies its postcode area back. So
+the youngest age bands are filled in only once the first test is in the
 data, and empty out towards the end of the series. Cars aged 0-2 covered
 by these tables numbered 6,586,088 in 2019 and 585,661 in 2025.
 

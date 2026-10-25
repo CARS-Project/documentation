@@ -42,14 +42,14 @@ file.*
   when they were made; these are flagged in `euro_check`, not changed.
 - **Mileage:** 25,803,313 vehicles have a 2025 mileage, 70.2% of the
   36,734,471 in 2024, so 2025 looks like a partial year.
-- **Cross-checks:** 1,226 of 1,238 checks pass, 1 fail and 11 warn
+- **Cross-checks:** 1,255 of 1,267 checks pass, 1 fail and 11 warn
   (`cross_checks.csv`, section below). Every pair of published numbers
   that must agree is compared; the warnings are plausibility checks
   against DfT.
-- **A location is not always an observation.** Bristol gives a vehicle a
-  postcode area from its first registration (copied back from its first
-  MOT) to two years after its last MOT, so the vehicles “in a postcode
-  area” in a year include vehicles not tested that year: see
+- **A location is not always an observation.** The annualisation gives a
+  vehicle a postcode area from its first registration (copied back from
+  its first MOT) to two years after its last MOT, so the vehicles “in a
+  postcode area” in a year include vehicles not tested that year: see
   *Observation behind the postcode areas* below. This is why more cars
   aged 3+ are placed in a postcode area than DfT counts as licensed or
   SORN.
@@ -134,7 +134,7 @@ did not pass:
 
 | area     | pass | fail | warn |
 |:---------|-----:|-----:|-----:|
-| churn    |  351 |    0 |    0 |
+| churn    |  380 |    0 |    0 |
 | external |   13 |    0 |   11 |
 | fleet    |  199 |    1 |    0 |
 | mileage  |  252 |    0 |    0 |
@@ -170,10 +170,10 @@ In-scope vehicles by their `pca_YYYY` status in each year
 In the latest years `pca` falls as `unknown` rises: vehicles whose tests
 in those years are not yet in the data.
 
-- `pca`: Bristol supplied a postcode area for the year. That is not
-  proof of a test that year: Bristol copies a vehicle’s first-test area
-  back to its first registration, and carries its last-test area on for
-  two years after its last MOT (see the next table)
+- `pca`: The annualisation supplied a postcode area for the year. That
+  is not proof of a test that year: it copies a vehicle’s first-test
+  area back to its first registration, and carries its last-test area on
+  for two years after its last MOT (see the next table)
 - `unborn`: not yet born (birth year the same as or later than the year)
 - `unknown`: born, no postcode area supplied, and not after its last MOT
   year (for example a gap between tests); rare, because the years before
@@ -183,36 +183,36 @@ in those years are not yet in the data.
   `dead` begins about two years after the vehicle stopped being tested;
   not necessarily scrapped (it may be exported or SORN)
 
-| year |        pca |     unborn |    unknown |       dead |
+| year |       dead |        pca |     unborn |    unknown |
 |:-----|-----------:|-----------:|-----------:|-----------:|
-| 2005 | 31,888,912 | 56,178,420 |  5,284,909 |          0 |
-| 2006 | 34,662,542 | 53,232,906 |  5,431,127 |     25,666 |
-| 2007 | 37,490,453 | 50,200,724 |  5,499,770 |    161,294 |
-| 2008 | 39,496,248 | 47,499,548 |  5,564,699 |    791,746 |
-| 2009 | 39,687,978 | 45,042,770 |  5,650,839 |  2,970,654 |
-| 2010 | 39,868,271 | 42,587,160 |  5,695,134 |  5,201,676 |
-| 2011 | 40,001,268 | 40,189,202 |  5,740,318 |  7,421,453 |
-| 2012 | 40,325,572 | 37,673,185 |  5,735,100 |  9,618,384 |
-| 2013 | 40,947,776 | 34,890,021 |  5,816,920 | 11,697,524 |
-| 2014 | 41,740,695 | 31,835,585 |  5,984,676 | 13,791,285 |
-| 2015 | 42,827,668 | 28,575,371 |  6,105,663 | 15,843,539 |
-| 2016 | 44,042,339 | 25,229,738 |  6,234,846 | 17,845,318 |
-| 2017 | 44,441,732 | 22,729,655 |  6,367,104 | 19,813,750 |
-| 2018 | 45,204,703 | 19,065,833 |  7,137,467 | 21,944,238 |
-| 2019 | 45,687,132 | 16,123,057 |  7,251,819 | 24,290,233 |
-| 2020 | 45,534,442 | 13,936,910 |  7,111,866 | 26,769,023 |
-| 2021 | 45,673,106 | 11,729,729 |  6,800,619 | 29,148,787 |
-| 2022 | 45,018,795 |  9,699,937 |  7,066,090 | 31,567,419 |
-| 2023 | 43,394,273 |  9,306,870 |  7,293,704 | 33,357,394 |
-| 2024 | 41,576,160 |  6,952,507 |  9,561,903 | 35,261,671 |
-| 2025 | 39,129,586 |  4,481,194 | 12,640,179 | 37,101,282 |
+| 2005 |          0 | 31,888,912 | 56,178,420 |  5,284,909 |
+| 2006 |     25,666 | 34,662,542 | 53,232,906 |  5,431,127 |
+| 2007 |    161,294 | 37,490,453 | 50,200,724 |  5,499,770 |
+| 2008 |    791,746 | 39,496,248 | 47,499,548 |  5,564,699 |
+| 2009 |  2,970,654 | 39,687,978 | 45,042,770 |  5,650,839 |
+| 2010 |  5,201,676 | 39,868,271 | 42,587,160 |  5,695,134 |
+| 2011 |  7,421,453 | 40,001,268 | 40,189,202 |  5,740,318 |
+| 2012 |  9,618,384 | 40,325,572 | 37,673,185 |  5,735,100 |
+| 2013 | 11,697,524 | 40,947,776 | 34,890,021 |  5,816,920 |
+| 2014 | 13,791,285 | 41,740,695 | 31,835,585 |  5,984,676 |
+| 2015 | 15,843,539 | 42,827,668 | 28,575,371 |  6,105,663 |
+| 2016 | 17,845,318 | 44,042,339 | 25,229,738 |  6,234,846 |
+| 2017 | 19,813,750 | 44,441,732 | 22,729,655 |  6,367,104 |
+| 2018 | 21,944,238 | 45,204,703 | 19,065,833 |  7,137,467 |
+| 2019 | 24,290,233 | 45,687,132 | 16,123,057 |  7,251,819 |
+| 2020 | 26,769,023 | 45,534,442 | 13,936,910 |  7,111,866 |
+| 2021 | 29,148,787 | 45,673,106 | 11,729,729 |  6,800,619 |
+| 2022 | 31,567,419 | 45,018,795 |  9,699,937 |  7,066,090 |
+| 2023 | 33,357,394 | 43,394,273 |  9,306,870 |  7,293,704 |
+| 2024 | 35,261,671 | 41,576,160 |  6,952,507 |  9,561,903 |
+| 2025 | 37,101,282 | 39,129,586 |  4,481,194 | 12,640,179 |
 
 ![](data_quality_report_figures/pca-status-1.png)
 
 **Figure 3.** The table above as a chart: in-scope vehicles by their
 `pca_YYYY` status in each year (`pca_status_by_year.csv`), so each
 year’s stack is the whole in-scope fleet. `pca` is a postcode area
-supplied by Bristol, not necessarily a test that year.
+supplied by the annualisation, not necessarily a test that year.
 
 ## Observation behind the postcode areas
 
@@ -352,8 +352,8 @@ model) and unmatched.
 | alias | fuzzy | 38 | 68 | 68 | 68 | 68 | 0 |
 | prefix | make_only | 62 | 67 | 67 | 52 | 52 | 21 |
 | alias | words | 36 | 65 | 65 | 65 | 65 | 0 |
-| punctuation | words | 27 | 64 | 64 | 64 | 64 | 0 |
 | prefix | ambiguous | 61 | 64 | 64 | 64 | 64 | 15 |
+| punctuation | words | 27 | 64 | 64 | 64 | 64 | 0 |
 | dvla | ambiguous | 35 | 58 | 58 | 58 | 58 | 6 |
 | punctuation | fuzzy | 41 | 46 | 46 | 46 | 46 | 0 |
 | fuzzy | fuzzy | 32 | 32 | 32 | 32 | 32 | 0 |
@@ -522,9 +522,9 @@ together, checked on every in-scope vehicle (`R/consistency.R`;
 methodology.md, Section 9.2). A violation is *recorded* when every
 variable involved is the vehicle’s own recorded value, so the conflict
 is in the source data; otherwise at least one value was backfilled,
-derived or imputed by the pipeline or by Bristol. Recorded values are
-never changed, so recorded violations stay; they are listed so that
-analyses can exclude them.
+derived or imputed by the pipeline or by the annualisation. Recorded
+values are never changed, so recorded violations stay; they are listed
+so that analyses can exclude them.
 
 *Enforced* rules are ones the backfill guarantees: it never fills a
 value that breaks them, and the cross-checks fail if it does. The others
@@ -608,16 +608,16 @@ numbers are shown in bands):
 | plate_not_newer | dates=firstUsedDate_DVSA | dates=recorded | 145,541 |
 | plate_not_newer | dates=monthOfFirstRegistration_DVLA | dates=recorded | 24,566 |
 | plate_not_newer | dates=birth_date | dates=recorded | 5,403 |
-| fleet_after_birth | pca=pca; dates=monthOfFirstRegistration_DVLA | pca=bristol; dates=recorded | 24,641 |
-| fleet_after_birth | pca=pca; dates=birth_date | pca=bristol; dates=recorded | 16,872 |
+| fleet_after_birth | pca=pca; dates=monthOfFirstRegistration_DVLA | pca=annualised; dates=recorded | 24,641 |
+| fleet_after_birth | pca=pca; dates=birth_date | pca=annualised; dates=recorded | 16,872 |
 
 ![](data_quality_report_figures/consistency-1.png)
 
 **Figure 8.** The violations of each rule in the first table above
 (`variable_consistency.csv`), split into conflicts in the recorded data
 (`n_recorded`) and those where at least one value was filled by the
-pipeline or Bristol (`n_pipeline`). Labels give the vehicles breaking
-the rule and their percentage of the vehicles it applies to
+pipeline or the annualisation (`n_pipeline`). Labels give the vehicles
+breaking the rule and their percentage of the vehicles it applies to
 (`pct_violations`). The rules the backfill enforces (`enforced`) can
 only have recorded violations.
 
@@ -847,12 +847,12 @@ the combinations of `has_ves_record` and `ves_error` in the table above
 
 ## VES changes between checks
 
-Flags set by Bristol when repeated VES checks returned different answers
-for a registration. Each row counts vehicles by the flag’s value;
-`missing` means it could not be set (no VES lookup, or for `ever_SORN`
-and `ever_export_marked`, no VES record returned). A plate that moved to
-another vehicle is the usual reason a VES record describes a different
-vehicle.
+Flags set at the linkage stage when repeated VES checks returned
+different answers for a registration. Each row counts vehicles by the
+flag’s value; `missing` means it could not be set (no VES lookup, or for
+`ever_SORN` and `ever_export_marked`, no VES record returned). A plate
+that moved to another vehicle is the usual reason a VES record describes
+a different vehicle.
 
 - `plate_ever_changed_VES`: VES reported a plate change between checks
 - `ever_SORN`: a check found the vehicle declared off the road
@@ -863,13 +863,13 @@ vehicle.
 - `ever_export_marked`: a count, not a flag: the numbered columns give
   the number of checks that found the vehicle marked for export
 
-| flag | missing | true | false | 7.0 | 2.0 | 3.0 | 0.0 | 1.0 | 6.0 | 4.0 | 5.0 | 9.0 |
+| flag | 0.0 | 1.0 | 2.0 | 3.0 | 4.0 | 5.0 | 6.0 | 7.0 | 9.0 | false | missing | true |
 |:---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| plate_ever_changed_VES | 2,743,929 | 1,805,505 | 88,802,807 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| ever_SORN | 21,503,826 | 11,916,172 | 59,932,243 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| v5C_issue_date_ever_changed | 2,743,929 | 18,260,562 | 72,347,750 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| change_in_other_VES_field | 2,743,929 | 324,573 | 90,283,739 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| ever_export_marked | 21,503,826 | 0 | 0 | 1 | 1,683,713 | 1,426,572 | 67,839,282 | 339,515 | 4 | 559,218 | 109 | 1 |
+| plate_ever_changed_VES | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 88,802,807 | 2,743,929 | 1,805,505 |
+| ever_SORN | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 59,932,243 | 21,503,826 | 11,916,172 |
+| v5C_issue_date_ever_changed | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 72,347,750 | 2,743,929 | 18,260,562 |
+| change_in_other_VES_field | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 90,283,739 | 2,743,929 | 324,573 |
+| ever_export_marked | 67,839,282 | 339,515 | 1,683,713 | 1,426,572 | 559,218 | 109 | 4 | 1 | 1 | 0 | 21,503,826 | 0 |
 
 ## Plate changes against the record match
 
@@ -922,16 +922,16 @@ sources that apply to an attribute are non-zero.
   vehicle’s other values (methodology.md, Section 5.6)
 - `missing`: no value
 
-| attribute | dvla | dft | variant | dvsa | model | missing | model_year_fuel | no_engine | model_fuel | euro_schedule | conflict |
+| attribute | conflict | dft | dvla | dvsa | euro_schedule | missing | model | model_fuel | model_year_fuel | no_engine | variant |
 |:---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| fuel | 291,069 | 1,089,905 | 4,894 | 91,962,640 | 3,733 | 0 | 0 | 0 | 0 | 0 | 0 |
-| engine_cc | 10,192,094 | 0 | 0 | 77,259,027 | 0 | 803,824 | 2,296,610 | 2,741,714 | 58,972 | 0 | 0 |
-| revenue_weight | 28,397,795 | 0 | 23,800,285 | 0 | 0 | 28,236,685 | 12,917,476 | 0 | 0 | 0 | 0 |
-| co2 | 50,425,196 | 0 | 16,836,592 | 0 | 0 | 24,264,450 | 1,826,003 | 0 | 0 | 0 | 0 |
-| euro_status | 13,557,834 | 0 | 14,152,752 | 0 | 0 | 8,246,617 | 5,879,963 | 0 | 0 | 51,515,075 | 0 |
-| type_approval | 55,096,399 | 0 | 16,800,657 | 0 | 0 | 17,374,784 | 4,056,007 | 0 | 0 | 0 | 24,394 |
-| wheelplan | 71,725,260 | 0 | 20,971,846 | 0 | 0 | 506,902 | 148,118 | 0 | 0 | 0 | 115 |
-| test_class | 0 | 0 | 12,973,341 | 74,037,488 | 0 | 5,501,381 | 830,414 | 0 | 0 | 0 | 9,617 |
+| fuel | 0 | 1,089,905 | 291,069 | 91,962,640 | 0 | 0 | 3,733 | 0 | 0 | 0 | 4,894 |
+| engine_cc | 0 | 0 | 10,192,094 | 77,259,027 | 0 | 803,824 | 0 | 58,972 | 2,296,610 | 2,741,714 | 0 |
+| revenue_weight | 0 | 0 | 28,397,795 | 0 | 0 | 28,236,685 | 0 | 0 | 12,917,476 | 0 | 23,800,285 |
+| co2 | 0 | 0 | 50,425,196 | 0 | 0 | 24,264,450 | 0 | 0 | 1,826,003 | 0 | 16,836,592 |
+| euro_status | 0 | 0 | 13,557,834 | 0 | 51,515,075 | 8,246,617 | 0 | 0 | 5,879,963 | 0 | 14,152,752 |
+| type_approval | 24,394 | 0 | 55,096,399 | 0 | 0 | 17,374,784 | 0 | 0 | 4,056,007 | 0 | 16,800,657 |
+| wheelplan | 115 | 0 | 71,725,260 | 0 | 0 | 506,902 | 0 | 0 | 148,118 | 0 | 20,971,846 |
+| test_class | 9,617 | 0 | 0 | 74,037,488 | 0 | 5,501,381 | 0 | 0 | 830,414 | 0 | 12,973,341 |
 
 ![](data_quality_report_figures/sources-1.png)
 
@@ -1043,14 +1043,14 @@ fuel, or DVSA `Electric` corrected to a hybrid.
 | Electric | LPG | dvla | 4 |
 | Fuel Cells | Electric Diesel | dvla | 3 |
 | Fuel Cells | Gas Bi-Fuel | dvla | 3 |
-| Petrol | Electric | model | 3 |
 | Other | Steam | dvla | 3 |
+| Petrol | Electric | model | 3 |
 | Other | Fuel Cells | dvla | 2 |
-| Fuel Cells | Range Extended Electric | dft | 1 |
 | Diesel | Electric | model | 1 |
+| Electric | Gas Diesel | dvla | 1 |
 | Fuel Cells | Diesel | dvla | 1 |
 | Fuel Cells | LPG | dvla | 1 |
-| Electric | Gas Diesel | dvla | 1 |
+| Fuel Cells | Range Extended Electric | dft | 1 |
 
 ## Fuel checks
 
@@ -1069,25 +1069,25 @@ each row. Make/models behind each issue are in `fuel_engine_issues.csv`.
 - `corrected_electric`: the same as implausible_for_model but with only
   one fuel label, so set to Electric
 
-| fuel | no_reference | ok | rare_conversion | rare_for_model | implausible_for_model | corrected_electric | unknown_fuel |
+| fuel | corrected_electric | implausible_for_model | no_reference | ok | rare_conversion | rare_for_model | unknown_fuel |
 |:---|---:|---:|---:|---:|---:|---:|---:|
-| CNG | 11 | 2 | 208 | 0 | 0 | 0 | 0 |
-| Diesel | 2,560,391 | 30,933,809 | 0 | 5,482 | 12 | 0 | 0 |
-| Electric | 304,602 | 2,429,944 | 3,334 | 0 | 0 | 3,733 | 0 |
-| Electric Diesel | 636 | 142,126 | 0 | 1,311 | 0 | 0 | 0 |
-| Fuel Cells | 31 | 54 | 0 | 16 | 0 | 0 | 0 |
-| Gas | 10,210 | 1,347 | 540 | 0 | 0 | 0 | 0 |
-| Gas Bi-Fuel | 1,594 | 10,951 | 12,044 | 0 | 0 | 0 | 0 |
-| Gas Diesel | 2,078 | 80 | 136 | 0 | 0 | 0 | 0 |
-| Hybrid Electric (Clean) | 36,605 | 3,513,989 | 0 | 2,232 | 26 | 0 | 0 |
-| LNG | 6 | 0 | 97 | 0 | 0 | 0 | 0 |
-| LPG | 3,556 | 17,784 | 31,058 | 0 | 0 | 0 | 0 |
+| CNG | 0 | 0 | 11 | 2 | 208 | 0 | 0 |
+| Diesel | 0 | 12 | 2,560,391 | 30,933,809 | 0 | 5,482 | 0 |
+| Electric | 3,733 | 0 | 304,602 | 2,429,944 | 3,334 | 0 | 0 |
+| Electric Diesel | 0 | 0 | 636 | 142,126 | 0 | 1,311 | 0 |
+| Fuel Cells | 0 | 0 | 31 | 54 | 0 | 16 | 0 |
+| Gas | 0 | 0 | 10,210 | 1,347 | 540 | 0 | 0 |
+| Gas Bi-Fuel | 0 | 0 | 1,594 | 10,951 | 12,044 | 0 | 0 |
+| Gas Diesel | 0 | 0 | 2,078 | 80 | 136 | 0 | 0 |
+| Hybrid Electric (Clean) | 0 | 26 | 36,605 | 3,513,989 | 0 | 2,232 | 0 |
+| LNG | 0 | 0 | 6 | 0 | 97 | 0 | 0 |
+| LPG | 0 | 0 | 3,556 | 17,784 | 31,058 | 0 | 0 |
 | Other | 0 | 0 | 0 | 0 | 0 | 0 | 128,451 |
-| Petrol | 1,478,911 | 50,616,761 | 0 | 4,397 | 17 | 0 | 0 |
-| Plug-in Hybrid Electric (Diesel) | 25 | 10,970 | 0 | 85 | 0 | 0 | 0 |
-| Plug-in Hybrid Electric (Petrol) | 167 | 1,062,604 | 0 | 239 | 0 | 0 | 0 |
-| Range Extended Electric | 0 | 15,787 | 0 | 28 | 0 | 0 | 0 |
-| Steam | 3,682 | 0 | 0 | 82 | 0 | 0 | 0 |
+| Petrol | 0 | 17 | 1,478,911 | 50,616,761 | 0 | 4,397 | 0 |
+| Plug-in Hybrid Electric (Diesel) | 0 | 0 | 25 | 10,970 | 0 | 85 | 0 |
+| Plug-in Hybrid Electric (Petrol) | 0 | 0 | 167 | 1,062,604 | 0 | 239 | 0 |
+| Range Extended Electric | 0 | 0 | 0 | 15,787 | 0 | 28 | 0 |
+| Steam | 0 | 0 | 3,682 | 0 | 0 | 82 | 0 |
 
 ![](data_quality_report_figures/fuel-1.png)
 
@@ -1218,13 +1218,13 @@ has a wrong VES value and `backfill.min_vehicles` is 1.
 - `no_schedule`: body type with no schedule
 - `no_date`: no date to place the vehicle
 
-| euro_status_src | no_schedule | pre_euro | later_than_date | no_date | ok | assumed |
+| euro_status_src | assumed | later_than_date | no_date | no_schedule | ok | pre_euro |
 |:---|---:|---:|---:|---:|---:|---:|
-| dvla | 0 | 0 | 24,796 | 0 | 13,533,038 | 0 |
-| euro_schedule | 0 | 0 | 0 | 0 | 0 | 51,515,075 |
-| model_year_fuel | 0 | 0 | 1,114,108 | 0 | 4,765,855 | 0 |
-| variant | 0 | 0 | 2,146,582 | 0 | 12,006,170 | 0 |
-| NA | 3,429,719 | 4,816,775 | 0 | 123 | 0 | 0 |
+| dvla | 0 | 24,796 | 0 | 0 | 13,533,038 | 0 |
+| euro_schedule | 51,515,075 | 0 | 0 | 0 | 0 | 0 |
+| model_year_fuel | 0 | 1,114,108 | 0 | 0 | 4,765,855 | 0 |
+| variant | 0 | 2,146,582 | 0 | 0 | 12,006,170 | 0 |
+| NA | 0 | 0 | 123 | 3,429,719 | 0 | 4,816,775 |
 
 ![](data_quality_report_figures/euro-1.png)
 
@@ -1289,25 +1289,25 @@ Vehicles whose engine size needed attention, by harmonised fuel
   engine size, set to 0
 - `zero_replaced`: a fuel with an engine recorded as 0cc, backfilled
 
-| fuel | ok | zero_replaced | missing | engine_removed |
+| fuel | engine_removed | missing | ok | zero_replaced |
 |:---|---:|---:|---:|---:|
-| CNG | 221 | 0 | 0 | 0 |
-| Diesel | 32,837,279 | 10,286 | 652,129 | 0 |
-| Electric | 2,737,204 | 0 | 0 | 4,409 |
-| Electric Diesel | 143,501 | 7 | 565 | 0 |
-| Fuel Cells | 73 | 0 | 0 | 28 |
-| Gas | 10,541 | 0 | 1,556 | 0 |
-| Gas Bi-Fuel | 24,379 | 27 | 183 | 0 |
-| Gas Diesel | 1,334 | 0 | 960 | 0 |
-| Hybrid Electric (Clean) | 3,510,167 | 153 | 42,532 | 0 |
-| LNG | 103 | 0 | 0 | 0 |
-| LPG | 51,908 | 3 | 487 | 0 |
-| Other | 128,451 | 0 | 0 | 0 |
-| Petrol | 52,034,038 | 650 | 65,398 | 0 |
-| Plug-in Hybrid Electric (Diesel) | 11,079 | 1 | 0 | 0 |
-| Plug-in Hybrid Electric (Petrol) | 1,062,790 | 220 | 0 | 0 |
-| Range Extended Electric | 15,812 | 3 | 0 | 0 |
-| Steam | 3,764 | 0 | 0 | 0 |
+| CNG | 0 | 0 | 221 | 0 |
+| Diesel | 0 | 652,129 | 32,837,279 | 10,286 |
+| Electric | 4,409 | 0 | 2,737,204 | 0 |
+| Electric Diesel | 0 | 565 | 143,501 | 7 |
+| Fuel Cells | 28 | 0 | 73 | 0 |
+| Gas | 0 | 1,556 | 10,541 | 0 |
+| Gas Bi-Fuel | 0 | 183 | 24,379 | 27 |
+| Gas Diesel | 0 | 960 | 1,334 | 0 |
+| Hybrid Electric (Clean) | 0 | 42,532 | 3,510,167 | 153 |
+| LNG | 0 | 0 | 103 | 0 |
+| LPG | 0 | 487 | 51,908 | 3 |
+| Other | 0 | 0 | 128,451 | 0 |
+| Petrol | 0 | 65,398 | 52,034,038 | 650 |
+| Plug-in Hybrid Electric (Diesel) | 0 | 0 | 11,079 | 1 |
+| Plug-in Hybrid Electric (Petrol) | 0 | 0 | 1,062,790 | 220 |
+| Range Extended Electric | 0 | 0 | 15,812 | 3 |
+| Steam | 0 | 0 | 3,764 | 0 |
 
 ## Engine size by fuel
 
@@ -1343,17 +1343,17 @@ changes.
 
 ## Mileage checks
 
-The annual mileage for each year (methodology.md, Section 8). Bristol
-removes mileage it judges implausible (`legit_mileage` = FALSE leaves
-`mileage` empty), so the recorded mileages are those flagged plausible
-plus a small number never assessed (no flag). A final year with far
-fewer vehicles than the one before is usually incomplete.
+The annual mileage for each year (methodology.md, Section 8). The
+annualisation removes mileage it judges implausible (`legit_mileage` =
+FALSE leaves `mileage` empty), so the recorded mileages are those
+flagged plausible plus a small number never assessed (no flag). A final
+year with far fewer vehicles than the one before is usually incomplete.
 
 - `n_with_mileage`: vehicles with a mileage recorded for the year
 - `n_negative`: mileage below 0
 - `n_over_50k`: mileage above 50,000 miles
-- `n_not_legit`: mileage flagged implausible by Bristol (`legit_mileage`
-  = FALSE) and removed
+- `n_not_legit`: mileage flagged implausible by the annualisation
+  (`legit_mileage` = FALSE) and removed
 - `mean_mileage`: mean annual mileage over the recorded values
   (plausible or unassessed)
 - `median_mileage`: median annual mileage
@@ -1387,8 +1387,8 @@ fewer vehicles than the one before is usually incomplete.
 **Figure 18.** From the table above (`mileage_checks.csv`), for vehicles
 of every type: the vehicles with an annual mileage recorded for each
 year (left), and the mean and median of those mileages (right). The
-recorded mileages are the ones Bristol flagged plausible plus a few it
-never assessed.
+recorded mileages are the ones the annualisation flagged plausible plus
+a few it never assessed.
 
 ## Column missingness (year columns omitted)
 

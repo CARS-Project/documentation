@@ -36,15 +36,16 @@ possible problems in the data.
 
 - `observed`: a vehicle is counted in a year when `pca_YYYY` is a
   postcode area (not `unborn`, `dead` or `unknown`). That is not always
-  a test that year: Bristol copies a vehicle’s first-test area back to
-  its first registration, and carries its last-test area forward for two
-  years after its last MOT (methodology.md, Section 3.3). So vehicles
-  under three appear once their first test is in the data, and scrapped
-  vehicles stay counted for about two years.
-- `annual mileage`: Bristol’s `mileage_YYYY`. Averages use only mileage
-  Bristol flagged as plausible (`legit_mileage_YYYY` is TRUE). Bristol
-  has already removed the mileage it flagged as implausible, and a
-  mileage with no flag was not assessed; section 6 counts both.
+  a test that year: the annualisation copies a vehicle’s first-test area
+  back to its first registration, and carries its last-test area forward
+  for two years after its last MOT (methodology.md, Section 3.3). So
+  vehicles under three appear once their first test is in the data, and
+  scrapped vehicles stay counted for about two years.
+- `annual mileage`: The annualised `mileage_YYYY`. Averages use only
+  mileage flagged as plausible (`legit_mileage_YYYY` is TRUE). The
+  annualisation has already removed the mileage it flagged as
+  implausible, and a mileage with no flag was not assessed; section 6
+  counts both.
 - `age`: whole years at 1 June of the year since first use, as in the
   churn tables.
 - `body type`: the DfT body type from make and model matching
@@ -52,8 +53,9 @@ possible problems in the data.
   goods vehicles, other vehicles and vehicles with no body type.
 - `fuel`: the harmonised fuel grouped into Petrol, Diesel, Hybrid
   Electric, Electric and Other (`fuel_simple`).
-- `postcode area`: as recorded by Bristol. Northern Ireland is `BT`;
-  `XX` has no boundary. Maps show Greater London enlarged in a box.
+- `postcode area`: as recorded by the annualisation. Northern Ireland is
+  `BT`; `XX` has no boundary. Maps show Greater London enlarged in a
+  box.
 
 ## 1. Where the data comes from
 
@@ -76,11 +78,11 @@ recorded postcode area, or was born on or after 2005-01-01, or shows
 DVLA activity (tax, V5C, MOT expiry or first registration) since that
 date.
 
-**Bristol’s annualisation is taken as given.** The pipeline does not
-re-derive annual mileage, the postcode area or the plausibility flag.
+**The annualisation is taken as given.** The pipeline does not re-derive
+annual mileage, the postcode area or the plausibility flag.
 `mileage_YYYY` is already annual miles, so no scaling is applied
 (`mileage_scaling` in section 1.3). How those columns are built belongs
-to Bristol’s documentation, not this one.
+to the linkage stage’s documentation, not this one.
 
 ### 1.2 Which vehicles are counted
 
@@ -99,8 +101,8 @@ bounds on what any single year holds.
 - `vehicles_in_vehicles_enhanced`: Every in-scope vehicle
 - `vehicles_with_mileage_in_any_year`: Has a recorded mileage in at
   least one year
-- `vehicles_with_plausible_mileage_in_any_year`: Has a mileage Bristol
-  judged plausible in at least one year
+- `vehicles_with_plausible_mileage_in_any_year`: Has a mileage judged
+  plausible in at least one year
 - `vehicles_with_mileage_removed_in_any_year`: Had a mileage judged
   implausible and removed in at least one year
 - `vehicles_in_a_real_postcode_area_in_any_year`: Was located in at
@@ -128,19 +130,19 @@ supplied** for test class and fuel, and the **harmonised** attributes
 for body type and fuel group, which is why the same fleet appears twice
 with different fuel labels (section 5.1).
 
-| setting                | value                                              |
-|:-----------------------|:---------------------------------------------------|
-| profile                | main                                               |
-| years.first            | 2005                                               |
-| years.last             | 2025                                               |
-| scope.start_date       | 2005-01-01                                         |
-| test_class_column      | test_class (harmonised)                            |
-| fuel_column            | fuel_simple (harmonised)                           |
-| body_type_column       | body_type (harmonised)                             |
-| fuel_group_column      | fuel_simple (harmonised)                           |
-| mileage_scaling        | none: the Bristol columns are already annual miles |
-| age_cap                | 40                                                 |
-| over_mileage_threshold | 50000                                              |
+| setting                | value                                            |
+|:-----------------------|:-------------------------------------------------|
+| profile                | main                                             |
+| years.first            | 2005                                             |
+| years.last             | 2025                                             |
+| scope.start_date       | 2005-01-01                                       |
+| test_class_column      | test_class (harmonised)                          |
+| fuel_column            | fuel_simple (harmonised)                         |
+| body_type_column       | body_type (harmonised)                           |
+| fuel_group_column      | fuel_simple (harmonised)                         |
+| mileage_scaling        | none: the input columns are already annual miles |
+| age_cap                | 40                                               |
+| over_mileage_threshold | 50000                                            |
 
 ## 2. The tables, one at a time
 
@@ -175,8 +177,8 @@ pivoted, one column per year, carrying total mileage only.
 | age | Whole years at 1 June of the year since first use, as in the churn tables, capped at 40; -1 holds every negative age (first used after 1 June) | 0 | 0.00 |
 | n_vehicles | Vehicles in the group | 0 | 0.00 |
 | n_with_mileage | Of those, how many have a mileage recorded that year | 0 | 0.00 |
-| n_legit_mileage | Of those, how many have a mileage Bristol judged plausible | 0 | 0.00 |
-| total_legit_mileage | Total annual mileage Bristol judged plausible | 0 | 0.00 |
+| n_legit_mileage | Of those, how many have a mileage judged plausible | 0 | 0.00 |
+| total_legit_mileage | Total annual mileage judged plausible | 0 | 0.00 |
 
 #### `mileage_by_fuel_wide.csv`
 
@@ -199,7 +201,7 @@ pivoted, one column per year, carrying total mileage only.
 | column | description | n_blank | pct_blank |
 |:---|:---|---:|---:|
 | year | Calendar year the row describes | 0 | 0.00 |
-| legit_mileage | Bristol’s flag: TRUE where it judged the mileage plausible, blank where it did not assess it. Mileage it judged implausible has already been removed, so FALSE never carries a mileage | 20 | 48.78 |
+| legit_mileage | The annualisation’s flag: TRUE where it judged the mileage plausible, blank where it did not assess it. Mileage it judged implausible has already been removed, so FALSE never carries a mileage | 20 | 48.78 |
 | n_vehicles | Vehicles in the group | 0 | 0.00 |
 | mileage | Total annual mileage of the group | 0 | 0.00 |
 
@@ -208,7 +210,7 @@ pivoted, one column per year, carrying total mileage only.
 | column | description | n_blank | pct_blank |
 |:---|:---|---:|---:|
 | pca | Postcode area in that year, or unborn / dead / unknown where none was recorded | 0 | 0.00 |
-| legit_mileage | Bristol’s flag: TRUE where it judged the mileage plausible, blank where it did not assess it. Mileage it judged implausible has already been removed, so FALSE never carries a mileage | 121 | 49.59 |
+| legit_mileage | The annualisation’s flag: TRUE where it judged the mileage plausible, blank where it did not assess it. Mileage it judged implausible has already been removed, so FALSE never carries a mileage | 121 | 49.59 |
 | 2005 … 2025 (one per year) | Total annual mileage in that year | 1,026 | 420.49 |
 
 #### `mileage_by_pca_year_body_fuel.csv`
@@ -221,10 +223,10 @@ pivoted, one column per year, carrying total mileage only.
 | fuel_simple | Fuel in six groups, including Plug-in Hybrid Electric | 0 | 0.00 |
 | n_vehicles | Vehicles in the group | 0 | 0.00 |
 | n_with_mileage | Of those, how many have a mileage recorded that year | 0 | 0.00 |
-| n_legit_mileage | Of those, how many have a mileage Bristol judged plausible | 0 | 0.00 |
-| n_mileage_removed | Vehicles whose mileage Bristol judged implausible and removed | 0 | 0.00 |
+| n_legit_mileage | Of those, how many have a mileage judged plausible | 0 | 0.00 |
+| n_mileage_removed | Vehicles whose mileage was judged implausible and removed | 0 | 0.00 |
 | total_mileage | Total annual mileage of the group, including mileage with no plausibility flag | 0 | 0.00 |
-| total_legit_mileage | Total annual mileage Bristol judged plausible | 0 | 0.00 |
+| total_legit_mileage | Total annual mileage judged plausible | 0 | 0.00 |
 | n_negative_mileage | Recorded mileages below zero | 0 | 0.00 |
 | n_over_50k_mileage | Recorded mileages above 50,000 | 0 | 0.00 |
 | n_with_age | Vehicles with an age of zero or more (first used by 1 June of the year) | 0 | 0.00 |
@@ -237,7 +239,7 @@ pivoted, one column per year, carrying total mileage only.
 |:---|:---|---:|---:|
 | year | Calendar year the row describes | 0 | 0.00 |
 | pca | Postcode area in that year, or unborn / dead / unknown where none was recorded | 0 | 0.00 |
-| legit_mileage | Bristol’s flag: TRUE where it judged the mileage plausible, blank where it did not assess it. Mileage it judged implausible has already been removed, so FALSE never carries a mileage | 1,517 | 37.02 |
+| legit_mileage | The annualisation’s flag: TRUE where it judged the mileage plausible, blank where it did not assess it. Mileage it judged implausible has already been removed, so FALSE never carries a mileage | 1,517 | 37.02 |
 | n_vehicles | Vehicles in the group | 0 | 0.00 |
 | mileage | Total annual mileage of the group | 0 | 0.00 |
 | mean_mileage | Mean annual mileage over the vehicles with a recorded mileage | 0 | 0.00 |
@@ -266,31 +268,31 @@ pivoted, one column per year, carrying total mileage only.
 |:---|:---|---:|---:|
 | year | Calendar year the row describes | 0 | 0.00 |
 | body_type | DfT body type of the vehicle (R/assemble.R) | 1,675 | 14.97 |
-| legit_mileage | Bristol’s flag: TRUE where it judged the mileage plausible, blank where it did not assess it. Mileage it judged implausible has already been removed, so FALSE never carries a mileage | 3,693 | 33.00 |
+| legit_mileage | The annualisation’s flag: TRUE where it judged the mileage plausible, blank where it did not assess it. Mileage it judged implausible has already been removed, so FALSE never carries a mileage | 3,693 | 33.00 |
 | mileage_from | Lower edge of the mileage band, in miles; -1000 holds negative mileage | 0 | 0.00 |
 | n_vehicles | Vehicles in the group | 0 | 0.00 |
 
-A blank is not a zero. `legit_mileage` is blank where Bristol did not
-assess the mileage, and `mean_mileage` is blank where a group has no
-recorded mileage to average.
+A blank is not a zero. `legit_mileage` is blank where the annualisation
+did not assess the mileage, and `mean_mileage` is blank where a group
+has no recorded mileage to average.
 
 ## 3. The vocabulary, pedantically
 
-**`legit_mileage`** is Bristol’s judgement, and it has three states, not
-two. `TRUE` is a mileage it judged plausible. A blank is a mileage it
-did not assess. `FALSE` means it judged the mileage implausible and
-**removed it**, so a `FALSE` row never carries a mileage;
-`n_mileage_removed` counts those vehicles. Totals in this report are
-plausible mileage unless they say otherwise, and section 4.2 gives the
-size of the unassessed group year by year.
+**`legit_mileage`** is the annualisation’s judgement, and it has three
+states, not two. `TRUE` is a mileage it judged plausible. A blank is a
+mileage it did not assess. `FALSE` means it judged the mileage
+implausible and **removed it**, so a `FALSE` row never carries a
+mileage; `n_mileage_removed` counts those vehicles. Totals in this
+report are plausible mileage unless they say otherwise, and section 4.2
+gives the size of the unassessed group year by year.
 
 **A postcode area** is `pca_YYYY`: either a real area, or one of
 `unborn` (before the vehicle existed), `dead` (after its last MOT, which
-begins about two years after the last test because Bristol carries the
-area forward) or `unknown` (a year inside its life with no area
-recorded; rare, because Bristol back-fills a new vehicle’s years before
-its first MOT with its first test’s area). “Observed” in this report
-means a real area, not necessarily a test.
+begins about two years after the last test because the annualisation
+carries the area forward) or `unknown` (a year inside its life with no
+area recorded; rare, because the annualisation back-fills a new
+vehicle’s years before its first MOT with its first test’s area).
+“Observed” in this report means a real area, not necessarily a test.
 
 **`body_type`** is the DfT body type attached in Stage 2, not the MOT
 test class, so it exists for vehicles with no test class.
@@ -397,7 +399,7 @@ the published tables.
   status
 - `n_real_pca`: Vehicles in a real postcode area that year
 - `n_with_mileage`: Vehicles with a recorded mileage
-- `n_legit_mileage`: Of those, the mileage Bristol judged plausible
+- `n_legit_mileage`: Of those, the mileage judged plausible
 - `n_unassessed_mileage`: Of those, the mileage it did not assess
 - `n_mileage_removed`: Vehicles whose mileage it judged implausible and
   removed
@@ -432,9 +434,9 @@ the published tables.
 ![](mileage_report_figures/profile-coverage-1.png)
 
 **Figure 1.** Top: the vehicle-years with a recorded mileage each year,
-split into mileage Bristol judged plausible and mileage it did not
-assess, with the vehicles whose mileage it removed as implausible (the
-`n_legit_mileage`, `n_unassessed_mileage` and `n_mileage_removed`
+split into mileage the annualisation judged plausible and mileage it did
+not assess, with the vehicles whose mileage it removed as implausible
+(the `n_legit_mileage`, `n_unassessed_mileage` and `n_mileage_removed`
 columns of the table above). Bottom: every in-scope vehicle each year by
 its postcode area status (`pca_YYYY`). Both are summed from
 `mileage_by_pca_year_body_fuel.csv`.
@@ -530,8 +532,8 @@ Values under 0.01% are left out.
 
 **Figure 3.** Recorded annual mileage over every year and body type, in
 1,000-mile bands from 0 to 50,000: vehicle-years with a mileage, whether
-Bristol judged it plausible or did not assess it. The subtitle counts
-the vehicle-years outside the range shown.
+the annualisation judged it plausible or did not assess it. The subtitle
+counts the vehicle-years outside the range shown.
 
 ### 5.3 Mileage by age
 
@@ -720,13 +722,13 @@ together.
 
 The two sources are not expected to agree exactly. DfT counts include
 vehicles under three whose first MOT is not yet in the data (once it is,
-Bristol back-fills their area), and the MOT data keeps a vehicle in its
-area for two years after its last test, after DfT has stopped counting
-it if it was scrapped. DfT also places a vehicle at its keeper’s
-address, so company and lease cars are counted where the company is
-registered, while the MOT data places a vehicle where it was observed.
-The maps and tables below therefore compare each postcode area with the
-national ratio for 2022 (1.040 MOT cars per DfT car).
+the annualisation back-fills their area), and the MOT data keeps a
+vehicle in its area for two years after its last test, after DfT has
+stopped counting it if it was scrapped. DfT also places a vehicle at its
+keeper’s address, so company and lease cars are counted where the
+company is registered, while the MOT data places a vehicle where it was
+observed. The maps and tables below therefore compare each postcode area
+with the national ratio for 2022 (1.040 MOT cars per DfT car).
 
 ![](mileage_report_figures/dft-national-1.png)
 
@@ -828,17 +830,18 @@ sales grow quickly.
 
 **Figure 22.** Three shares each year, from
 `mileage_by_pca_year_body_fuel.csv`: the observed vehicles with an
-annual mileage; of the vehicles with a mileage before Bristol’s checks,
-those whose mileage it flagged implausible and removed; and of the
-recorded mileages, those it did not assess. The last two count every
-vehicle, whether observed that year or not.
+annual mileage; of the vehicles with a mileage before the
+annualisation’s checks, those whose mileage it flagged implausible and
+removed; and of the recorded mileages, those it did not assess. The last
+two count every vehicle, whether observed that year or not.
 
 ![](mileage_report_figures/check-distribution-1.png)
 
 **Figure 23.** Recorded annual mileage of cars in 2022 in 1,000-mile
-bands from 0 to 50,000, by whether Bristol flagged it plausible or did
-not assess it (`mileage_distribution_by_year_body.csv`). The table below
-counts the mileages outside the range shown.
+bands from 0 to 50,000, by whether the annualisation flagged it
+plausible or did not assess it
+(`mileage_distribution_by_year_body.csv`). The table below counts the
+mileages outside the range shown.
 
 ### Car mileage outside the chart, 2022
 
@@ -856,8 +859,8 @@ Counts across all in-scope vehicles. Each column other than
 - `n_with_mileage`: vehicles with a recorded annual mileage
 - `n_not_assessed`: recorded mileage with no plausibility flag (left out
   of the averages)
-- `n_mileage_removed`: vehicles whose mileage Bristol flagged as
-  implausible and removed
+- `n_mileage_removed`: vehicles whose mileage was flagged as implausible
+  and removed
 - `n_negative_mileage`: annual mileage below 0
 - `n_over_50k_mileage`: annual mileage above 50,000 miles
 - `n_mileage_not_observed`: vehicles with a mileage in a year where they
@@ -1028,10 +1031,10 @@ nothing here can drift from the build it describes.
 | Issue | Detail |
 |:---|:---|
 | The last year is partial | 2025 holds 25,803,313 vehicle-years with a recorded mileage against 36,734,471 in 2024, and 0.03% of that mileage was never assessed. Do not read a trend into the final year. |
-| Young vehicles are missing from the recent years | A vehicle’s mileage is only known once it has had an MOT, at three years old; Bristol then estimates the earlier years from that test. So the youngest ages fill in only once the first test is in the data and empty out towards the end of the series, and the vehicles that do appear there are the ones tested unusually early. Section 11 quantifies it. |
-| Unassessed mileage is not zero mileage | Bristol removed the mileage it judged implausible, so a recorded mileage is either plausible or unassessed. Treating the unassessed as zero would lose 8,170 vehicle-years in 2025 alone. |
+| Young vehicles are missing from the recent years | A vehicle’s mileage is only known once it has had an MOT, at three years old; the annualisation then estimates the earlier years from that test. So the youngest ages fill in only once the first test is in the data and empty out towards the end of the series, and the vehicles that do appear there are the ones tested unusually early. Section 11 quantifies it. |
+| Unassessed mileage is not zero mileage | The annualisation removed the mileage it judged implausible, so a recorded mileage is either plausible or unassessed. Treating the unassessed as zero would lose 8,170 vehicle-years in 2025 alone. |
 | A growing share of the fleet has no location | The `unknown` group reaches 12,640,179 vehicles by 2025. They are in the vehicle counts and in no postcode area row, so the area rows do not sum to the fleet. |
-| The mileage is Bristol’s, not ours | Annual mileage, the postcode area and the plausibility flag all come from Bristol’s annualisation and are taken as given. The pipeline applies no scaling and does not re-derive them. |
+| The mileage comes from the annualisation, not the pipeline | Annual mileage, the postcode area and the plausibility flag all come from the annualisation and are taken as given. The pipeline applies no scaling and does not re-derive them. |
 | One definition of age, test class and fuel | Every table uses the churn tables’ definitions: age at 1 June, the harmonised `test_class` and the harmonised `fuel_simple`. Until October 2026 the test class and fuel tables used the columns as supplied (`test_class_ANON`, `fuel_DVSA`) and age was the calendar-year difference, so older copies of these tables are not directly comparable. |
 | Vehicles with no body type | 2,922,885 vehicles (3.13%) have no DfT body type, all of them vehicles with no MOT test class. They are grouped as `Other` rather than dropped. |
 | Vehicles with no age | 123 vehicles (0%) have no first use date, so they appear in the vehicle and mileage tables but in no age table. |

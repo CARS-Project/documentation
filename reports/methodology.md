@@ -9,7 +9,7 @@ This appendix is `methodology.md` from the MOT-pipline repository, copied unchan
 `methodology_doc` target. Every figure comes from the latest build
 (profile: main). Edit the template, not this file.*
 
-This document describes how MOT-pipline turns the Bristol vehicle-level
+This document describes how MOT-pipline turns the linked vehicle-level
 MOT table into the enhanced vehicle dataset and summary tables. For each
 stage it sets out what is done, how, and the assumptions behind it, so
 users of the outputs can judge how far to rely on each column.
@@ -33,10 +33,11 @@ to the function that does it.
 
 ### The method in plain language
 
-The Bristol team supply one row per vehicle that has appeared in the MOT
-(roadworthiness test) records, with its make, model and fuel as recorded
-at its tests, a postcode area and annual mileage for every year, and the
-matching record from the DVLA vehicle register. The pipeline:
+The linkage stage supplies one row per vehicle that has appeared in the
+MOT (roadworthiness test) records, with its make, model and fuel as
+recorded at its tests, a postcode area and annual mileage for every
+year, and the matching record from the DVLA vehicle register. The
+pipeline:
 
 1.  **keeps every vehicle that existed from 2005** (Section 3), and
     marks each year in which the vehicle has no postcode area as not yet
@@ -59,8 +60,8 @@ matching record from the DVLA vehicle register. The pipeline:
 Three facts about the source data matter for every result and are easy
 to miss:
 
-- **A postcode area in a year is not always a test in that year.**
-  Bristol copies a vehicle’s first-test area back to its first
+- **A postcode area in a year is not always a test in that year.** The
+  annualisation copies a vehicle’s first-test area back to its first
   registration, and carries its last-test area forward for two years
   after its last test (Section 3.3). Young vehicles therefore cannot be
   seen to move before their first test, and a scrapped vehicle stays in
@@ -115,7 +116,7 @@ to miss:
 
 ``` mermaid
 flowchart TD
-    A[Bristol annualised table<br/>138.2M rows] --> B[Stage 1: Core table<br/>scope, dates, PCA status]
+    A[Linked annualised table<br/>138.2M rows] --> B[Stage 1: Core table<br/>scope, dates, PCA status]
     A --> M[Stage 3a: DVSA-DVLA record match<br/>make aliases, mismatch list]
     B --> C[Stage 2: Make / model<br/>DfT naming]
     T[DfT VEH0220 / VEH0124] --> C
@@ -153,7 +154,7 @@ Principles applied throughout:
 
 ## 2. Input data
 
-**Source:** annualised_with_ves_4.parquet, produced by the Bristol team
+**Source:** annualised_with_ves_4.parquet, produced by the linkage stage
 and accessed through the RDSF.
 
 | Property                    | Value                              |
@@ -201,11 +202,11 @@ The file has one row per vehicle, with:
 
 Assumptions about the input:
 
-- **Bristol’s annualisation is taken as given.** The pipeline does not
-  re-derive annual mileage, postcode area or the per-year flags; see
-  Bristol’s documentation for how they are built. In particular, the
-  mileage columns are treated as **annual miles** (mean 7,065 in 2018)
-  and are not rescaled.
+- **The annualisation is taken as given.** The pipeline does not
+  re-derive annual mileage, postcode area or the per-year flags; see the
+  linkage stage’s documentation for how they are built. In particular,
+  the mileage columns are treated as **annual miles** (mean 7,065
+  in 2018) and are not rescaled.
 - **The VES record is not always the same vehicle.** Because VES is
   attached by registration, a registration that has moved to another
   vehicle brings that vehicle’s record. Section 5.1 detects these.
@@ -223,8 +224,7 @@ Assumptions about the input:
 ### 3.1 Identifiers and duplicates
 
 - **`vehicle_id`** is the row number in the input file. It is stable
-  only for that input file; a new Bristol delivery will renumber
-  vehicles.
+  only for that input file; a new input delivery will renumber vehicles.
 - **`dup_vrm`** is TRUE when the DVSA registration appears on more than
   one row. No registration appears more than once in this input (earlier
   deliveries had duplicates). Duplicates are **kept and flagged**, not
@@ -248,15 +248,15 @@ Assumptions about the input:
   Where no year is flagged, it is the last year with a recorded postcode
   area, unless that year is one of the final two years of data.
 
-Why the fallback: the January 2026 Bristol delivery leaves the
-end-of-use flag off for most vehicles that stopped being tested. For
-example, 1.6 million of the 2.4 million vehicles whose last MOT was in
-2019 have no flag, against 20 thousand in the earlier delivery. Without
-the fallback, those vehicles would be `unknown` for ever, not `dead`.
-Where a vehicle has both a flag and a recorded postcode area, the flag
-year is its last postcode area year for 99.9% of vehicles. A vehicle
-last seen in the final two years may simply not be due a test yet, so it
-keeps no last MOT year and stays `unknown`.
+Why the fallback: the January 2026 input delivery leaves the end-of-use
+flag off for most vehicles that stopped being tested. For example, 1.6
+million of the 2.4 million vehicles whose last MOT was in 2019 have no
+flag, against 20 thousand in the earlier delivery. Without the fallback,
+those vehicles would be `unknown` for ever, not `dead`. Where a vehicle
+has both a flag and a recorded postcode area, the flag year is its last
+postcode area year for 99.9% of vehicles. A vehicle last seen in the
+final two years may simply not be due a test yet, so it keeps no last
+MOT year and stays `unknown`.
 
 Assumptions:
 
@@ -274,18 +274,18 @@ Assumptions:
 
 ### 3.3 Postcode area status infill
 
-Bristol supplies a postcode area for most years of a vehicle’s life, not
-only the years it was tested. Two features of Bristol’s annualisation,
-found in the October 2026 audit, matter for every table built on
-`pca_YYYY`:
+The annualisation supplies a postcode area for most years of a vehicle’s
+life, not only the years it was tested. Two features of the
+annualisation, found in the October 2026 audit, matter for every table
+built on `pca_YYYY`:
 
 - **Back-fill before the first test.** A new car has no MOT until it is
-  three years old (four in Northern Ireland), but Bristol copies its
-  first test’s postcode area back to the year it was first registered:
-  of the vehicles first used in 2016, 99.4% have the same area in 2016,
-  2017 and 2018. So a vehicle cannot be seen to move before its first
-  test, and those years’ areas are not observations. Bristol estimates
-  mileage for those years too.
+  three years old (four in Northern Ireland), but the annualisation
+  copies its first test’s postcode area back to the year it was first
+  registered: of the vehicles first used in 2016, 99.4% have the same
+  area in 2016, 2017 and 2018. So a vehicle cannot be seen to move
+  before its first test, and those years’ areas are not observations.
+  The annualisation estimates mileage for those years too.
 - **Carry-forward after the last test.** A vehicle keeps its last test’s
   area for two more years: 95% of the vehicles last tested in 2015 still
   have a postcode area in 2016 and 2017, with no mileage, and become
@@ -296,7 +296,7 @@ found in the October 2026 audit, matter for every table built on
   by about two years.
 
 `quality/pca_observation_by_year.csv` measures both every build. Where
-Bristol supplies no area, the blank is replaced with a status:
+the annualisation supplies no area, the blank is replaced with a status:
 
 | Condition (checked in order) | `pca_YYYY` becomes |
 |----|----|
@@ -314,18 +314,18 @@ Assumptions:
 - **Unobserved years before the last MOT are “unknown”.** This prevents
   vehicles from apparently coming back to life when a later test
   appears. It is rare (tens of thousands of vehicles a year), because
-  Bristol back-fills the years before the first test (above).
+  the annualisation back-fills the years before the first test (above).
 - **Birth is compared by calendar year.** A vehicle born during 2010
   with no recorded PCA in 2010 is `unborn` for 2010.
 - **A vehicle with no dates is treated as already born** in every year.
   It is then `dead` or `unknown` by the rules above.
 - **Recorded postcode areas are used as supplied,** including
   single-letter areas (B, G, L, …). The data covers the whole UK, and
-  Northern Ireland is its real postcode area `BT`, as Bristol’s
-  deliveries code it since October 2026 and as the boundary, area name
-  and DfT reference files in `inputs/` do. An older delivery’s `NI` is
-  recoded to `BT` (`pca_bt_sql()` in `R/stage_core.R`). A small number
-  of vehicles have the code `XX`, left as supplied.
+  Northern Ireland is its real postcode area `BT`, as input deliveries
+  code it since October 2026 and as the boundary, area name and DfT
+  reference files in `inputs/` do. An older delivery’s `NI` is recoded
+  to `BT` (`pca_bt_sql()` in `R/stage_core.R`). A small number of
+  vehicles have the code `XX`, left as supplied.
 
 ### 3.4 Scope: which vehicles are kept
 
@@ -659,7 +659,7 @@ split is clear-cut:
 
 Every such row of the input file (123,360, including out-of-scope
 vehicles) is listed with its evidence in
-`suspected_dvla_mismatches.csv`, for Bristol to check.
+`suspected_dvla_mismatches.csv`, for checking at the linkage stage.
 
 ### 5.2 Fuel
 
@@ -1417,7 +1417,22 @@ variable is.
   About 30% of Set 1b’s `different` are new vehicles; Set 1d separates
   the flows.
 
-- **The CAZ categories use first use date,** not the Euro status. Set 7
+- **The Set 7 CAZ categories need both the first use date and the Euro
+  standard**: petrol first used before 2006 and not Euro 4+, diesel
+  first used before 2015 and not Euro 6+. A vehicle with no standard is
+  placed by its date. Most standards are themselves assumed from the
+  date (Section 5.7), so for those vehicles the Euro condition only
+  repeats the date test. Only a recorded or borrowed standard moves a
+  vehicle out of a chargeable category, so the categories partly reflect
+  which vehicles have one (`set7_check_caz_status_change.csv`). Set 7’s
+  rows add Inner London, Outer London and “All other” (areas with no
+  clean air zone), and repeat the areas partly in London and each clean
+  air zone area, which belong to no group (config `set7`). A vehicle is
+  “present” in 2023 if it is still in the same row, so a move from E to
+  N stays in Inner London. Set 7B splits the leavers into those still
+  running elsewhere, scrapped and not located.
+
+- **The date-only proxy (`caz_cat`) is kept for checking.** Set 7
   includes a cross-check of the proxy against the harmonised
   `euro_status`, which now covers 91.2% of in-scope vehicles against
   14.5% with a VES value. Read that cross-check with care: since Section
@@ -1515,8 +1530,8 @@ Assumptions:
 
 - **“Scrapped” means the trajectory ends `dead`,** which is the end of
   MOT testing and not necessarily scrapping, and arrives about two years
-  after the last test because Bristol carries the area forward (Section
-  3.3).
+  after the last test because the annualisation carries the area forward
+  (Section 3.3).
 - **“New vehicle” arrivals are placed in the area from their first
   registration,** using the area of their first test (Section 3.3).
 - **A vehicle counted as stable is stable only within the chart years.**
@@ -1530,7 +1545,7 @@ Assumptions:
 contributes one row, and the rows are summed into:
 
 - **total annual mileage, vehicle count and mean** by PCA (or status),
-  year and the Bristol `legit_mileage` flag
+  year and the `legit_mileage` flag
 - **total mileage by legit flag and year**
 - **total mileage by test class and year,** with class labels (the
   harmonised `test_class`, as in the churn tables)
@@ -1546,10 +1561,11 @@ sums and counts, so any grouping can be rebuilt from them:
 - `mileage_by_pca_year_body_fuel.csv`: by year, `pca_YYYY` value
   (postcode area or status), body type and `fuel_simple`: vehicles;
   vehicles with a mileage, with a mileage flagged plausible, and with a
-  mileage Bristol removed; total and plausible mileage; negative and
-  over-50,000 mileages; and the total and count of ages (whole years at
-  1 June since first use, as in the churn tables, Section 7.1), with
-  negative ages (first used after 1 June) counted apart.
+  mileage the annualisation removed; total and plausible mileage;
+  negative and over-50,000 mileages; and the total and count of ages
+  (whole years at 1 June since first use, as in the churn tables,
+  Section 7.1), with negative ages (first used after 1 June) counted
+  apart.
 - `mileage_by_age_year_body_fuel.csv`: observed vehicles (a real PCA) by
   year, body type, fuel and age (capped at 40; -1 for a negative age),
   with their plausible mileage.
@@ -1568,7 +1584,7 @@ Assumptions:
 - **Mileage is annual as supplied.** It is not rescaled or capped.
   Negative and very high values are included; the quality report counts
   them.
-- **Bristol has already removed implausible mileage.** Where
+- **The annualisation has already removed implausible mileage.** Where
   `legit_mileage_YYYY` is FALSE, `mileage_YYYY` is empty. A recorded
   mileage either has the flag TRUE (plausible) or has no flag (not
   assessed; up to about 5% of recorded mileage a year, and more in a
@@ -1662,8 +1678,10 @@ published numbers that must agree, reading only the published CSVs:
   Set 1b, Set 1d and Set 7A add up to each year’s stock; Set 1d’s flows
   reconcile each area’s stock exactly and moves balance nationally; Set
   5’s groups equal Set 1d’s 2017 flows; Sets 2 and 6 count the same
-  vehicles; Set 3 and Set 4 satisfy their identities; Set 7B’s six
-  breakdowns count the same leavers.
+  vehicles; Set 3 and Set 4 satisfy their identities; in every Set 7
+  row, leavers (7B) plus stayers (7C) are the 2018 stock, the stayers
+  match 7A, and each breakdown adds up to its row; the Set 7 London
+  groups are the sums of their areas.
 - **Profile:** every characteristic of the fleet profile partitions the
   same vehicles, and the car counts and miles equal the mileage area
   table’s plausible-mileage counts, which are computed by different
@@ -1671,7 +1689,7 @@ published numbers that must agree, reading only the published CSVs:
 - **External:** cars aged 3+ against DfT licensed + SORN counts (a
   warning, not an identity).
 
-In this build 1,226 of 1,238 checks pass, 1 fail and 11 warn. The data
+In this build 1,255 of 1,267 checks pass, 1 fail and 11 warn. The data
 quality report lists every check that does not pass.
 
 ### 9.2 Consistency across variables
@@ -1687,7 +1705,8 @@ the vehicles it applies to and the condition they must meet, and every
 in-scope vehicle is checked. Each violation is classed as *recorded*
 (every variable involved is the vehicle’s own recorded value, so the
 conflict is in the source data) or *pipeline* (at least one was
-backfilled, derived or imputed, by this pipeline or by Bristol).
+backfilled, derived or imputed, by this pipeline or by the
+annualisation).
 
 **The allowed type approval / test class pairs** come from the MOT class
 definitions and the EU type approval categories, widened where the
@@ -1770,7 +1789,7 @@ comparison and the fleet profile, and the RACF totals against VEH0124.
     never come from different candidates)
   - the sample project draws a 1% Bernoulli sample of input rows with
     seed 42
-- **The make aliases are derived from the input,** so a new Bristol
+- **The make aliases are derived from the input,** so a new input
   delivery can change them slightly; they are written out for
   inspection.
 - **`vehicle_id` depends on row order in the input file.** Join to
@@ -1788,7 +1807,7 @@ that validation and are not recomputed.
   - PCA status infill
   - the scope rule
   - date coalescing and duplicate flags
-  - reading either Bristol delivery’s column names
+  - reading either input delivery’s column names
   - make/model matching to the DfT names: each matching step, the
     vehicle-type check, derivatives, per-vehicle choices and the
     overrides file
@@ -1862,10 +1881,10 @@ that validation and are not recomputed.
 
 | Area | Assumption | Where to check or relax it |
 |----|----|----|
-| Input | Bristol’s annual mileage, PCA and flags are correct | Bristol documentation |
+| Input | The annualisation’s annual mileage, PCA and flags are correct | Linkage stage documentation |
 | Scope | A DVLA record dated 2005 or later shows the vehicle existed then | `scope_*` flags |
 | Dates | The earliest DVSA date is the birth date; vehicles without dates stay undated | `birth_date`, `first_use_source` |
-| PCA status | No PCA after the last MOT means the vehicle has left (not necessarily scrapped). Bristol’s areas include back-filled years before the first test and two carried-forward years after the last, which the pipeline takes as supplied | `last_mot_year`, `quality/pca_observation_by_year.csv` |
+| PCA status | No PCA after the last MOT means the vehicle has left (not necessarily scrapped). The annualisation’s areas include back-filled years before the first test and two carried-forward years after the last, which the pipeline takes as supplied | `last_mot_year`, `quality/pca_observation_by_year.csv` |
 | Make/model | The DfT licensing statistics’ names are the target; a raw spelling means the same vehicle everywhere; prefixes and word sets are trusted at 90% | `make_method`, `model_method`, `model_confidence`, `make_model_review.csv`, `dft_stock_*.csv` |
 | VES match | Two of make / year / engine disagreeing means a different vehicle; naming pairs are found from the data | `dvla_match`, `dvla_evidence`, `checks.dvla_alias_*` |
 | Fuel | DVSA fuel unless VES or the engine size shows a hybrid or an engine; rare fuels are flagged, only electric-only models are corrected | `fuel_src`, `fuel_check`, `checks.*` |
@@ -1875,7 +1894,8 @@ that validation and are not recomputed.
 | Backfill | Vehicles of the same make/model/birth year and fuel (and engine size) share attributes; values are never borrowed across fuels | `*_src`, `backfill.min_vehicles` |
 | Plates | Plate formats are recognised by simple patterns; vanity flags any plate/age mismatch, using corrected issue periods | `plate_type`, `vanity_plate` |
 | Churn | `unknown` (and, in Sets 1b/1c, a new vehicle) counts as a change; the churn v2 movement rate is age-biased by construction | `movement_rate_window`, Set 1d, `churn.*` settings |
-| CAZ | First use year is a proxy for Euro standard. The Set 7 check against `euro_status` is weak now that most Euro statuses are themselves derived from a date | `churn.euro_column`, `euro_status_src` |
-| Mileage | Bristol removes implausible mileage (flag FALSE, value empty); unassessed mileage (no flag) is kept; years before the first test are Bristol’s estimates | `legit_mileage` grouping |
+| CAZ | A vehicle is chargeable if both its first use year and its Euro standard say so; most standards are themselves derived from the date, so the categories lean on the date. A postcode area stands in for a zone that covers only part of it | `churn.euro_column`, `euro_status_src`, `set7_check_caz_status_change.csv`, config `set7` |
+| Mileage | The annualisation removes implausible mileage (flag FALSE, value empty); unassessed mileage (no flag) is kept; years before the first test are the annualisation’s estimates |  |
+| `legit_mileage` grouping |  |  |
 | Consistency | Every pair of published numbers that must agree is compared each build | `quality/cross_checks.csv` |
 | Every table | Counts are exact; means and proportions are rounded to 5 dp when written, because DuckDB’s parallel sums differ by ~1e-15 between runs | `csv_decimal_places` |
