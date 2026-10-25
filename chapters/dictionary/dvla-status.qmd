@@ -24,7 +24,7 @@ pipeline's check of whether the VES record describes the same vehicle.
   and the other stages they describe.
 - **What changed between lookups**: `ever_SORN`, `ever_export_marked`,
   `plate_ever_changed_VES`, `v5C_issue_date_ever_changed` and
-  `change_in_other_VES_field` summarise the changes the Bristol team saw
+  `change_in_other_VES_field` summarise the changes seen
   across repeated lookups.
 - **The lookups**: when the registration was first and last queried and first
   and last returned a record, how many queries were made, and the error from

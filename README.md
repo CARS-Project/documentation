@@ -103,13 +103,13 @@ search the chapters for `.todo` to list them (28 in the first draft).
   approval L1–L3 to Motorcycles and L5–L7 to Other vehicles; L4 (motorcycle
   with sidecar) is in neither. Probably tiny in practice.
 - [ ] **Postcode areas are copied back and carried forward.** The pipeline
-  notes (`R/report_quality.R`, `R/dft_compare.R`) say Bristol copies a
+  notes (`R/report_quality.R`, `R/dft_compare.R`) say the annualisation copies a
   vehicle's first-test postcode area back to its first registration, and
   carries its postcode area forward for two years after its last MOT. The
   first draft of the book assumed the opposite; the affected passages
   (*The MOT test*, *The life of a vehicle*, *Concepts and pitfalls*, *How
   good is the data?* and two worked examples) were corrected. Confirm the
-  exact rules with the Bristol team.
+  exact rules for the linkage stage.
 - [ ] **Example results come from the 13 October 2026 parquet.** A pipeline
   build was running while the first draft was written. Rerun
   `scripts/run-examples.R` after the next complete build.
@@ -150,6 +150,6 @@ a reference.
   national roll-out 1950s–1970s; about 120 areas, 3,000 districts, 11,000
   sectors and 1.8 million unit postcodes; 228 travel to work areas
   (*Geography*).
-- [ ] Bristol method details written from the early draft (*Source data and
+- [ ] Linkage method details written from the early draft (*Source data and
   linkage*): how mileage is shared between years, the 1 July straddle date,
   and the `is_new_vehicle` / `is_intertest` / `is_end_use` definitions.

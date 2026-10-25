@@ -10,7 +10,7 @@ After the three dataset have been joined and converted to annualised dataset a p
 
 ### Dates {#sec-meth-dates}
 
-Standerdised Birth/dead dates needed - Perhap this should be moved to Bristol?
+Standerdised Birth/dead dates needed - Perhaps this should be moved to the linkage stage?
 
 - **`birth_date`** is the earliest of DVSA first used date, registration date and manufacture date. Only 10,030 input vehicles have none of these.
 
@@ -219,7 +219,7 @@ Some make pairs are the same vehicle under another name: CHRYSLER-JEEP / JEEP, R
 | `different` (three disagreements) | 33,352     |
 | `no_dvla`                         | 21,503,826 |
 
-Every such row of the input file (123,360, including out-of-scope vehicles) is listed with its evidence in `suspected_dvla_mismatches.csv`, for Bristol to check.
+Every such row of the input file (123,360, including out-of-scope vehicles) is listed with its evidence in `suspected_dvla_mismatches.csv`, for checking at the linkage stage.
 
 ### Fuel {#sec-meth-fuel}
 

@@ -39,10 +39,10 @@ how the statuses describe a vehicle's life in @sec-lifecycle. A vehicle is
 these vehicles is the usual first step of any analysis of a year
 (@sec-vehicle-table).
 
-The Bristol team also supplied three yearly status flags, which the pipeline
+The annualisation also sets three yearly status flags, which the pipeline
 carries through to the maximal table only:
 
-- **`is_new_vehicle_YYYY`** is Bristol's new-vehicle flag for the year, and
+- **`is_new_vehicle_YYYY`** is the new-vehicle flag for the year, and
   **`is_intertest_YYYY`** its inter-test flag. The pipeline does not use
   them.
 - **`is_end_use_YYYY`** is `TRUE` in the year of the vehicle's final MOT

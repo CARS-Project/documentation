@@ -8,10 +8,10 @@ n_in <- sc$n_vehicles[sc$measure == "input_rows"]
 n_scope <- sc$n_vehicles[sc$measure == "in_scope"]
 ```
 
-The linked table from the Bristol stage (@sec-sources-linkage) is accurate to
+The linked table from the linkage stage (@sec-sources-linkage) is accurate to
 its sources, but not yet easy to analyse. The same make is spelt dozens of
 ways, attributes are missing for many vehicles, and some DVLA records belong to
-another vehicle. The Leeds pipeline,
+another vehicle. The pipeline,
 [MOT-pipline](https://github.com/CARS-Project/MOT-pipline), cleans and enhances
 the table and produces the published outputs. This chapter summarises what it
 does; the full method, with every rule and count, is in the pipeline's
@@ -38,7 +38,7 @@ used:
 
 ```{mermaid}
 flowchart TD
-    A[Linked vehicle table<br/>from Bristol] --> B[1. Core table<br/>scope, dates, yearly status]
+    A[Linked and annualised<br/>vehicle table] --> B[1. Core table<br/>scope, dates, yearly status]
     B --> C[2. Make and model<br/>matched to DfT names]
     T[DfT vehicle licensing<br/>statistics] --> C
     A --> M[3a. DVSA-DVLA<br/>record check]

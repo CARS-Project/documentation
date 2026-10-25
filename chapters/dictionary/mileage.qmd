@@ -13,7 +13,7 @@ mc <- read_pipeline("outputs", "quality", "mileage_checks.csv")
 ## Overview
 
 The MOT test records the odometer reading, and the difference between two
-tests gives the distance driven between them. The Bristol team spread that
+tests gives the distance driven between them. The annualisation spreads that
 distance over the calendar years between the tests to give an annual mileage
 for each year. @sec-sources-linkage explains how the annual figures are
 made, and @sec-mot-test what the MOT records.
@@ -26,8 +26,8 @@ made, and @sec-mot-test what the MOT records.
 - **`total_mileage`** is the sum of the annual mileages over all years. It is
   0 for a vehicle with no recorded mileage, and decides `scope_mileage`
   (@sec-dd-identifiers).
-- **`odometer_est_YYYY`** is the Bristol team's estimate of the odometer
-  reading in year YYYY, carried through as supplied. The pipeline does not
+- **`odometer_est_YYYY`** is the annualisation's estimate of the odometer
+  reading in year YYYY, carried through unchanged. The pipeline does not
   use it: some estimates exceed 1,000,000 miles and some fall from one year to
   the next. It is in the maximal table only.
 

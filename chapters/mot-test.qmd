@@ -83,8 +83,8 @@ tested again when they return.
 
 ::: {.callout-note .todo title="To be written"}
 A short description, with a figure, of the observed distribution of intervals
-between consecutive tests (from the Bristol team's analysis of test
-intervals). The early draft has a heat map of interval start against interval
+between consecutive tests (from the analysis of test intervals for the
+linkage stage). The early draft has a heat map of interval start against interval
 end for 2017–2023, showing the strong annual diagonal, the 2020 disruption and
 a tail of long gaps.
 :::

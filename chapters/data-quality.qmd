@@ -125,7 +125,7 @@ fu_dvsa <- fu$n_vehicles[fu$first_use_source == "firstUsedDate_DVSA"] / sum(fu$n
   `model_method` show how each match was made.
 
 ::: {.callout-note .todo title="To be written"}
-Quality of the Bristol stage: match rates for the anonymised MOT data to the
+Quality of the linkage stage: match rates for the anonymised MOT data to the
 MOT history, and for the VES lookups; and the share of mileage judged
 implausible, by year.
 :::

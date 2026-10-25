@@ -6,16 +6,14 @@ sc <- read_pipeline("outputs", "quality", "scope_counts.csv")
 input_rows <- sc$n_vehicles[sc$measure == "input_rows"]
 ```
 
-The CARS data is built in two stages. The University of Bristol team links the
-three source datasets and turns each vehicle's test history into annual
-figures. The University of Leeds pipeline then cleans and enhances the result
-and produces the published tables (@sec-pipeline). This chapter describes the
-sources and the Bristol stage.
+The CARS data is built in two stages. The first links the three source
+datasets and turns each vehicle's test history into annual figures. The
+pipeline then cleans and enhances the result and produces the published tables
+(@sec-pipeline). This chapter describes the sources and the linkage stage.
 
-::: {.callout-note .todo title="To be written: Bristol method"}
-This chapter summarises the Bristol stage from project notes. A full
-description, by the Bristol team, of the data processing and the database
-built to carry it out will be added; it is also the subject of the project's
+::: {.callout-note .todo title="To be written: linkage method"}
+This chapter summarises the linkage stage from project notes. A full
+description of the data processing and the database built to carry it out will be added; it is also the subject of the project's
 second webinar, *Under the bonnet* (January 2027).
 :::
 
@@ -82,7 +80,7 @@ registration number in the DVSA download, many of them several times between
 2024 and 2026. Each query returns the vehicle that carries that registration
 *at the time of the query*. Because registrations can move between vehicles
 (@sec-number-plates), a query does not always describe the same vehicle as the
-DVSA record with that registration, and the Bristol team built rules to decide
+DVSA record with that registration, so we built rules to decide
 which DVSA vehicle each returned record belongs to.
 
 ::: {#fig-ves-linking layout-ncol=1}
@@ -91,10 +89,10 @@ which DVSA vehicle each returned record belongs to.
 ![](../images/draft/ves-linking-2.png)
 
 Draft flowchart of the rules for attaching Vehicle Enquiry Service records to
-DVSA vehicles, with approximate counts at each step (Bristol team, June 2026).
+DVSA vehicles, with approximate counts at each step (June 2026).
 :::
 
-The Leeds pipeline adds a further check, comparing the make, year and engine
+The pipeline adds a further check, comparing the make, year and engine
 size of the DVSA and DVLA records, and does not use DVLA values where they
 clearly describe a different vehicle (@sec-pipeline).
 
@@ -110,7 +108,7 @@ found now but found at some point; never queried.
 
 The tests of a vehicle happen on whatever dates they happen. For analysis it
 is far more useful to have one figure per vehicle per calendar year. The
-Bristol team's *annualisation* converts each vehicle's test history into, for
+*annualisation* converts each vehicle's test history into, for
 each year from 2005 to 2025:
 
 - `mileage_YYYY`: the distance driven in the year, in miles;
@@ -135,7 +133,7 @@ first test is treated.
 
 ```{r}
 #| label: fig-test-intervals
-#| fig-cap: "Draft figure (Bristol team): the date of the test at the start of each interval between tests, against the test at its end, for a sample of vehicles, 2017–2023. Most intervals lie on the one-year diagonal. The disruption in 2020 shows as a break and a shifted line."
+#| fig-cap: "Draft figure: the date of the test at the start of each interval between tests, against the test at its end, for a sample of vehicles, 2017–2023. Most intervals lie on the one-year diagonal. The disruption in 2020 shows as a break and a shifted line."
 #| out-width: 75%
 knitr::include_graphics("images/draft/test-intervals.png")
 ```
@@ -144,7 +142,7 @@ knitr::include_graphics("images/draft/test-intervals.png")
 
 Odometer readings contain errors: typing mistakes, odometers replaced or
 reset, readings in kilometres taken as miles, and occasional fraud
-(*clocking*). The Bristol team judges whether each annual mileage is
+(*clocking*). The annualisation judges whether each annual mileage is
 plausible, and **removes the mileage** where it is not. `legit_mileage_YYYY`
 therefore has three states: `TRUE` (plausible), blank with a mileage (not
 assessed) and `FALSE` (judged implausible; the mileage is then blank).
@@ -159,7 +157,7 @@ readings each rule removes.
 
 A vehicle is assigned the postcode area of the test closest in time to the
 year for which a postcode area is available. Years with no test nearby have no
-postcode area, and the Leeds pipeline then labels them `unborn`, `unknown` or
+postcode area, and the pipeline then labels them `unborn`, `unknown` or
 `dead` (@sec-lifecycle).
 
 ::: {.callout-note .todo title="To be written"}
@@ -167,9 +165,9 @@ The exact rule for choosing the test that gives a year its postcode area, and
 how many years it can reach across.
 :::
 
-## What the Bristol stage produces
+## What the linkage stage produces
 
-The output of the Bristol stage is one table with one row per vehicle,
+The output of the linkage stage is one table with one row per vehicle,
 `r fmt_n(input_rows)` rows in the delivery the current data is built from, and
 around 200 columns: the DVSA vehicle details, the per-year columns, the
 attached DVLA columns, and columns recording the history of the DVLA lookups.

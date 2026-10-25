@@ -8,8 +8,8 @@ n_vehicles <- dd$n_rows[1]
 
 ::: {.callout-warning title="Draft"}
 This book is a working draft. Chapters marked **To be written** are placeholders
-for material still being prepared, particularly the parts of the method carried
-out by the University of Bristol team. The numbers in it come from pipeline
+for material still being prepared, particularly the linkage and annualisation
+stages of the method. The numbers in it come from pipeline
 build `r provenance("pipeline_commit")` (`r provenance("pipeline_commit_date")`)
 and will change as the data is refined.
 :::

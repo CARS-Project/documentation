@@ -80,7 +80,7 @@ PHEV
 : Plug-in hybrid electric vehicle.
 
 Plausible mileage
-: An annual mileage the Bristol annualisation judged believable
+: An annual mileage the annualisation judged believable
   (`legit_mileage_YYYY = TRUE`).
 
 SORN

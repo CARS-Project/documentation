@@ -28,7 +28,7 @@ share, and the key used to link them (@sec-sources-linkage).
 - **`registration_clean`** is the DVSA plate upper-cased with spaces and
   punctuation removed. Use it for joins.
 - **`registration_at_first_test`** is the plate the vehicle carried at its
-  first MOT test, as supplied by the Bristol team. It differs from
+  first MOT test, as recorded by DVSA. It differs from
   `registration_DVSA` where the plate has changed since, for example to a
   cherished plate. The pipeline carries it through without using it.
 - **The `plate_` columns** decode the plate's format: its type (current

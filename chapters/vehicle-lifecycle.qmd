@@ -110,7 +110,7 @@ observed vehicles that were past their last MOT or under three.
 
 ::: {.callout-note .todo title="To be confirmed"}
 The exact rules for copying the postcode area back from the first test and
-forward from the last, from the Bristol team.
+forward from the last, from the linkage stage.
 :::
 
 ```{r}
@@ -157,7 +157,7 @@ three years with care.
 
 ## Within-year flags from the annualisation
 
-The Bristol team's annualisation (@sec-sources-linkage) also sets, for each
+The annualisation (@sec-sources-linkage) also sets, for each
 year, flags describing where the vehicle was in its life on 1 July, the
 *straddle date* used to assign each year:
 
@@ -182,6 +182,6 @@ so when it becomes `dead`), and then drops them from the published vehicle
 table.
 
 ::: {.callout-note .todo title="To be written"}
-Confirm with the Bristol team the exact definitions of the three flags, and
+Confirm the exact definitions of the three flags, and
 whether they should be published.
 :::

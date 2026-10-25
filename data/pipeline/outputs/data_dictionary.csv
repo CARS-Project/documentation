@@ -1,7 +1,7 @@
 "column_name","column_type","source","description","in_simplified","n_rows","n_missing","pct_missing"
-"vehicle_id","BIGINT","pipeline","Row number in the Bristol input file (stable id for this input)",TRUE,93352241,0,0
-"registration_DVSA","VARCHAR","Bristol","Vehicle registration mark as supplied by DVSA",FALSE,93352241,0,0
-"registration_DVLA","VARCHAR","Bristol (VES)","Registration returned by the DVLA Vehicle Enquiry Service",FALSE,93352241,2743929,2.94
+"vehicle_id","BIGINT","pipeline","Row number in the linked input file (stable id for this input)",TRUE,93352241,0,0
+"registration_DVSA","VARCHAR","DVSA","Vehicle registration mark as supplied by DVSA",FALSE,93352241,0,0
+"registration_DVLA","VARCHAR","DVLA (VES)","Registration returned by the DVLA Vehicle Enquiry Service",FALSE,93352241,2743929,2.94
 "registration_clean","VARCHAR","pipeline","Registration upper-cased with non-alphanumerics removed, as used for plate decoding",TRUE,93352241,0,0
 "dup_vrm","BOOLEAN","pipeline","TRUE if the DVSA registration appears on more than one row of the input",FALSE,93352241,0,0
 "plate_type","VARCHAR","pipeline","Plate format (port of DVLAAPI::registration_analysis)",FALSE,93352241,0,0
@@ -10,9 +10,9 @@
 "plate_date_to","DATE","pipeline","Last day of the plate issue period",FALSE,93352241,76240,0.08
 "plate_location","VARCHAR","pipeline","Issuing office or region implied by the plate",FALSE,93352241,0,0
 "vanity_plate","BOOLEAN","pipeline","TRUE if birth_date falls more than plates.vanity_tolerance_days outside the plate issue period: a cherished/vanity plate, or a vehicle whose earliest recorded date (often the manufacture date) predates its first registration. NA where the plate carries no date or birth_date is missing",FALSE,93352241,76363,0.08
-"make_DVSA","VARCHAR","Bristol","Make as supplied by DVSA",FALSE,93352241,60215,0.06
-"model_DVSA","VARCHAR","Bristol","Model as supplied by DVSA",FALSE,93352241,219,0
-"make_DVLA","VARCHAR","Bristol (VES)","Make as returned by VES",FALSE,93352241,21504092,23.04
+"make_DVSA","VARCHAR","DVSA","Make as supplied by DVSA",FALSE,93352241,60215,0.06
+"model_DVSA","VARCHAR","DVSA","Model as supplied by DVSA",FALSE,93352241,219,0
+"make_DVLA","VARCHAR","DVLA (VES)","Make as returned by VES",FALSE,93352241,21504092,23.04
 "make_final","VARCHAR","pipeline","Make in the DfT vehicle licensing statistics naming (VEH0220 / VEH0124), upper case; makes DfT spells two ways are merged (inputs/make_aliases.csv). The raw make, upper-cased, where it matches no DfT make; NA where it is a placeholder such as UNKNOWN",TRUE,93352241,520947,0.56
 "model_final","VARCHAR","pipeline","DfT generic model without the make (""C CLASS"", ""FIESTA""); the normalised raw model where it matches no DfT generic model (then dft_genmodel is NA); NA where the model is a placeholder",TRUE,93352241,3988983,4.27
 "derivative_final","VARCHAR","pipeline","The rest of the raw DVSA model text after the words that give the model (trim, engine, body style), upper case, not standardised",TRUE,93352241,70601757,75.63
@@ -62,55 +62,55 @@
 "racf_smmt_type","VARCHAR","RACF (pipeline link)","SMMT segment with the largest fleet among the linked RACF rows",TRUE,93352241,24410000,26.15
 "racf_suv_share","DOUBLE","RACF (pipeline link)","Share of the linked RACF fleet that SMMT calls a crossover / SUV or an off-roader",FALSE,93352241,24712911,26.47
 "racf_eu_exact_share","DOUBLE","RACF (pipeline link)","Share of the linked RACF fleet matched to the EU type-approval data for the exact year",FALSE,93352241,20517797,21.98
-"fuel_DVSA","VARCHAR","Bristol (DVSA)","As supplied by DVSA",FALSE,93352241,0,0
-"fuelType_DVLA","VARCHAR","Bristol (VES)","As returned by the DVLA Vehicle Enquiry Service",FALSE,93352241,21520947,23.05
-"engineSize_DVSA","INTEGER","Bristol (DVSA)","As supplied by DVSA",FALSE,93352241,15969561,17.11
-"engineCapacity_DVLA","INTEGER","Bristol (VES)","As returned by the DVLA Vehicle Enquiry Service",FALSE,93352241,22450970,24.05
-"primaryColour_DVSA","VARCHAR","Bristol (DVSA)","As supplied by DVSA",FALSE,93352241,0,0
-"secondaryColour_DVSA","VARCHAR","Bristol (DVSA)","As supplied by DVSA",FALSE,93352241,8131421,8.71
-"colour_DVLA","VARCHAR","Bristol (VES)","As returned by the DVLA Vehicle Enquiry Service",FALSE,93352241,21503826,23.04
-"typeApproval_DVLA","VARCHAR","Bristol (VES)","As returned by the DVLA Vehicle Enquiry Service",FALSE,93352241,38142827,40.86
-"revenueWeight_DVLA","INTEGER","Bristol (VES)","As returned by the DVLA Vehicle Enquiry Service",FALSE,93352241,64886871,69.51
-"wheelplan_DVLA","VARCHAR","Bristol (VES)","As returned by the DVLA Vehicle Enquiry Service",FALSE,93352241,21503826,23.04
-"test_class_ANON","INTEGER","Bristol (DVSA)","Anonymised MOT test class as supplied",FALSE,93352241,19314753,20.69
-"co2Emissions_DVLA","INTEGER","Bristol (VES)","As returned by the DVLA Vehicle Enquiry Service",FALSE,93352241,35475164,38
-"euroStatus_DVLA","VARCHAR","Bristol (VES)","As returned by the DVLA Vehicle Enquiry Service",FALSE,93352241,79752012,85.43
-"realDrivingEmissions_DVLA","VARCHAR","Bristol (VES)","As returned by the DVLA Vehicle Enquiry Service",FALSE,93352241,86661710,92.83
-"automatedVehicle_DVLA","BOOLEAN","Bristol (VES)","As returned by the DVLA Vehicle Enquiry Service",FALSE,93352241,91944516,98.49
-"markedForExport_DVLA","BOOLEAN","Bristol (VES)","As returned by the DVLA Vehicle Enquiry Service",FALSE,93352241,21503826,23.04
-"taxStatus_DVLA","VARCHAR","Bristol (VES)","As returned by the DVLA Vehicle Enquiry Service",FALSE,93352241,21503826,23.04
-"taxDueDate_DVLA","DATE","Bristol (VES)","As returned by the DVLA Vehicle Enquiry Service",FALSE,93352241,31972260,34.25
-"motStatus_DVLA","VARCHAR","Bristol (VES)","As returned by the DVLA Vehicle Enquiry Service",FALSE,93352241,21503826,23.04
-"motExpiryDate_DVLA","DATE","Bristol (VES)","As returned by the DVLA Vehicle Enquiry Service",FALSE,93352241,34944265,37.43
+"fuel_DVSA","VARCHAR","DVSA","As supplied by DVSA",FALSE,93352241,0,0
+"fuelType_DVLA","VARCHAR","DVLA (VES)","As returned by the DVLA Vehicle Enquiry Service",FALSE,93352241,21520947,23.05
+"engineSize_DVSA","INTEGER","DVSA","As supplied by DVSA",FALSE,93352241,15969561,17.11
+"engineCapacity_DVLA","INTEGER","DVLA (VES)","As returned by the DVLA Vehicle Enquiry Service",FALSE,93352241,22450970,24.05
+"primaryColour_DVSA","VARCHAR","DVSA","As supplied by DVSA",FALSE,93352241,0,0
+"secondaryColour_DVSA","VARCHAR","DVSA","As supplied by DVSA",FALSE,93352241,8131421,8.71
+"colour_DVLA","VARCHAR","DVLA (VES)","As returned by the DVLA Vehicle Enquiry Service",FALSE,93352241,21503826,23.04
+"typeApproval_DVLA","VARCHAR","DVLA (VES)","As returned by the DVLA Vehicle Enquiry Service",FALSE,93352241,38142827,40.86
+"revenueWeight_DVLA","INTEGER","DVLA (VES)","As returned by the DVLA Vehicle Enquiry Service",FALSE,93352241,64886871,69.51
+"wheelplan_DVLA","VARCHAR","DVLA (VES)","As returned by the DVLA Vehicle Enquiry Service",FALSE,93352241,21503826,23.04
+"test_class_ANON","INTEGER","DVSA","Anonymised MOT test class as supplied",FALSE,93352241,19314753,20.69
+"co2Emissions_DVLA","INTEGER","DVLA (VES)","As returned by the DVLA Vehicle Enquiry Service",FALSE,93352241,35475164,38
+"euroStatus_DVLA","VARCHAR","DVLA (VES)","As returned by the DVLA Vehicle Enquiry Service",FALSE,93352241,79752012,85.43
+"realDrivingEmissions_DVLA","VARCHAR","DVLA (VES)","As returned by the DVLA Vehicle Enquiry Service",FALSE,93352241,86661710,92.83
+"automatedVehicle_DVLA","BOOLEAN","DVLA (VES)","As returned by the DVLA Vehicle Enquiry Service",FALSE,93352241,91944516,98.49
+"markedForExport_DVLA","BOOLEAN","DVLA (VES)","As returned by the DVLA Vehicle Enquiry Service",FALSE,93352241,21503826,23.04
+"taxStatus_DVLA","VARCHAR","DVLA (VES)","As returned by the DVLA Vehicle Enquiry Service",FALSE,93352241,21503826,23.04
+"taxDueDate_DVLA","DATE","DVLA (VES)","As returned by the DVLA Vehicle Enquiry Service",FALSE,93352241,31972260,34.25
+"motStatus_DVLA","VARCHAR","DVLA (VES)","As returned by the DVLA Vehicle Enquiry Service",FALSE,93352241,21503826,23.04
+"motExpiryDate_DVLA","DATE","DVLA (VES)","As returned by the DVLA Vehicle Enquiry Service",FALSE,93352241,34944265,37.43
 "birth_date","DATE","pipeline","Earliest of DVSA first used, registration and manufacture dates; where there is none, the DVLA first registration month, else the DVLA first DVLA registration month, else 1 July of the DVLA year of manufacture (see birth_date_source)",TRUE,93352241,123,0
 "birth_date_source","VARCHAR","pipeline","Source of birth_date: dvsa, monthOfFirstRegistration_DVLA, monthOfFirstDvlaRegistration_DVLA or yearOfManufacture_DVLA; missing where the vehicle has no date at all",FALSE,93352241,123,0
 "first_use_date","DATE","pipeline","First use date: DVSA first used, else DVLA month of first registration, else birth_date",TRUE,93352241,123,0
 "first_use_source","VARCHAR","pipeline","Which column first_use_date came from",FALSE,93352241,123,0
-"firstUsedDate_DVSA","DATE","Bristol (DVSA)","As supplied by DVSA",FALSE,93352241,16516848,17.69
-"registrationDate_DVSA","DATE","Bristol (DVSA)","As supplied by DVSA",FALSE,93352241,68909,0.07
-"manufactureDate_DVSA","DATE","Bristol (DVSA)","As supplied by DVSA",FALSE,93352241,483058,0.52
-"monthOfFirstRegistration_DVLA","DATE","Bristol (VES)","As returned by the DVLA Vehicle Enquiry Service",FALSE,93352241,21503829,23.04
-"monthOfFirstDvlaRegistration_DVLA","DATE","Bristol (VES)","As returned by the DVLA Vehicle Enquiry Service",FALSE,93352241,92420083,99
-"yearOfManufacture_DVLA","INTEGER","Bristol (VES)","As returned by the DVLA Vehicle Enquiry Service",FALSE,93352241,21695942,23.24
-"dateOfLastV5CIssued_DVLA","DATE","Bristol (VES)","As returned by the DVLA Vehicle Enquiry Service",FALSE,93352241,21505891,23.04
-"artEndDate_DVLA","DATE","Bristol (VES)","As returned by the DVLA Vehicle Enquiry Service",FALSE,93352241,91510849,98.03
-"final_test_date_DVSA","DATE","Bristol (DVSA)","Date of the vehicle's last recorded MOT test, from Bristol's final_test_date_DVSA where the delivery has it. Missing for a vehicle that has never been tested; earlier deliveries supplied only lastMotTestDate_DVSA, which DVSA now fill with a future date for untested vehicles",FALSE,93352241,15220461,16.3
-"last_mot_year","INTEGER","pipeline","Last MOT year: the latest year Bristol flags is_end_use; where no year is flagged, the last year with a recorded PCA, provided that is at least two years before the last year of data. Missing for vehicles still in service. Drives the dead status of pca_YYYY",TRUE,93352241,41087808,44.01
-"collectionDate_DVLA","TIMESTAMP","Bristol (VES)","As returned by the DVLA Vehicle Enquiry Service",FALSE,93352241,2743929,2.94
-"is_error","BOOLEAN","Bristol (VES)","TRUE if the last VES lookup for this registration returned an error",FALSE,93352241,2743929,2.94
-"error","VARCHAR","Bristol (VES)","Error message from the last VES lookup",FALSE,93352241,74592344,79.9
-"n_VES_checks_to_linked_DVSA_regs","BIGINT","Bristol (VES)","Number of VES checks linked to this vehicle, errors included: n_VES_checks renamed (ves_4 onwards)",FALSE,93352241,2743929,2.94
-"n_VES_checks_for_DVLA_reg","BIGINT","Bristol (VES)","Number of VES checks against the DVLA registration alone, errors included (ves_4 onwards)",FALSE,93352241,2743929,2.94
-"n_VES_returns","DOUBLE","Bristol (VES)","Number of those queries that returned a record",FALSE,93352241,2743929,2.94
-"first_VES_check","TIMESTAMP","Bristol (VES)","First VES query for this registration",FALSE,93352241,2743929,2.94
-"first_VES_return","TIMESTAMP","Bristol (VES)","First VES query that returned a record",FALSE,93352241,21503826,23.04
-"last_VES_check","TIMESTAMP","Bristol (VES)","Last VES query for this registration",FALSE,93352241,2743929,2.94
-"last_VES_return","TIMESTAMP","Bristol (VES)","Last VES query that returned a record",FALSE,93352241,21503826,23.04
-"plate_ever_changed_VES","BOOLEAN","Bristol (VES)","TRUE if the registration returned a different vehicle between VES checks: the plate moved",FALSE,93352241,2743929,2.94
-"ever_SORN","BOOLEAN","Bristol (VES)","TRUE if VES ever reported the vehicle as SORN",FALSE,93352241,21503826,23.04
-"v5C_issue_date_ever_changed","BOOLEAN","Bristol (VES)","TRUE if the V5C issue date changed between VES checks",FALSE,93352241,2743929,2.94
-"change_in_other_VES_field","BOOLEAN","Bristol (VES)","TRUE if another VES field changed between checks",FALSE,93352241,2743929,2.94
-"ever_export_marked","DOUBLE","Bristol (VES)","Number of VES checks that reported the vehicle as marked for export (0 if never)",FALSE,93352241,21503826,23.04
+"firstUsedDate_DVSA","DATE","DVSA","As supplied by DVSA",FALSE,93352241,16516848,17.69
+"registrationDate_DVSA","DATE","DVSA","As supplied by DVSA",FALSE,93352241,68909,0.07
+"manufactureDate_DVSA","DATE","DVSA","As supplied by DVSA",FALSE,93352241,483058,0.52
+"monthOfFirstRegistration_DVLA","DATE","DVLA (VES)","As returned by the DVLA Vehicle Enquiry Service",FALSE,93352241,21503829,23.04
+"monthOfFirstDvlaRegistration_DVLA","DATE","DVLA (VES)","As returned by the DVLA Vehicle Enquiry Service",FALSE,93352241,92420083,99
+"yearOfManufacture_DVLA","INTEGER","DVLA (VES)","As returned by the DVLA Vehicle Enquiry Service",FALSE,93352241,21695942,23.24
+"dateOfLastV5CIssued_DVLA","DATE","DVLA (VES)","As returned by the DVLA Vehicle Enquiry Service",FALSE,93352241,21505891,23.04
+"artEndDate_DVLA","DATE","DVLA (VES)","As returned by the DVLA Vehicle Enquiry Service",FALSE,93352241,91510849,98.03
+"final_test_date_DVSA","DATE","DVSA","Date of the vehicle's last recorded MOT test, from the supplied final_test_date_DVSA where the delivery has it. Missing for a vehicle that has never been tested; earlier deliveries supplied only lastMotTestDate_DVSA, which DVSA now fill with a future date for untested vehicles",FALSE,93352241,15220461,16.3
+"last_mot_year","INTEGER","pipeline","Last MOT year: the latest year flagged is_end_use; where no year is flagged, the last year with a recorded PCA, provided that is at least two years before the last year of data. Missing for vehicles still in service. Drives the dead status of pca_YYYY",TRUE,93352241,41087808,44.01
+"collectionDate_DVLA","TIMESTAMP","DVLA (VES)","As returned by the DVLA Vehicle Enquiry Service",FALSE,93352241,2743929,2.94
+"is_error","BOOLEAN","DVLA (VES)","TRUE if the last VES lookup for this registration returned an error",FALSE,93352241,2743929,2.94
+"error","VARCHAR","DVLA (VES)","Error message from the last VES lookup",FALSE,93352241,74592344,79.9
+"n_VES_checks_to_linked_DVSA_regs","BIGINT","DVLA (VES)","Number of VES checks linked to this vehicle, errors included: n_VES_checks renamed (ves_4 onwards)",FALSE,93352241,2743929,2.94
+"n_VES_checks_for_DVLA_reg","BIGINT","DVLA (VES)","Number of VES checks against the DVLA registration alone, errors included (ves_4 onwards)",FALSE,93352241,2743929,2.94
+"n_VES_returns","DOUBLE","DVLA (VES)","Number of those queries that returned a record",FALSE,93352241,2743929,2.94
+"first_VES_check","TIMESTAMP","DVLA (VES)","First VES query for this registration",FALSE,93352241,2743929,2.94
+"first_VES_return","TIMESTAMP","DVLA (VES)","First VES query that returned a record",FALSE,93352241,21503826,23.04
+"last_VES_check","TIMESTAMP","DVLA (VES)","Last VES query for this registration",FALSE,93352241,2743929,2.94
+"last_VES_return","TIMESTAMP","DVLA (VES)","Last VES query that returned a record",FALSE,93352241,21503826,23.04
+"plate_ever_changed_VES","BOOLEAN","DVLA (VES)","TRUE if the registration returned a different vehicle between VES checks: the plate moved",FALSE,93352241,2743929,2.94
+"ever_SORN","BOOLEAN","DVLA (VES)","TRUE if VES ever reported the vehicle as SORN",FALSE,93352241,21503826,23.04
+"v5C_issue_date_ever_changed","BOOLEAN","DVLA (VES)","TRUE if the V5C issue date changed between VES checks",FALSE,93352241,2743929,2.94
+"change_in_other_VES_field","BOOLEAN","DVLA (VES)","TRUE if another VES field changed between checks",FALSE,93352241,2743929,2.94
+"ever_export_marked","DOUBLE","DVLA (VES)","Number of VES checks that reported the vehicle as marked for export (0 if never)",FALSE,93352241,21503826,23.04
 "dvla_match","VARCHAR","pipeline","Whether the VES record describes this vehicle: same, different (at least two of make, manufacture year and engine size disagree; its values are not used) or no_dvla",FALSE,93352241,0,0
 "dvla_evidence","INTEGER","pipeline","Number of make / year / engine comparisons between the DVSA and VES records that disagree (0-3)",FALSE,93352241,0,0
 "scope_mileage","BOOLEAN","pipeline","In scope because total mileage > 0",FALSE,93352241,0,0
@@ -118,156 +118,156 @@
 "scope_born","BOOLEAN","pipeline","In scope because birth_date is on or after the scope start date",FALSE,93352241,0,0
 "scope_dvla_activity","BOOLEAN","pipeline","In scope because of DVLA activity (tax due, V5C, MOT expiry or first registration) since the scope start date",FALSE,93352241,0,0
 "total_mileage","INTEGER","pipeline","Sum of annual mileage over all years",TRUE,93352241,0,0
-"mileage_2005","INTEGER","Bristol","Annual mileage in that year (Bristol, already annualised; implausible values removed by Bristol, see legit_mileage_YYYY). Years before the first MOT are Bristol's estimates from the first test's odometer reading, not separate readings",TRUE,93352241,60899506,65.24
-"mileage_2006","INTEGER","Bristol","Annual mileage in that year (Bristol, already annualised; implausible values removed by Bristol, see legit_mileage_YYYY). Years before the first MOT are Bristol's estimates from the first test's odometer reading, not separate readings",TRUE,93352241,60538164,64.85
-"mileage_2007","INTEGER","Bristol","Annual mileage in that year (Bristol, already annualised; implausible values removed by Bristol, see legit_mileage_YYYY). Years before the first MOT are Bristol's estimates from the first test's odometer reading, not separate readings",TRUE,93352241,59898530,64.16
-"mileage_2008","INTEGER","Bristol","Annual mileage in that year (Bristol, already annualised; implausible values removed by Bristol, see legit_mileage_YYYY). Years before the first MOT are Bristol's estimates from the first test's odometer reading, not separate readings",TRUE,93352241,59576335,63.82
-"mileage_2009","INTEGER","Bristol","Annual mileage in that year (Bristol, already annualised; implausible values removed by Bristol, see legit_mileage_YYYY). Years before the first MOT are Bristol's estimates from the first test's odometer reading, not separate readings",TRUE,93352241,59505235,63.74
-"mileage_2010","INTEGER","Bristol","Annual mileage in that year (Bristol, already annualised; implausible values removed by Bristol, see legit_mileage_YYYY). Years before the first MOT are Bristol's estimates from the first test's odometer reading, not separate readings",TRUE,93352241,59247010,63.47
-"mileage_2011","INTEGER","Bristol","Annual mileage in that year (Bristol, already annualised; implausible values removed by Bristol, see legit_mileage_YYYY). Years before the first MOT are Bristol's estimates from the first test's odometer reading, not separate readings",TRUE,93352241,59085562,63.29
-"mileage_2012","INTEGER","Bristol","Annual mileage in that year (Bristol, already annualised; implausible values removed by Bristol, see legit_mileage_YYYY). Years before the first MOT are Bristol's estimates from the first test's odometer reading, not separate readings",TRUE,93352241,58768077,62.95
-"mileage_2013","INTEGER","Bristol","Annual mileage in that year (Bristol, already annualised; implausible values removed by Bristol, see legit_mileage_YYYY). Years before the first MOT are Bristol's estimates from the first test's odometer reading, not separate readings",TRUE,93352241,58142660,62.28
-"mileage_2014","INTEGER","Bristol","Annual mileage in that year (Bristol, already annualised; implausible values removed by Bristol, see legit_mileage_YYYY). Years before the first MOT are Bristol's estimates from the first test's odometer reading, not separate readings",TRUE,93352241,57211513,61.29
-"mileage_2015","INTEGER","Bristol","Annual mileage in that year (Bristol, already annualised; implausible values removed by Bristol, see legit_mileage_YYYY). Years before the first MOT are Bristol's estimates from the first test's odometer reading, not separate readings",TRUE,93352241,56181313,60.18
-"mileage_2016","INTEGER","Bristol","Annual mileage in that year (Bristol, already annualised; implausible values removed by Bristol, see legit_mileage_YYYY). Years before the first MOT are Bristol's estimates from the first test's odometer reading, not separate readings",TRUE,93352241,55387250,59.33
-"mileage_2017","INTEGER","Bristol","Annual mileage in that year (Bristol, already annualised; implausible values removed by Bristol, see legit_mileage_YYYY). Years before the first MOT are Bristol's estimates from the first test's odometer reading, not separate readings",TRUE,93352241,55552039,59.51
-"mileage_2018","INTEGER","Bristol","Annual mileage in that year (Bristol, already annualised; implausible values removed by Bristol, see legit_mileage_YYYY). Years before the first MOT are Bristol's estimates from the first test's odometer reading, not separate readings",TRUE,93352241,55065275,58.99
-"mileage_2019","INTEGER","Bristol","Annual mileage in that year (Bristol, already annualised; implausible values removed by Bristol, see legit_mileage_YYYY). Years before the first MOT are Bristol's estimates from the first test's odometer reading, not separate readings",TRUE,93352241,54694729,58.59
-"mileage_2020","INTEGER","Bristol","Annual mileage in that year (Bristol, already annualised; implausible values removed by Bristol, see legit_mileage_YYYY). Years before the first MOT are Bristol's estimates from the first test's odometer reading, not separate readings",TRUE,93352241,53822619,57.66
-"mileage_2021","INTEGER","Bristol","Annual mileage in that year (Bristol, already annualised; implausible values removed by Bristol, see legit_mileage_YYYY). Years before the first MOT are Bristol's estimates from the first test's odometer reading, not separate readings",TRUE,93352241,53520020,57.33
-"mileage_2022","INTEGER","Bristol","Annual mileage in that year (Bristol, already annualised; implausible values removed by Bristol, see legit_mileage_YYYY). Years before the first MOT are Bristol's estimates from the first test's odometer reading, not separate readings",TRUE,93352241,53415899,57.22
-"mileage_2023","INTEGER","Bristol","Annual mileage in that year (Bristol, already annualised; implausible values removed by Bristol, see legit_mileage_YYYY). Years before the first MOT are Bristol's estimates from the first test's odometer reading, not separate readings",TRUE,93352241,54445589,58.32
-"mileage_2024","INTEGER","Bristol","Annual mileage in that year (Bristol, already annualised; implausible values removed by Bristol, see legit_mileage_YYYY). Years before the first MOT are Bristol's estimates from the first test's odometer reading, not separate readings",TRUE,93352241,56617770,60.65
-"mileage_2025","INTEGER","Bristol","Annual mileage in that year (Bristol, already annualised; implausible values removed by Bristol, see legit_mileage_YYYY). Years before the first MOT are Bristol's estimates from the first test's odometer reading, not separate readings",TRUE,93352241,67548928,72.36
-"legit_mileage_2005","BOOLEAN","Bristol","Bristol flag: annual mileage in that year is plausible",TRUE,93352241,60680786,65
-"legit_mileage_2006","BOOLEAN","Bristol","Bristol flag: annual mileage in that year is plausible",TRUE,93352241,60075848,64.35
-"legit_mileage_2007","BOOLEAN","Bristol","Bristol flag: annual mileage in that year is plausible",TRUE,93352241,59444401,63.68
-"legit_mileage_2008","BOOLEAN","Bristol","Bristol flag: annual mileage in that year is plausible",TRUE,93352241,59150440,63.36
-"legit_mileage_2009","BOOLEAN","Bristol","Bristol flag: annual mileage in that year is plausible",TRUE,93352241,59090091,63.3
-"legit_mileage_2010","BOOLEAN","Bristol","Bristol flag: annual mileage in that year is plausible",TRUE,93352241,58799960,62.99
-"legit_mileage_2011","BOOLEAN","Bristol","Bristol flag: annual mileage in that year is plausible",TRUE,93352241,58611213,62.79
-"legit_mileage_2012","BOOLEAN","Bristol","Bristol flag: annual mileage in that year is plausible",TRUE,93352241,58343968,62.5
-"legit_mileage_2013","BOOLEAN","Bristol","Bristol flag: annual mileage in that year is plausible",TRUE,93352241,57788436,61.9
-"legit_mileage_2014","BOOLEAN","Bristol","Bristol flag: annual mileage in that year is plausible",TRUE,93352241,56868210,60.92
-"legit_mileage_2015","BOOLEAN","Bristol","Bristol flag: annual mileage in that year is plausible",TRUE,93352241,55849767,59.83
-"legit_mileage_2016","BOOLEAN","Bristol","Bristol flag: annual mileage in that year is plausible",TRUE,93352241,55033072,58.95
-"legit_mileage_2017","BOOLEAN","Bristol","Bristol flag: annual mileage in that year is plausible",TRUE,93352241,55223595,59.16
-"legit_mileage_2018","BOOLEAN","Bristol","Bristol flag: annual mileage in that year is plausible",TRUE,93352241,54754636,58.65
-"legit_mileage_2019","BOOLEAN","Bristol","Bristol flag: annual mileage in that year is plausible",TRUE,93352241,54418283,58.29
-"legit_mileage_2020","BOOLEAN","Bristol","Bristol flag: annual mileage in that year is plausible",TRUE,93352241,53523433,57.33
-"legit_mileage_2021","BOOLEAN","Bristol","Bristol flag: annual mileage in that year is plausible",TRUE,93352241,53271943,57.07
-"legit_mileage_2022","BOOLEAN","Bristol","Bristol flag: annual mileage in that year is plausible",TRUE,93352241,53182841,56.97
-"legit_mileage_2023","BOOLEAN","Bristol","Bristol flag: annual mileage in that year is plausible",TRUE,93352241,54226875,58.09
-"legit_mileage_2024","BOOLEAN","Bristol","Bristol flag: annual mileage in that year is plausible",TRUE,93352241,56411959,60.43
-"legit_mileage_2025","BOOLEAN","Bristol","Bristol flag: annual mileage in that year is plausible",TRUE,93352241,67409252,72.21
-"pca_2005","VARCHAR","Bristol + pipeline","Postcode area in that year (Northern Ireland is BT), or unborn / dead / unknown where Bristol supplied none. Bristol attributes a PCA to years before the first MOT (from the first test) and up to two years after the last one, so a real PCA does not mean the vehicle was tested that year",TRUE,93352241,0,0
-"pca_2006","VARCHAR","Bristol + pipeline","Postcode area in that year (Northern Ireland is BT), or unborn / dead / unknown where Bristol supplied none. Bristol attributes a PCA to years before the first MOT (from the first test) and up to two years after the last one, so a real PCA does not mean the vehicle was tested that year",TRUE,93352241,0,0
-"pca_2007","VARCHAR","Bristol + pipeline","Postcode area in that year (Northern Ireland is BT), or unborn / dead / unknown where Bristol supplied none. Bristol attributes a PCA to years before the first MOT (from the first test) and up to two years after the last one, so a real PCA does not mean the vehicle was tested that year",TRUE,93352241,0,0
-"pca_2008","VARCHAR","Bristol + pipeline","Postcode area in that year (Northern Ireland is BT), or unborn / dead / unknown where Bristol supplied none. Bristol attributes a PCA to years before the first MOT (from the first test) and up to two years after the last one, so a real PCA does not mean the vehicle was tested that year",TRUE,93352241,0,0
-"pca_2009","VARCHAR","Bristol + pipeline","Postcode area in that year (Northern Ireland is BT), or unborn / dead / unknown where Bristol supplied none. Bristol attributes a PCA to years before the first MOT (from the first test) and up to two years after the last one, so a real PCA does not mean the vehicle was tested that year",TRUE,93352241,0,0
-"pca_2010","VARCHAR","Bristol + pipeline","Postcode area in that year (Northern Ireland is BT), or unborn / dead / unknown where Bristol supplied none. Bristol attributes a PCA to years before the first MOT (from the first test) and up to two years after the last one, so a real PCA does not mean the vehicle was tested that year",TRUE,93352241,0,0
-"pca_2011","VARCHAR","Bristol + pipeline","Postcode area in that year (Northern Ireland is BT), or unborn / dead / unknown where Bristol supplied none. Bristol attributes a PCA to years before the first MOT (from the first test) and up to two years after the last one, so a real PCA does not mean the vehicle was tested that year",TRUE,93352241,0,0
-"pca_2012","VARCHAR","Bristol + pipeline","Postcode area in that year (Northern Ireland is BT), or unborn / dead / unknown where Bristol supplied none. Bristol attributes a PCA to years before the first MOT (from the first test) and up to two years after the last one, so a real PCA does not mean the vehicle was tested that year",TRUE,93352241,0,0
-"pca_2013","VARCHAR","Bristol + pipeline","Postcode area in that year (Northern Ireland is BT), or unborn / dead / unknown where Bristol supplied none. Bristol attributes a PCA to years before the first MOT (from the first test) and up to two years after the last one, so a real PCA does not mean the vehicle was tested that year",TRUE,93352241,0,0
-"pca_2014","VARCHAR","Bristol + pipeline","Postcode area in that year (Northern Ireland is BT), or unborn / dead / unknown where Bristol supplied none. Bristol attributes a PCA to years before the first MOT (from the first test) and up to two years after the last one, so a real PCA does not mean the vehicle was tested that year",TRUE,93352241,0,0
-"pca_2015","VARCHAR","Bristol + pipeline","Postcode area in that year (Northern Ireland is BT), or unborn / dead / unknown where Bristol supplied none. Bristol attributes a PCA to years before the first MOT (from the first test) and up to two years after the last one, so a real PCA does not mean the vehicle was tested that year",TRUE,93352241,0,0
-"pca_2016","VARCHAR","Bristol + pipeline","Postcode area in that year (Northern Ireland is BT), or unborn / dead / unknown where Bristol supplied none. Bristol attributes a PCA to years before the first MOT (from the first test) and up to two years after the last one, so a real PCA does not mean the vehicle was tested that year",TRUE,93352241,0,0
-"pca_2017","VARCHAR","Bristol + pipeline","Postcode area in that year (Northern Ireland is BT), or unborn / dead / unknown where Bristol supplied none. Bristol attributes a PCA to years before the first MOT (from the first test) and up to two years after the last one, so a real PCA does not mean the vehicle was tested that year",TRUE,93352241,0,0
-"pca_2018","VARCHAR","Bristol + pipeline","Postcode area in that year (Northern Ireland is BT), or unborn / dead / unknown where Bristol supplied none. Bristol attributes a PCA to years before the first MOT (from the first test) and up to two years after the last one, so a real PCA does not mean the vehicle was tested that year",TRUE,93352241,0,0
-"pca_2019","VARCHAR","Bristol + pipeline","Postcode area in that year (Northern Ireland is BT), or unborn / dead / unknown where Bristol supplied none. Bristol attributes a PCA to years before the first MOT (from the first test) and up to two years after the last one, so a real PCA does not mean the vehicle was tested that year",TRUE,93352241,0,0
-"pca_2020","VARCHAR","Bristol + pipeline","Postcode area in that year (Northern Ireland is BT), or unborn / dead / unknown where Bristol supplied none. Bristol attributes a PCA to years before the first MOT (from the first test) and up to two years after the last one, so a real PCA does not mean the vehicle was tested that year",TRUE,93352241,0,0
-"pca_2021","VARCHAR","Bristol + pipeline","Postcode area in that year (Northern Ireland is BT), or unborn / dead / unknown where Bristol supplied none. Bristol attributes a PCA to years before the first MOT (from the first test) and up to two years after the last one, so a real PCA does not mean the vehicle was tested that year",TRUE,93352241,0,0
-"pca_2022","VARCHAR","Bristol + pipeline","Postcode area in that year (Northern Ireland is BT), or unborn / dead / unknown where Bristol supplied none. Bristol attributes a PCA to years before the first MOT (from the first test) and up to two years after the last one, so a real PCA does not mean the vehicle was tested that year",TRUE,93352241,0,0
-"pca_2023","VARCHAR","Bristol + pipeline","Postcode area in that year (Northern Ireland is BT), or unborn / dead / unknown where Bristol supplied none. Bristol attributes a PCA to years before the first MOT (from the first test) and up to two years after the last one, so a real PCA does not mean the vehicle was tested that year",TRUE,93352241,0,0
-"pca_2024","VARCHAR","Bristol + pipeline","Postcode area in that year (Northern Ireland is BT), or unborn / dead / unknown where Bristol supplied none. Bristol attributes a PCA to years before the first MOT (from the first test) and up to two years after the last one, so a real PCA does not mean the vehicle was tested that year",TRUE,93352241,0,0
-"pca_2025","VARCHAR","Bristol + pipeline","Postcode area in that year (Northern Ireland is BT), or unborn / dead / unknown where Bristol supplied none. Bristol attributes a PCA to years before the first MOT (from the first test) and up to two years after the last one, so a real PCA does not mean the vehicle was tested that year",TRUE,93352241,0,0
-"first_test_date_DVSA","DATE","Bristol (DVSA)","Date of the vehicle's first MOT test, as supplied",FALSE,93352241,15220461,16.3
-"first_test_year_DVSA","BIGINT","Bristol (DVSA)","Year of the vehicle's first MOT test, as supplied",FALSE,93352241,15220461,16.3
-"final_test_year_DVSA","BIGINT","Bristol (DVSA)","Year of the vehicle's final MOT test, as supplied",FALSE,93352241,15220461,16.3
-"registration_at_first_test","VARCHAR","Bristol","Registration the vehicle carried at its first MOT test, as supplied (differs from registration_DVSA after a plate change)",FALSE,93352241,0,0
-"lastMotTestDate_DVSA","DATE","Bristol (DVSA)","Date of the last MOT test as supplied. DVSA fill a future date for vehicles never tested; use final_test_date_DVSA",FALSE,93352241,5865932,6.28
-"is_new_vehicle_2005","BOOLEAN","Bristol","Bristol's new-vehicle status flag for that year, as supplied. Not used by the pipeline",FALSE,93352241,59467694,63.7
-"is_new_vehicle_2006","BOOLEAN","Bristol","Bristol's new-vehicle status flag for that year, as supplied. Not used by the pipeline",FALSE,93352241,56504950,60.53
-"is_new_vehicle_2007","BOOLEAN","Bristol","Bristol's new-vehicle status flag for that year, as supplied. Not used by the pipeline",FALSE,93352241,53554119,57.37
-"is_new_vehicle_2008","BOOLEAN","Bristol","Bristol's new-vehicle status flag for that year, as supplied. Not used by the pipeline",FALSE,93352241,51459481,55.12
-"is_new_vehicle_2009","BOOLEAN","Bristol","Bristol's new-vehicle status flag for that year, as supplied. Not used by the pipeline",FALSE,93352241,51344324,55
-"is_new_vehicle_2010","BOOLEAN","Bristol","Bristol's new-vehicle status flag for that year, as supplied. Not used by the pipeline",FALSE,93352241,51257902,54.91
-"is_new_vehicle_2011","BOOLEAN","Bristol","Bristol's new-vehicle status flag for that year, as supplied. Not used by the pipeline",FALSE,93352241,51229044,54.88
-"is_new_vehicle_2012","BOOLEAN","Bristol","Bristol's new-vehicle status flag for that year, as supplied. Not used by the pipeline",FALSE,93352241,51084941,54.72
-"is_new_vehicle_2013","BOOLEAN","Bristol","Bristol's new-vehicle status flag for that year, as supplied. Not used by the pipeline",FALSE,93352241,50552047,54.15
-"is_new_vehicle_2014","BOOLEAN","Bristol","Bristol's new-vehicle status flag for that year, as supplied. Not used by the pipeline",FALSE,93352241,49772508,53.32
-"is_new_vehicle_2015","BOOLEAN","Bristol","Bristol's new-vehicle status flag for that year, as supplied. Not used by the pipeline",FALSE,93352241,48700336,52.17
-"is_new_vehicle_2016","BOOLEAN","Bristol","Bristol's new-vehicle status flag for that year, as supplied. Not used by the pipeline",FALSE,93352241,47501653,50.88
-"is_new_vehicle_2017","BOOLEAN","Bristol","Bristol's new-vehicle status flag for that year, as supplied. Not used by the pipeline",FALSE,93352241,46431941,49.74
-"is_new_vehicle_2018","BOOLEAN","Bristol","Bristol's new-vehicle status flag for that year, as supplied. Not used by the pipeline",FALSE,93352241,45681383,48.93
-"is_new_vehicle_2019","BOOLEAN","Bristol","Bristol's new-vehicle status flag for that year, as supplied. Not used by the pipeline",FALSE,93352241,45235162,48.46
-"is_new_vehicle_2020","BOOLEAN","Bristol","Bristol's new-vehicle status flag for that year, as supplied. Not used by the pipeline",FALSE,93352241,45790153,49.05
-"is_new_vehicle_2021","BOOLEAN","Bristol","Bristol's new-vehicle status flag for that year, as supplied. Not used by the pipeline",FALSE,93352241,46120265,49.4
-"is_new_vehicle_2022","BOOLEAN","Bristol","Bristol's new-vehicle status flag for that year, as supplied. Not used by the pipeline",FALSE,93352241,46621003,49.94
-"is_new_vehicle_2023","BOOLEAN","Bristol","Bristol's new-vehicle status flag for that year, as supplied. Not used by the pipeline",FALSE,93352241,46193829,49.48
-"is_new_vehicle_2024","BOOLEAN","Bristol","Bristol's new-vehicle status flag for that year, as supplied. Not used by the pipeline",FALSE,93352241,45717191,48.97
-"is_new_vehicle_2025","BOOLEAN","Bristol","Bristol's new-vehicle status flag for that year, as supplied. Not used by the pipeline",FALSE,93352241,47700145,51.1
-"is_intertest_2005","BOOLEAN","Bristol","Bristol's inter-test status flag for that year, as supplied. Not used by the pipeline",FALSE,93352241,59401956,63.63
-"is_intertest_2006","BOOLEAN","Bristol","Bristol's inter-test status flag for that year, as supplied. Not used by the pipeline",FALSE,93352241,56439303,60.46
-"is_intertest_2007","BOOLEAN","Bristol","Bristol's inter-test status flag for that year, as supplied. Not used by the pipeline",FALSE,93352241,53488472,57.3
-"is_intertest_2008","BOOLEAN","Bristol","Bristol's inter-test status flag for that year, as supplied. Not used by the pipeline",FALSE,93352241,51393834,55.05
-"is_intertest_2009","BOOLEAN","Bristol","Bristol's inter-test status flag for that year, as supplied. Not used by the pipeline",FALSE,93352241,51278677,54.93
-"is_intertest_2010","BOOLEAN","Bristol","Bristol's inter-test status flag for that year, as supplied. Not used by the pipeline",FALSE,93352241,51192255,54.84
-"is_intertest_2011","BOOLEAN","Bristol","Bristol's inter-test status flag for that year, as supplied. Not used by the pipeline",FALSE,93352241,51163397,54.81
-"is_intertest_2012","BOOLEAN","Bristol","Bristol's inter-test status flag for that year, as supplied. Not used by the pipeline",FALSE,93352241,51019294,54.65
-"is_intertest_2013","BOOLEAN","Bristol","Bristol's inter-test status flag for that year, as supplied. Not used by the pipeline",FALSE,93352241,50486400,54.08
-"is_intertest_2014","BOOLEAN","Bristol","Bristol's inter-test status flag for that year, as supplied. Not used by the pipeline",FALSE,93352241,49706861,53.25
-"is_intertest_2015","BOOLEAN","Bristol","Bristol's inter-test status flag for that year, as supplied. Not used by the pipeline",FALSE,93352241,48634710,52.1
-"is_intertest_2016","BOOLEAN","Bristol","Bristol's inter-test status flag for that year, as supplied. Not used by the pipeline",FALSE,93352241,47436027,50.81
-"is_intertest_2017","BOOLEAN","Bristol","Bristol's inter-test status flag for that year, as supplied. Not used by the pipeline",FALSE,93352241,46392529,49.7
-"is_intertest_2018","BOOLEAN","Bristol","Bristol's inter-test status flag for that year, as supplied. Not used by the pipeline",FALSE,93352241,45672441,48.92
-"is_intertest_2019","BOOLEAN","Bristol","Bristol's inter-test status flag for that year, as supplied. Not used by the pipeline",FALSE,93352241,45230103,48.45
-"is_intertest_2020","BOOLEAN","Bristol","Bristol's inter-test status flag for that year, as supplied. Not used by the pipeline",FALSE,93352241,45786911,49.05
-"is_intertest_2021","BOOLEAN","Bristol","Bristol's inter-test status flag for that year, as supplied. Not used by the pipeline",FALSE,93352241,46118911,49.4
-"is_intertest_2022","BOOLEAN","Bristol","Bristol's inter-test status flag for that year, as supplied. Not used by the pipeline",FALSE,93352241,46619777,49.94
-"is_intertest_2023","BOOLEAN","Bristol","Bristol's inter-test status flag for that year, as supplied. Not used by the pipeline",FALSE,93352241,46192689,49.48
-"is_intertest_2024","BOOLEAN","Bristol","Bristol's inter-test status flag for that year, as supplied. Not used by the pipeline",FALSE,93352241,45716139,48.97
-"is_intertest_2025","BOOLEAN","Bristol","Bristol's inter-test status flag for that year, as supplied. Not used by the pipeline",FALSE,93352241,47699224,51.1
-"is_end_use_2005","BOOLEAN","Bristol","Bristol flag for that year: the year of the vehicle's final MOT test, set only where testing has stopped. Drives last_mot_year",FALSE,93352241,59401956,63.63
-"is_end_use_2006","BOOLEAN","Bristol","Bristol flag for that year: the year of the vehicle's final MOT test, set only where testing has stopped. Drives last_mot_year",FALSE,93352241,56439303,60.46
-"is_end_use_2007","BOOLEAN","Bristol","Bristol flag for that year: the year of the vehicle's final MOT test, set only where testing has stopped. Drives last_mot_year",FALSE,93352241,53488472,57.3
-"is_end_use_2008","BOOLEAN","Bristol","Bristol flag for that year: the year of the vehicle's final MOT test, set only where testing has stopped. Drives last_mot_year",FALSE,93352241,51393834,55.05
-"is_end_use_2009","BOOLEAN","Bristol","Bristol flag for that year: the year of the vehicle's final MOT test, set only where testing has stopped. Drives last_mot_year",FALSE,93352241,51278677,54.93
-"is_end_use_2010","BOOLEAN","Bristol","Bristol flag for that year: the year of the vehicle's final MOT test, set only where testing has stopped. Drives last_mot_year",FALSE,93352241,51192255,54.84
-"is_end_use_2011","BOOLEAN","Bristol","Bristol flag for that year: the year of the vehicle's final MOT test, set only where testing has stopped. Drives last_mot_year",FALSE,93352241,51163397,54.81
-"is_end_use_2012","BOOLEAN","Bristol","Bristol flag for that year: the year of the vehicle's final MOT test, set only where testing has stopped. Drives last_mot_year",FALSE,93352241,51019294,54.65
-"is_end_use_2013","BOOLEAN","Bristol","Bristol flag for that year: the year of the vehicle's final MOT test, set only where testing has stopped. Drives last_mot_year",FALSE,93352241,50486400,54.08
-"is_end_use_2014","BOOLEAN","Bristol","Bristol flag for that year: the year of the vehicle's final MOT test, set only where testing has stopped. Drives last_mot_year",FALSE,93352241,49706861,53.25
-"is_end_use_2015","BOOLEAN","Bristol","Bristol flag for that year: the year of the vehicle's final MOT test, set only where testing has stopped. Drives last_mot_year",FALSE,93352241,48634710,52.1
-"is_end_use_2016","BOOLEAN","Bristol","Bristol flag for that year: the year of the vehicle's final MOT test, set only where testing has stopped. Drives last_mot_year",FALSE,93352241,47436027,50.81
-"is_end_use_2017","BOOLEAN","Bristol","Bristol flag for that year: the year of the vehicle's final MOT test, set only where testing has stopped. Drives last_mot_year",FALSE,93352241,46392529,49.7
-"is_end_use_2018","BOOLEAN","Bristol","Bristol flag for that year: the year of the vehicle's final MOT test, set only where testing has stopped. Drives last_mot_year",FALSE,93352241,45672441,48.92
-"is_end_use_2019","BOOLEAN","Bristol","Bristol flag for that year: the year of the vehicle's final MOT test, set only where testing has stopped. Drives last_mot_year",FALSE,93352241,45230103,48.45
-"is_end_use_2020","BOOLEAN","Bristol","Bristol flag for that year: the year of the vehicle's final MOT test, set only where testing has stopped. Drives last_mot_year",FALSE,93352241,45786911,49.05
-"is_end_use_2021","BOOLEAN","Bristol","Bristol flag for that year: the year of the vehicle's final MOT test, set only where testing has stopped. Drives last_mot_year",FALSE,93352241,46118911,49.4
-"is_end_use_2022","BOOLEAN","Bristol","Bristol flag for that year: the year of the vehicle's final MOT test, set only where testing has stopped. Drives last_mot_year",FALSE,93352241,46619777,49.94
-"is_end_use_2023","BOOLEAN","Bristol","Bristol flag for that year: the year of the vehicle's final MOT test, set only where testing has stopped. Drives last_mot_year",FALSE,93352241,46192689,49.48
-"is_end_use_2024","BOOLEAN","Bristol","Bristol flag for that year: the year of the vehicle's final MOT test, set only where testing has stopped. Drives last_mot_year",FALSE,93352241,45716139,48.97
-"is_end_use_2025","BOOLEAN","Bristol","Bristol flag for that year: the year of the vehicle's final MOT test, set only where testing has stopped. Drives last_mot_year",FALSE,93352241,47699224,51.1
-"odometer_est_2005","INTEGER","Bristol","Bristol's estimated odometer reading in that year. Not used by the pipeline: some exceed 1,000,000 miles and some fall from one year to the next",FALSE,93352241,60899506,65.24
-"odometer_est_2006","INTEGER","Bristol","Bristol's estimated odometer reading in that year. Not used by the pipeline: some exceed 1,000,000 miles and some fall from one year to the next",FALSE,93352241,60616947,64.93
-"odometer_est_2007","INTEGER","Bristol","Bristol's estimated odometer reading in that year. Not used by the pipeline: some exceed 1,000,000 miles and some fall from one year to the next",FALSE,93352241,59989880,64.26
-"odometer_est_2008","INTEGER","Bristol","Bristol's estimated odometer reading in that year. Not used by the pipeline: some exceed 1,000,000 miles and some fall from one year to the next",FALSE,93352241,59677875,63.93
-"odometer_est_2009","INTEGER","Bristol","Bristol's estimated odometer reading in that year. Not used by the pipeline: some exceed 1,000,000 miles and some fall from one year to the next",FALSE,93352241,59605925,63.85
-"odometer_est_2010","INTEGER","Bristol","Bristol's estimated odometer reading in that year. Not used by the pipeline: some exceed 1,000,000 miles and some fall from one year to the next",FALSE,93352241,59340511,63.57
-"odometer_est_2011","INTEGER","Bristol","Bristol's estimated odometer reading in that year. Not used by the pipeline: some exceed 1,000,000 miles and some fall from one year to the next",FALSE,93352241,59182548,63.4
-"odometer_est_2012","INTEGER","Bristol","Bristol's estimated odometer reading in that year. Not used by the pipeline: some exceed 1,000,000 miles and some fall from one year to the next",FALSE,93352241,58864588,63.06
-"odometer_est_2013","INTEGER","Bristol","Bristol's estimated odometer reading in that year. Not used by the pipeline: some exceed 1,000,000 miles and some fall from one year to the next",FALSE,93352241,58237543,62.38
-"odometer_est_2014","INTEGER","Bristol","Bristol's estimated odometer reading in that year. Not used by the pipeline: some exceed 1,000,000 miles and some fall from one year to the next",FALSE,93352241,57304560,61.39
-"odometer_est_2015","INTEGER","Bristol","Bristol's estimated odometer reading in that year. Not used by the pipeline: some exceed 1,000,000 miles and some fall from one year to the next",FALSE,93352241,56247114,60.25
-"odometer_est_2016","INTEGER","Bristol","Bristol's estimated odometer reading in that year. Not used by the pipeline: some exceed 1,000,000 miles and some fall from one year to the next",FALSE,93352241,55391580,59.34
-"odometer_est_2017","INTEGER","Bristol","Bristol's estimated odometer reading in that year. Not used by the pipeline: some exceed 1,000,000 miles and some fall from one year to the next",FALSE,93352241,55556602,59.51
-"odometer_est_2018","INTEGER","Bristol","Bristol's estimated odometer reading in that year. Not used by the pipeline: some exceed 1,000,000 miles and some fall from one year to the next",FALSE,93352241,55072266,58.99
-"odometer_est_2019","INTEGER","Bristol","Bristol's estimated odometer reading in that year. Not used by the pipeline: some exceed 1,000,000 miles and some fall from one year to the next",FALSE,93352241,54701902,58.6
-"odometer_est_2020","INTEGER","Bristol","Bristol's estimated odometer reading in that year. Not used by the pipeline: some exceed 1,000,000 miles and some fall from one year to the next",FALSE,93352241,53826333,57.66
-"odometer_est_2021","INTEGER","Bristol","Bristol's estimated odometer reading in that year. Not used by the pipeline: some exceed 1,000,000 miles and some fall from one year to the next",FALSE,93352241,53525156,57.34
-"odometer_est_2022","INTEGER","Bristol","Bristol's estimated odometer reading in that year. Not used by the pipeline: some exceed 1,000,000 miles and some fall from one year to the next",FALSE,93352241,53420912,57.23
-"odometer_est_2023","INTEGER","Bristol","Bristol's estimated odometer reading in that year. Not used by the pipeline: some exceed 1,000,000 miles and some fall from one year to the next",FALSE,93352241,54451030,58.33
-"odometer_est_2024","INTEGER","Bristol","Bristol's estimated odometer reading in that year. Not used by the pipeline: some exceed 1,000,000 miles and some fall from one year to the next",FALSE,93352241,56623800,60.66
-"odometer_est_2025","INTEGER","Bristol","Bristol's estimated odometer reading in that year. Not used by the pipeline: some exceed 1,000,000 miles and some fall from one year to the next",FALSE,93352241,67557098,72.37
-"n_DVLA_makes","BIGINT","Bristol (VES)","Number of different makes the VES lookups for this registration returned, as supplied (missing where no VES record was attempted)",FALSE,93352241,2743929,2.94
+"mileage_2005","INTEGER","DVSA (annualised)","Annual mileage in that year (annualised from the MOT odometer readings; implausible values removed, see legit_mileage_YYYY). Years before the first MOT are estimates from the first test's odometer reading, not separate readings",TRUE,93352241,60899506,65.24
+"mileage_2006","INTEGER","DVSA (annualised)","Annual mileage in that year (annualised from the MOT odometer readings; implausible values removed, see legit_mileage_YYYY). Years before the first MOT are estimates from the first test's odometer reading, not separate readings",TRUE,93352241,60538164,64.85
+"mileage_2007","INTEGER","DVSA (annualised)","Annual mileage in that year (annualised from the MOT odometer readings; implausible values removed, see legit_mileage_YYYY). Years before the first MOT are estimates from the first test's odometer reading, not separate readings",TRUE,93352241,59898530,64.16
+"mileage_2008","INTEGER","DVSA (annualised)","Annual mileage in that year (annualised from the MOT odometer readings; implausible values removed, see legit_mileage_YYYY). Years before the first MOT are estimates from the first test's odometer reading, not separate readings",TRUE,93352241,59576335,63.82
+"mileage_2009","INTEGER","DVSA (annualised)","Annual mileage in that year (annualised from the MOT odometer readings; implausible values removed, see legit_mileage_YYYY). Years before the first MOT are estimates from the first test's odometer reading, not separate readings",TRUE,93352241,59505235,63.74
+"mileage_2010","INTEGER","DVSA (annualised)","Annual mileage in that year (annualised from the MOT odometer readings; implausible values removed, see legit_mileage_YYYY). Years before the first MOT are estimates from the first test's odometer reading, not separate readings",TRUE,93352241,59247010,63.47
+"mileage_2011","INTEGER","DVSA (annualised)","Annual mileage in that year (annualised from the MOT odometer readings; implausible values removed, see legit_mileage_YYYY). Years before the first MOT are estimates from the first test's odometer reading, not separate readings",TRUE,93352241,59085562,63.29
+"mileage_2012","INTEGER","DVSA (annualised)","Annual mileage in that year (annualised from the MOT odometer readings; implausible values removed, see legit_mileage_YYYY). Years before the first MOT are estimates from the first test's odometer reading, not separate readings",TRUE,93352241,58768077,62.95
+"mileage_2013","INTEGER","DVSA (annualised)","Annual mileage in that year (annualised from the MOT odometer readings; implausible values removed, see legit_mileage_YYYY). Years before the first MOT are estimates from the first test's odometer reading, not separate readings",TRUE,93352241,58142660,62.28
+"mileage_2014","INTEGER","DVSA (annualised)","Annual mileage in that year (annualised from the MOT odometer readings; implausible values removed, see legit_mileage_YYYY). Years before the first MOT are estimates from the first test's odometer reading, not separate readings",TRUE,93352241,57211513,61.29
+"mileage_2015","INTEGER","DVSA (annualised)","Annual mileage in that year (annualised from the MOT odometer readings; implausible values removed, see legit_mileage_YYYY). Years before the first MOT are estimates from the first test's odometer reading, not separate readings",TRUE,93352241,56181313,60.18
+"mileage_2016","INTEGER","DVSA (annualised)","Annual mileage in that year (annualised from the MOT odometer readings; implausible values removed, see legit_mileage_YYYY). Years before the first MOT are estimates from the first test's odometer reading, not separate readings",TRUE,93352241,55387250,59.33
+"mileage_2017","INTEGER","DVSA (annualised)","Annual mileage in that year (annualised from the MOT odometer readings; implausible values removed, see legit_mileage_YYYY). Years before the first MOT are estimates from the first test's odometer reading, not separate readings",TRUE,93352241,55552039,59.51
+"mileage_2018","INTEGER","DVSA (annualised)","Annual mileage in that year (annualised from the MOT odometer readings; implausible values removed, see legit_mileage_YYYY). Years before the first MOT are estimates from the first test's odometer reading, not separate readings",TRUE,93352241,55065275,58.99
+"mileage_2019","INTEGER","DVSA (annualised)","Annual mileage in that year (annualised from the MOT odometer readings; implausible values removed, see legit_mileage_YYYY). Years before the first MOT are estimates from the first test's odometer reading, not separate readings",TRUE,93352241,54694729,58.59
+"mileage_2020","INTEGER","DVSA (annualised)","Annual mileage in that year (annualised from the MOT odometer readings; implausible values removed, see legit_mileage_YYYY). Years before the first MOT are estimates from the first test's odometer reading, not separate readings",TRUE,93352241,53822619,57.66
+"mileage_2021","INTEGER","DVSA (annualised)","Annual mileage in that year (annualised from the MOT odometer readings; implausible values removed, see legit_mileage_YYYY). Years before the first MOT are estimates from the first test's odometer reading, not separate readings",TRUE,93352241,53520020,57.33
+"mileage_2022","INTEGER","DVSA (annualised)","Annual mileage in that year (annualised from the MOT odometer readings; implausible values removed, see legit_mileage_YYYY). Years before the first MOT are estimates from the first test's odometer reading, not separate readings",TRUE,93352241,53415899,57.22
+"mileage_2023","INTEGER","DVSA (annualised)","Annual mileage in that year (annualised from the MOT odometer readings; implausible values removed, see legit_mileage_YYYY). Years before the first MOT are estimates from the first test's odometer reading, not separate readings",TRUE,93352241,54445589,58.32
+"mileage_2024","INTEGER","DVSA (annualised)","Annual mileage in that year (annualised from the MOT odometer readings; implausible values removed, see legit_mileage_YYYY). Years before the first MOT are estimates from the first test's odometer reading, not separate readings",TRUE,93352241,56617770,60.65
+"mileage_2025","INTEGER","DVSA (annualised)","Annual mileage in that year (annualised from the MOT odometer readings; implausible values removed, see legit_mileage_YYYY). Years before the first MOT are estimates from the first test's odometer reading, not separate readings",TRUE,93352241,67548928,72.36
+"legit_mileage_2005","BOOLEAN","DVSA (annualised)","Flag: annual mileage in that year is plausible",TRUE,93352241,60680786,65
+"legit_mileage_2006","BOOLEAN","DVSA (annualised)","Flag: annual mileage in that year is plausible",TRUE,93352241,60075848,64.35
+"legit_mileage_2007","BOOLEAN","DVSA (annualised)","Flag: annual mileage in that year is plausible",TRUE,93352241,59444401,63.68
+"legit_mileage_2008","BOOLEAN","DVSA (annualised)","Flag: annual mileage in that year is plausible",TRUE,93352241,59150440,63.36
+"legit_mileage_2009","BOOLEAN","DVSA (annualised)","Flag: annual mileage in that year is plausible",TRUE,93352241,59090091,63.3
+"legit_mileage_2010","BOOLEAN","DVSA (annualised)","Flag: annual mileage in that year is plausible",TRUE,93352241,58799960,62.99
+"legit_mileage_2011","BOOLEAN","DVSA (annualised)","Flag: annual mileage in that year is plausible",TRUE,93352241,58611213,62.79
+"legit_mileage_2012","BOOLEAN","DVSA (annualised)","Flag: annual mileage in that year is plausible",TRUE,93352241,58343968,62.5
+"legit_mileage_2013","BOOLEAN","DVSA (annualised)","Flag: annual mileage in that year is plausible",TRUE,93352241,57788436,61.9
+"legit_mileage_2014","BOOLEAN","DVSA (annualised)","Flag: annual mileage in that year is plausible",TRUE,93352241,56868210,60.92
+"legit_mileage_2015","BOOLEAN","DVSA (annualised)","Flag: annual mileage in that year is plausible",TRUE,93352241,55849767,59.83
+"legit_mileage_2016","BOOLEAN","DVSA (annualised)","Flag: annual mileage in that year is plausible",TRUE,93352241,55033072,58.95
+"legit_mileage_2017","BOOLEAN","DVSA (annualised)","Flag: annual mileage in that year is plausible",TRUE,93352241,55223595,59.16
+"legit_mileage_2018","BOOLEAN","DVSA (annualised)","Flag: annual mileage in that year is plausible",TRUE,93352241,54754636,58.65
+"legit_mileage_2019","BOOLEAN","DVSA (annualised)","Flag: annual mileage in that year is plausible",TRUE,93352241,54418283,58.29
+"legit_mileage_2020","BOOLEAN","DVSA (annualised)","Flag: annual mileage in that year is plausible",TRUE,93352241,53523433,57.33
+"legit_mileage_2021","BOOLEAN","DVSA (annualised)","Flag: annual mileage in that year is plausible",TRUE,93352241,53271943,57.07
+"legit_mileage_2022","BOOLEAN","DVSA (annualised)","Flag: annual mileage in that year is plausible",TRUE,93352241,53182841,56.97
+"legit_mileage_2023","BOOLEAN","DVSA (annualised)","Flag: annual mileage in that year is plausible",TRUE,93352241,54226875,58.09
+"legit_mileage_2024","BOOLEAN","DVSA (annualised)","Flag: annual mileage in that year is plausible",TRUE,93352241,56411959,60.43
+"legit_mileage_2025","BOOLEAN","DVSA (annualised)","Flag: annual mileage in that year is plausible",TRUE,93352241,67409252,72.21
+"pca_2005","VARCHAR","DVSA (annualised) + pipeline","Postcode area in that year (Northern Ireland is BT), or unborn / dead / unknown where the annualisation gives none. The annualisation attributes a PCA to years before the first MOT (from the first test) and up to two years after the last one, so a real PCA does not mean the vehicle was tested that year",TRUE,93352241,0,0
+"pca_2006","VARCHAR","DVSA (annualised) + pipeline","Postcode area in that year (Northern Ireland is BT), or unborn / dead / unknown where the annualisation gives none. The annualisation attributes a PCA to years before the first MOT (from the first test) and up to two years after the last one, so a real PCA does not mean the vehicle was tested that year",TRUE,93352241,0,0
+"pca_2007","VARCHAR","DVSA (annualised) + pipeline","Postcode area in that year (Northern Ireland is BT), or unborn / dead / unknown where the annualisation gives none. The annualisation attributes a PCA to years before the first MOT (from the first test) and up to two years after the last one, so a real PCA does not mean the vehicle was tested that year",TRUE,93352241,0,0
+"pca_2008","VARCHAR","DVSA (annualised) + pipeline","Postcode area in that year (Northern Ireland is BT), or unborn / dead / unknown where the annualisation gives none. The annualisation attributes a PCA to years before the first MOT (from the first test) and up to two years after the last one, so a real PCA does not mean the vehicle was tested that year",TRUE,93352241,0,0
+"pca_2009","VARCHAR","DVSA (annualised) + pipeline","Postcode area in that year (Northern Ireland is BT), or unborn / dead / unknown where the annualisation gives none. The annualisation attributes a PCA to years before the first MOT (from the first test) and up to two years after the last one, so a real PCA does not mean the vehicle was tested that year",TRUE,93352241,0,0
+"pca_2010","VARCHAR","DVSA (annualised) + pipeline","Postcode area in that year (Northern Ireland is BT), or unborn / dead / unknown where the annualisation gives none. The annualisation attributes a PCA to years before the first MOT (from the first test) and up to two years after the last one, so a real PCA does not mean the vehicle was tested that year",TRUE,93352241,0,0
+"pca_2011","VARCHAR","DVSA (annualised) + pipeline","Postcode area in that year (Northern Ireland is BT), or unborn / dead / unknown where the annualisation gives none. The annualisation attributes a PCA to years before the first MOT (from the first test) and up to two years after the last one, so a real PCA does not mean the vehicle was tested that year",TRUE,93352241,0,0
+"pca_2012","VARCHAR","DVSA (annualised) + pipeline","Postcode area in that year (Northern Ireland is BT), or unborn / dead / unknown where the annualisation gives none. The annualisation attributes a PCA to years before the first MOT (from the first test) and up to two years after the last one, so a real PCA does not mean the vehicle was tested that year",TRUE,93352241,0,0
+"pca_2013","VARCHAR","DVSA (annualised) + pipeline","Postcode area in that year (Northern Ireland is BT), or unborn / dead / unknown where the annualisation gives none. The annualisation attributes a PCA to years before the first MOT (from the first test) and up to two years after the last one, so a real PCA does not mean the vehicle was tested that year",TRUE,93352241,0,0
+"pca_2014","VARCHAR","DVSA (annualised) + pipeline","Postcode area in that year (Northern Ireland is BT), or unborn / dead / unknown where the annualisation gives none. The annualisation attributes a PCA to years before the first MOT (from the first test) and up to two years after the last one, so a real PCA does not mean the vehicle was tested that year",TRUE,93352241,0,0
+"pca_2015","VARCHAR","DVSA (annualised) + pipeline","Postcode area in that year (Northern Ireland is BT), or unborn / dead / unknown where the annualisation gives none. The annualisation attributes a PCA to years before the first MOT (from the first test) and up to two years after the last one, so a real PCA does not mean the vehicle was tested that year",TRUE,93352241,0,0
+"pca_2016","VARCHAR","DVSA (annualised) + pipeline","Postcode area in that year (Northern Ireland is BT), or unborn / dead / unknown where the annualisation gives none. The annualisation attributes a PCA to years before the first MOT (from the first test) and up to two years after the last one, so a real PCA does not mean the vehicle was tested that year",TRUE,93352241,0,0
+"pca_2017","VARCHAR","DVSA (annualised) + pipeline","Postcode area in that year (Northern Ireland is BT), or unborn / dead / unknown where the annualisation gives none. The annualisation attributes a PCA to years before the first MOT (from the first test) and up to two years after the last one, so a real PCA does not mean the vehicle was tested that year",TRUE,93352241,0,0
+"pca_2018","VARCHAR","DVSA (annualised) + pipeline","Postcode area in that year (Northern Ireland is BT), or unborn / dead / unknown where the annualisation gives none. The annualisation attributes a PCA to years before the first MOT (from the first test) and up to two years after the last one, so a real PCA does not mean the vehicle was tested that year",TRUE,93352241,0,0
+"pca_2019","VARCHAR","DVSA (annualised) + pipeline","Postcode area in that year (Northern Ireland is BT), or unborn / dead / unknown where the annualisation gives none. The annualisation attributes a PCA to years before the first MOT (from the first test) and up to two years after the last one, so a real PCA does not mean the vehicle was tested that year",TRUE,93352241,0,0
+"pca_2020","VARCHAR","DVSA (annualised) + pipeline","Postcode area in that year (Northern Ireland is BT), or unborn / dead / unknown where the annualisation gives none. The annualisation attributes a PCA to years before the first MOT (from the first test) and up to two years after the last one, so a real PCA does not mean the vehicle was tested that year",TRUE,93352241,0,0
+"pca_2021","VARCHAR","DVSA (annualised) + pipeline","Postcode area in that year (Northern Ireland is BT), or unborn / dead / unknown where the annualisation gives none. The annualisation attributes a PCA to years before the first MOT (from the first test) and up to two years after the last one, so a real PCA does not mean the vehicle was tested that year",TRUE,93352241,0,0
+"pca_2022","VARCHAR","DVSA (annualised) + pipeline","Postcode area in that year (Northern Ireland is BT), or unborn / dead / unknown where the annualisation gives none. The annualisation attributes a PCA to years before the first MOT (from the first test) and up to two years after the last one, so a real PCA does not mean the vehicle was tested that year",TRUE,93352241,0,0
+"pca_2023","VARCHAR","DVSA (annualised) + pipeline","Postcode area in that year (Northern Ireland is BT), or unborn / dead / unknown where the annualisation gives none. The annualisation attributes a PCA to years before the first MOT (from the first test) and up to two years after the last one, so a real PCA does not mean the vehicle was tested that year",TRUE,93352241,0,0
+"pca_2024","VARCHAR","DVSA (annualised) + pipeline","Postcode area in that year (Northern Ireland is BT), or unborn / dead / unknown where the annualisation gives none. The annualisation attributes a PCA to years before the first MOT (from the first test) and up to two years after the last one, so a real PCA does not mean the vehicle was tested that year",TRUE,93352241,0,0
+"pca_2025","VARCHAR","DVSA (annualised) + pipeline","Postcode area in that year (Northern Ireland is BT), or unborn / dead / unknown where the annualisation gives none. The annualisation attributes a PCA to years before the first MOT (from the first test) and up to two years after the last one, so a real PCA does not mean the vehicle was tested that year",TRUE,93352241,0,0
+"first_test_date_DVSA","DATE","DVSA","Date of the vehicle's first MOT test, as supplied",FALSE,93352241,15220461,16.3
+"first_test_year_DVSA","BIGINT","DVSA","Year of the vehicle's first MOT test, as supplied",FALSE,93352241,15220461,16.3
+"final_test_year_DVSA","BIGINT","DVSA","Year of the vehicle's final MOT test, as supplied",FALSE,93352241,15220461,16.3
+"registration_at_first_test","VARCHAR","DVSA","Registration the vehicle carried at its first MOT test, as supplied (differs from registration_DVSA after a plate change)",FALSE,93352241,0,0
+"lastMotTestDate_DVSA","DATE","DVSA","Date of the last MOT test as supplied. DVSA fill a future date for vehicles never tested; use final_test_date_DVSA",FALSE,93352241,5865932,6.28
+"is_new_vehicle_2005","BOOLEAN","DVSA (annualised)","New-vehicle status flag for that year from the annualisation. Not used by the pipeline",FALSE,93352241,59467694,63.7
+"is_new_vehicle_2006","BOOLEAN","DVSA (annualised)","New-vehicle status flag for that year from the annualisation. Not used by the pipeline",FALSE,93352241,56504950,60.53
+"is_new_vehicle_2007","BOOLEAN","DVSA (annualised)","New-vehicle status flag for that year from the annualisation. Not used by the pipeline",FALSE,93352241,53554119,57.37
+"is_new_vehicle_2008","BOOLEAN","DVSA (annualised)","New-vehicle status flag for that year from the annualisation. Not used by the pipeline",FALSE,93352241,51459481,55.12
+"is_new_vehicle_2009","BOOLEAN","DVSA (annualised)","New-vehicle status flag for that year from the annualisation. Not used by the pipeline",FALSE,93352241,51344324,55
+"is_new_vehicle_2010","BOOLEAN","DVSA (annualised)","New-vehicle status flag for that year from the annualisation. Not used by the pipeline",FALSE,93352241,51257902,54.91
+"is_new_vehicle_2011","BOOLEAN","DVSA (annualised)","New-vehicle status flag for that year from the annualisation. Not used by the pipeline",FALSE,93352241,51229044,54.88
+"is_new_vehicle_2012","BOOLEAN","DVSA (annualised)","New-vehicle status flag for that year from the annualisation. Not used by the pipeline",FALSE,93352241,51084941,54.72
+"is_new_vehicle_2013","BOOLEAN","DVSA (annualised)","New-vehicle status flag for that year from the annualisation. Not used by the pipeline",FALSE,93352241,50552047,54.15
+"is_new_vehicle_2014","BOOLEAN","DVSA (annualised)","New-vehicle status flag for that year from the annualisation. Not used by the pipeline",FALSE,93352241,49772508,53.32
+"is_new_vehicle_2015","BOOLEAN","DVSA (annualised)","New-vehicle status flag for that year from the annualisation. Not used by the pipeline",FALSE,93352241,48700336,52.17
+"is_new_vehicle_2016","BOOLEAN","DVSA (annualised)","New-vehicle status flag for that year from the annualisation. Not used by the pipeline",FALSE,93352241,47501653,50.88
+"is_new_vehicle_2017","BOOLEAN","DVSA (annualised)","New-vehicle status flag for that year from the annualisation. Not used by the pipeline",FALSE,93352241,46431941,49.74
+"is_new_vehicle_2018","BOOLEAN","DVSA (annualised)","New-vehicle status flag for that year from the annualisation. Not used by the pipeline",FALSE,93352241,45681383,48.93
+"is_new_vehicle_2019","BOOLEAN","DVSA (annualised)","New-vehicle status flag for that year from the annualisation. Not used by the pipeline",FALSE,93352241,45235162,48.46
+"is_new_vehicle_2020","BOOLEAN","DVSA (annualised)","New-vehicle status flag for that year from the annualisation. Not used by the pipeline",FALSE,93352241,45790153,49.05
+"is_new_vehicle_2021","BOOLEAN","DVSA (annualised)","New-vehicle status flag for that year from the annualisation. Not used by the pipeline",FALSE,93352241,46120265,49.4
+"is_new_vehicle_2022","BOOLEAN","DVSA (annualised)","New-vehicle status flag for that year from the annualisation. Not used by the pipeline",FALSE,93352241,46621003,49.94
+"is_new_vehicle_2023","BOOLEAN","DVSA (annualised)","New-vehicle status flag for that year from the annualisation. Not used by the pipeline",FALSE,93352241,46193829,49.48
+"is_new_vehicle_2024","BOOLEAN","DVSA (annualised)","New-vehicle status flag for that year from the annualisation. Not used by the pipeline",FALSE,93352241,45717191,48.97
+"is_new_vehicle_2025","BOOLEAN","DVSA (annualised)","New-vehicle status flag for that year from the annualisation. Not used by the pipeline",FALSE,93352241,47700145,51.1
+"is_intertest_2005","BOOLEAN","DVSA (annualised)","Inter-test status flag for that year from the annualisation. Not used by the pipeline",FALSE,93352241,59401956,63.63
+"is_intertest_2006","BOOLEAN","DVSA (annualised)","Inter-test status flag for that year from the annualisation. Not used by the pipeline",FALSE,93352241,56439303,60.46
+"is_intertest_2007","BOOLEAN","DVSA (annualised)","Inter-test status flag for that year from the annualisation. Not used by the pipeline",FALSE,93352241,53488472,57.3
+"is_intertest_2008","BOOLEAN","DVSA (annualised)","Inter-test status flag for that year from the annualisation. Not used by the pipeline",FALSE,93352241,51393834,55.05
+"is_intertest_2009","BOOLEAN","DVSA (annualised)","Inter-test status flag for that year from the annualisation. Not used by the pipeline",FALSE,93352241,51278677,54.93
+"is_intertest_2010","BOOLEAN","DVSA (annualised)","Inter-test status flag for that year from the annualisation. Not used by the pipeline",FALSE,93352241,51192255,54.84
+"is_intertest_2011","BOOLEAN","DVSA (annualised)","Inter-test status flag for that year from the annualisation. Not used by the pipeline",FALSE,93352241,51163397,54.81
+"is_intertest_2012","BOOLEAN","DVSA (annualised)","Inter-test status flag for that year from the annualisation. Not used by the pipeline",FALSE,93352241,51019294,54.65
+"is_intertest_2013","BOOLEAN","DVSA (annualised)","Inter-test status flag for that year from the annualisation. Not used by the pipeline",FALSE,93352241,50486400,54.08
+"is_intertest_2014","BOOLEAN","DVSA (annualised)","Inter-test status flag for that year from the annualisation. Not used by the pipeline",FALSE,93352241,49706861,53.25
+"is_intertest_2015","BOOLEAN","DVSA (annualised)","Inter-test status flag for that year from the annualisation. Not used by the pipeline",FALSE,93352241,48634710,52.1
+"is_intertest_2016","BOOLEAN","DVSA (annualised)","Inter-test status flag for that year from the annualisation. Not used by the pipeline",FALSE,93352241,47436027,50.81
+"is_intertest_2017","BOOLEAN","DVSA (annualised)","Inter-test status flag for that year from the annualisation. Not used by the pipeline",FALSE,93352241,46392529,49.7
+"is_intertest_2018","BOOLEAN","DVSA (annualised)","Inter-test status flag for that year from the annualisation. Not used by the pipeline",FALSE,93352241,45672441,48.92
+"is_intertest_2019","BOOLEAN","DVSA (annualised)","Inter-test status flag for that year from the annualisation. Not used by the pipeline",FALSE,93352241,45230103,48.45
+"is_intertest_2020","BOOLEAN","DVSA (annualised)","Inter-test status flag for that year from the annualisation. Not used by the pipeline",FALSE,93352241,45786911,49.05
+"is_intertest_2021","BOOLEAN","DVSA (annualised)","Inter-test status flag for that year from the annualisation. Not used by the pipeline",FALSE,93352241,46118911,49.4
+"is_intertest_2022","BOOLEAN","DVSA (annualised)","Inter-test status flag for that year from the annualisation. Not used by the pipeline",FALSE,93352241,46619777,49.94
+"is_intertest_2023","BOOLEAN","DVSA (annualised)","Inter-test status flag for that year from the annualisation. Not used by the pipeline",FALSE,93352241,46192689,49.48
+"is_intertest_2024","BOOLEAN","DVSA (annualised)","Inter-test status flag for that year from the annualisation. Not used by the pipeline",FALSE,93352241,45716139,48.97
+"is_intertest_2025","BOOLEAN","DVSA (annualised)","Inter-test status flag for that year from the annualisation. Not used by the pipeline",FALSE,93352241,47699224,51.1
+"is_end_use_2005","BOOLEAN","DVSA (annualised)","Annualisation flag for that year: the year of the vehicle's final MOT test, set only where testing has stopped. Drives last_mot_year",FALSE,93352241,59401956,63.63
+"is_end_use_2006","BOOLEAN","DVSA (annualised)","Annualisation flag for that year: the year of the vehicle's final MOT test, set only where testing has stopped. Drives last_mot_year",FALSE,93352241,56439303,60.46
+"is_end_use_2007","BOOLEAN","DVSA (annualised)","Annualisation flag for that year: the year of the vehicle's final MOT test, set only where testing has stopped. Drives last_mot_year",FALSE,93352241,53488472,57.3
+"is_end_use_2008","BOOLEAN","DVSA (annualised)","Annualisation flag for that year: the year of the vehicle's final MOT test, set only where testing has stopped. Drives last_mot_year",FALSE,93352241,51393834,55.05
+"is_end_use_2009","BOOLEAN","DVSA (annualised)","Annualisation flag for that year: the year of the vehicle's final MOT test, set only where testing has stopped. Drives last_mot_year",FALSE,93352241,51278677,54.93
+"is_end_use_2010","BOOLEAN","DVSA (annualised)","Annualisation flag for that year: the year of the vehicle's final MOT test, set only where testing has stopped. Drives last_mot_year",FALSE,93352241,51192255,54.84
+"is_end_use_2011","BOOLEAN","DVSA (annualised)","Annualisation flag for that year: the year of the vehicle's final MOT test, set only where testing has stopped. Drives last_mot_year",FALSE,93352241,51163397,54.81
+"is_end_use_2012","BOOLEAN","DVSA (annualised)","Annualisation flag for that year: the year of the vehicle's final MOT test, set only where testing has stopped. Drives last_mot_year",FALSE,93352241,51019294,54.65
+"is_end_use_2013","BOOLEAN","DVSA (annualised)","Annualisation flag for that year: the year of the vehicle's final MOT test, set only where testing has stopped. Drives last_mot_year",FALSE,93352241,50486400,54.08
+"is_end_use_2014","BOOLEAN","DVSA (annualised)","Annualisation flag for that year: the year of the vehicle's final MOT test, set only where testing has stopped. Drives last_mot_year",FALSE,93352241,49706861,53.25
+"is_end_use_2015","BOOLEAN","DVSA (annualised)","Annualisation flag for that year: the year of the vehicle's final MOT test, set only where testing has stopped. Drives last_mot_year",FALSE,93352241,48634710,52.1
+"is_end_use_2016","BOOLEAN","DVSA (annualised)","Annualisation flag for that year: the year of the vehicle's final MOT test, set only where testing has stopped. Drives last_mot_year",FALSE,93352241,47436027,50.81
+"is_end_use_2017","BOOLEAN","DVSA (annualised)","Annualisation flag for that year: the year of the vehicle's final MOT test, set only where testing has stopped. Drives last_mot_year",FALSE,93352241,46392529,49.7
+"is_end_use_2018","BOOLEAN","DVSA (annualised)","Annualisation flag for that year: the year of the vehicle's final MOT test, set only where testing has stopped. Drives last_mot_year",FALSE,93352241,45672441,48.92
+"is_end_use_2019","BOOLEAN","DVSA (annualised)","Annualisation flag for that year: the year of the vehicle's final MOT test, set only where testing has stopped. Drives last_mot_year",FALSE,93352241,45230103,48.45
+"is_end_use_2020","BOOLEAN","DVSA (annualised)","Annualisation flag for that year: the year of the vehicle's final MOT test, set only where testing has stopped. Drives last_mot_year",FALSE,93352241,45786911,49.05
+"is_end_use_2021","BOOLEAN","DVSA (annualised)","Annualisation flag for that year: the year of the vehicle's final MOT test, set only where testing has stopped. Drives last_mot_year",FALSE,93352241,46118911,49.4
+"is_end_use_2022","BOOLEAN","DVSA (annualised)","Annualisation flag for that year: the year of the vehicle's final MOT test, set only where testing has stopped. Drives last_mot_year",FALSE,93352241,46619777,49.94
+"is_end_use_2023","BOOLEAN","DVSA (annualised)","Annualisation flag for that year: the year of the vehicle's final MOT test, set only where testing has stopped. Drives last_mot_year",FALSE,93352241,46192689,49.48
+"is_end_use_2024","BOOLEAN","DVSA (annualised)","Annualisation flag for that year: the year of the vehicle's final MOT test, set only where testing has stopped. Drives last_mot_year",FALSE,93352241,45716139,48.97
+"is_end_use_2025","BOOLEAN","DVSA (annualised)","Annualisation flag for that year: the year of the vehicle's final MOT test, set only where testing has stopped. Drives last_mot_year",FALSE,93352241,47699224,51.1
+"odometer_est_2005","INTEGER","DVSA (annualised)","Estimated odometer reading in that year. Not used by the pipeline: some exceed 1,000,000 miles and some fall from one year to the next",FALSE,93352241,60899506,65.24
+"odometer_est_2006","INTEGER","DVSA (annualised)","Estimated odometer reading in that year. Not used by the pipeline: some exceed 1,000,000 miles and some fall from one year to the next",FALSE,93352241,60616947,64.93
+"odometer_est_2007","INTEGER","DVSA (annualised)","Estimated odometer reading in that year. Not used by the pipeline: some exceed 1,000,000 miles and some fall from one year to the next",FALSE,93352241,59989880,64.26
+"odometer_est_2008","INTEGER","DVSA (annualised)","Estimated odometer reading in that year. Not used by the pipeline: some exceed 1,000,000 miles and some fall from one year to the next",FALSE,93352241,59677875,63.93
+"odometer_est_2009","INTEGER","DVSA (annualised)","Estimated odometer reading in that year. Not used by the pipeline: some exceed 1,000,000 miles and some fall from one year to the next",FALSE,93352241,59605925,63.85
+"odometer_est_2010","INTEGER","DVSA (annualised)","Estimated odometer reading in that year. Not used by the pipeline: some exceed 1,000,000 miles and some fall from one year to the next",FALSE,93352241,59340511,63.57
+"odometer_est_2011","INTEGER","DVSA (annualised)","Estimated odometer reading in that year. Not used by the pipeline: some exceed 1,000,000 miles and some fall from one year to the next",FALSE,93352241,59182548,63.4
+"odometer_est_2012","INTEGER","DVSA (annualised)","Estimated odometer reading in that year. Not used by the pipeline: some exceed 1,000,000 miles and some fall from one year to the next",FALSE,93352241,58864588,63.06
+"odometer_est_2013","INTEGER","DVSA (annualised)","Estimated odometer reading in that year. Not used by the pipeline: some exceed 1,000,000 miles and some fall from one year to the next",FALSE,93352241,58237543,62.38
+"odometer_est_2014","INTEGER","DVSA (annualised)","Estimated odometer reading in that year. Not used by the pipeline: some exceed 1,000,000 miles and some fall from one year to the next",FALSE,93352241,57304560,61.39
+"odometer_est_2015","INTEGER","DVSA (annualised)","Estimated odometer reading in that year. Not used by the pipeline: some exceed 1,000,000 miles and some fall from one year to the next",FALSE,93352241,56247114,60.25
+"odometer_est_2016","INTEGER","DVSA (annualised)","Estimated odometer reading in that year. Not used by the pipeline: some exceed 1,000,000 miles and some fall from one year to the next",FALSE,93352241,55391580,59.34
+"odometer_est_2017","INTEGER","DVSA (annualised)","Estimated odometer reading in that year. Not used by the pipeline: some exceed 1,000,000 miles and some fall from one year to the next",FALSE,93352241,55556602,59.51
+"odometer_est_2018","INTEGER","DVSA (annualised)","Estimated odometer reading in that year. Not used by the pipeline: some exceed 1,000,000 miles and some fall from one year to the next",FALSE,93352241,55072266,58.99
+"odometer_est_2019","INTEGER","DVSA (annualised)","Estimated odometer reading in that year. Not used by the pipeline: some exceed 1,000,000 miles and some fall from one year to the next",FALSE,93352241,54701902,58.6
+"odometer_est_2020","INTEGER","DVSA (annualised)","Estimated odometer reading in that year. Not used by the pipeline: some exceed 1,000,000 miles and some fall from one year to the next",FALSE,93352241,53826333,57.66
+"odometer_est_2021","INTEGER","DVSA (annualised)","Estimated odometer reading in that year. Not used by the pipeline: some exceed 1,000,000 miles and some fall from one year to the next",FALSE,93352241,53525156,57.34
+"odometer_est_2022","INTEGER","DVSA (annualised)","Estimated odometer reading in that year. Not used by the pipeline: some exceed 1,000,000 miles and some fall from one year to the next",FALSE,93352241,53420912,57.23
+"odometer_est_2023","INTEGER","DVSA (annualised)","Estimated odometer reading in that year. Not used by the pipeline: some exceed 1,000,000 miles and some fall from one year to the next",FALSE,93352241,54451030,58.33
+"odometer_est_2024","INTEGER","DVSA (annualised)","Estimated odometer reading in that year. Not used by the pipeline: some exceed 1,000,000 miles and some fall from one year to the next",FALSE,93352241,56623800,60.66
+"odometer_est_2025","INTEGER","DVSA (annualised)","Estimated odometer reading in that year. Not used by the pipeline: some exceed 1,000,000 miles and some fall from one year to the next",FALSE,93352241,67557098,72.37
+"n_DVLA_makes","BIGINT","DVLA (VES)","Number of different makes the VES lookups for this registration returned, as supplied (missing where no VES record was attempted)",FALSE,93352241,2743929,2.94

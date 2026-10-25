@@ -42,7 +42,7 @@ in @sec-vehicle-table, and every column is listed in the [data dictionary](dicti
 
 ## The linked source table
 
-The Bristol team's linked and annualised table (@sec-sources-linkage), from
+The linked and annualised table (@sec-sources-linkage), from
 which the vehicle table is built, holds every vehicle in the DVSA download,
 including those that left the roads before 2005.
 

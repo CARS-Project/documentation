@@ -11,8 +11,8 @@ n_sc <- setNames(sc$n_vehicles, sc$measure)
 These columns identify each row of the vehicle table and record why the
 vehicle is in it.
 
-- **`vehicle_id`** is the row number in the input file supplied by the Bristol
-  team. It is unique within one version of the data but **not stable between
+- **`vehicle_id`** is the row number in the linked input file
+  (@sec-sources-linkage). It is unique within one version of the data but **not stable between
   versions**: a new delivery renumbers the vehicles (@sec-pitfalls). To follow
   a vehicle across versions, join on the registration instead
   (@sec-dd-registration).
