@@ -515,7 +515,7 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>The vehicle table, <code>vehicles_enhanced.parquet</code>, is the most detailed CARS product: one row for each of 93,352,241 vehicles, with 166 columns. This chapter explains how it is organised and how to read it. Every column is described in the <a href="../chapters/dictionary/index.html">data dictionary</a>.</p>
+<p>The vehicle table, <code>vehicles_enhanced.parquet</code>, is the most detailed CARS product: one row for each of 93,352,241 vehicles, with 272 columns. This chapter explains how it is organised and how to read it. Every column is described in the <a href="../chapters/dictionary/index.html">data dictionary</a>.</p>
 <section id="parquet" class="level2" data-number="11.1">
 <h2 data-number="11.1" class="anchored" data-anchor-id="parquet"><span class="header-section-number">11.1</span> Parquet</h2>
 <p>The table is stored as a <a href="https://parquet.apache.org/">Parquet</a> file, a compressed column-based format designed for large tables. You do not need to load the whole file to use it: tools such as DuckDB read only the columns and rows a query needs, so a count of vehicles by fuel reads a few hundred megabytes, not 9 GB, and takes seconds. <a href="getting-started.html" class="quarto-xref"><span>Chapter 15</span></a> explains how to set this up.</p>
@@ -636,9 +636,9 @@ Table&nbsp;11.1: The columns of the vehicle table, by group.
 <div class="cell-output-display">
 <table class="cell caption-top table table-sm table-striped small">
 <colgroup>
-<col style="width: 9%">
-<col style="width: 2%">
-<col style="width: 88%">
+<col style="width: 1%">
+<col style="width: 0%">
+<col style="width: 97%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -660,8 +660,8 @@ Table&nbsp;11.1: The columns of the vehicle table, by group.
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Attributes harmonised by the pipeline</td>
-<td style="text-align: right;">25</td>
-<td style="text-align: left;">fuel, fuel_src, fuel_check, fuel_simple, fuel_DFT, fuel_DFT_src, engine_cc, engine_cc_src, engine_check, revenue_weight, revenue_weight_src, co2, co2_src, co2_check, euro_status, euro_status_src, euro_standard, euro_check, type_approval, type_approval_src, wheelplan, wheelplan_src, test_class, test_class_src, first_use_source</td>
+<td style="text-align: right;">126</td>
+<td style="text-align: left;">fuel, fuel_src, fuel_check, fuel_simple, fuel_DFT, fuel_DFT_src, engine_cc, engine_cc_src, engine_check, revenue_weight, revenue_weight_src, co2, co2_src, co2_check, euro_status, euro_status_src, euro_standard, euro_check, type_approval, type_approval_src, wheelplan, wheelplan_src, test_class, test_class_src, racf_link_level, racf_mass_kg, racf_kerb_weight_kg, racf_footprint_m2, racf_length_mm, racf_width_mm, racf_height_mm, racf_wheelbase_mm, racf_co2_nedc, racf_co2_wltp, racf_e_consumption_wh_km, racf_e_range_km, racf_smmt_type, racf_suv_share, racf_eu_exact_share, first_use_source, registration_at_first_test, is_new_vehicle_2005, is_new_vehicle_2006, is_new_vehicle_2007, is_new_vehicle_2008, is_new_vehicle_2009, is_new_vehicle_2010, is_new_vehicle_2011, is_new_vehicle_2012, is_new_vehicle_2013, is_new_vehicle_2014, is_new_vehicle_2015, is_new_vehicle_2016, is_new_vehicle_2017, is_new_vehicle_2018, is_new_vehicle_2019, is_new_vehicle_2020, is_new_vehicle_2021, is_new_vehicle_2022, is_new_vehicle_2023, is_new_vehicle_2024, is_new_vehicle_2025, is_intertest_2005, is_intertest_2006, is_intertest_2007, is_intertest_2008, is_intertest_2009, is_intertest_2010, is_intertest_2011, is_intertest_2012, is_intertest_2013, is_intertest_2014, is_intertest_2015, is_intertest_2016, is_intertest_2017, is_intertest_2018, is_intertest_2019, is_intertest_2020, is_intertest_2021, is_intertest_2022, is_intertest_2023, is_intertest_2024, is_intertest_2025, is_end_use_2005, is_end_use_2006, is_end_use_2007, is_end_use_2008, is_end_use_2009, is_end_use_2010, is_end_use_2011, is_end_use_2012, is_end_use_2013, is_end_use_2014, is_end_use_2015, is_end_use_2016, is_end_use_2017, is_end_use_2018, is_end_use_2019, is_end_use_2020, is_end_use_2021, is_end_use_2022, is_end_use_2023, is_end_use_2024, is_end_use_2025, odometer_est_2005, odometer_est_2006, odometer_est_2007, odometer_est_2008, odometer_est_2009, odometer_est_2010, odometer_est_2011, odometer_est_2012, odometer_est_2013, odometer_est_2014, odometer_est_2015, odometer_est_2016, odometer_est_2017, odometer_est_2018, odometer_est_2019, odometer_est_2020, odometer_est_2021, odometer_est_2022, odometer_est_2023, odometer_est_2024, odometer_est_2025, n_DVLA_makes</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Attributes as supplied</td>
@@ -670,8 +670,8 @@ Table&nbsp;11.1: The columns of the vehicle table, by group.
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Dates</td>
-<td style="text-align: right;">13</td>
-<td style="text-align: left;">taxDueDate_DVLA, motExpiryDate_DVLA, birth_date, first_use_date, firstUsedDate_DVSA, registrationDate_DVSA, manufactureDate_DVSA, monthOfFirstRegistration_DVLA, monthOfFirstDvlaRegistration_DVLA, dateOfLastV5CIssued_DVLA, artEndDate_DVLA, final_test_date_DVSA, last_mot_year</td>
+<td style="text-align: right;">18</td>
+<td style="text-align: left;">taxDueDate_DVLA, motExpiryDate_DVLA, birth_date, birth_date_source, first_use_date, firstUsedDate_DVSA, registrationDate_DVSA, manufactureDate_DVSA, monthOfFirstRegistration_DVLA, monthOfFirstDvlaRegistration_DVLA, dateOfLastV5CIssued_DVLA, artEndDate_DVLA, final_test_date_DVSA, last_mot_year, first_test_date_DVSA, first_test_year_DVSA, final_test_year_DVSA, lastMotTestDate_DVSA</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">DVLA lookup and record match</td>
@@ -702,7 +702,7 @@ Table&nbsp;11.1: The columns of the vehicle table, by group.
 <ul>
 <li><strong>DVSA columns are nearly complete</strong>, because every vehicle comes from the DVSA download. <code>engineSize_DVSA</code> is the exception, missing for 17.11%.</li>
 <li><strong>DVLA columns are missing for about 23%</strong> of vehicles, those for which no DVLA record was found. Most of these left the register years ago. Some DVLA fields are rare even when a record exists: <code>euroStatus_DVLA</code> is missing for 85.43%.</li>
-<li><strong>The harmonised columns fill most gaps</strong>: <code>co2</code> is missing for 20.88% against 38% for <code>co2Emissions_DVLA</code>, and <code>euro_status</code> for 8.72% against 85.43%.</li>
+<li><strong>The harmonised columns fill most gaps</strong>: <code>co2</code> is missing for 25.99% against 38% for <code>co2Emissions_DVLA</code>, and <code>euro_status</code> for 0% against 85.43%.</li>
 <li><strong>Year-by-year columns are blank in most years for most vehicles</strong>, because a vehicle is only on the road for part of the period. <code>mileage_2019</code> is blank for 58.59% of vehicles.</li>
 </ul>
 </section>

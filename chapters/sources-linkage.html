@@ -498,7 +498,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#plausible-mileage" id="toc-plausible-mileage" class="nav-link" data-scroll-target="#plausible-mileage">Plausible mileage</a></li>
   <li><a href="#postcode-area-in-each-year" id="toc-postcode-area-in-each-year" class="nav-link" data-scroll-target="#postcode-area-in-each-year">Postcode area in each year</a></li>
   </ul></li>
-  <li><a href="#what-the-bristol-stage-produces" id="toc-what-the-bristol-stage-produces" class="nav-link" data-scroll-target="#what-the-bristol-stage-produces"><span class="header-section-number">8.5</span> What the Bristol stage produces</a></li>
+  <li><a href="#what-the-linkage-stage-produces" id="toc-what-the-linkage-stage-produces" class="nav-link" data-scroll-target="#what-the-linkage-stage-produces"><span class="header-section-number">8.5</span> What the linkage stage produces</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/CARS-Project/documentation/edit/main/chapters/sources-linkage.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/CARS-Project/documentation/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -524,18 +524,18 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>The CARS data is built in two stages. The University of Bristol team links the three source datasets and turns each vehicle’s test history into annual figures. The University of Leeds pipeline then cleans and enhances the result and produces the published tables (<a href="pipeline.html" class="quarto-xref"><span>Chapter 9</span></a>). This chapter describes the sources and the Bristol stage.</p>
-<div class="todo callout callout-style-default callout-note callout-titled" title="To be written: Bristol method">
+<p>The CARS data is built in two stages. The first links the three source datasets and turns each vehicle’s test history into annual figures. The pipeline then cleans and enhances the result and produces the published tables (<a href="pipeline.html" class="quarto-xref"><span>Chapter 9</span></a>). This chapter describes the sources and the linkage stage.</p>
+<div class="todo callout callout-style-default callout-note callout-titled" title="To be written: linkage method">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>To be written: Bristol method
+<span class="screen-reader-only">Note</span>To be written: linkage method
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>This chapter summarises the Bristol stage from project notes. A full description, by the Bristol team, of the data processing and the database built to carry it out will be added; it is also the subject of the project’s second webinar, <em>Under the bonnet</em> (January 2027).</p>
+<p>This chapter summarises the linkage stage from project notes. A full description of the data processing and the database built to carry it out will be added; it is also the subject of the project’s second webinar, <em>Under the bonnet</em> (January 2027).</p>
 </div>
 </div>
 <section id="the-three-sources" class="level2" data-number="8.1">
@@ -576,7 +576,7 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="linking-the-dvla-records" class="level2" data-number="8.3">
 <h2 data-number="8.3" class="anchored" data-anchor-id="linking-the-dvla-records"><span class="header-section-number">8.3</span> Linking the DVLA records</h2>
-<p>DVLA details were collected by querying the Vehicle Enquiry Service for every registration number in the DVSA download, many of them several times between 2024 and 2026. Each query returns the vehicle that carries that registration <em>at the time of the query</em>. Because registrations can move between vehicles (<a href="number-plates.html" class="quarto-xref"><span>Chapter 5</span></a>), a query does not always describe the same vehicle as the DVSA record with that registration, and the Bristol team built rules to decide which DVSA vehicle each returned record belongs to.</p>
+<p>DVLA details were collected by querying the Vehicle Enquiry Service for every registration number in the DVSA download, many of them several times between 2024 and 2026. Each query returns the vehicle that carries that registration <em>at the time of the query</em>. Because registrations can move between vehicles (<a href="number-plates.html" class="quarto-xref"><span>Chapter 5</span></a>), a query does not always describe the same vehicle as the DVSA record with that registration, so we built rules to decide which DVSA vehicle each returned record belongs to.</p>
 <div id="fig-ves-linking" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-ves-linking-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -592,11 +592,11 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ves-linking-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;8.1: Draft flowchart of the rules for attaching Vehicle Enquiry Service records to DVSA vehicles, with approximate counts at each step (Bristol team, June 2026).
+Figure&nbsp;8.1: Draft flowchart of the rules for attaching Vehicle Enquiry Service records to DVSA vehicles, with approximate counts at each step (June 2026).
 </figcaption>
 </figure>
 </div>
-<p>The Leeds pipeline adds a further check, comparing the make, year and engine size of the DVSA and DVLA records, and does not use DVLA values where they clearly describe a different vehicle (<a href="pipeline.html" class="quarto-xref"><span>Chapter 9</span></a>).</p>
+<p>The pipeline adds a further check, comparing the make, year and engine size of the DVSA and DVLA records, and does not use DVLA values where they clearly describe a different vehicle (<a href="pipeline.html" class="quarto-xref"><span>Chapter 9</span></a>).</p>
 <div class="todo callout callout-style-default callout-note callout-titled" title="To be written">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -613,7 +613,7 @@ Figure&nbsp;8.1: Draft flowchart of the rules for attaching Vehicle Enquiry Serv
 </section>
 <section id="annualisation" class="level2" data-number="8.4">
 <h2 data-number="8.4" class="anchored" data-anchor-id="annualisation"><span class="header-section-number">8.4</span> Annualisation</h2>
-<p>The tests of a vehicle happen on whatever dates they happen. For analysis it is far more useful to have one figure per vehicle per calendar year. The Bristol team’s <em>annualisation</em> converts each vehicle’s test history into, for each year from 2005 to 2025:</p>
+<p>The tests of a vehicle happen on whatever dates they happen. For analysis it is far more useful to have one figure per vehicle per calendar year. The <em>annualisation</em> converts each vehicle’s test history into, for each year from 2005 to 2025:</p>
 <ul>
 <li><code>mileage_YYYY</code>: the distance driven in the year, in miles;</li>
 <li><code>legit_mileage_YYYY</code>: whether that mileage is plausible;</li>
@@ -644,7 +644,7 @@ Figure&nbsp;8.1: Draft flowchart of the rules for attaching Vehicle Enquiry Serv
 <img src="images/draft/test-intervals.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-test-intervals-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;8.2: Draft figure (Bristol team): the date of the test at the start of each interval between tests, against the test at its end, for a sample of vehicles, 2017–2023. Most intervals lie on the one-year diagonal. The disruption in 2020 shows as a break and a shifted line.
+Figure&nbsp;8.2: Draft figure: the date of the test at the start of each interval between tests, against the test at its end, for a sample of vehicles, 2017–2023. Most intervals lie on the one-year diagonal. The disruption in 2020 shows as a break and a shifted line.
 </figcaption>
 </figure>
 </div>
@@ -653,7 +653,7 @@ Figure&nbsp;8.2: Draft figure (Bristol team): the date of the test at the start 
 </section>
 <section id="plausible-mileage" class="level3">
 <h3 class="anchored" data-anchor-id="plausible-mileage">Plausible mileage</h3>
-<p>Odometer readings contain errors: typing mistakes, odometers replaced or reset, readings in kilometres taken as miles, and occasional fraud (<em>clocking</em>). The Bristol team judges whether each annual mileage is plausible, and <strong>removes the mileage</strong> where it is not. <code>legit_mileage_YYYY</code> therefore has three states: <code>TRUE</code> (plausible), blank with a mileage (not assessed) and <code>FALSE</code> (judged implausible; the mileage is then blank).</p>
+<p>Odometer readings contain errors: typing mistakes, odometers replaced or reset, readings in kilometres taken as miles, and occasional fraud (<em>clocking</em>). The annualisation judges whether each annual mileage is plausible, and <strong>removes the mileage</strong> where it is not. <code>legit_mileage_YYYY</code> therefore has three states: <code>TRUE</code> (plausible), blank with a mileage (not assessed) and <code>FALSE</code> (judged implausible; the mileage is then blank).</p>
 <div class="todo callout callout-style-default callout-note callout-titled" title="To be written">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -670,7 +670,7 @@ Figure&nbsp;8.2: Draft figure (Bristol team): the date of the test at the start 
 </section>
 <section id="postcode-area-in-each-year" class="level3">
 <h3 class="anchored" data-anchor-id="postcode-area-in-each-year">Postcode area in each year</h3>
-<p>A vehicle is assigned the postcode area of the test closest in time to the year for which a postcode area is available. Years with no test nearby have no postcode area, and the Leeds pipeline then labels them <code>unborn</code>, <code>unknown</code> or <code>dead</code> (<a href="vehicle-lifecycle.html" class="quarto-xref"><span>Chapter 6</span></a>).</p>
+<p>A vehicle is assigned the postcode area of the test closest in time to the year for which a postcode area is available. Years with no test nearby have no postcode area, and the pipeline then labels them <code>unborn</code>, <code>unknown</code> or <code>dead</code> (<a href="vehicle-lifecycle.html" class="quarto-xref"><span>Chapter 6</span></a>).</p>
 <div class="todo callout callout-style-default callout-note callout-titled" title="To be written">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -686,9 +686,9 @@ Figure&nbsp;8.2: Draft figure (Bristol team): the date of the test at the start 
 </div>
 </section>
 </section>
-<section id="what-the-bristol-stage-produces" class="level2" data-number="8.5">
-<h2 data-number="8.5" class="anchored" data-anchor-id="what-the-bristol-stage-produces"><span class="header-section-number">8.5</span> What the Bristol stage produces</h2>
-<p>The output of the Bristol stage is one table with one row per vehicle, 138,238,617 rows in the delivery the current data is built from, and around 200 columns: the DVSA vehicle details, the per-year columns, the attached DVLA columns, and columns recording the history of the DVLA lookups. It is the input to the pipeline described in <a href="pipeline.html" class="quarto-xref"><span>Chapter 9</span></a>. It is not itself published (<a href="data-products.html" class="quarto-xref"><span>Chapter 10</span></a>).</p>
+<section id="what-the-linkage-stage-produces" class="level2" data-number="8.5">
+<h2 data-number="8.5" class="anchored" data-anchor-id="what-the-linkage-stage-produces"><span class="header-section-number">8.5</span> What the linkage stage produces</h2>
+<p>The output of the linkage stage is one table with one row per vehicle, 138,238,617 rows in the delivery the current data is built from, and around 200 columns: the DVSA vehicle details, the per-year columns, the attached DVLA columns, and columns recording the history of the DVLA lookups. It is the input to the pipeline described in <a href="pipeline.html" class="quarto-xref"><span>Chapter 9</span></a>. It is not itself published (<a href="data-products.html" class="quarto-xref"><span>Chapter 10</span></a>).</p>
 
 
 </section>

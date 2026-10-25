@@ -516,7 +516,7 @@ ul.task-list li input[type="checkbox"] {
 <h2 data-number="23.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">23.1</span> Overview</h2>
 <p>These columns identify each row of the vehicle table and record why the vehicle is in it.</p>
 <ul>
-<li><strong><code>vehicle_id</code></strong> is the row number in the input file supplied by the Bristol team. It is unique within one version of the data but <strong>not stable between versions</strong>: a new delivery renumbers the vehicles (<a href="../pitfalls.html" class="quarto-xref"><span>Chapter 14</span></a>). To follow a vehicle across versions, join on the registration instead (<a href="registration.html" class="quarto-xref"><span>Chapter 24</span></a>).</li>
+<li><strong><code>vehicle_id</code></strong> is the row number in the linked input file (<a href="../sources-linkage.html" class="quarto-xref"><span>Chapter 8</span></a>). It is unique within one version of the data but <strong>not stable between versions</strong>: a new delivery renumbers the vehicles (<a href="../pitfalls.html" class="quarto-xref"><span>Chapter 14</span></a>). To follow a vehicle across versions, join on the registration instead (<a href="registration.html" class="quarto-xref"><span>Chapter 24</span></a>).</li>
 <li><strong><code>dup_vrm</code></strong> flags a DVSA registration that appears on more than one row. Duplicates are kept and flagged rather than dropped, because it is not known which row is right.</li>
 <li><strong>The <code>scope_</code> flags</strong> record the evidence that the vehicle existed at some point from 2005. A vehicle is kept if any of the four is <code>TRUE</code>; the 138.2 million input rows become 93.4 million in-scope vehicles. The flags are not exclusive, and a vehicle often meets several.</li>
 </ul>
@@ -554,7 +554,7 @@ Table&nbsp;23.1: Identifier and scope columns.
 <td style="text-align: left;">Yes</td>
 <td style="text-align: left;">BIGINT</td>
 <td style="text-align: left;">pipeline</td>
-<td style="text-align: left;">Row number in the Bristol input file (stable id for this input)</td>
+<td style="text-align: left;">Row number in the linked input file (stable id for this input)</td>
 <td style="text-align: left;">0%</td>
 </tr>
 <tr class="even">
@@ -629,7 +629,7 @@ Figure&nbsp;23.1: Share of vehicles meeting each scope rule, by year of first us
 <div class="cell" data-layout-align="center">
 <section id="vehicle_id" class="level3">
 <h3 class="anchored" data-anchor-id="vehicle_id"><code>vehicle_id</code></h3>
-<p>Row number in the Bristol input file (stable id for this input).</p>
+<p>Row number in the linked input file (stable id for this input).</p>
 <p>Each value belongs to one vehicle, so the values are not summarised.</p>
 </section>
 <section id="dup_vrm" class="level3">

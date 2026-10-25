@@ -514,12 +514,12 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="overview" class="level2" data-number="34.1">
 <h2 data-number="34.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">34.1</span> Overview</h2>
-<p>The MOT test records the odometer reading, and the difference between two tests gives the distance driven between them. The Bristol team spread that distance over the calendar years between the tests to give an annual mileage for each year. <a href="../sources-linkage.html" class="quarto-xref"><span>Chapter 8</span></a> explains how the annual figures are made, and <a href="../mot-test.html" class="quarto-xref"><span>Chapter 1</span></a> what the MOT records.</p>
+<p>The MOT test records the odometer reading, and the difference between two tests gives the distance driven between them. The annualisation spreads that distance over the calendar years between the tests to give an annual mileage for each year. <a href="../sources-linkage.html" class="quarto-xref"><span>Chapter 8</span></a> explains how the annual figures are made, and <a href="../mot-test.html" class="quarto-xref"><span>Chapter 1</span></a> what the MOT records.</p>
 <ul>
 <li><strong><code>mileage_YYYY</code></strong> is the number of miles driven in year YYYY, from 2005 to 2025.</li>
 <li><strong><code>legit_mileage_YYYY</code></strong> is <code>TRUE</code> if that mileage is judged plausible. Filter on it for most analyses: the implausible values include odometer errors and readings typed in wrongly.</li>
 <li><strong><code>total_mileage</code></strong> is the sum of the annual mileages over all years. It is 0 for a vehicle with no recorded mileage, and decides <code>scope_mileage</code> (<a href="identifiers.html" class="quarto-xref"><span>Chapter 23</span></a>).</li>
-<li><strong><code>odometer_est_YYYY</code></strong> is the Bristol team’s estimate of the odometer reading in year YYYY, carried through as supplied. The pipeline does not use it: some estimates exceed 1,000,000 miles and some fall from one year to the next. It is in the maximal table only.</li>
+<li><strong><code>odometer_est_YYYY</code></strong> is the annualisation’s estimate of the odometer reading in year YYYY, carried through unchanged. The pipeline does not use it: some estimates exceed 1,000,000 miles and some fall from one year to the next. It is in the maximal table only.</li>
 </ul>
 <p>The pipeline takes the annual mileages as supplied (methodology, <a href="../../reports/methodology.html#input-data">section 2</a>), and summarises them in the mileage tables (<a href="../../reports/methodology.html#stage-6-mileage-summaries">section 8</a>; <a href="../aggregate-tables.html" class="quarto-xref"><span>Chapter 12</span></a>). The table is wide, with one mileage column per year: <a href="../examples-code.html" class="quarto-xref"><span>Chapter 17</span></a> shows how to reshape it to one row per vehicle per year.</p>
 <div class="callout callout-style-default callout-important callout-titled" title="Mileage needs a test at each end">
@@ -548,8 +548,8 @@ Table&nbsp;34.1: Mileage columns.
 <col style="width: 7%">
 <col style="width: 3%">
 <col style="width: 2%">
-<col style="width: 3%">
-<col style="width: 79%">
+<col style="width: 6%">
+<col style="width: 76%">
 <col style="width: 4%">
 </colgroup>
 <thead>
@@ -567,16 +567,16 @@ Table&nbsp;34.1: Mileage columns.
 <td style="text-align: left;"><code>mileage_YYYY</code></td>
 <td style="text-align: left;">Yes</td>
 <td style="text-align: left;">INTEGER</td>
-<td style="text-align: left;">Bristol</td>
-<td style="text-align: left;">Annual mileage in that year (Bristol, already annualised; implausible values removed by Bristol, see legit_mileage_YYYY). Years before the first MOT are Bristol’s estimates from the first test’s odometer reading, not separate readings</td>
+<td style="text-align: left;">DVSA (annualised)</td>
+<td style="text-align: left;">Annual mileage in that year (annualised from the MOT odometer readings; implausible values removed, see legit_mileage_YYYY). Years before the first MOT are estimates from the first test’s odometer reading, not separate readings</td>
 <td style="text-align: left;">57.22–72.36%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>legit_mileage_YYYY</code></td>
 <td style="text-align: left;">Yes</td>
 <td style="text-align: left;">BOOLEAN</td>
-<td style="text-align: left;">Bristol</td>
-<td style="text-align: left;">Bristol flag: annual mileage in that year is plausible</td>
+<td style="text-align: left;">DVSA (annualised)</td>
+<td style="text-align: left;">Flag: annual mileage in that year is plausible</td>
 <td style="text-align: left;">56.97–72.21%</td>
 </tr>
 <tr class="odd">
@@ -591,8 +591,8 @@ Table&nbsp;34.1: Mileage columns.
 <td style="text-align: left;"><code>odometer_est_YYYY</code></td>
 <td style="text-align: left;">No</td>
 <td style="text-align: left;">INTEGER</td>
-<td style="text-align: left;">Bristol</td>
-<td style="text-align: left;">Bristol’s estimated odometer reading in that year. Not used by the pipeline: some exceed 1,000,000 miles and some fall from one year to the next</td>
+<td style="text-align: left;">DVSA (annualised)</td>
+<td style="text-align: left;">Estimated odometer reading in that year. Not used by the pipeline: some exceed 1,000,000 miles and some fall from one year to the next</td>
 <td style="text-align: left;">57.23–72.37%</td>
 </tr>
 </tbody>
@@ -810,7 +810,7 @@ Table&nbsp;34.2: Vehicles on the road in each year, and the share with a mileage
 <div class="cell" data-layout-align="center">
 <section id="mileage_yyyy" class="level3">
 <h3 class="anchored" data-anchor-id="mileage_yyyy"><code>mileage_YYYY</code></h3>
-<p>Annual mileage in that year (Bristol, already annualised; implausible values removed by Bristol, see legit_mileage_YYYY). Years before the first MOT are Bristol’s estimates from the first test’s odometer reading, not separate readings.</p>
+<p>Annual mileage in that year (annualised from the MOT odometer readings; implausible values removed, see legit_mileage_YYYY). Years before the first MOT are estimates from the first test’s odometer reading, not separate readings.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-dd-v-mileage-yyyy" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -828,7 +828,7 @@ Figure&nbsp;34.2: Minimum, quartiles and maximum of mileage_YYYY, by year, among
 </section>
 <section id="legit_mileage_yyyy" class="level3">
 <h3 class="anchored" data-anchor-id="legit_mileage_yyyy"><code>legit_mileage_YYYY</code></h3>
-<p>Bristol flag: annual mileage in that year is plausible.</p>
+<p>Flag: annual mileage in that year is plausible.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-dd-v-legit-mileage-yyyy" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -864,7 +864,7 @@ Figure&nbsp;34.4: Minimum, quartiles and maximum of total_mileage, by year of fi
 </section>
 <section id="odometer_est_yyyy" class="level3">
 <h3 class="anchored" data-anchor-id="odometer_est_yyyy"><code>odometer_est_YYYY</code></h3>
-<p>Bristol’s estimated odometer reading in that year. Not used by the pipeline: some exceed 1,000,000 miles and some fall from one year to the next.</p>
+<p>Estimated odometer reading in that year. Not used by the pipeline: some exceed 1,000,000 miles and some fall from one year to the next.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-dd-v-odometer-est-yyyy" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">

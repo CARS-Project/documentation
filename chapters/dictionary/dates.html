@@ -536,8 +536,8 @@ Table&nbsp;33.1: Date columns.
 <col style="width: 10%">
 <col style="width: 3%">
 <col style="width: 2%">
-<col style="width: 4%">
-<col style="width: 77%">
+<col style="width: 3%">
+<col style="width: 78%">
 <col style="width: 2%">
 </colgroup>
 <thead>
@@ -587,7 +587,7 @@ Table&nbsp;33.1: Date columns.
 <td style="text-align: left;"><code>firstUsedDate_DVSA</code></td>
 <td style="text-align: left;">No</td>
 <td style="text-align: left;">DATE</td>
-<td style="text-align: left;">Bristol (DVSA)</td>
+<td style="text-align: left;">DVSA</td>
 <td style="text-align: left;">As supplied by DVSA</td>
 <td style="text-align: left;">17.69%</td>
 </tr>
@@ -595,7 +595,7 @@ Table&nbsp;33.1: Date columns.
 <td style="text-align: left;"><code>registrationDate_DVSA</code></td>
 <td style="text-align: left;">No</td>
 <td style="text-align: left;">DATE</td>
-<td style="text-align: left;">Bristol (DVSA)</td>
+<td style="text-align: left;">DVSA</td>
 <td style="text-align: left;">As supplied by DVSA</td>
 <td style="text-align: left;">0.07%</td>
 </tr>
@@ -603,7 +603,7 @@ Table&nbsp;33.1: Date columns.
 <td style="text-align: left;"><code>manufactureDate_DVSA</code></td>
 <td style="text-align: left;">No</td>
 <td style="text-align: left;">DATE</td>
-<td style="text-align: left;">Bristol (DVSA)</td>
+<td style="text-align: left;">DVSA</td>
 <td style="text-align: left;">As supplied by DVSA</td>
 <td style="text-align: left;">0.52%</td>
 </tr>
@@ -611,7 +611,7 @@ Table&nbsp;33.1: Date columns.
 <td style="text-align: left;"><code>monthOfFirstRegistration_DVLA</code></td>
 <td style="text-align: left;">No</td>
 <td style="text-align: left;">DATE</td>
-<td style="text-align: left;">Bristol (VES)</td>
+<td style="text-align: left;">DVLA (VES)</td>
 <td style="text-align: left;">As returned by the DVLA Vehicle Enquiry Service</td>
 <td style="text-align: left;">23.04%</td>
 </tr>
@@ -619,7 +619,7 @@ Table&nbsp;33.1: Date columns.
 <td style="text-align: left;"><code>monthOfFirstDvlaRegistration_DVLA</code></td>
 <td style="text-align: left;">No</td>
 <td style="text-align: left;">DATE</td>
-<td style="text-align: left;">Bristol (VES)</td>
+<td style="text-align: left;">DVLA (VES)</td>
 <td style="text-align: left;">As returned by the DVLA Vehicle Enquiry Service</td>
 <td style="text-align: left;">99%</td>
 </tr>
@@ -627,7 +627,7 @@ Table&nbsp;33.1: Date columns.
 <td style="text-align: left;"><code>yearOfManufacture_DVLA</code></td>
 <td style="text-align: left;">No</td>
 <td style="text-align: left;">INTEGER</td>
-<td style="text-align: left;">Bristol (VES)</td>
+<td style="text-align: left;">DVLA (VES)</td>
 <td style="text-align: left;">As returned by the DVLA Vehicle Enquiry Service</td>
 <td style="text-align: left;">23.24%</td>
 </tr>
@@ -635,7 +635,7 @@ Table&nbsp;33.1: Date columns.
 <td style="text-align: left;"><code>first_test_date_DVSA</code></td>
 <td style="text-align: left;">No</td>
 <td style="text-align: left;">DATE</td>
-<td style="text-align: left;">Bristol (DVSA)</td>
+<td style="text-align: left;">DVSA</td>
 <td style="text-align: left;">Date of the vehicle’s first MOT test, as supplied</td>
 <td style="text-align: left;">16.3%</td>
 </tr>
@@ -643,7 +643,7 @@ Table&nbsp;33.1: Date columns.
 <td style="text-align: left;"><code>first_test_year_DVSA</code></td>
 <td style="text-align: left;">No</td>
 <td style="text-align: left;">BIGINT</td>
-<td style="text-align: left;">Bristol (DVSA)</td>
+<td style="text-align: left;">DVSA</td>
 <td style="text-align: left;">Year of the vehicle’s first MOT test, as supplied</td>
 <td style="text-align: left;">16.3%</td>
 </tr>
@@ -651,15 +651,15 @@ Table&nbsp;33.1: Date columns.
 <td style="text-align: left;"><code>final_test_date_DVSA</code></td>
 <td style="text-align: left;">No</td>
 <td style="text-align: left;">DATE</td>
-<td style="text-align: left;">Bristol (DVSA)</td>
-<td style="text-align: left;">Date of the vehicle’s last recorded MOT test, from Bristol’s final_test_date_DVSA where the delivery has it. Missing for a vehicle that has never been tested; earlier deliveries supplied only lastMotTestDate_DVSA, which DVSA now fill with a future date for untested vehicles</td>
+<td style="text-align: left;">DVSA</td>
+<td style="text-align: left;">Date of the vehicle’s last recorded MOT test, from the supplied final_test_date_DVSA where the delivery has it. Missing for a vehicle that has never been tested; earlier deliveries supplied only lastMotTestDate_DVSA, which DVSA now fill with a future date for untested vehicles</td>
 <td style="text-align: left;">16.3%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>lastMotTestDate_DVSA</code></td>
 <td style="text-align: left;">No</td>
 <td style="text-align: left;">DATE</td>
-<td style="text-align: left;">Bristol (DVSA)</td>
+<td style="text-align: left;">DVSA</td>
 <td style="text-align: left;">Date of the last MOT test as supplied. DVSA fill a future date for vehicles never tested; use final_test_date_DVSA</td>
 <td style="text-align: left;">6.28%</td>
 </tr>
@@ -667,7 +667,7 @@ Table&nbsp;33.1: Date columns.
 <td style="text-align: left;"><code>final_test_year_DVSA</code></td>
 <td style="text-align: left;">No</td>
 <td style="text-align: left;">BIGINT</td>
-<td style="text-align: left;">Bristol (DVSA)</td>
+<td style="text-align: left;">DVSA</td>
 <td style="text-align: left;">Year of the vehicle’s final MOT test, as supplied</td>
 <td style="text-align: left;">16.3%</td>
 </tr>
@@ -676,7 +676,7 @@ Table&nbsp;33.1: Date columns.
 <td style="text-align: left;">Yes</td>
 <td style="text-align: left;">INTEGER</td>
 <td style="text-align: left;">pipeline</td>
-<td style="text-align: left;">Last MOT year: the latest year Bristol flags is_end_use; where no year is flagged, the last year with a recorded PCA, provided that is at least two years before the last year of data. Missing for vehicles still in service. Drives the dead status of pca_YYYY</td>
+<td style="text-align: left;">Last MOT year: the latest year flagged is_end_use; where no year is flagged, the last year with a recorded PCA, provided that is at least two years before the last year of data. Missing for vehicles still in service. Drives the dead status of pca_YYYY</td>
 <td style="text-align: left;">44.01%</td>
 </tr>
 </tbody>
@@ -1097,7 +1097,7 @@ Figure&nbsp;33.13: Minimum, quartiles and maximum of first_test_year_DVSA, by ye
 </section>
 <section id="final_test_date_dvsa" class="level3">
 <h3 class="anchored" data-anchor-id="final_test_date_dvsa"><code>final_test_date_DVSA</code></h3>
-<p>Date of the vehicle’s last recorded MOT test, from Bristol’s final_test_date_DVSA where the delivery has it. Missing for a vehicle that has never been tested; earlier deliveries supplied only lastMotTestDate_DVSA, which DVSA now fill with a future date for untested vehicles.</p>
+<p>Date of the vehicle’s last recorded MOT test, from the supplied final_test_date_DVSA where the delivery has it. Missing for a vehicle that has never been tested; earlier deliveries supplied only lastMotTestDate_DVSA, which DVSA now fill with a future date for untested vehicles.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-dd-v-final-test-date-dvsa" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -1151,7 +1151,7 @@ Figure&nbsp;33.16: Minimum, quartiles and maximum of final_test_year_DVSA, by ye
 </section>
 <section id="last_mot_year" class="level3">
 <h3 class="anchored" data-anchor-id="last_mot_year"><code>last_mot_year</code></h3>
-<p>Last MOT year: the latest year Bristol flags is_end_use; where no year is flagged, the last year with a recorded PCA, provided that is at least two years before the last year of data. Missing for vehicles still in service. Drives the dead status of pca_YYYY.</p>
+<p>Last MOT year: the latest year flagged is_end_use; where no year is flagged, the last year with a recorded PCA, provided that is at least two years before the last year of data. Missing for vehicles still in service. Drives the dead status of pca_YYYY.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-dd-v-last-mot-year" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">

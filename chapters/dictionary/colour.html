@@ -514,12 +514,13 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="overview" class="level2" data-number="27.1">
 <h2 data-number="27.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">27.1</span> Overview</h2>
-<p>Both sources record the vehicle’s colour. The pipeline keeps the values as supplied and does not harmonise them.</p>
+<p>Both the DVSA and DVLA sources record the vehicle’s colour, but in different ways. The CARS pipeline keeps the values as supplied and does not modify them.</p>
 <ul>
 <li><strong><code>primaryColour_DVSA</code></strong> and <strong><code>secondaryColour_DVSA</code></strong> are the colours recorded in the MOT history.</li>
 <li><strong><code>colour_DVLA</code></strong> is the colour on the DVLA register, as returned by the Vehicle Enquiry Service (VES).</li>
 </ul>
-<p>A vehicle can be resprayed, and the DVLA colour is the one notified to the DVLA, so the two sources can differ. The DVSA and DVLA columns are described among the input data in the methodology, <a href="../../reports/methodology.html#input-data">section 2</a>.</p>
+<p>Vehicles can change colour over time (although most don’t). The DVSA do not provide a record of colour changes over time so the <strong><code>primaryColour_DVSA</code></strong> and <strong><code>secondaryColour_DVSA</code></strong> are likely to be the most recent values. The DVLA VES API also does not provide a record of colour changes over time, but repeted quering of the API may have found some vehicles that have changed colour. However in the main CARS ouputs only the most recent colour is kept.</p>
+<p>The DVSA and DVLA columns are described among the input data in the methodology, <a href="../../reports/methodology.html#input-data">section 2</a>.</p>
 <div class="cell" data-layout-align="center">
 <div id="tbl-dd-colour" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
 <figure class="quarto-float quarto-float-tbl figure">
@@ -530,11 +531,11 @@ Table&nbsp;27.1: Colour columns.
 <div class="cell-output-display">
 <table class="cell caption-top table table-sm table-striped small">
 <colgroup>
-<col style="width: 20%">
-<col style="width: 9%">
+<col style="width: 21%">
+<col style="width: 10%">
 <col style="width: 7%">
-<col style="width: 13%">
-<col style="width: 42%">
+<col style="width: 10%">
+<col style="width: 44%">
 <col style="width: 7%">
 </colgroup>
 <thead>
@@ -552,7 +553,7 @@ Table&nbsp;27.1: Colour columns.
 <td style="text-align: left;"><code>primaryColour_DVSA</code></td>
 <td style="text-align: left;">No</td>
 <td style="text-align: left;">VARCHAR</td>
-<td style="text-align: left;">Bristol (DVSA)</td>
+<td style="text-align: left;">DVSA</td>
 <td style="text-align: left;">As supplied by DVSA</td>
 <td style="text-align: left;">0%</td>
 </tr>
@@ -560,7 +561,7 @@ Table&nbsp;27.1: Colour columns.
 <td style="text-align: left;"><code>secondaryColour_DVSA</code></td>
 <td style="text-align: left;">No</td>
 <td style="text-align: left;">VARCHAR</td>
-<td style="text-align: left;">Bristol (DVSA)</td>
+<td style="text-align: left;">DVSA</td>
 <td style="text-align: left;">As supplied by DVSA</td>
 <td style="text-align: left;">8.71%</td>
 </tr>
@@ -568,7 +569,7 @@ Table&nbsp;27.1: Colour columns.
 <td style="text-align: left;"><code>colour_DVLA</code></td>
 <td style="text-align: left;">No</td>
 <td style="text-align: left;">VARCHAR</td>
-<td style="text-align: left;">Bristol (VES)</td>
+<td style="text-align: left;">DVLA (VES)</td>
 <td style="text-align: left;">As returned by the DVLA Vehicle Enquiry Service</td>
 <td style="text-align: left;">23.04%</td>
 </tr>
@@ -582,8 +583,9 @@ Table&nbsp;27.1: Colour columns.
 </section>
 <section id="coverage" class="level2" data-number="27.2">
 <h2 data-number="27.2" class="anchored" data-anchor-id="coverage"><span class="header-section-number">27.2</span> Coverage</h2>
-<p>The DVSA primary colour is present for every vehicle and the secondary colour for 91%. The secondary colour is less often present for vehicles first used in 2023 and 2024 (41% for 2024) than for older or newer ones (<a href="#fig-dd-colour" class="quarto-xref">Figure&nbsp;<span>27.1</span></a>). A value is not necessarily a colour, though: most vehicles have the secondary colour <code>Not Stated</code> (<a href="#fig-dd-v-secondarycolour-dvsa" class="quarto-xref">Figure&nbsp;<span>27.3</span></a>), so the column says little about most vehicles.</p>
-<p>The DVLA colour, like every VES field, is present only where a VES record was found: 77% of vehicles, fewer for those first used before 2010, most of which have left the register (<a href="dvla-status.html" class="quarto-xref"><span>Chapter 36</span></a>).</p>
+<p>The DVSA primary colour is present for every vehicle and the secondary colour for 91%. The secondary colour is less often present for vehicles first used in 2023 and 2024 (41% for 2024) than for older or newer ones (<a href="#fig-dd-colour" class="quarto-xref">Figure&nbsp;<span>27.1</span></a>). A value is not necessarily a colour, though: most vehicles have the secondary colour <code>Not Stated</code> (<a href="#fig-dd-v-secondarycolour-dvsa" class="quarto-xref">Figure&nbsp;<span>27.3</span></a>), so the column is not particually useful.</p>
+<p>The <strong><code>colour_DVLA</code></strong>, like every VES field, is only present only where a VES record was found: 77% of vehicles. When a vehicle does exist in the VES API it alsmost always has a colour value. The <strong><code>colour_DVLA</code></strong> is less present for those first used before 2010, most of which have left the fleet and so are no longer included in the VES API (<a href="dvla-status.html" class="quarto-xref"><span>Chapter 36</span></a>).</p>
+<p>Data coverage is shown in the table and charts below.</p>
 <div class="cell" data-layout-align="center">
 <div id="tbl-dd-colour-coverage" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
 <figure class="quarto-float quarto-float-tbl figure">
@@ -660,7 +662,7 @@ Figure&nbsp;27.1: Share of vehicles with a value in each colour column, by year 
 </section>
 <section id="values" class="level2" data-number="27.3">
 <h2 data-number="27.3" class="anchored" data-anchor-id="values"><span class="header-section-number">27.3</span> Values</h2>
-<p>How the values of each column change over time, by year of first use, from 1990. Each chart shows the share of vehicles with each value, with the less common values grouped as <em>All other values</em> and missing values as <em>Blank</em>. Each colour is drawn in that colour, so grey and silver are real colours here; <em>All other values</em> and <em>Blank</em> are shown in beige, and values that are not a colour, such as <code>Not Stated</code>, in violet.</p>
+<p>The charts below show an overview of how the values of each variaible change over time (based on a vehicles first use date). These charts are intedned to help data users understand what to expect in the CARS data an are not inteneded to used as factual descriptions of the vehicle fleet becuase they do not account for biases and limitations in the CARS data. Some vehicles are excluded due to missing first use date or a date before 1990.</p>
 <div class="cell" data-layout-align="center">
 <section id="primarycolour_dvsa" class="level3">
 <h3 class="anchored" data-anchor-id="primarycolour_dvsa"><code>primaryColour_DVSA</code></h3>

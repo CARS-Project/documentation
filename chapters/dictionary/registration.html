@@ -522,7 +522,7 @@ ul.task-list li input[type="checkbox"] {
 <li>says whether the VES record can be trusted.</li>
 </ol></li>
 <li><strong><code>registration_clean</code></strong> is the DVSA plate upper-cased with spaces and punctuation removed. Use it for joins.</li>
-<li><strong><code>registration_at_first_test</code></strong> is the plate the vehicle carried at its first MOT test, as supplied by the Bristol team. It differs from <code>registration_DVSA</code> where the plate has changed since, for example to a cherished plate. The pipeline carries it through without using it.</li>
+<li><strong><code>registration_at_first_test</code></strong> is the plate the vehicle carried at its first MOT test, as recorded by DVSA. It differs from <code>registration_DVSA</code> where the plate has changed since, for example to a cherished plate. The pipeline carries it through without using it.</li>
 <li><strong>The <code>plate_</code> columns</strong> decode the plate’s format: its type (current style, prefix, suffix, dateless and others), the period in which a plate of that form was issued, and the issuing office or region.</li>
 <li><strong><code>vanity_plate</code></strong> is <code>TRUE</code> where the vehicle’s birth date falls outside the plate’s issue period. This flags cherished plates, but also imports, Q plates and other re-registered vehicles.</li>
 <li><strong><code>plate_ever_changed_VES</code></strong> is <code>TRUE</code> where the registration returned a different vehicle between VES lookups.</li>
@@ -555,7 +555,7 @@ Table&nbsp;24.1: Registration and number plate columns.
 <col style="width: 3%">
 <col style="width: 2%">
 <col style="width: 3%">
-<col style="width: 80%">
+<col style="width: 81%">
 <col style="width: 2%">
 </colgroup>
 <thead>
@@ -573,7 +573,7 @@ Table&nbsp;24.1: Registration and number plate columns.
 <td style="text-align: left;"><code>registration_DVSA</code></td>
 <td style="text-align: left;">No</td>
 <td style="text-align: left;">VARCHAR</td>
-<td style="text-align: left;">Bristol</td>
+<td style="text-align: left;">DVSA</td>
 <td style="text-align: left;">Vehicle registration mark as supplied by DVSA</td>
 <td style="text-align: left;">0%</td>
 </tr>
@@ -581,7 +581,7 @@ Table&nbsp;24.1: Registration and number plate columns.
 <td style="text-align: left;"><code>registration_DVLA</code></td>
 <td style="text-align: left;">No</td>
 <td style="text-align: left;">VARCHAR</td>
-<td style="text-align: left;">Bristol (VES)</td>
+<td style="text-align: left;">DVLA (VES)</td>
 <td style="text-align: left;">Registration returned by the DVLA Vehicle Enquiry Service</td>
 <td style="text-align: left;">2.94%</td>
 </tr>
@@ -597,7 +597,7 @@ Table&nbsp;24.1: Registration and number plate columns.
 <td style="text-align: left;"><code>registration_at_first_test</code></td>
 <td style="text-align: left;">No</td>
 <td style="text-align: left;">VARCHAR</td>
-<td style="text-align: left;">Bristol</td>
+<td style="text-align: left;">DVSA</td>
 <td style="text-align: left;">Registration the vehicle carried at its first MOT test, as supplied (differs from registration_DVSA after a plate change)</td>
 <td style="text-align: left;">0%</td>
 </tr>
@@ -653,7 +653,7 @@ Table&nbsp;24.1: Registration and number plate columns.
 <td style="text-align: left;"><code>plate_ever_changed_VES</code></td>
 <td style="text-align: left;">No</td>
 <td style="text-align: left;">BOOLEAN</td>
-<td style="text-align: left;">Bristol (VES)</td>
+<td style="text-align: left;">DVLA (VES)</td>
 <td style="text-align: left;">TRUE if the registration returned a different vehicle between VES checks: the plate moved</td>
 <td style="text-align: left;">2.94%</td>
 </tr>

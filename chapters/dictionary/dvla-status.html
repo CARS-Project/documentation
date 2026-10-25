@@ -517,7 +517,7 @@ ul.task-list li input[type="checkbox"] {
 <p>DVLA details were collected by querying the Vehicle Enquiry Service (VES) for every registration in the DVSA data, many of them several times, between 2024 and 2026 (<a href="../sources-linkage.html" class="quarto-xref"><span>Chapter 8</span></a>). These columns hold the vehicle’s licensing status as the VES reported it, the record of the lookups themselves, and the pipeline’s check of whether the VES record describes the same vehicle.</p>
 <ul>
 <li><strong>Licensing status</strong>: tax status and due date, MOT status and expiry, whether the vehicle is marked for export, the date of its latest V5C (registration certificate) and the end date of the additional rate of tax (the supplement for cars with a high list price), all as at the last lookup that returned a record. These are supplied by the DVLA and not changed. <a href="../vehicle-lifecycle.html" class="quarto-xref"><span>Chapter 6</span></a> explains SORN, export and the other stages they describe.</li>
-<li><strong>What changed between lookups</strong>: <code>ever_SORN</code>, <code>ever_export_marked</code>, <code>plate_ever_changed_VES</code>, <code>v5C_issue_date_ever_changed</code> and <code>change_in_other_VES_field</code> summarise the changes the Bristol team saw across repeated lookups.</li>
+<li><strong>What changed between lookups</strong>: <code>ever_SORN</code>, <code>ever_export_marked</code>, <code>plate_ever_changed_VES</code>, <code>v5C_issue_date_ever_changed</code> and <code>change_in_other_VES_field</code> summarise the changes seen across repeated lookups.</li>
 <li><strong>The lookups</strong>: when the registration was first and last queried and first and last returned a record, how many queries were made, and the error from the last one where it failed (methodology, <a href="../../reports/methodology.html#input-data">section 2</a>). <code>n_DVLA_makes</code> is the number of different makes the lookups returned: more than one suggests the plate moved between vehicles.</li>
 <li><strong><code>dvla_match</code></strong> says whether the VES record describes the same vehicle as the DVSA record. A registration can move between vehicles, so a lookup can return another vehicle’s record. Where at least two of make, year of manufacture and engine size disagree (<code>dvla_evidence</code>), the match is <code>different</code> and the pipeline does not use the record’s values (<a href="../../reports/methodology.html#dvsadvla-record-match">section 5.1</a>).</li>
 </ul>
@@ -534,8 +534,8 @@ Table&nbsp;36.1: Licensing status and DVLA lookup columns.
 <col style="width: 14%">
 <col style="width: 4%">
 <col style="width: 4%">
-<col style="width: 5%">
-<col style="width: 67%">
+<col style="width: 4%">
+<col style="width: 68%">
 <col style="width: 3%">
 </colgroup>
 <thead>
@@ -553,7 +553,7 @@ Table&nbsp;36.1: Licensing status and DVLA lookup columns.
 <td style="text-align: left;"><code>taxStatus_DVLA</code></td>
 <td style="text-align: left;">No</td>
 <td style="text-align: left;">VARCHAR</td>
-<td style="text-align: left;">Bristol (VES)</td>
+<td style="text-align: left;">DVLA (VES)</td>
 <td style="text-align: left;">As returned by the DVLA Vehicle Enquiry Service</td>
 <td style="text-align: left;">23.04%</td>
 </tr>
@@ -561,7 +561,7 @@ Table&nbsp;36.1: Licensing status and DVLA lookup columns.
 <td style="text-align: left;"><code>taxDueDate_DVLA</code></td>
 <td style="text-align: left;">No</td>
 <td style="text-align: left;">DATE</td>
-<td style="text-align: left;">Bristol (VES)</td>
+<td style="text-align: left;">DVLA (VES)</td>
 <td style="text-align: left;">As returned by the DVLA Vehicle Enquiry Service</td>
 <td style="text-align: left;">34.25%</td>
 </tr>
@@ -569,7 +569,7 @@ Table&nbsp;36.1: Licensing status and DVLA lookup columns.
 <td style="text-align: left;"><code>motStatus_DVLA</code></td>
 <td style="text-align: left;">No</td>
 <td style="text-align: left;">VARCHAR</td>
-<td style="text-align: left;">Bristol (VES)</td>
+<td style="text-align: left;">DVLA (VES)</td>
 <td style="text-align: left;">As returned by the DVLA Vehicle Enquiry Service</td>
 <td style="text-align: left;">23.04%</td>
 </tr>
@@ -577,7 +577,7 @@ Table&nbsp;36.1: Licensing status and DVLA lookup columns.
 <td style="text-align: left;"><code>motExpiryDate_DVLA</code></td>
 <td style="text-align: left;">No</td>
 <td style="text-align: left;">DATE</td>
-<td style="text-align: left;">Bristol (VES)</td>
+<td style="text-align: left;">DVLA (VES)</td>
 <td style="text-align: left;">As returned by the DVLA Vehicle Enquiry Service</td>
 <td style="text-align: left;">37.43%</td>
 </tr>
@@ -585,7 +585,7 @@ Table&nbsp;36.1: Licensing status and DVLA lookup columns.
 <td style="text-align: left;"><code>markedForExport_DVLA</code></td>
 <td style="text-align: left;">No</td>
 <td style="text-align: left;">BOOLEAN</td>
-<td style="text-align: left;">Bristol (VES)</td>
+<td style="text-align: left;">DVLA (VES)</td>
 <td style="text-align: left;">As returned by the DVLA Vehicle Enquiry Service</td>
 <td style="text-align: left;">23.04%</td>
 </tr>
@@ -593,7 +593,7 @@ Table&nbsp;36.1: Licensing status and DVLA lookup columns.
 <td style="text-align: left;"><code>ever_export_marked</code></td>
 <td style="text-align: left;">No</td>
 <td style="text-align: left;">DOUBLE</td>
-<td style="text-align: left;">Bristol (VES)</td>
+<td style="text-align: left;">DVLA (VES)</td>
 <td style="text-align: left;">Number of VES checks that reported the vehicle as marked for export (0 if never)</td>
 <td style="text-align: left;">23.04%</td>
 </tr>
@@ -601,7 +601,7 @@ Table&nbsp;36.1: Licensing status and DVLA lookup columns.
 <td style="text-align: left;"><code>ever_SORN</code></td>
 <td style="text-align: left;">No</td>
 <td style="text-align: left;">BOOLEAN</td>
-<td style="text-align: left;">Bristol (VES)</td>
+<td style="text-align: left;">DVLA (VES)</td>
 <td style="text-align: left;">TRUE if VES ever reported the vehicle as SORN</td>
 <td style="text-align: left;">23.04%</td>
 </tr>
@@ -609,7 +609,7 @@ Table&nbsp;36.1: Licensing status and DVLA lookup columns.
 <td style="text-align: left;"><code>artEndDate_DVLA</code></td>
 <td style="text-align: left;">No</td>
 <td style="text-align: left;">DATE</td>
-<td style="text-align: left;">Bristol (VES)</td>
+<td style="text-align: left;">DVLA (VES)</td>
 <td style="text-align: left;">As returned by the DVLA Vehicle Enquiry Service</td>
 <td style="text-align: left;">98.03%</td>
 </tr>
@@ -617,7 +617,7 @@ Table&nbsp;36.1: Licensing status and DVLA lookup columns.
 <td style="text-align: left;"><code>dateOfLastV5CIssued_DVLA</code></td>
 <td style="text-align: left;">No</td>
 <td style="text-align: left;">DATE</td>
-<td style="text-align: left;">Bristol (VES)</td>
+<td style="text-align: left;">DVLA (VES)</td>
 <td style="text-align: left;">As returned by the DVLA Vehicle Enquiry Service</td>
 <td style="text-align: left;">23.04%</td>
 </tr>
@@ -625,7 +625,7 @@ Table&nbsp;36.1: Licensing status and DVLA lookup columns.
 <td style="text-align: left;"><code>v5C_issue_date_ever_changed</code></td>
 <td style="text-align: left;">No</td>
 <td style="text-align: left;">BOOLEAN</td>
-<td style="text-align: left;">Bristol (VES)</td>
+<td style="text-align: left;">DVLA (VES)</td>
 <td style="text-align: left;">TRUE if the V5C issue date changed between VES checks</td>
 <td style="text-align: left;">2.94%</td>
 </tr>
@@ -633,7 +633,7 @@ Table&nbsp;36.1: Licensing status and DVLA lookup columns.
 <td style="text-align: left;"><code>change_in_other_VES_field</code></td>
 <td style="text-align: left;">No</td>
 <td style="text-align: left;">BOOLEAN</td>
-<td style="text-align: left;">Bristol (VES)</td>
+<td style="text-align: left;">DVLA (VES)</td>
 <td style="text-align: left;">TRUE if another VES field changed between checks</td>
 <td style="text-align: left;">2.94%</td>
 </tr>
@@ -657,7 +657,7 @@ Table&nbsp;36.1: Licensing status and DVLA lookup columns.
 <td style="text-align: left;"><code>collectionDate_DVLA</code></td>
 <td style="text-align: left;">No</td>
 <td style="text-align: left;">TIMESTAMP</td>
-<td style="text-align: left;">Bristol (VES)</td>
+<td style="text-align: left;">DVLA (VES)</td>
 <td style="text-align: left;">As returned by the DVLA Vehicle Enquiry Service</td>
 <td style="text-align: left;">2.94%</td>
 </tr>
@@ -665,7 +665,7 @@ Table&nbsp;36.1: Licensing status and DVLA lookup columns.
 <td style="text-align: left;"><code>is_error</code></td>
 <td style="text-align: left;">No</td>
 <td style="text-align: left;">BOOLEAN</td>
-<td style="text-align: left;">Bristol (VES)</td>
+<td style="text-align: left;">DVLA (VES)</td>
 <td style="text-align: left;">TRUE if the last VES lookup for this registration returned an error</td>
 <td style="text-align: left;">2.94%</td>
 </tr>
@@ -673,7 +673,7 @@ Table&nbsp;36.1: Licensing status and DVLA lookup columns.
 <td style="text-align: left;"><code>error</code></td>
 <td style="text-align: left;">No</td>
 <td style="text-align: left;">VARCHAR</td>
-<td style="text-align: left;">Bristol (VES)</td>
+<td style="text-align: left;">DVLA (VES)</td>
 <td style="text-align: left;">Error message from the last VES lookup</td>
 <td style="text-align: left;">79.9%</td>
 </tr>
@@ -681,7 +681,7 @@ Table&nbsp;36.1: Licensing status and DVLA lookup columns.
 <td style="text-align: left;"><code>n_VES_checks_to_linked_DVSA_regs</code></td>
 <td style="text-align: left;">No</td>
 <td style="text-align: left;">BIGINT</td>
-<td style="text-align: left;">Bristol (VES)</td>
+<td style="text-align: left;">DVLA (VES)</td>
 <td style="text-align: left;">Number of VES checks linked to this vehicle, errors included: n_VES_checks renamed (ves_4 onwards)</td>
 <td style="text-align: left;">2.94%</td>
 </tr>
@@ -689,7 +689,7 @@ Table&nbsp;36.1: Licensing status and DVLA lookup columns.
 <td style="text-align: left;"><code>n_VES_checks_for_DVLA_reg</code></td>
 <td style="text-align: left;">No</td>
 <td style="text-align: left;">BIGINT</td>
-<td style="text-align: left;">Bristol (VES)</td>
+<td style="text-align: left;">DVLA (VES)</td>
 <td style="text-align: left;">Number of VES checks against the DVLA registration alone, errors included (ves_4 onwards)</td>
 <td style="text-align: left;">2.94%</td>
 </tr>
@@ -697,7 +697,7 @@ Table&nbsp;36.1: Licensing status and DVLA lookup columns.
 <td style="text-align: left;"><code>n_VES_returns</code></td>
 <td style="text-align: left;">No</td>
 <td style="text-align: left;">DOUBLE</td>
-<td style="text-align: left;">Bristol (VES)</td>
+<td style="text-align: left;">DVLA (VES)</td>
 <td style="text-align: left;">Number of those queries that returned a record</td>
 <td style="text-align: left;">2.94%</td>
 </tr>
@@ -705,7 +705,7 @@ Table&nbsp;36.1: Licensing status and DVLA lookup columns.
 <td style="text-align: left;"><code>first_VES_check</code></td>
 <td style="text-align: left;">No</td>
 <td style="text-align: left;">TIMESTAMP</td>
-<td style="text-align: left;">Bristol (VES)</td>
+<td style="text-align: left;">DVLA (VES)</td>
 <td style="text-align: left;">First VES query for this registration</td>
 <td style="text-align: left;">2.94%</td>
 </tr>
@@ -713,7 +713,7 @@ Table&nbsp;36.1: Licensing status and DVLA lookup columns.
 <td style="text-align: left;"><code>first_VES_return</code></td>
 <td style="text-align: left;">No</td>
 <td style="text-align: left;">TIMESTAMP</td>
-<td style="text-align: left;">Bristol (VES)</td>
+<td style="text-align: left;">DVLA (VES)</td>
 <td style="text-align: left;">First VES query that returned a record</td>
 <td style="text-align: left;">23.04%</td>
 </tr>
@@ -721,7 +721,7 @@ Table&nbsp;36.1: Licensing status and DVLA lookup columns.
 <td style="text-align: left;"><code>last_VES_check</code></td>
 <td style="text-align: left;">No</td>
 <td style="text-align: left;">TIMESTAMP</td>
-<td style="text-align: left;">Bristol (VES)</td>
+<td style="text-align: left;">DVLA (VES)</td>
 <td style="text-align: left;">Last VES query for this registration</td>
 <td style="text-align: left;">2.94%</td>
 </tr>
@@ -729,7 +729,7 @@ Table&nbsp;36.1: Licensing status and DVLA lookup columns.
 <td style="text-align: left;"><code>last_VES_return</code></td>
 <td style="text-align: left;">No</td>
 <td style="text-align: left;">TIMESTAMP</td>
-<td style="text-align: left;">Bristol (VES)</td>
+<td style="text-align: left;">DVLA (VES)</td>
 <td style="text-align: left;">Last VES query that returned a record</td>
 <td style="text-align: left;">23.04%</td>
 </tr>
@@ -737,7 +737,7 @@ Table&nbsp;36.1: Licensing status and DVLA lookup columns.
 <td style="text-align: left;"><code>n_DVLA_makes</code></td>
 <td style="text-align: left;">No</td>
 <td style="text-align: left;">BIGINT</td>
-<td style="text-align: left;">Bristol (VES)</td>
+<td style="text-align: left;">DVLA (VES)</td>
 <td style="text-align: left;">Number of different makes the VES lookups for this registration returned, as supplied (missing where no VES record was attempted)</td>
 <td style="text-align: left;">2.94%</td>
 </tr>

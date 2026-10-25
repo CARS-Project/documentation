@@ -525,9 +525,9 @@ ul.task-list li input[type="checkbox"] {
 </ul></li>
 </ul>
 <p>The status rules are set out in the methodology, <a href="../../reports/methodology.html#postcode-area-status-infill">section 3.3</a>, and how the statuses describe a vehicle’s life in <a href="../vehicle-lifecycle.html" class="quarto-xref"><span>Chapter 6</span></a>. A vehicle is <em>observed</em> in a year when <code>pca_YYYY</code> holds a real postcode area, and selecting these vehicles is the usual first step of any analysis of a year (<a href="../vehicle-table.html" class="quarto-xref"><span>Chapter 11</span></a>).</p>
-<p>The Bristol team also supplied three yearly status flags, which the pipeline carries through to the maximal table only:</p>
+<p>The annualisation also sets three yearly status flags, which the pipeline carries through to the maximal table only:</p>
 <ul>
-<li><strong><code>is_new_vehicle_YYYY</code></strong> is Bristol’s new-vehicle flag for the year, and <strong><code>is_intertest_YYYY</code></strong> its inter-test flag. The pipeline does not use them.</li>
+<li><strong><code>is_new_vehicle_YYYY</code></strong> is the new-vehicle flag for the year, and <strong><code>is_intertest_YYYY</code></strong> its inter-test flag. The pipeline does not use them.</li>
 <li><strong><code>is_end_use_YYYY</code></strong> is <code>TRUE</code> in the year of the vehicle’s final MOT test, and only where testing has stopped. The last year in which it is <code>TRUE</code> gives <code>last_mot_year</code> (<a href="dates.html" class="quarto-xref"><span>Chapter 33</span></a>), and so the years in which <code>pca_YYYY</code> is <code>dead</code>.</li>
 </ul>
 <div class="cell" data-layout-align="center">
@@ -540,11 +540,11 @@ Table&nbsp;35.1: Location and yearly status columns.
 <div class="cell-output-display">
 <table class="cell caption-top table table-sm table-striped small">
 <colgroup>
-<col style="width: 6%">
-<col style="width: 3%">
-<col style="width: 2%">
 <col style="width: 5%">
-<col style="width: 79%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 7%">
+<col style="width: 78%">
 <col style="width: 3%">
 </colgroup>
 <thead>
@@ -562,32 +562,32 @@ Table&nbsp;35.1: Location and yearly status columns.
 <td style="text-align: left;"><code>pca_YYYY</code></td>
 <td style="text-align: left;">Yes</td>
 <td style="text-align: left;">VARCHAR</td>
-<td style="text-align: left;">Bristol + pipeline</td>
-<td style="text-align: left;">Postcode area in that year (Northern Ireland is BT), or unborn / dead / unknown where Bristol supplied none. Bristol attributes a PCA to years before the first MOT (from the first test) and up to two years after the last one, so a real PCA does not mean the vehicle was tested that year</td>
+<td style="text-align: left;">DVSA (annualised) + pipeline</td>
+<td style="text-align: left;">Postcode area in that year (Northern Ireland is BT), or unborn / dead / unknown where the annualisation gives none. The annualisation attributes a PCA to years before the first MOT (from the first test) and up to two years after the last one, so a real PCA does not mean the vehicle was tested that year</td>
 <td style="text-align: left;">0%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>is_new_vehicle_YYYY</code></td>
 <td style="text-align: left;">No</td>
 <td style="text-align: left;">BOOLEAN</td>
-<td style="text-align: left;">Bristol</td>
-<td style="text-align: left;">Bristol’s new-vehicle status flag for that year, as supplied. Not used by the pipeline</td>
+<td style="text-align: left;">DVSA (annualised)</td>
+<td style="text-align: left;">New-vehicle status flag for that year from the annualisation. Not used by the pipeline</td>
 <td style="text-align: left;">48.46–63.7%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>is_intertest_YYYY</code></td>
 <td style="text-align: left;">No</td>
 <td style="text-align: left;">BOOLEAN</td>
-<td style="text-align: left;">Bristol</td>
-<td style="text-align: left;">Bristol’s inter-test status flag for that year, as supplied. Not used by the pipeline</td>
+<td style="text-align: left;">DVSA (annualised)</td>
+<td style="text-align: left;">Inter-test status flag for that year from the annualisation. Not used by the pipeline</td>
 <td style="text-align: left;">48.45–63.63%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>is_end_use_YYYY</code></td>
 <td style="text-align: left;">No</td>
 <td style="text-align: left;">BOOLEAN</td>
-<td style="text-align: left;">Bristol</td>
-<td style="text-align: left;">Bristol flag for that year: the year of the vehicle’s final MOT test, set only where testing has stopped. Drives last_mot_year</td>
+<td style="text-align: left;">DVSA (annualised)</td>
+<td style="text-align: left;">Annualisation flag for that year: the year of the vehicle’s final MOT test, set only where testing has stopped. Drives last_mot_year</td>
 <td style="text-align: left;">48.45–63.63%</td>
 </tr>
 </tbody>
@@ -1007,7 +1007,7 @@ Table&nbsp;35.3: Share of the vehicles on the road in each year with a value in 
 <div class="cell" data-layout-align="center">
 <section id="pca_yyyy" class="level3">
 <h3 class="anchored" data-anchor-id="pca_yyyy"><code>pca_YYYY</code></h3>
-<p>Postcode area in that year (Northern Ireland is BT), or unborn / dead / unknown where Bristol supplied none. Bristol attributes a PCA to years before the first MOT (from the first test) and up to two years after the last one, so a real PCA does not mean the vehicle was tested that year.</p>
+<p>Postcode area in that year (Northern Ireland is BT), or unborn / dead / unknown where the annualisation gives none. The annualisation attributes a PCA to years before the first MOT (from the first test) and up to two years after the last one, so a real PCA does not mean the vehicle was tested that year.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-dd-v-pca-yyyy" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -1025,7 +1025,7 @@ Figure&nbsp;35.2: Share of vehicles by value of pca_YYYY, by year.
 </section>
 <section id="is_new_vehicle_yyyy" class="level3">
 <h3 class="anchored" data-anchor-id="is_new_vehicle_yyyy"><code>is_new_vehicle_YYYY</code></h3>
-<p>Bristol’s new-vehicle status flag for that year, as supplied. Not used by the pipeline.</p>
+<p>New-vehicle status flag for that year from the annualisation. Not used by the pipeline.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-dd-v-is-new-vehicle-yyyy" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -1043,7 +1043,7 @@ Figure&nbsp;35.3: Share of vehicles by value of is_new_vehicle_YYYY, by year.
 </section>
 <section id="is_intertest_yyyy" class="level3">
 <h3 class="anchored" data-anchor-id="is_intertest_yyyy"><code>is_intertest_YYYY</code></h3>
-<p>Bristol’s inter-test status flag for that year, as supplied. Not used by the pipeline.</p>
+<p>Inter-test status flag for that year from the annualisation. Not used by the pipeline.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-dd-v-is-intertest-yyyy" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -1061,7 +1061,7 @@ Figure&nbsp;35.4: Share of vehicles by value of is_intertest_YYYY, by year.
 </section>
 <section id="is_end_use_yyyy" class="level3">
 <h3 class="anchored" data-anchor-id="is_end_use_yyyy"><code>is_end_use_YYYY</code></h3>
-<p>Bristol flag for that year: the year of the vehicle’s final MOT test, set only where testing has stopped. Drives last_mot_year.</p>
+<p>Annualisation flag for that year: the year of the vehicle’s final MOT test, set only where testing has stopped. Drives last_mot_year.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-dd-v-is-end-use-yyyy" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">

@@ -522,7 +522,7 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>The linked table from the Bristol stage (<a href="sources-linkage.html" class="quarto-xref"><span>Chapter 8</span></a>) is accurate to its sources, but not yet easy to analyse. The same make is spelt dozens of ways, attributes are missing for many vehicles, and some DVLA records belong to another vehicle. The Leeds pipeline, <a href="https://github.com/CARS-Project/MOT-pipline">MOT-pipline</a>, cleans and enhances the table and produces the published outputs. This chapter summarises what it does; the full method, with every rule and count, is in the pipeline’s <a href="../reports/methodology.html">Methodology</a>, included as an appendix.</p>
+<p>The linked table from the linkage stage (<a href="sources-linkage.html" class="quarto-xref"><span>Chapter 8</span></a>) is accurate to its sources, but not yet easy to analyse. The same make is spelt dozens of ways, attributes are missing for many vehicles, and some DVLA records belong to another vehicle. The pipeline, <a href="https://github.com/CARS-Project/MOT-pipline">MOT-pipline</a>, cleans and enhances the table and produces the published outputs. This chapter summarises what it does; the full method, with every rule and count, is in the pipeline’s <a href="../reports/methodology.html">Methodology</a>, included as an appendix.</p>
 <section id="principles" class="level2" data-number="9.1">
 <h2 data-number="9.1" class="anchored" data-anchor-id="principles"><span class="header-section-number">9.1</span> Principles</h2>
 <p>Four principles run through the pipeline, and they shape how the data should be used:</p>
@@ -541,7 +541,7 @@ ul.task-list li input[type="checkbox"] {
 <p></p><figure class="figure"><p></p>
 <div>
 <pre class="mermaid mermaid-js">flowchart TD
-    A[Linked vehicle table&lt;br/&gt;from Bristol] --&gt; B[1. Core table&lt;br/&gt;scope, dates, yearly status]
+    A[Linked and annualised&lt;br/&gt;vehicle table] --&gt; B[1. Core table&lt;br/&gt;scope, dates, yearly status]
     B --&gt; C[2. Make and model&lt;br/&gt;matched to DfT names]
     T[DfT vehicle licensing&lt;br/&gt;statistics] --&gt; C
     A --&gt; M[3a. DVSA-DVLA&lt;br/&gt;record check]
@@ -656,43 +656,43 @@ Table&nbsp;9.1: Where the harmonised attributes come from: share of vehicles in 
 <td style="text-align: left;">revenue_weight</td>
 <td style="text-align: right;">30.4%</td>
 <td style="text-align: right;">0.0%</td>
-<td style="text-align: right;">55.9%</td>
-<td style="text-align: right;">13.7%</td>
+<td style="text-align: right;">39.3%</td>
+<td style="text-align: right;">30.2%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">co2</td>
 <td style="text-align: right;">54.0%</td>
 <td style="text-align: right;">0.0%</td>
-<td style="text-align: right;">25.1%</td>
-<td style="text-align: right;">20.9%</td>
+<td style="text-align: right;">20.0%</td>
+<td style="text-align: right;">26.0%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">euro_status</td>
 <td style="text-align: right;">14.5%</td>
-<td style="text-align: right;">35.9%</td>
-<td style="text-align: right;">40.9%</td>
-<td style="text-align: right;">8.7%</td>
+<td style="text-align: right;">55.2%</td>
+<td style="text-align: right;">21.5%</td>
+<td style="text-align: right;">8.8%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">type_approval</td>
 <td style="text-align: right;">59.0%</td>
 <td style="text-align: right;">0.0%</td>
-<td style="text-align: right;">29.6%</td>
-<td style="text-align: right;">11.4%</td>
+<td style="text-align: right;">22.3%</td>
+<td style="text-align: right;">18.6%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">wheelplan</td>
 <td style="text-align: right;">76.8%</td>
 <td style="text-align: right;">0.0%</td>
-<td style="text-align: right;">22.7%</td>
+<td style="text-align: right;">22.6%</td>
 <td style="text-align: right;">0.5%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">test_class</td>
 <td style="text-align: right;">79.3%</td>
 <td style="text-align: right;">0.0%</td>
-<td style="text-align: right;">13.1%</td>
-<td style="text-align: right;">7.6%</td>
+<td style="text-align: right;">14.8%</td>
+<td style="text-align: right;">5.9%</td>
 </tr>
 </tbody>
 </table>
