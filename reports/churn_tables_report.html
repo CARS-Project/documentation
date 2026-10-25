@@ -470,6 +470,12 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">Fleet profile tables</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../reports/racf_linked_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">The RACF / SMMT car fleet, linked to the MOT data</span></a>
+  </div>
+</li>
       </ul>
   </li>
       </ul>
@@ -522,7 +528,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#set-4---electric-vehicles-by-area" id="toc-set-4---electric-vehicles-by-area" class="nav-link" data-scroll-target="#set-4---electric-vehicles-by-area">Set 4 - electric vehicles by area</a></li>
   <li><a href="#set-5---does-moving-area-change-mileage" id="toc-set-5---does-moving-area-change-mileage" class="nav-link" data-scroll-target="#set-5---does-moving-area-change-mileage">Set 5 - does moving area change mileage?</a></li>
   <li><a href="#set-6---movement-rates-by-characteristic" id="toc-set-6---movement-rates-by-characteristic" class="nav-link" data-scroll-target="#set-6---movement-rates-by-characteristic">Set 6 - movement rates by characteristic</a></li>
-  <li><a href="#set-7---clean-air-zone-categories-and-leavers" id="toc-set-7---clean-air-zone-categories-and-leavers" class="nav-link" data-scroll-target="#set-7---clean-air-zone-categories-and-leavers">Set 7 - Clean Air Zone categories and leavers</a></li>
+  <li><a href="#set-7---clean-air-zone-categories-leavers-and-stayers" id="toc-set-7---clean-air-zone-categories-leavers-and-stayers" class="nav-link" data-scroll-target="#set-7---clean-air-zone-categories-leavers-and-stayers">Set 7 - Clean Air Zone categories, leavers and stayers</a></li>
   </ul></li>
   <li><a href="#every-file-written" id="toc-every-file-written" class="nav-link" data-scroll-target="#every-file-written">10. Every file written</a>
   <ul class="collapse">
@@ -588,8 +594,8 @@ ul.task-list li input[type="checkbox"] {
 <li>Every table is built from <strong>one intermediate file</strong>, <code>outputs/intermediate/churn_base.parquet</code>, which has <strong>one row per vehicle</strong> (81,112,156 vehicles) and one column per year for location and mileage.</li>
 <li>A vehicle’s location in a year is a <strong>postcode area</strong> (“LS”, “BS”, “BT”), or one of three words standing in for “no location recorded”: <code>unborn</code>, <code>dead</code>, <code>unknown</code>.</li>
 <li>Almost every table counts vehicles <strong>grouped by postcode area</strong>, and splits them either by year or by a characteristic (age, mileage, fuel, engine size, emissions category).</li>
-<li>The biggest limitation is not missing data in the usual sense: it is what a “location” is. Bristol gives a vehicle a postcode area in every year from its first registration to two years after its last MOT: the years before the first MOT (at age three) copy the first test’s area, and the two years after the last one carry it on. So a vehicle’s area in a year is not always a year in which it was tested there, and a scrapped vehicle stays in its area’s stock for about two years (section 5 and section 12). In 2019, the best covered year, 52.3% of the churn-base vehicles had a postcode area.</li>
-<li>The pipeline cross-checks every count that two tables should agree on (<code>outputs/quality/cross_checks.csv</code>, summarised in the data quality report): the Set 2 stock, Set 1b, Set 1d, Set 3, Set 4, Set 7A and Set 7B totals all reconcile with the churn base.</li>
+<li>The biggest limitation is not missing data in the usual sense: it is what a “location” is. The annualisation gives a vehicle a postcode area in every year from its first registration to two years after its last MOT: the years before the first MOT (at age three) copy the first test’s area, and the two years after the last one carry it on. So a vehicle’s area in a year is not always a year in which it was tested there, and a scrapped vehicle stays in its area’s stock for about two years (section 5 and section 12). In 2019, the best covered year, 52.3% of the churn-base vehicles had a postcode area.</li>
+<li>The pipeline cross-checks every count that two tables should agree on (<code>outputs/quality/cross_checks.csv</code>, summarised in the data quality report): the Set 2 stock, Set 1b, Set 1d, Set 3, Set 4, Set 7A, 7B and 7C totals all reconcile with the churn base.</li>
 </ul>
 </section>
 <section id="where-the-data-comes-from" class="level2">
@@ -1061,7 +1067,7 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: right;">81,112,156</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0.00</td>
-<td style="text-align: left;">Clean Air Zone proxy from fuel and first use year: <code>petrol_pre2006</code>, <code>diesel_pre2015</code> or <code>other</code></td>
+<td style="text-align: left;">Clean Air Zone proxy from fuel and first use year alone: <code>petrol_pre2006</code>, <code>diesel_pre2015</code> or <code>other</code>. Used by the Set 7 proxy checks; the Set 7 tables add the Euro standard (<code>caz_status</code>, computed in Set 7)</td>
 </tr>
 </tbody>
 </table>
@@ -1100,7 +1106,7 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: right;">20</td>
 <td style="text-align: left;">2006</td>
 <td style="text-align: left;">2025</td>
-<td style="text-align: left;">Annual miles for that year, as annualised by Bristol from the MOT odometer readings. Years before a vehicle’s first MOT are estimated from its first test, so they are not separate measurements</td>
+<td style="text-align: left;">Annual miles for that year, as annualised from the MOT odometer readings. Years before a vehicle’s first MOT are estimated from its first test, so they are not separate measurements</td>
 </tr>
 </tbody>
 </table>
@@ -1454,7 +1460,7 @@ ul.task-list li input[type="checkbox"] {
 </table>
 <p>Mileage starts in 2006 because a year’s mileage is the difference between two MOT odometer readings, so the first year of data has nothing to subtract from. The last year or two usually look thin: MOTs for those years are still being recorded.</p>
 <p><img src="churn_tables_report_figures/coverage-1.png" class="img-fluid"></p>
-<p><strong>Figure 1.</strong> The table above as a chart: all 81,112,156 churn-base vehicles (test class 4) by their location status in each year (<code>quality/churn_profile/by_year.csv</code>). <code>dead</code> starts two years after a vehicle’s last MOT, because Bristol keeps its postcode area for two years after it.</p>
+<p><strong>Figure 1.</strong> The table above as a chart: all 81,112,156 churn-base vehicles (test class 4) by their location status in each year (<code>quality/churn_profile/by_year.csv</code>). <code>dead</code> starts two years after a vehicle’s last MOT, because the annualisation keeps its postcode area for two years after it.</p>
 </section>
 </section>
 </section>
@@ -1509,7 +1515,7 @@ ul.task-list li input[type="checkbox"] {
 <p><strong>Age</strong> - whole years at 1 June of the year in question, calculated as the days from the first use date to 1 June divided by 365.25, rounded down. A vehicle first used in August 2013 is age 3 in 2017, not 4. Ages can be negative (a first use date after the year), which is why the age bands include a <code>&lt;0</code> band.</p>
 <p><strong>Movement rate</strong> - the churn v2 definition, <code>n_moves_2007_2017 / (age in 2017 - 3)</code>, defined for vehicles aged 4 or over in 2017. The idea was “moves per year of life after the first three, when a car has no MOT”. It does not measure that, for two reasons, and <strong>it should not be compared across ages</strong>:</p>
 <ul>
-<li>Bristol back-fills a vehicle’s postcode area into the years before its first MOT, so those years are “located” and a move between them can be counted (though, being copies, they rarely show one). The numerator therefore counts moves over up to ten year pairs (2007-2017) while the denominator counts years of life after the third.</li>
+<li>The annualisation back-fills a vehicle’s postcode area into the years before its first MOT, so those years are “located” and a move between them can be counted (though, being copies, they rarely show one). The numerator therefore counts moves over up to ten year pairs (2007-2017) while the denominator counts years of life after the third.</li>
 <li>For a vehicle aged 4 the denominator is 1 but there are about 4.5 observed year pairs; for a vehicle aged 20 it is 17 but there are at most 10.</li>
 </ul>
 <p>In this build the mean churn v2 rate falls from 0.47 at age 4 to 0.05 at age 20 and over, while the windowed rate stays between 0.1 and 0.2 at every age: the fall is produced by the formula, not by the vehicles. The churn v2 rate is larger than the windowed rate below age 13 and smaller above it. <strong>Windowed movement rate</strong> divides by the number of year pairs where both years hold a real area (<code>n_moves_2007_2017 / n_obs_2007_2017</code>), so it measures moves per observed year and is the one to quote. Note that the observed pairs include the back-filled years before the first MOT and the two years after the last one, in which no move can appear, so even the windowed rate understates the rate at which vehicles that are on the road change area.</p>
@@ -1562,7 +1568,7 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: left;">age6</td>
 <td style="text-align: right;">7</td>
 <td style="text-align: left;">includes its lower bound, excludes its upper bound</td>
-<td style="text-align: left;">Set 7B leavers by age</td>
+<td style="text-align: left;">Sets 7B and 7C by age in 2018</td>
 <td style="text-align: left;">&lt;0 | 0-3 | 4-5 | 6-8 | 9-12 | 13-17 | 18+</td>
 </tr>
 <tr class="even">
@@ -1576,7 +1582,7 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: left;">mileage3</td>
 <td style="text-align: right;">3</td>
 <td style="text-align: left;">includes its lower bound, excludes its upper bound</td>
-<td style="text-align: left;">Sets 2, 3, 5, 6 and 7B</td>
+<td style="text-align: left;">Sets 2, 3, 5, 6, 7B and 7C</td>
 <td style="text-align: left;">&lt;5k | 5-12k | &gt;12k</td>
 </tr>
 <tr class="even">
@@ -1604,7 +1610,7 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: left;">engine4</td>
 <td style="text-align: right;">5</td>
 <td style="text-align: left;">includes its lower bound, excludes its upper bound; <code>0 (electric)</code> is exactly 0</td>
-<td style="text-align: left;">Set 2, 3, 6 and 7B engine 4-band tables</td>
+<td style="text-align: left;">Set 2, 3, 6, 7B and 7C engine 4-band tables</td>
 <td style="text-align: left;">0 (electric) | 1-1400 | 1400-&lt;1700 | 1700-2000 | &gt;2000</td>
 </tr>
 <tr class="even">
@@ -1618,10 +1624,17 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: left;">fuel_simple</td>
 <td style="text-align: right;">6</td>
 <td style="text-align: left;">one group per fuel, not a numeric band</td>
-<td style="text-align: left;">Sets 2, 3, 6 and 7B fuel tables</td>
+<td style="text-align: left;">Sets 2, 3 and 6 fuel tables</td>
 <td style="text-align: left;">Petrol | Diesel | Electric | Hybrid Electric | Plug-in Hybrid Electric | Other</td>
 </tr>
 <tr class="even">
+<td style="text-align: left;">fuel4</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">fuel_simple with the two hybrid groups merged</td>
+<td style="text-align: left;">Sets 7B and 7C fuel breakdown</td>
+<td style="text-align: left;">Petrol | Diesel | Electric | Hybrid | Other</td>
+</tr>
+<tr class="odd">
 <td style="text-align: left;">fuel3</td>
 <td style="text-align: right;">3</td>
 <td style="text-align: left;">one group per fuel, not a numeric band</td>
@@ -1632,7 +1645,7 @@ ul.task-list li input[type="checkbox"] {
 </table>
 <p><strong>The <code>NA</code> column</strong> - several wide tables have a final column headed <code>NA</code>. That is not an error: it counts vehicles whose characteristic is unknown (usually engine size or mileage). Tables that list one row per category instead <em>drop</em> the unknown category. So a band table and its matching cross-tab can have slightly different totals, and the difference is the unknowns.</p>
 <p><strong>Zeros</strong> - every combination of area, year and band appears in the wide tables, filled with 0 where no vehicle matched. A 0 means “none”, not “not measured”.</p>
-<p><strong>Rounding</strong> - counts are exact. Proportions in Sets 2 and 6 are written at full precision. Average mileages in Set 7A are rounded to one decimal place; percentages in Set 0 to two.</p>
+<p><strong>Rounding</strong> - counts are exact. Proportions in Sets 2 and 6 are written at full precision. Average mileages in Set 7 are rounded to one decimal place; percentages in Set 0 to two.</p>
 </section>
 </section>
 <section id="how-complete-the-variables-are" class="level2">
@@ -1641,7 +1654,7 @@ ul.task-list li input[type="checkbox"] {
 <ul>
 <li><strong>Location and fuel are never missing.</strong> Every vehicle has a value in every <code>pca_YYYY</code> column (though 49.0% of 2017’s values are one of the three stand-in words), and every vehicle has a fuel group.</li>
 <li><strong>Engine size</strong> is missing for 6,232 vehicles (0.0%), so the four engine band columns are missing for exactly the same vehicles.</li>
-<li><strong>Euro status</strong> is missing for 3,888,410 vehicles (4.8%); in the harmonised column these hold the reason instead (<code>pre_euro</code>, <code>no_schedule</code> or <code>no_date</code>), so count them by <code>euro_status_src</code>, not by an empty <code>euro_status</code>. That looks like good coverage, but most of it is an assumption rather than a record: the register holds a Euro status for only a minority of vehicles, and where it holds none the enhanced table fills in the standard that was compulsory for new registrations of that body type when the vehicle was made (methodology.md, Section 5.7). Euro status is used only in the Set 7 check table.</li>
+<li><strong>Euro status</strong> is missing for 3,888,410 vehicles (4.8%); in the harmonised column these hold the reason instead (<code>pre_euro</code>, <code>no_schedule</code> or <code>no_date</code>), so count them by <code>euro_status_src</code>, not by an empty <code>euro_status</code>. That looks like good coverage, but most of it is an assumption rather than a record: the register holds a Euro status for only a minority of vehicles, and where it holds none the enhanced table fills in the standard that was compulsory for new registrations of that body type when the vehicle was made (methodology.md, Section 5.7). Euro status is used only in Set 7, where it decides the Clean Air Zone category together with the first use date.</li>
 <li><strong>Movement rate</strong> is missing for 30,878,242 vehicles (38.1%) - those aged under 4 in 2017, for whom it is not defined.</li>
 <li><strong><code>birth_pca</code></strong> (the area a vehicle first appeared in) is missing for 41,617,674 vehicles (51.3%): vehicles already registered before the data starts never have an <code>unborn</code>-to-area transition to read it from. Set 4’s “born here” columns are only meaningful for recent vehicles.</li>
 <li><strong>The dates behind the age calculation</strong> are never missing in the combined <code>first_use_date</code>, but the individual sources are: DVSA’s own date is missing for 10,093,594 vehicles (12.4%), which is what Set 0 reports on.</li>
@@ -2852,7 +2865,7 @@ ul.task-list li input[type="checkbox"] {
 <p><img src="churn_tables_report_figures/set1b-1.png" class="img-fluid"></p>
 <p><strong>Figure 4.</strong> For each year and lag, <code>different</code> / (<code>different</code> + <code>same</code>), summed over the rows of Sets 1b and 1c whose row (the later year’s area) is a real postcode area. <code>different</code> includes new vehicles and vehicles seen again after a gap, not only movers; Set 1d, in the next figure, separates them.</p>
 <p><img src="churn_tables_report_figures/set1d-1.png" class="img-fluid"></p>
-<p><strong>Figure 5.</strong> The year-on-year flows of <code>set1d_pca_flows_year-1.csv</code> summed over all areas, with the flows into areas above zero and those out of them below. Nationally the two <code>moved</code> flows are equal. The <code>dead</code> flow lags scrapping by about two years, because Bristol keeps a postcode area for two years after the last MOT, and new vehicles of the last two or three years are missing until their first MOT is in the data.</p>
+<p><strong>Figure 5.</strong> The year-on-year flows of <code>set1d_pca_flows_year-1.csv</code> summed over all areas, with the flows into areas above zero and those out of them below. Nationally the two <code>moved</code> flows are equal. The <code>dead</code> flow lags scrapping by about two years, because the annualisation keeps a postcode area for two years after the last MOT, and new vehicles of the last two or three years are missing until their first MOT is in the data.</p>
 <p><img src="churn_tables_report_figures/set1d-map-1.png" class="img-fluid"></p>
 <p><strong>Figure 6.</strong> Net migration between postcode areas in 2022: (<code>in_moved</code> - <code>out_moved</code>) / <code>stock_prev</code> for each area in <code>set1d_pca_flows_year-1.csv</code>. New and scrapped vehicles are left out. The colour scale runs from -3% to +3%.</p>
 </section>
@@ -2957,29 +2970,74 @@ ul.task-list li input[type="checkbox"] {
 <p><img src="churn_tables_report_figures/cross-7.png" class="img-fluid"></p>
 <p><strong>Figure 22.</strong> The same 2017 cohort cross-tabulated fuel by engine size (100cc bands): the share static in each cell (left, <code>set2_cross_fuel_engine100_long.csv</code>) and its windowed movement rate (right, <code>set6_cross_fuel_engine100_long.csv</code>). * marks cells with fewer than 1,000 vehicles.</p>
 </section>
-<section id="set-7---clean-air-zone-categories-and-leavers" class="level3">
-<h3 class="anchored" data-anchor-id="set-7---clean-air-zone-categories-and-leavers">Set 7 - Clean Air Zone categories and leavers</h3>
+<section id="set-7---clean-air-zone-categories-leavers-and-stayers" class="level3">
+<h3 class="anchored" data-anchor-id="set-7---clean-air-zone-categories-leavers-and-stayers">Set 7 - Clean Air Zone categories, leavers and stayers</h3>
 <ul>
-<li><strong>Question.</strong> Where are the vehicles a Clean Air Zone would charge, and do they leave?</li>
-<li><strong>Vehicles.</strong> In a real area in 2018 (42,034,312) for the check and the leavers; for the yearly counts, whoever was in a real area in each year from 2018 to 2023.</li>
-<li><strong>Variables.</strong> <code>caz_cat</code>, assigned from fuel and first use year by the first rule that matches: petrol first used before 2006 → <code>petrol_pre2006</code>; diesel first used before 2015 → <code>diesel_pre2015</code>; everything else → <code>other</code>. Plus <code>euro_status</code>, mileage, and the 2018 values of age, mileage, fuel and engine band.</li>
+<li><strong>Question.</strong> Where are the vehicles a Clean Air Zone or the ULEZ would charge, and do they leave the area or stay?</li>
+<li><strong>Rows.</strong> Every postcode area (<code>geography = pca</code>), plus three groups (<code>geography = group</code>):
+<ul>
+<li>Inner London (E N NW SE SW W)</li>
+<li>Outer London (BR CR EN HA IG RM SM TW UB)</li>
+<li>All other: every other area, apart from the areas partly in London, the clean air zone areas and BT XX</li>
+</ul>
+Some areas are repeated straight after the London groups:
+<ul>
+<li>the areas partly in Greater London (KT, DA, WD, <code>geography = partial_london_pca</code>)</li>
+<li>each area with a charging clean air zone (BA, B, PO, OX, BD, BS, NE, S, G, <code>geography = caz_pca</code>)</li>
+</ul>
+These areas belong to no group. <code>set7_area_definitions.csv</code> lists the schemes, their class and when charging started, and the config <code>set7</code> section holds the lists. <strong>Sum the <code>pca</code> rows only</strong>; the other rows group or repeat them.</li>
+<li><strong>Vehicles.</strong> In each year from 2018 to 2023, the vehicles in a real area. 7B and 7C start from the vehicles in a real area in 2018 (42,034,312).</li>
+<li><strong>Variables.</strong> <code>caz_status</code> is worked out in Set 7 from fuel, first use year and the Euro standard. Both conditions of the charging rule must hold:
+<ul>
+<li><strong>petrol</strong> first used before 2006 and not Euro 4 or later → <code>petrol_pre2006_not_euro4</code></li>
+<li><strong>diesel</strong> first used before 2015 and not Euro 6 or later → <code>diesel_pre2015_not_euro6</code></li>
+<li>everything else → <code>other</code></li>
+</ul>
+A vehicle with no Euro standard (<code>pre_euro</code>, <code>no_schedule</code>, or none) is placed by its date alone. Mileage is annual mileage, averaged only over the vehicles that have one.</li>
+<li><strong>Present.</strong> A vehicle counts as “present” in 2023 if it is still in the same row: the same area for an area row, or anywhere in the group for a group row. A move from E to N therefore stays in Inner London, and a move from LS to M stays in All other. As a result, the group rows of 7B and 7C are not the sums of their area rows.</li>
 <li><strong>Files.</strong>
 <ul>
-<li><code>set7_check_caz_category_vs_eurostatus.csv</code> - a check, not a result: how the date-based category lines up with the Euro standard, by category and fuel. It is about the proxy’s credibility, not a count of the fleet - and it is a weak check, because many Euro statuses are themselves worked out from the date the vehicle was made, so the two sides are not independent.</li>
-<li><code>set7_check_caz_proxy_agreement_by_source.csv</code> - the same check as an agreement rate, split by <code>euro_status_src</code>. Only <code>dvla</code> (recorded on the vehicle) and <code>variant</code> / <code>model_year_fuel</code> (the recorded value of similar vehicles) are an independent test of the proxy; <code>euro_schedule</code> rows agree almost by construction. Only about 0.6% of the vehicles have a status recorded on their own record. <strong>The independent part shows the petrol proxy is poor:</strong> of the <code>petrol_pre2006</code> cars with a recorded or borrowed standard, only 8.4% are below Euro 4, because many petrol cars of 2001-2005 already met it; for <code>diesel_pre2015</code> the figure is 76.5%. The <code>petrol_pre2006</code> counts in Set 7A and 7B therefore overstate the petrol vehicles a Clean Air Zone would charge.</li>
-<li><code>set7a_pca_caz_categories.csv</code> and its long form <code>set7a_pca_caz_category_by_year_long.csv</code> - counts and average mileage by area, category and year, 2018 to 2023. Average mileage is rounded to one decimal place and averaged only over vehicles with a recorded mileage.</li>
-<li><code>set7b_leavers_2018_to_2023_by_*.csv</code> - vehicles in a real area in 2018 that are <strong>not in that same area</strong> in 2023 (26,793,137 vehicles, 63.7% of the 2018 stock), split six ways: by 2018 mileage band, engine band, fuel, age band, CAZ category, and by outcome. In the outcome file the <code>same</code> and <code>unborn</code> columns are present but always 0, because a leaver is by definition not in the same area, and a vehicle in a real area in 2018 cannot be <code>unborn</code> later; the counts are therefore in <code>different</code> and <code>dead</code>.</li>
+<li><code>set7a_pca_caz_categories.csv</code> and its long form <code>set7a_pca_caz_category_by_year_long.csv</code> - counts and average mileage by row, category and year, with <code>total_vehicles_YYYY</code>. The wide file also has the vehicles present in the row in both 2018 and 2023. The long form gives the count behind each average (<code>n_with_mileage</code>).</li>
+<li><code>set7b_leavers_2018_to_2023.csv</code> - vehicles in the row in 2018 that are <strong>not in it</strong> in 2023 (26,793,137 over the area rows, 63.7% of the 2018 stock). For each category: the count and the average mileage in 2018 and in 2023 for all leavers, then the same split by where the leaver was in 2023:
+<ul>
+<li><code>moved</code>: in another area and still running</li>
+<li><code>dead</code>: scrapped</li>
+<li><code>unknown</code>: not located</li>
+</ul>
+The column names are <code>n_moved_*</code>, <code>n_dead_*</code>, <code>n_unknown_*</code> and <code>avg_mileage_YYYY_{outcome}_*</code>.</li>
+<li><code>set7c_stayers_2018_to_2023.csv</code> - the same for vehicles in the row in both years. In each row, 7B + 7C is the 7A 2018 total.</li>
+<li><code>set7b_..._by_breakdown_long.csv</code> and <code>set7c_..._by_breakdown_long.csv</code> - the same measures by category and by each of these 2018 characteristics:
+<ul>
+<li>mileage band (with a <code>no mileage</code> band)</li>
+<li>engine size in four bands</li>
+<li>fuel (Petrol, Diesel, Electric, Hybrid, Other)</li>
+<li>age band</li>
+</ul>
+The <code>all</code> breakdown is the whole row, and every other breakdown adds up to it. In 7B every line is also split by <code>outcome_2023</code> (<code>all</code>, <code>moved</code>, <code>dead</code>, <code>unknown</code>). Only combinations with vehicles are listed.</li>
+<li><code>set7_check_caz_status_change.csv</code> - how the Euro condition changes the date-only category, by where the Euro status came from. Of the 7,833,289 petrol vehicles first used before 2006, 416,641 are Euro 4 or later and move to <code>other</code>. Of the 13,376,907 diesels first used before 2015, 764,407 are Euro 6 and move. Almost all of these moves rest on a recorded or borrowed standard. Where the standard was assumed from the date (<code>euro_schedule</code>), the Euro condition repeats the date test and moves almost nothing. The categories therefore partly reflect which vehicles have a recorded standard.</li>
+<li><code>set7_check_caz_category_vs_eurostatus.csv</code> and <code>set7_check_caz_proxy_agreement_by_source.csv</code> - checks of the date-only proxy (<code>caz_cat</code>) against the Euro standard. Only <code>dvla</code> (recorded on the vehicle) and <code>variant</code> / <code>model_year_fuel</code> (the recorded value of similar vehicles) test the proxy independently. Of the <code>petrol_pre2006</code> cars with one of those standards, only 8.4% are below Euro 4; for <code>diesel_pre2015</code> the figure is 76.5%.</li>
 </ul></li>
-<li><strong>Trap.</strong> “Leaver” includes vehicles that were scrapped, and vehicles simply not observed in 2023. The by-outcome file is the one that separates those: <code>dead</code> is scrapped, <code>different</code> is elsewhere or unobserved.</li>
+<li><strong>Traps.</strong>
+<ul>
+<li>“Leaver” includes vehicles that were scrapped and vehicles not located in
+<ol start="2023" type="1">
+<li>The <code>moved</code> / <code>dead</code> / <code>unknown</code> split separates them. A scrapped leaver seldom has a 2023 mileage, so the all-leaver <code>avg_mileage_2023</code> mostly describes the leavers still running elsewhere; use the <code>moved</code> columns for those.</li>
+</ol></li>
+<li>Postcode areas do not follow the Greater London boundary, and a zone covers only part of its area (B includes Solihull, for example).</li>
+<li>Class B and C zones do not charge private cars.</li>
+<li>Most zones began charging in 2021-2023, so there are few years after the start.</li>
+</ul></li>
 </ul>
 <p><img src="churn_tables_report_figures/set7a-1.png" class="img-fluid"></p>
-<p><strong>Figure 23.</strong> The vehicles located each year by Clean Air Zone proxy category, summed over areas from <code>set7a_pca_caz_category_by_year_long.csv</code>. The category comes from fuel and first use year, not the recorded Euro standard, and <code>petrol_pre2006</code> overstates the petrol vehicles a zone would charge.</p>
+<p><strong>Figure 23.</strong> The vehicles located each year by Clean Air Zone category, summed over the area rows of <code>set7a_pca_caz_category_by_year_long.csv</code>. Both the first use date and the Euro standard must put a vehicle in a chargeable category.</p>
 <p><img src="churn_tables_report_figures/set7a-map-1.png" class="img-fluid"></p>
-<p><strong>Figure 24.</strong> The share of each postcode area’s located vehicles in 2023 in a chargeable proxy category, petrol first used before 2006 or diesel before 2015 (<code>set7a_pca_caz_category_by_year_long.csv</code>).</p>
+<p><strong>Figure 24.</strong> The share of each postcode area’s located vehicles in 2023 that are petrol first used before 2006 and not Euro 4+, or diesel first used before 2015 and not Euro 6+ (<code>set7a_pca_caz_category_by_year_long.csv</code>).</p>
+<p><img src="churn_tables_report_figures/set7bc-1.png" class="img-fluid"></p>
+<p><strong>Figure 25.</strong> For the group and clean air zone rows of <code>set7b_leavers_2018_to_2023.csv</code> and <code>set7c_stayers_2018_to_2023.csv</code>: leavers as a share of the 2018 vehicles, by category. Leaving includes being scrapped. All other spans most of the country, so its vehicles rarely leave it except by being scrapped, and its share is not directly comparable with a single area’s.</p>
 <p><img src="churn_tables_report_figures/set7b-1.png" class="img-fluid"></p>
-<p><strong>Figure 25.</strong> The 26,793,137 vehicles in a real area in 2018 but not in that area in 2023, split six ways by the <code>set7b_leavers_2018_to_2023_by_*.csv</code> tables summed over areas: each bar is one table and adds up to 100%, and segments over 6% are labelled. <code>different</code> includes vehicles not located in 2023.</p>
+<p><strong>Figure 26.</strong> The 26,793,137 vehicles in a real area in 2018 but not in that area in 2023, by each breakdown of <code>set7b_leavers_2018_to_2023_by_breakdown_long.csv</code> summed over the area rows. Each bar adds up to 100%, and segments over 6% are labelled.</p>
 <p><img src="churn_tables_report_figures/set7-check-1.png" class="img-fluid"></p>
-<p><strong>Figure 26.</strong> From <code>set7_check_caz_proxy_agreement_by_source.csv</code>: for each proxy category and fuel, how often the vehicle’s Euro standard agrees with the proxy, by where the standard came from, sized by the vehicles with a standard. Only <code>dvla</code> (recorded) and <code>variant</code> / <code>model_year_fuel</code> (borrowed from similar vehicles) test the proxy; <code>euro_schedule</code> is derived from the date, so it agrees almost by construction.</p>
+<p><strong>Figure 27.</strong> From <code>set7_check_caz_proxy_agreement_by_source.csv</code>: for each proxy category and fuel, how often the vehicle’s Euro standard agrees with the proxy, by where the standard came from, sized by the vehicles with a standard. Only <code>dvla</code> (recorded) and <code>variant</code> / <code>model_year_fuel</code> (borrowed from similar vehicles) test the proxy; <code>euro_schedule</code> is derived from the date, so it agrees almost by construction.</p>
 </section>
 </section>
 <section id="every-file-written" class="level2">
@@ -3015,9 +3073,9 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td style="text-align: left;">README_outputs.csv</td>
 <td style="text-align: left;">-</td>
-<td style="text-align: right;">20</td>
+<td style="text-align: right;">25</td>
 <td style="text-align: right;">3</td>
-<td style="text-align: right;">2.4</td>
+<td style="text-align: right;">3.4</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">set0_first_use_date_provenance.csv</td>
@@ -3454,74 +3512,74 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: right;">1.2</td>
 </tr>
 <tr class="even">
+<td style="text-align: left;">set7_area_definitions.csv</td>
+<td style="text-align: left;">SET7</td>
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">1.0</td>
+</tr>
+<tr class="odd">
 <td style="text-align: left;">set7_check_caz_category_vs_eurostatus.csv</td>
 <td style="text-align: left;">SET7</td>
 <td style="text-align: right;">403</td>
 <td style="text-align: right;">4</td>
 <td style="text-align: right;">14.3</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">set7_check_caz_proxy_agreement_by_source.csv</td>
 <td style="text-align: left;">SET7</td>
 <td style="text-align: right;">20</td>
 <td style="text-align: right;">8</td>
 <td style="text-align: right;">1.3</td>
 </tr>
+<tr class="odd">
+<td style="text-align: left;">set7_check_caz_status_change.csv</td>
+<td style="text-align: left;">SET7</td>
+<td style="text-align: right;">22</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">1.1</td>
+</tr>
 <tr class="even">
 <td style="text-align: left;">set7a_pca_caz_categories.csv</td>
 <td style="text-align: left;">SET7A</td>
-<td style="text-align: right;">120</td>
-<td style="text-align: right;">46</td>
-<td style="text-align: right;">36.7</td>
+<td style="text-align: right;">135</td>
+<td style="text-align: right;">49</td>
+<td style="text-align: right;">43.9</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">set7a_pca_caz_category_by_year_long.csv</td>
 <td style="text-align: left;">SET7A</td>
-<td style="text-align: right;">2,160</td>
-<td style="text-align: right;">5</td>
-<td style="text-align: right;">87.0</td>
+<td style="text-align: right;">2,430</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">173.1</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">set7b_leavers_2018_to_2023_by_ageband.csv</td>
+<td style="text-align: left;">set7b_leavers_2018_to_2023.csv</td>
 <td style="text-align: left;">SET7B</td>
-<td style="text-align: right;">120</td>
-<td style="text-align: right;">8</td>
-<td style="text-align: right;">5.4</td>
+<td style="text-align: right;">135</td>
+<td style="text-align: right;">44</td>
+<td style="text-align: right;">38.0</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">set7b_leavers_2018_to_2023_by_caz_category.csv</td>
+<td style="text-align: left;">set7b_leavers_2018_to_2023_by_breakdown_long.csv</td>
 <td style="text-align: left;">SET7B</td>
-<td style="text-align: right;">120</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">2.8</td>
+<td style="text-align: right;">27,898</td>
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">2,597.9</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">set7b_leavers_2018_to_2023_by_engine_4band.csv</td>
-<td style="text-align: left;">SET7B</td>
-<td style="text-align: right;">120</td>
-<td style="text-align: right;">7</td>
-<td style="text-align: right;">4.2</td>
+<td style="text-align: left;">set7c_stayers_2018_to_2023.csv</td>
+<td style="text-align: left;">SET7C</td>
+<td style="text-align: right;">135</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">12.0</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">set7b_leavers_2018_to_2023_by_fuel.csv</td>
-<td style="text-align: left;">SET7B</td>
-<td style="text-align: right;">120</td>
-<td style="text-align: right;">7</td>
-<td style="text-align: right;">4.1</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">set7b_leavers_2018_to_2023_by_mileageband.csv</td>
-<td style="text-align: left;">SET7B</td>
-<td style="text-align: right;">120</td>
-<td style="text-align: right;">5</td>
-<td style="text-align: right;">3.4</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">set7b_leavers_2018_to_2023_by_outcome.csv</td>
-<td style="text-align: left;">SET7B</td>
-<td style="text-align: right;">120</td>
-<td style="text-align: right;">5</td>
-<td style="text-align: right;">2.6</td>
+<td style="text-align: left;">set7c_stayers_2018_to_2023_by_breakdown_long.csv</td>
+<td style="text-align: left;">SET7C</td>
+<td style="text-align: right;">7,080</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">619.4</td>
 </tr>
 </tbody>
 </table>
@@ -3618,29 +3676,54 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: left;">The same, cross-tabulated pairwise</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">set7a_pca_caz_categories.csv</td>
-<td style="text-align: left;">Set 7A</td>
-<td style="text-align: left;">Pre-2006 petrol / pre-2015 diesel / other by PCA and year, with average mileage</td>
+<td style="text-align: left;">set7_area_definitions.csv</td>
+<td style="text-align: left;">Set 7</td>
+<td style="text-align: left;">The Set 7 rows beyond single PCAs: Inner London, Outer London and All other with the PCAs each holds, and the partly-London and clean air zone PCAs reported on their own</td>
 </tr>
 <tr class="odd">
+<td style="text-align: left;">set7a_pca_caz_categories.csv</td>
+<td style="text-align: left;">Set 7A</td>
+<td style="text-align: left;">Pre-2006 petrol not Euro 4+ / pre-2015 diesel not Euro 6+ / other by area and year, with average mileage and the vehicles present in 2018 and 2023; sum geography = pca rows only</td>
+</tr>
+<tr class="even">
 <td style="text-align: left;">set7a_pca_caz_category_by_year_long.csv</td>
 <td style="text-align: left;">Set 7A</td>
-<td style="text-align: left;">Long form of the same</td>
+<td style="text-align: left;">Long form of the same, with the vehicles behind each average</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">set7b_leavers_2018_to_2023.csv</td>
+<td style="text-align: left;">Set 7B</td>
+<td style="text-align: left;">Vehicles in an area in 2018 but not in it in 2023 (judged at the row’s own geography), by category, with average 2018 and 2023 mileage, split into moved (still running elsewhere), dead and unknown</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">set7b_leavers_2018_to_2023_by_breakdown_long.csv</td>
+<td style="text-align: left;">Set 7B</td>
+<td style="text-align: left;">The same by 2018 mileage band, engine size, fuel and age band, each split by where the vehicle was in 2023</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">set7c_stayers_2018_to_2023.csv</td>
+<td style="text-align: left;">Set 7C</td>
+<td style="text-align: left;">Vehicles in an area in both 2018 and 2023, by category, with average 2018 and 2023 mileage</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">set7c_stayers_2018_to_2023_by_breakdown_long.csv</td>
+<td style="text-align: left;">Set 7C</td>
+<td style="text-align: left;">The same by 2018 mileage band, engine size, fuel and age band</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">set7_check_caz_status_change.csv</td>
+<td style="text-align: left;">Set 7</td>
+<td style="text-align: left;">How many vehicles the Euro condition moves out of the date-only category, by where the Euro status came from</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">set7_check_caz_category_vs_eurostatus.csv</td>
-<td style="text-align: left;">Set 7A</td>
+<td style="text-align: left;">Set 7</td>
 <td style="text-align: left;">Check of the registration-date proxy against the euro status (recorded, backfilled or assumed from the date)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">set7_check_caz_proxy_agreement_by_source.csv</td>
-<td style="text-align: left;">Set 7A</td>
+<td style="text-align: left;">Set 7</td>
 <td style="text-align: left;">Agreement of the proxy with the Euro standard, split by where the standard came from; only dvla / variant / model_year_fuel are an independent check</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">set7b_leavers_2018_to_2023_by_*.csv</td>
-<td style="text-align: left;">Set 7B</td>
-<td style="text-align: left;">Vehicles present in 2018 but not in the same PCA in 2023, by 2018 characteristics</td>
 </tr>
 </tbody>
 </table>
@@ -3659,9 +3742,9 @@ targets::tar_make(names = tidyselect::starts_with("churn"))</code></pre>
 <section id="things-to-be-careful-about-in-one-place" class="level2">
 <h2 class="anchored" data-anchor-id="things-to-be-careful-about-in-one-place">12. Things to be careful about, in one place</h2>
 <ol type="1">
-<li><strong><code>different</code> includes <code>unknown</code>.</strong> In Set 1 and in Set 7B’s outcome table, a vehicle that was simply not seen counts as not being in the same place.</li>
+<li><strong><code>different</code> includes <code>unknown</code>.</strong> In Set 1 and among Set 7B’s leavers, a vehicle that was simply not seen counts as not being in the same place (Set 7B shows these separately as <code>unknown</code>).</li>
 <li><strong>Moves are only counted between two observed years.</strong> A move across a gap in observation is invisible, so move counts and movement rates are floors, not estimates.</li>
-<li><strong>A location is not always an observation.</strong> A car under three has no MOT, and Bristol copies its first test’s postcode area back to its first registration; after the last MOT, the area is carried on for two years before the vehicle becomes <code>dead</code>. So a young vehicle cannot be seen to move before its first test, and a scrapped vehicle stays in its area’s stock for about two years. Against DfT’s licensed + SORN counts, the cars aged 3+ located in a postcode area are 6-19% too many, depending on the year (data quality report, cross-checks). The last two or three years of data are also incomplete, because recent first tests are not yet back-filled.</li>
+<li><strong>A location is not always an observation.</strong> A car under three has no MOT, and the annualisation copies its first test’s postcode area back to its first registration; after the last MOT, the area is carried on for two years before the vehicle becomes <code>dead</code>. So a young vehicle cannot be seen to move before its first test, and a scrapped vehicle stays in its area’s stock for about two years. Against DfT’s licensed + SORN counts, the cars aged 3+ located in a postcode area are 6-19% too many, depending on the year (data quality report, cross-checks). The last two or three years of data are also incomplete, because recent first tests are not yet back-filled.</li>
 <li><strong><code>movement_rate</code> (churn v2) falls with age by construction.</strong> Use the windowed rate for any comparison across ages or characteristics (section 5).</li>
 <li><strong>Set 1b’s <code>different</code> includes new vehicles</strong>, about 30% of it in a typical year. Use Set 1d’s <code>in_moved</code> and <code>out_moved</code> for moves.</li>
 <li><strong>Sets 2 part 2, 3 and 6 are about a 2017 cohort</strong> (36.1% to 51.0% of all vehicles, depending on the table). They say nothing about vehicles that arrived afterwards.</li>

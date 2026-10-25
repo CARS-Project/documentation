@@ -36,6 +36,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
+<link href="../reports/racf_linked_report.html" rel="next">
 <link href="../reports/churn_tables_report.html" rel="prev">
 <link href="../images/favicon.png" rel="icon" type="image/png">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
@@ -469,6 +470,12 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">Fleet profile tables</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../reports/racf_linked_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">The RACF / SMMT car fleet, linked to the MOT data</span></a>
+  </div>
+</li>
       </ul>
   </li>
       </ul>
@@ -565,7 +572,7 @@ ul.task-list li input[type="checkbox"] {
 <li>its body type is one of Buses and coaches, Cars, Light goods vehicles and Motorcycles (<code>fleet_profile.body_types</code>)</li>
 <li>it was in a real postcode area that year, that is not <code>unborn</code>, <code>dead</code> or <code>unknown</code></li>
 <li>it was not in Northern Ireland (postcode area <code>BT</code>; <code>exclude_ni</code>: TRUE)</li>
-<li>its mileage that year passes <code>mileage_filter</code> (legit). <code>legit</code> keeps only the vehicle-years whose mileage Bristol judged plausible.</li>
+<li>its mileage that year passes <code>mileage_filter</code> (legit). <code>legit</code> keeps only the vehicle-years whose mileage the annualisation judged plausible.</li>
 </ul>
 <p><strong>Age</strong> is whole years at 1 June of the year since first use, and the fuel group is the harmonised <code>fuel_simple</code>, both as in the churn tables. A vehicle first used after 1 June of the year is in the <code>&lt;0</code> age band.</p>
 <p><strong>The mileage filter is per vehicle-year, not per vehicle.</strong> A vehicle counts in the years its mileage was judged plausible and not in the others, so the same vehicle can appear in 2018 and not in 2019.</p>
@@ -1218,7 +1225,7 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="known-limits">Known limits</h2>
 <section id="young-vehicles-are-missing-from-the-recent-years" class="level3">
 <h3 class="anchored" data-anchor-id="young-vehicles-are-missing-from-the-recent-years">Young vehicles are missing from the recent years</h3>
-<p>A vehicle’s mileage is only known once it has had an MOT, at three years old; Bristol then estimates the years before the first test from that test’s odometer reading, and copies its postcode area back. So the youngest age bands are filled in only once the first test is in the data, and empty out towards the end of the series. Cars aged 0-2 covered by these tables numbered 6,586,088 in 2019 and 585,661 in 2025.</p>
+<p>A vehicle’s mileage is only known once it has had an MOT, at three years old; The annualisation then estimates the years before the first test from that test’s odometer reading, and copies its postcode area back. So the youngest age bands are filled in only once the first test is in the data, and empty out towards the end of the series. Cars aged 0-2 covered by these tables numbered 6,586,088 in 2019 and 585,661 in 2025.</p>
 <p><strong>The <code>0-2</code> age band is not usable for the last three years</strong>, and the vehicles that do appear there are a biased sample: only those tested unusually early, which tend to be high-mileage ones (taxis, fleet cars). Their mean mileage was 7,597 in 2019 and 8,249 in 2025. For the years before the first test, mileage is an estimate, not a reading, at every age band.</p>
 <p>2025 is also a partial year.</p>
 </section>
@@ -1645,6 +1652,9 @@ ul.task-list li input[type="checkbox"] {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="../reports/racf_linked_report.html" class="pagination-link" aria-label="The RACF / SMMT car fleet, linked to the MOT data">
+        <span class="nav-page-text">The RACF / SMMT car fleet, linked to the MOT data</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->

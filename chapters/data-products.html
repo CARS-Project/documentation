@@ -470,6 +470,12 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">Fleet profile tables</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../reports/racf_linked_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">The RACF / SMMT car fleet, linked to the MOT data</span></a>
+  </div>
+</li>
       </ul>
   </li>
       </ul>
@@ -562,10 +568,11 @@ ul.task-list li input[type="checkbox"] {
 </table>
 <section id="aggregate-tables" class="level2" data-number="10.1">
 <h2 data-number="10.1" class="anchored" data-anchor-id="aggregate-tables"><span class="header-section-number">10.1</span> Aggregate tables</h2>
-<p>The aggregate tables count vehicles and sum their mileage by postcode area and year, broken down by body type, fuel, age, engine size and other characteristics. There are three families, described in <a href="aggregate-tables.html" class="quarto-xref"><span>Chapter 12</span></a> and catalogued in <a href="table-catalogue.html" class="quarto-xref"><span>Appendix B</span></a>:</p>
+<p>The aggregate tables count vehicles and sum their mileage by postcode area and year, broken down by body type, fuel, age, engine size and other characteristics. There are four families, described in <a href="aggregate-tables.html" class="quarto-xref"><span>Chapter 12</span></a> and catalogued in <a href="table-catalogue.html" class="quarto-xref"><span>Appendix B</span></a>:</p>
 <ul>
 <li><strong>mileage tables</strong>: vehicles and annual mileage by postcode area, year, body type and fuel;</li>
 <li><strong>fleet profile tables</strong>: the make-up of the fleet by year, body type and age band;</li>
+<li><strong>car size and model tables</strong>: the size, mass, CO<sub>2</sub> and SUV share of the cars in each year and postcode area, from the RACF car fleet;</li>
 <li><strong>churn tables</strong>: how the vehicles in each postcode area change from year to year as vehicles arrive, move, age and leave.</li>
 </ul>
 <p>Vehicles that cannot be located in a year are included in the tables under the statuses <code>unknown</code>, <code>dead</code> and <code>unborn</code>, so totals can be reconciled.</p>

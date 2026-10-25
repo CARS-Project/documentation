@@ -470,6 +470,12 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">Fleet profile tables</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../reports/racf_linked_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">The RACF / SMMT car fleet, linked to the MOT data</span></a>
+  </div>
+</li>
       </ul>
   </li>
       </ul>
@@ -519,7 +525,7 @@ ul.task-list li input[type="checkbox"] {
 <li><strong><code>primaryColour_DVSA</code></strong> and <strong><code>secondaryColour_DVSA</code></strong> are the colours recorded in the MOT history.</li>
 <li><strong><code>colour_DVLA</code></strong> is the colour on the DVLA register, as returned by the Vehicle Enquiry Service (VES).</li>
 </ul>
-<p>Vehicles can change colour over time (although most don’t). The DVSA do not provide a record of colour changes over time so the <strong><code>primaryColour_DVSA</code></strong> and <strong><code>secondaryColour_DVSA</code></strong> are likely to be the most recent values. The DVLA VES API also does not provide a record of colour changes over time, but repeted quering of the API may have found some vehicles that have changed colour. However in the main CARS ouputs only the most recent colour is kept.</p>
+<p>Vehicles can change colour over time (although most don’t). The DVSA do not provide a record of colour changes over time so the <strong><code>primaryColour_DVSA</code></strong> and <strong><code>secondaryColour_DVSA</code></strong> are likely to be the most recent values. The DVLA VES API also does not provide a record of colour changes over time, but repeated querying of the API may have found some vehicles that have changed colour. However in the main CARS outputs only the most recent colour is kept.</p>
 <p>The DVSA and DVLA columns are described among the input data in the methodology, <a href="../../reports/methodology.html#input-data">section 2</a>.</p>
 <div class="cell" data-layout-align="center">
 <div id="tbl-dd-colour" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
@@ -583,8 +589,8 @@ Table&nbsp;27.1: Colour columns.
 </section>
 <section id="coverage" class="level2" data-number="27.2">
 <h2 data-number="27.2" class="anchored" data-anchor-id="coverage"><span class="header-section-number">27.2</span> Coverage</h2>
-<p>The DVSA primary colour is present for every vehicle and the secondary colour for 91%. The secondary colour is less often present for vehicles first used in 2023 and 2024 (41% for 2024) than for older or newer ones (<a href="#fig-dd-colour" class="quarto-xref">Figure&nbsp;<span>27.1</span></a>). A value is not necessarily a colour, though: most vehicles have the secondary colour <code>Not Stated</code> (<a href="#fig-dd-v-secondarycolour-dvsa" class="quarto-xref">Figure&nbsp;<span>27.3</span></a>), so the column is not particually useful.</p>
-<p>The <strong><code>colour_DVLA</code></strong>, like every VES field, is only present only where a VES record was found: 77% of vehicles. When a vehicle does exist in the VES API it alsmost always has a colour value. The <strong><code>colour_DVLA</code></strong> is less present for those first used before 2010, most of which have left the fleet and so are no longer included in the VES API (<a href="dvla-status.html" class="quarto-xref"><span>Chapter 36</span></a>).</p>
+<p>The DVSA primary colour is present for every vehicle and the secondary colour for 91%. The secondary colour is less often present for vehicles first used in 2023 and 2024 (41% for 2024) than for older or newer ones (<a href="#fig-dd-colour" class="quarto-xref">Figure&nbsp;<span>27.1</span></a>). A value is not necessarily a colour, though: most vehicles have the secondary colour <code>Not Stated</code> (<a href="#fig-dd-v-secondarycolour-dvsa" class="quarto-xref">Figure&nbsp;<span>27.3</span></a>), so the column is not particularly useful.</p>
+<p>The <strong><code>colour_DVLA</code></strong>, like every VES field, is present only where a VES record was found: 77% of vehicles. When a vehicle does exist in the VES API it almost always has a colour value. The <strong><code>colour_DVLA</code></strong> is less present for those first used before 2010, most of which have left the fleet and so are no longer included in the VES API (<a href="dvla-status.html" class="quarto-xref"><span>Chapter 36</span></a>).</p>
 <p>Data coverage is shown in the table and charts below.</p>
 <div class="cell" data-layout-align="center">
 <div id="tbl-dd-colour-coverage" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
@@ -662,7 +668,7 @@ Figure&nbsp;27.1: Share of vehicles with a value in each colour column, by year 
 </section>
 <section id="values" class="level2" data-number="27.3">
 <h2 data-number="27.3" class="anchored" data-anchor-id="values"><span class="header-section-number">27.3</span> Values</h2>
-<p>The charts below show an overview of how the values of each variaible change over time (based on a vehicles first use date). These charts are intedned to help data users understand what to expect in the CARS data an are not inteneded to used as factual descriptions of the vehicle fleet becuase they do not account for biases and limitations in the CARS data. Some vehicles are excluded due to missing first use date or a date before 1990.</p>
+<p>The charts below show an overview of how the values of each variable change over time (based on a vehicle’s first use date). These charts are intended to help data users understand what to expect in the CARS data and are not intended to be used as factual descriptions of the vehicle fleet because they do not account for biases and limitations in the CARS data. Some vehicles are excluded due to missing first use date or a date before 1990.</p>
 <div class="cell" data-layout-align="center">
 <section id="primarycolour_dvsa" class="level3">
 <h3 class="anchored" data-anchor-id="primarycolour_dvsa"><code>primaryColour_DVSA</code></h3>

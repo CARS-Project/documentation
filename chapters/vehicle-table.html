@@ -470,6 +470,12 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">Fleet profile tables</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../reports/racf_linked_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">The RACF / SMMT car fleet, linked to the MOT data</span></a>
+  </div>
+</li>
       </ul>
   </li>
       </ul>
@@ -608,6 +614,11 @@ ul.task-list li input[type="checkbox"] {
 <td>Why the vehicle is included</td>
 <td><code>scope_mileage</code></td>
 </tr>
+<tr class="odd">
+<td>starts <code>racf_</code></td>
+<td>For cars, the size, mass and emissions of the car’s model, from the RACF car fleet (<a href="dictionary/racf.html" class="quarto-xref"><span>Chapter 32</span></a>)</td>
+<td><code>racf_smmt_type</code>, <code>racf_mass_kg</code></td>
+</tr>
 </tbody>
 </table>
 <div class="callout callout-style-default callout-tip callout-titled" title="Supplied or harmonised?">
@@ -660,8 +671,8 @@ Table&nbsp;11.1: The columns of the vehicle table, by group.
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Attributes harmonised by the pipeline</td>
-<td style="text-align: right;">126</td>
-<td style="text-align: left;">fuel, fuel_src, fuel_check, fuel_simple, fuel_DFT, fuel_DFT_src, engine_cc, engine_cc_src, engine_check, revenue_weight, revenue_weight_src, co2, co2_src, co2_check, euro_status, euro_status_src, euro_standard, euro_check, type_approval, type_approval_src, wheelplan, wheelplan_src, test_class, test_class_src, racf_link_level, racf_mass_kg, racf_kerb_weight_kg, racf_footprint_m2, racf_length_mm, racf_width_mm, racf_height_mm, racf_wheelbase_mm, racf_co2_nedc, racf_co2_wltp, racf_e_consumption_wh_km, racf_e_range_km, racf_smmt_type, racf_suv_share, racf_eu_exact_share, first_use_source, registration_at_first_test, is_new_vehicle_2005, is_new_vehicle_2006, is_new_vehicle_2007, is_new_vehicle_2008, is_new_vehicle_2009, is_new_vehicle_2010, is_new_vehicle_2011, is_new_vehicle_2012, is_new_vehicle_2013, is_new_vehicle_2014, is_new_vehicle_2015, is_new_vehicle_2016, is_new_vehicle_2017, is_new_vehicle_2018, is_new_vehicle_2019, is_new_vehicle_2020, is_new_vehicle_2021, is_new_vehicle_2022, is_new_vehicle_2023, is_new_vehicle_2024, is_new_vehicle_2025, is_intertest_2005, is_intertest_2006, is_intertest_2007, is_intertest_2008, is_intertest_2009, is_intertest_2010, is_intertest_2011, is_intertest_2012, is_intertest_2013, is_intertest_2014, is_intertest_2015, is_intertest_2016, is_intertest_2017, is_intertest_2018, is_intertest_2019, is_intertest_2020, is_intertest_2021, is_intertest_2022, is_intertest_2023, is_intertest_2024, is_intertest_2025, is_end_use_2005, is_end_use_2006, is_end_use_2007, is_end_use_2008, is_end_use_2009, is_end_use_2010, is_end_use_2011, is_end_use_2012, is_end_use_2013, is_end_use_2014, is_end_use_2015, is_end_use_2016, is_end_use_2017, is_end_use_2018, is_end_use_2019, is_end_use_2020, is_end_use_2021, is_end_use_2022, is_end_use_2023, is_end_use_2024, is_end_use_2025, odometer_est_2005, odometer_est_2006, odometer_est_2007, odometer_est_2008, odometer_est_2009, odometer_est_2010, odometer_est_2011, odometer_est_2012, odometer_est_2013, odometer_est_2014, odometer_est_2015, odometer_est_2016, odometer_est_2017, odometer_est_2018, odometer_est_2019, odometer_est_2020, odometer_est_2021, odometer_est_2022, odometer_est_2023, odometer_est_2024, odometer_est_2025, n_DVLA_makes</td>
+<td style="text-align: right;">111</td>
+<td style="text-align: left;">fuel, fuel_src, fuel_check, fuel_simple, fuel_DFT, fuel_DFT_src, engine_cc, engine_cc_src, engine_check, revenue_weight, revenue_weight_src, co2, co2_src, co2_check, euro_status, euro_status_src, euro_standard, euro_check, type_approval, type_approval_src, wheelplan, wheelplan_src, test_class, test_class_src, first_use_source, registration_at_first_test, is_new_vehicle_2005, is_new_vehicle_2006, is_new_vehicle_2007, is_new_vehicle_2008, is_new_vehicle_2009, is_new_vehicle_2010, is_new_vehicle_2011, is_new_vehicle_2012, is_new_vehicle_2013, is_new_vehicle_2014, is_new_vehicle_2015, is_new_vehicle_2016, is_new_vehicle_2017, is_new_vehicle_2018, is_new_vehicle_2019, is_new_vehicle_2020, is_new_vehicle_2021, is_new_vehicle_2022, is_new_vehicle_2023, is_new_vehicle_2024, is_new_vehicle_2025, is_intertest_2005, is_intertest_2006, is_intertest_2007, is_intertest_2008, is_intertest_2009, is_intertest_2010, is_intertest_2011, is_intertest_2012, is_intertest_2013, is_intertest_2014, is_intertest_2015, is_intertest_2016, is_intertest_2017, is_intertest_2018, is_intertest_2019, is_intertest_2020, is_intertest_2021, is_intertest_2022, is_intertest_2023, is_intertest_2024, is_intertest_2025, is_end_use_2005, is_end_use_2006, is_end_use_2007, is_end_use_2008, is_end_use_2009, is_end_use_2010, is_end_use_2011, is_end_use_2012, is_end_use_2013, is_end_use_2014, is_end_use_2015, is_end_use_2016, is_end_use_2017, is_end_use_2018, is_end_use_2019, is_end_use_2020, is_end_use_2021, is_end_use_2022, is_end_use_2023, is_end_use_2024, is_end_use_2025, odometer_est_2005, odometer_est_2006, odometer_est_2007, odometer_est_2008, odometer_est_2009, odometer_est_2010, odometer_est_2011, odometer_est_2012, odometer_est_2013, odometer_est_2014, odometer_est_2015, odometer_est_2016, odometer_est_2017, odometer_est_2018, odometer_est_2019, odometer_est_2020, odometer_est_2021, odometer_est_2022, odometer_est_2023, odometer_est_2024, odometer_est_2025, n_DVLA_makes</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Attributes as supplied</td>
@@ -669,21 +680,26 @@ Table&nbsp;11.1: The columns of the vehicle table, by group.
 <td style="text-align: left;">fuel_DVSA, fuelType_DVLA, engineSize_DVSA, engineCapacity_DVLA, primaryColour_DVSA, secondaryColour_DVSA, colour_DVLA, typeApproval_DVLA, revenueWeight_DVLA, wheelplan_DVLA, test_class_ANON, co2Emissions_DVLA, euroStatus_DVLA, realDrivingEmissions_DVLA, automatedVehicle_DVLA, markedForExport_DVLA, taxStatus_DVLA, motStatus_DVLA, yearOfManufacture_DVLA</td>
 </tr>
 <tr class="odd">
+<td style="text-align: left;">Car model attributes (RACF)</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: left;">racf_link_level, racf_mass_kg, racf_kerb_weight_kg, racf_footprint_m2, racf_length_mm, racf_width_mm, racf_height_mm, racf_wheelbase_mm, racf_co2_nedc, racf_co2_wltp, racf_e_consumption_wh_km, racf_e_range_km, racf_smmt_type, racf_suv_share, racf_eu_exact_share</td>
+</tr>
+<tr class="even">
 <td style="text-align: left;">Dates</td>
 <td style="text-align: right;">18</td>
 <td style="text-align: left;">taxDueDate_DVLA, motExpiryDate_DVLA, birth_date, birth_date_source, first_use_date, firstUsedDate_DVSA, registrationDate_DVSA, manufactureDate_DVSA, monthOfFirstRegistration_DVLA, monthOfFirstDvlaRegistration_DVLA, dateOfLastV5CIssued_DVLA, artEndDate_DVLA, final_test_date_DVSA, last_mot_year, first_test_date_DVSA, first_test_year_DVSA, final_test_year_DVSA, lastMotTestDate_DVSA</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">DVLA lookup and record match</td>
 <td style="text-align: right;">16</td>
 <td style="text-align: left;">collectionDate_DVLA, is_error, error, n_VES_checks_to_linked_DVSA_regs, n_VES_checks_for_DVLA_reg, n_VES_returns, first_VES_check, first_VES_return, last_VES_check, last_VES_return, ever_SORN, v5C_issue_date_ever_changed, change_in_other_VES_field, ever_export_marked, dvla_match, dvla_evidence</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">Scope</td>
 <td style="text-align: right;">5</td>
 <td style="text-align: left;">scope_mileage, scope_pca, scope_born, scope_dvla_activity, total_mileage</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">Year by year</td>
 <td style="text-align: right;">63</td>
 <td style="text-align: left;">mileage_YYYY, legit_mileage_YYYY, pca_YYYY</td>
@@ -703,6 +719,7 @@ Table&nbsp;11.1: The columns of the vehicle table, by group.
 <li><strong>DVSA columns are nearly complete</strong>, because every vehicle comes from the DVSA download. <code>engineSize_DVSA</code> is the exception, missing for 17.11%.</li>
 <li><strong>DVLA columns are missing for about 23%</strong> of vehicles, those for which no DVLA record was found. Most of these left the register years ago. Some DVLA fields are rare even when a record exists: <code>euroStatus_DVLA</code> is missing for 85.43%.</li>
 <li><strong>The harmonised columns fill most gaps</strong>: <code>co2</code> is missing for 25.99% against 38% for <code>co2Emissions_DVLA</code>, and <code>euro_status</code> for 0% against 85.43%.</li>
+<li><strong>The <code>racf_</code> columns are blank for every vehicle that is not a car</strong>, and for cars whose model could not be linked: <code>racf_smmt_type</code> is missing for 26.15% of vehicles.</li>
 <li><strong>Year-by-year columns are blank in most years for most vehicles</strong>, because a vehicle is only on the road for part of the period. <code>mileage_2019</code> is blank for 58.59% of vehicles.</li>
 </ul>
 </section>

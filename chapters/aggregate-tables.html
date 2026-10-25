@@ -470,6 +470,12 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">Fleet profile tables</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../reports/racf_linked_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">The RACF / SMMT car fleet, linked to the MOT data</span></a>
+  </div>
+</li>
       </ul>
   </li>
       </ul>
@@ -494,7 +500,8 @@ ul.task-list li input[type="checkbox"] {
   </ul></li>
   <li><a href="#mileage-tables" id="toc-mileage-tables" class="nav-link" data-scroll-target="#mileage-tables"><span class="header-section-number">12.2</span> Mileage tables</a></li>
   <li><a href="#fleet-profile-tables" id="toc-fleet-profile-tables" class="nav-link" data-scroll-target="#fleet-profile-tables"><span class="header-section-number">12.3</span> Fleet profile tables</a></li>
-  <li><a href="#churn-tables" id="toc-churn-tables" class="nav-link" data-scroll-target="#churn-tables"><span class="header-section-number">12.4</span> Churn tables</a></li>
+  <li><a href="#car-size-and-model-tables" id="toc-car-size-and-model-tables" class="nav-link" data-scroll-target="#car-size-and-model-tables"><span class="header-section-number">12.4</span> Car size and model tables</a></li>
+  <li><a href="#churn-tables" id="toc-churn-tables" class="nav-link" data-scroll-target="#churn-tables"><span class="header-section-number">12.5</span> Churn tables</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/CARS-Project/documentation/edit/main/chapters/aggregate-tables.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/CARS-Project/documentation/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -520,7 +527,7 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>The aggregate tables are CSV files that open in any spreadsheet. They answer most common questions without the vehicle table, and they have been built so that results can be combined correctly. This chapter explains the three families of table and the ideas common to all of them. <a href="table-catalogue.html" class="quarto-xref"><span>Appendix B</span></a> lists every file, and each family has a detailed report among the appendices.</p>
+<p>The aggregate tables are CSV files that open in any spreadsheet. They answer most common questions without the vehicle table, and they have been built so that results can be combined correctly. This chapter explains the four families of table and the ideas common to all of them. <a href="table-catalogue.html" class="quarto-xref"><span>Appendix B</span></a> lists every file, and each family has a detailed report among the appendices.</p>
 <section id="ideas-common-to-all-the-tables" class="level2" data-number="12.1">
 <h2 data-number="12.1" class="anchored" data-anchor-id="ideas-common-to-all-the-tables"><span class="header-section-number">12.1</span> Ideas common to all the tables</h2>
 <section id="grain" class="level3">
@@ -612,8 +619,31 @@ ul.task-list li input[type="checkbox"] {
 </ul>
 <p>These tables cover Great Britain only (Northern Ireland is excluded) and count a vehicle in a year only if it has a plausible mileage that year.</p>
 </section>
-<section id="churn-tables" class="level2" data-number="12.4">
-<h2 data-number="12.4" class="anchored" data-anchor-id="churn-tables"><span class="header-section-number">12.4</span> Churn tables</h2>
+<section id="car-size-and-model-tables" class="level2" data-number="12.4">
+<h2 data-number="12.4" class="anchored" data-anchor-id="car-size-and-model-tables"><span class="header-section-number">12.4</span> Car size and model tables</h2>
+<p><em>Folder <code>tables/racf/</code> · report: <a href="../reports/racf_linked_report.html">The RACF / SMMT car fleet, linked to the MOT data</a></em></p>
+<p>These tables describe cars by the size, mass and official emissions of their model, from the RACF car fleet linked to each car (the <code>racf_</code> columns of the vehicle table, <a href="dictionary/racf.html" class="quarto-xref"><span>Chapter 32</span></a>). They count the <strong>cars located in a real postcode area</strong> in each year, as in the comparison with DfT’s statistics (<a href="data-quality.html" class="quarto-xref"><span>Chapter 13</span></a>), and fall into three groups:</p>
+<ul>
+<li><strong>the link and its validation</strong>: how many cars could be linked, the MOT cars against the RACF fleet by fuel and SMMT segment, and the DVLA CO<sub>2</sub> and revenue weight against the EU figures;</li>
+<li><strong>the fleet’s characteristics</strong>: the average size, mass, CO<sub>2</sub> and SUV share of the cars located each year (<code>racf_characteristics_by_year.csv</code>), by year of first use, and by postcode area (<code>racf_by_area.csv</code>);</li>
+<li><strong>mileage by size</strong>: annual mileage by SMMT segment, SUV, footprint and mass band, counted as in the fleet profile tables.</li>
+</ul>
+<div class="callout callout-style-default callout-important callout-titled" title="Pitfall: model averages, not measurements">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Pitfall: model averages, not measurements
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Every size, mass and CO<sub>2</sub> figure is the fleet-weighted average for the car’s model, year and fuel, not a measurement of the car. The tables are suited to describing groups of cars, such as the share of SUVs in an area, not to comparing individual models closely.</p>
+</div>
+</div>
+</section>
+<section id="churn-tables" class="level2" data-number="12.5">
+<h2 data-number="12.5" class="anchored" data-anchor-id="churn-tables"><span class="header-section-number">12.5</span> Churn tables</h2>
 <p><em>Folder <code>tables/churn/</code> · report: <a href="../reports/churn_tables_report.html">Churn tables</a></em></p>
 <p>The churn tables describe how the vehicles in each postcode area change: which vehicles stay, which arrive from elsewhere or new, and which leave by moving or by ceasing to be tested. They cover <strong>MOT test class 4</strong> vehicles: cars, vans up to 3,000kg and small minibuses. They are organised in numbered sets:</p>
 <div id="tbl-churn-sets" class="quarto-float quarto-figure quarto-figure-center anchored">

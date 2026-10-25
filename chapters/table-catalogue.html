@@ -470,6 +470,12 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">Fleet profile tables</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../reports/racf_linked_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">The RACF / SMMT car fleet, linked to the MOT data</span></a>
+  </div>
+</li>
       </ul>
   </li>
       </ul>
@@ -486,7 +492,8 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#mileage-tables-tablesmileage" id="toc-mileage-tables-tablesmileage" class="nav-link active" data-scroll-target="#mileage-tables-tablesmileage"><span class="header-section-number">B.1</span> Mileage tables: <code>tables/mileage/</code></a></li>
   <li><a href="#fleet-profile-tables-tablesprofile" id="toc-fleet-profile-tables-tablesprofile" class="nav-link" data-scroll-target="#fleet-profile-tables-tablesprofile"><span class="header-section-number">B.2</span> Fleet profile tables: <code>tables/profile/</code></a></li>
-  <li><a href="#churn-tables-tableschurn" id="toc-churn-tables-tableschurn" class="nav-link" data-scroll-target="#churn-tables-tableschurn"><span class="header-section-number">B.3</span> Churn tables: <code>tables/churn/</code></a></li>
+  <li><a href="#car-size-and-model-tables-tablesracf" id="toc-car-size-and-model-tables-tablesracf" class="nav-link" data-scroll-target="#car-size-and-model-tables-tablesracf"><span class="header-section-number">B.3</span> Car size and model tables: <code>tables/racf/</code></a></li>
+  <li><a href="#churn-tables-tableschurn" id="toc-churn-tables-tableschurn" class="nav-link" data-scroll-target="#churn-tables-tableschurn"><span class="header-section-number">B.4</span> Churn tables: <code>tables/churn/</code></a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/CARS-Project/documentation/edit/main/chapters/table-catalogue.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/CARS-Project/documentation/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -512,7 +519,7 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>The aggregate tables are in three folders. These lists are generated from the index file (<code>README_outputs.csv</code>) that the pipeline writes into each folder. An asterisk in a file name stands for several files: <code>set2_static_by_*.csv</code> is one file for each characteristic. <a href="aggregate-tables.html" class="quarto-xref"><span>Chapter 12</span></a> explains how to use them.</p>
+<p>The aggregate tables are in four folders. These lists are generated from the index file (<code>README_outputs.csv</code>) that the pipeline writes into each folder. An asterisk in a file name stands for several files: <code>set2_static_by_*.csv</code> is one file for each characteristic. <a href="aggregate-tables.html" class="quarto-xref"><span>Chapter 12</span></a> explains how to use them.</p>
 <section id="mileage-tables-tablesmileage" class="level2" data-number="B.1">
 <h2 data-number="B.1" class="anchored" data-anchor-id="mileage-tables-tablesmileage"><span class="header-section-number">B.1</span> Mileage tables: <code>tables/mileage/</code></h2>
 <p>Details: <a href="../reports/mileage_report.html">Vehicles and mileage by postcode area</a>.</p>
@@ -651,16 +658,115 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 </section>
-<section id="churn-tables-tableschurn" class="level2" data-number="B.3">
-<h2 data-number="B.3" class="anchored" data-anchor-id="churn-tables-tableschurn"><span class="header-section-number">B.3</span> Churn tables: <code>tables/churn/</code></h2>
+<section id="car-size-and-model-tables-tablesracf" class="level2" data-number="B.3">
+<h2 data-number="B.3" class="anchored" data-anchor-id="car-size-and-model-tables-tablesracf"><span class="header-section-number">B.3</span> Car size and model tables: <code>tables/racf/</code></h2>
+<p>Details: <a href="../reports/racf_linked_report.html">The RACF / SMMT car fleet, linked to the MOT data</a>.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 8%">
+<col style="width: 70%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">File</th>
+<th style="text-align: left;">Group</th>
+<th style="text-align: left;">Contents</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>racf_input_profile.csv</code></td>
+<td style="text-align: left;">RACF input</td>
+<td style="text-align: left;">Attribute coverage and match quality in the RACF file itself, weighted by the fleet</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>racf_input_match_quality.csv</code></td>
+<td style="text-align: left;">RACF input</td>
+<td style="text-align: left;">RACF fleet by register (EU, RDW) and how exactly it was matched to it</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>racf_input_bev_co2.csv</code></td>
+<td style="text-align: left;">RACF input</td>
+<td style="text-align: left;">Battery electric cars in the RACF fleet by EU match quality, and how many have an NEDC or WLTP CO2 above 0 (dropped by the link)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>racf_input_vs_dft.csv</code></td>
+<td style="text-align: left;">RACF input</td>
+<td style="text-align: left;">RACF fleet count against DfT VEH0124 cars</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>racf_link_coverage.csv</code></td>
+<td style="text-align: left;">Link</td>
+<td style="text-align: left;">Cars by link level (model, genmodel, none), each year</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>racf_stock_by_fuel.csv</code></td>
+<td style="text-align: left;">Validation</td>
+<td style="text-align: left;">MOT cars against the RACF fleet by fuel group, each year</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>racf_stock_by_smmt.csv</code></td>
+<td style="text-align: left;">Validation</td>
+<td style="text-align: left;">MOT cars against the RACF fleet by SMMT segment, each year</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>racf_fuel_by_model.csv</code></td>
+<td style="text-align: left;">Validation</td>
+<td style="text-align: left;">Fuel shares per DfT generic model, MOT against RACF, in the map year</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>racf_co2_validation.csv</code></td>
+<td style="text-align: left;">Validation</td>
+<td style="text-align: left;">VES CO2 against the EU NEDC / WLTP CO2, by year of first use and fuel group</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>racf_mass_validation.csv</code></td>
+<td style="text-align: left;">Validation</td>
+<td style="text-align: left;">VES revenue weight against the EU mass</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>racf_smmt_by_type_approval.csv</code></td>
+<td style="text-align: left;">Validation</td>
+<td style="text-align: left;">SMMT segment against the DVLA type approval</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>racf_characteristics_by_year.csv</code></td>
+<td style="text-align: left;">Characteristics</td>
+<td style="text-align: left;">Size, mass, CO2 and SUV share of the cars located each year, by fuel group</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>racf_characteristics_by_cohort.csv</code></td>
+<td style="text-align: left;">Characteristics</td>
+<td style="text-align: left;">The same by year of first use, for the cars located in the map year</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>racf_by_area.csv</code></td>
+<td style="text-align: left;">Characteristics</td>
+<td style="text-align: left;">The same by postcode area, in the map year</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>racf_mileage_by_size.csv</code></td>
+<td style="text-align: left;">Mileage</td>
+<td style="text-align: left;">Annual mileage by SMMT segment, SUV, footprint and mass band, counted as in the fleet profile tables</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="churn-tables-tableschurn" class="level2" data-number="B.4">
+<h2 data-number="B.4" class="anchored" data-anchor-id="churn-tables-tableschurn"><span class="header-section-number">B.4</span> Churn tables: <code>tables/churn/</code></h2>
 <p>Details: <a href="../reports/churn_tables_report.html">Churn tables</a>.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
-<col style="width: 28%">
-<col style="width: 3%">
-<col style="width: 68%">
+<col style="width: 23%">
+<col style="width: 2%">
+<col style="width: 74%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -746,29 +852,54 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: left;">The same, cross-tabulated pairwise</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><code>set7a_pca_caz_categories.csv</code></td>
-<td style="text-align: left;">Set 7A</td>
-<td style="text-align: left;">Pre-2006 petrol / pre-2015 diesel / other by PCA and year, with average mileage</td>
+<td style="text-align: left;"><code>set7_area_definitions.csv</code></td>
+<td style="text-align: left;">Set 7</td>
+<td style="text-align: left;">The Set 7 rows beyond single PCAs: Inner London, Outer London and All other with the PCAs each holds, and the partly-London and clean air zone PCAs reported on their own</td>
 </tr>
 <tr class="odd">
+<td style="text-align: left;"><code>set7a_pca_caz_categories.csv</code></td>
+<td style="text-align: left;">Set 7A</td>
+<td style="text-align: left;">Pre-2006 petrol not Euro 4+ / pre-2015 diesel not Euro 6+ / other by area and year, with average mileage and the vehicles present in 2018 and 2023; sum geography = pca rows only</td>
+</tr>
+<tr class="even">
 <td style="text-align: left;"><code>set7a_pca_caz_category_by_year_long.csv</code></td>
 <td style="text-align: left;">Set 7A</td>
-<td style="text-align: left;">Long form of the same</td>
+<td style="text-align: left;">Long form of the same, with the vehicles behind each average</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>set7b_leavers_2018_to_2023.csv</code></td>
+<td style="text-align: left;">Set 7B</td>
+<td style="text-align: left;">Vehicles in an area in 2018 but not in it in 2023 (judged at the row’s own geography), by category, with average 2018 and 2023 mileage, split into moved (still running elsewhere), dead and unknown</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>set7b_leavers_2018_to_2023_by_breakdown_long.csv</code></td>
+<td style="text-align: left;">Set 7B</td>
+<td style="text-align: left;">The same by 2018 mileage band, engine size, fuel and age band, each split by where the vehicle was in 2023</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>set7c_stayers_2018_to_2023.csv</code></td>
+<td style="text-align: left;">Set 7C</td>
+<td style="text-align: left;">Vehicles in an area in both 2018 and 2023, by category, with average 2018 and 2023 mileage</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>set7c_stayers_2018_to_2023_by_breakdown_long.csv</code></td>
+<td style="text-align: left;">Set 7C</td>
+<td style="text-align: left;">The same by 2018 mileage band, engine size, fuel and age band</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>set7_check_caz_status_change.csv</code></td>
+<td style="text-align: left;">Set 7</td>
+<td style="text-align: left;">How many vehicles the Euro condition moves out of the date-only category, by where the Euro status came from</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>set7_check_caz_category_vs_eurostatus.csv</code></td>
-<td style="text-align: left;">Set 7A</td>
+<td style="text-align: left;">Set 7</td>
 <td style="text-align: left;">Check of the registration-date proxy against the euro status (recorded, backfilled or assumed from the date)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>set7_check_caz_proxy_agreement_by_source.csv</code></td>
-<td style="text-align: left;">Set 7A</td>
+<td style="text-align: left;">Set 7</td>
 <td style="text-align: left;">Agreement of the proxy with the Euro standard, split by where the standard came from; only dvla / variant / model_year_fuel are an independent check</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>set7b_leavers_2018_to_2023_by_*.csv</code></td>
-<td style="text-align: left;">Set 7B</td>
-<td style="text-align: left;">Vehicles present in 2018 but not in the same PCA in 2023, by 2018 characteristics</td>
 </tr>
 </tbody>
 </table>

@@ -473,6 +473,12 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">Fleet profile tables</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../reports/racf_linked_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">The RACF / SMMT car fleet, linked to the MOT data</span></a>
+  </div>
+</li>
       </ul>
   </li>
       </ul>
@@ -718,6 +724,7 @@ Table&nbsp;9.1: Where the harmonised attributes come from: share of vehicles in 
 <section id="number-plates-and-derived-fields" class="level3">
 <h3 class="anchored" data-anchor-id="number-plates-and-derived-fields">4. Number plates and derived fields</h3>
 <p>The registration number is decoded to its format, issue period and issuing office, and flagged where it does not match the vehicle’s age (<a href="number-plates.html" class="quarto-xref"><span>Chapter 5</span></a>). Simplified groupings such as <code>fuel_simple</code> and <code>euro_standard</code> are added.</p>
+<p>Each car is also linked to the RACF car fleet, DfT’s car fleet by model, year of first use and fuel enriched with each model’s SMMT segment and its mass, dimensions, CO<sub>2</sub>, energy use and electric range from the EU type-approval and Dutch RDW registers. The <code>racf_</code> columns give the fleet-weighted average of these for the car’s model, not measurements of the car itself (<a href="dictionary/racf.html" class="quarto-xref"><span>Chapter 32</span></a>).</p>
 </section>
 <section id="outputs" class="level3">
 <h3 class="anchored" data-anchor-id="outputs">Outputs</h3>

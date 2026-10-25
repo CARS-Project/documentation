@@ -1,0 +1,4589 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.19">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>The RACF / SMMT car fleet, linked to the MOT data – Using the CARS vehicle data</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../reports/fleet_profile_report.html" rel="prev">
+<link href="../images/favicon.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-c08868c37ca8912c446ae25c80bf22ff.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/glossary.html">Appendices</a></li><li class="breadcrumb-item"><a href="../reports/methodology.html">Pipeline reports</a></li><li class="breadcrumb-item"><a href="../reports/racf_linked_report.html">The RACF / SMMT car fleet, linked to the MOT data</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="../index.html" class="sidebar-logo-link">
+      <img src="../images/CARS_logo.webp" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="../images/CARS_logo.webp" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Using the CARS vehicle data</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/CARS-Project/documentation" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Background</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/mot-test.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">The MOT test</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/data-landscape.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Who holds vehicle data in the UK</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/vehicle-types.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Classifying vehicles</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/fuels-emissions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Fuels, emissions and Euro standards</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/number-plates.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Number plates</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/vehicle-lifecycle.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">The life of a vehicle</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/geography.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Geography: postcode areas</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">The CARS data</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/sources-linkage.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Source data and linkage</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/pipeline.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">From linked data to research-ready data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/data-products.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Data products and access</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/vehicle-table.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">The vehicle table</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/aggregate-tables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">The aggregate tables</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/data-quality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">How good is the data?</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Using the data</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/pitfalls.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Concepts and pitfalls</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/getting-started.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Getting started</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/examples-spreadsheet.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Worked examples: spreadsheets</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/examples-code.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Worked examples: code</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../chapters/methodology/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Methodology</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/methodology/data-sources.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Description and acquisition of the primary data sources</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/methodology/linking-anon-dvsa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Linking the anonymous and DVSA data sets</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/methodology/linking-ves.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Linking the VES data set</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/methodology/annualising.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Annualising the data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/methodology/cleaning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Cleaning and enhancing the vehicle data</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../chapters/dictionary/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data dictionary</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/dictionary/identifiers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Identifiers and scope</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/dictionary/registration.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Registration and number plates</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/dictionary/make-model.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Make and model</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/dictionary/vehicle-type.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Vehicle type</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/dictionary/colour.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Colour</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/dictionary/wheelplan.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Wheel plan</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/dictionary/weight.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Weight</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/dictionary/fuel-engine.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Fuel and engine</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/dictionary/emissions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Emissions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/dictionary/racf.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Car size and model attributes</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/dictionary/dates.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Dates and age</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/dictionary/mileage.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Mileage</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/dictionary/location.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Location and yearly status</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/dictionary/dvla-status.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Licensing status and DVLA lookups</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Glossary</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/table-catalogue.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Catalogue of aggregate tables</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/maintaining.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Maintaining this book</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">Pipeline reports</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth2 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../reports/methodology.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Methodology</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../reports/data_quality_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data quality report</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../reports/mileage_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Vehicles and mileage by postcode area</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../reports/churn_tables_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Churn tables: what each one contains and exactly how it was made</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../reports/fleet_profile_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Fleet profile tables</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../reports/racf_linked_report.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">The RACF / SMMT car fleet, linked to the MOT data</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#summary" id="toc-summary" class="nav-link active" data-scroll-target="#summary">Summary</a></li>
+  <li><a href="#the-data-and-the-link" id="toc-the-data-and-the-link" class="nav-link" data-scroll-target="#the-data-and-the-link">1. The data and the link</a>
+  <ul class="collapse">
+  <li><a href="#what-the-racf-file-holds" id="toc-what-the-racf-file-holds" class="nav-link" data-scroll-target="#what-the-racf-file-holds">1.1 What the RACF file holds</a></li>
+  <li><a href="#electric-cars-with-a-co2-above-0" id="toc-electric-cars-with-a-co2-above-0" class="nav-link" data-scroll-target="#electric-cars-with-a-co2-above-0">1.2 Electric cars with a CO2 above 0</a></li>
+  <li><a href="#match-quality" id="toc-match-quality" class="nav-link" data-scroll-target="#match-quality">1.3 Match quality</a></li>
+  </ul></li>
+  <li><a href="#the-racf-fleet-against-dft" id="toc-the-racf-fleet-against-dft" class="nav-link" data-scroll-target="#the-racf-fleet-against-dft">2. The RACF fleet against DfT</a>
+  <ul class="collapse">
+  <li><a href="#racf-fleet-against-dft-veh0124-cars" id="toc-racf-fleet-against-dft-veh0124-cars" class="nav-link" data-scroll-target="#racf-fleet-against-dft-veh0124-cars">2.1 RACF fleet against DfT VEH0124 cars</a></li>
+  </ul></li>
+  <li><a href="#linking-the-mot-cars" id="toc-linking-the-mot-cars" class="nav-link" data-scroll-target="#linking-the-mot-cars">3. Linking the MOT cars</a>
+  <ul class="collapse">
+  <li><a href="#link-coverage" id="toc-link-coverage" class="nav-link" data-scroll-target="#link-coverage">3.1 Link coverage</a></li>
+  </ul></li>
+  <li><a href="#validation" id="toc-validation" class="nav-link" data-scroll-target="#validation">4. Validation</a>
+  <ul class="collapse">
+  <li><a href="#stock-by-fuel-and-smmt-segment" id="toc-stock-by-fuel-and-smmt-segment" class="nav-link" data-scroll-target="#stock-by-fuel-and-smmt-segment">4.1 Stock by fuel and SMMT segment</a></li>
+  <li><a href="#fuel-model-by-model" id="toc-fuel-model-by-model" class="nav-link" data-scroll-target="#fuel-model-by-model">4.2 Fuel, model by model</a></li>
+  <li><a href="#co2-ves-against-the-eu-type-approval-figure" id="toc-co2-ves-against-the-eu-type-approval-figure" class="nav-link" data-scroll-target="#co2-ves-against-the-eu-type-approval-figure">4.3 CO2: VES against the EU type-approval figure</a></li>
+  <li><a href="#weight-ves-revenue-weight-against-the-eu-mass" id="toc-weight-ves-revenue-weight-against-the-eu-mass" class="nav-link" data-scroll-target="#weight-ves-revenue-weight-against-the-eu-mass">4.4 Weight: VES revenue weight against the EU mass</a></li>
+  <li><a href="#smmt-segment-against-the-dvla-type-approval" id="toc-smmt-segment-against-the-dvla-type-approval" class="nav-link" data-scroll-target="#smmt-segment-against-the-dvla-type-approval">4.5 SMMT segment against the DVLA type approval</a></li>
+  </ul></li>
+  <li><a href="#what-the-linked-data-shows" id="toc-what-the-linked-data-shows" class="nav-link" data-scroll-target="#what-the-linked-data-shows">5. What the linked data shows</a>
+  <ul class="collapse">
+  <li><a href="#the-located-car-fleet-year-by-year" id="toc-the-located-car-fleet-year-by-year" class="nav-link" data-scroll-target="#the-located-car-fleet-year-by-year">5.1 The located car fleet, year by year</a></li>
+  <li><a href="#by-year-of-first-use-cars-located-in-2023" id="toc-by-year-of-first-use-cars-located-in-2023" class="nav-link" data-scroll-target="#by-year-of-first-use-cars-located-in-2023">5.2 By year of first use, cars located in 2023</a></li>
+  <li><a href="#by-postcode-area" id="toc-by-postcode-area" class="nav-link" data-scroll-target="#by-postcode-area">5.3 By postcode area</a></li>
+  <li><a href="#annual-mileage-by-size" id="toc-annual-mileage-by-size" class="nav-link" data-scroll-target="#annual-mileage-by-size">5.4 Annual mileage by size</a></li>
+  </ul></li>
+  <li><a href="#cross-checks" id="toc-cross-checks" class="nav-link" data-scroll-target="#cross-checks">6. Cross-checks</a></li>
+  <li><a href="#racf-cross-checks" id="toc-racf-cross-checks" class="nav-link" data-scroll-target="#racf-cross-checks">RACF cross-checks</a></li>
+  <li><a href="#limitations" id="toc-limitations" class="nav-link" data-scroll-target="#limitations">7. Limitations</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/CARS-Project/documentation/edit/main/reports/racf_linked_report.md" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/CARS-Project/documentation/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/glossary.html">Appendices</a></li><li class="breadcrumb-item"><a href="../reports/methodology.html">Pipeline reports</a></li><li class="breadcrumb-item"><a href="../reports/racf_linked_report.html">The RACF / SMMT car fleet, linked to the MOT data</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="sec-racf-linked-report" class="quarto-section-identifier">The RACF / SMMT car fleet, linked to the MOT data</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-note callout-titled" title="Generated by the pipeline">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Generated by the pipeline
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This appendix is <code>outputs/reports/racf_linked_report.md</code> from the MOT-pipline repository, copied unchanged into the book by <code>scripts/sync-pipeline.R</code>. Paths such as <code>outputs/...</code> refer to that repository. See <a href="../chapters/maintaining.html" class="quarto-xref"><span>Appendix C — Maintaining this book</span></a>.</p>
+</div>
+</div>
+<p><em>Generated from <code>reports/racf_linked_report.qmd</code> by the MOT-pipline <code>racf_linked_report</code> target (profile: main). Tables: <code>outputs/tables/racf/</code>. Edit the template, not this file.</em></p>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<ul>
+<li><strong>What the RACF data is.</strong> DfT’s car fleet (the licensed and SORN cars of VEH0124) by make, model, year of first use and fuel, enriched by RACF with the SMMT segment and with each model’s mass, dimensions, footprint, CO2, energy use and electric range from the EU type-approval and Dutch RDW registers. It holds counts and model attributes only: no vehicle records.</li>
+<li><strong>It agrees with DfT.</strong> The RACF fleet is 99.97%–99.98% of DfT’s VEH0124 car count in every year from 2014 to 2025.</li>
+<li><strong>Almost every MOT car links.</strong> Of the 36,730,468 cars located in 2023, 43.8% link to their exact model string and 55.3% to their generic model (both by year of first use and fuel); 0.9% do not link.</li>
+<li><strong>But many attributes are proxies.</strong> Only 34.4% of the 2023 fleet is matched to the EU data for its exact year; the rest borrows another year’s or fuel’s values. Linked attributes are model averages, not measurements of the vehicle.</li>
+<li><strong>A defect in the RACF file.</strong> 12.3% of the battery electric and fuel cell cars in the 2023 RACF fleet carry an EU CO2 above 0, mostly through RACF’s fuel-agnostic matches, which give an electric model a combustion variant’s figures. The link treats these as missing.</li>
+<li><strong>What it shows.</strong> Between 2014 and 2023 the located car fleet’s SUV share rose from 10.0% to 24.6%, its mean EU mass from 1,375 to 1,415 kg and its mean footprint from 3.97 to 4.03 m², while its mean NEDC CO2 fell from 147 to 133 g/km. SUVs and off-roaders were driven 7,703 miles on average in 2023, against 6,488 for other cars.</li>
+<li><strong>Validation.</strong> The VES CO2 of a car first used up to 2017 is typically 6.7% above its model’s EU NEDC figure, and the VES revenue weight about 1.33 times the EU mass in running order, as a gross weight should be.</li>
+<li><strong>Cross-checks:</strong> 170 of 170 RACF checks pass (<code>quality/cross_checks.csv</code>, areas <code>racf</code> and <code>external</code>).</li>
+</ul>
+</section>
+<section id="the-data-and-the-link" class="level2">
+<h2 class="anchored" data-anchor-id="the-data-and-the-link">1. The data and the link</h2>
+<p><strong>The RACF file</strong> (<code>R/racf_fleet.R</code>) has 1.6M rows, one per make, generic model, model string, year of first use, year of manufacture, fuel group and licence status, with DfT’s fleet count in each year (<code>n_2014</code> to <code>n_2025</code>). RACF matched each row to:</p>
+<ul>
+<li>the <strong>SMMT segment</strong> (Mini, Supermini, Lower Medium, …, Dual Purpose, MPV), with crossovers / SUVs (M1) and off-road capable cars (M1G) marked within Dual Purpose;</li>
+<li>the <strong>EU type-approval monitoring data</strong>: mass in running order, wheelbase, track, footprint (wheelbase × track), NEDC and WLTP CO2, fuel and energy consumption, electric range;</li>
+<li>the <strong>Dutch RDW register</strong>: length, width, height, kerb weight.</li>
+</ul>
+<p>Each match has a quality (<code>eu_match_quality</code>, <code>rdw_match_quality</code>): an exact year, the nearest year or another fuel’s values, or a fuzzy name match.</p>
+<p><strong>The link</strong> (<code>R/racf_linked.R</code>). An MOT car takes the RACF values of rows with the same make, DfT generic model and model string (<code>model</code>), or, failing that, the same make and generic model (<code>genmodel</code>), and in both cases the same year of first use and fuel group. RACF groups non-plug-in hybrids with petrol or diesel, and the pipeline’s plug-in hybrids (<code>fuel_simple</code>, from the DfT fuel detail) with RACF’s PHEV. Attributes are fleet-weighted means over the RACF rows of the key; values outside a plausible range (a height of 15 mm, a wheelbase of 0) are treated as missing.</p>
+<p><strong>Which cars.</strong> A car (<code>body_type</code> Cars) counts in year Y when it is in a real postcode area that year, as in the DfT comparison (data quality report). This includes the annualisation’s carried-forward years (methodology Section 3.3), so the MOT counts exceed the RACF ones for older cars; see Section 3.</p>
+<section id="what-the-racf-file-holds" class="level3">
+<h3 class="anchored" data-anchor-id="what-the-racf-file-holds">1.1 What the RACF file holds</h3>
+<p>Share of the 2023 RACF fleet (weighted by its count) with each attribute, and with a value in the plausible range the link uses.</p>
+<ul>
+<li><code>attribute</code>: name in the linked tables</li>
+<li><code>label</code>: source and unit</li>
+<li><code>pct_fleet_present</code>: percentage of the fleet with a value</li>
+<li><code>pct_fleet_plausible</code>: percentage with a plausible value</li>
+</ul>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">attribute</th>
+<th style="text-align: left;">label</th>
+<th style="text-align: right;">pct_fleet_present</th>
+<th style="text-align: right;">pct_fleet_plausible</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">mass_kg</td>
+<td style="text-align: left;">EU mass in running order (kg)</td>
+<td style="text-align: right;">96.79</td>
+<td style="text-align: right;">96.79</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">kerb_weight_kg</td>
+<td style="text-align: left;">RDW kerb weight (kg)</td>
+<td style="text-align: right;">98.14</td>
+<td style="text-align: right;">98.05</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">footprint_m2</td>
+<td style="text-align: left;">EU footprint, wheelbase x track (m2)</td>
+<td style="text-align: right;">94.79</td>
+<td style="text-align: right;">94.79</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">length_mm</td>
+<td style="text-align: left;">RDW length (mm)</td>
+<td style="text-align: right;">72.07</td>
+<td style="text-align: right;">72.07</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">width_mm</td>
+<td style="text-align: left;">RDW width (mm)</td>
+<td style="text-align: right;">68.27</td>
+<td style="text-align: right;">68.27</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">height_mm</td>
+<td style="text-align: left;">RDW height (mm)</td>
+<td style="text-align: right;">87.67</td>
+<td style="text-align: right;">87.59</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">wheelbase_mm</td>
+<td style="text-align: left;">Wheelbase (mm)</td>
+<td style="text-align: right;">98.81</td>
+<td style="text-align: right;">95.18</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">co2_nedc</td>
+<td style="text-align: left;">EU NEDC CO2 (g/km)</td>
+<td style="text-align: right;">85.71</td>
+<td style="text-align: right;">85.71</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">co2_wltp</td>
+<td style="text-align: left;">EU WLTP CO2 (g/km)</td>
+<td style="text-align: right;">27.65</td>
+<td style="text-align: right;">27.65</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">e_consumption_wh_km</td>
+<td style="text-align: left;">EU energy use (Wh/km)</td>
+<td style="text-align: right;">13.98</td>
+<td style="text-align: right;">13.95</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">e_range_km</td>
+<td style="text-align: left;">EU electric range (km)</td>
+<td style="text-align: right;">8.01</td>
+<td style="text-align: right;">8.01</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="electric-cars-with-a-co2-above-0" class="level3">
+<h3 class="anchored" data-anchor-id="electric-cars-with-a-co2-above-0">1.2 Electric cars with a CO2 above 0</h3>
+<p>Battery electric (BEV) and fuel cell (FCEV) cars in the 2023 RACF fleet by EU match quality, and how many carry a CO2 above 0, which no electric car emits at the exhaust. The fuel-agnostic match borrows a petrol or diesel variant’s figures. The link drops these values, so electric cars’ CO2 means cover only the correct zeros.</p>
+<ul>
+<li><code>fuel_group</code>: RACF fuel group</li>
+<li><code>eu_match_quality</code>: EU match type</li>
+<li><code>n_fleet</code>: cars</li>
+<li><code>n_nedc_above_0</code>: cars with an EU NEDC CO2 above 0</li>
+<li><code>n_wltp_above_0</code>: the same for WLTP</li>
+</ul>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">fuel_group</th>
+<th style="text-align: left;">eu_match_quality</th>
+<th style="text-align: right;">n_fleet</th>
+<th style="text-align: right;">n_nedc_above_0</th>
+<th style="text-align: right;">n_wltp_above_0</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">BEV</td>
+<td style="text-align: left;">exact_year</td>
+<td style="text-align: right;">646,644</td>
+<td style="text-align: right;">2,675</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">BEV</td>
+<td style="text-align: left;">nearest_year_or_fuel_agnostic</td>
+<td style="text-align: right;">251,657</td>
+<td style="text-align: right;">76,001</td>
+<td style="text-align: right;">100,724</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">BEV</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">15,342</td>
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">13</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">BEV</td>
+<td style="text-align: left;">fuzzy_token</td>
+<td style="text-align: right;">10,137</td>
+<td style="text-align: right;">10,137</td>
+<td style="text-align: right;">10,137</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">BEV</td>
+<td style="text-align: left;">compact_match</td>
+<td style="text-align: right;">2,213</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">BEV</td>
+<td style="text-align: left;">edge_year_proxy</td>
+<td style="text-align: right;">19</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FCEV</td>
+<td style="text-align: left;">nearest_year_or_fuel_agnostic</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FCEV</td>
+<td style="text-align: left;">exact_year</td>
+<td style="text-align: right;">66</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FCEV</td>
+<td style="text-align: left;">edge_year_proxy</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FCEV</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="match-quality" class="level3">
+<h3 class="anchored" data-anchor-id="match-quality">1.3 Match quality</h3>
+<p>Cars in the 2023 RACF fleet by how RACF matched them to each register. Only <code>exact_year</code> EU matches carry the model’s own figures for that year; <code>nearest_year_or_fuel_agnostic</code> and <code>edge_year_proxy</code> borrow another year’s or fuel’s.</p>
+<ul>
+<li><code>match_quality</code>: match type</li>
+<li><code>eu</code>: cars, EU type-approval data</li>
+<li><code>rdw</code>: cars, RDW register</li>
+<li><code>smmt</code>: cars, SMMT segment</li>
+</ul>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">match_quality</th>
+<th style="text-align: right;">eu</th>
+<th style="text-align: right;">rdw</th>
+<th style="text-align: right;">smmt</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">nearest_year_or_fuel_agnostic</td>
+<td style="text-align: right;">14,243,750</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">exact_year</td>
+<td style="text-align: right;">12,808,429</td>
+<td style="text-align: right;">33,202,798</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">edge_year_proxy</td>
+<td style="text-align: right;">8,883,621</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">(no match)</td>
+<td style="text-align: right;">1,192,541</td>
+<td style="text-align: right;">1,357,649</td>
+<td style="text-align: right;">1,405,611</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">fuzzy_token</td>
+<td style="text-align: right;">52,099</td>
+<td style="text-align: right;">1,328,553</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">compact_match</td>
+<td style="text-align: right;">16,039</td>
+<td style="text-align: right;">453,802</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">nearest_year</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">853,677</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">matched</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">35,790,868</td>
+</tr>
+</tbody>
+</table>
+<p><img src="racf_linked_report_figures/input-1.png" class="img-fluid"></p>
+<p><strong>Figure 1.</strong> Top: the share of the 2023 RACF fleet with a plausible value of each attribute (table 1.1, <code>pct_fleet_plausible</code> in <code>racf_input_profile.csv</code>). Bottom: the share of the fleet with each match quality, for each register RACF matched to (table 1.3, <code>racf_input_match_quality.csv</code>). Both are weighted by RACF’s DfT fleet count.</p>
+</section>
+</section>
+<section id="the-racf-fleet-against-dft" class="level2">
+<h2 class="anchored" data-anchor-id="the-racf-fleet-against-dft">2. The RACF fleet against DfT</h2>
+<section id="racf-fleet-against-dft-veh0124-cars" class="level3">
+<h3 class="anchored" data-anchor-id="racf-fleet-against-dft-veh0124-cars">2.1 RACF fleet against DfT VEH0124 cars</h3>
+<p>The RACF file is DfT’s car fleet enriched, so its yearly totals should equal VEH0124’s licensed and SORN cars (<code>dft_stock.parquet</code>). A ratio far from 1 would mean a different DfT release or rows lost in the enrichment; the cross-check warns outside 0.99-1.01.</p>
+<ul>
+<li><code>year</code>: year (end of year)</li>
+<li><code>n_racf</code>: cars in the RACF file</li>
+<li><code>n_dft_cars</code>: cars in VEH0124</li>
+<li><code>ratio</code>: <code>n_racf</code> / <code>n_dft_cars</code></li>
+</ul>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">year</th>
+<th style="text-align: right;">n_racf</th>
+<th style="text-align: right;">n_dft_cars</th>
+<th style="text-align: right;">ratio</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">2014</td>
+<td style="text-align: right;">31,911,908</td>
+<td style="text-align: right;">31,919,157</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2015</td>
+<td style="text-align: right;">32,918,077</td>
+<td style="text-align: right;">32,926,134</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2016</td>
+<td style="text-align: right;">34,074,222</td>
+<td style="text-align: right;">34,081,888</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2017</td>
+<td style="text-align: right;">34,715,356</td>
+<td style="text-align: right;">34,724,188</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2018</td>
+<td style="text-align: right;">35,228,456</td>
+<td style="text-align: right;">35,236,719</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2019</td>
+<td style="text-align: right;">35,860,516</td>
+<td style="text-align: right;">35,868,441</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2020</td>
+<td style="text-align: right;">35,949,512</td>
+<td style="text-align: right;">35,959,398</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2021</td>
+<td style="text-align: right;">36,181,234</td>
+<td style="text-align: right;">36,189,987</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2022</td>
+<td style="text-align: right;">36,583,498</td>
+<td style="text-align: right;">36,593,163</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2023</td>
+<td style="text-align: right;">37,196,479</td>
+<td style="text-align: right;">37,207,362</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2024</td>
+<td style="text-align: right;">37,742,840</td>
+<td style="text-align: right;">37,753,146</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2025</td>
+<td style="text-align: right;">38,481,083</td>
+<td style="text-align: right;">38,490,385</td>
+<td style="text-align: right;">1</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="linking-the-mot-cars" class="level2">
+<h2 class="anchored" data-anchor-id="linking-the-mot-cars">3. Linking the MOT cars</h2>
+<section id="link-coverage" class="level3">
+<h3 class="anchored" data-anchor-id="link-coverage">3.1 Link coverage</h3>
+<p>Cars in a real postcode area each year by how they link to the RACF fleet. The totals equal the DfT comparison’s MOT car counts (cross-checked).</p>
+<ul>
+<li><code>model</code>: same make, generic model, model string, year of first use and fuel group</li>
+<li><code>genmodel</code>: same make, generic model, year and fuel group, but not the model string</li>
+<li><code>none</code>: no RACF row (an unmatched model, a year or fuel DfT does not have)</li>
+<li><code>pct_linked</code>: percentage linked at either level</li>
+</ul>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">year</th>
+<th style="text-align: right;">genmodel</th>
+<th style="text-align: right;">model</th>
+<th style="text-align: right;">none</th>
+<th style="text-align: right;">pct_linked</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">2014</td>
+<td style="text-align: right;">19,139,127</td>
+<td style="text-align: right;">16,415,337</td>
+<td style="text-align: right;">359,438</td>
+<td style="text-align: right;">99.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2015</td>
+<td style="text-align: right;">19,983,244</td>
+<td style="text-align: right;">16,469,948</td>
+<td style="text-align: right;">341,165</td>
+<td style="text-align: right;">99.07</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2016</td>
+<td style="text-align: right;">20,920,110</td>
+<td style="text-align: right;">16,520,631</td>
+<td style="text-align: right;">335,907</td>
+<td style="text-align: right;">99.11</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2017</td>
+<td style="text-align: right;">21,437,961</td>
+<td style="text-align: right;">16,306,635</td>
+<td style="text-align: right;">334,955</td>
+<td style="text-align: right;">99.12</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2018</td>
+<td style="text-align: right;">22,193,996</td>
+<td style="text-align: right;">16,105,638</td>
+<td style="text-align: right;">346,961</td>
+<td style="text-align: right;">99.10</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2019</td>
+<td style="text-align: right;">22,647,754</td>
+<td style="text-align: right;">15,949,988</td>
+<td style="text-align: right;">364,014</td>
+<td style="text-align: right;">99.07</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2020</td>
+<td style="text-align: right;">22,395,579</td>
+<td style="text-align: right;">15,983,406</td>
+<td style="text-align: right;">357,395</td>
+<td style="text-align: right;">99.08</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2021</td>
+<td style="text-align: right;">21,967,133</td>
+<td style="text-align: right;">16,383,318</td>
+<td style="text-align: right;">350,176</td>
+<td style="text-align: right;">99.10</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2022</td>
+<td style="text-align: right;">21,111,965</td>
+<td style="text-align: right;">16,687,794</td>
+<td style="text-align: right;">324,872</td>
+<td style="text-align: right;">99.15</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2023</td>
+<td style="text-align: right;">20,326,482</td>
+<td style="text-align: right;">16,090,513</td>
+<td style="text-align: right;">313,473</td>
+<td style="text-align: right;">99.15</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2024</td>
+<td style="text-align: right;">19,509,530</td>
+<td style="text-align: right;">15,410,333</td>
+<td style="text-align: right;">294,997</td>
+<td style="text-align: right;">99.16</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2025</td>
+<td style="text-align: right;">18,442,647</td>
+<td style="text-align: right;">14,560,649</td>
+<td style="text-align: right;">270,537</td>
+<td style="text-align: right;">99.19</td>
+</tr>
+</tbody>
+</table>
+<p><img src="racf_linked_report_figures/link-1.png" class="img-fluid"></p>
+<p><strong>Figure 2.</strong> Table 3.1 as a chart: the MOT cars in a real postcode area each year, by whether they link to an RACF row at the model string (<code>model</code>) or generic model (<code>genmodel</code>) level, or not at all (<code>racf_link_coverage.csv</code>).</p>
+</section>
+</section>
+<section id="validation" class="level2">
+<h2 class="anchored" data-anchor-id="validation">4. Validation</h2>
+<section id="stock-by-fuel-and-smmt-segment" class="level3">
+<h3 class="anchored" data-anchor-id="stock-by-fuel-and-smmt-segment">4.1 Stock by fuel and SMMT segment</h3>
+<section id="cars-by-fuel-group-mot-against-racf" class="level4">
+<h4 class="anchored" data-anchor-id="cars-by-fuel-group-mot-against-racf">Cars by fuel group: MOT against RACF</h4>
+<p>Cars in a real postcode area in 2023 against the RACF (DfT) fleet, by RACF fuel group. The MOT count is above DfT’s for petrol and diesel because the annualisation keeps a car in its area for two years after its last MOT; it is below for battery electric cars, most of which are under three years old and have not had a first test (the data quality report explains both). Every year is in <code>racf_stock_by_fuel.csv</code>.</p>
+<ul>
+<li><code>fuel_group</code>: RACF fuel group (hybrids with petrol or diesel)</li>
+<li><code>n_mot</code>: MOT cars</li>
+<li><code>n_racf</code>: RACF cars</li>
+<li><code>ratio_mot_to_racf</code>: <code>n_mot</code> / <code>n_racf</code></li>
+</ul>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">fuel_group</th>
+<th style="text-align: right;">n_mot</th>
+<th style="text-align: right;">n_racf</th>
+<th style="text-align: right;">ratio_mot_to_racf</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">PETROL</td>
+<td style="text-align: right;">22,396,615</td>
+<td style="text-align: right;">23,173,503</td>
+<td style="text-align: right;">0.97</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">DIESEL</td>
+<td style="text-align: right;">13,297,779</td>
+<td style="text-align: right;">12,652,683</td>
+<td style="text-align: right;">1.05</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">BEV</td>
+<td style="text-align: right;">631,710</td>
+<td style="text-align: right;">926,012</td>
+<td style="text-align: right;">0.68</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">PHEV</td>
+<td style="text-align: right;">336,391</td>
+<td style="text-align: right;">415,105</td>
+<td style="text-align: right;">0.81</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">OTHER</td>
+<td style="text-align: right;">67,945</td>
+<td style="text-align: right;">29,010</td>
+<td style="text-align: right;">2.34</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FCEV</td>
+<td style="text-align: right;">28</td>
+<td style="text-align: right;">166</td>
+<td style="text-align: right;">0.17</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="cars-by-smmt-segment-mot-against-racf" class="level4">
+<h4 class="anchored" data-anchor-id="cars-by-smmt-segment-mot-against-racf">Cars by SMMT segment: MOT against RACF</h4>
+<p>The same by SMMT segment. A segment’s ratio departs from the fuel ratios when its cars are older or newer than average (Specialist Sports cars are kept long and tested rarely). <code>(not linked)</code> cars have no RACF row; <code>(missing)</code> have one with no segment.</p>
+<ul>
+<li><code>smmt_type</code>: SMMT segment</li>
+<li><code>n_mot</code>: MOT cars</li>
+<li><code>n_racf</code>: RACF cars</li>
+<li><code>ratio_mot_to_racf</code>: <code>n_mot</code> / <code>n_racf</code></li>
+</ul>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">smmt_type</th>
+<th style="text-align: right;">n_mot</th>
+<th style="text-align: right;">n_racf</th>
+<th style="text-align: right;">ratio_mot_to_racf</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Dual Purpose</td>
+<td style="text-align: right;">8,793,741</td>
+<td style="text-align: right;">9,491,211</td>
+<td style="text-align: right;">0.93</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Supermini</td>
+<td style="text-align: right;">8,841,464</td>
+<td style="text-align: right;">8,521,597</td>
+<td style="text-align: right;">1.04</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Lower Medium</td>
+<td style="text-align: right;">8,489,868</td>
+<td style="text-align: right;">8,196,368</td>
+<td style="text-align: right;">1.04</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Upper Medium</td>
+<td style="text-align: right;">3,654,043</td>
+<td style="text-align: right;">3,522,220</td>
+<td style="text-align: right;">1.04</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Mini</td>
+<td style="text-align: right;">2,574,446</td>
+<td style="text-align: right;">2,557,155</td>
+<td style="text-align: right;">1.01</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">(missing)</td>
+<td style="text-align: right;">566,321</td>
+<td style="text-align: right;">1,405,611</td>
+<td style="text-align: right;">0.40</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Executive</td>
+<td style="text-align: right;">1,107,821</td>
+<td style="text-align: right;">1,099,919</td>
+<td style="text-align: right;">1.01</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">MPV</td>
+<td style="text-align: right;">1,192,724</td>
+<td style="text-align: right;">1,077,130</td>
+<td style="text-align: right;">1.11</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Specialist Sports</td>
+<td style="text-align: right;">876,435</td>
+<td style="text-align: right;">1,002,387</td>
+<td style="text-align: right;">0.87</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Luxury Saloon</td>
+<td style="text-align: right;">220,045</td>
+<td style="text-align: right;">242,307</td>
+<td style="text-align: right;">0.91</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Other</td>
+<td style="text-align: right;">100,087</td>
+<td style="text-align: right;">80,414</td>
+<td style="text-align: right;">1.24</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Pick-up</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">160</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">(not linked)</td>
+<td style="text-align: right;">313,473</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">NA</td>
+</tr>
+</tbody>
+</table>
+<p><img src="racf_linked_report_figures/stock-1.png" class="img-fluid"></p>
+<p><strong>Figure 3.</strong> The MOT cars in a real postcode area divided by the RACF (DfT) cars: left, each year for the main fuel groups (<code>racf_stock_by_fuel.csv</code>); right, in 2023 for each SMMT segment (<code>racf_stock_by_smmt.csv</code>), the second table above. At 1 (grey line) the two count the same.</p>
+</section>
+</section>
+<section id="fuel-model-by-model" class="level3">
+<h3 class="anchored" data-anchor-id="fuel-model-by-model">4.2 Fuel, model by model</h3>
+<section id="fuel-shares-of-the-largest-generic-models-2023" class="level4">
+<h4 class="anchored" data-anchor-id="fuel-shares-of-the-largest-generic-models-2023">Fuel shares of the largest generic models, 2023</h4>
+<p>For each generic model with at least 1,000 RACF cars, the share of each fuel group among the MOT cars located that year and in the RACF fleet. They test the recorded fuel and the pipeline’s plug-in hybrid detection (<code>fuel_DFT</code>, methodology Section 5.5) model by model: an MOT plug-in share well below RACF’s means plug-ins kept as petrol or diesel. The 25 largest are shown; every model is in <code>racf_fuel_by_model.csv</code>.</p>
+<ul>
+<li><code>n_mot</code>: MOT cars</li>
+<li><code>mot_*</code>: share of the MOT cars with each fuel group</li>
+<li><code>n_racf</code>: RACF cars</li>
+<li><code>racf_*</code>: share of the RACF cars</li>
+</ul>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Make</th>
+<th style="text-align: left;">GenModel</th>
+<th style="text-align: right;">n_mot</th>
+<th style="text-align: right;">mot_petrol</th>
+<th style="text-align: right;">mot_diesel</th>
+<th style="text-align: right;">mot_bev</th>
+<th style="text-align: right;">mot_phev</th>
+<th style="text-align: right;">n_racf</th>
+<th style="text-align: right;">racf_petrol</th>
+<th style="text-align: right;">racf_diesel</th>
+<th style="text-align: right;">racf_bev</th>
+<th style="text-align: right;">racf_phev</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">FORD</td>
+<td style="text-align: left;">FORD FIESTA</td>
+<td style="text-align: right;">1,630,943</td>
+<td style="text-align: right;">0.86</td>
+<td style="text-align: right;">0.14</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">1,527,512</td>
+<td style="text-align: right;">0.89</td>
+<td style="text-align: right;">0.11</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">VOLKSWAGEN</td>
+<td style="text-align: left;">VOLKSWAGEN GOLF</td>
+<td style="text-align: right;">1,142,260</td>
+<td style="text-align: right;">0.49</td>
+<td style="text-align: right;">0.50</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">1,110,946</td>
+<td style="text-align: right;">0.50</td>
+<td style="text-align: right;">0.48</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.01</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FORD</td>
+<td style="text-align: left;">FORD FOCUS</td>
+<td style="text-align: right;">1,204,690</td>
+<td style="text-align: right;">0.68</td>
+<td style="text-align: right;">0.31</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">1,105,045</td>
+<td style="text-align: right;">0.69</td>
+<td style="text-align: right;">0.31</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">VAUXHALL</td>
+<td style="text-align: left;">VAUXHALL CORSA</td>
+<td style="text-align: right;">1,148,655</td>
+<td style="text-align: right;">0.90</td>
+<td style="text-align: right;">0.09</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">1,084,842</td>
+<td style="text-align: right;">0.92</td>
+<td style="text-align: right;">0.07</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">VAUXHALL</td>
+<td style="text-align: left;">VAUXHALL ASTRA</td>
+<td style="text-align: right;">858,323</td>
+<td style="text-align: right;">0.69</td>
+<td style="text-align: right;">0.31</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">758,215</td>
+<td style="text-align: right;">0.71</td>
+<td style="text-align: right;">0.29</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">VOLKSWAGEN</td>
+<td style="text-align: left;">VOLKSWAGEN POLO</td>
+<td style="text-align: right;">745,303</td>
+<td style="text-align: right;">0.91</td>
+<td style="text-align: right;">0.09</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">727,602</td>
+<td style="text-align: right;">0.92</td>
+<td style="text-align: right;">0.08</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">NISSAN</td>
+<td style="text-align: left;">NISSAN QASHQAI</td>
+<td style="text-align: right;">643,519</td>
+<td style="text-align: right;">0.53</td>
+<td style="text-align: right;">0.47</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">656,129</td>
+<td style="text-align: right;">0.57</td>
+<td style="text-align: right;">0.43</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">BMW</td>
+<td style="text-align: left;">BMW 3 SERIES</td>
+<td style="text-align: right;">634,959</td>
+<td style="text-align: right;">0.37</td>
+<td style="text-align: right;">0.57</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.07</td>
+<td style="text-align: right;">628,517</td>
+<td style="text-align: right;">0.35</td>
+<td style="text-align: right;">0.61</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.04</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TOYOTA</td>
+<td style="text-align: left;">TOYOTA YARIS</td>
+<td style="text-align: right;">561,224</td>
+<td style="text-align: right;">0.95</td>
+<td style="text-align: right;">0.05</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">564,712</td>
+<td style="text-align: right;">0.96</td>
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">MINI</td>
+<td style="text-align: left;">MINI COOPER</td>
+<td style="text-align: right;">602,495</td>
+<td style="text-align: right;">0.85</td>
+<td style="text-align: right;">0.12</td>
+<td style="text-align: right;">0.03</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">532,451</td>
+<td style="text-align: right;">0.83</td>
+<td style="text-align: right;">0.14</td>
+<td style="text-align: right;">0.03</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">AUDI</td>
+<td style="text-align: left;">AUDI A3</td>
+<td style="text-align: right;">515,060</td>
+<td style="text-align: right;">0.48</td>
+<td style="text-align: right;">0.50</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">469,019</td>
+<td style="text-align: right;">0.47</td>
+<td style="text-align: right;">0.51</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.02</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">BMW</td>
+<td style="text-align: left;">BMW 1 SERIES</td>
+<td style="text-align: right;">458,879</td>
+<td style="text-align: right;">0.44</td>
+<td style="text-align: right;">0.55</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">417,039</td>
+<td style="text-align: right;">0.45</td>
+<td style="text-align: right;">0.55</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">MERCEDES</td>
+<td style="text-align: left;">MERCEDES C CLASS</td>
+<td style="text-align: right;">452,067</td>
+<td style="text-align: right;">0.38</td>
+<td style="text-align: right;">0.62</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">416,887</td>
+<td style="text-align: right;">0.34</td>
+<td style="text-align: right;">0.65</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.02</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FIAT</td>
+<td style="text-align: left;">FIAT 500</td>
+<td style="text-align: right;">398,054</td>
+<td style="text-align: right;">0.94</td>
+<td style="text-align: right;">0.05</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">411,033</td>
+<td style="text-align: right;">0.94</td>
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">RENAULT</td>
+<td style="text-align: left;">RENAULT CLIO</td>
+<td style="text-align: right;">426,630</td>
+<td style="text-align: right;">0.80</td>
+<td style="text-align: right;">0.19</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">409,476</td>
+<td style="text-align: right;">0.81</td>
+<td style="text-align: right;">0.19</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">MERCEDES</td>
+<td style="text-align: left;">MERCEDES A CLASS</td>
+<td style="text-align: right;">397,736</td>
+<td style="text-align: right;">0.47</td>
+<td style="text-align: right;">0.49</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">386,678</td>
+<td style="text-align: right;">0.48</td>
+<td style="text-align: right;">0.49</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.04</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HONDA</td>
+<td style="text-align: left;">HONDA JAZZ</td>
+<td style="text-align: right;">383,542</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">366,388</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">NISSAN</td>
+<td style="text-align: left;">NISSAN JUKE</td>
+<td style="text-align: right;">341,074</td>
+<td style="text-align: right;">0.74</td>
+<td style="text-align: right;">0.26</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">359,266</td>
+<td style="text-align: right;">0.76</td>
+<td style="text-align: right;">0.24</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">KIA</td>
+<td style="text-align: left;">KIA SPORTAGE</td>
+<td style="text-align: right;">324,559</td>
+<td style="text-align: right;">0.49</td>
+<td style="text-align: right;">0.51</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">345,401</td>
+<td style="text-align: right;">0.54</td>
+<td style="text-align: right;">0.44</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.02</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FORD</td>
+<td style="text-align: left;">FORD KUGA</td>
+<td style="text-align: right;">327,887</td>
+<td style="text-align: right;">0.19</td>
+<td style="text-align: right;">0.75</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.06</td>
+<td style="text-align: right;">344,806</td>
+<td style="text-align: right;">0.24</td>
+<td style="text-align: right;">0.69</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.07</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HONDA</td>
+<td style="text-align: left;">HONDA CIVIC</td>
+<td style="text-align: right;">354,888</td>
+<td style="text-align: right;">0.77</td>
+<td style="text-align: right;">0.23</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">332,998</td>
+<td style="text-align: right;">0.77</td>
+<td style="text-align: right;">0.23</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">LAND ROVER</td>
+<td style="text-align: left;">LAND ROVER DISCOVERY</td>
+<td style="text-align: right;">301,124</td>
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">0.94</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">321,675</td>
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">0.94</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.02</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">AUDI</td>
+<td style="text-align: left;">AUDI A4</td>
+<td style="text-align: right;">344,777</td>
+<td style="text-align: right;">0.31</td>
+<td style="text-align: right;">0.68</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">316,183</td>
+<td style="text-align: right;">0.31</td>
+<td style="text-align: right;">0.69</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">NISSAN</td>
+<td style="text-align: left;">NISSAN MICRA</td>
+<td style="text-align: right;">309,567</td>
+<td style="text-align: right;">0.97</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">295,616</td>
+<td style="text-align: right;">0.98</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">VOLKSWAGEN</td>
+<td style="text-align: left;">VOLKSWAGEN TIGUAN</td>
+<td style="text-align: right;">277,246</td>
+<td style="text-align: right;">0.28</td>
+<td style="text-align: right;">0.72</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">294,812</td>
+<td style="text-align: right;">0.32</td>
+<td style="text-align: right;">0.67</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.01</td>
+</tr>
+</tbody>
+</table>
+<p><img src="racf_linked_report_figures/fuel-1.png" class="img-fluid"></p>
+<p><strong>Figure 4.</strong> For every generic model with at least 1,000 RACF cars in 2023 (all of <code>racf_fuel_by_model.csv</code>, not only the 25 in the table), the share of its MOT cars with each fuel group against the share of its RACF cars. A point is drawn where either share is above 0.5%, sized by the RACF fleet. On the grey line the two agree; a plug-in point below it is a model whose plug-ins the MOT data keeps as petrol or diesel.</p>
+</section>
+</section>
+<section id="co2-ves-against-the-eu-type-approval-figure" class="level3">
+<h3 class="anchored" data-anchor-id="co2-ves-against-the-eu-type-approval-figure">4.3 CO2: VES against the EU type-approval figure</h3>
+<section id="ves-co2-against-eu-co2" class="level4">
+<h4 class="anchored" data-anchor-id="ves-co2-against-eu-co2">VES CO2 against EU CO2</h4>
+<p>Cars located in 2023 with a recorded VES CO2 and a model-level link, by year of first use and fuel group (groups of 100+). The EU figures are the model’s fleet-weighted type-approval averages, so a single car’s VES figure (its own variant) scatters around them; the medians show whether the two registers agree on average. NEDC applies to cars first registered up to 2017 and WLTP after; VES records the figure the car was registered with.</p>
+<p>Battery electric cars are left out (both registers say 0 or close to it).</p>
+<ul>
+<li><code>first_use_year</code>: year of first use</li>
+<li><code>fuel_group</code>: RACF fuel group</li>
+<li><code>n_vehicles</code>: cars</li>
+<li><code>n_with_nedc</code>: cars whose model has an EU NEDC figure</li>
+<li><code>n_with_wltp</code>: the same for WLTP</li>
+<li><code>median_ves_co2</code>: median VES CO2 (g/km)</li>
+<li><code>median_eu_nedc</code>: median EU NEDC CO2 of their models</li>
+<li><code>median_eu_wltp</code>: median EU WLTP CO2</li>
+<li><code>median_ratio_to_nedc</code>: median of VES / EU NEDC</li>
+<li><code>median_ratio_to_wltp</code>: median of VES / EU WLTP</li>
+<li><code>pct_within_10pct_nedc</code>: percentage within 10% of the NEDC figure</li>
+<li><code>pct_within_10pct_wltp</code>: the same for WLTP</li>
+</ul>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">first_use_year</th>
+<th style="text-align: left;">fuel_group</th>
+<th style="text-align: right;">n_vehicles</th>
+<th style="text-align: right;">n_with_nedc</th>
+<th style="text-align: right;">n_with_wltp</th>
+<th style="text-align: right;">median_ves_co2</th>
+<th style="text-align: right;">median_eu_nedc</th>
+<th style="text-align: right;">median_eu_wltp</th>
+<th style="text-align: right;">median_ratio_to_nedc</th>
+<th style="text-align: right;">median_ratio_to_wltp</th>
+<th style="text-align: right;">pct_within_10pct_nedc</th>
+<th style="text-align: right;">pct_within_10pct_wltp</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">2,001</td>
+<td style="text-align: left;">DIESEL</td>
+<td style="text-align: right;">18,895</td>
+<td style="text-align: right;">17,961</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">163</td>
+<td style="text-align: right;">147.7</td>
+<td style="text-align: right;">173.5</td>
+<td style="text-align: right;">1.08</td>
+<td style="text-align: right;">1.64</td>
+<td style="text-align: right;">52.4</td>
+<td style="text-align: right;">0.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2,002</td>
+<td style="text-align: left;">DIESEL</td>
+<td style="text-align: right;">43,124</td>
+<td style="text-align: right;">41,974</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">151</td>
+<td style="text-align: right;">145.5</td>
+<td style="text-align: right;">173.5</td>
+<td style="text-align: right;">1.13</td>
+<td style="text-align: right;">1.49</td>
+<td style="text-align: right;">46.4</td>
+<td style="text-align: right;">0.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2,003</td>
+<td style="text-align: left;">DIESEL</td>
+<td style="text-align: right;">62,260</td>
+<td style="text-align: right;">60,446</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">154</td>
+<td style="text-align: right;">145.5</td>
+<td style="text-align: right;">173.5</td>
+<td style="text-align: right;">1.09</td>
+<td style="text-align: right;">1.58</td>
+<td style="text-align: right;">50.3</td>
+<td style="text-align: right;">0.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2,004</td>
+<td style="text-align: left;">DIESEL</td>
+<td style="text-align: right;">84,810</td>
+<td style="text-align: right;">82,312</td>
+<td style="text-align: right;">569</td>
+<td style="text-align: right;">157</td>
+<td style="text-align: right;">147.7</td>
+<td style="text-align: right;">173.5</td>
+<td style="text-align: right;">1.09</td>
+<td style="text-align: right;">1.20</td>
+<td style="text-align: right;">50.8</td>
+<td style="text-align: right;">8.6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2,005</td>
+<td style="text-align: left;">DIESEL</td>
+<td style="text-align: right;">120,260</td>
+<td style="text-align: right;">117,792</td>
+<td style="text-align: right;">1,205</td>
+<td style="text-align: right;">158</td>
+<td style="text-align: right;">147.7</td>
+<td style="text-align: right;">173.5</td>
+<td style="text-align: right;">1.11</td>
+<td style="text-align: right;">1.20</td>
+<td style="text-align: right;">44.1</td>
+<td style="text-align: right;">6.5</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2,006</td>
+<td style="text-align: left;">DIESEL</td>
+<td style="text-align: right;">153,108</td>
+<td style="text-align: right;">151,284</td>
+<td style="text-align: right;">1,558</td>
+<td style="text-align: right;">158</td>
+<td style="text-align: right;">145.5</td>
+<td style="text-align: right;">173.5</td>
+<td style="text-align: right;">1.11</td>
+<td style="text-align: right;">1.20</td>
+<td style="text-align: right;">44.1</td>
+<td style="text-align: right;">3.7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2,007</td>
+<td style="text-align: left;">DIESEL</td>
+<td style="text-align: right;">200,267</td>
+<td style="text-align: right;">198,470</td>
+<td style="text-align: right;">1,958</td>
+<td style="text-align: right;">156</td>
+<td style="text-align: right;">145.5</td>
+<td style="text-align: right;">173.5</td>
+<td style="text-align: right;">1.09</td>
+<td style="text-align: right;">1.20</td>
+<td style="text-align: right;">53.3</td>
+<td style="text-align: right;">0.8</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2,008</td>
+<td style="text-align: left;">DIESEL</td>
+<td style="text-align: right;">212,809</td>
+<td style="text-align: right;">210,013</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">148</td>
+<td style="text-align: right;">129.7</td>
+<td style="text-align: right;">173.5</td>
+<td style="text-align: right;">1.08</td>
+<td style="text-align: right;">1.20</td>
+<td style="text-align: right;">60.7</td>
+<td style="text-align: right;">44.4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2,009</td>
+<td style="text-align: left;">DIESEL</td>
+<td style="text-align: right;">214,798</td>
+<td style="text-align: right;">211,978</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">139</td>
+<td style="text-align: right;">129.7</td>
+<td style="text-align: right;">238.9</td>
+<td style="text-align: right;">1.02</td>
+<td style="text-align: right;">0.93</td>
+<td style="text-align: right;">75.6</td>
+<td style="text-align: right;">100.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2,010</td>
+<td style="text-align: left;">DIESEL</td>
+<td style="text-align: right;">240,947</td>
+<td style="text-align: right;">240,524</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">127</td>
+<td style="text-align: right;">124.0</td>
+<td style="text-align: right;">238.9</td>
+<td style="text-align: right;">0.99</td>
+<td style="text-align: right;">0.94</td>
+<td style="text-align: right;">78.0</td>
+<td style="text-align: right;">100.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2,011</td>
+<td style="text-align: left;">DIESEL</td>
+<td style="text-align: right;">266,164</td>
+<td style="text-align: right;">265,353</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">120</td>
+<td style="text-align: right;">121.6</td>
+<td style="text-align: right;">238.9</td>
+<td style="text-align: right;">0.99</td>
+<td style="text-align: right;">0.94</td>
+<td style="text-align: right;">76.2</td>
+<td style="text-align: right;">92.9</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2,012</td>
+<td style="text-align: left;">DIESEL</td>
+<td style="text-align: right;">284,267</td>
+<td style="text-align: right;">279,880</td>
+<td style="text-align: right;">17</td>
+<td style="text-align: right;">119</td>
+<td style="text-align: right;">121.7</td>
+<td style="text-align: right;">238.9</td>
+<td style="text-align: right;">0.99</td>
+<td style="text-align: right;">0.82</td>
+<td style="text-align: right;">76.9</td>
+<td style="text-align: right;">47.1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2,013</td>
+<td style="text-align: left;">DIESEL</td>
+<td style="text-align: right;">296,646</td>
+<td style="text-align: right;">290,135</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">115</td>
+<td style="text-align: right;">119.5</td>
+<td style="text-align: right;">238.9</td>
+<td style="text-align: right;">0.97</td>
+<td style="text-align: right;">0.82</td>
+<td style="text-align: right;">71.1</td>
+<td style="text-align: right;">3.3</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2,014</td>
+<td style="text-align: left;">DIESEL</td>
+<td style="text-align: right;">325,530</td>
+<td style="text-align: right;">319,726</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">112</td>
+<td style="text-align: right;">107.6</td>
+<td style="text-align: right;">238.9</td>
+<td style="text-align: right;">1.06</td>
+<td style="text-align: right;">0.82</td>
+<td style="text-align: right;">63.1</td>
+<td style="text-align: right;">0.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2,015</td>
+<td style="text-align: left;">DIESEL</td>
+<td style="text-align: right;">312,704</td>
+<td style="text-align: right;">310,539</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">109</td>
+<td style="text-align: right;">106.3</td>
+<td style="text-align: right;">238.9</td>
+<td style="text-align: right;">0.99</td>
+<td style="text-align: right;">0.82</td>
+<td style="text-align: right;">75.9</td>
+<td style="text-align: right;">20.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2,016</td>
+<td style="text-align: left;">DIESEL</td>
+<td style="text-align: right;">301,184</td>
+<td style="text-align: right;">296,824</td>
+<td style="text-align: right;">21</td>
+<td style="text-align: right;">109</td>
+<td style="text-align: right;">110.6</td>
+<td style="text-align: right;">238.9</td>
+<td style="text-align: right;">0.98</td>
+<td style="text-align: right;">0.94</td>
+<td style="text-align: right;">76.3</td>
+<td style="text-align: right;">52.4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2,017</td>
+<td style="text-align: left;">DIESEL</td>
+<td style="text-align: right;">222,083</td>
+<td style="text-align: right;">218,102</td>
+<td style="text-align: right;">67,596</td>
+<td style="text-align: right;">112</td>
+<td style="text-align: right;">114.7</td>
+<td style="text-align: right;">180.0</td>
+<td style="text-align: right;">0.98</td>
+<td style="text-align: right;">0.63</td>
+<td style="text-align: right;">75.7</td>
+<td style="text-align: right;">0.9</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2,018</td>
+<td style="text-align: left;">DIESEL</td>
+<td style="text-align: right;">145,337</td>
+<td style="text-align: right;">142,863</td>
+<td style="text-align: right;">137,977</td>
+<td style="text-align: right;">119</td>
+<td style="text-align: right;">118.1</td>
+<td style="text-align: right;">150.8</td>
+<td style="text-align: right;">0.99</td>
+<td style="text-align: right;">0.78</td>
+<td style="text-align: right;">77.9</td>
+<td style="text-align: right;">9.6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2,019</td>
+<td style="text-align: left;">DIESEL</td>
+<td style="text-align: right;">169,715</td>
+<td style="text-align: right;">167,562</td>
+<td style="text-align: right;">164,249</td>
+<td style="text-align: right;">131</td>
+<td style="text-align: right;">133.4</td>
+<td style="text-align: right;">166.4</td>
+<td style="text-align: right;">1.01</td>
+<td style="text-align: right;">0.80</td>
+<td style="text-align: right;">72.3</td>
+<td style="text-align: right;">9.7</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2,020</td>
+<td style="text-align: left;">DIESEL</td>
+<td style="text-align: right;">166,365</td>
+<td style="text-align: right;">165,693</td>
+<td style="text-align: right;">165,329</td>
+<td style="text-align: right;">149</td>
+<td style="text-align: right;">132.7</td>
+<td style="text-align: right;">160.3</td>
+<td style="text-align: right;">1.14</td>
+<td style="text-align: right;">0.94</td>
+<td style="text-align: right;">28.9</td>
+<td style="text-align: right;">55.6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2,021</td>
+<td style="text-align: left;">DIESEL</td>
+<td style="text-align: right;">157,017</td>
+<td style="text-align: right;">89,636</td>
+<td style="text-align: right;">156,240</td>
+<td style="text-align: right;">157</td>
+<td style="text-align: right;">42.6</td>
+<td style="text-align: right;">159.5</td>
+<td style="text-align: right;">3.93</td>
+<td style="text-align: right;">0.98</td>
+<td style="text-align: right;">0.1</td>
+<td style="text-align: right;">80.1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2,022</td>
+<td style="text-align: left;">DIESEL</td>
+<td style="text-align: right;">108,527</td>
+<td style="text-align: right;">53,530</td>
+<td style="text-align: right;">106,523</td>
+<td style="text-align: right;">157</td>
+<td style="text-align: right;">33.6</td>
+<td style="text-align: right;">160.3</td>
+<td style="text-align: right;">4.15</td>
+<td style="text-align: right;">0.98</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">75.9</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2,023</td>
+<td style="text-align: left;">DIESEL</td>
+<td style="text-align: right;">5,994</td>
+<td style="text-align: right;">208</td>
+<td style="text-align: right;">5,667</td>
+<td style="text-align: right;">170</td>
+<td style="text-align: right;">179.0</td>
+<td style="text-align: right;">171.0</td>
+<td style="text-align: right;">1.15</td>
+<td style="text-align: right;">0.98</td>
+<td style="text-align: right;">2.4</td>
+<td style="text-align: right;">69.8</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2,001</td>
+<td style="text-align: left;">PETROL</td>
+<td style="text-align: right;">87,337</td>
+<td style="text-align: right;">86,042</td>
+<td style="text-align: right;">1,073</td>
+<td style="text-align: right;">182</td>
+<td style="text-align: right;">145.4</td>
+<td style="text-align: right;">129.5</td>
+<td style="text-align: right;">1.16</td>
+<td style="text-align: right;">1.37</td>
+<td style="text-align: right;">38.2</td>
+<td style="text-align: right;">2.4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2,002</td>
+<td style="text-align: left;">PETROL</td>
+<td style="text-align: right;">139,368</td>
+<td style="text-align: right;">138,559</td>
+<td style="text-align: right;">1,093</td>
+<td style="text-align: right;">172</td>
+<td style="text-align: right;">144.3</td>
+<td style="text-align: right;">129.5</td>
+<td style="text-align: right;">1.14</td>
+<td style="text-align: right;">1.37</td>
+<td style="text-align: right;">41.3</td>
+<td style="text-align: right;">14.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2,003</td>
+<td style="text-align: left;">PETROL</td>
+<td style="text-align: right;">195,776</td>
+<td style="text-align: right;">194,454</td>
+<td style="text-align: right;">393</td>
+<td style="text-align: right;">167</td>
+<td style="text-align: right;">144.3</td>
+<td style="text-align: right;">159.5</td>
+<td style="text-align: right;">1.14</td>
+<td style="text-align: right;">1.09</td>
+<td style="text-align: right;">41.8</td>
+<td style="text-align: right;">50.9</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2,004</td>
+<td style="text-align: left;">PETROL</td>
+<td style="text-align: right;">236,477</td>
+<td style="text-align: right;">234,096</td>
+<td style="text-align: right;">540</td>
+<td style="text-align: right;">161</td>
+<td style="text-align: right;">140.6</td>
+<td style="text-align: right;">159.5</td>
+<td style="text-align: right;">1.12</td>
+<td style="text-align: right;">1.42</td>
+<td style="text-align: right;">46.3</td>
+<td style="text-align: right;">46.9</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2,005</td>
+<td style="text-align: left;">PETROL</td>
+<td style="text-align: right;">277,209</td>
+<td style="text-align: right;">275,779</td>
+<td style="text-align: right;">361</td>
+<td style="text-align: right;">159</td>
+<td style="text-align: right;">140.6</td>
+<td style="text-align: right;">159.5</td>
+<td style="text-align: right;">1.09</td>
+<td style="text-align: right;">1.09</td>
+<td style="text-align: right;">50.7</td>
+<td style="text-align: right;">57.6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2,006</td>
+<td style="text-align: left;">PETROL</td>
+<td style="text-align: right;">335,908</td>
+<td style="text-align: right;">334,298</td>
+<td style="text-align: right;">76</td>
+<td style="text-align: right;">157</td>
+<td style="text-align: right;">140.1</td>
+<td style="text-align: right;">159.5</td>
+<td style="text-align: right;">1.09</td>
+<td style="text-align: right;">1.09</td>
+<td style="text-align: right;">53.5</td>
+<td style="text-align: right;">73.7</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2,007</td>
+<td style="text-align: left;">PETROL</td>
+<td style="text-align: right;">378,554</td>
+<td style="text-align: right;">377,098</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">152</td>
+<td style="text-align: right;">140.1</td>
+<td style="text-align: right;">419.0</td>
+<td style="text-align: right;">1.09</td>
+<td style="text-align: right;">1.17</td>
+<td style="text-align: right;">54.2</td>
+<td style="text-align: right;">0.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2,008</td>
+<td style="text-align: left;">PETROL</td>
+<td style="text-align: right;">360,623</td>
+<td style="text-align: right;">360,266</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">147</td>
+<td style="text-align: right;">138.0</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">1.07</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">61.6</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2,009</td>
+<td style="text-align: left;">PETROL</td>
+<td style="text-align: right;">407,696</td>
+<td style="text-align: right;">407,013</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">139</td>
+<td style="text-align: right;">131.0</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">1.02</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">77.0</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2,010</td>
+<td style="text-align: left;">PETROL</td>
+<td style="text-align: right;">418,950</td>
+<td style="text-align: right;">418,439</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">134</td>
+<td style="text-align: right;">132.2</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">85.9</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2,011</td>
+<td style="text-align: left;">PETROL</td>
+<td style="text-align: right;">374,375</td>
+<td style="text-align: right;">374,251</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">129</td>
+<td style="text-align: right;">129.2</td>
+<td style="text-align: right;">170.7</td>
+<td style="text-align: right;">1.01</td>
+<td style="text-align: right;">0.88</td>
+<td style="text-align: right;">84.8</td>
+<td style="text-align: right;">0.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2,012</td>
+<td style="text-align: left;">PETROL</td>
+<td style="text-align: right;">423,106</td>
+<td style="text-align: right;">422,986</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">129</td>
+<td style="text-align: right;">127.3</td>
+<td style="text-align: right;">162.1</td>
+<td style="text-align: right;">1.01</td>
+<td style="text-align: right;">0.96</td>
+<td style="text-align: right;">86.4</td>
+<td style="text-align: right;">100.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2,013</td>
+<td style="text-align: left;">PETROL</td>
+<td style="text-align: right;">479,681</td>
+<td style="text-align: right;">479,482</td>
+<td style="text-align: right;">500</td>
+<td style="text-align: right;">125</td>
+<td style="text-align: right;">128.7</td>
+<td style="text-align: right;">162.1</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">0.96</td>
+<td style="text-align: right;">62.6</td>
+<td style="text-align: right;">100.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2,014</td>
+<td style="text-align: left;">PETROL</td>
+<td style="text-align: right;">525,347</td>
+<td style="text-align: right;">524,444</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">120</td>
+<td style="text-align: right;">113.6</td>
+<td style="text-align: right;">162.1</td>
+<td style="text-align: right;">1.09</td>
+<td style="text-align: right;">0.94</td>
+<td style="text-align: right;">62.1</td>
+<td style="text-align: right;">75.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2,015</td>
+<td style="text-align: left;">PETROL</td>
+<td style="text-align: right;">566,715</td>
+<td style="text-align: right;">566,180</td>
+<td style="text-align: right;">1,685</td>
+<td style="text-align: right;">119</td>
+<td style="text-align: right;">114.4</td>
+<td style="text-align: right;">162.1</td>
+<td style="text-align: right;">1.01</td>
+<td style="text-align: right;">0.86</td>
+<td style="text-align: right;">78.1</td>
+<td style="text-align: right;">7.1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2,016</td>
+<td style="text-align: left;">PETROL</td>
+<td style="text-align: right;">556,623</td>
+<td style="text-align: right;">556,136</td>
+<td style="text-align: right;">3,292</td>
+<td style="text-align: right;">116</td>
+<td style="text-align: right;">115.3</td>
+<td style="text-align: right;">162.1</td>
+<td style="text-align: right;">0.98</td>
+<td style="text-align: right;">0.86</td>
+<td style="text-align: right;">75.2</td>
+<td style="text-align: right;">0.1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2,017</td>
+<td style="text-align: left;">PETROL</td>
+<td style="text-align: right;">527,858</td>
+<td style="text-align: right;">526,609</td>
+<td style="text-align: right;">93,382</td>
+<td style="text-align: right;">116</td>
+<td style="text-align: right;">119.7</td>
+<td style="text-align: right;">180.0</td>
+<td style="text-align: right;">0.98</td>
+<td style="text-align: right;">0.78</td>
+<td style="text-align: right;">75.2</td>
+<td style="text-align: right;">11.7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2,018</td>
+<td style="text-align: left;">PETROL</td>
+<td style="text-align: right;">499,290</td>
+<td style="text-align: right;">494,354</td>
+<td style="text-align: right;">487,960</td>
+<td style="text-align: right;">114</td>
+<td style="text-align: right;">115.2</td>
+<td style="text-align: right;">139.0</td>
+<td style="text-align: right;">0.99</td>
+<td style="text-align: right;">0.83</td>
+<td style="text-align: right;">74.4</td>
+<td style="text-align: right;">12.9</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2,019</td>
+<td style="text-align: left;">PETROL</td>
+<td style="text-align: right;">574,352</td>
+<td style="text-align: right;">566,414</td>
+<td style="text-align: right;">544,415</td>
+<td style="text-align: right;">121</td>
+<td style="text-align: right;">114.6</td>
+<td style="text-align: right;">134.3</td>
+<td style="text-align: right;">1.04</td>
+<td style="text-align: right;">0.88</td>
+<td style="text-align: right;">57.8</td>
+<td style="text-align: right;">33.7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2,020</td>
+<td style="text-align: left;">PETROL</td>
+<td style="text-align: right;">628,745</td>
+<td style="text-align: right;">625,764</td>
+<td style="text-align: right;">619,096</td>
+<td style="text-align: right;">129</td>
+<td style="text-align: right;">113.6</td>
+<td style="text-align: right;">134.3</td>
+<td style="text-align: right;">1.16</td>
+<td style="text-align: right;">0.96</td>
+<td style="text-align: right;">31.9</td>
+<td style="text-align: right;">68.4</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2,021</td>
+<td style="text-align: left;">PETROL</td>
+<td style="text-align: right;">785,895</td>
+<td style="text-align: right;">240,932</td>
+<td style="text-align: right;">770,719</td>
+<td style="text-align: right;">131</td>
+<td style="text-align: right;">34.4</td>
+<td style="text-align: right;">131.2</td>
+<td style="text-align: right;">4.17</td>
+<td style="text-align: right;">0.99</td>
+<td style="text-align: right;">0.9</td>
+<td style="text-align: right;">90.4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2,022</td>
+<td style="text-align: left;">PETROL</td>
+<td style="text-align: right;">822,086</td>
+<td style="text-align: right;">236,046</td>
+<td style="text-align: right;">812,534</td>
+<td style="text-align: right;">131</td>
+<td style="text-align: right;">31.4</td>
+<td style="text-align: right;">131.5</td>
+<td style="text-align: right;">4.41</td>
+<td style="text-align: right;">0.98</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">85.9</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2,023</td>
+<td style="text-align: left;">PETROL</td>
+<td style="text-align: right;">48,763</td>
+<td style="text-align: right;">5,662</td>
+<td style="text-align: right;">48,183</td>
+<td style="text-align: right;">129</td>
+<td style="text-align: right;">42.5</td>
+<td style="text-align: right;">131.1</td>
+<td style="text-align: right;">3.83</td>
+<td style="text-align: right;">0.97</td>
+<td style="text-align: right;">6.0</td>
+<td style="text-align: right;">83.4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2,014</td>
+<td style="text-align: left;">PHEV</td>
+<td style="text-align: right;">235</td>
+<td style="text-align: right;">235</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">49</td>
+<td style="text-align: right;">49.0</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">87.7</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2,015</td>
+<td style="text-align: left;">PHEV</td>
+<td style="text-align: right;">739</td>
+<td style="text-align: right;">739</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">49</td>
+<td style="text-align: right;">49.0</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">89.0</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2,016</td>
+<td style="text-align: left;">PHEV</td>
+<td style="text-align: right;">556</td>
+<td style="text-align: right;">555</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">49</td>
+<td style="text-align: right;">49.2</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">82.0</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2,017</td>
+<td style="text-align: left;">PHEV</td>
+<td style="text-align: right;">400</td>
+<td style="text-align: right;">400</td>
+<td style="text-align: right;">54</td>
+<td style="text-align: right;">49</td>
+<td style="text-align: right;">48.9</td>
+<td style="text-align: right;">180.0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">0.21</td>
+<td style="text-align: right;">60.0</td>
+<td style="text-align: right;">0.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2,018</td>
+<td style="text-align: left;">PHEV</td>
+<td style="text-align: right;">1,587</td>
+<td style="text-align: right;">1,586</td>
+<td style="text-align: right;">1,586</td>
+<td style="text-align: right;">57</td>
+<td style="text-align: right;">115.1</td>
+<td style="text-align: right;">144.0</td>
+<td style="text-align: right;">0.50</td>
+<td style="text-align: right;">0.40</td>
+<td style="text-align: right;">23.1</td>
+<td style="text-align: right;">23.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2,019</td>
+<td style="text-align: left;">PHEV</td>
+<td style="text-align: right;">5,240</td>
+<td style="text-align: right;">5,212</td>
+<td style="text-align: right;">5,212</td>
+<td style="text-align: right;">44</td>
+<td style="text-align: right;">113.1</td>
+<td style="text-align: right;">137.0</td>
+<td style="text-align: right;">0.41</td>
+<td style="text-align: right;">0.33</td>
+<td style="text-align: right;">5.1</td>
+<td style="text-align: right;">4.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2,020</td>
+<td style="text-align: left;">PHEV</td>
+<td style="text-align: right;">43,602</td>
+<td style="text-align: right;">43,166</td>
+<td style="text-align: right;">43,166</td>
+<td style="text-align: right;">35</td>
+<td style="text-align: right;">106.6</td>
+<td style="text-align: right;">129.2</td>
+<td style="text-align: right;">0.35</td>
+<td style="text-align: right;">0.30</td>
+<td style="text-align: right;">0.3</td>
+<td style="text-align: right;">6.4</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2,021</td>
+<td style="text-align: left;">PHEV</td>
+<td style="text-align: right;">96,078</td>
+<td style="text-align: right;">87,746</td>
+<td style="text-align: right;">93,348</td>
+<td style="text-align: right;">33</td>
+<td style="text-align: right;">38.8</td>
+<td style="text-align: right;">110.6</td>
+<td style="text-align: right;">0.96</td>
+<td style="text-align: right;">0.29</td>
+<td style="text-align: right;">23.4</td>
+<td style="text-align: right;">7.6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2,022</td>
+<td style="text-align: left;">PHEV</td>
+<td style="text-align: right;">80,973</td>
+<td style="text-align: right;">64,881</td>
+<td style="text-align: right;">80,362</td>
+<td style="text-align: right;">31</td>
+<td style="text-align: right;">30.6</td>
+<td style="text-align: right;">108.3</td>
+<td style="text-align: right;">0.93</td>
+<td style="text-align: right;">0.29</td>
+<td style="text-align: right;">31.7</td>
+<td style="text-align: right;">0.4</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2,023</td>
+<td style="text-align: left;">PHEV</td>
+<td style="text-align: right;">5,620</td>
+<td style="text-align: right;">470</td>
+<td style="text-align: right;">5,578</td>
+<td style="text-align: right;">31</td>
+<td style="text-align: right;">26.0</td>
+<td style="text-align: right;">119.7</td>
+<td style="text-align: right;">0.92</td>
+<td style="text-align: right;">0.27</td>
+<td style="text-align: right;">79.1</td>
+<td style="text-align: right;">0.4</td>
+</tr>
+</tbody>
+</table>
+<p><img src="racf_linked_report_figures/co2-1.png" class="img-fluid"></p>
+<p><strong>Figure 5.</strong> From the table above (<code>racf_co2_validation.csv</code>): for the cars located in 2023 with a recorded VES CO2 and a model-level link, the median of each car’s VES CO2 divided by its model’s EU NEDC (solid) or WLTP (dashed) figure, by year of first use and fuel group. Only points with at least 100 cars with that EU figure are drawn. At 1 (grey line) the registers agree on average.</p>
+</section>
+</section>
+<section id="weight-ves-revenue-weight-against-the-eu-mass" class="level3">
+<h3 class="anchored" data-anchor-id="weight-ves-revenue-weight-against-the-eu-mass">4.4 Weight: VES revenue weight against the EU mass</h3>
+<section id="ves-revenue-weight-against-eu-mass" class="level4">
+<h4 class="anchored" data-anchor-id="ves-revenue-weight-against-eu-mass">VES revenue weight against EU mass</h4>
+<p>Cars located in 2023 with a recorded VES revenue weight and a model-level link. The revenue weight is the car’s maximum (gross) weight and the EU mass its mass in running order, so the ratio should be above 1, typically 1.2-1.5; a revenue weight below the running-order mass is impossible for the same variant and points to the wrong model, a different variant or a recording error.</p>
+<ul>
+<li><code>first_use_band</code>: years of first use</li>
+<li><code>fuel_group</code>: RACF fuel group</li>
+<li><code>n_vehicles</code>: cars</li>
+<li><code>median_revenue_weight</code>: median VES revenue weight (kg)</li>
+<li><code>median_eu_mass</code>: median EU mass of their models (kg)</li>
+<li><code>median_ratio</code>: median revenue weight / EU mass</li>
+<li><code>p10_ratio</code>: 10th percentile of the ratio</li>
+<li><code>p90_ratio</code>: 90th percentile</li>
+<li><code>pct_below_eu_mass</code>: percentage with a revenue weight below the EU mass</li>
+</ul>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">first_use_band</th>
+<th style="text-align: left;">fuel_group</th>
+<th style="text-align: right;">n_vehicles</th>
+<th style="text-align: right;">median_revenue_weight</th>
+<th style="text-align: right;">median_eu_mass</th>
+<th style="text-align: right;">median_ratio</th>
+<th style="text-align: right;">p10_ratio</th>
+<th style="text-align: right;">p90_ratio</th>
+<th style="text-align: right;">pct_below_eu_mass</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">2010-2015</td>
+<td style="text-align: left;">BEV</td>
+<td style="text-align: right;">210</td>
+<td style="text-align: right;">1,500.0</td>
+<td style="text-align: right;">1,214</td>
+<td style="text-align: right;">1.24</td>
+<td style="text-align: right;">1.17</td>
+<td style="text-align: right;">1.29</td>
+<td style="text-align: right;">0.48</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2015-2020</td>
+<td style="text-align: left;">BEV</td>
+<td style="text-align: right;">5,839</td>
+<td style="text-align: right;">2,020.0</td>
+<td style="text-align: right;">1,615</td>
+<td style="text-align: right;">1.25</td>
+<td style="text-align: right;">1.22</td>
+<td style="text-align: right;">1.25</td>
+<td style="text-align: right;">0.10</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2020+</td>
+<td style="text-align: left;">BEV</td>
+<td style="text-align: right;">227,559</td>
+<td style="text-align: right;">2,244.0</td>
+<td style="text-align: right;">1,807</td>
+<td style="text-align: right;">1.23</td>
+<td style="text-align: right;">1.18</td>
+<td style="text-align: right;">1.26</td>
+<td style="text-align: right;">0.46</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2005-2010</td>
+<td style="text-align: left;">DIESEL</td>
+<td style="text-align: right;">142,050</td>
+<td style="text-align: right;">2,505.0</td>
+<td style="text-align: right;">1,945</td>
+<td style="text-align: right;">1.29</td>
+<td style="text-align: right;">1.05</td>
+<td style="text-align: right;">1.33</td>
+<td style="text-align: right;">5.24</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2010-2015</td>
+<td style="text-align: left;">DIESEL</td>
+<td style="text-align: right;">910,994</td>
+<td style="text-align: right;">1,920.0</td>
+<td style="text-align: right;">1,399</td>
+<td style="text-align: right;">1.37</td>
+<td style="text-align: right;">1.22</td>
+<td style="text-align: right;">1.43</td>
+<td style="text-align: right;">3.88</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2015-2020</td>
+<td style="text-align: left;">DIESEL</td>
+<td style="text-align: right;">750,442</td>
+<td style="text-align: right;">1,930.0</td>
+<td style="text-align: right;">1,423</td>
+<td style="text-align: right;">1.35</td>
+<td style="text-align: right;">1.02</td>
+<td style="text-align: right;">1.43</td>
+<td style="text-align: right;">8.75</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2020+</td>
+<td style="text-align: left;">DIESEL</td>
+<td style="text-align: right;">314,324</td>
+<td style="text-align: right;">2,145.0</td>
+<td style="text-align: right;">1,835</td>
+<td style="text-align: right;">1.30</td>
+<td style="text-align: right;">0.83</td>
+<td style="text-align: right;">1.39</td>
+<td style="text-align: right;">22.28</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">&lt;2005</td>
+<td style="text-align: left;">DIESEL</td>
+<td style="text-align: right;">54,844</td>
+<td style="text-align: right;">2,575.0</td>
+<td style="text-align: right;">2,100</td>
+<td style="text-align: right;">1.08</td>
+<td style="text-align: right;">1.04</td>
+<td style="text-align: right;">1.23</td>
+<td style="text-align: right;">5.15</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2005-2010</td>
+<td style="text-align: left;">PETROL</td>
+<td style="text-align: right;">140,470</td>
+<td style="text-align: right;">1,502.0</td>
+<td style="text-align: right;">1,172</td>
+<td style="text-align: right;">1.23</td>
+<td style="text-align: right;">0.98</td>
+<td style="text-align: right;">1.41</td>
+<td style="text-align: right;">19.06</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2010-2015</td>
+<td style="text-align: left;">PETROL</td>
+<td style="text-align: right;">1,201,202</td>
+<td style="text-align: right;">1,530.0</td>
+<td style="text-align: right;">1,088</td>
+<td style="text-align: right;">1.41</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">1.44</td>
+<td style="text-align: right;">7.88</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2015-2020</td>
+<td style="text-align: left;">PETROL</td>
+<td style="text-align: right;">1,717,264</td>
+<td style="text-align: right;">1,590.0</td>
+<td style="text-align: right;">1,159</td>
+<td style="text-align: right;">1.40</td>
+<td style="text-align: right;">1.02</td>
+<td style="text-align: right;">1.47</td>
+<td style="text-align: right;">6.97</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2020+</td>
+<td style="text-align: left;">PETROL</td>
+<td style="text-align: right;">1,385,936</td>
+<td style="text-align: right;">1,760.0</td>
+<td style="text-align: right;">1,339</td>
+<td style="text-align: right;">1.35</td>
+<td style="text-align: right;">1.04</td>
+<td style="text-align: right;">1.42</td>
+<td style="text-align: right;">5.44</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">&lt;2005</td>
+<td style="text-align: left;">PETROL</td>
+<td style="text-align: right;">40,450</td>
+<td style="text-align: right;">1,515.5</td>
+<td style="text-align: right;">1,313</td>
+<td style="text-align: right;">1.12</td>
+<td style="text-align: right;">0.97</td>
+<td style="text-align: right;">1.30</td>
+<td style="text-align: right;">12.47</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2010-2015</td>
+<td style="text-align: left;">PHEV</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2,050.0</td>
+<td style="text-align: right;">1,354</td>
+<td style="text-align: right;">1.51</td>
+<td style="text-align: right;">1.51</td>
+<td style="text-align: right;">1.51</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2015-2020</td>
+<td style="text-align: left;">PHEV</td>
+<td style="text-align: right;">403</td>
+<td style="text-align: right;">2,270.0</td>
+<td style="text-align: right;">1,590</td>
+<td style="text-align: right;">1.47</td>
+<td style="text-align: right;">1.08</td>
+<td style="text-align: right;">1.54</td>
+<td style="text-align: right;">0.99</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2020+</td>
+<td style="text-align: left;">PHEV</td>
+<td style="text-align: right;">132,156</td>
+<td style="text-align: right;">2,222.0</td>
+<td style="text-align: right;">1,671</td>
+<td style="text-align: right;">1.37</td>
+<td style="text-align: right;">0.90</td>
+<td style="text-align: right;">1.47</td>
+<td style="text-align: right;">11.20</td>
+</tr>
+</tbody>
+</table>
+<p><img src="racf_linked_report_figures/mass-1.png" class="img-fluid"></p>
+<p><strong>Figure 6.</strong> From the table above (<code>racf_mass_validation.csv</code>): for the cars located in 2023 with a recorded VES revenue weight and a model-level link, each car’s revenue weight divided by its model’s EU mass in running order, by band of first use and fuel group. Points are the median and bars the 10th to 90th percentile. Below 1 (grey line) is impossible for the same variant.</p>
+</section>
+</section>
+<section id="smmt-segment-against-the-dvla-type-approval" class="level3">
+<h3 class="anchored" data-anchor-id="smmt-segment-against-the-dvla-type-approval">4.5 SMMT segment against the DVLA type approval</h3>
+<section id="smmt-segment-against-type-approval-2023" class="level4">
+<h4 class="anchored" data-anchor-id="smmt-segment-against-type-approval-2023">SMMT segment against type approval, 2023</h4>
+<p>Linked cars by their model’s SMMT segment and their harmonised DVLA type approval (recorded or backfilled; the full split by source is in <code>racf_smmt_by_type_approval.csv</code>). Every SMMT segment is a car body, so nearly all should be M1; an N1 (van) approval on an SMMT car segment is a car- derived van (Pick-up, car-derived vans) or a model matched to a car of the same name.</p>
+<ul>
+<li><code>smmt_type</code>: SMMT segment of the model</li>
+<li><code>M1, N1, ...</code>: cars with that type approval</li>
+</ul>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 27%">
+<col style="width: 13%">
+<col style="width: 7%">
+<col style="width: 15%">
+<col style="width: 11%">
+<col style="width: 7%">
+<col style="width: 10%">
+<col style="width: 7%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">smmt_type</th>
+<th style="text-align: right;">(none)</th>
+<th style="text-align: right;">L7</th>
+<th style="text-align: right;">M1</th>
+<th style="text-align: right;">N1</th>
+<th style="text-align: right;">N3</th>
+<th style="text-align: right;">other</th>
+<th style="text-align: right;">SP</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(no segment)</td>
+<td style="text-align: right;">146,033</td>
+<td style="text-align: right;">649</td>
+<td style="text-align: right;">419,450</td>
+<td style="text-align: right;">162</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">23</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Dual Purpose</td>
+<td style="text-align: right;">22,836</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">8,768,946</td>
+<td style="text-align: right;">1,944</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Executive</td>
+<td style="text-align: right;">18,186</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1,089,606</td>
+<td style="text-align: right;">22</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Lower Medium</td>
+<td style="text-align: right;">84,704</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">8,384,554</td>
+<td style="text-align: right;">20,578</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">23</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Luxury Saloon</td>
+<td style="text-align: right;">28,119</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">191,907</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Mini</td>
+<td style="text-align: right;">22,955</td>
+<td style="text-align: right;">592</td>
+<td style="text-align: right;">2,550,870</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">MPV</td>
+<td style="text-align: right;">17,439</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1,174,769</td>
+<td style="text-align: right;">463</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">39</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Other</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">99,768</td>
+<td style="text-align: right;">318</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Specialist Sports</td>
+<td style="text-align: right;">45,631</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">830,786</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Supermini</td>
+<td style="text-align: right;">51,011</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">8,737,785</td>
+<td style="text-align: right;">52,661</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Upper Medium</td>
+<td style="text-align: right;">28,575</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3,625,352</td>
+<td style="text-align: right;">105</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+</section>
+<section id="what-the-linked-data-shows" class="level2">
+<h2 class="anchored" data-anchor-id="what-the-linked-data-shows">5. What the linked data shows</h2>
+<section id="the-located-car-fleet-year-by-year" class="level3">
+<h3 class="anchored" data-anchor-id="the-located-car-fleet-year-by-year">5.1 The located car fleet, year by year</h3>
+<p>Fleet-weighted model attributes of the cars located in a real postcode area each year, all fuels. Each mean is over the cars with that attribute (<code>n_*</code> in <code>racf_characteristics_by_year.csv</code>, which also splits every year by fuel group). Length and width come from the RDW register and cover fewer cars (Section 1.1). <code>suv_share</code> is the share of cars whose model SMMT calls a crossover / SUV or an off-roader. The means level off from about 2022 because cars first used in the last three years are located only once their first MOT is in the data (data quality report).</p>
+<ul>
+<li><code>n_vehicles</code>: cars located</li>
+<li><code>n_linked</code>: linked to RACF</li>
+<li><code>mean_mass_kg</code>: EU mass in running order (kg)</li>
+<li><code>mean_footprint_m2</code>: EU footprint, wheelbase x track (m2)</li>
+<li><code>mean_length_mm, ...</code>: RDW dimensions (mm)</li>
+<li><code>mean_co2_nedc</code>: EU NEDC CO2 (g/km)</li>
+<li><code>mean_co2_wltp</code>: EU WLTP CO2 (g/km, models with one)</li>
+<li><code>suv_share</code>: share SUV / off-road</li>
+<li><code>eu_exact_share</code>: share of the EU match that is for the exact year</li>
+</ul>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">year</th>
+<th style="text-align: right;">n_vehicles</th>
+<th style="text-align: right;">n_linked</th>
+<th style="text-align: right;">mean_mass_kg</th>
+<th style="text-align: right;">mean_footprint_m2</th>
+<th style="text-align: right;">mean_length_mm</th>
+<th style="text-align: right;">mean_width_mm</th>
+<th style="text-align: right;">mean_height_mm</th>
+<th style="text-align: right;">mean_co2_nedc</th>
+<th style="text-align: right;">mean_co2_wltp</th>
+<th style="text-align: right;">suv_share</th>
+<th style="text-align: right;">eu_exact_share</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">2014</td>
+<td style="text-align: right;">35,913,902</td>
+<td style="text-align: right;">35,554,464</td>
+<td style="text-align: right;">1,374.88</td>
+<td style="text-align: right;">3.97</td>
+<td style="text-align: right;">4,113.56</td>
+<td style="text-align: right;">1,713.60</td>
+<td style="text-align: right;">1,489.10</td>
+<td style="text-align: right;">147.07</td>
+<td style="text-align: right;">149.73</td>
+<td style="text-align: right;">0.10</td>
+<td style="text-align: right;">0.19</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2015</td>
+<td style="text-align: right;">36,794,357</td>
+<td style="text-align: right;">36,453,192</td>
+<td style="text-align: right;">1,377.25</td>
+<td style="text-align: right;">3.98</td>
+<td style="text-align: right;">4,131.67</td>
+<td style="text-align: right;">1,723.93</td>
+<td style="text-align: right;">1,493.38</td>
+<td style="text-align: right;">144.85</td>
+<td style="text-align: right;">151.89</td>
+<td style="text-align: right;">0.11</td>
+<td style="text-align: right;">0.23</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2016</td>
+<td style="text-align: right;">37,776,648</td>
+<td style="text-align: right;">37,440,741</td>
+<td style="text-align: right;">1,381.22</td>
+<td style="text-align: right;">3.98</td>
+<td style="text-align: right;">4,150.32</td>
+<td style="text-align: right;">1,733.23</td>
+<td style="text-align: right;">1,497.88</td>
+<td style="text-align: right;">142.91</td>
+<td style="text-align: right;">156.05</td>
+<td style="text-align: right;">0.13</td>
+<td style="text-align: right;">0.26</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2017</td>
+<td style="text-align: right;">38,079,551</td>
+<td style="text-align: right;">37,744,596</td>
+<td style="text-align: right;">1,385.38</td>
+<td style="text-align: right;">3.99</td>
+<td style="text-align: right;">4,165.65</td>
+<td style="text-align: right;">1,739.55</td>
+<td style="text-align: right;">1,501.50</td>
+<td style="text-align: right;">141.59</td>
+<td style="text-align: right;">167.29</td>
+<td style="text-align: right;">0.14</td>
+<td style="text-align: right;">0.28</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2018</td>
+<td style="text-align: right;">38,646,595</td>
+<td style="text-align: right;">38,299,634</td>
+<td style="text-align: right;">1,390.06</td>
+<td style="text-align: right;">4.00</td>
+<td style="text-align: right;">4,183.48</td>
+<td style="text-align: right;">1,746.71</td>
+<td style="text-align: right;">1,505.51</td>
+<td style="text-align: right;">140.28</td>
+<td style="text-align: right;">157.84</td>
+<td style="text-align: right;">0.16</td>
+<td style="text-align: right;">0.31</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2019</td>
+<td style="text-align: right;">38,961,756</td>
+<td style="text-align: right;">38,597,742</td>
+<td style="text-align: right;">1,395.79</td>
+<td style="text-align: right;">4.00</td>
+<td style="text-align: right;">4,201.29</td>
+<td style="text-align: right;">1,753.07</td>
+<td style="text-align: right;">1,509.59</td>
+<td style="text-align: right;">139.00</td>
+<td style="text-align: right;">156.04</td>
+<td style="text-align: right;">0.18</td>
+<td style="text-align: right;">0.31</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2020</td>
+<td style="text-align: right;">38,736,380</td>
+<td style="text-align: right;">38,378,985</td>
+<td style="text-align: right;">1,401.32</td>
+<td style="text-align: right;">4.01</td>
+<td style="text-align: right;">4,215.20</td>
+<td style="text-align: right;">1,758.00</td>
+<td style="text-align: right;">1,512.91</td>
+<td style="text-align: right;">137.71</td>
+<td style="text-align: right;">154.53</td>
+<td style="text-align: right;">0.20</td>
+<td style="text-align: right;">0.33</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2021</td>
+<td style="text-align: right;">38,700,627</td>
+<td style="text-align: right;">38,350,451</td>
+<td style="text-align: right;">1,407.79</td>
+<td style="text-align: right;">4.02</td>
+<td style="text-align: right;">4,227.91</td>
+<td style="text-align: right;">1,762.49</td>
+<td style="text-align: right;">1,515.99</td>
+<td style="text-align: right;">135.49</td>
+<td style="text-align: right;">152.38</td>
+<td style="text-align: right;">0.22</td>
+<td style="text-align: right;">0.35</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2022</td>
+<td style="text-align: right;">38,124,631</td>
+<td style="text-align: right;">37,799,759</td>
+<td style="text-align: right;">1,413.88</td>
+<td style="text-align: right;">4.03</td>
+<td style="text-align: right;">4,238.50</td>
+<td style="text-align: right;">1,766.25</td>
+<td style="text-align: right;">1,519.17</td>
+<td style="text-align: right;">133.49</td>
+<td style="text-align: right;">150.88</td>
+<td style="text-align: right;">0.24</td>
+<td style="text-align: right;">0.36</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2023</td>
+<td style="text-align: right;">36,730,468</td>
+<td style="text-align: right;">36,416,995</td>
+<td style="text-align: right;">1,415.36</td>
+<td style="text-align: right;">4.03</td>
+<td style="text-align: right;">4,241.27</td>
+<td style="text-align: right;">1,766.95</td>
+<td style="text-align: right;">1,520.44</td>
+<td style="text-align: right;">132.84</td>
+<td style="text-align: right;">150.78</td>
+<td style="text-align: right;">0.25</td>
+<td style="text-align: right;">0.37</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2024</td>
+<td style="text-align: right;">35,214,860</td>
+<td style="text-align: right;">34,919,863</td>
+<td style="text-align: right;">1,416.17</td>
+<td style="text-align: right;">4.03</td>
+<td style="text-align: right;">4,243.69</td>
+<td style="text-align: right;">1,767.63</td>
+<td style="text-align: right;">1,521.61</td>
+<td style="text-align: right;">132.09</td>
+<td style="text-align: right;">150.72</td>
+<td style="text-align: right;">0.25</td>
+<td style="text-align: right;">0.38</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2025</td>
+<td style="text-align: right;">33,273,833</td>
+<td style="text-align: right;">33,003,296</td>
+<td style="text-align: right;">1,415.66</td>
+<td style="text-align: right;">4.03</td>
+<td style="text-align: right;">4,245.49</td>
+<td style="text-align: right;">1,768.36</td>
+<td style="text-align: right;">1,522.64</td>
+<td style="text-align: right;">131.19</td>
+<td style="text-align: right;">150.58</td>
+<td style="text-align: right;">0.26</td>
+<td style="text-align: right;">0.39</td>
+</tr>
+</tbody>
+</table>
+<p><img src="racf_linked_report_figures/chars-1.png" class="img-fluid"></p>
+<p><strong>Figure 7.</strong> Four columns of table 5.1 by year, for all located cars (black) and for each main fuel group (<code>racf_characteristics_by_year.csv</code>): the SUV / off-road share, and the fleet-weighted means of the models’ EU mass, footprint and NEDC CO2. Each mean is over the linked cars with that attribute.</p>
+</section>
+<section id="by-year-of-first-use-cars-located-in-2023" class="level3">
+<h3 class="anchored" data-anchor-id="by-year-of-first-use-cars-located-in-2023">5.2 By year of first use, cars located in 2023</h3>
+<p>The same attributes for the cars located in 2023 by the year they were first used (1990 onwards shown; every cohort is in <code>racf_characteristics_by_cohort.csv</code>). Unlike 5.1, this separates what was sold from what survived: each cohort is the cars of that year still located.</p>
+<ul>
+<li><code>first_use_year</code>: year of first use</li>
+</ul>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">first_use_year</th>
+<th style="text-align: right;">n_vehicles</th>
+<th style="text-align: right;">n_linked</th>
+<th style="text-align: right;">mean_mass_kg</th>
+<th style="text-align: right;">mean_footprint_m2</th>
+<th style="text-align: right;">mean_co2_nedc</th>
+<th style="text-align: right;">mean_co2_wltp</th>
+<th style="text-align: right;">suv_share</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1,990</td>
+<td style="text-align: right;">27,804</td>
+<td style="text-align: right;">25,153</td>
+<td style="text-align: right;">1,388.67</td>
+<td style="text-align: right;">3.90</td>
+<td style="text-align: right;">178.46</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.02</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1,991</td>
+<td style="text-align: right;">24,791</td>
+<td style="text-align: right;">22,080</td>
+<td style="text-align: right;">1,362.80</td>
+<td style="text-align: right;">3.82</td>
+<td style="text-align: right;">175.74</td>
+<td style="text-align: right;">139.00</td>
+<td style="text-align: right;">0.04</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1,992</td>
+<td style="text-align: right;">21,793</td>
+<td style="text-align: right;">19,972</td>
+<td style="text-align: right;">1,405.87</td>
+<td style="text-align: right;">3.84</td>
+<td style="text-align: right;">182.77</td>
+<td style="text-align: right;">139.00</td>
+<td style="text-align: right;">0.05</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1,993</td>
+<td style="text-align: right;">26,025</td>
+<td style="text-align: right;">24,491</td>
+<td style="text-align: right;">1,538.16</td>
+<td style="text-align: right;">3.91</td>
+<td style="text-align: right;">200.80</td>
+<td style="text-align: right;">139.00</td>
+<td style="text-align: right;">0.22</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1,994</td>
+<td style="text-align: right;">27,785</td>
+<td style="text-align: right;">25,946</td>
+<td style="text-align: right;">1,530.96</td>
+<td style="text-align: right;">4.04</td>
+<td style="text-align: right;">192.04</td>
+<td style="text-align: right;">139.00</td>
+<td style="text-align: right;">0.14</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1,995</td>
+<td style="text-align: right;">36,086</td>
+<td style="text-align: right;">33,401</td>
+<td style="text-align: right;">1,558.23</td>
+<td style="text-align: right;">4.09</td>
+<td style="text-align: right;">193.36</td>
+<td style="text-align: right;">147.40</td>
+<td style="text-align: right;">0.14</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1,996</td>
+<td style="text-align: right;">49,749</td>
+<td style="text-align: right;">46,878</td>
+<td style="text-align: right;">1,585.63</td>
+<td style="text-align: right;">4.02</td>
+<td style="text-align: right;">198.54</td>
+<td style="text-align: right;">151.59</td>
+<td style="text-align: right;">0.22</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1,997</td>
+<td style="text-align: right;">71,305</td>
+<td style="text-align: right;">68,055</td>
+<td style="text-align: right;">1,535.23</td>
+<td style="text-align: right;">3.99</td>
+<td style="text-align: right;">192.02</td>
+<td style="text-align: right;">130.55</td>
+<td style="text-align: right;">0.17</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1,998</td>
+<td style="text-align: right;">95,550</td>
+<td style="text-align: right;">92,337</td>
+<td style="text-align: right;">1,510.36</td>
+<td style="text-align: right;">3.99</td>
+<td style="text-align: right;">187.01</td>
+<td style="text-align: right;">129.70</td>
+<td style="text-align: right;">0.16</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1,999</td>
+<td style="text-align: right;">131,776</td>
+<td style="text-align: right;">128,468</td>
+<td style="text-align: right;">1,503.81</td>
+<td style="text-align: right;">4.03</td>
+<td style="text-align: right;">181.75</td>
+<td style="text-align: right;">129.90</td>
+<td style="text-align: right;">0.14</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2,000</td>
+<td style="text-align: right;">179,182</td>
+<td style="text-align: right;">175,363</td>
+<td style="text-align: right;">1,437.51</td>
+<td style="text-align: right;">3.96</td>
+<td style="text-align: right;">175.19</td>
+<td style="text-align: right;">129.60</td>
+<td style="text-align: right;">0.13</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2,001</td>
+<td style="text-align: right;">274,829</td>
+<td style="text-align: right;">271,471</td>
+<td style="text-align: right;">1,415.37</td>
+<td style="text-align: right;">3.96</td>
+<td style="text-align: right;">167.90</td>
+<td style="text-align: right;">132.73</td>
+<td style="text-align: right;">0.11</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2,002</td>
+<td style="text-align: right;">433,289</td>
+<td style="text-align: right;">429,217</td>
+<td style="text-align: right;">1,398.69</td>
+<td style="text-align: right;">3.95</td>
+<td style="text-align: right;">163.01</td>
+<td style="text-align: right;">139.48</td>
+<td style="text-align: right;">0.11</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2,003</td>
+<td style="text-align: right;">614,936</td>
+<td style="text-align: right;">609,701</td>
+<td style="text-align: right;">1,400.83</td>
+<td style="text-align: right;">3.95</td>
+<td style="text-align: right;">161.80</td>
+<td style="text-align: right;">159.88</td>
+<td style="text-align: right;">0.11</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2,004</td>
+<td style="text-align: right;">801,237</td>
+<td style="text-align: right;">795,370</td>
+<td style="text-align: right;">1,409.29</td>
+<td style="text-align: right;">3.97</td>
+<td style="text-align: right;">160.73</td>
+<td style="text-align: right;">167.04</td>
+<td style="text-align: right;">0.12</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2,005</td>
+<td style="text-align: right;">1,008,175</td>
+<td style="text-align: right;">1,001,516</td>
+<td style="text-align: right;">1,416.79</td>
+<td style="text-align: right;">3.99</td>
+<td style="text-align: right;">158.28</td>
+<td style="text-align: right;">170.78</td>
+<td style="text-align: right;">0.12</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2,006</td>
+<td style="text-align: right;">1,252,641</td>
+<td style="text-align: right;">1,244,728</td>
+<td style="text-align: right;">1,399.94</td>
+<td style="text-align: right;">3.98</td>
+<td style="text-align: right;">154.51</td>
+<td style="text-align: right;">173.12</td>
+<td style="text-align: right;">0.10</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2,007</td>
+<td style="text-align: right;">1,543,962</td>
+<td style="text-align: right;">1,532,134</td>
+<td style="text-align: right;">1,399.24</td>
+<td style="text-align: right;">3.99</td>
+<td style="text-align: right;">152.02</td>
+<td style="text-align: right;">173.94</td>
+<td style="text-align: right;">0.10</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2,008</td>
+<td style="text-align: right;">1,536,097</td>
+<td style="text-align: right;">1,524,094</td>
+<td style="text-align: right;">1,376.26</td>
+<td style="text-align: right;">3.97</td>
+<td style="text-align: right;">147.72</td>
+<td style="text-align: right;">234.72</td>
+<td style="text-align: right;">0.08</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2,009</td>
+<td style="text-align: right;">1,628,282</td>
+<td style="text-align: right;">1,618,355</td>
+<td style="text-align: right;">1,346.61</td>
+<td style="text-align: right;">3.93</td>
+<td style="text-align: right;">144.16</td>
+<td style="text-align: right;">237.97</td>
+<td style="text-align: right;">0.09</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2,010</td>
+<td style="text-align: right;">1,736,888</td>
+<td style="text-align: right;">1,726,559</td>
+<td style="text-align: right;">1,365.38</td>
+<td style="text-align: right;">3.95</td>
+<td style="text-align: right;">143.73</td>
+<td style="text-align: right;">238.76</td>
+<td style="text-align: right;">0.11</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2,011</td>
+<td style="text-align: right;">1,716,682</td>
+<td style="text-align: right;">1,705,852</td>
+<td style="text-align: right;">1,384.70</td>
+<td style="text-align: right;">3.99</td>
+<td style="text-align: right;">137.75</td>
+<td style="text-align: right;">238.34</td>
+<td style="text-align: right;">0.14</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2,012</td>
+<td style="text-align: right;">1,869,934</td>
+<td style="text-align: right;">1,855,733</td>
+<td style="text-align: right;">1,377.14</td>
+<td style="text-align: right;">3.97</td>
+<td style="text-align: right;">132.78</td>
+<td style="text-align: right;">228.06</td>
+<td style="text-align: right;">0.16</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2,013</td>
+<td style="text-align: right;">2,121,899</td>
+<td style="text-align: right;">2,113,781</td>
+<td style="text-align: right;">1,377.61</td>
+<td style="text-align: right;">3.96</td>
+<td style="text-align: right;">130.36</td>
+<td style="text-align: right;">187.47</td>
+<td style="text-align: right;">0.18</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2,014</td>
+<td style="text-align: right;">2,349,406</td>
+<td style="text-align: right;">2,340,711</td>
+<td style="text-align: right;">1,362.27</td>
+<td style="text-align: right;">4.00</td>
+<td style="text-align: right;">119.50</td>
+<td style="text-align: right;">179.01</td>
+<td style="text-align: right;">0.21</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2,015</td>
+<td style="text-align: right;">2,515,968</td>
+<td style="text-align: right;">2,497,756</td>
+<td style="text-align: right;">1,390.68</td>
+<td style="text-align: right;">4.02</td>
+<td style="text-align: right;">120.86</td>
+<td style="text-align: right;">168.12</td>
+<td style="text-align: right;">0.24</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2,016</td>
+<td style="text-align: right;">2,587,696</td>
+<td style="text-align: right;">2,576,390</td>
+<td style="text-align: right;">1,412.71</td>
+<td style="text-align: right;">4.05</td>
+<td style="text-align: right;">122.87</td>
+<td style="text-align: right;">178.02</td>
+<td style="text-align: right;">0.28</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2,017</td>
+<td style="text-align: right;">2,457,396</td>
+<td style="text-align: right;">2,444,775</td>
+<td style="text-align: right;">1,430.34</td>
+<td style="text-align: right;">4.05</td>
+<td style="text-align: right;">124.72</td>
+<td style="text-align: right;">169.27</td>
+<td style="text-align: right;">0.32</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2,018</td>
+<td style="text-align: right;">2,319,191</td>
+<td style="text-align: right;">2,295,072</td>
+<td style="text-align: right;">1,434.07</td>
+<td style="text-align: right;">4.11</td>
+<td style="text-align: right;">127.18</td>
+<td style="text-align: right;">156.30</td>
+<td style="text-align: right;">0.38</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2,019</td>
+<td style="text-align: right;">2,277,709</td>
+<td style="text-align: right;">2,246,504</td>
+<td style="text-align: right;">1,460.44</td>
+<td style="text-align: right;">4.14</td>
+<td style="text-align: right;">127.39</td>
+<td style="text-align: right;">153.89</td>
+<td style="text-align: right;">0.42</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2,020</td>
+<td style="text-align: right;">1,605,020</td>
+<td style="text-align: right;">1,592,122</td>
+<td style="text-align: right;">1,491.58</td>
+<td style="text-align: right;">4.17</td>
+<td style="text-align: right;">123.94</td>
+<td style="text-align: right;">149.37</td>
+<td style="text-align: right;">0.46</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2,021</td>
+<td style="text-align: right;">1,604,323</td>
+<td style="text-align: right;">1,595,499</td>
+<td style="text-align: right;">1,522.27</td>
+<td style="text-align: right;">4.17</td>
+<td style="text-align: right;">43.29</td>
+<td style="text-align: right;">142.12</td>
+<td style="text-align: right;">0.49</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2,022</td>
+<td style="text-align: right;">1,495,908</td>
+<td style="text-align: right;">1,490,961</td>
+<td style="text-align: right;">1,541.29</td>
+<td style="text-align: right;">4.19</td>
+<td style="text-align: right;">37.91</td>
+<td style="text-align: right;">141.78</td>
+<td style="text-align: right;">0.54</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2,023</td>
+<td style="text-align: right;">85,653</td>
+<td style="text-align: right;">85,147</td>
+<td style="text-align: right;">1,553.65</td>
+<td style="text-align: right;">4.14</td>
+<td style="text-align: right;">76.12</td>
+<td style="text-align: right;">140.62</td>
+<td style="text-align: right;">0.51</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2,024</td>
+<td style="text-align: right;">272</td>
+<td style="text-align: right;">230</td>
+<td style="text-align: right;">1,795.26</td>
+<td style="text-align: right;">4.49</td>
+<td style="text-align: right;">44.13</td>
+<td style="text-align: right;">163.33</td>
+<td style="text-align: right;">0.52</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2,025</td>
+<td style="text-align: right;">239</td>
+<td style="text-align: right;">204</td>
+<td style="text-align: right;">1,869.87</td>
+<td style="text-align: right;">4.53</td>
+<td style="text-align: right;">41.72</td>
+<td style="text-align: right;">170.22</td>
+<td style="text-align: right;">0.59</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2,026</td>
+<td style="text-align: right;">119</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+</tr>
+</tbody>
+</table>
+<p><img src="racf_linked_report_figures/cohort-1.png" class="img-fluid"></p>
+<p><strong>Figure 8.</strong> Two columns of table 5.2: for the cars located in 2023, the SUV / off-road share and the fleet-weighted mean EU mass of each year of first use from 1990 (<code>racf_characteristics_by_cohort.csv</code>). Years with fewer than 1,000 cars are left out.</p>
+</section>
+<section id="by-postcode-area" class="level3">
+<h3 class="anchored" data-anchor-id="by-postcode-area">5.3 By postcode area</h3>
+<section id="the-ten-postcode-areas-with-the-highest-suv-share-2023" class="level4">
+<h4 class="anchored" data-anchor-id="the-ten-postcode-areas-with-the-highest-suv-share-2023">The ten postcode areas with the highest SUV share, 2023</h4>
+<p>Cars located in each postcode area in 2023 and their fleet-weighted model attributes. Every area is in <code>racf_by_area.csv</code>; the lowest ten follow, and the maps below show them all.</p>
+<ul>
+<li><code>pca</code>: postcode area</li>
+<li><code>n_vehicles</code>: cars located</li>
+<li><code>n_linked</code>: linked to RACF</li>
+<li><code>suv_share</code>: share SUV / off-road</li>
+<li><code>mean_footprint_m2</code>: mean footprint (m2)</li>
+<li><code>mean_mass_kg</code>: mean EU mass (kg)</li>
+<li><code>mean_co2_nedc</code>: mean EU NEDC CO2 (g/km)</li>
+<li><code>bev_share</code>: share battery electric (MOT fuel)</li>
+<li><code>phev_share</code>: share plug-in hybrid</li>
+<li><code>pct_linked</code>: percentage linked</li>
+</ul>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">pca</th>
+<th style="text-align: right;">n_vehicles</th>
+<th style="text-align: right;">n_linked</th>
+<th style="text-align: right;">suv_share</th>
+<th style="text-align: right;">mean_footprint_m2</th>
+<th style="text-align: right;">mean_mass_kg</th>
+<th style="text-align: right;">mean_co2_nedc</th>
+<th style="text-align: right;">bev_share</th>
+<th style="text-align: right;">phev_share</th>
+<th style="text-align: right;">pct_linked</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">PH</td>
+<td style="text-align: right;">101,330</td>
+<td style="text-align: right;">100,090</td>
+<td style="text-align: right;">0.32</td>
+<td style="text-align: right;">4.06</td>
+<td style="text-align: right;">1,448.7</td>
+<td style="text-align: right;">130.4</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">98.8</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">AB</td>
+<td style="text-align: right;">274,676</td>
+<td style="text-align: right;">272,329</td>
+<td style="text-align: right;">0.31</td>
+<td style="text-align: right;">4.06</td>
+<td style="text-align: right;">1,437.9</td>
+<td style="text-align: right;">130.5</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">99.1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">IV</td>
+<td style="text-align: right;">146,601</td>
+<td style="text-align: right;">145,294</td>
+<td style="text-align: right;">0.31</td>
+<td style="text-align: right;">4.05</td>
+<td style="text-align: right;">1,433.8</td>
+<td style="text-align: right;">129.6</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">99.1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">LD</td>
+<td style="text-align: right;">27,558</td>
+<td style="text-align: right;">27,303</td>
+<td style="text-align: right;">0.31</td>
+<td style="text-align: right;">4.01</td>
+<td style="text-align: right;">1,440.0</td>
+<td style="text-align: right;">137.8</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">99.1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TD</td>
+<td style="text-align: right;">64,667</td>
+<td style="text-align: right;">64,074</td>
+<td style="text-align: right;">0.30</td>
+<td style="text-align: right;">4.02</td>
+<td style="text-align: right;">1,420.5</td>
+<td style="text-align: right;">131.0</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">99.1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HG</td>
+<td style="text-align: right;">99,546</td>
+<td style="text-align: right;">98,552</td>
+<td style="text-align: right;">0.30</td>
+<td style="text-align: right;">4.06</td>
+<td style="text-align: right;">1,459.0</td>
+<td style="text-align: right;">131.5</td>
+<td style="text-align: right;">0.03</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">99.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">PA</td>
+<td style="text-align: right;">169,866</td>
+<td style="text-align: right;">168,512</td>
+<td style="text-align: right;">0.29</td>
+<td style="text-align: right;">4.02</td>
+<td style="text-align: right;">1,390.2</td>
+<td style="text-align: right;">127.1</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">99.2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">BR</td>
+<td style="text-align: right;">135,029</td>
+<td style="text-align: right;">134,262</td>
+<td style="text-align: right;">0.29</td>
+<td style="text-align: right;">4.03</td>
+<td style="text-align: right;">1,407.3</td>
+<td style="text-align: right;">132.5</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">99.4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FK</td>
+<td style="text-align: right;">163,435</td>
+<td style="text-align: right;">162,291</td>
+<td style="text-align: right;">0.29</td>
+<td style="text-align: right;">4.03</td>
+<td style="text-align: right;">1,402.5</td>
+<td style="text-align: right;">126.0</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">99.3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CA</td>
+<td style="text-align: right;">200,335</td>
+<td style="text-align: right;">198,468</td>
+<td style="text-align: right;">0.29</td>
+<td style="text-align: right;">4.04</td>
+<td style="text-align: right;">1,420.9</td>
+<td style="text-align: right;">129.2</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">99.1</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="the-ten-with-the-lowest-2023" class="level4">
+<h4 class="anchored" data-anchor-id="the-ten-with-the-lowest-2023">The ten with the lowest, 2023</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">pca</th>
+<th style="text-align: right;">n_vehicles</th>
+<th style="text-align: right;">n_linked</th>
+<th style="text-align: right;">suv_share</th>
+<th style="text-align: right;">mean_footprint_m2</th>
+<th style="text-align: right;">mean_mass_kg</th>
+<th style="text-align: right;">mean_co2_nedc</th>
+<th style="text-align: right;">bev_share</th>
+<th style="text-align: right;">phev_share</th>
+<th style="text-align: right;">pct_linked</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">UB</td>
+<td style="text-align: right;">212,387</td>
+<td style="text-align: right;">210,960</td>
+<td style="text-align: right;">0.19</td>
+<td style="text-align: right;">4.08</td>
+<td style="text-align: right;">1,443.3</td>
+<td style="text-align: right;">137.8</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">99.3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">M</td>
+<td style="text-align: right;">538,335</td>
+<td style="text-align: right;">534,980</td>
+<td style="text-align: right;">0.19</td>
+<td style="text-align: right;">4.01</td>
+<td style="text-align: right;">1,389.1</td>
+<td style="text-align: right;">131.0</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">99.4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">LU</td>
+<td style="text-align: right;">240,773</td>
+<td style="text-align: right;">239,332</td>
+<td style="text-align: right;">0.20</td>
+<td style="text-align: right;">4.05</td>
+<td style="text-align: right;">1,424.2</td>
+<td style="text-align: right;">134.3</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">99.4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">E</td>
+<td style="text-align: right;">283,433</td>
+<td style="text-align: right;">281,374</td>
+<td style="text-align: right;">0.21</td>
+<td style="text-align: right;">4.08</td>
+<td style="text-align: right;">1,439.5</td>
+<td style="text-align: right;">136.5</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">99.3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">BS</td>
+<td style="text-align: right;">611,885</td>
+<td style="text-align: right;">606,290</td>
+<td style="text-align: right;">0.21</td>
+<td style="text-align: right;">3.99</td>
+<td style="text-align: right;">1,379.1</td>
+<td style="text-align: right;">132.8</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">99.1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">B</td>
+<td style="text-align: right;">1,150,135</td>
+<td style="text-align: right;">1,142,257</td>
+<td style="text-align: right;">0.21</td>
+<td style="text-align: right;">4.03</td>
+<td style="text-align: right;">1,407.2</td>
+<td style="text-align: right;">132.3</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">99.3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SM</td>
+<td style="text-align: right;">78,193</td>
+<td style="text-align: right;">77,617</td>
+<td style="text-align: right;">0.21</td>
+<td style="text-align: right;">4.00</td>
+<td style="text-align: right;">1,388.0</td>
+<td style="text-align: right;">139.0</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">99.3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">HA</td>
+<td style="text-align: right;">217,410</td>
+<td style="text-align: right;">216,008</td>
+<td style="text-align: right;">0.21</td>
+<td style="text-align: right;">4.07</td>
+<td style="text-align: right;">1,434.3</td>
+<td style="text-align: right;">136.7</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">99.4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TR</td>
+<td style="text-align: right;">199,679</td>
+<td style="text-align: right;">197,532</td>
+<td style="text-align: right;">0.21</td>
+<td style="text-align: right;">3.98</td>
+<td style="text-align: right;">1,388.0</td>
+<td style="text-align: right;">133.9</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">98.9</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">N</td>
+<td style="text-align: right;">248,775</td>
+<td style="text-align: right;">247,039</td>
+<td style="text-align: right;">0.21</td>
+<td style="text-align: right;">4.06</td>
+<td style="text-align: right;">1,433.9</td>
+<td style="text-align: right;">139.2</td>
+<td style="text-align: right;">0.02</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">99.3</td>
+</tr>
+</tbody>
+</table>
+<p><img src="racf_linked_report_figures/area-maps-1.png" class="img-fluid"></p>
+<p><strong>Figure 9.</strong> Every postcode area in <code>racf_by_area.csv</code>, of which the tables above show the highest and lowest ten: the SUV / off-road share (top) and the fleet-weighted mean EU mass (bottom) of the cars located in the area in 2023. Each map has an inset of Greater London.</p>
+<p><img src="racf_linked_report_figures/area-maps2-1.png" class="img-fluid"></p>
+<p><strong>Figure 10.</strong> As the previous figure, for the fleet-weighted mean EU NEDC CO2 (top) and mean footprint, wheelbase × track (bottom), of the cars located in each postcode area in 2023 (<code>racf_by_area.csv</code>).</p>
+</section>
+</section>
+<section id="annual-mileage-by-size" class="level3">
+<h3 class="anchored" data-anchor-id="annual-mileage-by-size">5.4 Annual mileage by size</h3>
+<section id="annual-mileage-by-smmt-segment-suv-footprint-and-mass-2023" class="level4">
+<h4 class="anchored" data-anchor-id="annual-mileage-by-smmt-segment-suv-footprint-and-mass-2023">Annual mileage by SMMT segment, SUV, footprint and mass, 2023</h4>
+<p>Cars with a plausible mileage that year, under the fleet profile’s filter (a real postcode area, Great Britain only, the plausible-mileage flag) , so <code>all</code> equals the fleet profile’s car count (cross-checked). Larger and heavier cars are driven further, but they are also younger and more often diesel, so the gradient is not an effect of size alone; every year is in <code>racf_mileage_by_size.csv</code>.</p>
+<ul>
+<li><code>dimension</code>: the grouping</li>
+<li><code>category</code>: its category (bands by the starting value)</li>
+<li><code>n_vehicles</code>: cars</li>
+<li><code>mean_mileage</code>: mean annual mileage</li>
+<li><code>median_mileage</code>: median annual mileage</li>
+</ul>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 15%">
+<col style="width: 26%">
+<col style="width: 16%">
+<col style="width: 19%">
+<col style="width: 22%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">dimension</th>
+<th style="text-align: left;">category</th>
+<th style="text-align: right;">n_vehicles</th>
+<th style="text-align: right;">mean_mileage</th>
+<th style="text-align: right;">median_mileage</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">all</td>
+<td style="text-align: left;">All</td>
+<td style="text-align: right;">31,115,036</td>
+<td style="text-align: right;">6,760.5</td>
+<td style="text-align: right;">5,785</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">smmt_type</td>
+<td style="text-align: left;">Dual Purpose</td>
+<td style="text-align: right;">8,046,119</td>
+<td style="text-align: right;">7,703.1</td>
+<td style="text-align: right;">6,964</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">smmt_type</td>
+<td style="text-align: left;">Supermini</td>
+<td style="text-align: right;">7,541,018</td>
+<td style="text-align: right;">5,790.5</td>
+<td style="text-align: right;">4,913</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">smmt_type</td>
+<td style="text-align: left;">Lower Medium</td>
+<td style="text-align: right;">6,891,562</td>
+<td style="text-align: right;">7,266.4</td>
+<td style="text-align: right;">6,158</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">smmt_type</td>
+<td style="text-align: left;">Upper Medium</td>
+<td style="text-align: right;">2,811,540</td>
+<td style="text-align: right;">7,814.5</td>
+<td style="text-align: right;">6,654</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">smmt_type</td>
+<td style="text-align: left;">Mini</td>
+<td style="text-align: right;">2,336,446</td>
+<td style="text-align: right;">4,852.0</td>
+<td style="text-align: right;">3,953</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">smmt_type</td>
+<td style="text-align: left;">MPV</td>
+<td style="text-align: right;">905,330</td>
+<td style="text-align: right;">7,799.5</td>
+<td style="text-align: right;">6,435</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">smmt_type</td>
+<td style="text-align: left;">Executive</td>
+<td style="text-align: right;">887,878</td>
+<td style="text-align: right;">7,923.6</td>
+<td style="text-align: right;">6,650</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">smmt_type</td>
+<td style="text-align: left;">Specialist Sports</td>
+<td style="text-align: right;">748,702</td>
+<td style="text-align: right;">3,408.5</td>
+<td style="text-align: right;">2,281</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">smmt_type</td>
+<td style="text-align: left;">(no segment)</td>
+<td style="text-align: right;">420,024</td>
+<td style="text-align: right;">4,549.3</td>
+<td style="text-align: right;">3,081</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">smmt_type</td>
+<td style="text-align: left;">(not linked)</td>
+<td style="text-align: right;">254,089</td>
+<td style="text-align: right;">4,467.1</td>
+<td style="text-align: right;">3,092</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">smmt_type</td>
+<td style="text-align: left;">Luxury Saloon</td>
+<td style="text-align: right;">182,380</td>
+<td style="text-align: right;">5,224.4</td>
+<td style="text-align: right;">3,358</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">smmt_type</td>
+<td style="text-align: left;">Other</td>
+<td style="text-align: right;">89,948</td>
+<td style="text-align: right;">7,532.4</td>
+<td style="text-align: right;">5,241</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">suv</td>
+<td style="text-align: left;">other</td>
+<td style="text-align: right;">22,335,531</td>
+<td style="text-align: right;">6,487.6</td>
+<td style="text-align: right;">5,391</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">suv</td>
+<td style="text-align: left;">SUV / off-road</td>
+<td style="text-align: right;">8,036,339</td>
+<td style="text-align: right;">7,703.2</td>
+<td style="text-align: right;">6,964</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">suv</td>
+<td style="text-align: left;">(unknown)</td>
+<td style="text-align: right;">743,166</td>
+<td style="text-align: right;">4,768.7</td>
+<td style="text-align: right;">3,351</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">footprint</td>
+<td style="text-align: left;">4.0-4.2</td>
+<td style="text-align: right;">7,924,568</td>
+<td style="text-align: right;">7,333.6</td>
+<td style="text-align: right;">6,355</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">footprint</td>
+<td style="text-align: left;">3.6-3.8</td>
+<td style="text-align: right;">5,593,878</td>
+<td style="text-align: right;">5,524.4</td>
+<td style="text-align: right;">4,621</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">footprint</td>
+<td style="text-align: left;">3.8-4.0</td>
+<td style="text-align: right;">4,546,958</td>
+<td style="text-align: right;">6,462.4</td>
+<td style="text-align: right;">5,588</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">footprint</td>
+<td style="text-align: left;">4.2-4.4</td>
+<td style="text-align: right;">4,008,721</td>
+<td style="text-align: right;">7,902.8</td>
+<td style="text-align: right;">7,044</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">footprint</td>
+<td style="text-align: left;">&lt;3.6</td>
+<td style="text-align: right;">3,586,606</td>
+<td style="text-align: right;">4,886.6</td>
+<td style="text-align: right;">3,960</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">footprint</td>
+<td style="text-align: left;">4.6+</td>
+<td style="text-align: right;">2,500,946</td>
+<td style="text-align: right;">8,357.1</td>
+<td style="text-align: right;">7,391</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">footprint</td>
+<td style="text-align: left;">4.4-4.6</td>
+<td style="text-align: right;">2,122,721</td>
+<td style="text-align: right;">8,295.9</td>
+<td style="text-align: right;">7,205</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">footprint</td>
+<td style="text-align: left;">(missing)</td>
+<td style="text-align: right;">830,638</td>
+<td style="text-align: right;">5,098.7</td>
+<td style="text-align: right;">3,749</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">mass</td>
+<td style="text-align: left;">1250-1500</td>
+<td style="text-align: right;">10,225,055</td>
+<td style="text-align: right;">7,073.0</td>
+<td style="text-align: right;">6,088</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">mass</td>
+<td style="text-align: left;">1000-1250</td>
+<td style="text-align: right;">8,190,778</td>
+<td style="text-align: right;">5,645.7</td>
+<td style="text-align: right;">4,760</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">mass</td>
+<td style="text-align: left;">1500-1750</td>
+<td style="text-align: right;">6,263,659</td>
+<td style="text-align: right;">7,594.1</td>
+<td style="text-align: right;">6,712</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">mass</td>
+<td style="text-align: left;">1750-2000</td>
+<td style="text-align: right;">2,313,100</td>
+<td style="text-align: right;">8,224.7</td>
+<td style="text-align: right;">7,139</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">mass</td>
+<td style="text-align: left;">&lt;1000</td>
+<td style="text-align: right;">1,854,558</td>
+<td style="text-align: right;">4,800.1</td>
+<td style="text-align: right;">3,905</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">mass</td>
+<td style="text-align: left;">2000+</td>
+<td style="text-align: right;">1,701,500</td>
+<td style="text-align: right;">7,981.5</td>
+<td style="text-align: right;">7,154</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">mass</td>
+<td style="text-align: left;">(missing)</td>
+<td style="text-align: right;">566,386</td>
+<td style="text-align: right;">4,795.5</td>
+<td style="text-align: right;">3,256</td>
+</tr>
+</tbody>
+</table>
+<p><img src="racf_linked_report_figures/mileage-1.png" class="img-fluid"></p>
+<p><strong>Figure 11.</strong> The table above as a chart: the mean (bars) and median (points) annual mileage in 2023 of the cars in each SMMT segment, footprint band and EU mass band (<code>racf_mileage_by_size.csv</code>). Cars count under the fleet profile’s filter: a plausible mileage, in a real postcode area, Great Britain only. Cars with no value for the grouping are left out.</p>
+<p><img src="racf_linked_report_figures/mileage-trend-1.png" class="img-fluid"></p>
+<p><strong>Figure 12.</strong> The mean annual mileage each year of the cars whose model SMMT calls a crossover / SUV or off-roader, against all other linked cars (the <code>suv</code> rows of <code>racf_mileage_by_size.csv</code>), under the same filter as the previous figure.</p>
+</section>
+</section>
+</section>
+<section id="cross-checks" class="level2">
+<h2 class="anchored" data-anchor-id="cross-checks">6. Cross-checks</h2>
+</section>
+<section id="racf-cross-checks" class="level2">
+<h2 class="anchored" data-anchor-id="racf-cross-checks">RACF cross-checks</h2>
+<p>Every check of the RACF tables in <code>quality/cross_checks.csv</code>, by check (one row per year or category in the file). The link coverage, the stock tables, the characteristics, the area and cohort tables all count the same located cars, and that count is checked against the DfT comparison, computed by different code; the mileage table is checked against the fleet profile; the RACF counts against each other and against DfT VEH0124.</p>
+<ul>
+<li><code>check</code>: check name</li>
+<li><code>pass</code>: rows that pass</li>
+<li><code>fail</code>: rows that fail</li>
+<li><code>warn</code>: rows that warn</li>
+</ul>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">check</th>
+<th style="text-align: right;">pass</th>
+<th style="text-align: right;">fail</th>
+<th style="text-align: right;">warn</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">racf_by_area_total</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">racf_characteristics_by_cohort_total</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">racf_characteristics_fuels</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">racf_characteristics_linked</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">racf_characteristics_total</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">racf_coverage_vs_dft_stock</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">racf_mileage_partition</td>
+<td style="text-align: right;">48</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">racf_mileage_vs_profile</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">racf_stock_by_fuel_mot</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">racf_stock_by_fuel_racf</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">racf_stock_by_smmt_mot</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">racf_stock_by_smmt_racf</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">racf_vs_dft_cars</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="limitations" class="level2">
+<h2 class="anchored" data-anchor-id="limitations">7. Limitations</h2>
+<ul>
+<li><strong>Attributes are model averages.</strong> A car takes the fleet-weighted mean of its model, year and fuel, not its own variant’s figure: an estate and a hatchback of one model share a footprint. Means over thousands of cars are sound; a single car’s value is not.</li>
+<li><strong>Many are borrowed.</strong> Only 34.4% of the 2023 fleet has EU figures for its exact year; for the rest RACF used the nearest year or another fuel (Section 1.3). WLTP CO2 covers only models approved since 2017-2018, so the WLTP means describe a newer subset.</li>
+<li><strong>Cars only.</strong> RACF covers DfT cars; vans, motorcycles and buses have no segment or attributes.</li>
+<li><strong>The MOT stock includes carried-forward years</strong> (methodology Section 3.3), so older cars are over-represented against DfT (Section 4.1), and new cars before their first test are missing; fleet means lean slightly towards older models.</li>
+<li><strong>The link uses the pipeline’s names.</strong> A car whose make or model did not match a DfT name links at best to its generic model, or not at all (Section 3).</li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/cars-project\.github\.io\/documentation\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../reports/fleet_profile_report.html" class="pagination-link" aria-label="Fleet profile tables">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Fleet profile tables</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>The CARS Project: Connecting Administrative vehicle data for Research on Sustainable transport</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/CARS-Project/documentation/edit/main/reports/racf_linked_report.md" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/CARS-Project/documentation/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+<p><a href="https://cars-project.github.io/">cars-project.github.io</a></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

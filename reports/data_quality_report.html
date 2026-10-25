@@ -470,6 +470,12 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">Fleet profile tables</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../reports/racf_linked_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">The RACF / SMMT car fleet, linked to the MOT data</span></a>
+  </div>
+</li>
       </ul>
   </li>
       </ul>
@@ -568,8 +574,8 @@ ul.task-list li input[type="checkbox"] {
 <li><strong>Plug-in hybrids:</strong> 94.5% of in-scope vehicles have a <code>fuel_DFT</code> from the DfT statistics, and 1,089,905 are plug-in hybrids or range-extended electrics, which neither DVSA nor DVLA distinguishes. 244,402 vehicles are of a make/model that DfT sells both as a plug-in and not, with nothing to say which this one is, so they keep their recorded fuel.</li>
 <li><strong>Euro status:</strong> 91.2% of in-scope vehicles have one, of which 51,515,075 come from the date the standard became compulsory. 3,285,486 vehicles carry a status naming a standard that did not exist when they were made; these are flagged in <code>euro_check</code>, not changed.</li>
 <li><strong>Mileage:</strong> 25,803,313 vehicles have a 2025 mileage, 70.2% of the 36,734,471 in 2024, so 2025 looks like a partial year.</li>
-<li><strong>Cross-checks:</strong> 1,226 of 1,238 checks pass, 1 fail and 11 warn (<code>cross_checks.csv</code>, section below). Every pair of published numbers that must agree is compared; the warnings are plausibility checks against DfT.</li>
-<li><strong>A location is not always an observation.</strong> Bristol gives a vehicle a postcode area from its first registration (copied back from its first MOT) to two years after its last MOT, so the vehicles “in a postcode area” in a year include vehicles not tested that year: see <em>Observation behind the postcode areas</em> below. This is why more cars aged 3+ are placed in a postcode area than DfT counts as licensed or SORN.</li>
+<li><strong>Cross-checks:</strong> 1,255 of 1,267 checks pass, 1 fail and 11 warn (<code>cross_checks.csv</code>, section below). Every pair of published numbers that must agree is compared; the warnings are plausibility checks against DfT.</li>
+<li><strong>A location is not always an observation.</strong> The annualisation gives a vehicle a postcode area from its first registration (copied back from its first MOT) to two years after its last MOT, so the vehicles “in a postcode area” in a year include vehicles not tested that year: see <em>Observation behind the postcode areas</em> below. This is why more cars aged 3+ are placed in a postcode area than DfT counts as licensed or SORN.</li>
 </ul>
 </section>
 <section id="scope" class="level2">
@@ -775,7 +781,7 @@ ul.task-list li input[type="checkbox"] {
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">churn</td>
-<td style="text-align: right;">351</td>
+<td style="text-align: right;">380</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
 </tr>
@@ -936,7 +942,7 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="pca-status-by-year">PCA status by year</h2>
 <p>In-scope vehicles by their <code>pca_YYYY</code> status in each year (methodology.md, Section 3.3). Each row adds up to the in-scope total. In the latest years <code>pca</code> falls as <code>unknown</code> rises: vehicles whose tests in those years are not yet in the data.</p>
 <ul>
-<li><code>pca</code>: Bristol supplied a postcode area for the year. That is not proof of a test that year: Bristol copies a vehicle’s first-test area back to its first registration, and carries its last-test area on for two years after its last MOT (see the next table)</li>
+<li><code>pca</code>: The annualisation supplied a postcode area for the year. That is not proof of a test that year: it copies a vehicle’s first-test area back to its first registration, and carries its last-test area on for two years after its last MOT (see the next table)</li>
 <li><code>unborn</code>: not yet born (birth year the same as or later than the year)</li>
 <li><code>unknown</code>: born, no postcode area supplied, and not after its last MOT year (for example a gap between tests); rare, because the years before the first MOT are back-filled</li>
 <li><code>dead</code>: no postcode area supplied, and after the vehicle’s last MOT year. Because the area is carried on for two years after the last MOT, <code>dead</code> begins about two years after the vehicle stopped being tested; not necessarily scrapped (it may be exported or SORN)</li>
@@ -945,164 +951,164 @@ ul.task-list li input[type="checkbox"] {
 <thead>
 <tr class="header">
 <th style="text-align: left;">year</th>
+<th style="text-align: right;">dead</th>
 <th style="text-align: right;">pca</th>
 <th style="text-align: right;">unborn</th>
 <th style="text-align: right;">unknown</th>
-<th style="text-align: right;">dead</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">2005</td>
+<td style="text-align: right;">0</td>
 <td style="text-align: right;">31,888,912</td>
 <td style="text-align: right;">56,178,420</td>
 <td style="text-align: right;">5,284,909</td>
-<td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2006</td>
+<td style="text-align: right;">25,666</td>
 <td style="text-align: right;">34,662,542</td>
 <td style="text-align: right;">53,232,906</td>
 <td style="text-align: right;">5,431,127</td>
-<td style="text-align: right;">25,666</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2007</td>
+<td style="text-align: right;">161,294</td>
 <td style="text-align: right;">37,490,453</td>
 <td style="text-align: right;">50,200,724</td>
 <td style="text-align: right;">5,499,770</td>
-<td style="text-align: right;">161,294</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2008</td>
+<td style="text-align: right;">791,746</td>
 <td style="text-align: right;">39,496,248</td>
 <td style="text-align: right;">47,499,548</td>
 <td style="text-align: right;">5,564,699</td>
-<td style="text-align: right;">791,746</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2009</td>
+<td style="text-align: right;">2,970,654</td>
 <td style="text-align: right;">39,687,978</td>
 <td style="text-align: right;">45,042,770</td>
 <td style="text-align: right;">5,650,839</td>
-<td style="text-align: right;">2,970,654</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2010</td>
+<td style="text-align: right;">5,201,676</td>
 <td style="text-align: right;">39,868,271</td>
 <td style="text-align: right;">42,587,160</td>
 <td style="text-align: right;">5,695,134</td>
-<td style="text-align: right;">5,201,676</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2011</td>
+<td style="text-align: right;">7,421,453</td>
 <td style="text-align: right;">40,001,268</td>
 <td style="text-align: right;">40,189,202</td>
 <td style="text-align: right;">5,740,318</td>
-<td style="text-align: right;">7,421,453</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2012</td>
+<td style="text-align: right;">9,618,384</td>
 <td style="text-align: right;">40,325,572</td>
 <td style="text-align: right;">37,673,185</td>
 <td style="text-align: right;">5,735,100</td>
-<td style="text-align: right;">9,618,384</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2013</td>
+<td style="text-align: right;">11,697,524</td>
 <td style="text-align: right;">40,947,776</td>
 <td style="text-align: right;">34,890,021</td>
 <td style="text-align: right;">5,816,920</td>
-<td style="text-align: right;">11,697,524</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2014</td>
+<td style="text-align: right;">13,791,285</td>
 <td style="text-align: right;">41,740,695</td>
 <td style="text-align: right;">31,835,585</td>
 <td style="text-align: right;">5,984,676</td>
-<td style="text-align: right;">13,791,285</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2015</td>
+<td style="text-align: right;">15,843,539</td>
 <td style="text-align: right;">42,827,668</td>
 <td style="text-align: right;">28,575,371</td>
 <td style="text-align: right;">6,105,663</td>
-<td style="text-align: right;">15,843,539</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2016</td>
+<td style="text-align: right;">17,845,318</td>
 <td style="text-align: right;">44,042,339</td>
 <td style="text-align: right;">25,229,738</td>
 <td style="text-align: right;">6,234,846</td>
-<td style="text-align: right;">17,845,318</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2017</td>
+<td style="text-align: right;">19,813,750</td>
 <td style="text-align: right;">44,441,732</td>
 <td style="text-align: right;">22,729,655</td>
 <td style="text-align: right;">6,367,104</td>
-<td style="text-align: right;">19,813,750</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2018</td>
+<td style="text-align: right;">21,944,238</td>
 <td style="text-align: right;">45,204,703</td>
 <td style="text-align: right;">19,065,833</td>
 <td style="text-align: right;">7,137,467</td>
-<td style="text-align: right;">21,944,238</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2019</td>
+<td style="text-align: right;">24,290,233</td>
 <td style="text-align: right;">45,687,132</td>
 <td style="text-align: right;">16,123,057</td>
 <td style="text-align: right;">7,251,819</td>
-<td style="text-align: right;">24,290,233</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2020</td>
+<td style="text-align: right;">26,769,023</td>
 <td style="text-align: right;">45,534,442</td>
 <td style="text-align: right;">13,936,910</td>
 <td style="text-align: right;">7,111,866</td>
-<td style="text-align: right;">26,769,023</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2021</td>
+<td style="text-align: right;">29,148,787</td>
 <td style="text-align: right;">45,673,106</td>
 <td style="text-align: right;">11,729,729</td>
 <td style="text-align: right;">6,800,619</td>
-<td style="text-align: right;">29,148,787</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2022</td>
+<td style="text-align: right;">31,567,419</td>
 <td style="text-align: right;">45,018,795</td>
 <td style="text-align: right;">9,699,937</td>
 <td style="text-align: right;">7,066,090</td>
-<td style="text-align: right;">31,567,419</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2023</td>
+<td style="text-align: right;">33,357,394</td>
 <td style="text-align: right;">43,394,273</td>
 <td style="text-align: right;">9,306,870</td>
 <td style="text-align: right;">7,293,704</td>
-<td style="text-align: right;">33,357,394</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2024</td>
+<td style="text-align: right;">35,261,671</td>
 <td style="text-align: right;">41,576,160</td>
 <td style="text-align: right;">6,952,507</td>
 <td style="text-align: right;">9,561,903</td>
-<td style="text-align: right;">35,261,671</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2025</td>
+<td style="text-align: right;">37,101,282</td>
 <td style="text-align: right;">39,129,586</td>
 <td style="text-align: right;">4,481,194</td>
 <td style="text-align: right;">12,640,179</td>
-<td style="text-align: right;">37,101,282</td>
 </tr>
 </tbody>
 </table>
 <p><img src="data_quality_report_figures/pca-status-1.png" class="img-fluid"></p>
-<p><strong>Figure 3.</strong> The table above as a chart: in-scope vehicles by their <code>pca_YYYY</code> status in each year (<code>pca_status_by_year.csv</code>), so each year’s stack is the whole in-scope fleet. <code>pca</code> is a postcode area supplied by Bristol, not necessarily a test that year.</p>
+<p><strong>Figure 3.</strong> The table above as a chart: in-scope vehicles by their <code>pca_YYYY</code> status in each year (<code>pca_status_by_year.csv</code>), so each year’s stack is the whole in-scope fleet. <code>pca</code> is a postcode area supplied by the annualisation, not necessarily a test that year.</p>
 </section>
 <section id="observation-behind-the-postcode-areas" class="level2">
 <h2 class="anchored" data-anchor-id="observation-behind-the-postcode-areas">Observation behind the postcode areas</h2>
@@ -1895,16 +1901,6 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">punctuation</td>
-<td style="text-align: left;">words</td>
-<td style="text-align: right;">27</td>
-<td style="text-align: right;">64</td>
-<td style="text-align: right;">64</td>
-<td style="text-align: right;">64</td>
-<td style="text-align: right;">64</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="odd">
 <td style="text-align: left;">prefix</td>
 <td style="text-align: left;">ambiguous</td>
 <td style="text-align: right;">61</td>
@@ -1913,6 +1909,16 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: right;">64</td>
 <td style="text-align: right;">64</td>
 <td style="text-align: right;">15</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">punctuation</td>
+<td style="text-align: left;">words</td>
+<td style="text-align: right;">27</td>
+<td style="text-align: right;">64</td>
+<td style="text-align: right;">64</td>
+<td style="text-align: right;">64</td>
+<td style="text-align: right;">64</td>
+<td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">dvla</td>
@@ -2582,7 +2588,7 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="consistency-across-variables" class="level2">
 <h2 class="anchored" data-anchor-id="consistency-across-variables">Consistency across variables</h2>
-<p>Combinations of two or more variables that cannot, or should not, occur together, checked on every in-scope vehicle (<code>R/consistency.R</code>; methodology.md, Section 9.2). A violation is <em>recorded</em> when every variable involved is the vehicle’s own recorded value, so the conflict is in the source data; otherwise at least one value was backfilled, derived or imputed by the pipeline or by Bristol. Recorded values are never changed, so recorded violations stay; they are listed so that analyses can exclude them.</p>
+<p>Combinations of two or more variables that cannot, or should not, occur together, checked on every in-scope vehicle (<code>R/consistency.R</code>; methodology.md, Section 9.2). A violation is <em>recorded</em> when every variable involved is the vehicle’s own recorded value, so the conflict is in the source data; otherwise at least one value was backfilled, derived or imputed by the pipeline or by the annualisation. Recorded values are never changed, so recorded violations stay; they are listed so that analyses can exclude them.</p>
 <p><em>Enforced</em> rules are ones the backfill guarantees: it never fills a value that breaks them, and the cross-checks fail if it does. The others describe the data; several of them (revenue weight against test class, CO2 against fuel) show where a register is not reliable on its own.</p>
 <ul>
 <li><code>rule</code>: rule identifier</li>
@@ -3062,19 +3068,19 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td style="text-align: left;">fleet_after_birth</td>
 <td style="text-align: left;">pca=pca; dates=monthOfFirstRegistration_DVLA</td>
-<td style="text-align: left;">pca=bristol; dates=recorded</td>
+<td style="text-align: left;">pca=annualised; dates=recorded</td>
 <td style="text-align: right;">24,641</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">fleet_after_birth</td>
 <td style="text-align: left;">pca=pca; dates=birth_date</td>
-<td style="text-align: left;">pca=bristol; dates=recorded</td>
+<td style="text-align: left;">pca=annualised; dates=recorded</td>
 <td style="text-align: right;">16,872</td>
 </tr>
 </tbody>
 </table>
 <p><img src="data_quality_report_figures/consistency-1.png" class="img-fluid"></p>
-<p><strong>Figure 8.</strong> The violations of each rule in the first table above (<code>variable_consistency.csv</code>), split into conflicts in the recorded data (<code>n_recorded</code>) and those where at least one value was filled by the pipeline or Bristol (<code>n_pipeline</code>). Labels give the vehicles breaking the rule and their percentage of the vehicles it applies to (<code>pct_violations</code>). The rules the backfill enforces (<code>enforced</code>) can only have recorded violations.</p>
+<p><strong>Figure 8.</strong> The violations of each rule in the first table above (<code>variable_consistency.csv</code>), split into conflicts in the recorded data (<code>n_recorded</code>) and those where at least one value was filled by the pipeline or the annualisation (<code>n_pipeline</code>). Labels give the vehicles breaking the rule and their percentage of the vehicles it applies to (<code>pct_violations</code>). The rules the backfill enforces (<code>enforced</code>) can only have recorded violations.</p>
 </section>
 <section id="vehicles-against-dft-counts-by-year-and-body-type" class="level2">
 <h2 class="anchored" data-anchor-id="vehicles-against-dft-counts-by-year-and-body-type">Vehicles against DfT counts by year and body type</h2>
@@ -4460,7 +4466,7 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="ves-changes-between-checks" class="level2">
 <h2 class="anchored" data-anchor-id="ves-changes-between-checks">VES changes between checks</h2>
-<p>Flags set by Bristol when repeated VES checks returned different answers for a registration. Each row counts vehicles by the flag’s value; <code>missing</code> means it could not be set (no VES lookup, or for <code>ever_SORN</code> and <code>ever_export_marked</code>, no VES record returned). A plate that moved to another vehicle is the usual reason a VES record describes a different vehicle.</p>
+<p>Flags set at the linkage stage when repeated VES checks returned different answers for a registration. Each row counts vehicles by the flag’s value; <code>missing</code> means it could not be set (no VES lookup, or for <code>ever_SORN</code> and <code>ever_export_marked</code>, no VES record returned). A plate that moved to another vehicle is the usual reason a VES record describes a different vehicle.</p>
 <ul>
 <li><code>plate_ever_changed_VES</code>: VES reported a plate change between checks</li>
 <li><code>ever_SORN</code>: a check found the vehicle declared off the road</li>
@@ -4487,95 +4493,95 @@ ul.task-list li input[type="checkbox"] {
 <thead>
 <tr class="header">
 <th style="text-align: left;">flag</th>
-<th style="text-align: right;">missing</th>
-<th style="text-align: right;">true</th>
-<th style="text-align: right;">false</th>
-<th style="text-align: right;">7.0</th>
-<th style="text-align: right;">2.0</th>
-<th style="text-align: right;">3.0</th>
 <th style="text-align: right;">0.0</th>
 <th style="text-align: right;">1.0</th>
-<th style="text-align: right;">6.0</th>
+<th style="text-align: right;">2.0</th>
+<th style="text-align: right;">3.0</th>
 <th style="text-align: right;">4.0</th>
 <th style="text-align: right;">5.0</th>
+<th style="text-align: right;">6.0</th>
+<th style="text-align: right;">7.0</th>
 <th style="text-align: right;">9.0</th>
+<th style="text-align: right;">false</th>
+<th style="text-align: right;">missing</th>
+<th style="text-align: right;">true</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">plate_ever_changed_VES</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">88,802,807</td>
 <td style="text-align: right;">2,743,929</td>
 <td style="text-align: right;">1,805,505</td>
-<td style="text-align: right;">88,802,807</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">ever_SORN</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">59,932,243</td>
 <td style="text-align: right;">21,503,826</td>
 <td style="text-align: right;">11,916,172</td>
-<td style="text-align: right;">59,932,243</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">v5C_issue_date_ever_changed</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">72,347,750</td>
 <td style="text-align: right;">2,743,929</td>
 <td style="text-align: right;">18,260,562</td>
-<td style="text-align: right;">72,347,750</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">change_in_other_VES_field</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">90,283,739</td>
 <td style="text-align: right;">2,743,929</td>
 <td style="text-align: right;">324,573</td>
-<td style="text-align: right;">90,283,739</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">ever_export_marked</td>
-<td style="text-align: right;">21,503,826</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">1,683,713</td>
-<td style="text-align: right;">1,426,572</td>
 <td style="text-align: right;">67,839,282</td>
 <td style="text-align: right;">339,515</td>
-<td style="text-align: right;">4</td>
+<td style="text-align: right;">1,683,713</td>
+<td style="text-align: right;">1,426,572</td>
 <td style="text-align: right;">559,218</td>
 <td style="text-align: right;">109</td>
+<td style="text-align: right;">4</td>
 <td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">21,503,826</td>
+<td style="text-align: right;">0</td>
 </tr>
 </tbody>
 </table>
@@ -4668,131 +4674,131 @@ ul.task-list li input[type="checkbox"] {
 <thead>
 <tr class="header">
 <th style="text-align: left;">attribute</th>
-<th style="text-align: right;">dvla</th>
+<th style="text-align: right;">conflict</th>
 <th style="text-align: right;">dft</th>
-<th style="text-align: right;">variant</th>
+<th style="text-align: right;">dvla</th>
 <th style="text-align: right;">dvsa</th>
-<th style="text-align: right;">model</th>
+<th style="text-align: right;">euro_schedule</th>
 <th style="text-align: right;">missing</th>
+<th style="text-align: right;">model</th>
+<th style="text-align: right;">model_fuel</th>
 <th style="text-align: right;">model_year_fuel</th>
 <th style="text-align: right;">no_engine</th>
-<th style="text-align: right;">model_fuel</th>
-<th style="text-align: right;">euro_schedule</th>
-<th style="text-align: right;">conflict</th>
+<th style="text-align: right;">variant</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">fuel</td>
-<td style="text-align: right;">291,069</td>
+<td style="text-align: right;">0</td>
 <td style="text-align: right;">1,089,905</td>
-<td style="text-align: right;">4,894</td>
+<td style="text-align: right;">291,069</td>
 <td style="text-align: right;">91,962,640</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
 <td style="text-align: right;">3,733</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
+<td style="text-align: right;">4,894</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">engine_cc</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
 <td style="text-align: right;">10,192,094</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
 <td style="text-align: right;">77,259,027</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">803,824</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">58,972</td>
 <td style="text-align: right;">2,296,610</td>
 <td style="text-align: right;">2,741,714</td>
-<td style="text-align: right;">58,972</td>
-<td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">revenue_weight</td>
-<td style="text-align: right;">28,397,795</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">23,800,285</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">28,397,795</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">28,236,685</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
 <td style="text-align: right;">12,917,476</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
+<td style="text-align: right;">23,800,285</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">co2</td>
-<td style="text-align: right;">50,425,196</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">16,836,592</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">50,425,196</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">24,264,450</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
 <td style="text-align: right;">1,826,003</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
+<td style="text-align: right;">16,836,592</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">euro_status</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
 <td style="text-align: right;">13,557,834</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">14,152,752</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
+<td style="text-align: right;">51,515,075</td>
 <td style="text-align: right;">8,246,617</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
 <td style="text-align: right;">5,879,963</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">51,515,075</td>
-<td style="text-align: right;">0</td>
+<td style="text-align: right;">14,152,752</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">type_approval</td>
-<td style="text-align: right;">55,096,399</td>
+<td style="text-align: right;">24,394</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">16,800,657</td>
+<td style="text-align: right;">55,096,399</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">17,374,784</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
 <td style="text-align: right;">4,056,007</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">24,394</td>
+<td style="text-align: right;">16,800,657</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">wheelplan</td>
-<td style="text-align: right;">71,725,260</td>
+<td style="text-align: right;">115</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">20,971,846</td>
+<td style="text-align: right;">71,725,260</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">506,902</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
 <td style="text-align: right;">148,118</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">115</td>
+<td style="text-align: right;">20,971,846</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">test_class</td>
+<td style="text-align: right;">9,617</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">12,973,341</td>
 <td style="text-align: right;">74,037,488</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">5,501,381</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
 <td style="text-align: right;">830,414</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">9,617</td>
+<td style="text-align: right;">12,973,341</td>
 </tr>
 </tbody>
 </table>
@@ -5141,15 +5147,15 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: right;">3</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Petrol</td>
-<td style="text-align: left;">Electric</td>
-<td style="text-align: left;">model</td>
-<td style="text-align: right;">3</td>
-</tr>
-<tr class="odd">
 <td style="text-align: left;">Other</td>
 <td style="text-align: left;">Steam</td>
 <td style="text-align: left;">dvla</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Petrol</td>
+<td style="text-align: left;">Electric</td>
+<td style="text-align: left;">model</td>
 <td style="text-align: right;">3</td>
 </tr>
 <tr class="even">
@@ -5159,15 +5165,15 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: right;">2</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Fuel Cells</td>
-<td style="text-align: left;">Range Extended Electric</td>
-<td style="text-align: left;">dft</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="even">
 <td style="text-align: left;">Diesel</td>
 <td style="text-align: left;">Electric</td>
 <td style="text-align: left;">model</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Electric</td>
+<td style="text-align: left;">Gas Diesel</td>
+<td style="text-align: left;">dvla</td>
 <td style="text-align: right;">1</td>
 </tr>
 <tr class="odd">
@@ -5183,9 +5189,9 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: right;">1</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Electric</td>
-<td style="text-align: left;">Gas Diesel</td>
-<td style="text-align: left;">dvla</td>
+<td style="text-align: left;">Fuel Cells</td>
+<td style="text-align: left;">Range Extended Electric</td>
+<td style="text-align: left;">dft</td>
 <td style="text-align: right;">1</td>
 </tr>
 </tbody>
@@ -5217,123 +5223,123 @@ ul.task-list li input[type="checkbox"] {
 <thead>
 <tr class="header">
 <th style="text-align: left;">fuel</th>
+<th style="text-align: right;">corrected_electric</th>
+<th style="text-align: right;">implausible_for_model</th>
 <th style="text-align: right;">no_reference</th>
 <th style="text-align: right;">ok</th>
 <th style="text-align: right;">rare_conversion</th>
 <th style="text-align: right;">rare_for_model</th>
-<th style="text-align: right;">implausible_for_model</th>
-<th style="text-align: right;">corrected_electric</th>
 <th style="text-align: right;">unknown_fuel</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">CNG</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
 <td style="text-align: right;">11</td>
 <td style="text-align: right;">2</td>
 <td style="text-align: right;">208</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Diesel</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">12</td>
 <td style="text-align: right;">2,560,391</td>
 <td style="text-align: right;">30,933,809</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">5,482</td>
-<td style="text-align: right;">12</td>
-<td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Electric</td>
+<td style="text-align: right;">3,733</td>
+<td style="text-align: right;">0</td>
 <td style="text-align: right;">304,602</td>
 <td style="text-align: right;">2,429,944</td>
 <td style="text-align: right;">3,334</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">3,733</td>
-<td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Electric Diesel</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
 <td style="text-align: right;">636</td>
 <td style="text-align: right;">142,126</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">1,311</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Fuel Cells</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
 <td style="text-align: right;">31</td>
 <td style="text-align: right;">54</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">16</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Gas</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
 <td style="text-align: right;">10,210</td>
 <td style="text-align: right;">1,347</td>
 <td style="text-align: right;">540</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Gas Bi-Fuel</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
 <td style="text-align: right;">1,594</td>
 <td style="text-align: right;">10,951</td>
 <td style="text-align: right;">12,044</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Gas Diesel</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
 <td style="text-align: right;">2,078</td>
 <td style="text-align: right;">80</td>
 <td style="text-align: right;">136</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Hybrid Electric (Clean)</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">26</td>
 <td style="text-align: right;">36,605</td>
 <td style="text-align: right;">3,513,989</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">2,232</td>
-<td style="text-align: right;">26</td>
-<td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">LNG</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
 <td style="text-align: right;">6</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">97</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">LPG</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
 <td style="text-align: right;">3,556</td>
 <td style="text-align: right;">17,784</td>
 <td style="text-align: right;">31,058</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
 </tr>
@@ -5349,52 +5355,52 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Petrol</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">17</td>
 <td style="text-align: right;">1,478,911</td>
 <td style="text-align: right;">50,616,761</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">4,397</td>
-<td style="text-align: right;">17</td>
-<td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Plug-in Hybrid Electric (Diesel)</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
 <td style="text-align: right;">25</td>
 <td style="text-align: right;">10,970</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">85</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Plug-in Hybrid Electric (Petrol)</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
 <td style="text-align: right;">167</td>
 <td style="text-align: right;">1,062,604</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">239</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Range Extended Electric</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">15,787</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">28</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Steam</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
 <td style="text-align: right;">3,682</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">82</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
 </tr>
 </tbody>
@@ -5751,38 +5757,38 @@ ul.task-list li input[type="checkbox"] {
 <thead>
 <tr class="header">
 <th style="text-align: left;">euro_status_src</th>
-<th style="text-align: right;">no_schedule</th>
-<th style="text-align: right;">pre_euro</th>
+<th style="text-align: right;">assumed</th>
 <th style="text-align: right;">later_than_date</th>
 <th style="text-align: right;">no_date</th>
+<th style="text-align: right;">no_schedule</th>
 <th style="text-align: right;">ok</th>
-<th style="text-align: right;">assumed</th>
+<th style="text-align: right;">pre_euro</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">dvla</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
 <td style="text-align: right;">24,796</td>
+<td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">13,533,038</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">euro_schedule</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
 <td style="text-align: right;">51,515,075</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">model_year_fuel</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
 <td style="text-align: right;">1,114,108</td>
+<td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">4,765,855</td>
 <td style="text-align: right;">0</td>
@@ -5790,20 +5796,20 @@ ul.task-list li input[type="checkbox"] {
 <tr class="even">
 <td style="text-align: left;">variant</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
 <td style="text-align: right;">2,146,582</td>
+<td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">12,006,170</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">NA</td>
-<td style="text-align: right;">3,429,719</td>
-<td style="text-align: right;">4,816,775</td>
+<td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">123</td>
+<td style="text-align: right;">3,429,719</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
+<td style="text-align: right;">4,816,775</td>
 </tr>
 </tbody>
 </table>
@@ -6057,130 +6063,130 @@ ul.task-list li input[type="checkbox"] {
 <thead>
 <tr class="header">
 <th style="text-align: left;">fuel</th>
+<th style="text-align: right;">engine_removed</th>
+<th style="text-align: right;">missing</th>
 <th style="text-align: right;">ok</th>
 <th style="text-align: right;">zero_replaced</th>
-<th style="text-align: right;">missing</th>
-<th style="text-align: right;">engine_removed</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">CNG</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
 <td style="text-align: right;">221</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Diesel</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">652,129</td>
 <td style="text-align: right;">32,837,279</td>
 <td style="text-align: right;">10,286</td>
-<td style="text-align: right;">652,129</td>
-<td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Electric</td>
+<td style="text-align: right;">4,409</td>
+<td style="text-align: right;">0</td>
 <td style="text-align: right;">2,737,204</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">4,409</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Electric Diesel</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">565</td>
 <td style="text-align: right;">143,501</td>
 <td style="text-align: right;">7</td>
-<td style="text-align: right;">565</td>
-<td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Fuel Cells</td>
+<td style="text-align: right;">28</td>
+<td style="text-align: right;">0</td>
 <td style="text-align: right;">73</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">28</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Gas</td>
-<td style="text-align: right;">10,541</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">1,556</td>
+<td style="text-align: right;">10,541</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Gas Bi-Fuel</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">183</td>
 <td style="text-align: right;">24,379</td>
 <td style="text-align: right;">27</td>
-<td style="text-align: right;">183</td>
-<td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Gas Diesel</td>
-<td style="text-align: right;">1,334</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">960</td>
+<td style="text-align: right;">1,334</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Hybrid Electric (Clean)</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">42,532</td>
 <td style="text-align: right;">3,510,167</td>
 <td style="text-align: right;">153</td>
-<td style="text-align: right;">42,532</td>
-<td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">LNG</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
 <td style="text-align: right;">103</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">LPG</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">487</td>
 <td style="text-align: right;">51,908</td>
 <td style="text-align: right;">3</td>
-<td style="text-align: right;">487</td>
-<td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Other</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
 <td style="text-align: right;">128,451</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Petrol</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">65,398</td>
 <td style="text-align: right;">52,034,038</td>
 <td style="text-align: right;">650</td>
-<td style="text-align: right;">65,398</td>
-<td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Plug-in Hybrid Electric (Diesel)</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
 <td style="text-align: right;">11,079</td>
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Plug-in Hybrid Electric (Petrol)</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
 <td style="text-align: right;">1,062,790</td>
 <td style="text-align: right;">220</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Range Extended Electric</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
 <td style="text-align: right;">15,812</td>
 <td style="text-align: right;">3</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Steam</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
 <td style="text-align: right;">3,764</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
 </tr>
 </tbody>
@@ -6280,12 +6286,12 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="mileage-checks" class="level2">
 <h2 class="anchored" data-anchor-id="mileage-checks">Mileage checks</h2>
-<p>The annual mileage for each year (methodology.md, Section 8). Bristol removes mileage it judges implausible (<code>legit_mileage</code> = FALSE leaves <code>mileage</code> empty), so the recorded mileages are those flagged plausible plus a small number never assessed (no flag). A final year with far fewer vehicles than the one before is usually incomplete.</p>
+<p>The annual mileage for each year (methodology.md, Section 8). The annualisation removes mileage it judges implausible (<code>legit_mileage</code> = FALSE leaves <code>mileage</code> empty), so the recorded mileages are those flagged plausible plus a small number never assessed (no flag). A final year with far fewer vehicles than the one before is usually incomplete.</p>
 <ul>
 <li><code>n_with_mileage</code>: vehicles with a mileage recorded for the year</li>
 <li><code>n_negative</code>: mileage below 0</li>
 <li><code>n_over_50k</code>: mileage above 50,000 miles</li>
-<li><code>n_not_legit</code>: mileage flagged implausible by Bristol (<code>legit_mileage</code> = FALSE) and removed</li>
+<li><code>n_not_legit</code>: mileage flagged implausible by the annualisation (<code>legit_mileage</code> = FALSE) and removed</li>
 <li><code>mean_mileage</code>: mean annual mileage over the recorded values (plausible or unassessed)</li>
 <li><code>median_mileage</code>: median annual mileage</li>
 </ul>
@@ -6503,7 +6509,7 @@ ul.task-list li input[type="checkbox"] {
 </tbody>
 </table>
 <p><img src="data_quality_report_figures/mileage-1.png" class="img-fluid"></p>
-<p><strong>Figure 18.</strong> From the table above (<code>mileage_checks.csv</code>), for vehicles of every type: the vehicles with an annual mileage recorded for each year (left), and the mean and median of those mileages (right). The recorded mileages are the ones Bristol flagged plausible plus a few it never assessed.</p>
+<p><strong>Figure 18.</strong> From the table above (<code>mileage_checks.csv</code>), for vehicles of every type: the vehicles with an annual mileage recorded for each year (left), and the mean and median of those mileages (right). The recorded mileages are the ones the annualisation flagged plausible plus a few it never assessed.</p>
 </section>
 <section id="column-missingness-year-columns-omitted" class="level2">
 <h2 class="anchored" data-anchor-id="column-missingness-year-columns-omitted">Column missingness (year columns omitted)</h2>
