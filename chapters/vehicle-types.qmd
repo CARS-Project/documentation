@@ -181,18 +181,101 @@ kable(har, row.names = FALSE, align = c("l", rep("r", ncol(har) - 1)))
 
 :::
 
-::: {.callout-important title="Pitfall: filled values can make impossible combinations"}
-The harmonised `type_approval` and `test_class` are each filled from the most
-common value among similar vehicles, independently of each other. Filling
-covers far more vehicles, but it also creates combinations the rules do not
-allow, such as `r fmt_n(har[har[[1]] == "M1", "Class 1"])` M1 cars in class 1
-(the motorcycle class). Use the recorded values when the relationship between
-the two schemes matters.
+```{r}
+# Type approval / test class pairs the rules do not allow, largest first
+# (vehicle_type_combinations.csv; the rule is sql_ta_tc_allowed() in the pipeline)
+combo_all <- read_pipeline("outputs", "quality", "vehicle_type_combinations.csv")
+bad <- combo_all[combo_all$allowed %in% FALSE, ]
+bad <- stats::aggregate(n_vehicles ~ type_approval + test_class, bad, sum)
+bad <- bad[order(-bad$n_vehicles), ]
+```
+
+::: {.callout-important title="Pitfall: the sources sometimes disagree"}
+The pipeline cleans the DVLA type approval before using it
+([methodology, section 5.6](../reports/methodology.md#other-attributes)).
+It corrects motorcycles that the DVLA recorded as cars or vans, most of them
+BMWs first used from 2004 to 2009. It blanks codes that are not categories,
+and categories that two or more of the vehicle's other records contradict.
+`type_approval_check` says what was done to each vehicle. Filling never
+creates a combination the rules do not allow: test class, type approval and
+wheel plan are filled together, and a borrowed value that would break a rule
+is not used.
+
+`r fmt_n(sum(bad$n_vehicles))` vehicles still have a type approval and test
+class the rules do not allow, all from the records themselves. The largest
+group is `r fmt_n(bad$n_vehicles[1])` with `r bad$type_approval[1]` in class
+`r bad$test_class[1]`. Some are genuine: a van converted to a minibus keeps
+its N1 (van) approval on the register while DVSA tests it in class 5 as a
+minibus. Exclude them where the relationship between the two schemes matters.
 :::
 
 The DVLA field also holds `r fmt_n(rec[rec[[1]] == "Other code", "Total"])`
 values that are not type approval categories, such as numbers, older national
 codes and lower-case variants; they are shown as *Other code*.
+
+### What the combinations look like {#sec-vehicle-type-examples}
+
+```{r}
+examples <- utils::read.csv("data/vehicle_type_examples.csv", stringsAsFactors = FALSE)
+images <- utils::read.csv("data/vehicle_type_images.csv", stringsAsFactors = FALSE)
+min_vehicles <- 1000
+is_category <- grepl("^(M[1-3]|N[1-3]|L[1-7]|T[1-5]|O[1-4])$", combo_all$type_approval)
+shown <- combo_all[combo_all$allowed %in% TRUE & is_category & combo_all$n_vehicles >= min_vehicles, ]
+shown <- merge(shown, examples, by = c("body_type", "test_class", "type_approval"), all.x = TRUE)
+shown <- merge(shown, images, by.x = "image", by.y = "key", all.x = TRUE)
+shown <- shown[order(shown$body_type, shown$test_class, shown$type_approval), ]
+missing_pictures <- sum(is.na(shown$file))
+```
+
+@tbl-vehicle-type-examples shows what the codes mean in practice. It lists
+every combination of DfT body type (@sec-dd-vehicle-type), MOT test class and
+type approval category that the rules allow and that at least
+`r fmt_n(min_vehicles)` vehicles have. For each it gives the most common make
+and model and a photograph of that kind of vehicle. Each row reads as a
+sentence: a Ford Transit minibus is a bus (body type), tested in class 5 (more
+than 12 passenger seats) and approved as M2 (a passenger vehicle of up to 5
+tonnes).
+
+Some rows show what the records say rather than what the rules intend. A DAF
+LF lorry tested in class 4 with an N1 (van) approval is one: the model match
+or one of the records is probably wrong.
+
+```{r}
+#| label: tbl-vehicle-type-examples
+#| tbl-cap: "Common combinations of DfT body type, MOT test class and type approval category, with the most common make and model. Photographs from Wikimedia Commons; the credit column gives each one's author and licence."
+credit <- ifelse(is.na(shown$file), "",
+  sprintf("[%s](%s), %s", shown$author, shown$source_url,
+          ifelse(nzchar(shown$licence_url),
+                 sprintf("[%s](%s)", shown$licence, shown$licence_url), shown$licence)))
+tab <- data.frame(
+  Picture = ifelse(is.na(shown$file), "",
+                   sprintf("![%s](../%s){width=180}", shown$pictured, shown$file)),
+  `Body type` = shown$body_type,
+  `Test class` = shown$test_class,
+  `Type approval` = shown$type_approval,
+  Vehicles = fmt_n(shown$n_vehicles),
+  `Most common make and model` = sprintf("%s %s (%s)", shown$top_make,
+                                         ifelse(is.na(shown$top_model), "", shown$top_model),
+                                         fmt_pct(shown$n_top_model / shown$n_vehicles, 0)),
+  Pictured = ifelse(is.na(shown$pictured), "", shown$pictured),
+  Credit = credit,
+  check.names = FALSE)
+kable(tab, row.names = FALSE, align = c("c", "l", "r", "l", "r", "l", "l", "l"))
+```
+
+```{r}
+#| output: asis
+if (missing_pictures > 0) {
+  cat("::: {.callout-note title=\"Pictures to add\"}\n",
+      missing_pictures, " combination(s) have no picture yet. Add a row for each to",
+      " `data/vehicle_type_examples.csv`, and its image to `data/vehicle_type_images.csv`",
+      " and `images/vehicle-types/` (@sec-maintaining).\n:::\n", sep = "")
+}
+```
+
+The percentage after each make and model is its share of the vehicles in
+that combination. *Pictured* names the vehicle in the photograph. Where no
+free photograph of the most common model was found, it is a similar vehicle.
 
 ## DfT body types
 

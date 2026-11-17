@@ -28,6 +28,14 @@ classifications and how they relate.
   value that contradicts the other classifications, the wheel plan or the
   engine size is not used. Each has a `_src` column saying which (methodology,
   [section 5.6](../../reports/methodology.md#other-attributes)).
+- **The DVLA type approval is cleaned before it is used or copied.** Case and
+  spacing are corrected. Codes that are not categories are blanked, and so
+  are categories that two or more of the vehicle's other records contradict.
+  Motorcycles that the DVLA recorded as cars or vans (`M1`, `N1`) are
+  corrected to `L3`, or to `L1` up to 50cc. The evidence is a 2 WHEEL wheel
+  plan, a motorcycle model and a motorcycle test class. `type_approval_check`
+  says what was done, and `type_approval_src` is `corrected` for a corrected
+  value. A blanked value may then be filled from similar vehicles.
 - **`smmt_type`** is the SMMT segment of a car's model (Supermini, Lower
   Medium, Dual Purpose and so on), from the RACF car fleet: the segment with
   the largest fleet among the linked RACF rows (@sec-dd-racf). It is blank

@@ -113,6 +113,27 @@ chapter's overview text. Rerun `scripts/run-coverage.R` and
 charted as categories although it is stored as a number belongs in
 `dict_coded`.
 
+## Pictures of vehicle types
+
+The table of vehicle type combinations (@sec-vehicle-type-examples) takes its
+rows from the pipeline's `quality/vehicle_type_combinations.csv`. Its
+pictures are chosen by hand. After a new build, a combination without a
+picture is reported under the table. To add or replace a picture:
+
+1. Find a freely licensed photograph on
+   [Wikimedia Commons](https://commons.wikimedia.org) (CC BY, CC BY-SA or
+   public domain; avoid GFDL-only files, which expect the licence text to be
+   copied with them). Prefer the most common make and model the table names,
+   and use a similar vehicle if it has none.
+2. Save a copy about 640 pixels wide in `images/vehicle-types/`.
+3. Add a row to `data/vehicle_type_images.csv`: a short key, the file, the
+   Commons file name and page, the author and the licence with its link.
+   The credit column of the table is built from these, so every picture is
+   credited.
+4. Add or change the combination's row in `data/vehicle_type_examples.csv`:
+   the body type, test class and type approval, the image key, and what the
+   picture shows.
+
 ## Writing conventions
 
 - Placeholders for material still to come are callouts titled

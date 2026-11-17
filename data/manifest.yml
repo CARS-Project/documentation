@@ -23,6 +23,8 @@ data:
   - outputs/quality/body_type.csv
   - outputs/quality/test_class.csv
   - outputs/quality/type_approval_by_test_class.csv
+  - outputs/quality/type_approval_check.csv
+  - outputs/quality/vehicle_type_combinations.csv
   - outputs/quality/plate_types.csv
   - outputs/quality/pca_status_by_year.csv
   - outputs/quality/scope_counts.csv
