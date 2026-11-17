@@ -203,7 +203,7 @@ The DVSA and VES records of each vehicle are compared in three independent ways:
 | Year | Manufacture years differ by more than one year. Where either is missing, first registration years are compared instead. |
 | Engine | Both engine sizes are recorded and differ by more than 100cc and by more than 10%. |
 
-A comparison that cannot be made counts as agreement. **When at least two comparisons disagree, `dvla_match` is `different`**: the VES record belongs to another vehicle, and none of its values (fuel, engine size, weight, CO2, Euro status, type approval, wheel plan) is used. `dvla_evidence` counts the disagreements.
+A comparison that cannot be made counts as agreement. **When at least two comparisons disagree, `dvla_match` is `different`**: the VES record belongs to another vehicle, and none of its values (fuel, engine size, revenue weight, CO2, Euro status, type approval, wheel plan) is used. `dvla_evidence` counts the disagreements.
 
 Some make pairs are the same vehicle under another name: CHRYSLER-JEEP / JEEP, ROVER / AUSTIN, and motorhome converters such as FIAT / AUTO-TRAIL. They are found from the whole input file. A pair is an alias when it has at least 20 rows with comparable years (`checks.dvla_alias_min_rows`), and the years agree for at least 90% of them (`checks.dvla_alias_min_year_agreement`). This finds 392 pairs. The split is clear-cut:
 
@@ -472,7 +472,7 @@ The pipeline builds these reference tables:
 |------------------------|------------------------|------------------------|
 | Fuel by engine size | make_final + model_final + birth year + engine size | fuel (step 2 of 5.2), from vehicles with a fuel that has an engine |
 | Fuel profile | make_final + model_final (+ birth year) + fuel | vehicle counts for the fuel check |
-| Variant | make_final + model_final + birth year + fuel + engine size | weight, CO2, Euro status, type approval, wheel plan, test class |
+| Variant | make_final + model_final + birth year + fuel + engine size | revenue weight, CO2, Euro status, type approval, wheel plan, test class |
 | Model-year-fuel | make_final + model_final + birth year + fuel | the same six, plus engine size |
 | Model-fuel | make_final + model_final + fuel | engine size |
 
@@ -492,7 +492,7 @@ The pipeline builds these reference tables:
 6.  **The fuel check depends on the make/model cleaning.** Merged or wrong models produce `rare_for_model` and `implausible_for_model` flags; these point to raw spellings worth reviewing. Small make/models (under 100 vehicles) are not checked, and on the 1% sample most make/models are `no_reference`.
 7.  **A model’s DfT fuel is its vehicles’ fuel.** The plug-in distinction of @sec-meth-plug-in-hybrids-the-dft is a property of the model string, not of the individual vehicle, so it is only as good as the make/model match and cannot find a plug-in hybrid of a model DfT records both ways. The plug-in counts are a lower bound.
 8.  **A vehicle registered new after a standard became compulsory meets it.** The Euro status of @sec-meth-euro-status-from-the-registration is an assumption about the rules, not an observation of the vehicle. It is wrong for used imports and rebuilt vehicles, which take a British registration long after they were built; `birth_date` limits that, and `euro_status_src` separates assumed values from recorded ones so they can be dropped.
-9.  **Vehicles of the same make, model, birth year and fuel share attributes.** This is reasonable for wheel plan, type approval and test class. It is weaker for CO2 and weight, which vary with trim, gearbox and body style.
+9.  **Vehicles of the same make, model, birth year and fuel share attributes.** This is reasonable for wheel plan, type approval and test class. It is weaker for CO2 and mass, which vary with trim, gearbox and body style.
 10. **Birth year stands in for model year.**
 11. **At the variant level, engine size must match to the cc.** Near-identical engines (1596 cc vs 1598 cc) form separate groups; the model-year-fuel level then applies.
 12. **A vehicle with a backfilled engine size matches the most common variant** of its make, model, year and fuel, and takes that variant’s attributes.

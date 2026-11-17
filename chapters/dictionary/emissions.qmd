@@ -13,7 +13,8 @@ cars <- ef[ef$body_type == "Cars", ]
 These columns describe the vehicle's official emissions: its CO~2~ figure and
 the Euro emission standard it was approved to. Both are recorded by the DVLA,
 not DVSA, and both are filled from similar vehicles where the DVLA has no
-value. @sec-fuels-emissions explains what the figures mean and their limits.
+value. For cars, the official CO~2~, energy use and electric range of the
+car's model are also linked from the RACF car fleet. @sec-fuels-emissions explains what the figures mean and their limits.
 
 - **`co2`** is the official CO~2~ figure in g/km, measured when the model was
   type approved. It is the DVLA value where the VES record describes this
@@ -34,6 +35,13 @@ value. @sec-fuels-emissions explains what the figures mean and their limits.
   age.
 - **`co2Emissions_DVLA`**, **`euroStatus_DVLA`** and
   **`realDrivingEmissions_DVLA`** are the values as supplied.
+- **`co2_nedc`** and **`co2_wltp`** are the EU type-approval CO~2~ figures of
+  a car's model in g/km, under the older NEDC test and the WLTP test that
+  replaced it. **`e_consumption_wh_km`** is the model's energy use in Wh/km
+  and **`e_range_km`** its electric range in km. They come from the RACF car
+  fleet (@sec-dd-racf), are blank for vehicles that are not cars, and are
+  averages for the model, year and fuel, not the car's own figures: for those
+  use `co2`.
 
 ::: {.callout-important title="Recorded, filled and assumed values"}
 Filled and assumed values are estimates, not records. Results that depend on
@@ -73,6 +81,19 @@ no Euro schedule and `no_date` where the vehicle has no date to place it.
 `realDrivingEmissions_DVLA`, the DVLA's Real Driving Emissions (RDE) field,
 is present only for some vehicles first used since 2019, and is not used by
 the pipeline.
+
+The RACF columns are present only for cars whose model was linked and whose
+linked RACF rows have a plausible value, and their coverage follows the test
+each figure comes from:
+
+- **NEDC CO~2~** applies to cars approved before the WLTP test replaced it,
+  so `co2_nedc` is present for most cars first used up to 2020 and
+  `co2_wltp` for most of those first used from 2018
+  (`r cov_year("co2_wltp", 2022)` of vehicles first used in 2022). Cars
+  first used from 2018 to 2020 often have both.
+- **Energy use and electric range** apply only to plug-in cars, so they are
+  present for `r cov_pct(cs, "e_range_km", digits = 1)` of vehicles, rising
+  for the newest.
 
 ```{r}
 #| label: tbl-dd-emissions-coverage

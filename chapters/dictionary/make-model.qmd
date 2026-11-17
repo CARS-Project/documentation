@@ -34,6 +34,50 @@ including how makes ([4.2](../../reports/methodology.md#makes)) and models
 The vehicle's body type, found from the matched model, is described with the
 other classifications in @sec-dd-vehicle-type.
 
+### Model attributes from the RACF car fleet {#sec-dd-racf}
+
+The matched make and model are also used to link each car to the RACF car
+fleet: DfT's car fleet by make, model, year of first use and fuel, enriched
+with each model's SMMT segment (supermini, SUV and so on; @sec-vehicle-types)
+and with its mass, dimensions, CO~2~, energy use and electric range from the
+EU type-approval and Dutch RDW registers. It holds counts and model
+attributes only, not vehicle records.
+
+**`racf_link_level`** says how the car was linked:
+
+- `model`: the same make, DfT generic model and model string, year of first
+  use and fuel group;
+- `genmodel`: failing that, the same make, generic model, year and fuel
+  group, averaging over the generic model's model strings;
+- `none`: not linked.
+
+Only cars (`body_type` Cars) are linked, so `racf_link_level` and every
+linked column are blank for other vehicles. The linked columns are described
+with the other columns of their kind:
+
+- the SMMT segment, `smmt_type`, in @sec-dd-vehicle-type;
+- the mass and dimensions (`mass_kg`, `kerb_weight_kg`, `length_mm`,
+  `width_mm`, `height_mm`, `wheelbase_mm`, `footprint_m2`) in @sec-dd-mass;
+- the official CO~2~, energy use and electric range (`co2_nedc`, `co2_wltp`,
+  `e_consumption_wh_km`, `e_range_km`) in @sec-dd-emissions.
+
+Their source is *RACF (pipeline link)* in the tables. Each value is the
+fleet-weighted mean over the linked RACF rows with a plausible value, so it
+describes the model, not the individual car. The RACF fleet's shares, such as
+the share of a model that is an SUV, describe the fleet rather than a car, so
+they are not in the vehicle table; they are used in the car size and model
+tables (@sec-aggregate-tables). How the link is made is set out in the
+methodology,
+[section 6](../../reports/methodology.md#stage-4-derived-fields-and-number-plates)
+and [section 9.3](../../reports/methodology.md#the-racf-smmt-linked-fleet).
+
+::: {.callout-important title="Model values, not measurements"}
+A car's `co2_nedc` is the average for its model, year and fuel, not its own
+figure, which is in `co2` (@sec-dd-emissions). The RACF columns are best used
+to describe groups of cars, such as the fleet's average size, and for a car
+linked at `genmodel` level they average over several model strings.
+:::
+
 ```{r}
 #| label: tbl-dd-make-model
 #| tbl-cap: "Make and model columns."
@@ -58,6 +102,9 @@ in 2015, but `r cov_year("derivative_final", 2024)` of those first used in
 
 The DVLA make is present wherever a VES record was found, which is rarer for
 older vehicles: see @sec-dd-dvla-status.
+
+`racf_link_level` is present for the `r cov_pct(cs, "racf_link_level")` of
+vehicles that are cars, and blank for every other vehicle.
 
 ```{r}
 #| label: tbl-dd-make-model-coverage

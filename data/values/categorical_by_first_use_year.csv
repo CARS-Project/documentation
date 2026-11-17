@@ -13972,403 +13972,403 @@
 "racf_link_level",2025,"value","none",3,24198
 "racf_link_level",2026,"blank","",0,449620
 "racf_link_level",2026,"value","none",3,1492545
-"racf_smmt_type",1990,"blank","",0,247967
-"racf_smmt_type",1990,"value","Lower Medium",1,149245
-"racf_smmt_type",1990,"value","Supermini",2,65521
-"racf_smmt_type",1990,"value","Dual Purpose",3,14249
-"racf_smmt_type",1990,"value","Upper Medium",4,27429
-"racf_smmt_type",1990,"value","Mini",5,28067
-"racf_smmt_type",1990,"value","MPV",6,2041
-"racf_smmt_type",1990,"value","Executive",7,10913
-"racf_smmt_type",1990,"value","Specialist Sports",8,17562
-"racf_smmt_type",1990,"value","Luxury Saloon",9,12174
-"racf_smmt_type",1990,"value","Other",10,972
-"racf_smmt_type",1991,"blank","",0,243803
-"racf_smmt_type",1991,"value","Lower Medium",1,168728
-"racf_smmt_type",1991,"value","Supermini",2,84565
-"racf_smmt_type",1991,"value","Dual Purpose",3,19201
-"racf_smmt_type",1991,"value","Upper Medium",4,33644
-"racf_smmt_type",1991,"value","Mini",5,25711
-"racf_smmt_type",1991,"value","MPV",6,3080
-"racf_smmt_type",1991,"value","Executive",7,15896
-"racf_smmt_type",1991,"value","Specialist Sports",8,17672
-"racf_smmt_type",1991,"value","Luxury Saloon",9,10142
-"racf_smmt_type",1991,"value","Other",10,2210
-"racf_smmt_type",1992,"blank","",0,307097
-"racf_smmt_type",1992,"value","Lower Medium",1,239080
-"racf_smmt_type",1992,"value","Supermini",2,107875
-"racf_smmt_type",1992,"value","Dual Purpose",3,28841
-"racf_smmt_type",1992,"value","Upper Medium",4,41985
-"racf_smmt_type",1992,"value","Mini",5,30233
-"racf_smmt_type",1992,"value","MPV",6,4871
-"racf_smmt_type",1992,"value","Executive",7,19309
-"racf_smmt_type",1992,"value","Specialist Sports",8,16011
-"racf_smmt_type",1992,"value","Luxury Saloon",9,10818
-"racf_smmt_type",1992,"value","Other",10,2943
-"racf_smmt_type",1993,"blank","",0,373738
-"racf_smmt_type",1993,"value","Lower Medium",1,333665
-"racf_smmt_type",1993,"value","Supermini",2,177150
-"racf_smmt_type",1993,"value","Dual Purpose",3,50453
-"racf_smmt_type",1993,"value","Upper Medium",4,93580
-"racf_smmt_type",1993,"value","Mini",5,51238
-"racf_smmt_type",1993,"value","MPV",6,8084
-"racf_smmt_type",1993,"value","Executive",7,25342
-"racf_smmt_type",1993,"value","Specialist Sports",8,16797
-"racf_smmt_type",1993,"value","Luxury Saloon",9,11202
-"racf_smmt_type",1993,"value","Other",10,3444
-"racf_smmt_type",1994,"blank","",0,421980
-"racf_smmt_type",1994,"value","Lower Medium",1,437055
-"racf_smmt_type",1994,"value","Supermini",2,243714
-"racf_smmt_type",1994,"value","Dual Purpose",3,59821
-"racf_smmt_type",1994,"value","Upper Medium",4,157393
-"racf_smmt_type",1994,"value","Mini",5,63517
-"racf_smmt_type",1994,"value","MPV",6,9811
-"racf_smmt_type",1994,"value","Executive",7,46913
-"racf_smmt_type",1994,"value","Specialist Sports",8,19677
-"racf_smmt_type",1994,"value","Luxury Saloon",9,11632
-"racf_smmt_type",1994,"value","Other",10,3960
-"racf_smmt_type",1995,"blank","",0,471915
-"racf_smmt_type",1995,"value","Lower Medium",1,491280
-"racf_smmt_type",1995,"value","Supermini",2,291908
-"racf_smmt_type",1995,"value","Dual Purpose",3,69671
-"racf_smmt_type",1995,"value","Upper Medium",4,214912
-"racf_smmt_type",1995,"value","Mini",5,70918
-"racf_smmt_type",1995,"value","MPV",6,14336
-"racf_smmt_type",1995,"value","Executive",7,61646
-"racf_smmt_type",1995,"value","Specialist Sports",8,28192
-"racf_smmt_type",1995,"value","Luxury Saloon",9,15594
-"racf_smmt_type",1995,"value","Other",10,5229
-"racf_smmt_type",1996,"blank","",0,455368
-"racf_smmt_type",1996,"value","Lower Medium",1,553832
-"racf_smmt_type",1996,"value","Supermini",2,359855
-"racf_smmt_type",1996,"value","Dual Purpose",3,75390
-"racf_smmt_type",1996,"value","Upper Medium",4,331594
-"racf_smmt_type",1996,"value","Mini",5,69110
-"racf_smmt_type",1996,"value","MPV",6,27060
-"racf_smmt_type",1996,"value","Executive",7,61789
-"racf_smmt_type",1996,"value","Specialist Sports",8,37563
-"racf_smmt_type",1996,"value","Luxury Saloon",9,17029
-"racf_smmt_type",1996,"value","Other",10,6279
-"racf_smmt_type",1997,"blank","",0,546604
-"racf_smmt_type",1997,"value","Lower Medium",1,634620
-"racf_smmt_type",1997,"value","Supermini",2,407826
-"racf_smmt_type",1997,"value","Dual Purpose",3,79996
-"racf_smmt_type",1997,"value","Upper Medium",4,390481
-"racf_smmt_type",1997,"value","Mini",5,56901
-"racf_smmt_type",1997,"value","MPV",6,31562
-"racf_smmt_type",1997,"value","Executive",7,69733
-"racf_smmt_type",1997,"value","Specialist Sports",8,52088
-"racf_smmt_type",1997,"value","Luxury Saloon",9,19315
-"racf_smmt_type",1997,"value","Other",10,6126
-"racf_smmt_type",1998,"blank","",0,565543
-"racf_smmt_type",1998,"value","Lower Medium",1,708708
-"racf_smmt_type",1998,"value","Supermini",2,416598
-"racf_smmt_type",1998,"value","Dual Purpose",3,104684
-"racf_smmt_type",1998,"value","Upper Medium",4,442408
-"racf_smmt_type",1998,"value","Mini",5,66273
-"racf_smmt_type",1998,"value","MPV",6,33075
-"racf_smmt_type",1998,"value","Executive",7,75255
-"racf_smmt_type",1998,"value","Specialist Sports",8,60543
-"racf_smmt_type",1998,"value","Luxury Saloon",9,20091
-"racf_smmt_type",1998,"value","Other",10,7725
-"racf_smmt_type",1999,"blank","",0,570492
-"racf_smmt_type",1999,"value","Lower Medium",1,703384
-"racf_smmt_type",1999,"value","Supermini",2,460220
-"racf_smmt_type",1999,"value","Dual Purpose",3,110069
-"racf_smmt_type",1999,"value","Upper Medium",4,435793
-"racf_smmt_type",1999,"value","Mini",5,73639
-"racf_smmt_type",1999,"value","MPV",6,41181
-"racf_smmt_type",1999,"value","Executive",7,84834
-"racf_smmt_type",1999,"value","Specialist Sports",8,63404
-"racf_smmt_type",1999,"value","Luxury Saloon",9,14985
-"racf_smmt_type",1999,"value","Other",10,12882
-"racf_smmt_type",2000,"blank","",0,649035
-"racf_smmt_type",2000,"value","Lower Medium",1,705231
-"racf_smmt_type",2000,"value","Supermini",2,500380
-"racf_smmt_type",2000,"value","Dual Purpose",3,119328
-"racf_smmt_type",2000,"value","Upper Medium",4,424240
-"racf_smmt_type",2000,"value","Mini",5,80096
-"racf_smmt_type",2000,"value","MPV",6,62167
-"racf_smmt_type",2000,"value","Executive",7,92320
-"racf_smmt_type",2000,"value","Specialist Sports",8,67137
-"racf_smmt_type",2000,"value","Luxury Saloon",9,13939
-"racf_smmt_type",2000,"value","Other",10,2521
-"racf_smmt_type",2001,"blank","",0,660612
-"racf_smmt_type",2001,"value","Lower Medium",1,795896
-"racf_smmt_type",2001,"value","Supermini",2,588863
-"racf_smmt_type",2001,"value","Dual Purpose",3,140292
-"racf_smmt_type",2001,"value","Upper Medium",4,468565
-"racf_smmt_type",2001,"value","Mini",5,82866
-"racf_smmt_type",2001,"value","MPV",6,93724
-"racf_smmt_type",2001,"value","Executive",7,97205
-"racf_smmt_type",2001,"value","Specialist Sports",8,62391
-"racf_smmt_type",2001,"value","Luxury Saloon",9,13553
-"racf_smmt_type",2001,"value","Other",10,1435
-"racf_smmt_type",2002,"blank","",0,676820
-"racf_smmt_type",2002,"value","Lower Medium",1,820695
-"racf_smmt_type",2002,"value","Supermini",2,652718
-"racf_smmt_type",2002,"value","Dual Purpose",3,155713
-"racf_smmt_type",2002,"value","Upper Medium",4,484400
-"racf_smmt_type",2002,"value","Mini",5,80021
-"racf_smmt_type",2002,"value","MPV",6,107054
-"racf_smmt_type",2002,"value","Executive",7,108484
-"racf_smmt_type",2002,"value","Specialist Sports",8,67478
-"racf_smmt_type",2002,"value","Luxury Saloon",9,12198
-"racf_smmt_type",2002,"value","Other",10,2294
-"racf_smmt_type",2003,"blank","",0,705170
-"racf_smmt_type",2003,"value","Lower Medium",1,747660
-"racf_smmt_type",2003,"value","Supermini",2,671292
-"racf_smmt_type",2003,"value","Dual Purpose",3,172738
-"racf_smmt_type",2003,"value","Upper Medium",4,474038
-"racf_smmt_type",2003,"value","Mini",5,88709
-"racf_smmt_type",2003,"value","MPV",6,130990
-"racf_smmt_type",2003,"value","Executive",7,108456
-"racf_smmt_type",2003,"value","Specialist Sports",8,76254
-"racf_smmt_type",2003,"value","Luxury Saloon",9,13034
-"racf_smmt_type",2003,"value","Other",10,4612
-"racf_smmt_type",2004,"blank","",0,705011
-"racf_smmt_type",2004,"value","Lower Medium",1,728453
-"racf_smmt_type",2004,"value","Supermini",2,635367
-"racf_smmt_type",2004,"value","Dual Purpose",3,189890
-"racf_smmt_type",2004,"value","Upper Medium",4,447215
-"racf_smmt_type",2004,"value","Mini",5,85818
-"racf_smmt_type",2004,"value","MPV",6,177284
-"racf_smmt_type",2004,"value","Executive",7,103070
-"racf_smmt_type",2004,"value","Specialist Sports",8,75860
-"racf_smmt_type",2004,"value","Luxury Saloon",9,13137
-"racf_smmt_type",2004,"value","Other",10,4901
-"racf_smmt_type",2005,"blank","",0,664851
-"racf_smmt_type",2005,"value","Lower Medium",1,751647
-"racf_smmt_type",2005,"value","Supermini",2,579218
-"racf_smmt_type",2005,"value","Dual Purpose",3,195686
-"racf_smmt_type",2005,"value","Upper Medium",4,430314
-"racf_smmt_type",2005,"value","Mini",5,88659
-"racf_smmt_type",2005,"value","MPV",6,171623
-"racf_smmt_type",2005,"value","Executive",7,91340
-"racf_smmt_type",2005,"value","Specialist Sports",8,65782
-"racf_smmt_type",2005,"value","Luxury Saloon",9,12355
-"racf_smmt_type",2005,"value","Other",10,5644
-"racf_smmt_type",2006,"blank","",0,650159
-"racf_smmt_type",2006,"value","Lower Medium",1,732974
-"racf_smmt_type",2006,"value","Supermini",2,577431
-"racf_smmt_type",2006,"value","Dual Purpose",3,181269
-"racf_smmt_type",2006,"value","Upper Medium",4,408378
-"racf_smmt_type",2006,"value","Mini",5,97464
-"racf_smmt_type",2006,"value","MPV",6,157626
-"racf_smmt_type",2006,"value","Executive",7,78537
-"racf_smmt_type",2006,"value","Specialist Sports",8,63075
-"racf_smmt_type",2006,"value","Luxury Saloon",9,15947
-"racf_smmt_type",2006,"value","Other",10,5220
-"racf_smmt_type",2007,"blank","",0,674967
-"racf_smmt_type",2007,"value","Lower Medium",1,761796
-"racf_smmt_type",2007,"value","Supermini",2,628833
-"racf_smmt_type",2007,"value","Dual Purpose",3,199134
-"racf_smmt_type",2007,"value","Upper Medium",4,397777
-"racf_smmt_type",2007,"value","Mini",5,81523
-"racf_smmt_type",2007,"value","MPV",6,157629
-"racf_smmt_type",2007,"value","Executive",7,78711
-"racf_smmt_type",2007,"value","Specialist Sports",8,65385
-"racf_smmt_type",2007,"value","Luxury Saloon",9,16270
-"racf_smmt_type",2007,"value","Other",10,6103
-"racf_smmt_type",2008,"blank","",0,618249
-"racf_smmt_type",2008,"value","Lower Medium",1,657942
-"racf_smmt_type",2008,"value","Supermini",2,567720
-"racf_smmt_type",2008,"value","Dual Purpose",3,160112
-"racf_smmt_type",2008,"value","Upper Medium",4,342455
-"racf_smmt_type",2008,"value","Mini",5,114377
-"racf_smmt_type",2008,"value","MPV",6,130481
-"racf_smmt_type",2008,"value","Executive",7,70135
-"racf_smmt_type",2008,"value","Specialist Sports",8,52670
-"racf_smmt_type",2008,"value","Luxury Saloon",9,11145
-"racf_smmt_type",2008,"value","Other",10,5657
-"racf_smmt_type",2009,"blank","",0,446573
-"racf_smmt_type",2009,"value","Lower Medium",1,561951
-"racf_smmt_type",2009,"value","Supermini",2,578076
-"racf_smmt_type",2009,"value","Dual Purpose",3,167465
-"racf_smmt_type",2009,"value","Upper Medium",4,284489
-"racf_smmt_type",2009,"value","Mini",5,172933
-"racf_smmt_type",2009,"value","MPV",6,91142
-"racf_smmt_type",2009,"value","Executive",7,61598
-"racf_smmt_type",2009,"value","Specialist Sports",8,44294
-"racf_smmt_type",2009,"value","Luxury Saloon",9,7934
-"racf_smmt_type",2009,"value","Other",10,3427
-"racf_smmt_type",2010,"blank","",0,465896
-"racf_smmt_type",2010,"value","Lower Medium",1,563596
-"racf_smmt_type",2010,"value","Supermini",2,564409
-"racf_smmt_type",2010,"value","Dual Purpose",3,222259
-"racf_smmt_type",2010,"value","Upper Medium",4,258689
-"racf_smmt_type",2010,"value","Mini",5,164032
-"racf_smmt_type",2010,"value","MPV",6,110194
-"racf_smmt_type",2010,"value","Executive",7,69760
-"racf_smmt_type",2010,"value","Specialist Sports",8,37781
-"racf_smmt_type",2010,"value","Luxury Saloon",9,10591
-"racf_smmt_type",2010,"value","Other",10,3057
-"racf_smmt_type",2011,"blank","",0,513475
-"racf_smmt_type",2011,"value","Lower Medium",1,508371
-"racf_smmt_type",2011,"value","Supermini",2,528553
-"racf_smmt_type",2011,"value","Dual Purpose",3,261488
-"racf_smmt_type",2011,"value","Upper Medium",4,262922
-"racf_smmt_type",2011,"value","Mini",5,142317
-"racf_smmt_type",2011,"value","MPV",6,98044
-"racf_smmt_type",2011,"value","Executive",7,77302
-"racf_smmt_type",2011,"value","Specialist Sports",8,30705
-"racf_smmt_type",2011,"value","Luxury Saloon",9,10900
-"racf_smmt_type",2011,"value","Other",10,3499
-"racf_smmt_type",2012,"blank","",0,505527
-"racf_smmt_type",2012,"value","Lower Medium",1,507586
-"racf_smmt_type",2012,"value","Supermini",2,570238
-"racf_smmt_type",2012,"value","Dual Purpose",3,314448
-"racf_smmt_type",2012,"value","Upper Medium",4,252767
-"racf_smmt_type",2012,"value","Mini",5,176863
-"racf_smmt_type",2012,"value","MPV",6,86419
-"racf_smmt_type",2012,"value","Executive",7,80570
-"racf_smmt_type",2012,"value","Specialist Sports",8,31395
-"racf_smmt_type",2012,"value","Luxury Saloon",9,9755
-"racf_smmt_type",2012,"value","Other",10,3241
-"racf_smmt_type",2013,"blank","",0,531781
-"racf_smmt_type",2013,"value","Lower Medium",1,559521
-"racf_smmt_type",2013,"value","Supermini",2,633361
-"racf_smmt_type",2013,"value","Dual Purpose",3,411627
-"racf_smmt_type",2013,"value","Upper Medium",4,225703
-"racf_smmt_type",2013,"value","Mini",5,211105
-"racf_smmt_type",2013,"value","MPV",6,93071
-"racf_smmt_type",2013,"value","Executive",7,91345
-"racf_smmt_type",2013,"value","Specialist Sports",8,33069
-"racf_smmt_type",2013,"value","Luxury Saloon",9,9108
-"racf_smmt_type",2013,"value","Other",10,5806
-"racf_smmt_type",2014,"blank","",0,576068
-"racf_smmt_type",2014,"value","Lower Medium",1,609780
-"racf_smmt_type",2014,"value","Supermini",2,661623
-"racf_smmt_type",2014,"value","Dual Purpose",3,509776
-"racf_smmt_type",2014,"value","Upper Medium",4,239713
-"racf_smmt_type",2014,"value","Mini",5,237295
-"racf_smmt_type",2014,"value","MPV",6,91494
-"racf_smmt_type",2014,"value","Executive",7,91663
-"racf_smmt_type",2014,"value","Specialist Sports",8,32603
-"racf_smmt_type",2014,"value","Luxury Saloon",9,12611
-"racf_smmt_type",2014,"value","Other",10,6680
-"racf_smmt_type",2015,"blank","",0,655728
-"racf_smmt_type",2015,"value","Lower Medium",1,645642
-"racf_smmt_type",2015,"value","Supermini",2,663594
-"racf_smmt_type",2015,"value","Dual Purpose",3,627103
-"racf_smmt_type",2015,"value","Upper Medium",4,266103
-"racf_smmt_type",2015,"value","Mini",5,229316
-"racf_smmt_type",2015,"value","MPV",6,66977
-"racf_smmt_type",2015,"value","Executive",7,89349
-"racf_smmt_type",2015,"value","Specialist Sports",8,40237
-"racf_smmt_type",2015,"value","Luxury Saloon",9,12045
-"racf_smmt_type",2015,"value","Other",10,5557
-"racf_smmt_type",2016,"blank","",0,662894
-"racf_smmt_type",2016,"value","Lower Medium",1,634181
-"racf_smmt_type",2016,"value","Supermini",2,603862
-"racf_smmt_type",2016,"value","Dual Purpose",3,768785
-"racf_smmt_type",2016,"value","Upper Medium",4,263928
-"racf_smmt_type",2016,"value","Mini",5,217412
-"racf_smmt_type",2016,"value","MPV",6,67134
-"racf_smmt_type",2016,"value","Executive",7,87478
-"racf_smmt_type",2016,"value","Specialist Sports",8,46415
-"racf_smmt_type",2016,"value","Luxury Saloon",9,14317
-"racf_smmt_type",2016,"value","Other",10,7441
-"racf_smmt_type",2017,"blank","",0,637231
-"racf_smmt_type",2017,"value","Lower Medium",1,578698
-"racf_smmt_type",2017,"value","Supermini",2,510913
-"racf_smmt_type",2017,"value","Dual Purpose",3,814481
-"racf_smmt_type",2017,"value","Upper Medium",4,242989
-"racf_smmt_type",2017,"value","Mini",5,186998
-"racf_smmt_type",2017,"value","MPV",6,65158
-"racf_smmt_type",2017,"value","Executive",7,81900
-"racf_smmt_type",2017,"value","Specialist Sports",8,42570
-"racf_smmt_type",2017,"value","Luxury Saloon",9,13905
-"racf_smmt_type",2017,"value","Other",10,7267
-"racf_smmt_type",2018,"blank","",0,642985
-"racf_smmt_type",2018,"value","Lower Medium",1,474383
-"racf_smmt_type",2018,"value","Supermini",2,471867
-"racf_smmt_type",2018,"value","Dual Purpose",3,892579
-"racf_smmt_type",2018,"value","Upper Medium",4,178574
-"racf_smmt_type",2018,"value","Mini",5,163563
-"racf_smmt_type",2018,"value","MPV",6,43641
-"racf_smmt_type",2018,"value","Executive",7,78526
-"racf_smmt_type",2018,"value","Specialist Sports",8,36019
-"racf_smmt_type",2018,"value","Luxury Saloon",9,12023
-"racf_smmt_type",2018,"value","Other",10,5153
-"racf_smmt_type",2019,"blank","",0,657969
-"racf_smmt_type",2019,"value","Lower Medium",1,437327
-"racf_smmt_type",2019,"value","Supermini",2,440156
-"racf_smmt_type",2019,"value","Dual Purpose",3,966007
-"racf_smmt_type",2019,"value","Upper Medium",4,166186
-"racf_smmt_type",2019,"value","Mini",5,134677
-"racf_smmt_type",2019,"value","MPV",6,41633
-"racf_smmt_type",2019,"value","Executive",7,68480
-"racf_smmt_type",2019,"value","Specialist Sports",8,33110
-"racf_smmt_type",2019,"value","Luxury Saloon",9,11169
-"racf_smmt_type",2019,"value","Other",10,6431
-"racf_smmt_type",2020,"blank","",0,523870
-"racf_smmt_type",2020,"value","Lower Medium",1,295660
-"racf_smmt_type",2020,"value","Supermini",2,316352
-"racf_smmt_type",2020,"value","Dual Purpose",3,748543
-"racf_smmt_type",2020,"value","Upper Medium",4,111723
-"racf_smmt_type",2020,"value","Mini",5,71133
-"racf_smmt_type",2020,"value","MPV",6,22720
-"racf_smmt_type",2020,"value","Executive",7,33847
-"racf_smmt_type",2020,"value","Specialist Sports",8,24521
-"racf_smmt_type",2020,"value","Luxury Saloon",9,7551
-"racf_smmt_type",2020,"value","Other",10,3898
-"racf_smmt_type",2021,"blank","",0,611716
-"racf_smmt_type",2021,"value","Lower Medium",1,254641
-"racf_smmt_type",2021,"value","Supermini",2,306726
-"racf_smmt_type",2021,"value","Dual Purpose",3,809646
-"racf_smmt_type",2021,"value","Upper Medium",4,114067
-"racf_smmt_type",2021,"value","Mini",5,79192
-"racf_smmt_type",2021,"value","MPV",6,17094
-"racf_smmt_type",2021,"value","Executive",7,24819
-"racf_smmt_type",2021,"value","Specialist Sports",8,26667
-"racf_smmt_type",2021,"value","Luxury Saloon",9,6287
-"racf_smmt_type",2021,"value","Other",10,4309
-"racf_smmt_type",2022,"blank","",0,541282
-"racf_smmt_type",2022,"value","Lower Medium",1,212468
-"racf_smmt_type",2022,"value","Supermini",2,300377
-"racf_smmt_type",2022,"value","Dual Purpose",3,863270
-"racf_smmt_type",2022,"value","Upper Medium",4,78976
-"racf_smmt_type",2022,"value","Mini",5,64125
-"racf_smmt_type",2022,"value","MPV",6,18375
-"racf_smmt_type",2022,"value","Executive",7,26216
-"racf_smmt_type",2022,"value","Specialist Sports",8,26533
-"racf_smmt_type",2022,"value","Luxury Saloon",9,6707
-"racf_smmt_type",2022,"value","Other",10,2776
-"racf_smmt_type",2023,"blank","",0,600574
-"racf_smmt_type",2023,"value","Lower Medium",1,272297
-"racf_smmt_type",2023,"value","Supermini",2,312471
-"racf_smmt_type",2023,"value","Dual Purpose",3,1041802
-"racf_smmt_type",2023,"value","Upper Medium",4,77706
-"racf_smmt_type",2023,"value","Mini",5,64119
-"racf_smmt_type",2023,"value","MPV",6,22114
-"racf_smmt_type",2023,"value","Executive",7,25055
-"racf_smmt_type",2023,"value","Specialist Sports",8,31455
-"racf_smmt_type",2023,"value","Luxury Saloon",9,7478
-"racf_smmt_type",2023,"value","Other",10,4028
-"racf_smmt_type",2024,"blank","",0,644947
-"racf_smmt_type",2024,"value","Lower Medium",1,257776
-"racf_smmt_type",2024,"value","Supermini",2,285181
-"racf_smmt_type",2024,"value","Dual Purpose",3,1087266
-"racf_smmt_type",2024,"value","Upper Medium",4,70905
-"racf_smmt_type",2024,"value","Mini",5,52968
-"racf_smmt_type",2024,"value","MPV",6,32060
-"racf_smmt_type",2024,"value","Executive",7,31812
-"racf_smmt_type",2024,"value","Specialist Sports",8,25852
-"racf_smmt_type",2024,"value","Luxury Saloon",9,5960
-"racf_smmt_type",2024,"value","Other",10,5896
-"racf_smmt_type",2025,"blank","",0,797820
-"racf_smmt_type",2025,"value","Lower Medium",1,205329
-"racf_smmt_type",2025,"value","Supermini",2,265132
-"racf_smmt_type",2025,"value","Dual Purpose",3,1012961
-"racf_smmt_type",2025,"value","Upper Medium",4,62678
-"racf_smmt_type",2025,"value","Mini",5,43295
-"racf_smmt_type",2025,"value","MPV",6,35183
-"racf_smmt_type",2025,"value","Executive",7,34621
-"racf_smmt_type",2025,"value","Specialist Sports",8,22524
-"racf_smmt_type",2025,"value","Luxury Saloon",9,4502
-"racf_smmt_type",2025,"value","Other",10,6408
-"racf_smmt_type",2026,"blank","",0,1942165
+"smmt_type",1990,"blank","",0,247967
+"smmt_type",1990,"value","Lower Medium",1,149245
+"smmt_type",1990,"value","Supermini",2,65521
+"smmt_type",1990,"value","Dual Purpose",3,14249
+"smmt_type",1990,"value","Upper Medium",4,27429
+"smmt_type",1990,"value","Mini",5,28067
+"smmt_type",1990,"value","MPV",6,2041
+"smmt_type",1990,"value","Executive",7,10913
+"smmt_type",1990,"value","Specialist Sports",8,17562
+"smmt_type",1990,"value","Luxury Saloon",9,12174
+"smmt_type",1990,"value","Other",10,972
+"smmt_type",1991,"blank","",0,243803
+"smmt_type",1991,"value","Lower Medium",1,168728
+"smmt_type",1991,"value","Supermini",2,84565
+"smmt_type",1991,"value","Dual Purpose",3,19201
+"smmt_type",1991,"value","Upper Medium",4,33644
+"smmt_type",1991,"value","Mini",5,25711
+"smmt_type",1991,"value","MPV",6,3080
+"smmt_type",1991,"value","Executive",7,15896
+"smmt_type",1991,"value","Specialist Sports",8,17672
+"smmt_type",1991,"value","Luxury Saloon",9,10142
+"smmt_type",1991,"value","Other",10,2210
+"smmt_type",1992,"blank","",0,307097
+"smmt_type",1992,"value","Lower Medium",1,239080
+"smmt_type",1992,"value","Supermini",2,107875
+"smmt_type",1992,"value","Dual Purpose",3,28841
+"smmt_type",1992,"value","Upper Medium",4,41985
+"smmt_type",1992,"value","Mini",5,30233
+"smmt_type",1992,"value","MPV",6,4871
+"smmt_type",1992,"value","Executive",7,19309
+"smmt_type",1992,"value","Specialist Sports",8,16011
+"smmt_type",1992,"value","Luxury Saloon",9,10818
+"smmt_type",1992,"value","Other",10,2943
+"smmt_type",1993,"blank","",0,373738
+"smmt_type",1993,"value","Lower Medium",1,333665
+"smmt_type",1993,"value","Supermini",2,177150
+"smmt_type",1993,"value","Dual Purpose",3,50453
+"smmt_type",1993,"value","Upper Medium",4,93580
+"smmt_type",1993,"value","Mini",5,51238
+"smmt_type",1993,"value","MPV",6,8084
+"smmt_type",1993,"value","Executive",7,25342
+"smmt_type",1993,"value","Specialist Sports",8,16797
+"smmt_type",1993,"value","Luxury Saloon",9,11202
+"smmt_type",1993,"value","Other",10,3444
+"smmt_type",1994,"blank","",0,421980
+"smmt_type",1994,"value","Lower Medium",1,437055
+"smmt_type",1994,"value","Supermini",2,243714
+"smmt_type",1994,"value","Dual Purpose",3,59821
+"smmt_type",1994,"value","Upper Medium",4,157393
+"smmt_type",1994,"value","Mini",5,63517
+"smmt_type",1994,"value","MPV",6,9811
+"smmt_type",1994,"value","Executive",7,46913
+"smmt_type",1994,"value","Specialist Sports",8,19677
+"smmt_type",1994,"value","Luxury Saloon",9,11632
+"smmt_type",1994,"value","Other",10,3960
+"smmt_type",1995,"blank","",0,471915
+"smmt_type",1995,"value","Lower Medium",1,491280
+"smmt_type",1995,"value","Supermini",2,291908
+"smmt_type",1995,"value","Dual Purpose",3,69671
+"smmt_type",1995,"value","Upper Medium",4,214912
+"smmt_type",1995,"value","Mini",5,70918
+"smmt_type",1995,"value","MPV",6,14336
+"smmt_type",1995,"value","Executive",7,61646
+"smmt_type",1995,"value","Specialist Sports",8,28192
+"smmt_type",1995,"value","Luxury Saloon",9,15594
+"smmt_type",1995,"value","Other",10,5229
+"smmt_type",1996,"blank","",0,455368
+"smmt_type",1996,"value","Lower Medium",1,553832
+"smmt_type",1996,"value","Supermini",2,359855
+"smmt_type",1996,"value","Dual Purpose",3,75390
+"smmt_type",1996,"value","Upper Medium",4,331594
+"smmt_type",1996,"value","Mini",5,69110
+"smmt_type",1996,"value","MPV",6,27060
+"smmt_type",1996,"value","Executive",7,61789
+"smmt_type",1996,"value","Specialist Sports",8,37563
+"smmt_type",1996,"value","Luxury Saloon",9,17029
+"smmt_type",1996,"value","Other",10,6279
+"smmt_type",1997,"blank","",0,546604
+"smmt_type",1997,"value","Lower Medium",1,634620
+"smmt_type",1997,"value","Supermini",2,407826
+"smmt_type",1997,"value","Dual Purpose",3,79996
+"smmt_type",1997,"value","Upper Medium",4,390481
+"smmt_type",1997,"value","Mini",5,56901
+"smmt_type",1997,"value","MPV",6,31562
+"smmt_type",1997,"value","Executive",7,69733
+"smmt_type",1997,"value","Specialist Sports",8,52088
+"smmt_type",1997,"value","Luxury Saloon",9,19315
+"smmt_type",1997,"value","Other",10,6126
+"smmt_type",1998,"blank","",0,565543
+"smmt_type",1998,"value","Lower Medium",1,708708
+"smmt_type",1998,"value","Supermini",2,416598
+"smmt_type",1998,"value","Dual Purpose",3,104684
+"smmt_type",1998,"value","Upper Medium",4,442408
+"smmt_type",1998,"value","Mini",5,66273
+"smmt_type",1998,"value","MPV",6,33075
+"smmt_type",1998,"value","Executive",7,75255
+"smmt_type",1998,"value","Specialist Sports",8,60543
+"smmt_type",1998,"value","Luxury Saloon",9,20091
+"smmt_type",1998,"value","Other",10,7725
+"smmt_type",1999,"blank","",0,570492
+"smmt_type",1999,"value","Lower Medium",1,703384
+"smmt_type",1999,"value","Supermini",2,460220
+"smmt_type",1999,"value","Dual Purpose",3,110069
+"smmt_type",1999,"value","Upper Medium",4,435793
+"smmt_type",1999,"value","Mini",5,73639
+"smmt_type",1999,"value","MPV",6,41181
+"smmt_type",1999,"value","Executive",7,84834
+"smmt_type",1999,"value","Specialist Sports",8,63404
+"smmt_type",1999,"value","Luxury Saloon",9,14985
+"smmt_type",1999,"value","Other",10,12882
+"smmt_type",2000,"blank","",0,649035
+"smmt_type",2000,"value","Lower Medium",1,705231
+"smmt_type",2000,"value","Supermini",2,500380
+"smmt_type",2000,"value","Dual Purpose",3,119328
+"smmt_type",2000,"value","Upper Medium",4,424240
+"smmt_type",2000,"value","Mini",5,80096
+"smmt_type",2000,"value","MPV",6,62167
+"smmt_type",2000,"value","Executive",7,92320
+"smmt_type",2000,"value","Specialist Sports",8,67137
+"smmt_type",2000,"value","Luxury Saloon",9,13939
+"smmt_type",2000,"value","Other",10,2521
+"smmt_type",2001,"blank","",0,660612
+"smmt_type",2001,"value","Lower Medium",1,795896
+"smmt_type",2001,"value","Supermini",2,588863
+"smmt_type",2001,"value","Dual Purpose",3,140292
+"smmt_type",2001,"value","Upper Medium",4,468565
+"smmt_type",2001,"value","Mini",5,82866
+"smmt_type",2001,"value","MPV",6,93724
+"smmt_type",2001,"value","Executive",7,97205
+"smmt_type",2001,"value","Specialist Sports",8,62391
+"smmt_type",2001,"value","Luxury Saloon",9,13553
+"smmt_type",2001,"value","Other",10,1435
+"smmt_type",2002,"blank","",0,676820
+"smmt_type",2002,"value","Lower Medium",1,820695
+"smmt_type",2002,"value","Supermini",2,652718
+"smmt_type",2002,"value","Dual Purpose",3,155713
+"smmt_type",2002,"value","Upper Medium",4,484400
+"smmt_type",2002,"value","Mini",5,80021
+"smmt_type",2002,"value","MPV",6,107054
+"smmt_type",2002,"value","Executive",7,108484
+"smmt_type",2002,"value","Specialist Sports",8,67478
+"smmt_type",2002,"value","Luxury Saloon",9,12198
+"smmt_type",2002,"value","Other",10,2294
+"smmt_type",2003,"blank","",0,705170
+"smmt_type",2003,"value","Lower Medium",1,747660
+"smmt_type",2003,"value","Supermini",2,671292
+"smmt_type",2003,"value","Dual Purpose",3,172738
+"smmt_type",2003,"value","Upper Medium",4,474038
+"smmt_type",2003,"value","Mini",5,88709
+"smmt_type",2003,"value","MPV",6,130990
+"smmt_type",2003,"value","Executive",7,108456
+"smmt_type",2003,"value","Specialist Sports",8,76254
+"smmt_type",2003,"value","Luxury Saloon",9,13034
+"smmt_type",2003,"value","Other",10,4612
+"smmt_type",2004,"blank","",0,705011
+"smmt_type",2004,"value","Lower Medium",1,728453
+"smmt_type",2004,"value","Supermini",2,635367
+"smmt_type",2004,"value","Dual Purpose",3,189890
+"smmt_type",2004,"value","Upper Medium",4,447215
+"smmt_type",2004,"value","Mini",5,85818
+"smmt_type",2004,"value","MPV",6,177284
+"smmt_type",2004,"value","Executive",7,103070
+"smmt_type",2004,"value","Specialist Sports",8,75860
+"smmt_type",2004,"value","Luxury Saloon",9,13137
+"smmt_type",2004,"value","Other",10,4901
+"smmt_type",2005,"blank","",0,664851
+"smmt_type",2005,"value","Lower Medium",1,751647
+"smmt_type",2005,"value","Supermini",2,579218
+"smmt_type",2005,"value","Dual Purpose",3,195686
+"smmt_type",2005,"value","Upper Medium",4,430314
+"smmt_type",2005,"value","Mini",5,88659
+"smmt_type",2005,"value","MPV",6,171623
+"smmt_type",2005,"value","Executive",7,91340
+"smmt_type",2005,"value","Specialist Sports",8,65782
+"smmt_type",2005,"value","Luxury Saloon",9,12355
+"smmt_type",2005,"value","Other",10,5644
+"smmt_type",2006,"blank","",0,650159
+"smmt_type",2006,"value","Lower Medium",1,732974
+"smmt_type",2006,"value","Supermini",2,577431
+"smmt_type",2006,"value","Dual Purpose",3,181269
+"smmt_type",2006,"value","Upper Medium",4,408378
+"smmt_type",2006,"value","Mini",5,97464
+"smmt_type",2006,"value","MPV",6,157626
+"smmt_type",2006,"value","Executive",7,78537
+"smmt_type",2006,"value","Specialist Sports",8,63075
+"smmt_type",2006,"value","Luxury Saloon",9,15947
+"smmt_type",2006,"value","Other",10,5220
+"smmt_type",2007,"blank","",0,674967
+"smmt_type",2007,"value","Lower Medium",1,761796
+"smmt_type",2007,"value","Supermini",2,628833
+"smmt_type",2007,"value","Dual Purpose",3,199134
+"smmt_type",2007,"value","Upper Medium",4,397777
+"smmt_type",2007,"value","Mini",5,81523
+"smmt_type",2007,"value","MPV",6,157629
+"smmt_type",2007,"value","Executive",7,78711
+"smmt_type",2007,"value","Specialist Sports",8,65385
+"smmt_type",2007,"value","Luxury Saloon",9,16270
+"smmt_type",2007,"value","Other",10,6103
+"smmt_type",2008,"blank","",0,618249
+"smmt_type",2008,"value","Lower Medium",1,657942
+"smmt_type",2008,"value","Supermini",2,567720
+"smmt_type",2008,"value","Dual Purpose",3,160112
+"smmt_type",2008,"value","Upper Medium",4,342455
+"smmt_type",2008,"value","Mini",5,114377
+"smmt_type",2008,"value","MPV",6,130481
+"smmt_type",2008,"value","Executive",7,70135
+"smmt_type",2008,"value","Specialist Sports",8,52670
+"smmt_type",2008,"value","Luxury Saloon",9,11145
+"smmt_type",2008,"value","Other",10,5657
+"smmt_type",2009,"blank","",0,446573
+"smmt_type",2009,"value","Lower Medium",1,561951
+"smmt_type",2009,"value","Supermini",2,578076
+"smmt_type",2009,"value","Dual Purpose",3,167465
+"smmt_type",2009,"value","Upper Medium",4,284489
+"smmt_type",2009,"value","Mini",5,172933
+"smmt_type",2009,"value","MPV",6,91142
+"smmt_type",2009,"value","Executive",7,61598
+"smmt_type",2009,"value","Specialist Sports",8,44294
+"smmt_type",2009,"value","Luxury Saloon",9,7934
+"smmt_type",2009,"value","Other",10,3427
+"smmt_type",2010,"blank","",0,465896
+"smmt_type",2010,"value","Lower Medium",1,563596
+"smmt_type",2010,"value","Supermini",2,564409
+"smmt_type",2010,"value","Dual Purpose",3,222259
+"smmt_type",2010,"value","Upper Medium",4,258689
+"smmt_type",2010,"value","Mini",5,164032
+"smmt_type",2010,"value","MPV",6,110194
+"smmt_type",2010,"value","Executive",7,69760
+"smmt_type",2010,"value","Specialist Sports",8,37781
+"smmt_type",2010,"value","Luxury Saloon",9,10591
+"smmt_type",2010,"value","Other",10,3057
+"smmt_type",2011,"blank","",0,513475
+"smmt_type",2011,"value","Lower Medium",1,508371
+"smmt_type",2011,"value","Supermini",2,528553
+"smmt_type",2011,"value","Dual Purpose",3,261488
+"smmt_type",2011,"value","Upper Medium",4,262922
+"smmt_type",2011,"value","Mini",5,142317
+"smmt_type",2011,"value","MPV",6,98044
+"smmt_type",2011,"value","Executive",7,77302
+"smmt_type",2011,"value","Specialist Sports",8,30705
+"smmt_type",2011,"value","Luxury Saloon",9,10900
+"smmt_type",2011,"value","Other",10,3499
+"smmt_type",2012,"blank","",0,505527
+"smmt_type",2012,"value","Lower Medium",1,507586
+"smmt_type",2012,"value","Supermini",2,570238
+"smmt_type",2012,"value","Dual Purpose",3,314448
+"smmt_type",2012,"value","Upper Medium",4,252767
+"smmt_type",2012,"value","Mini",5,176863
+"smmt_type",2012,"value","MPV",6,86419
+"smmt_type",2012,"value","Executive",7,80570
+"smmt_type",2012,"value","Specialist Sports",8,31395
+"smmt_type",2012,"value","Luxury Saloon",9,9755
+"smmt_type",2012,"value","Other",10,3241
+"smmt_type",2013,"blank","",0,531781
+"smmt_type",2013,"value","Lower Medium",1,559521
+"smmt_type",2013,"value","Supermini",2,633361
+"smmt_type",2013,"value","Dual Purpose",3,411627
+"smmt_type",2013,"value","Upper Medium",4,225703
+"smmt_type",2013,"value","Mini",5,211105
+"smmt_type",2013,"value","MPV",6,93071
+"smmt_type",2013,"value","Executive",7,91345
+"smmt_type",2013,"value","Specialist Sports",8,33069
+"smmt_type",2013,"value","Luxury Saloon",9,9108
+"smmt_type",2013,"value","Other",10,5806
+"smmt_type",2014,"blank","",0,576068
+"smmt_type",2014,"value","Lower Medium",1,609780
+"smmt_type",2014,"value","Supermini",2,661623
+"smmt_type",2014,"value","Dual Purpose",3,509776
+"smmt_type",2014,"value","Upper Medium",4,239713
+"smmt_type",2014,"value","Mini",5,237295
+"smmt_type",2014,"value","MPV",6,91494
+"smmt_type",2014,"value","Executive",7,91663
+"smmt_type",2014,"value","Specialist Sports",8,32603
+"smmt_type",2014,"value","Luxury Saloon",9,12611
+"smmt_type",2014,"value","Other",10,6680
+"smmt_type",2015,"blank","",0,655728
+"smmt_type",2015,"value","Lower Medium",1,645642
+"smmt_type",2015,"value","Supermini",2,663594
+"smmt_type",2015,"value","Dual Purpose",3,627103
+"smmt_type",2015,"value","Upper Medium",4,266103
+"smmt_type",2015,"value","Mini",5,229316
+"smmt_type",2015,"value","MPV",6,66977
+"smmt_type",2015,"value","Executive",7,89349
+"smmt_type",2015,"value","Specialist Sports",8,40237
+"smmt_type",2015,"value","Luxury Saloon",9,12045
+"smmt_type",2015,"value","Other",10,5557
+"smmt_type",2016,"blank","",0,662894
+"smmt_type",2016,"value","Lower Medium",1,634181
+"smmt_type",2016,"value","Supermini",2,603862
+"smmt_type",2016,"value","Dual Purpose",3,768785
+"smmt_type",2016,"value","Upper Medium",4,263928
+"smmt_type",2016,"value","Mini",5,217412
+"smmt_type",2016,"value","MPV",6,67134
+"smmt_type",2016,"value","Executive",7,87478
+"smmt_type",2016,"value","Specialist Sports",8,46415
+"smmt_type",2016,"value","Luxury Saloon",9,14317
+"smmt_type",2016,"value","Other",10,7441
+"smmt_type",2017,"blank","",0,637231
+"smmt_type",2017,"value","Lower Medium",1,578698
+"smmt_type",2017,"value","Supermini",2,510913
+"smmt_type",2017,"value","Dual Purpose",3,814481
+"smmt_type",2017,"value","Upper Medium",4,242989
+"smmt_type",2017,"value","Mini",5,186998
+"smmt_type",2017,"value","MPV",6,65158
+"smmt_type",2017,"value","Executive",7,81900
+"smmt_type",2017,"value","Specialist Sports",8,42570
+"smmt_type",2017,"value","Luxury Saloon",9,13905
+"smmt_type",2017,"value","Other",10,7267
+"smmt_type",2018,"blank","",0,642985
+"smmt_type",2018,"value","Lower Medium",1,474383
+"smmt_type",2018,"value","Supermini",2,471867
+"smmt_type",2018,"value","Dual Purpose",3,892579
+"smmt_type",2018,"value","Upper Medium",4,178574
+"smmt_type",2018,"value","Mini",5,163563
+"smmt_type",2018,"value","MPV",6,43641
+"smmt_type",2018,"value","Executive",7,78526
+"smmt_type",2018,"value","Specialist Sports",8,36019
+"smmt_type",2018,"value","Luxury Saloon",9,12023
+"smmt_type",2018,"value","Other",10,5153
+"smmt_type",2019,"blank","",0,657969
+"smmt_type",2019,"value","Lower Medium",1,437327
+"smmt_type",2019,"value","Supermini",2,440156
+"smmt_type",2019,"value","Dual Purpose",3,966007
+"smmt_type",2019,"value","Upper Medium",4,166186
+"smmt_type",2019,"value","Mini",5,134677
+"smmt_type",2019,"value","MPV",6,41633
+"smmt_type",2019,"value","Executive",7,68480
+"smmt_type",2019,"value","Specialist Sports",8,33110
+"smmt_type",2019,"value","Luxury Saloon",9,11169
+"smmt_type",2019,"value","Other",10,6431
+"smmt_type",2020,"blank","",0,523870
+"smmt_type",2020,"value","Lower Medium",1,295660
+"smmt_type",2020,"value","Supermini",2,316352
+"smmt_type",2020,"value","Dual Purpose",3,748543
+"smmt_type",2020,"value","Upper Medium",4,111723
+"smmt_type",2020,"value","Mini",5,71133
+"smmt_type",2020,"value","MPV",6,22720
+"smmt_type",2020,"value","Executive",7,33847
+"smmt_type",2020,"value","Specialist Sports",8,24521
+"smmt_type",2020,"value","Luxury Saloon",9,7551
+"smmt_type",2020,"value","Other",10,3898
+"smmt_type",2021,"blank","",0,611716
+"smmt_type",2021,"value","Lower Medium",1,254641
+"smmt_type",2021,"value","Supermini",2,306726
+"smmt_type",2021,"value","Dual Purpose",3,809646
+"smmt_type",2021,"value","Upper Medium",4,114067
+"smmt_type",2021,"value","Mini",5,79192
+"smmt_type",2021,"value","MPV",6,17094
+"smmt_type",2021,"value","Executive",7,24819
+"smmt_type",2021,"value","Specialist Sports",8,26667
+"smmt_type",2021,"value","Luxury Saloon",9,6287
+"smmt_type",2021,"value","Other",10,4309
+"smmt_type",2022,"blank","",0,541282
+"smmt_type",2022,"value","Lower Medium",1,212468
+"smmt_type",2022,"value","Supermini",2,300377
+"smmt_type",2022,"value","Dual Purpose",3,863270
+"smmt_type",2022,"value","Upper Medium",4,78976
+"smmt_type",2022,"value","Mini",5,64125
+"smmt_type",2022,"value","MPV",6,18375
+"smmt_type",2022,"value","Executive",7,26216
+"smmt_type",2022,"value","Specialist Sports",8,26533
+"smmt_type",2022,"value","Luxury Saloon",9,6707
+"smmt_type",2022,"value","Other",10,2776
+"smmt_type",2023,"blank","",0,600574
+"smmt_type",2023,"value","Lower Medium",1,272297
+"smmt_type",2023,"value","Supermini",2,312471
+"smmt_type",2023,"value","Dual Purpose",3,1041802
+"smmt_type",2023,"value","Upper Medium",4,77706
+"smmt_type",2023,"value","Mini",5,64119
+"smmt_type",2023,"value","MPV",6,22114
+"smmt_type",2023,"value","Executive",7,25055
+"smmt_type",2023,"value","Specialist Sports",8,31455
+"smmt_type",2023,"value","Luxury Saloon",9,7478
+"smmt_type",2023,"value","Other",10,4028
+"smmt_type",2024,"blank","",0,644947
+"smmt_type",2024,"value","Lower Medium",1,257776
+"smmt_type",2024,"value","Supermini",2,285181
+"smmt_type",2024,"value","Dual Purpose",3,1087266
+"smmt_type",2024,"value","Upper Medium",4,70905
+"smmt_type",2024,"value","Mini",5,52968
+"smmt_type",2024,"value","MPV",6,32060
+"smmt_type",2024,"value","Executive",7,31812
+"smmt_type",2024,"value","Specialist Sports",8,25852
+"smmt_type",2024,"value","Luxury Saloon",9,5960
+"smmt_type",2024,"value","Other",10,5896
+"smmt_type",2025,"blank","",0,797820
+"smmt_type",2025,"value","Lower Medium",1,205329
+"smmt_type",2025,"value","Supermini",2,265132
+"smmt_type",2025,"value","Dual Purpose",3,1012961
+"smmt_type",2025,"value","Upper Medium",4,62678
+"smmt_type",2025,"value","Mini",5,43295
+"smmt_type",2025,"value","MPV",6,35183
+"smmt_type",2025,"value","Executive",7,34621
+"smmt_type",2025,"value","Specialist Sports",8,22524
+"smmt_type",2025,"value","Luxury Saloon",9,4502
+"smmt_type",2025,"value","Other",10,6408
+"smmt_type",2026,"blank","",0,1942165
 "realDrivingEmissions_DVLA",1990,"blank","",0,576137
 "realDrivingEmissions_DVLA",1990,"value","2",1,3
 "realDrivingEmissions_DVLA",1991,"blank","",0,624642

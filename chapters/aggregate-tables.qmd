@@ -98,7 +98,7 @@ a vehicle in a year only if it has a plausible mileage that year.
 *Folder `tables/racf/` · report: [The RACF / SMMT car fleet, linked to the MOT data](../reports/racf_linked_report.md)*
 
 These tables describe cars by the size, mass and official emissions of their
-model, from the RACF car fleet linked to each car (the `racf_` columns of the
+model, from the RACF car fleet linked to each car (the RACF columns of the
 vehicle table, @sec-dd-racf). They count the **cars located in a real
 postcode area** in each year, as in the comparison with DfT's statistics
 (@sec-data-quality), and fall into three groups:
@@ -111,6 +111,10 @@ postcode area** in each year, as in the comparison with DfT's statistics
   by year of first use, and by postcode area (`racf_by_area.csv`);
 - **mileage by size**: annual mileage by SMMT segment, SUV, footprint and mass
   band, counted as in the fleet profile tables.
+
+The SUV share and the share of the fleet matched to the EU data for the exact
+year are only in these tables. They describe the RACF fleet rather than a car,
+so the vehicle table does not carry them.
 
 ::: {.callout-important title="Pitfall: model averages, not measurements"}
 Every size, mass and CO~2~ figure is the fleet-weighted average for the car's

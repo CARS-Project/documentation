@@ -89,7 +89,7 @@ their lives.
 ## 7. Recorded, filled and assumed values
 
 Many harmonised values were filled from similar vehicles or assumed from rules
-(@sec-pipeline). Most Euro statuses are assumed from dates; CO~2~, weight and
+(@sec-pipeline). Most Euro statuses are assumed from dates; CO~2~, revenue weight and
 type approval are often filled from similar vehicles.
 
 **What to do:** check the `_src` column, and repeat key results using recorded

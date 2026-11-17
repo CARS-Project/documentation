@@ -1,0 +1,93 @@
+# Mass and size {#sec-dd-mass}
+
+```{r}
+source("R/book.R")
+cols <- dict_groups$mass
+cs <- coverage_share(cols)
+```
+
+## Overview
+
+These columns give the vehicle's mass in kilograms and, for cars, the size
+of its model.
+
+The revenue weight (the DVLA's name for it) is the vehicle's maximum
+permitted gross mass in kilograms, as the DVLA records it. It matters most
+for goods vehicles and buses, which are classed by mass.
+
+- **`revenue_weight`** is the harmonised revenue weight: the DVLA value where the VES
+  record describes this vehicle, otherwise the most common value among
+  vehicles of the same make, model, birth year, fuel and engine size, and
+  failing that of the same make, model, birth year and fuel.
+- **`revenue_weight_src`** says which (`dvla`, `variant` or
+  `model_year_fuel`).
+- **`revenueWeight_DVLA`** is the value as supplied.
+
+The backfill is described in the methodology,
+[section 5.6](../../reports/methodology.md#other-attributes).
+
+For cars, the mass and dimensions of the car's model are also linked from
+the RACF car fleet (@sec-dd-racf). They are averages for the model, year and
+fuel, not measurements of the car, and are blank for vehicles that are not
+cars.
+
+- **`mass_kg`** is the EU mass in running order: the empty car with its fluids,
+  a 90% full tank and a 75 kg driver. **`kerb_weight_kg`** is the Dutch RDW
+  register's kerb mass. Both are well below the revenue weight, which is the
+  maximum permitted mass of the loaded car.
+- **`length_mm`**, **`width_mm`** and **`height_mm`** are the RDW dimensions,
+  **`wheelbase_mm`** the wheelbase, and **`footprint_m2`** the EU footprint,
+  the wheelbase times the track, in m².
+
+```{r}
+#| label: tbl-dd-mass
+#| tbl-cap: "Mass and size columns."
+dict_table("mass")
+```
+
+## Coverage
+
+The revenue weight is the least complete of the DVLA attributes. The DVLA records it
+for only `r cov_pct(cs, "revenueWeight_DVLA")` of vehicles, even though a VES
+record was found for far more, and most of those with a value were first used
+since 2010 (@fig-dd-mass). The backfill raises coverage to
+`r cov_pct(cs, "revenue_weight")`, but only to
+`r cov_pct(cs, "revenue_weight", "Before 2000")` for vehicles first used before
+2000, as few similar vehicles of that age have a recorded value to copy.
+
+Because most values are filled rather than recorded, check results that
+depend on mass against the recorded values only
+(`revenue_weight_src = 'dvla'`; @sec-pitfalls).
+
+The RACF columns are present only for cars whose model was linked and whose
+linked RACF rows have a plausible value. The EU mass and footprint and the RDW
+kerb mass are present for most cars: `mass_kg` for
+`r cov_pct(cs, "mass_kg")` of all vehicles. The RDW length and width are
+present for fewer (`length_mm` for `r cov_pct(cs, "length_mm")`), as fewer
+models were matched to those fields of the register.
+
+```{r}
+#| label: tbl-dd-mass-coverage
+#| tbl-cap: "Share of vehicles with a value, by year of first use."
+coverage_table(cols)
+```
+
+```{r}
+#| label: fig-dd-mass
+#| fig-cap: "Share of vehicles with a value in each mass and size column, by year of first use."
+#| fig-height: !expr coverage_height(cols)
+coverage_plot(cols)
+```
+
+## Values
+
+How the values of each column change over time, by year of first use, from
+1990. Numeric columns show the minimum, lower quartile (Q1), median, upper
+quartile (Q3) and maximum; other columns show the share of vehicles with each
+value, with the less common values grouped as *All other values* and missing
+values as *Blank*.
+
+```{r}
+#| output: asis
+cat(dict_values("mass"))
+```
