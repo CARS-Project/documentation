@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.19">
+<meta name="generator" content="quarto-1.11.9">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>32&nbsp; Car size and model attributes – Using the CARS vehicle data</title>
+<title>29&nbsp; Mass and size – Using the CARS vehicle data</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -36,19 +36,20 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../chapters/dictionary/dates.html" rel="next">
-<link href="../../chapters/dictionary/emissions.html" rel="prev">
+<link href="../../chapters/dictionary/fuel-engine.html" rel="next">
+<link href="../../chapters/dictionary/wheelplan.html" rel="prev">
 <link href="../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-c08868c37ca8912c446ae25c80bf22ff.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-ab03f86ccac34414235c8b9012d7ee1e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -80,17 +81,17 @@ ul.task-list li input[type="checkbox"] {
 
 </head>
 
-<body class="nav-sidebar docked quarto-light">
+<body class="nav-sidebar docked quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a>
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-  <nav class="quarto-secondary-nav">
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
     <div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/dictionary/index.html">Data dictionary</a></li><li class="breadcrumb-item"><a href="../../chapters/dictionary/racf.html"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Car size and model attributes</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/dictionary/index.html">Data dictionary</a></li><li class="breadcrumb-item"><a href="../../chapters/dictionary/mass.html"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Mass and size</span></a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
@@ -101,7 +102,7 @@ ul.task-list li input[type="checkbox"] {
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto" aria-label="Site">
     <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
       <a href="../../index.html" class="sidebar-logo-link">
       <img src="../../images/CARS_logo.webp" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
@@ -129,13 +130,10 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
- <span class="menu-text">Background</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-1-label">Background</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/mot-test.html" class="sidebar-item-text sidebar-link">
@@ -182,13 +180,10 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
- <span class="menu-text">The CARS data</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-2-label">The CARS data</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/sources-linkage.html" class="sidebar-item-text sidebar-link">
@@ -229,13 +224,10 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
- <span class="menu-text">Using the data</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Using the data</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/pitfalls.html" class="sidebar-item-text sidebar-link">
@@ -265,12 +257,12 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="../../chapters/methodology/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Methodology</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+ <span class="menu-text" id="quarto-sidebar-section-4-label">Methodology</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section: Methodology">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/methodology/data-sources.html" class="sidebar-item-text sidebar-link">
@@ -306,12 +298,12 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="../../chapters/dictionary/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Data dictionary</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+ <span class="menu-text" id="quarto-sidebar-section-5-label">Data dictionary</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-controls="quarto-sidebar-section-5" aria-expanded="true" aria-label="Toggle section: Data dictionary">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
       </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-5" aria-labelledby="quarto-sidebar-section-5-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/identifiers.html" class="sidebar-item-text sidebar-link">
@@ -350,8 +342,8 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/dictionary/weight.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Weight</span></span></a>
+  <a href="../../chapters/dictionary/mass.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Mass and size</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -368,32 +360,26 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/dictionary/racf.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Car size and model attributes</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/dates.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Dates and age</span></span></a>
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Dates and age</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/mileage.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Mileage</span></span></a>
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Mileage</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/location.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Location and yearly status</span></span></a>
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Location and yearly status</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/dictionary/dvla-status.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Licensing status and DVLA lookups</span></span></a>
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Licensing status and DVLA lookups</span></span></a>
   </div>
 </li>
       </ul>
@@ -406,13 +392,10 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
- <span class="menu-text">Appendices</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-controls="quarto-sidebar-section-6" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-6-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
-      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-6" aria-labelledby="quarto-sidebar-section-6-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/glossary.html" class="sidebar-item-text sidebar-link">
@@ -433,13 +416,10 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
- <span class="menu-text">Pipeline reports</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-controls="quarto-sidebar-section-7" aria-expanded="false">
+ <span class="menu-text" id="quarto-sidebar-section-7-label">Pipeline reports</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
-      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth2 ">  
+      <ul id="quarto-sidebar-section-7" aria-labelledby="quarto-sidebar-section-7-label" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../reports/methodology.html" class="sidebar-item-text sidebar-link">
@@ -486,22 +466,22 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">32.1</span> Overview</a></li>
-  <li><a href="#coverage" id="toc-coverage" class="nav-link" data-scroll-target="#coverage"><span class="header-section-number">32.2</span> Coverage</a></li>
-  <li><a href="#values" id="toc-values" class="nav-link" data-scroll-target="#values"><span class="header-section-number">32.3</span> Values</a></li>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">29.1</span> Overview</a></li>
+  <li><a href="#coverage" id="toc-coverage" class="nav-link" data-scroll-target="#coverage"><span class="header-section-number">29.2</span> Coverage</a></li>
+  <li><a href="#values" id="toc-values" class="nav-link" data-scroll-target="#values"><span class="header-section-number">29.3</span> Values</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/CARS-Project/documentation/edit/main/chapters/dictionary/racf.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/CARS-Project/documentation/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/CARS-Project/documentation/edit/main/chapters/dictionary/mass.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/CARS-Project/documentation/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content" id="quarto-document-content" tabindex="-1">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/dictionary/index.html">Data dictionary</a></li><li class="breadcrumb-item"><a href="../../chapters/dictionary/racf.html"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Car size and model attributes</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/dictionary/index.html">Data dictionary</a></li><li class="breadcrumb-item"><a href="../../chapters/dictionary/mass.html"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Mass and size</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="sec-dd-racf" class="quarto-section-identifier"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Car size and model attributes</span></span></h1>
+<h1 class="title"><span id="sec-dd-mass" class="quarto-section-identifier"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Mass and size</span></span></h1>
 </div>
 
 
@@ -518,52 +498,36 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="overview" class="level2" data-number="32.1">
-<h2 data-number="32.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">32.1</span> Overview</h2>
-<p>These columns attach to each car the size, mass and official emissions of its model, from the RACF car fleet. That fleet is DfT’s car fleet by make, model, year of first use and fuel, enriched with each model’s SMMT segment (supermini, SUV and so on; <a href="../vehicle-types.html" class="quarto-xref"><span>Chapter 3</span></a>) and with its mass, dimensions, CO<sub>2</sub>, energy use and electric range from the EU type-approval and Dutch RDW registers. It holds counts and model attributes only, not vehicle records.</p>
+<section id="overview" class="level2" data-number="29.1">
+<h2 data-number="29.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">29.1</span> Overview</h2>
+<p>These columns give the vehicle’s mass in kilograms and, for cars, the size of its model.</p>
+<p>The revenue weight (the DVLA’s name for it) is the vehicle’s maximum permitted gross mass in kilograms, as the DVLA records it. It matters most for goods vehicles and buses, which are classed by mass.</p>
 <ul>
-<li><strong><code>racf_link_level</code></strong> says how the car was linked to the RACF fleet:
+<li><strong><code>revenue_weight</code></strong> is the harmonised revenue weight: the DVLA value where the VES record describes this vehicle, otherwise the most common value among vehicles of the same make, model, birth year, fuel and engine size, and failing that of the same make, model, birth year and fuel.</li>
+<li><strong><code>revenue_weight_src</code></strong> says which (<code>dvla</code>, <code>variant</code> or <code>model_year_fuel</code>).</li>
+<li><strong><code>revenueWeight_DVLA</code></strong> is the value as supplied.</li>
+</ul>
+<p>The backfill is described in the methodology, <a href="../../reports/methodology.html#other-attributes">section 5.6</a>.</p>
+<p>For cars, the mass and dimensions of the car’s model are also linked from the RACF car fleet (<a href="make-model.html#sec-dd-racf" class="quarto-xref"><span>Section 25.1.1</span></a>). They are averages for the model, year and fuel, not measurements of the car, and are blank for vehicles that are not cars.</p>
 <ul>
-<li><code>model</code>: the same make, DfT generic model and model string, year of first use and fuel group;</li>
-<li><code>genmodel</code>: failing that, the same make, generic model, year and fuel group, averaging over the generic model’s model strings;</li>
-<li><code>none</code>: not linked.</li>
+<li><strong><code>mass_kg</code></strong> is the EU mass in running order: the empty car with its fluids, a 90% full tank and a 75 kg driver. <strong><code>kerb_weight_kg</code></strong> is the Dutch RDW register’s kerb mass. Both are well below the revenue weight, which is the maximum permitted mass of the loaded car.</li>
+<li><strong><code>length_mm</code></strong>, <strong><code>width_mm</code></strong> and <strong><code>height_mm</code></strong> are the RDW dimensions, <strong><code>wheelbase_mm</code></strong> the wheelbase, and <strong><code>footprint_m2</code></strong> the EU footprint, the wheelbase times the track, in m².</li>
 </ul>
-Only cars (<code>body_type</code> Cars) are linked, so the column and every <code>racf_</code> column is blank for other vehicles.</li>
-<li><strong><code>racf_smmt_type</code></strong> is the SMMT segment with the largest fleet among the linked RACF rows, and <strong><code>racf_suv_share</code></strong> the share of that fleet the SMMT calls a crossover / SUV or an off-roader.</li>
-<li><strong>The size and mass columns</strong> are the EU mass in running order (<code>racf_mass_kg</code>), the RDW kerb weight, length, width and height, the wheelbase, and the footprint (wheelbase times track, in m²).</li>
-<li><strong>The emissions and energy columns</strong> are the EU NEDC and WLTP CO<sub>2</sub> figures in g/km, the energy use in Wh/km and the electric range in km.</li>
-<li><strong><code>racf_eu_exact_share</code></strong> is the share of the linked RACF fleet matched to the EU type-approval data for its exact year. The rest borrows another year’s or fuel’s values.</li>
-</ul>
-<p>Each value is the fleet-weighted mean over the linked RACF rows with a plausible value, so it describes the model, not the individual car. How the link is made is set out in the methodology, <a href="../../reports/methodology.html#stage-4-derived-fields-and-number-plates">section 6</a> and <a href="../../reports/methodology.html#the-racf-smmt-linked-fleet">section 9.3</a>.</p>
-<div class="callout callout-style-default callout-important callout-titled" title="Model values, not measurements">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Model values, not measurements
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>A car’s <code>racf_co2_nedc</code> is the average for its model, year and fuel, not its own figure, which is in <code>co2</code> (<a href="emissions.html" class="quarto-xref"><span>Chapter 31</span></a>). The <code>racf_</code> columns are best used to describe groups of cars, such as the fleet’s average size or the share of SUVs, and for cars with <code>racf_eu_exact_share</code> well below 1 they are borrowed from another year or fuel.</p>
-</div>
-</div>
-<p><code>racf_link_level</code>, <code>racf_suv_share</code> and <code>racf_eu_exact_share</code> are in the maximal table only. The SMMT segment and the size, mass, CO<sub>2</sub> and energy columns are also in the simplified table.</p>
 <div class="cell" data-layout-align="center">
-<div id="tbl-dd-racf" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
+<div id="tbl-dd-mass" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
 <figure class="quarto-float quarto-float-tbl figure">
-<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-dd-racf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;32.1: Car size and model attribute columns.
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-dd-mass-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;29.1: Mass and size columns.
 </figcaption>
-<div aria-describedby="tbl-dd-racf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div aria-describedby="tbl-dd-mass-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
 <table class="cell caption-top table table-sm table-striped small">
 <colgroup>
-<col style="width: 8%">
+<col style="width: 6%">
 <col style="width: 3%">
 <col style="width: 2%">
 <col style="width: 6%">
-<col style="width: 76%">
+<col style="width: 79%">
 <col style="width: 2%">
 </colgroup>
 <thead>
@@ -578,124 +542,84 @@ Table&nbsp;32.1: Car size and model attribute columns.
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;"><code>racf_link_level</code></td>
-<td style="text-align: left;">No</td>
-<td style="text-align: left;">VARCHAR</td>
-<td style="text-align: left;">RACF (pipeline link)</td>
-<td style="text-align: left;">How the car was linked to the RACF enriched DfT car fleet: model (same make, DfT generic model, model string, year of first use and fuel group), genmodel (same make, generic model, year and fuel group) or none. Missing for vehicles that are not cars</td>
-<td style="text-align: left;">19.11%</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>racf_smmt_type</code></td>
+<td style="text-align: left;"><code>revenue_weight</code></td>
 <td style="text-align: left;">Yes</td>
-<td style="text-align: left;">VARCHAR</td>
-<td style="text-align: left;">RACF (pipeline link)</td>
-<td style="text-align: left;">SMMT segment with the largest fleet among the linked RACF rows</td>
-<td style="text-align: left;">26.15%</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><code>racf_suv_share</code></td>
-<td style="text-align: left;">No</td>
-<td style="text-align: left;">DOUBLE</td>
-<td style="text-align: left;">RACF (pipeline link)</td>
-<td style="text-align: left;">Share of the linked RACF fleet that SMMT calls a crossover / SUV or an off-roader</td>
-<td style="text-align: left;">26.47%</td>
+<td style="text-align: left;">INTEGER</td>
+<td style="text-align: left;">pipeline</td>
+<td style="text-align: left;">Revenue weight, the maximum permitted gross mass (kg): DVLA (same vehicle only), else the most common value of vehicles with the same make/model/birth year/fuel/engine size (variant), else of the same make/model/birth year/fuel (model_year_fuel); see revenue_weight_src</td>
+<td style="text-align: left;">30.25%</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><code>racf_eu_exact_share</code></td>
+<td style="text-align: left;"><code>revenue_weight_src</code></td>
 <td style="text-align: left;">No</td>
-<td style="text-align: left;">DOUBLE</td>
-<td style="text-align: left;">RACF (pipeline link)</td>
-<td style="text-align: left;">Share of the linked RACF fleet matched to the EU type-approval data for the exact year</td>
-<td style="text-align: left;">21.98%</td>
+<td style="text-align: left;">VARCHAR</td>
+<td style="text-align: left;">pipeline</td>
+<td style="text-align: left;">Source of the matching harmonised column: dvsa or dvla (recorded), variant (same make/model/birth year/fuel/engine size) or model_year_fuel (same make/model/birth year/fuel)</td>
+<td style="text-align: left;">30.25%</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><code>racf_mass_kg</code></td>
+<td style="text-align: left;"><code>revenueWeight_DVLA</code></td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">INTEGER</td>
+<td style="text-align: left;">DVLA (VES)</td>
+<td style="text-align: left;">As returned by the DVLA Vehicle Enquiry Service</td>
+<td style="text-align: left;">69.51%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>mass_kg</code></td>
 <td style="text-align: left;">Yes</td>
 <td style="text-align: left;">DOUBLE</td>
 <td style="text-align: left;">RACF (pipeline link)</td>
 <td style="text-align: left;">EU mass in running order (kg): fleet-weighted mean over the linked RACF rows with a plausible value. A value for the model, not a measurement of this car</td>
 <td style="text-align: left;">25.69%</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;"><code>racf_kerb_weight_kg</code></td>
+<tr class="odd">
+<td style="text-align: left;"><code>kerb_weight_kg</code></td>
 <td style="text-align: left;">Yes</td>
 <td style="text-align: left;">DOUBLE</td>
 <td style="text-align: left;">RACF (pipeline link)</td>
-<td style="text-align: left;">RDW kerb weight (kg): fleet-weighted mean over the linked RACF rows with a plausible value. A value for the model, not a measurement of this car</td>
+<td style="text-align: left;">RDW kerb mass (kg): fleet-weighted mean over the linked RACF rows with a plausible value. A value for the model, not a measurement of this car</td>
 <td style="text-align: left;">23.01%</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;"><code>racf_length_mm</code></td>
+<tr class="even">
+<td style="text-align: left;"><code>length_mm</code></td>
 <td style="text-align: left;">Yes</td>
 <td style="text-align: left;">DOUBLE</td>
 <td style="text-align: left;">RACF (pipeline link)</td>
 <td style="text-align: left;">RDW length (mm): fleet-weighted mean over the linked RACF rows with a plausible value. A value for the model, not a measurement of this car</td>
 <td style="text-align: left;">49.22%</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;"><code>racf_width_mm</code></td>
+<tr class="odd">
+<td style="text-align: left;"><code>width_mm</code></td>
 <td style="text-align: left;">Yes</td>
 <td style="text-align: left;">DOUBLE</td>
 <td style="text-align: left;">RACF (pipeline link)</td>
 <td style="text-align: left;">RDW width (mm): fleet-weighted mean over the linked RACF rows with a plausible value. A value for the model, not a measurement of this car</td>
 <td style="text-align: left;">60.54%</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;"><code>racf_height_mm</code></td>
+<tr class="even">
+<td style="text-align: left;"><code>height_mm</code></td>
 <td style="text-align: left;">Yes</td>
 <td style="text-align: left;">DOUBLE</td>
 <td style="text-align: left;">RACF (pipeline link)</td>
 <td style="text-align: left;">RDW height (mm): fleet-weighted mean over the linked RACF rows with a plausible value. A value for the model, not a measurement of this car</td>
 <td style="text-align: left;">39.83%</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;"><code>racf_wheelbase_mm</code></td>
+<tr class="odd">
+<td style="text-align: left;"><code>wheelbase_mm</code></td>
 <td style="text-align: left;">Yes</td>
 <td style="text-align: left;">DOUBLE</td>
 <td style="text-align: left;">RACF (pipeline link)</td>
 <td style="text-align: left;">Wheelbase (mm): fleet-weighted mean over the linked RACF rows with a plausible value. A value for the model, not a measurement of this car</td>
 <td style="text-align: left;">28.28%</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;"><code>racf_footprint_m2</code></td>
+<tr class="even">
+<td style="text-align: left;"><code>footprint_m2</code></td>
 <td style="text-align: left;">Yes</td>
 <td style="text-align: left;">DOUBLE</td>
 <td style="text-align: left;">RACF (pipeline link)</td>
 <td style="text-align: left;">EU footprint, wheelbase x track (m2): fleet-weighted mean over the linked RACF rows with a plausible value. A value for the model, not a measurement of this car</td>
 <td style="text-align: left;">28.92%</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>racf_co2_nedc</code></td>
-<td style="text-align: left;">Yes</td>
-<td style="text-align: left;">DOUBLE</td>
-<td style="text-align: left;">RACF (pipeline link)</td>
-<td style="text-align: left;">EU NEDC CO2 (g/km): fleet-weighted mean over the linked RACF rows with a plausible value. A value for the model, not a measurement of this car</td>
-<td style="text-align: left;">34.61%</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><code>racf_co2_wltp</code></td>
-<td style="text-align: left;">Yes</td>
-<td style="text-align: left;">DOUBLE</td>
-<td style="text-align: left;">RACF (pipeline link)</td>
-<td style="text-align: left;">EU WLTP CO2 (g/km): fleet-weighted mean over the linked RACF rows with a plausible value. A value for the model, not a measurement of this car</td>
-<td style="text-align: left;">85.35%</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>racf_e_consumption_wh_km</code></td>
-<td style="text-align: left;">Yes</td>
-<td style="text-align: left;">DOUBLE</td>
-<td style="text-align: left;">RACF (pipeline link)</td>
-<td style="text-align: left;">EU energy use (Wh/km): fleet-weighted mean over the linked RACF rows with a plausible value. A value for the model, not a measurement of this car</td>
-<td style="text-align: left;">91.79%</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><code>racf_e_range_km</code></td>
-<td style="text-align: left;">Yes</td>
-<td style="text-align: left;">DOUBLE</td>
-<td style="text-align: left;">RACF (pipeline link)</td>
-<td style="text-align: left;">EU electric range (km): fleet-weighted mean over the linked RACF rows with a plausible value. A value for the model, not a measurement of this car</td>
-<td style="text-align: left;">94.46%</td>
 </tr>
 </tbody>
 </table>
@@ -705,30 +629,27 @@ Table&nbsp;32.1: Car size and model attribute columns.
 </div>
 </div>
 </section>
-<section id="coverage" class="level2" data-number="32.2">
-<h2 data-number="32.2" class="anchored" data-anchor-id="coverage"><span class="header-section-number">32.2</span> Coverage</h2>
-<p><code>racf_link_level</code> is present for the 81% of vehicles that are cars. Most of those link to a model, so <code>racf_smmt_type</code> is present for 74% of all vehicles. The other columns are present only where the linked RACF rows have a plausible value, and their coverage follows the registers they come from (<a href="#fig-dd-racf" class="quarto-xref">Figure&nbsp;<span>32.1</span></a>):</p>
-<ul>
-<li><strong>The EU mass and footprint</strong> and the <strong>RDW kerb weight</strong> are present for most cars: <code>racf_mass_kg</code> for 74% of all vehicles. The RDW width and length are present for fewer.</li>
-<li><strong>NEDC CO<sub>2</sub></strong> applies to cars approved before the WLTP test replaced it, so <code>racf_co2_nedc</code> is present for most cars first used up to 2020 and <code>racf_co2_wltp</code> for most of those first used from 2018 (62% of vehicles first used in 2022). Cars first used from 2018 to 2020 often have both.</li>
-<li><strong>Energy use and electric range</strong> apply only to plug-in cars, so they are present for 5.5% of vehicles, rising for the newest.</li>
-</ul>
+<section id="coverage" class="level2" data-number="29.2">
+<h2 data-number="29.2" class="anchored" data-anchor-id="coverage"><span class="header-section-number">29.2</span> Coverage</h2>
+<p>The revenue weight is the least complete of the DVLA attributes. The DVLA records it for only 30% of vehicles, even though a VES record was found for far more, and most of those with a value were first used since 2010 (<a href="#fig-dd-mass" class="quarto-xref">Figure&nbsp;<span>29.1</span></a>). The backfill raises coverage to 70%, but only to 47% for vehicles first used before 2000, as few similar vehicles of that age have a recorded value to copy.</p>
+<p>Because most values are filled rather than recorded, check results that depend on mass against the recorded values only (<code>revenue_weight_src = 'dvla'</code>; <a href="../pitfalls.html" class="quarto-xref"><span>Chapter 14</span></a>).</p>
+<p>The RACF columns are present only for cars whose model was linked and whose linked RACF rows have a plausible value. The EU mass and footprint and the RDW kerb mass are present for most cars: <code>mass_kg</code> for 74% of all vehicles. The RDW length and width are present for fewer (<code>length_mm</code> for 51%), as fewer models were matched to those fields of the register.</p>
 <div class="cell" data-layout-align="center">
-<div id="tbl-dd-racf-coverage" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
+<div id="tbl-dd-mass-coverage" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
 <figure class="quarto-float quarto-float-tbl figure">
-<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-dd-racf-coverage-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;32.2: Share of vehicles with a value, by year of first use.
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-dd-mass-coverage-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;29.2: Share of vehicles with a value, by year of first use.
 </figcaption>
-<div aria-describedby="tbl-dd-racf-coverage-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div aria-describedby="tbl-dd-mass-coverage-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
 <table class="cell caption-top table table-sm table-striped small">
 <colgroup>
-<col style="width: 35%">
+<col style="width: 30%">
+<col style="width: 18%">
 <col style="width: 17%">
-<col style="width: 15%">
-<col style="width: 10%">
-<col style="width: 10%">
-<col style="width: 10%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -742,124 +663,84 @@ Table&nbsp;32.2: Share of vehicles with a value, by year of first use.
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;"><code>racf_link_level</code></td>
-<td style="text-align: right;">80.9%</td>
-<td style="text-align: right;">81.6%</td>
-<td style="text-align: right;">82.3%</td>
-<td style="text-align: right;">81.4%</td>
-<td style="text-align: right;">76.4%</td>
+<td style="text-align: left;"><code>revenue_weight</code></td>
+<td style="text-align: right;">69.8%</td>
+<td style="text-align: right;">47.5%</td>
+<td style="text-align: right;">73.0%</td>
+<td style="text-align: right;">75.7%</td>
+<td style="text-align: right;">79.1%</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><code>racf_smmt_type</code></td>
-<td style="text-align: right;">73.9%</td>
-<td style="text-align: right;">65.7%</td>
-<td style="text-align: right;">78.1%</td>
-<td style="text-align: right;">79.9%</td>
-<td style="text-align: right;">64.5%</td>
+<td style="text-align: left;"><code>revenue_weight_src</code></td>
+<td style="text-align: right;">69.8%</td>
+<td style="text-align: right;">47.5%</td>
+<td style="text-align: right;">73.0%</td>
+<td style="text-align: right;">75.7%</td>
+<td style="text-align: right;">79.1%</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><code>racf_suv_share</code></td>
-<td style="text-align: right;">73.5%</td>
-<td style="text-align: right;">64.8%</td>
-<td style="text-align: right;">77.9%</td>
-<td style="text-align: right;">79.7%</td>
-<td style="text-align: right;">64.4%</td>
+<td style="text-align: left;"><code>revenueWeight_DVLA</code></td>
+<td style="text-align: right;">30.5%</td>
+<td style="text-align: right;">6.3%</td>
+<td style="text-align: right;">12.7%</td>
+<td style="text-align: right;">51.3%</td>
+<td style="text-align: right;">53.8%</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><code>racf_eu_exact_share</code></td>
-<td style="text-align: right;">78.0%</td>
-<td style="text-align: right;">78.5%</td>
-<td style="text-align: right;">81.5%</td>
-<td style="text-align: right;">80.5%</td>
-<td style="text-align: right;">66.5%</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><code>racf_mass_kg</code></td>
+<td style="text-align: left;"><code>mass_kg</code></td>
 <td style="text-align: right;">74.3%</td>
 <td style="text-align: right;">65.8%</td>
 <td style="text-align: right;">79.2%</td>
 <td style="text-align: right;">80.2%</td>
 <td style="text-align: right;">64.5%</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;"><code>racf_kerb_weight_kg</code></td>
+<tr class="odd">
+<td style="text-align: left;"><code>kerb_weight_kg</code></td>
 <td style="text-align: right;">77.0%</td>
 <td style="text-align: right;">75.8%</td>
 <td style="text-align: right;">81.1%</td>
 <td style="text-align: right;">80.3%</td>
 <td style="text-align: right;">64.7%</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;"><code>racf_length_mm</code></td>
+<tr class="even">
+<td style="text-align: left;"><code>length_mm</code></td>
 <td style="text-align: right;">50.8%</td>
 <td style="text-align: right;">24.1%</td>
 <td style="text-align: right;">47.3%</td>
 <td style="text-align: right;">64.6%</td>
 <td style="text-align: right;">63.3%</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;"><code>racf_width_mm</code></td>
+<tr class="odd">
+<td style="text-align: left;"><code>width_mm</code></td>
 <td style="text-align: right;">39.5%</td>
 <td style="text-align: right;">9.7%</td>
 <td style="text-align: right;">19.2%</td>
 <td style="text-align: right;">66.6%</td>
 <td style="text-align: right;">62.3%</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;"><code>racf_height_mm</code></td>
+<tr class="even">
+<td style="text-align: left;"><code>height_mm</code></td>
 <td style="text-align: right;">60.2%</td>
 <td style="text-align: right;">26.5%</td>
 <td style="text-align: right;">63.6%</td>
 <td style="text-align: right;">76.6%</td>
 <td style="text-align: right;">63.4%</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;"><code>racf_wheelbase_mm</code></td>
+<tr class="odd">
+<td style="text-align: left;"><code>wheelbase_mm</code></td>
 <td style="text-align: right;">71.7%</td>
 <td style="text-align: right;">63.1%</td>
 <td style="text-align: right;">78.3%</td>
 <td style="text-align: right;">80.0%</td>
 <td style="text-align: right;">54.6%</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;"><code>racf_footprint_m2</code></td>
+<tr class="even">
+<td style="text-align: left;"><code>footprint_m2</code></td>
 <td style="text-align: right;">71.1%</td>
 <td style="text-align: right;">61.7%</td>
 <td style="text-align: right;">77.2%</td>
 <td style="text-align: right;">80.0%</td>
 <td style="text-align: right;">54.5%</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>racf_co2_nedc</code></td>
-<td style="text-align: right;">65.4%</td>
-<td style="text-align: right;">61.0%</td>
-<td style="text-align: right;">78.8%</td>
-<td style="text-align: right;">79.9%</td>
-<td style="text-align: right;">19.3%</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><code>racf_co2_wltp</code></td>
-<td style="text-align: right;">14.6%</td>
-<td style="text-align: right;">0.2%</td>
-<td style="text-align: right;">0.2%</td>
-<td style="text-align: right;">16.7%</td>
-<td style="text-align: right;">54.5%</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>racf_e_consumption_wh_km</code></td>
-<td style="text-align: right;">8.2%</td>
-<td style="text-align: right;">0.0%</td>
-<td style="text-align: right;">0.0%</td>
-<td style="text-align: right;">8.9%</td>
-<td style="text-align: right;">31.7%</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><code>racf_e_range_km</code></td>
-<td style="text-align: right;">5.5%</td>
-<td style="text-align: right;">0.1%</td>
-<td style="text-align: right;">0.1%</td>
-<td style="text-align: right;">0.2%</td>
-<td style="text-align: right;">31.8%</td>
 </tr>
 </tbody>
 </table>
@@ -870,287 +751,197 @@ Table&nbsp;32.2: Share of vehicles with a value, by year of first use.
 </div>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-dd-racf" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<div id="fig-dd-mass" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-dd-racf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="racf_files/figure-html/fig-dd-racf-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
+<div aria-describedby="fig-dd-mass-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="mass_files/figure-html/fig-dd-mass-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-racf-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;32.1: Share of vehicles with a value in each RACF column, by year of first use.
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-mass-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;29.1: Share of vehicles with a value in each mass and size column, by year of first use.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="values" class="level2" data-number="32.3">
-<h2 data-number="32.3" class="anchored" data-anchor-id="values"><span class="header-section-number">32.3</span> Values</h2>
-<p>How the values of each column change over time, by year of first use, from 1990. Numeric columns and dates show the minimum, lower quartile (Q1), median, upper quartile (Q3) and maximum; other columns show the share of vehicles with each value, with the less common values grouped as <em>All other values</em> and missing values as <em>Blank</em>.</p>
+<section id="values" class="level2" data-number="29.3">
+<h2 data-number="29.3" class="anchored" data-anchor-id="values"><span class="header-section-number">29.3</span> Values</h2>
+<p>How the values of each column change over time, by year of first use, from 1990. Numeric columns show the minimum, lower quartile (Q1), median, upper quartile (Q3) and maximum; other columns show the share of vehicles with each value, with the less common values grouped as <em>All other values</em> and missing values as <em>Blank</em>.</p>
 <div class="cell" data-layout-align="center">
-<section id="racf_link_level" class="level3">
-<h3 class="anchored" data-anchor-id="racf_link_level"><code>racf_link_level</code></h3>
-<p>How the car was linked to the RACF enriched DfT car fleet: model (same make, DfT generic model, model string, year of first use and fuel group), genmodel (same make, generic model, year and fuel group) or none. Missing for vehicles that are not cars.</p>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div id="fig-dd-v-racf-link-level" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-dd-v-racf-link-level-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="racf_files/figure-html/fig-dd-v-racf-link-level-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-v-racf-link-level-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;32.2: Share of vehicles by value of racf_link_level, by year of first use.
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="racf_smmt_type" class="level3">
-<h3 class="anchored" data-anchor-id="racf_smmt_type"><code>racf_smmt_type</code></h3>
-<p>SMMT segment with the largest fleet among the linked RACF rows.</p>
+<section id="revenue_weight" class="level3">
+<h3 class="anchored" data-anchor-id="revenue_weight"><code>revenue_weight</code></h3>
+<p>Revenue weight, the maximum permitted gross mass (kg): DVLA (same vehicle only), else the most common value of vehicles with the same make/model/birth year/fuel/engine size (variant), else of the same make/model/birth year/fuel (model_year_fuel); see revenue_weight_src.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-dd-v-racf-smmt-type" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<div id="fig-dd-v-revenue-weight" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-dd-v-racf-smmt-type-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="racf_files/figure-html/fig-dd-v-racf-smmt-type-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
+<div aria-describedby="fig-dd-v-revenue-weight-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="mass_files/figure-html/fig-dd-v-revenue-weight-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-v-racf-smmt-type-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;32.3: Share of vehicles by value of racf_smmt_type, by year of first use.
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-v-revenue-weight-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;29.2: Minimum, quartiles and maximum of revenue_weight, by year of first use, among vehicles with a value. Log scale.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="racf_suv_share" class="level3">
-<h3 class="anchored" data-anchor-id="racf_suv_share"><code>racf_suv_share</code></h3>
-<p>Share of the linked RACF fleet that SMMT calls a crossover / SUV or an off-roader.</p>
+<section id="revenue_weight_src" class="level3">
+<h3 class="anchored" data-anchor-id="revenue_weight_src"><code>revenue_weight_src</code></h3>
+<p>Source of the matching harmonised column: dvsa or dvla (recorded), variant (same make/model/birth year/fuel/engine size) or model_year_fuel (same make/model/birth year/fuel).</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-dd-v-racf-suv-share" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<div id="fig-dd-v-revenue-weight-src" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-dd-v-racf-suv-share-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="racf_files/figure-html/fig-dd-v-racf-suv-share-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
+<div aria-describedby="fig-dd-v-revenue-weight-src-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="mass_files/figure-html/fig-dd-v-revenue-weight-src-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-v-racf-suv-share-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;32.4: Minimum, quartiles and maximum of racf_suv_share, by year of first use, among vehicles with a value.
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-v-revenue-weight-src-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;29.3: Share of vehicles by value of revenue_weight_src, by year of first use.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="racf_eu_exact_share" class="level3">
-<h3 class="anchored" data-anchor-id="racf_eu_exact_share"><code>racf_eu_exact_share</code></h3>
-<p>Share of the linked RACF fleet matched to the EU type-approval data for the exact year.</p>
+<section id="revenueweight_dvla" class="level3">
+<h3 class="anchored" data-anchor-id="revenueweight_dvla"><code>revenueWeight_DVLA</code></h3>
+<p>As returned by the DVLA Vehicle Enquiry Service.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-dd-v-racf-eu-exact-share" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<div id="fig-dd-v-revenueweight-dvla" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-dd-v-racf-eu-exact-share-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="racf_files/figure-html/fig-dd-v-racf-eu-exact-share-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
+<div aria-describedby="fig-dd-v-revenueweight-dvla-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="mass_files/figure-html/fig-dd-v-revenueweight-dvla-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-v-racf-eu-exact-share-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;32.5: Minimum, quartiles and maximum of racf_eu_exact_share, by year of first use, among vehicles with a value.
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-v-revenueweight-dvla-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;29.4: Minimum, quartiles and maximum of revenueWeight_DVLA, by year of first use, among vehicles with a value. Log scale.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="racf_mass_kg" class="level3">
-<h3 class="anchored" data-anchor-id="racf_mass_kg"><code>racf_mass_kg</code></h3>
+<section id="mass_kg" class="level3">
+<h3 class="anchored" data-anchor-id="mass_kg"><code>mass_kg</code></h3>
 <p>EU mass in running order (kg): fleet-weighted mean over the linked RACF rows with a plausible value. A value for the model, not a measurement of this car.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-dd-v-racf-mass-kg" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<div id="fig-dd-v-mass-kg" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-dd-v-racf-mass-kg-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="racf_files/figure-html/fig-dd-v-racf-mass-kg-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
+<div aria-describedby="fig-dd-v-mass-kg-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="mass_files/figure-html/fig-dd-v-mass-kg-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-v-racf-mass-kg-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;32.6: Minimum, quartiles and maximum of racf_mass_kg, by year of first use, among vehicles with a value.
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-v-mass-kg-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;29.5: Minimum, quartiles and maximum of mass_kg, by year of first use, among vehicles with a value.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="racf_kerb_weight_kg" class="level3">
-<h3 class="anchored" data-anchor-id="racf_kerb_weight_kg"><code>racf_kerb_weight_kg</code></h3>
-<p>RDW kerb weight (kg): fleet-weighted mean over the linked RACF rows with a plausible value. A value for the model, not a measurement of this car.</p>
+<section id="kerb_weight_kg" class="level3">
+<h3 class="anchored" data-anchor-id="kerb_weight_kg"><code>kerb_weight_kg</code></h3>
+<p>RDW kerb mass (kg): fleet-weighted mean over the linked RACF rows with a plausible value. A value for the model, not a measurement of this car.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-dd-v-racf-kerb-weight-kg" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<div id="fig-dd-v-kerb-weight-kg" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-dd-v-racf-kerb-weight-kg-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="racf_files/figure-html/fig-dd-v-racf-kerb-weight-kg-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
+<div aria-describedby="fig-dd-v-kerb-weight-kg-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="mass_files/figure-html/fig-dd-v-kerb-weight-kg-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-v-racf-kerb-weight-kg-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;32.7: Minimum, quartiles and maximum of racf_kerb_weight_kg, by year of first use, among vehicles with a value.
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-v-kerb-weight-kg-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;29.6: Minimum, quartiles and maximum of kerb_weight_kg, by year of first use, among vehicles with a value.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="racf_length_mm" class="level3">
-<h3 class="anchored" data-anchor-id="racf_length_mm"><code>racf_length_mm</code></h3>
+<section id="length_mm" class="level3">
+<h3 class="anchored" data-anchor-id="length_mm"><code>length_mm</code></h3>
 <p>RDW length (mm): fleet-weighted mean over the linked RACF rows with a plausible value. A value for the model, not a measurement of this car.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-dd-v-racf-length-mm" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<div id="fig-dd-v-length-mm" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-dd-v-racf-length-mm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="racf_files/figure-html/fig-dd-v-racf-length-mm-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
+<div aria-describedby="fig-dd-v-length-mm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="mass_files/figure-html/fig-dd-v-length-mm-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-v-racf-length-mm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;32.8: Minimum, quartiles and maximum of racf_length_mm, by year of first use, among vehicles with a value.
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-v-length-mm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;29.7: Minimum, quartiles and maximum of length_mm, by year of first use, among vehicles with a value.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="racf_width_mm" class="level3">
-<h3 class="anchored" data-anchor-id="racf_width_mm"><code>racf_width_mm</code></h3>
+<section id="width_mm" class="level3">
+<h3 class="anchored" data-anchor-id="width_mm"><code>width_mm</code></h3>
 <p>RDW width (mm): fleet-weighted mean over the linked RACF rows with a plausible value. A value for the model, not a measurement of this car.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-dd-v-racf-width-mm" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<div id="fig-dd-v-width-mm" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-dd-v-racf-width-mm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="racf_files/figure-html/fig-dd-v-racf-width-mm-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
+<div aria-describedby="fig-dd-v-width-mm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="mass_files/figure-html/fig-dd-v-width-mm-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-v-racf-width-mm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;32.9: Minimum, quartiles and maximum of racf_width_mm, by year of first use, among vehicles with a value.
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-v-width-mm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;29.8: Minimum, quartiles and maximum of width_mm, by year of first use, among vehicles with a value.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="racf_height_mm" class="level3">
-<h3 class="anchored" data-anchor-id="racf_height_mm"><code>racf_height_mm</code></h3>
+<section id="height_mm" class="level3">
+<h3 class="anchored" data-anchor-id="height_mm"><code>height_mm</code></h3>
 <p>RDW height (mm): fleet-weighted mean over the linked RACF rows with a plausible value. A value for the model, not a measurement of this car.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-dd-v-racf-height-mm" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<div id="fig-dd-v-height-mm" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-dd-v-racf-height-mm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="racf_files/figure-html/fig-dd-v-racf-height-mm-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
+<div aria-describedby="fig-dd-v-height-mm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="mass_files/figure-html/fig-dd-v-height-mm-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-v-racf-height-mm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;32.10: Minimum, quartiles and maximum of racf_height_mm, by year of first use, among vehicles with a value.
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-v-height-mm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;29.9: Minimum, quartiles and maximum of height_mm, by year of first use, among vehicles with a value.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="racf_wheelbase_mm" class="level3">
-<h3 class="anchored" data-anchor-id="racf_wheelbase_mm"><code>racf_wheelbase_mm</code></h3>
+<section id="wheelbase_mm" class="level3">
+<h3 class="anchored" data-anchor-id="wheelbase_mm"><code>wheelbase_mm</code></h3>
 <p>Wheelbase (mm): fleet-weighted mean over the linked RACF rows with a plausible value. A value for the model, not a measurement of this car.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-dd-v-racf-wheelbase-mm" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<div id="fig-dd-v-wheelbase-mm" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-dd-v-racf-wheelbase-mm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="racf_files/figure-html/fig-dd-v-racf-wheelbase-mm-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
+<div aria-describedby="fig-dd-v-wheelbase-mm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="mass_files/figure-html/fig-dd-v-wheelbase-mm-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-v-racf-wheelbase-mm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;32.11: Minimum, quartiles and maximum of racf_wheelbase_mm, by year of first use, among vehicles with a value.
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-v-wheelbase-mm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;29.10: Minimum, quartiles and maximum of wheelbase_mm, by year of first use, among vehicles with a value.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="racf_footprint_m2" class="level3">
-<h3 class="anchored" data-anchor-id="racf_footprint_m2"><code>racf_footprint_m2</code></h3>
+<section id="footprint_m2" class="level3">
+<h3 class="anchored" data-anchor-id="footprint_m2"><code>footprint_m2</code></h3>
 <p>EU footprint, wheelbase x track (m2): fleet-weighted mean over the linked RACF rows with a plausible value. A value for the model, not a measurement of this car.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-dd-v-racf-footprint-m2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<div id="fig-dd-v-footprint-m2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-dd-v-racf-footprint-m2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="racf_files/figure-html/fig-dd-v-racf-footprint-m2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
+<div aria-describedby="fig-dd-v-footprint-m2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="mass_files/figure-html/fig-dd-v-footprint-m2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-v-racf-footprint-m2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;32.12: Minimum, quartiles and maximum of racf_footprint_m2, by year of first use, among vehicles with a value.
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="racf_co2_nedc" class="level3">
-<h3 class="anchored" data-anchor-id="racf_co2_nedc"><code>racf_co2_nedc</code></h3>
-<p>EU NEDC CO2 (g/km): fleet-weighted mean over the linked RACF rows with a plausible value. A value for the model, not a measurement of this car.</p>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div id="fig-dd-v-racf-co2-nedc" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-dd-v-racf-co2-nedc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="racf_files/figure-html/fig-dd-v-racf-co2-nedc-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-v-racf-co2-nedc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;32.13: Minimum, quartiles and maximum of racf_co2_nedc, by year of first use, among vehicles with a value.
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="racf_co2_wltp" class="level3">
-<h3 class="anchored" data-anchor-id="racf_co2_wltp"><code>racf_co2_wltp</code></h3>
-<p>EU WLTP CO2 (g/km): fleet-weighted mean over the linked RACF rows with a plausible value. A value for the model, not a measurement of this car.</p>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div id="fig-dd-v-racf-co2-wltp" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-dd-v-racf-co2-wltp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="racf_files/figure-html/fig-dd-v-racf-co2-wltp-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-v-racf-co2-wltp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;32.14: Minimum, quartiles and maximum of racf_co2_wltp, by year of first use, among vehicles with a value.
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="racf_e_consumption_wh_km" class="level3">
-<h3 class="anchored" data-anchor-id="racf_e_consumption_wh_km"><code>racf_e_consumption_wh_km</code></h3>
-<p>EU energy use (Wh/km): fleet-weighted mean over the linked RACF rows with a plausible value. A value for the model, not a measurement of this car.</p>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div id="fig-dd-v-racf-e-consumption-wh-km" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-dd-v-racf-e-consumption-wh-km-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="racf_files/figure-html/fig-dd-v-racf-e-consumption-wh-km-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-v-racf-e-consumption-wh-km-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;32.15: Minimum, quartiles and maximum of racf_e_consumption_wh_km, by year of first use, among vehicles with a value.
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="racf_e_range_km" class="level3">
-<h3 class="anchored" data-anchor-id="racf_e_range_km"><code>racf_e_range_km</code></h3>
-<p>EU electric range (km): fleet-weighted mean over the linked RACF rows with a plausible value. A value for the model, not a measurement of this car.</p>
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div id="fig-dd-v-racf-e-range-km" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-dd-v-racf-e-range-km-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="racf_files/figure-html/fig-dd-v-racf-e-range-km-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-v-racf-e-range-km-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;32.16: Minimum, quartiles and maximum of racf_e_range_km, by year of first use, among vehicles with a value.
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-v-footprint-m2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;29.11: Minimum, quartiles and maximum of footprint_m2, by year of first use, among vehicles with a value.
 </figcaption>
 </figure>
 </div>
@@ -1241,7 +1032,8 @@ Figure&nbsp;32.16: Minimum, quartiles and maximum of racf_e_range_km, by year of
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
       // Inspect non-navigation links and adorn them if external
-     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
       for (var i=0; i<links.length; i++) {
         const link = links[i];
         if (!isInternal(link.href)) {
@@ -1250,8 +1042,69 @@ Figure&nbsp;32.16: Minimum, quartiles and maximum of racf_e_range_km, by year of
           if (link.dataset.originalHref !== undefined) {
             link.href = link.dataset.originalHref;
           }
+          if (!link.classList.contains('no-external-icon')) {
+          }
         }
       }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
     function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
       const config = {
         allowHTML: true,
@@ -1265,6 +1118,7 @@ Figure&nbsp;32.16: Minimum, quartiles and maximum of racf_e_range_km, by year of
         interactiveBorder: 10,
         theme: 'quarto',
         placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
       };
       if (contentFn) {
         config.content = contentFn;
@@ -1427,44 +1281,54 @@ Figure&nbsp;32.16: Minimum, quartiles and maximum of racf_e_range_km, by year of
           const lineIds = lines.map((line) => {
             return targetCell + "-" + line;
           })
-          let top = null;
-          let height = null;
-          let parent = null;
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
           if (lineIds.length > 0) {
-              //compute the position of the single el (top and bottom and make a div)
-              const el = window.document.getElementById(lineIds[0]);
-              top = el.offsetTop;
-              height = el.offsetHeight;
-              parent = el.parentElement.parentElement;
-            if (lineIds.length > 1) {
-              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-              height = bottom - top;
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
             }
-            if (top !== null && height !== null && parent !== null) {
-              // cook up a div (if necessary) and position it 
-              let div = window.document.getElementById("code-annotation-line-highlight");
-              if (div === null) {
-                div = window.document.createElement("div");
-                div.setAttribute("id", "code-annotation-line-highlight");
-                div.style.position = 'absolute';
-                parent.appendChild(div);
-              }
-              div.style.top = top - 2 + "px";
-              div.style.height = height + 4 + "px";
-              div.style.left = 0;
-              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-              if (gutterDiv === null) {
-                gutterDiv = window.document.createElement("div");
-                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-                gutterDiv.style.position = 'absolute';
-                const codeCell = window.document.getElementById(targetCell);
-                const gutter = codeCell.querySelector('.code-annotation-gutter');
-                gutter.appendChild(gutterDiv);
-              }
-              gutterDiv.style.top = top - 2 + "px";
-              gutterDiv.style.height = height + 4 + "px";
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
             }
+            placeBand(gutterDiv, el, lastEl);
             selectedAnnoteEl = annoteEl;
           }
         };
@@ -1563,15 +1427,18 @@ Figure&nbsp;32.16: Minimum, quartiles and maximum of racf_e_range_km, by year of
     }
   });
   </script>
-<nav class="page-navigation">
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
   <div class="nav-page nav-page-previous">
-      <a href="../../chapters/dictionary/emissions.html" class="pagination-link" aria-label="Emissions">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Emissions</span></span>
+      <a href="../../chapters/dictionary/wheelplan.html" class="pagination-link" aria-label="Wheel plan">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Wheel plan</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../chapters/dictionary/dates.html" class="pagination-link" aria-label="Dates and age">
-        <span class="nav-page-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Dates and age</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../chapters/dictionary/fuel-engine.html" class="pagination-link" aria-label="Fuel and engine">
+        <span class="nav-page-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Fuel and engine</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -1583,7 +1450,7 @@ Figure&nbsp;32.16: Minimum, quartiles and maximum of racf_e_range_km, by year of
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/CARS-Project/documentation/edit/main/chapters/dictionary/racf.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/CARS-Project/documentation/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/CARS-Project/documentation/edit/main/chapters/dictionary/mass.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/CARS-Project/documentation/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p><a href="https://cars-project.github.io/">cars-project.github.io</a></p>
 </div>
