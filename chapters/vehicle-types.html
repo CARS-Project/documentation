@@ -474,6 +474,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#type-approval-categories" id="toc-type-approval-categories" class="nav-link" data-scroll-target="#type-approval-categories"><span class="header-section-number">3.2</span> Type approval categories</a>
   <ul class="collapse">
   <li><a href="#type-approval-against-test-class-in-the-data" id="toc-type-approval-against-test-class-in-the-data" class="nav-link" data-scroll-target="#type-approval-against-test-class-in-the-data">Type approval against test class in the data</a></li>
+  <li><a href="#sec-vehicle-type-examples" id="toc-sec-vehicle-type-examples" class="nav-link" data-scroll-target="#sec-vehicle-type-examples">What the combinations look like</a></li>
   </ul></li>
   <li><a href="#dft-body-types" id="toc-dft-body-types" class="nav-link" data-scroll-target="#dft-body-types"><span class="header-section-number">3.3</span> DfT body types</a></li>
   <li><a href="#how-the-schemes-compare" id="toc-how-the-schemes-compare" class="nav-link" data-scroll-target="#how-the-schemes-compare"><span class="header-section-number">3.4</span> How the schemes compare</a></li>
@@ -1409,14 +1410,395 @@ Table&nbsp;3.5: Vehicles by type approval category (<code>type_approval</code>) 
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Pitfall: filled values can make impossible combinations
+<span class="screen-reader-only">Important</span>Pitfall: the sources sometimes disagree
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The harmonised <code>type_approval</code> and <code>test_class</code> are each filled from the most common value among similar vehicles, independently of each other. Filling covers far more vehicles, but it also creates combinations the rules do not allow, such as 2,109 M1 cars in class 1 (the motorcycle class). Use the recorded values when the relationship between the two schemes matters.</p>
+<p>The pipeline cleans the DVLA type approval before using it (<a href="../reports/methodology.html#other-attributes">methodology, section 5.6</a>). It corrects motorcycles that the DVLA recorded as cars or vans, most of them BMWs first used from 2004 to 2009. It blanks codes that are not categories, and categories that two or more of the vehicle’s other records contradict. <code>type_approval_check</code> says what was done to each vehicle. Filling never creates a combination the rules do not allow: test class, type approval and wheel plan are filled together, and a borrowed value that would break a rule is not used.</p>
+<p>38,487 vehicles still have a type approval and test class the rules do not allow, all from the records themselves. The largest group is 26,302 with M1 in class 2. Some are genuine: a van converted to a minibus keeps its N1 (van) approval on the register while DVSA tests it in class 5 as a minibus. Exclude them where the relationship between the two schemes matters.</p>
 </div>
 </div>
 <p>The DVLA field also holds 20,872 values that are not type approval categories, such as numbers, older national codes and lower-case variants; they are shown as <em>Other code</em>.</p>
+</section>
+<section id="sec-vehicle-type-examples" class="level3">
+<h3 class="anchored" data-anchor-id="sec-vehicle-type-examples">What the combinations look like</h3>
+<p><a href="#tbl-vehicle-type-examples" class="quarto-xref">Table&nbsp;<span>3.6</span></a> shows what the codes mean in practice. It lists every combination of DfT body type (<a href="dictionary/vehicle-type.html" class="quarto-xref"><span>Chapter 26</span></a>), MOT test class and type approval category that the rules allow and that at least 1,000 vehicles have. For each it gives the most common make and model and a photograph of that kind of vehicle. Each row reads as a sentence: a Ford Transit minibus is a bus (body type), tested in class 5 (more than 12 passenger seats) and approved as M2 (a passenger vehicle of up to 5 tonnes).</p>
+<p>Some rows show what the records say rather than what the rules intend. A DAF LF lorry tested in class 4 with an N1 (van) approval is one: the model match or one of the records is probably wrong.</p>
+<div class="cell" data-layout-align="center">
+<div id="tbl-vehicle-type-examples" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-vehicle-type-examples-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3.6: Common combinations of DfT body type, MOT test class and type approval category, with the most common make and model. Photographs from Wikimedia Commons; the credit column gives each one’s author and licence.
+</figcaption>
+<div aria-describedby="tbl-vehicle-type-examples-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="cell caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Picture</th>
+<th style="text-align: left;">Body type</th>
+<th style="text-align: right;">Test class</th>
+<th style="text-align: left;">Type approval</th>
+<th style="text-align: right;">Vehicles</th>
+<th style="text-align: left;">Most common make and model</th>
+<th style="text-align: left;">Pictured</th>
+<th style="text-align: left;">Credit</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><img src="../images/vehicle-types/transit-minibus.jpg" class="img-fluid figure-img" width="180"></td>
+<td style="text-align: left;">Buses and coaches</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">M2</td>
+<td style="text-align: right;">8,178</td>
+<td style="text-align: left;">FORD TRANSIT (63%)</td>
+<td style="text-align: left;">Ford Transit minibus</td>
+<td style="text-align: left;"><a href="https://commons.wikimedia.org/wiki/File:Ford_Transit_minibus_at_St._Joseph%27s_Primary_School,_Wetherby_(22nd_April_2019).jpg">Mtaylor848</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><img src="../images/vehicle-types/transit-minibus.jpg" class="img-fluid figure-img" width="180"></td>
+<td style="text-align: left;">Buses and coaches</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">M2</td>
+<td style="text-align: right;">71,160</td>
+<td style="text-align: left;">FORD TRANSIT (64%)</td>
+<td style="text-align: left;">Ford Transit minibus</td>
+<td style="text-align: left;"><a href="https://commons.wikimedia.org/wiki/File:Ford_Transit_minibus_at_St._Joseph%27s_Primary_School,_Wetherby_(22nd_April_2019).jpg">Mtaylor848</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><img src="../images/vehicle-types/sprinter-minibus.jpg" class="img-fluid figure-img" width="180"></td>
+<td style="text-align: left;">Buses and coaches</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">M3</td>
+<td style="text-align: right;">2,441</td>
+<td style="text-align: left;">MERCEDES SPRINTER (41%)</td>
+<td style="text-align: left;">Mercedes-Benz Sprinter minibus</td>
+<td style="text-align: left;"><a href="https://commons.wikimedia.org/wiki/File:2016_Mercedes-Benz_Sprinter_Super_High_Minibus,_front_right.jpg">Ethan Llamas</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><img src="../images/vehicle-types/boxer-minibus.jpg" class="img-fluid figure-img" width="180"></td>
+<td style="text-align: left;">Buses and coaches</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: left;">M2</td>
+<td style="text-align: right;">3,271</td>
+<td style="text-align: left;">PEUGEOT BOXER (65%)</td>
+<td style="text-align: left;">Peugeot Boxer minibus</td>
+<td style="text-align: left;"><a href="https://commons.wikimedia.org/wiki/File:Peugeot_Boxer_Durisotti_reseau_Alto.JPG">Jmalo</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><img src="../images/vehicle-types/microcar-mgo.jpg" class="img-fluid figure-img" width="180"></td>
+<td style="text-align: left;">Cars</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">L7</td>
+<td style="text-align: right;">2,315</td>
+<td style="text-align: left;">MICROCAR M-GO (36%)</td>
+<td style="text-align: left;">Microcar M.Go</td>
+<td style="text-align: left;"><a href="https://commons.wikimedia.org/wiki/File:Microcar_M.Go.jpg">Corvettec6r</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><img src="../images/vehicle-types/fiesta.jpg" class="img-fluid figure-img" width="180"></td>
+<td style="text-align: left;">Cars</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">M1</td>
+<td style="text-align: right;">63,081,385</td>
+<td style="text-align: left;">FORD FIESTA (4%)</td>
+<td style="text-align: left;">Ford Fiesta</td>
+<td style="text-align: left;"><a href="https://commons.wikimedia.org/wiki/File:Ford_Fiesta_ST-Line_(VII,_Facelift)_%E2%80%93_f_30012023.jpg">M 93</a>, <a href="https://creativecommons.org/licenses/by-sa/3.0/de/deed.en">CC BY-SA 3.0 de</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><img src="../images/vehicle-types/fiesta-van.jpg" class="img-fluid figure-img" width="180"></td>
+<td style="text-align: left;">Cars</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">N1</td>
+<td style="text-align: right;">124,489</td>
+<td style="text-align: left;">FORD FIESTA (39%)</td>
+<td style="text-align: left;">Ford Fiesta van</td>
+<td style="text-align: left;"><a href="https://commons.wikimedia.org/wiki/File:1999_Ford_Fiesta_Van_35.jpg">Calreyn88</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><img src="../images/vehicle-types/defender.jpg" class="img-fluid figure-img" width="180"></td>
+<td style="text-align: left;">Cars</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: left;">M1</td>
+<td style="text-align: right;">10,303</td>
+<td style="text-align: left;">LAND ROVER DEFENDER (20%)</td>
+<td style="text-align: left;">Land Rover Defender</td>
+<td style="text-align: left;"><a href="https://commons.wikimedia.org/wiki/File:2015_Land_Rover_Defender_(L316_MY15)_90_3-door_wagon_(2015-10-24)_01.jpg">OSX</a>, Public domain</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><img src="../images/vehicle-types/swift-motorhome.jpg" class="img-fluid figure-img" width="180"></td>
+<td style="text-align: left;">Heavy goods vehicles</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">M1</td>
+<td style="text-align: right;">7,724</td>
+<td style="text-align: left;">FIAT SWIFT (16%)</td>
+<td style="text-align: left;">Swift motorhome on a Fiat Ducato base</td>
+<td style="text-align: left;"><a href="https://commons.wikimedia.org/wiki/File:Swift_Bolero_on_Dorset_coast.jpg">Herbythyme</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><img src="../images/vehicle-types/daf-lf.jpg" class="img-fluid figure-img" width="180"></td>
+<td style="text-align: left;">Heavy goods vehicles</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">N1</td>
+<td style="text-align: right;">27,050</td>
+<td style="text-align: left;">DAF TRUCKS FA LF (96%)</td>
+<td style="text-align: left;">DAF LF</td>
+<td style="text-align: left;"><a href="https://commons.wikimedia.org/wiki/File:2013_DAF_LF_TNT_4.5.jpg">Vauxford</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><img src="../images/vehicle-types/iveco-daily.jpg" class="img-fluid figure-img" width="180"></td>
+<td style="text-align: left;">Heavy goods vehicles</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">N2</td>
+<td style="text-align: right;">25,058</td>
+<td style="text-align: left;">IVECO DAILY (37%)</td>
+<td style="text-align: left;">Iveco Daily</td>
+<td style="text-align: left;"><a href="https://commons.wikimedia.org/wiki/File:2014_Iveco_Daily_35_S13_MWB_2.3.jpg">Vauxford</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><img src="../images/vehicle-types/sprinter-minibus.jpg" class="img-fluid figure-img" width="180"></td>
+<td style="text-align: left;">Heavy goods vehicles</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">N2</td>
+<td style="text-align: right;">4,243</td>
+<td style="text-align: left;">MERCEDES SPRINTER (38%)</td>
+<td style="text-align: left;">Mercedes-Benz Sprinter minibus</td>
+<td style="text-align: left;"><a href="https://commons.wikimedia.org/wiki/File:2016_Mercedes-Benz_Sprinter_Super_High_Minibus,_front_right.jpg">Ethan Llamas</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><img src="../images/vehicle-types/fuso-canter.jpg" class="img-fluid figure-img" width="180"></td>
+<td style="text-align: left;">Heavy goods vehicles</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: left;">N1</td>
+<td style="text-align: right;">3,013</td>
+<td style="text-align: left;">MITSUBISHI CANTER (47%)</td>
+<td style="text-align: left;">Mitsubishi Fuso Canter</td>
+<td style="text-align: left;"><a href="https://commons.wikimedia.org/wiki/File:FusoWielton.jpg">Cekay</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><img src="../images/vehicle-types/iveco-daily.jpg" class="img-fluid figure-img" width="180"></td>
+<td style="text-align: left;">Heavy goods vehicles</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: left;">N2</td>
+<td style="text-align: right;">29,477</td>
+<td style="text-align: left;">IVECO DAILY (56%)</td>
+<td style="text-align: left;">Iveco Daily</td>
+<td style="text-align: left;"><a href="https://commons.wikimedia.org/wiki/File:2014_Iveco_Daily_35_S13_MWB_2.3.jpg">Vauxford</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><img src="../images/vehicle-types/transit-van.jpg" class="img-fluid figure-img" width="180"></td>
+<td style="text-align: left;">Light goods vehicles</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">M1</td>
+<td style="text-align: right;">221,024</td>
+<td style="text-align: left;">FORD TRANSIT (18%)</td>
+<td style="text-align: left;">Ford Transit</td>
+<td style="text-align: left;"><a href="https://commons.wikimedia.org/wiki/File:2016_Ford_Transit_350_2.2.jpg">Vauxford</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><img src="../images/vehicle-types/transit-van.jpg" class="img-fluid figure-img" width="180"></td>
+<td style="text-align: left;">Light goods vehicles</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">N1</td>
+<td style="text-align: right;">5,552,511</td>
+<td style="text-align: left;">FORD TRANSIT (13%)</td>
+<td style="text-align: left;">Ford Transit</td>
+<td style="text-align: left;"><a href="https://commons.wikimedia.org/wiki/File:2016_Ford_Transit_350_2.2.jpg">Vauxford</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><img src="../images/vehicle-types/transit-van.jpg" class="img-fluid figure-img" width="180"></td>
+<td style="text-align: left;">Light goods vehicles</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">N2</td>
+<td style="text-align: right;">1,533</td>
+<td style="text-align: left;">FORD TRANSIT (47%)</td>
+<td style="text-align: left;">Ford Transit</td>
+<td style="text-align: left;"><a href="https://commons.wikimedia.org/wiki/File:2016_Ford_Transit_350_2.2.jpg">Vauxford</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><img src="../images/vehicle-types/transit-minibus.jpg" class="img-fluid figure-img" width="180"></td>
+<td style="text-align: left;">Light goods vehicles</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">M2</td>
+<td style="text-align: right;">1,216</td>
+<td style="text-align: left;">FORD TRANSIT (27%)</td>
+<td style="text-align: left;">Ford Transit minibus</td>
+<td style="text-align: left;"><a href="https://commons.wikimedia.org/wiki/File:Ford_Transit_minibus_at_St._Joseph%27s_Primary_School,_Wetherby_(22nd_April_2019).jpg">Mtaylor848</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><img src="../images/vehicle-types/transit-minibus.jpg" class="img-fluid figure-img" width="180"></td>
+<td style="text-align: left;">Light goods vehicles</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">N2</td>
+<td style="text-align: right;">1,275</td>
+<td style="text-align: left;">FORD TRANSIT (88%)</td>
+<td style="text-align: left;">Ford Transit minibus</td>
+<td style="text-align: left;"><a href="https://commons.wikimedia.org/wiki/File:Ford_Transit_minibus_at_St._Joseph%27s_Primary_School,_Wetherby_(22nd_April_2019).jpg">Mtaylor848</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><img src="../images/vehicle-types/transit-van.jpg" class="img-fluid figure-img" width="180"></td>
+<td style="text-align: left;">Light goods vehicles</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: left;">M1</td>
+<td style="text-align: right;">29,575</td>
+<td style="text-align: left;">FORD TRANSIT (55%)</td>
+<td style="text-align: left;">Ford Transit</td>
+<td style="text-align: left;"><a href="https://commons.wikimedia.org/wiki/File:2016_Ford_Transit_350_2.2.jpg">Vauxford</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><img src="../images/vehicle-types/transit-van.jpg" class="img-fluid figure-img" width="180"></td>
+<td style="text-align: left;">Light goods vehicles</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: left;">N1</td>
+<td style="text-align: right;">2,344,952</td>
+<td style="text-align: left;">FORD TRANSIT (31%)</td>
+<td style="text-align: left;">Ford Transit</td>
+<td style="text-align: left;"><a href="https://commons.wikimedia.org/wiki/File:2016_Ford_Transit_350_2.2.jpg">Vauxford</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><img src="../images/vehicle-types/transit-van.jpg" class="img-fluid figure-img" width="180"></td>
+<td style="text-align: left;">Light goods vehicles</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: left;">N2</td>
+<td style="text-align: right;">10,197</td>
+<td style="text-align: left;">FORD TRANSIT (50%)</td>
+<td style="text-align: left;">Ford Transit</td>
+<td style="text-align: left;"><a href="https://commons.wikimedia.org/wiki/File:2016_Ford_Transit_350_2.2.jpg">Vauxford</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><img src="../images/vehicle-types/vespa.jpg" class="img-fluid figure-img" width="180"></td>
+<td style="text-align: left;">Motorcycles</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">L1</td>
+<td style="text-align: right;">189,962</td>
+<td style="text-align: left;">PIAGGIO VESPA (6%)</td>
+<td style="text-align: left;">Piaggio Vespa</td>
+<td style="text-align: left;"><a href="https://commons.wikimedia.org/wiki/File:PerthVespa.jpg">Kylet (assumed; no machine-readable author on Commons)</a>, <a href="https://creativecommons.org/licenses/by/2.5">CC BY 2.5</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"></td>
+<td style="text-align: left;">Motorcycles</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">L2</td>
+<td style="text-align: right;">1,186</td>
+<td style="text-align: left;">BEELINE VELOCE (36%)</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><img src="../images/vehicle-types/honda-pcx.jpg" class="img-fluid figure-img" width="180"></td>
+<td style="text-align: left;">Motorcycles</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">L3</td>
+<td style="text-align: right;">645,306</td>
+<td style="text-align: left;">HONDA WW125 (6%)</td>
+<td style="text-align: left;">Honda PCX125 (model code WW125)</td>
+<td style="text-align: left;"><a href="https://commons.wikimedia.org/wiki/File:Honda_PCX125_2011_Front.JPG">Khaosaming</a>, <a href="https://creativecommons.org/licenses/by-sa/3.0">CC BY-SA 3.0</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><img src="../images/vehicle-types/yamaha-yzf-r125.jpg" class="img-fluid figure-img" width="180"></td>
+<td style="text-align: left;">Motorcycles</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">L1</td>
+<td style="text-align: right;">5,882</td>
+<td style="text-align: left;">YAMAHA YZF (8%)</td>
+<td style="text-align: left;">Yamaha YZF-R125</td>
+<td style="text-align: left;"><a href="https://commons.wikimedia.org/wiki/File:Yamaha_YZF-R125_2025.jpg">AVMOTO</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><img src="../images/vehicle-types/bmw-r1200gs.jpg" class="img-fluid figure-img" width="180"></td>
+<td style="text-align: left;">Motorcycles</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">L3</td>
+<td style="text-align: right;">1,219,344</td>
+<td style="text-align: left;">BMW R SERIES (7%)</td>
+<td style="text-align: left;">BMW R 1200 GS</td>
+<td style="text-align: left;"><a href="https://commons.wikimedia.org/wiki/File:BMW_R1200GS_in_Munich.jpg">Diego Delso</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><img src="../images/vehicle-types/piaggio-mp3.jpg" class="img-fluid figure-img" width="180"></td>
+<td style="text-align: left;">Other vehicles</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">L5</td>
+<td style="text-align: right;">8,932</td>
+<td style="text-align: left;">PIAGGIO MP3 (60%)</td>
+<td style="text-align: left;">Piaggio MP3</td>
+<td style="text-align: left;"><a href="https://commons.wikimedia.org/wiki/File:Piaggio_MP3_300ie.jpg">RL GNZLZ</a>, <a href="https://creativecommons.org/licenses/by-sa/2.0">CC BY-SA 2.0</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><img src="../images/vehicle-types/citroen-ami.jpg" class="img-fluid figure-img" width="180"></td>
+<td style="text-align: left;">Other vehicles</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">L6</td>
+<td style="text-align: right;">1,597</td>
+<td style="text-align: left;">CITROEN AMI (61%)</td>
+<td style="text-align: left;">Citroën Ami</td>
+<td style="text-align: left;"><a href="https://commons.wikimedia.org/wiki/File:Citro%C3%ABn_Ami,_Par%C3%ADs,_Francia,_2022-10-30,_DD_03.jpg">Diego Delso</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><img src="../images/vehicle-types/quad-bike.jpg" class="img-fluid figure-img" width="180"></td>
+<td style="text-align: left;">Other vehicles</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">L7</td>
+<td style="text-align: right;">20,045</td>
+<td style="text-align: left;">SMC QUADZILLA (11%)</td>
+<td style="text-align: left;">Polaris Sportsman, a quad bike like the SMC Quadzilla</td>
+<td style="text-align: left;"><a href="https://commons.wikimedia.org/wiki/File:2021_Polaris_Sportsman_570.jpg">DestinationFearFan</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><img src="../images/vehicle-types/lti-tx4.jpg" class="img-fluid figure-img" width="180"></td>
+<td style="text-align: left;">Other vehicles</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">M1</td>
+<td style="text-align: right;">43,212</td>
+<td style="text-align: left;">LONDON TAXIS INT TX4 (37%)</td>
+<td style="text-align: left;">LTI TX4 taxi</td>
+<td style="text-align: left;"><a href="https://commons.wikimedia.org/wiki/File:2016_LTI_TX4_London_black_cab.jpg">Oleg Yunakov</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><img src="../images/vehicle-types/polaris-ranger.jpg" class="img-fluid figure-img" width="180"></td>
+<td style="text-align: left;">Other vehicles</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">T1</td>
+<td style="text-align: right;">14,172</td>
+<td style="text-align: left;">POLARIS RANGER (46%)</td>
+<td style="text-align: left;">Polaris Ranger</td>
+<td style="text-align: left;"><a href="https://commons.wikimedia.org/wiki/File:Polaris_Ranger_XP_1000_black.jpg">SolanaBogon</a>, <a href="https://creativecommons.org/licenses/by/4.0">CC BY 4.0</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><img src="../images/vehicle-types/quad-bike.jpg" class="img-fluid figure-img" width="180"></td>
+<td style="text-align: left;">Other vehicles</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">T3</td>
+<td style="text-align: right;">10,625</td>
+<td style="text-align: left;">CFMOTO CFORCE (66%)</td>
+<td style="text-align: left;">Polaris Sportsman, a quad bike like the CFMOTO CForce</td>
+<td style="text-align: left;"><a href="https://commons.wikimedia.org/wiki/File:2021_Polaris_Sportsman_570.jpg">DestinationFearFan</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Pictures to add
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>1 combination(s) have no picture yet. Add a row for each to <code>data/vehicle_type_examples.csv</code>, and its image to <code>data/vehicle_type_images.csv</code> and <code>images/vehicle-types/</code> (<a href="maintaining.html" class="quarto-xref"><span>Appendix C</span></a>).</p>
+</div>
+</div>
+</div>
+<p>The percentage after each make and model is its share of the vehicles in that combination. <em>Pictured</em> names the vehicle in the photograph. Where no free photograph of the most common model was found, it is a similar vehicle.</p>
 </section>
 </section>
 <section id="dft-body-types" class="level2" data-number="3.3">
@@ -1435,7 +1817,7 @@ Table&nbsp;3.5: Vehicles by type approval category (<code>type_approval</code>) 
 <div id="tbl-body-type" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-body-type-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;3.6: Vehicles in the CARS vehicle table by DfT body type, all years.
+Table&nbsp;3.7: Vehicles in the CARS vehicle table by DfT body type, all years.
 </figcaption>
 <div aria-describedby="tbl-body-type-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">

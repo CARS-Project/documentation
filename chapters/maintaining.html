@@ -511,8 +511,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#why-rebuild.r-clears-the-frozen-results" id="toc-why-rebuild.r-clears-the-frozen-results" class="nav-link" data-scroll-target="#why-rebuild.r-clears-the-frozen-results"><span class="header-section-number">C.4</span> Why <code>rebuild.R</code> clears the frozen results</a></li>
   <li><a href="#adding-pipeline-data-to-a-chapter" id="toc-adding-pipeline-data-to-a-chapter" class="nav-link" data-scroll-target="#adding-pipeline-data-to-a-chapter"><span class="header-section-number">C.5</span> Adding pipeline data to a chapter</a></li>
   <li><a href="#when-the-vehicle-table-gains-or-loses-columns" id="toc-when-the-vehicle-table-gains-or-loses-columns" class="nav-link" data-scroll-target="#when-the-vehicle-table-gains-or-loses-columns"><span class="header-section-number">C.6</span> When the vehicle table gains or loses columns</a></li>
-  <li><a href="#writing-conventions" id="toc-writing-conventions" class="nav-link" data-scroll-target="#writing-conventions"><span class="header-section-number">C.7</span> Writing conventions</a></li>
-  <li><a href="#publishing" id="toc-publishing" class="nav-link" data-scroll-target="#publishing"><span class="header-section-number">C.8</span> Publishing</a></li>
+  <li><a href="#pictures-of-vehicle-types" id="toc-pictures-of-vehicle-types" class="nav-link" data-scroll-target="#pictures-of-vehicle-types"><span class="header-section-number">C.7</span> Pictures of vehicle types</a></li>
+  <li><a href="#writing-conventions" id="toc-writing-conventions" class="nav-link" data-scroll-target="#writing-conventions"><span class="header-section-number">C.8</span> Writing conventions</a></li>
+  <li><a href="#publishing" id="toc-publishing" class="nav-link" data-scroll-target="#publishing"><span class="header-section-number">C.9</span> Publishing</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/CARS-Project/documentation/edit/main/chapters/maintaining.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/CARS-Project/documentation/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -559,11 +560,11 @@ Table&nbsp;C.1: The pipeline build behind this edition.
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">pipeline_commit</td>
-<td style="text-align: left;">370e64f</td>
+<td style="text-align: left;">10daeb6</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">pipeline_commit_date</td>
-<td style="text-align: left;">2026-10-21</td>
+<td style="text-align: left;">2026-10-23</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">pipeline_branch</td>
@@ -579,7 +580,7 @@ Table&nbsp;C.1: The pipeline build behind this edition.
 </tr>
 <tr class="even">
 <td style="text-align: left;">synced_at</td>
-<td style="text-align: left;">2026-10-21 19:58</td>
+<td style="text-align: left;">2026-10-25 14:38</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">examples_run_at</td>
@@ -745,8 +746,18 @@ Table&nbsp;C.2: Software versions of the pipeline build.
 <h2 data-number="C.6" class="anchored" data-anchor-id="when-the-vehicle-table-gains-or-loses-columns"><span class="header-section-number">C.6</span> When the vehicle table gains or loses columns</h2>
 <p>The data dictionary chapters (<code>chapters/dictionary/</code>) each describe a group of columns, defined once in <code>dict_groups</code> in <code>R/book.R</code>. A column that has been removed stops the render with an error naming it. A new column is listed in a warning on the part’s opening page until it is added to a group, and to that chapter’s overview text. Rerun <code>scripts/run-coverage.R</code> and <code>scripts/run-values.R</code> after either change. A column whose values should be charted as categories although it is stored as a number belongs in <code>dict_coded</code>.</p>
 </section>
-<section id="writing-conventions" class="level2" data-number="C.7">
-<h2 data-number="C.7" class="anchored" data-anchor-id="writing-conventions"><span class="header-section-number">C.7</span> Writing conventions</h2>
+<section id="pictures-of-vehicle-types" class="level2" data-number="C.7">
+<h2 data-number="C.7" class="anchored" data-anchor-id="pictures-of-vehicle-types"><span class="header-section-number">C.7</span> Pictures of vehicle types</h2>
+<p>The table of vehicle type combinations (<a href="vehicle-types.html#sec-vehicle-type-examples" class="quarto-xref"><span>Section 3.2.2</span></a>) takes its rows from the pipeline’s <code>quality/vehicle_type_combinations.csv</code>. Its pictures are chosen by hand. After a new build, a combination without a picture is reported under the table. To add or replace a picture:</p>
+<ol type="1">
+<li>Find a freely licensed photograph on <a href="https://commons.wikimedia.org">Wikimedia Commons</a> (CC BY, CC BY-SA or public domain; avoid GFDL-only files, which expect the licence text to be copied with them). Prefer the most common make and model the table names, and use a similar vehicle if it has none.</li>
+<li>Save a copy about 640 pixels wide in <code>images/vehicle-types/</code>.</li>
+<li>Add a row to <code>data/vehicle_type_images.csv</code>: a short key, the file, the Commons file name and page, the author and the licence with its link. The credit column of the table is built from these, so every picture is credited.</li>
+<li>Add or change the combination’s row in <code>data/vehicle_type_examples.csv</code>: the body type, test class and type approval, the image key, and what the picture shows.</li>
+</ol>
+</section>
+<section id="writing-conventions" class="level2" data-number="C.8">
+<h2 data-number="C.8" class="anchored" data-anchor-id="writing-conventions"><span class="header-section-number">C.8</span> Writing conventions</h2>
 <ul>
 <li>Placeholders for material still to come are callouts titled <strong>To be written</strong> (or <strong>To be confirmed</strong> for statements to check), with the class <code>.todo</code>. Search the chapters for <code>.todo</code> to list them.</li>
 <li>Pitfalls are callouts titled <strong>Pitfall: …</strong>, and each is also summarised in
@@ -756,8 +767,8 @@ Table&nbsp;C.2: Software versions of the pipeline build.
 <li>Charts use <code>theme_cars()</code> and the palette in <code>R/book.R</code>, with at most four series each.</li>
 </ul>
 </section>
-<section id="publishing" class="level2" data-number="C.8">
-<h2 data-number="C.8" class="anchored" data-anchor-id="publishing"><span class="header-section-number">C.8</span> Publishing</h2>
+<section id="publishing" class="level2" data-number="C.9">
+<h2 data-number="C.9" class="anchored" data-anchor-id="publishing"><span class="header-section-number">C.9</span> Publishing</h2>
 <p><code>.github/workflows/publish.yml</code> renders the book from the frozen results and publishes it to the <code>gh-pages</code> branch on every push to <code>main</code>. One-off set-up: run <code>quarto publish gh-pages</code> once locally to create the branch, then in the repository’s settings set GitHub Pages to deploy from the <code>gh-pages</code> branch. The book will then be at <a href="https://cars-project.github.io/documentation/">cars-project.github.io/documentation</a>.</p>
 <p>To preview locally, run <code>quarto preview</code>.</p>
 
