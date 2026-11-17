@@ -231,7 +231,7 @@ missing_pictures <- sum(is.na(shown$file))
 every combination of DfT body type (@sec-dd-vehicle-type), MOT test class and
 type approval category that the rules allow and that at least
 `r fmt_n(min_vehicles)` vehicles have. For each it gives the most common make
-and model and a photograph of that kind of vehicle. Each row reads as a
+and model and a photograph of a vehicle of that kind. Each row reads as a
 sentence: a Ford Transit minibus is a bus (body type), tested in class 5 (more
 than 12 passenger seats) and approved as M2 (a passenger vehicle of up to 5
 tonnes).
@@ -274,8 +274,12 @@ if (missing_pictures > 0) {
 ```
 
 The percentage after each make and model is its share of the vehicles in
-that combination. *Pictured* names the vehicle in the photograph. Where no
-free photograph of the most common model was found, it is a similar vehicle.
+that combination. *Pictured* names the vehicle in the photograph, which is
+chosen to show how the combinations differ rather than always being the most
+common model. The Ford Transit, for example, is the most common model in
+almost every van and minibus row, so most of those rows show another model
+that is common in that combination, or a Transit of a different shape or age.
+Where no free photograph was found, the picture is of a similar vehicle.
 
 ## DfT body types
 
