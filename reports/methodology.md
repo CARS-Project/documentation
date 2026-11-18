@@ -48,10 +48,10 @@ pipeline:
 3.  **checks the DVLA record belongs to the same vehicle**, because a
     moved number plate can attach another vehicle’s record (Section
     5.1);
-4.  **fills gaps** in engine size, CO2, weight, Euro status and other
-    attributes from similar vehicles (same make, model, year and fuel),
-    always recording that the value was borrowed, and never borrowing
-    across fuels (Section 5);
+4.  **fills gaps** in engine size, CO2, revenue weight, Euro status and
+    other attributes from similar vehicles (same make, model, year and
+    fuel), always recording that the value was borrowed, and never
+    borrowing across fuels (Section 5);
 5.  **builds the published tables**: where vehicles are and how they
     move between postcode areas (the churn tables, Section 7), mileage
     (Section 8), fleet profiles, and quality checks, then **cross-checks
@@ -67,9 +67,9 @@ to miss:
   seen to move before their first test, and a scrapped vehicle stays in
   its area’s counts for about two years. As a result, more cars aged 3+
   are placed in a postcode area than DfT counts as licensed or SORN.
-- **Most Euro statuses, weights and many CO2 values are borrowed or
-  assumed, not recorded** on the vehicle’s own record (Sections 5.6 and
-  5.7).
+- **Most Euro statuses, revenue weights and many CO2 values are borrowed
+  or assumed, not recorded** on the vehicle’s own record (Sections 5.6
+  and 5.7).
 - **The old churn “movement rate” falls with age by construction**
   (Section 7.3); the windowed rate is the one to compare.
 
@@ -187,8 +187,8 @@ The file has one row per vehicle, with:
   - `is_new_vehicle_YYYY`, `is_intertest_YYYY`, `is_end_use_YYYY`:
     status flags
 - **DVLA Vehicle Enquiry Service (VES) columns:** make, fuel, engine
-  capacity, weight, CO2, Euro status, type approval, wheel plan, tax and
-  MOT status, and key dates. These are attached by registration.
+  capacity, revenue weight, CO2, Euro status, type approval, wheel plan,
+  tax and MOT status, and key dates. These are attached by registration.
 - **VES lookup bookkeeping:** how often VES was queried for the
   registration (`n_VES_checks`, renamed
   `n_VES_checks_to_linked_DVSA_regs` in the October 2026 `ves_4`
@@ -524,9 +524,9 @@ wins (`body_type_src`):
 | `body_type_src` | Rule | Vehicles |
 |----|----|---:|
 | `model` | The DfT model string’s body type, where at least 90% of its vehicles have one | 44,568,625 |
-| `type_approval` | The type approval (L1–L3 Motorcycles; L5–L7 and T Other vehicles; M1 Cars; M2–M3 Buses and coaches; N1 Light goods vehicles; N2–N3 Heavy goods vehicles), where DfT has vehicles of the generic model with that body type and the type approval is allowed with the test class (Section 9.2) | 38,818,657 |
-| `genmodel` | The generic model’s most common body type | 6,198,615 |
-| `test_class` | The MOT test class (1–2 Motorcycles, 3 Other vehicles, 4 Cars, 5 Buses and coaches, 7 Light goods vehicles) | 843,459 |
+| `type_approval` | The type approval (L1–L3 Motorcycles; L5–L7 and T Other vehicles; M1 Cars; M2–M3 Buses and coaches; N1 Light goods vehicles; N2–N3 Heavy goods vehicles), where DfT has vehicles of the generic model with that body type and the type approval is allowed with the test class (Section 9.2) | 38,912,097 |
+| `genmodel` | The generic model’s most common body type | 6,105,251 |
+| `test_class` | The MOT test class (1–2 Motorcycles, 3 Other vehicles, 4 Cars, 5 Buses and coaches, 7 Light goods vehicles) | 843,457 |
 
 The type approval mapping was checked against vehicles whose DfT model
 string has a single body type: 94% of N1 vehicles and over 99% of M1 and
@@ -633,7 +633,7 @@ independent ways:
 A comparison that cannot be made counts as agreement. **When at least
 two comparisons disagree, `dvla_match` is `different`**: the VES record
 belongs to another vehicle, and none of its values (fuel, engine size,
-weight, CO2, Euro status, type approval, wheel plan) is used.
+revenue weight, CO2, Euro status, type approval, wheel plan) is used.
 `dvla_evidence` counts the disagreements.
 
 Some make pairs are the same vehicle under another name: CHRYSLER-JEEP /
@@ -913,6 +913,35 @@ around the words TEMP, EVAP, ISC, FCM, BIS, OBD, WLTP and PLUS (“EURO 6
 D-TEMP-EVAP-ISC”, “EURO VI OBD-E”). Spaces are kept only between two
 numbers (“EURO VI 66D0”, “EURO 5 134 2014”).
 
+The recorded type approval is cleaned before anything is filled from it
+(`R/type_approval.R`), and `type_approval_check` records what was done.
+A blank is preferred to a guess: a value is changed only where the other
+evidence settles it, and blanked only where at least two independent
+sources contradict it.
+
+- **Standardised**: case and spacing corrected (`m1` is M1).
+- **Invalid code**: a value that is not a type approval category
+  (numbers, older national codes, C1, SP and so on) is blanked. MI is
+  not taken as M1: most vehicles recorded MI are vans.
+- **Corrected**: a two-wheeled motorcycle recorded as a car, van, bus or
+  lorry (M or N) is set to L3, or to L1 with an engine of 50cc or less.
+  All of the following must hold: the DVLA wheel plan is 2 WHEEL, at
+  least 90% of the DfT generic model is motorcycles, and the MOT test
+  class is 1, 2 or missing. Without an engine size (electric
+  motorcycles) it is blanked instead. Most of these are BMW motorcycles
+  first used from 2004 to 2009, which the DVLA recorded as M1. Corrected
+  values have `type_approval_src` `corrected`.
+- **Contradicted**: a category contradicted by at least two of the MOT
+  test class, the DVLA wheel plan, the body type of the DfT generic
+  model and the engine size is blanked. Examples are quad bikes recorded
+  as L1 mopeds and trikes recorded as M1. One contradiction alone is not
+  enough. A van converted to a minibus keeps its N1 approval and is
+  tested in class 5, and both values are right.
+
+The backfill then works from the cleaned value: donors give their
+cleaned type approval, and test class is conditioned on it.
+`typeApproval_DVLA` keeps the value as supplied.
+
 Revenue weight, CO2 and Euro status each take the first available of:
 
 1.  **the recorded value** (`*_src` = `dvla`)
@@ -1083,8 +1112,8 @@ built.
 | Euro status                          | Vehicles   |
 |--------------------------------------|------------|
 | recorded or backfilled (Section 5.6) | 33,590,549 |
-| assumed from the schedule            | 51,515,075 |
-| still missing                        | 8,246,617  |
+| assumed from the schedule            | 51,515,225 |
+| still missing                        | 8,246,467  |
 
 `euro_check` records how each vehicle’s Euro status stands against its
 age. Nothing is overwritten, so a value that contradicts the vehicle’s
@@ -1092,15 +1121,15 @@ age is flagged rather than corrected:
 
 | `euro_check` | Meaning | Vehicles |
 |----|----|----|
-| `ok` | A status that the vehicle’s age allows | 30,305,063 |
-| `later_than_date` | A status naming a standard that did not exist when the vehicle was made. Kept as it is. | 3,285,486 |
-| `assumed` | Filled from the schedule | 51,515,075 |
-| `pre_euro` | No status, and made before the first standard of its class | 4,816,775 |
-| `no_schedule` | No status, and a body type with no schedule | 3,429,719 |
+| `ok` | A status that the vehicle’s age allows | 30,305,098 |
+| `later_than_date` | A status naming a standard that did not exist when the vehicle was made. Kept as it is. | 3,285,451 |
+| `assumed` | Filled from the schedule | 51,515,225 |
+| `pre_euro` | No status, and made before the first standard of its class | 4,816,791 |
+| `no_schedule` | No status, and a body type with no schedule | 3,429,553 |
 | `no_date` | No status, and no date to place the vehicle | 123 |
 
 `later_than_date` is worth reading as a check on the variant backfill
-rather than on the register. Of the 3,285,486 vehicles flagged, 24,796
+rather than on the register. Of the 3,285,451 vehicles flagged, 24,796
 have a recorded VES value and the rest were backfilled from similar
 vehicles. With `backfill.min_vehicles` at 1, as it was until October
 2026, a single wrong VES value spread to every vehicle of its make,
@@ -1120,7 +1149,7 @@ The pipeline builds these reference tables:
 |----|----|----|
 | Fuel by engine size | make_final + model_final + birth year + engine size | fuel (step 2 of 5.2), from vehicles with a fuel that has an engine |
 | Fuel profile | make_final + model_final (+ birth year) + fuel | vehicle counts for the fuel check |
-| Variant | make_final + model_final + birth year + fuel + engine size | weight, CO2, Euro status |
+| Variant | make_final + model_final + birth year + fuel + engine size | revenue weight, CO2, Euro status |
 | Model-year-fuel | make_final + model_final + birth year + fuel | the same three, plus engine size |
 | Model-fuel | make_final + model_final + fuel | engine size |
 | Category, variant and model-year-fuel | the variant or model-year-fuel group + test class (or any) | type approval and wheel plan, from consistent donors |
@@ -1183,7 +1212,7 @@ vehicles with a value in the group).
     they can be dropped.
 9.  **Vehicles of the same make, model, birth year and fuel share
     attributes.** This is reasonable for wheel plan, type approval and
-    test class. It is weaker for CO2 and weight, which vary with trim,
+    test class. It is weaker for CO2 and mass, which vary with trim,
     gearbox and body style.
 10. **Birth year stands in for model year.**
 11. **At the variant level, engine size must match to the cc.**
@@ -1238,12 +1267,18 @@ RACF enriched DfT car fleet as in the RACF linked report
 (`R/racf_linked.R`): by make, DfT generic model, model string, year of
 first use and fuel group, else without the model string.
 `racf_link_level` says which (`model`, `genmodel` or `none`; missing for
-other vehicles). The `racf_*` columns are the fleet-weighted means over
-the linked RACF rows: the SMMT segment (`racf_smmt_type`), EU mass, RDW
-kerb weight, footprint, length, width, height, wheelbase, NEDC and WLTP
-CO2, energy use and electric range, plus the SUV share and the share
-matched to the EU data for the exact year. They describe the model, not
-the individual car. The RACF fleet counts are not carried.
+other vehicles). The other RACF columns are the fleet-weighted means
+over the linked RACF rows: the SMMT segment (`smmt_type`), EU mass
+(`mass_kg`), RDW kerb mass (`kerb_weight_kg`), footprint
+(`footprint_m2`), length, width, height and wheelbase (`length_mm`,
+`width_mm`, `height_mm`, `wheelbase_mm`), NEDC and WLTP CO2 (`co2_nedc`,
+`co2_wltp`), energy use (`e_consumption_wh_km`) and electric range
+(`e_range_km`). The shares of the linked RACF fleet that are SUVs or
+matched to the EU data for the exact year describe the fleet, not a car,
+so they are used only in the RACF linked tables. `co2_nedc` and
+`co2_wltp` are model values from RACF, separate from the vehicle’s own
+DVLA `co2`. They describe the model, not the individual car. The RACF
+fleet counts are not carried.
 
 ### 6.1 Derived fields
 
@@ -1430,7 +1465,11 @@ variable is.
   air zone area, which belong to no group (config `set7`). A vehicle is
   “present” in 2023 if it is still in the same row, so a move from E to
   N stays in Inner London. Set 7B splits the leavers into those still
-  running elsewhere, scrapped and not located.
+  running elsewhere, scrapped and not located. Set 7D follows the 2018
+  vehicles in a chargeable category to 2023: those scrapped, those still
+  in the row, and those that moved into Inner London, Outer London, All
+  other or the partly-London and clean air zone areas from outside them,
+  with average and total mileage in both years and an All row.
 
 - **The date-only proxy (`caz_cat`) is kept for checking.** Set 7
   includes a cross-check of the proxy against the harmonised
@@ -1680,8 +1719,10 @@ published numbers that must agree, reading only the published CSVs:
   5’s groups equal Set 1d’s 2017 flows; Sets 2 and 6 count the same
   vehicles; Set 3 and Set 4 satisfy their identities; in every Set 7
   row, leavers (7B) plus stayers (7C) are the 2018 stock, the stayers
-  match 7A, and each breakdown adds up to its row; the Set 7 London
-  groups are the sums of their areas.
+  match 7A, and each breakdown adds up to its row; Set 7D’s 2018
+  vehicles, stayers and scrapped match the chargeable categories of 7A,
+  7C and 7B in every row, and its All row is the sum of its area rows;
+  the Set 7 London groups are the sums of their areas.
 - **Profile:** every characteristic of the fleet profile partitions the
   same vehicles, and the car counts and miles equal the mileage area
   table’s plausible-mileage counts, which are computed by different
@@ -1689,7 +1730,7 @@ published numbers that must agree, reading only the published CSVs:
 - **External:** cars aged 3+ against DfT licensed + SORN counts (a
   warning, not an identity).
 
-In this build 1,255 of 1,267 checks pass, 1 fail and 11 warn. The data
+In this build 1,278 of 1,289 checks pass, 0 fail and 11 warn. The data
 quality report lists every check that does not pass.
 
 ### 9.2 Consistency across variables
@@ -1736,8 +1777,8 @@ revenue weight against test class, where many 3,500 kg vans are recorded
 in class 4 although class 4 goods vehicles must weigh no more than 3,000
 kg.
 
-In this build, 2,425,107 rule violations were found on 17 rules,
-1,035,811 of them wholly in the recorded data; the enforced rules have 0
+In this build, 2,359,833 rule violations were found on 17 rules, 970,505
+of them wholly in the recorded data; the enforced rules have 0
 violations involving a filled value. The data quality report
 (*Consistency across variables*) lists every rule with its counts and
 the largest combinations behind each.

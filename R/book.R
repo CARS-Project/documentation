@@ -123,7 +123,7 @@ dict_groups <- list(
                  "racf_link_level"),
   vehicle_type = c("body_type", "body_type_src", "test_class",
                    "test_class_src", "test_class_ANON", "type_approval",
-                   "type_approval_src", "typeApproval_DVLA",
+                   "type_approval_src", "type_approval_check", "typeApproval_DVLA",
                    "automatedVehicle_DVLA", "smmt_type"),
   colour = c("primaryColour_DVSA", "secondaryColour_DVSA", "colour_DVLA"),
   wheelplan = c("wheelplan", "wheelplan_src", "wheelplan_DVLA"),

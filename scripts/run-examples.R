@@ -7,13 +7,14 @@
 #
 # The queries name the file as 'vehicles_enhanced.parquet', exactly as a
 # reader would; that name is replaced here by CARS_PARQUET, or by
-# <MOT_PIPELINE_DIR>/outputs/vehicles_enhanced.parquet. DuckDB's memory limit
+# <MOT_PIPELINE_DIR>/outputs/vehicles_enhanced_maximal.parquet (it has every
+# column, including the _src columns the examples use). DuckDB's memory limit
 # is DUCKDB_MEMORY_LIMIT (default 16GB).
 
 pipeline_dir <- Sys.getenv("MOT_PIPELINE_DIR", "../MOT-pipline")
 parquet <- Sys.getenv(
   "CARS_PARQUET",
-  file.path(pipeline_dir, "outputs", "vehicles_enhanced.parquet")
+  file.path(pipeline_dir, "outputs", "vehicles_enhanced_maximal.parquet")
 )
 if (!file.exists(parquet)) stop("Vehicle table not found: ", parquet)
 parquet <- normalizePath(parquet, winslash = "/")
