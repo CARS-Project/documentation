@@ -558,7 +558,7 @@ ul.task-list li input[type="checkbox"] {
 <p><em>Generated from <code>reports/churn_tables_report.qmd</code> by the MOT-pipline <code>churn_tables_report</code> target (profile: main). Edit the template, not this file: every number below is recomputed from the data each time the pipeline runs.</em></p>
 <section id="what-this-document-is-for" class="level2">
 <h2 class="anchored" data-anchor-id="what-this-document-is-for">1. What this document is for</h2>
-<p>The churn tables answer the question <strong>“do vehicles stay in the same part of the country, and does that differ by age, mileage, fuel or engine size?”</strong> There are 73 CSV files in <code>outputs/tables/churn/</code>. This document explains, for each one:</p>
+<p>The churn tables answer the question <strong>“do vehicles stay in the same part of the country, and does that differ by age, mileage, fuel or engine size?”</strong> There are 74 CSV files in <code>outputs/tables/churn/</code>. This document explains, for each one:</p>
 <ul>
 <li>which vehicles are counted (and which are left out),</li>
 <li>which variables were used, how they were grouped, and what was calculated,</li>
@@ -571,7 +571,7 @@ ul.task-list li input[type="checkbox"] {
 <section id="the-short-version" class="level2">
 <h2 class="anchored" data-anchor-id="the-short-version">2. The short version</h2>
 <ul>
-<li>Every table is built from <strong>one intermediate file</strong>, <code>outputs/intermediate/churn_base.parquet</code>, which has <strong>one row per vehicle</strong> (81,112,156 vehicles) and one column per year for location and mileage.</li>
+<li>Every table is built from <strong>one intermediate file</strong>, <code>outputs/intermediate/churn_base.parquet</code>, which has <strong>one row per vehicle</strong> (81,112,396 vehicles) and one column per year for location and mileage.</li>
 <li>A vehicle’s location in a year is a <strong>postcode area</strong> (“LS”, “BS”, “BT”), or one of three words standing in for “no location recorded”: <code>unborn</code>, <code>dead</code>, <code>unknown</code>.</li>
 <li>Almost every table counts vehicles <strong>grouped by postcode area</strong>, and splits them either by year or by a characteristic (age, mileage, fuel, engine size, emissions category).</li>
 <li>The biggest limitation is not missing data in the usual sense: it is what a “location” is. The annualisation gives a vehicle a postcode area in every year from its first registration to two years after its last MOT: the years before the first MOT (at age three) copy the first test’s area, and the two years after the last one carry it on. So a vehicle’s area in a year is not always a year in which it was tested there, and a scrapped vehicle stays in its area’s stock for about two years (section 5 and section 12). In 2019, the best covered year, 52.3% of the churn-base vehicles had a postcode area.</li>
@@ -615,12 +615,12 @@ ul.task-list li input[type="checkbox"] {
 <tr class="even">
 <td>Churn</td>
 <td><code>outputs/intermediate/churn_base.parquet</code></td>
-<td>One row per vehicle with the churn measures precomputed (81,112,156 vehicles)</td>
+<td>One row per vehicle with the churn measures precomputed (81,112,396 vehicles)</td>
 </tr>
 <tr class="odd">
 <td>Churn</td>
 <td><code>outputs/tables/churn/*.csv</code></td>
-<td>The 73 published tables</td>
+<td>The 74 published tables</td>
 </tr>
 </tbody>
 </table>
@@ -654,22 +654,22 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td style="text-align: left;">vehicles_matching_the_class_filter</td>
-<td style="text-align: right;">81,112,156</td>
+<td style="text-align: right;">81,112,396</td>
 <td style="text-align: right;">86.89</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">vehicles_in_churn_base</td>
-<td style="text-align: right;">81,112,156</td>
+<td style="text-align: right;">81,112,396</td>
 <td style="text-align: right;">86.89</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">distinct_identifiers_in_churn_base</td>
-<td style="text-align: right;">81,112,156</td>
+<td style="text-align: right;">81,112,396</td>
 <td style="text-align: right;">86.89</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">vehicles_dropped_by_the_class_filter</td>
-<td style="text-align: right;">12,240,085</td>
+<td style="text-align: right;">12,239,845</td>
 <td style="text-align: right;">13.11</td>
 </tr>
 </tbody>
@@ -767,7 +767,7 @@ ul.task-list li input[type="checkbox"] {
 <h3 class="anchored" data-anchor-id="every-column-with-how-often-it-is-missing">4.1 Every column, with how often it is missing</h3>
 <section id="columns-of-churn_base.parquet" class="level4">
 <h4 class="anchored" data-anchor-id="columns-of-churn_base.parquet">Columns of churn_base.parquet</h4>
-<p><code>n_missing</code> counts vehicles with no value (out of 81,112,156). A column at 0% missing is complete for every vehicle - which for a derived column such as <code>movement_rate</code> is not the same as being meaningful for every vehicle; see section 7.</p>
+<p><code>n_missing</code> counts vehicles with no value (out of 81,112,396). A column at 0% missing is complete for every vehicle - which for a derived column such as <code>movement_rate</code> is not the same as being meaningful for every vehicle; see section 7.</p>
 <ul>
 <li><code>n_present</code>: vehicles with a value</li>
 <li><code>n_missing</code>: vehicles with no value</li>
@@ -796,7 +796,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td style="text-align: left;">registration_DVSA</td>
 <td style="text-align: left;">VARCHAR</td>
-<td style="text-align: right;">81,112,156</td>
+<td style="text-align: right;">81,112,396</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0.00</td>
 <td style="text-align: left;">Vehicle registration mark as supplied by DVSA, one row per vehicle (a registration can repeat: see dup_vrm in the enhanced table)</td>
@@ -804,7 +804,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="even">
 <td style="text-align: left;">test_class</td>
 <td style="text-align: left;">INTEGER</td>
-<td style="text-align: right;">81,112,156</td>
+<td style="text-align: right;">81,112,396</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0.00</td>
 <td style="text-align: left;">MOT test class, from the backfilled <code>test_class</code> or churn v2’s <code>test_class_ANON</code> as configured. The churn tables keep one class (4: cars and small vans)</td>
@@ -812,7 +812,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td style="text-align: left;">euro_status</td>
 <td style="text-align: left;">VARCHAR</td>
-<td style="text-align: right;">81,112,156</td>
+<td style="text-align: right;">81,112,396</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0.00</td>
 <td style="text-align: left;">Euro emissions standard, spellings standardised (<code>EURO 5 A</code>); from the harmonised <code>euro_status</code> or churn v2’s <code>euroStatus_DVLA</code>. The harmonised column is filled from the registration-date schedule where nothing was recorded (methodology.md, Section 5.7), so most vehicles now have one. A harmonised value with no standard says why: <code>pre_euro</code>, <code>no_schedule</code> or <code>no_date</code></td>
@@ -820,31 +820,31 @@ ul.task-list li input[type="checkbox"] {
 <tr class="even">
 <td style="text-align: left;">euro_status_src</td>
 <td style="text-align: left;">VARCHAR</td>
-<td style="text-align: right;">77,223,746</td>
-<td style="text-align: right;">3,888,410</td>
+<td style="text-align: right;">77,223,779</td>
+<td style="text-align: right;">3,888,617</td>
 <td style="text-align: right;">4.79</td>
 <td style="text-align: left;">Where the Euro status came from: <code>dvla</code> (recorded on this vehicle), <code>variant</code> / <code>model_year_fuel</code> (the most common recorded value of similar vehicles) or <code>euro_schedule</code> (assumed from the date the vehicle was made)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">firstUsedDate_DVSA</td>
 <td style="text-align: left;">DATE</td>
-<td style="text-align: right;">71,018,562</td>
-<td style="text-align: right;">10,093,594</td>
+<td style="text-align: right;">71,018,586</td>
+<td style="text-align: right;">10,093,810</td>
 <td style="text-align: right;">12.44</td>
 <td style="text-align: left;">Date of first use as recorded by DVSA</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">monthOfFirstRegistration_DVLA</td>
 <td style="text-align: left;">DATE</td>
-<td style="text-align: right;">61,126,666</td>
-<td style="text-align: right;">19,985,490</td>
+<td style="text-align: right;">61,126,902</td>
+<td style="text-align: right;">19,985,494</td>
 <td style="text-align: right;">24.64</td>
 <td style="text-align: left;">Month of first registration from the DVLA record, used when DVSA has no date</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">birth_date</td>
 <td style="text-align: left;">DATE</td>
-<td style="text-align: right;">81,112,156</td>
+<td style="text-align: right;">81,112,396</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0.00</td>
 <td style="text-align: left;">Earliest of the DVSA first use, registration and manufacture dates</td>
@@ -852,7 +852,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="even">
 <td style="text-align: left;">first_use_date</td>
 <td style="text-align: left;">DATE</td>
-<td style="text-align: right;">81,112,156</td>
+<td style="text-align: right;">81,112,396</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0.00</td>
 <td style="text-align: left;">The date the churn tables treat as the start of the vehicle’s life, per <code>first_use_source</code></td>
@@ -860,7 +860,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td style="text-align: left;">fuel_raw</td>
 <td style="text-align: left;">VARCHAR</td>
-<td style="text-align: right;">81,112,156</td>
+<td style="text-align: right;">81,112,396</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0.00</td>
 <td style="text-align: left;">Fuel as supplied to the churn step: the harmonised <code>fuel</code> or churn v2’s <code>fuel_DVSA</code></td>
@@ -868,7 +868,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="even">
 <td style="text-align: left;">engine_size</td>
 <td style="text-align: left;">DOUBLE</td>
-<td style="text-align: right;">81,105,924</td>
+<td style="text-align: right;">81,106,164</td>
 <td style="text-align: right;">6,232</td>
 <td style="text-align: right;">0.01</td>
 <td style="text-align: left;">Engine size in cc, as a number. 0 means a fuel with no engine (electric, fuel cells)</td>
@@ -876,7 +876,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td style="text-align: left;">first_use_year</td>
 <td style="text-align: left;">BIGINT</td>
-<td style="text-align: right;">81,112,156</td>
+<td style="text-align: right;">81,112,396</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0.00</td>
 <td style="text-align: left;">Calendar year of <code>first_use_date</code></td>
@@ -884,7 +884,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="even">
 <td style="text-align: left;">age_num_2017</td>
 <td style="text-align: left;">INTEGER</td>
-<td style="text-align: right;">81,112,156</td>
+<td style="text-align: right;">81,112,396</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0.00</td>
 <td style="text-align: left;">Whole years old at 1 June 2017</td>
@@ -892,7 +892,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td style="text-align: left;">age_num_2022</td>
 <td style="text-align: left;">INTEGER</td>
-<td style="text-align: right;">81,112,156</td>
+<td style="text-align: right;">81,112,396</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0.00</td>
 <td style="text-align: left;">Whole years old at 1 June 2022</td>
@@ -900,7 +900,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="even">
 <td style="text-align: left;">n_moves_2007_2017</td>
 <td style="text-align: left;">INTEGER</td>
-<td style="text-align: right;">81,112,156</td>
+<td style="text-align: right;">81,112,396</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0.00</td>
 <td style="text-align: left;">Number of year-to-year postcode area changes between 2007 and 2017</td>
@@ -908,7 +908,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td style="text-align: left;">n_obs_2007_2017</td>
 <td style="text-align: left;">INTEGER</td>
-<td style="text-align: right;">81,112,156</td>
+<td style="text-align: right;">81,112,396</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0.00</td>
 <td style="text-align: left;">Number of year pairs in 2007-2017 where both years hold a real postcode area</td>
@@ -916,7 +916,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="even">
 <td style="text-align: left;">n_moves_2012_2022</td>
 <td style="text-align: left;">INTEGER</td>
-<td style="text-align: right;">81,112,156</td>
+<td style="text-align: right;">81,112,396</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0.00</td>
 <td style="text-align: left;">As <code>n_moves_2007_2017</code>, for 2012-2022</td>
@@ -924,7 +924,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td style="text-align: left;">n_obs_2012_2022</td>
 <td style="text-align: left;">INTEGER</td>
-<td style="text-align: right;">81,112,156</td>
+<td style="text-align: right;">81,112,396</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0.00</td>
 <td style="text-align: left;">As <code>n_obs_2007_2017</code>, for 2012-2022</td>
@@ -932,23 +932,23 @@ ul.task-list li input[type="checkbox"] {
 <tr class="even">
 <td style="text-align: left;">first_real_pca</td>
 <td style="text-align: left;">VARCHAR</td>
-<td style="text-align: right;">69,951,694</td>
-<td style="text-align: right;">11,160,462</td>
+<td style="text-align: right;">69,951,695</td>
+<td style="text-align: right;">11,160,701</td>
 <td style="text-align: right;">13.76</td>
 <td style="text-align: left;">The earliest year’s real postcode area, scanning 2005 onwards</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">birth_pca</td>
 <td style="text-align: left;">VARCHAR</td>
-<td style="text-align: right;">39,494,482</td>
-<td style="text-align: right;">41,617,674</td>
+<td style="text-align: right;">39,494,483</td>
+<td style="text-align: right;">41,617,913</td>
 <td style="text-align: right;">51.31</td>
 <td style="text-align: left;">The postcode area the vehicle first appeared in straight after being <code>unborn</code></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">static_2017</td>
 <td style="text-align: left;">BOOLEAN</td>
-<td style="text-align: right;">81,112,156</td>
+<td style="text-align: right;">81,112,396</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0.00</td>
 <td style="text-align: left;">TRUE if the vehicle is in a real postcode area in 2017 and in the same one in 2016 and 2018</td>
@@ -956,7 +956,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td style="text-align: left;">fuel_simple</td>
 <td style="text-align: left;">VARCHAR</td>
-<td style="text-align: right;">81,112,156</td>
+<td style="text-align: right;">81,112,396</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0.00</td>
 <td style="text-align: left;">Fuel in six groups: Petrol, Diesel, Electric, Hybrid Electric, Plug-in Hybrid Electric and Other. Plug-in hybrids come from the DfT fuel detail (methodology.md, Section 5.5), so they are missing in churn v2 mode, where the fuel is the DVSA one</td>
@@ -964,7 +964,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="even">
 <td style="text-align: left;">fuel3</td>
 <td style="text-align: left;">VARCHAR</td>
-<td style="text-align: right;">81,112,156</td>
+<td style="text-align: right;">81,112,396</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0.00</td>
 <td style="text-align: left;">Fuel in three groups: Petrol, Diesel, Other</td>
@@ -972,7 +972,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td style="text-align: left;">is_ev</td>
 <td style="text-align: left;">BOOLEAN</td>
-<td style="text-align: right;">81,112,156</td>
+<td style="text-align: right;">81,112,396</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0.00</td>
 <td style="text-align: left;">TRUE for fuel exactly Electric (Electric Diesel counts as a hybrid, not an EV)</td>
@@ -980,7 +980,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="even">
 <td style="text-align: left;">engine_band</td>
 <td style="text-align: left;">VARCHAR</td>
-<td style="text-align: right;">81,105,924</td>
+<td style="text-align: right;">81,106,164</td>
 <td style="text-align: right;">6,232</td>
 <td style="text-align: right;">0.01</td>
 <td style="text-align: left;">Engine size in the detailed band set (100cc steps to 3000, then wider)</td>
@@ -988,7 +988,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td style="text-align: left;">engine_band100</td>
 <td style="text-align: left;">VARCHAR</td>
-<td style="text-align: right;">81,105,924</td>
+<td style="text-align: right;">81,106,164</td>
 <td style="text-align: right;">6,232</td>
 <td style="text-align: right;">0.01</td>
 <td style="text-align: left;">Engine size in 100cc bands from 600 to 4000</td>
@@ -996,7 +996,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="even">
 <td style="text-align: left;">engine_band3</td>
 <td style="text-align: left;">VARCHAR</td>
-<td style="text-align: right;">81,105,924</td>
+<td style="text-align: right;">81,106,164</td>
 <td style="text-align: right;">6,232</td>
 <td style="text-align: right;">0.01</td>
 <td style="text-align: left;">Engine size in three bands</td>
@@ -1004,7 +1004,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td style="text-align: left;">engine_band4</td>
 <td style="text-align: left;">VARCHAR</td>
-<td style="text-align: right;">81,105,924</td>
+<td style="text-align: right;">81,106,164</td>
 <td style="text-align: right;">6,232</td>
 <td style="text-align: right;">0.01</td>
 <td style="text-align: left;">Engine size in four bands</td>
@@ -1012,31 +1012,31 @@ ul.task-list li input[type="checkbox"] {
 <tr class="even">
 <td style="text-align: left;">movement_rate</td>
 <td style="text-align: left;">DOUBLE</td>
-<td style="text-align: right;">50,233,914</td>
-<td style="text-align: right;">30,878,242</td>
+<td style="text-align: right;">50,234,144</td>
+<td style="text-align: right;">30,878,252</td>
 <td style="text-align: right;">38.07</td>
 <td style="text-align: left;">Churn v2 rate: <code>n_moves_2007_2017 / (age in 2017 - 3)</code>. The numerator counts moves over up to ten observed year pairs and the denominator is years of life after the third, so the rate is inflated for vehicles under 13 and deflated over 13: it falls with age by construction (see section 5)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">movement_rate_window</td>
 <td style="text-align: left;">DOUBLE</td>
-<td style="text-align: right;">56,205,537</td>
-<td style="text-align: right;">24,906,619</td>
+<td style="text-align: right;">56,205,538</td>
+<td style="text-align: right;">24,906,858</td>
 <td style="text-align: right;">30.71</td>
 <td style="text-align: left;">Moves per observed year pair: <code>n_moves_2007_2017 / n_obs_2007_2017</code></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">movement_rate_2022</td>
 <td style="text-align: left;">DOUBLE</td>
-<td style="text-align: right;">64,489,834</td>
-<td style="text-align: right;">16,622,322</td>
+<td style="text-align: right;">64,490,068</td>
+<td style="text-align: right;">16,622,328</td>
 <td style="text-align: right;">20.49</td>
 <td style="text-align: left;">As <code>movement_rate</code>, measured to 2022</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">ever_moved_pca</td>
 <td style="text-align: left;">BOOLEAN</td>
-<td style="text-align: right;">81,112,156</td>
+<td style="text-align: right;">81,112,396</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0.00</td>
 <td style="text-align: left;">TRUE if any year’s real postcode area differs from <code>first_real_pca</code></td>
@@ -1044,7 +1044,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="even">
 <td style="text-align: left;">caz_cat</td>
 <td style="text-align: left;">VARCHAR</td>
-<td style="text-align: right;">81,112,156</td>
+<td style="text-align: right;">81,112,396</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0.00</td>
 <td style="text-align: left;">Clean Air Zone proxy from fuel and first use year alone: <code>petrol_pre2006</code>, <code>diesel_pre2015</code> or <code>other</code>. Used by the Set 7 proxy checks; the Set 7 tables add the Euro standard (<code>caz_status</code>, computed in Set 7)</td>
@@ -1096,7 +1096,7 @@ ul.task-list li input[type="checkbox"] {
 <h3 class="anchored" data-anchor-id="coverage-year-by-year">4.2 Coverage year by year</h3>
 <section id="location-and-mileage-coverage-by-year" class="level4">
 <h4 class="anchored" data-anchor-id="location-and-mileage-coverage-by-year">Location and mileage coverage by year</h4>
-<p>One row per year. A vehicle counted under <code>n_unborn</code> had not been registered yet; under <code>n_dead</code>, its last MOT had already passed; under <code>n_unknown</code>, it was alive but not seen that year - most often a car in its first three years, which has no MOT due. <code>n_real_pca</code> + <code>n_unborn</code> + <code>n_dead</code> + <code>n_unknown</code> equals the full 81,112,156 vehicles in every year.</p>
+<p>One row per year. A vehicle counted under <code>n_unborn</code> had not been registered yet; under <code>n_dead</code>, its last MOT had already passed; under <code>n_unknown</code>, it was alive but not seen that year - most often a car in its first three years, which has no MOT due. <code>n_real_pca</code> + <code>n_unborn</code> + <code>n_dead</code> + <code>n_unknown</code> equals the full 81,112,396 vehicles in every year.</p>
 <ul>
 <li><code>n_real_pca</code>: vehicles with an actual postcode area</li>
 <li><code>n_distinct_pca</code>: how many different postcode areas appear</li>
@@ -1146,9 +1146,9 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: left;">2005</td>
 <td style="text-align: right;">29,630,915</td>
 <td style="text-align: right;">120</td>
-<td style="text-align: right;">48,428,777</td>
+<td style="text-align: right;">48,429,027</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">3,052,464</td>
+<td style="text-align: right;">3,052,454</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">NA</td>
 <td style="text-align: right;">NA</td>
@@ -1158,13 +1158,13 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td style="text-align: left;">2006</td>
-<td style="text-align: right;">32,210,585</td>
+<td style="text-align: right;">32,210,586</td>
 <td style="text-align: right;">120</td>
-<td style="text-align: right;">45,796,402</td>
+<td style="text-align: right;">45,796,605</td>
 <td style="text-align: right;">17,626</td>
-<td style="text-align: right;">3,087,543</td>
+<td style="text-align: right;">3,087,579</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">30,318,295</td>
+<td style="text-align: right;">30,318,299</td>
 <td style="text-align: right;">8,057.5</td>
 <td style="text-align: right;">6,928</td>
 <td style="text-align: right;">39.71</td>
@@ -1172,13 +1172,13 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2007</td>
-<td style="text-align: right;">34,829,563</td>
+<td style="text-align: right;">34,829,564</td>
 <td style="text-align: right;">120</td>
-<td style="text-align: right;">43,095,363</td>
+<td style="text-align: right;">43,095,500</td>
 <td style="text-align: right;">136,065</td>
-<td style="text-align: right;">3,051,165</td>
+<td style="text-align: right;">3,051,267</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">30,897,014</td>
+<td style="text-align: right;">30,897,022</td>
 <td style="text-align: right;">7,881.2</td>
 <td style="text-align: right;">6,731</td>
 <td style="text-align: right;">42.94</td>
@@ -1186,13 +1186,13 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td style="text-align: left;">2008</td>
-<td style="text-align: right;">36,672,620</td>
+<td style="text-align: right;">36,672,621</td>
 <td style="text-align: right;">120</td>
-<td style="text-align: right;">40,728,191</td>
+<td style="text-align: right;">40,728,279</td>
 <td style="text-align: right;">709,004</td>
-<td style="text-align: right;">3,002,341</td>
+<td style="text-align: right;">3,002,492</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">31,176,147</td>
+<td style="text-align: right;">31,176,155</td>
 <td style="text-align: right;">7,862.4</td>
 <td style="text-align: right;">6,716</td>
 <td style="text-align: right;">45.21</td>
@@ -1200,13 +1200,13 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2009</td>
-<td style="text-align: right;">36,842,961</td>
+<td style="text-align: right;">36,842,962</td>
 <td style="text-align: right;">120</td>
-<td style="text-align: right;">38,559,247</td>
-<td style="text-align: right;">2,739,897</td>
-<td style="text-align: right;">2,970,051</td>
+<td style="text-align: right;">38,559,303</td>
+<td style="text-align: right;">2,739,898</td>
+<td style="text-align: right;">2,970,233</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">31,257,967</td>
+<td style="text-align: right;">31,257,977</td>
 <td style="text-align: right;">7,782.0</td>
 <td style="text-align: right;">6,639</td>
 <td style="text-align: right;">45.42</td>
@@ -1214,13 +1214,13 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td style="text-align: left;">2010</td>
-<td style="text-align: right;">37,013,012</td>
+<td style="text-align: right;">37,013,013</td>
 <td style="text-align: right;">120</td>
-<td style="text-align: right;">36,350,474</td>
-<td style="text-align: right;">4,814,489</td>
-<td style="text-align: right;">2,934,181</td>
+<td style="text-align: right;">36,350,487</td>
+<td style="text-align: right;">4,814,490</td>
+<td style="text-align: right;">2,934,406</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">31,526,824</td>
+<td style="text-align: right;">31,526,834</td>
 <td style="text-align: right;">7,658.3</td>
 <td style="text-align: right;">6,519</td>
 <td style="text-align: right;">45.63</td>
@@ -1228,13 +1228,13 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2011</td>
-<td style="text-align: right;">37,135,714</td>
+<td style="text-align: right;">37,135,715</td>
 <td style="text-align: right;">120</td>
-<td style="text-align: right;">34,200,560</td>
-<td style="text-align: right;">6,869,268</td>
-<td style="text-align: right;">2,906,614</td>
+<td style="text-align: right;">34,200,567</td>
+<td style="text-align: right;">6,869,273</td>
+<td style="text-align: right;">2,906,841</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">31,708,440</td>
+<td style="text-align: right;">31,708,452</td>
 <td style="text-align: right;">7,611.5</td>
 <td style="text-align: right;">6,475</td>
 <td style="text-align: right;">45.78</td>
@@ -1242,13 +1242,13 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td style="text-align: left;">2012</td>
-<td style="text-align: right;">37,432,619</td>
+<td style="text-align: right;">37,432,620</td>
 <td style="text-align: right;">120</td>
-<td style="text-align: right;">31,956,733</td>
-<td style="text-align: right;">8,899,671</td>
-<td style="text-align: right;">2,823,133</td>
+<td style="text-align: right;">31,956,735</td>
+<td style="text-align: right;">8,899,677</td>
+<td style="text-align: right;">2,823,364</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">32,042,417</td>
+<td style="text-align: right;">32,042,427</td>
 <td style="text-align: right;">7,553.8</td>
 <td style="text-align: right;">6,409</td>
 <td style="text-align: right;">46.15</td>
@@ -1256,13 +1256,13 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2013</td>
-<td style="text-align: right;">38,029,390</td>
+<td style="text-align: right;">38,029,391</td>
 <td style="text-align: right;">120</td>
-<td style="text-align: right;">29,457,844</td>
-<td style="text-align: right;">10,802,890</td>
-<td style="text-align: right;">2,822,032</td>
+<td style="text-align: right;">29,457,846</td>
+<td style="text-align: right;">10,802,898</td>
+<td style="text-align: right;">2,822,261</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">32,657,387</td>
+<td style="text-align: right;">32,657,395</td>
 <td style="text-align: right;">7,524.4</td>
 <td style="text-align: right;">6,391</td>
 <td style="text-align: right;">46.88</td>
@@ -1270,13 +1270,13 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td style="text-align: left;">2014</td>
-<td style="text-align: right;">38,800,220</td>
+<td style="text-align: right;">38,800,221</td>
 <td style="text-align: right;">120</td>
-<td style="text-align: right;">26,707,974</td>
-<td style="text-align: right;">12,729,830</td>
-<td style="text-align: right;">2,874,132</td>
+<td style="text-align: right;">26,707,976</td>
+<td style="text-align: right;">12,729,839</td>
+<td style="text-align: right;">2,874,360</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">33,553,372</td>
+<td style="text-align: right;">33,553,380</td>
 <td style="text-align: right;">7,457.7</td>
 <td style="text-align: right;">6,340</td>
 <td style="text-align: right;">47.84</td>
@@ -1284,13 +1284,13 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2015</td>
-<td style="text-align: right;">39,827,491</td>
+<td style="text-align: right;">39,827,492</td>
 <td style="text-align: right;">120</td>
-<td style="text-align: right;">23,763,906</td>
-<td style="text-align: right;">14,622,875</td>
-<td style="text-align: right;">2,897,884</td>
+<td style="text-align: right;">23,763,908</td>
+<td style="text-align: right;">14,622,885</td>
+<td style="text-align: right;">2,898,111</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">34,531,301</td>
+<td style="text-align: right;">34,531,309</td>
 <td style="text-align: right;">7,394.7</td>
 <td style="text-align: right;">6,285</td>
 <td style="text-align: right;">49.10</td>
@@ -1298,13 +1298,13 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td style="text-align: left;">2016</td>
-<td style="text-align: right;">40,957,904</td>
+<td style="text-align: right;">40,957,905</td>
 <td style="text-align: right;">120</td>
-<td style="text-align: right;">20,762,168</td>
-<td style="text-align: right;">16,473,050</td>
-<td style="text-align: right;">2,919,034</td>
+<td style="text-align: right;">20,762,169</td>
+<td style="text-align: right;">16,473,062</td>
+<td style="text-align: right;">2,919,260</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">35,278,645</td>
+<td style="text-align: right;">35,278,653</td>
 <td style="text-align: right;">7,361.6</td>
 <td style="text-align: right;">6,259</td>
 <td style="text-align: right;">50.50</td>
@@ -1312,13 +1312,13 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2017</td>
-<td style="text-align: right;">41,341,397</td>
+<td style="text-align: right;">41,341,398</td>
 <td style="text-align: right;">120</td>
-<td style="text-align: right;">18,540,106</td>
-<td style="text-align: right;">18,288,766</td>
-<td style="text-align: right;">2,941,887</td>
+<td style="text-align: right;">18,540,107</td>
+<td style="text-align: right;">18,288,779</td>
+<td style="text-align: right;">2,942,112</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">35,164,380</td>
+<td style="text-align: right;">35,164,387</td>
 <td style="text-align: right;">7,310.6</td>
 <td style="text-align: right;">6,223</td>
 <td style="text-align: right;">50.97</td>
@@ -1326,13 +1326,13 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td style="text-align: left;">2018</td>
-<td style="text-align: right;">42,034,312</td>
+<td style="text-align: right;">42,034,313</td>
 <td style="text-align: right;">120</td>
-<td style="text-align: right;">15,264,370</td>
-<td style="text-align: right;">20,242,181</td>
-<td style="text-align: right;">3,571,293</td>
+<td style="text-align: right;">15,264,371</td>
+<td style="text-align: right;">20,242,195</td>
+<td style="text-align: right;">3,571,517</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">35,637,673</td>
+<td style="text-align: right;">35,637,678</td>
 <td style="text-align: right;">7,169.0</td>
 <td style="text-align: right;">6,074</td>
 <td style="text-align: right;">51.82</td>
@@ -1340,13 +1340,13 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2019</td>
-<td style="text-align: right;">42,457,979</td>
+<td style="text-align: right;">42,457,980</td>
 <td style="text-align: right;">120</td>
-<td style="text-align: right;">12,657,393</td>
-<td style="text-align: right;">22,407,519</td>
-<td style="text-align: right;">3,589,265</td>
+<td style="text-align: right;">12,657,394</td>
+<td style="text-align: right;">22,407,534</td>
+<td style="text-align: right;">3,589,488</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">36,011,263</td>
+<td style="text-align: right;">36,011,267</td>
 <td style="text-align: right;">6,366.0</td>
 <td style="text-align: right;">5,314</td>
 <td style="text-align: right;">52.34</td>
@@ -1354,13 +1354,13 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td style="text-align: left;">2020</td>
-<td style="text-align: right;">42,279,407</td>
+<td style="text-align: right;">42,279,408</td>
 <td style="text-align: right;">120</td>
 <td style="text-align: right;">10,793,115</td>
-<td style="text-align: right;">24,687,958</td>
-<td style="text-align: right;">3,351,676</td>
+<td style="text-align: right;">24,687,972</td>
+<td style="text-align: right;">3,351,901</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">36,786,231</td>
+<td style="text-align: right;">36,786,236</td>
 <td style="text-align: right;">5,913.9</td>
 <td style="text-align: right;">4,795</td>
 <td style="text-align: right;">52.12</td>
@@ -1368,13 +1368,13 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2021</td>
-<td style="text-align: right;">42,354,317</td>
+<td style="text-align: right;">42,354,318</td>
 <td style="text-align: right;">120</td>
 <td style="text-align: right;">8,918,080</td>
-<td style="text-align: right;">26,845,102</td>
-<td style="text-align: right;">2,994,657</td>
+<td style="text-align: right;">26,845,116</td>
+<td style="text-align: right;">2,994,882</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">37,031,752</td>
+<td style="text-align: right;">37,031,757</td>
 <td style="text-align: right;">6,618.0</td>
 <td style="text-align: right;">5,563</td>
 <td style="text-align: right;">52.22</td>
@@ -1382,13 +1382,13 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td style="text-align: left;">2022</td>
-<td style="text-align: right;">41,773,660</td>
+<td style="text-align: right;">41,773,661</td>
 <td style="text-align: right;">120</td>
 <td style="text-align: right;">7,205,481</td>
-<td style="text-align: right;">29,029,134</td>
-<td style="text-align: right;">3,103,881</td>
+<td style="text-align: right;">29,029,151</td>
+<td style="text-align: right;">3,104,103</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">37,112,688</td>
+<td style="text-align: right;">37,112,692</td>
 <td style="text-align: right;">6,800.5</td>
 <td style="text-align: right;">5,738</td>
 <td style="text-align: right;">51.50</td>
@@ -1396,13 +1396,13 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2023</td>
-<td style="text-align: right;">40,277,824</td>
+<td style="text-align: right;">40,277,825</td>
 <td style="text-align: right;">120</td>
 <td style="text-align: right;">6,972,404</td>
-<td style="text-align: right;">30,656,530</td>
-<td style="text-align: right;">3,205,398</td>
+<td style="text-align: right;">30,656,548</td>
+<td style="text-align: right;">3,205,619</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">36,198,118</td>
+<td style="text-align: right;">36,198,120</td>
 <td style="text-align: right;">6,951.3</td>
 <td style="text-align: right;">5,887</td>
 <td style="text-align: right;">49.66</td>
@@ -1410,13 +1410,13 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td style="text-align: left;">2024</td>
-<td style="text-align: right;">38,636,554</td>
+<td style="text-align: right;">38,636,555</td>
 <td style="text-align: right;">120</td>
 <td style="text-align: right;">4,959,747</td>
-<td style="text-align: right;">32,347,643</td>
-<td style="text-align: right;">5,168,212</td>
+<td style="text-align: right;">32,347,663</td>
+<td style="text-align: right;">5,168,431</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">34,261,150</td>
+<td style="text-align: right;">34,261,152</td>
 <td style="text-align: right;">6,924.2</td>
 <td style="text-align: right;">5,838</td>
 <td style="text-align: right;">47.63</td>
@@ -1424,13 +1424,13 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2025</td>
-<td style="text-align: right;">36,477,689</td>
+<td style="text-align: right;">36,477,690</td>
 <td style="text-align: right;">120</td>
 <td style="text-align: right;">2,927,033</td>
-<td style="text-align: right;">33,984,901</td>
-<td style="text-align: right;">7,722,533</td>
+<td style="text-align: right;">33,984,922</td>
+<td style="text-align: right;">7,722,751</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">24,079,127</td>
+<td style="text-align: right;">24,079,128</td>
 <td style="text-align: right;">6,833.3</td>
 <td style="text-align: right;">5,720</td>
 <td style="text-align: right;">44.97</td>
@@ -1440,7 +1440,7 @@ ul.task-list li input[type="checkbox"] {
 </table>
 <p>Mileage starts in 2006 because a year’s mileage is the difference between two MOT odometer readings, so the first year of data has nothing to subtract from. The last year or two usually look thin: MOTs for those years are still being recorded.</p>
 <p><img src="churn_tables_report_figures/coverage-1.png" class="img-fluid"></p>
-<p><strong>Figure 1.</strong> The table above as a chart: all 81,112,156 churn-base vehicles (test class 4) by their location status in each year (<code>quality/churn_profile/by_year.csv</code>). <code>dead</code> starts two years after a vehicle’s last MOT, because the annualisation keeps its postcode area for two years after it.</p>
+<p><strong>Figure 1.</strong> The table above as a chart: all 81,112,396 churn-base vehicles (test class 4) by their location status in each year (<code>quality/churn_profile/by_year.csv</code>). <code>dead</code> starts two years after a vehicle’s last MOT, because the annualisation keeps its postcode area for two years after it.</p>
 </section>
 </section>
 </section>
@@ -1630,21 +1630,21 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="how-complete-the-variables-are" class="level2">
 <h2 class="anchored" data-anchor-id="how-complete-the-variables-are">6. How complete the variables are</h2>
-<p>The table in section 4.1 gives the exact missing counts. In words, for the 81,112,156 vehicles:</p>
+<p>The table in section 4.1 gives the exact missing counts. In words, for the 81,112,396 vehicles:</p>
 <ul>
 <li><strong>Location and fuel are never missing.</strong> Every vehicle has a value in every <code>pca_YYYY</code> column (though 49.0% of 2017’s values are one of the three stand-in words), and every vehicle has a fuel group.</li>
 <li><strong>Engine size</strong> is missing for 6,232 vehicles (0.0%), so the four engine band columns are missing for exactly the same vehicles.</li>
-<li><strong>Euro status</strong> is missing for 3,888,410 vehicles (4.8%); in the harmonised column these hold the reason instead (<code>pre_euro</code>, <code>no_schedule</code> or <code>no_date</code>), so count them by <code>euro_status_src</code>, not by an empty <code>euro_status</code>. That looks like good coverage, but most of it is an assumption rather than a record: the register holds a Euro status for only a minority of vehicles, and where it holds none the enhanced table fills in the standard that was compulsory for new registrations of that body type when the vehicle was made (methodology.md, Section 5.7). Euro status is used only in Set 7, where it decides the Clean Air Zone category together with the first use date.</li>
-<li><strong>Movement rate</strong> is missing for 30,878,242 vehicles (38.1%) - those aged under 4 in 2017, for whom it is not defined.</li>
-<li><strong><code>birth_pca</code></strong> (the area a vehicle first appeared in) is missing for 41,617,674 vehicles (51.3%): vehicles already registered before the data starts never have an <code>unborn</code>-to-area transition to read it from. Set 4’s “born here” columns are only meaningful for recent vehicles.</li>
-<li><strong>The dates behind the age calculation</strong> are never missing in the combined <code>first_use_date</code>, but the individual sources are: DVSA’s own date is missing for 10,093,594 vehicles (12.4%), which is what Set 0 reports on.</li>
+<li><strong>Euro status</strong> is missing for 3,888,617 vehicles (4.8%); in the harmonised column these hold the reason instead (<code>pre_euro</code>, <code>no_schedule</code> or <code>no_date</code>), so count them by <code>euro_status_src</code>, not by an empty <code>euro_status</code>. That looks like good coverage, but most of it is an assumption rather than a record: the register holds a Euro status for only a minority of vehicles, and where it holds none the enhanced table fills in the standard that was compulsory for new registrations of that body type when the vehicle was made (methodology.md, Section 5.7). Euro status is used only in Set 7, where it decides the Clean Air Zone category together with the first use date.</li>
+<li><strong>Movement rate</strong> is missing for 30,878,252 vehicles (38.1%) - those aged under 4 in 2017, for whom it is not defined.</li>
+<li><strong><code>birth_pca</code></strong> (the area a vehicle first appeared in) is missing for 41,617,913 vehicles (51.3%): vehicles already registered before the data starts never have an <code>unborn</code>-to-area transition to read it from. Set 4’s “born here” columns are only meaningful for recent vehicles.</li>
+<li><strong>The dates behind the age calculation</strong> are never missing in the combined <code>first_use_date</code>, but the individual sources are: DVSA’s own date is missing for 10,093,810 vehicles (12.4%), which is what Set 0 reports on.</li>
 </ul>
 </section>
 <section id="how-the-values-are-distributed" class="level2">
 <h2 class="anchored" data-anchor-id="how-the-values-are-distributed">7. How the values are distributed</h2>
 <section id="every-grouping-variable-with-its-values" class="level3">
 <h3 class="anchored" data-anchor-id="every-grouping-variable-with-its-values">Every grouping variable, with its values</h3>
-<p><code>(missing)</code> is a real row here, so each variable’s rows sum to the full 81,112,156 vehicles. Age and mileage bands are shown as at the year named in the variable; the tables also compute them for other years, with a similar shape. <code>movement_rate_band</code> bands are the exception to the usual rule: they exclude their lower bound and include their upper, so <code>(0-0.1]</code> means more than 0 and up to 0.1, and <code>0</code> means exactly no moves.</p>
+<p><code>(missing)</code> is a real row here, so each variable’s rows sum to the full 81,112,396 vehicles. Age and mileage bands are shown as at the year named in the variable; the tables also compute them for other years, with a similar shape. <code>movement_rate_band</code> bands are the exception to the usual rule: they exclude their lower bound and include their upper, so <code>(0-0.1]</code> means more than 0 and up to 0.1, and <code>0</code> means exactly no moves.</p>
 <ul>
 <li><code>variable</code>: the variable being described</li>
 <li><code>value</code>: one of its values, or <code>(missing)</code></li>
@@ -1664,25 +1664,25 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td style="text-align: left;">test_class</td>
 <td style="text-align: left;">4</td>
-<td style="text-align: right;">81,112,156</td>
+<td style="text-align: right;">81,112,396</td>
 <td style="text-align: right;">100.00</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">fuel_simple</td>
 <td style="text-align: left;">Petrol</td>
-<td style="text-align: right;">46,963,516</td>
+<td style="text-align: right;">46,963,761</td>
 <td style="text-align: right;">57.90</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">fuel_simple</td>
 <td style="text-align: left;">Diesel</td>
-<td style="text-align: right;">27,991,957</td>
+<td style="text-align: right;">27,991,951</td>
 <td style="text-align: right;">34.51</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">fuel_simple</td>
 <td style="text-align: left;">Electric</td>
-<td style="text-align: right;">1,762,706</td>
+<td style="text-align: right;">1,762,707</td>
 <td style="text-align: right;">2.17</td>
 </tr>
 <tr class="odd">
@@ -1706,61 +1706,61 @@ ul.task-list li input[type="checkbox"] {
 <tr class="even">
 <td style="text-align: left;">fuel3</td>
 <td style="text-align: left;">Petrol</td>
-<td style="text-align: right;">46,963,516</td>
+<td style="text-align: right;">46,963,761</td>
 <td style="text-align: right;">57.90</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">fuel3</td>
 <td style="text-align: left;">Diesel</td>
-<td style="text-align: right;">27,991,957</td>
+<td style="text-align: right;">27,991,951</td>
 <td style="text-align: right;">34.51</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">fuel3</td>
 <td style="text-align: left;">Other</td>
-<td style="text-align: right;">6,156,683</td>
+<td style="text-align: right;">6,156,684</td>
 <td style="text-align: right;">7.59</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">is_ev</td>
 <td style="text-align: left;">true</td>
-<td style="text-align: right;">1,762,706</td>
+<td style="text-align: right;">1,762,707</td>
 <td style="text-align: right;">2.17</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">is_ev</td>
 <td style="text-align: left;">false</td>
-<td style="text-align: right;">79,349,450</td>
+<td style="text-align: right;">79,349,689</td>
 <td style="text-align: right;">97.83</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">caz_cat</td>
 <td style="text-align: left;">petrol_pre2006</td>
-<td style="text-align: right;">24,182,134</td>
+<td style="text-align: right;">24,182,178</td>
 <td style="text-align: right;">29.81</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">caz_cat</td>
 <td style="text-align: left;">diesel_pre2015</td>
-<td style="text-align: right;">19,287,089</td>
+<td style="text-align: right;">19,287,082</td>
 <td style="text-align: right;">23.78</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">caz_cat</td>
 <td style="text-align: left;">other</td>
-<td style="text-align: right;">37,642,933</td>
+<td style="text-align: right;">37,643,136</td>
 <td style="text-align: right;">46.41</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">static_2017</td>
 <td style="text-align: left;">true</td>
-<td style="text-align: right;">27,299,912</td>
+<td style="text-align: right;">27,299,913</td>
 <td style="text-align: right;">33.66</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">static_2017</td>
 <td style="text-align: left;">false</td>
-<td style="text-align: right;">53,812,244</td>
+<td style="text-align: right;">53,812,483</td>
 <td style="text-align: right;">66.34</td>
 </tr>
 <tr class="even">
@@ -1772,31 +1772,31 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td style="text-align: left;">ever_moved_pca</td>
 <td style="text-align: left;">false</td>
-<td style="text-align: right;">34,909,812</td>
+<td style="text-align: right;">34,910,052</td>
 <td style="text-align: right;">43.04</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">engine_band3</td>
 <td style="text-align: left;">0 (electric)</td>
-<td style="text-align: right;">1,762,738</td>
+<td style="text-align: right;">1,762,739</td>
 <td style="text-align: right;">2.17</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">engine_band3</td>
 <td style="text-align: left;">1-1400</td>
-<td style="text-align: right;">25,623,175</td>
+<td style="text-align: right;">25,623,422</td>
 <td style="text-align: right;">31.59</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">engine_band3</td>
 <td style="text-align: left;">1400-2000</td>
-<td style="text-align: right;">42,422,377</td>
+<td style="text-align: right;">42,422,374</td>
 <td style="text-align: right;">52.30</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">engine_band3</td>
 <td style="text-align: left;">&gt;2000</td>
-<td style="text-align: right;">11,297,634</td>
+<td style="text-align: right;">11,297,629</td>
 <td style="text-align: right;">13.93</td>
 </tr>
 <tr class="even">
@@ -1808,19 +1808,19 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td style="text-align: left;">engine_band4</td>
 <td style="text-align: left;">0 (electric)</td>
-<td style="text-align: right;">1,762,738</td>
+<td style="text-align: right;">1,762,739</td>
 <td style="text-align: right;">2.17</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">engine_band4</td>
 <td style="text-align: left;">1-1400</td>
-<td style="text-align: right;">25,623,175</td>
+<td style="text-align: right;">25,623,422</td>
 <td style="text-align: right;">31.59</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">engine_band4</td>
 <td style="text-align: left;">1400-&lt;1700</td>
-<td style="text-align: right;">18,858,573</td>
+<td style="text-align: right;">18,858,570</td>
 <td style="text-align: right;">23.25</td>
 </tr>
 <tr class="even">
@@ -1832,7 +1832,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td style="text-align: left;">engine_band4</td>
 <td style="text-align: left;">&gt;2000</td>
-<td style="text-align: right;">11,297,634</td>
+<td style="text-align: right;">11,297,629</td>
 <td style="text-align: right;">13.93</td>
 </tr>
 <tr class="even">
@@ -1844,25 +1844,25 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td style="text-align: left;">age_band_2017</td>
 <td style="text-align: left;">&lt;0</td>
-<td style="text-align: right;">19,387,122</td>
+<td style="text-align: right;">19,387,129</td>
 <td style="text-align: right;">23.90</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">age_band_2017</td>
 <td style="text-align: left;">0</td>
-<td style="text-align: right;">3,011,655</td>
+<td style="text-align: right;">3,011,656</td>
 <td style="text-align: right;">3.71</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">age_band_2017</td>
 <td style="text-align: left;">1</td>
-<td style="text-align: right;">2,986,371</td>
+<td style="text-align: right;">2,986,372</td>
 <td style="text-align: right;">3.68</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">age_band_2017</td>
 <td style="text-align: left;">2</td>
-<td style="text-align: right;">2,862,325</td>
+<td style="text-align: right;">2,862,326</td>
 <td style="text-align: right;">3.53</td>
 </tr>
 <tr class="odd">
@@ -1874,73 +1874,73 @@ ul.task-list li input[type="checkbox"] {
 <tr class="even">
 <td style="text-align: left;">age_band_2017</td>
 <td style="text-align: left;">4</td>
-<td style="text-align: right;">2,360,387</td>
+<td style="text-align: right;">2,360,388</td>
 <td style="text-align: right;">2.91</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">age_band_2017</td>
 <td style="text-align: left;">5</td>
-<td style="text-align: right;">2,158,885</td>
+<td style="text-align: right;">2,158,889</td>
 <td style="text-align: right;">2.66</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">age_band_2017</td>
 <td style="text-align: left;">6</td>
-<td style="text-align: right;">2,172,769</td>
+<td style="text-align: right;">2,172,776</td>
 <td style="text-align: right;">2.68</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">age_band_2017</td>
 <td style="text-align: left;">7</td>
-<td style="text-align: right;">2,331,098</td>
+<td style="text-align: right;">2,331,115</td>
 <td style="text-align: right;">2.87</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">age_band_2017</td>
 <td style="text-align: left;">8</td>
-<td style="text-align: right;">2,052,225</td>
+<td style="text-align: right;">2,052,264</td>
 <td style="text-align: right;">2.53</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">age_band_2017</td>
 <td style="text-align: left;">9</td>
-<td style="text-align: right;">2,678,852</td>
+<td style="text-align: right;">2,678,889</td>
 <td style="text-align: right;">3.30</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">age_band_2017</td>
 <td style="text-align: left;">10</td>
-<td style="text-align: right;">2,667,449</td>
+<td style="text-align: right;">2,667,503</td>
 <td style="text-align: right;">3.29</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">age_band_2017</td>
 <td style="text-align: left;">11</td>
-<td style="text-align: right;">2,684,039</td>
+<td style="text-align: right;">2,684,105</td>
 <td style="text-align: right;">3.31</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">age_band_2017</td>
 <td style="text-align: left;">12</td>
-<td style="text-align: right;">2,809,556</td>
+<td style="text-align: right;">2,809,572</td>
 <td style="text-align: right;">3.46</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">age_band_2017</td>
 <td style="text-align: left;">13</td>
-<td style="text-align: right;">2,882,373</td>
+<td style="text-align: right;">2,882,371</td>
 <td style="text-align: right;">3.55</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">age_band_2017</td>
 <td style="text-align: left;">14</td>
-<td style="text-align: right;">2,824,303</td>
+<td style="text-align: right;">2,824,301</td>
 <td style="text-align: right;">3.48</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">age_band_2017</td>
 <td style="text-align: left;">15</td>
-<td style="text-align: right;">2,826,504</td>
+<td style="text-align: right;">2,826,496</td>
 <td style="text-align: right;">3.48</td>
 </tr>
 <tr class="even">
@@ -1958,7 +1958,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="even">
 <td style="text-align: left;">age_band_2017</td>
 <td style="text-align: left;">18</td>
-<td style="text-align: right;">2,334,367</td>
+<td style="text-align: right;">2,334,368</td>
 <td style="text-align: right;">2.88</td>
 </tr>
 <tr class="odd">
@@ -1976,67 +1976,67 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td style="text-align: left;">age_band5_2017</td>
 <td style="text-align: left;">&lt;0</td>
-<td style="text-align: right;">19,387,122</td>
+<td style="text-align: right;">19,387,129</td>
 <td style="text-align: right;">23.90</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">age_band5_2017</td>
 <td style="text-align: left;">0-3</td>
-<td style="text-align: right;">11,491,120</td>
+<td style="text-align: right;">11,491,123</td>
 <td style="text-align: right;">14.17</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">age_band5_2017</td>
 <td style="text-align: left;">4-5</td>
-<td style="text-align: right;">4,519,272</td>
+<td style="text-align: right;">4,519,277</td>
 <td style="text-align: right;">5.57</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">age_band5_2017</td>
 <td style="text-align: left;">6-8</td>
-<td style="text-align: right;">6,556,092</td>
+<td style="text-align: right;">6,556,155</td>
 <td style="text-align: right;">8.08</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">age_band5_2017</td>
 <td style="text-align: left;">9-17</td>
-<td style="text-align: right;">24,291,994</td>
+<td style="text-align: right;">24,292,155</td>
 <td style="text-align: right;">29.95</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">age_band5_2017</td>
 <td style="text-align: left;">18+</td>
-<td style="text-align: right;">14,866,556</td>
+<td style="text-align: right;">14,866,557</td>
 <td style="text-align: right;">18.33</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">age_band6_2018</td>
 <td style="text-align: left;">&lt;0</td>
-<td style="text-align: right;">16,622,322</td>
+<td style="text-align: right;">16,622,328</td>
 <td style="text-align: right;">20.49</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">age_band6_2018</td>
 <td style="text-align: left;">0-3</td>
-<td style="text-align: right;">11,625,151</td>
+<td style="text-align: right;">11,625,155</td>
 <td style="text-align: right;">14.33</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">age_band6_2018</td>
 <td style="text-align: left;">4-5</td>
-<td style="text-align: right;">4,991,156</td>
+<td style="text-align: right;">4,991,157</td>
 <td style="text-align: right;">6.15</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">age_band6_2018</td>
 <td style="text-align: left;">6-8</td>
-<td style="text-align: right;">6,677,008</td>
+<td style="text-align: right;">6,677,041</td>
 <td style="text-align: right;">8.23</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">age_band6_2018</td>
 <td style="text-align: left;">9-12</td>
-<td style="text-align: right;">10,086,715</td>
+<td style="text-align: right;">10,086,910</td>
 <td style="text-align: right;">12.44</td>
 </tr>
 <tr class="even">
@@ -2048,37 +2048,37 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td style="text-align: left;">age_band6_2018</td>
 <td style="text-align: left;">18+</td>
-<td style="text-align: right;">17,278,008</td>
+<td style="text-align: right;">17,278,009</td>
 <td style="text-align: right;">21.30</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">mileage_band3_2017</td>
 <td style="text-align: left;">&lt;5k</td>
-<td style="text-align: right;">13,775,988</td>
+<td style="text-align: right;">13,775,994</td>
 <td style="text-align: right;">16.98</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">mileage_band3_2017</td>
 <td style="text-align: left;">5-12k</td>
-<td style="text-align: right;">15,955,375</td>
+<td style="text-align: right;">15,955,377</td>
 <td style="text-align: right;">19.67</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">mileage_band3_2017</td>
 <td style="text-align: left;">&gt;12k</td>
-<td style="text-align: right;">5,433,017</td>
+<td style="text-align: right;">5,433,016</td>
 <td style="text-align: right;">6.70</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">mileage_band3_2017</td>
 <td style="text-align: left;">(missing)</td>
-<td style="text-align: right;">45,947,776</td>
+<td style="text-align: right;">45,948,009</td>
 <td style="text-align: right;">56.65</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">movement_rate_band</td>
 <td style="text-align: left;">0</td>
-<td style="text-align: right;">24,072,484</td>
+<td style="text-align: right;">24,072,714</td>
 <td style="text-align: right;">29.68</td>
 </tr>
 <tr class="odd">
@@ -2132,7 +2132,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td style="text-align: left;">movement_rate_band</td>
 <td style="text-align: left;">(missing)</td>
-<td style="text-align: right;">30,878,242</td>
+<td style="text-align: right;">30,878,252</td>
 <td style="text-align: right;">38.07</td>
 </tr>
 </tbody>
@@ -2154,13 +2154,13 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td style="text-align: left;">engine_band</td>
 <td style="text-align: left;">0 (electric)</td>
-<td style="text-align: right;">1,762,738</td>
+<td style="text-align: right;">1,762,739</td>
 <td style="text-align: right;">2.17</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">engine_band</td>
 <td style="text-align: left;">1-1000</td>
-<td style="text-align: right;">6,480,202</td>
+<td style="text-align: right;">6,480,448</td>
 <td style="text-align: right;">7.99</td>
 </tr>
 <tr class="odd">
@@ -2178,7 +2178,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td style="text-align: left;">engine_band</td>
 <td style="text-align: left;">1200-1300</td>
-<td style="text-align: right;">5,779,270</td>
+<td style="text-align: right;">5,779,271</td>
 <td style="text-align: right;">7.13</td>
 </tr>
 <tr class="even">
@@ -2196,7 +2196,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="even">
 <td style="text-align: left;">engine_band</td>
 <td style="text-align: left;">1500-1600</td>
-<td style="text-align: right;">11,760,349</td>
+<td style="text-align: right;">11,760,346</td>
 <td style="text-align: right;">14.50</td>
 </tr>
 <tr class="odd">
@@ -2232,7 +2232,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="even">
 <td style="text-align: left;">engine_band</td>
 <td style="text-align: left;">2100-2200</td>
-<td style="text-align: right;">2,320,419</td>
+<td style="text-align: right;">2,320,410</td>
 <td style="text-align: right;">2.86</td>
 </tr>
 <tr class="odd">
@@ -2280,13 +2280,13 @@ ul.task-list li input[type="checkbox"] {
 <tr class="even">
 <td style="text-align: left;">engine_band</td>
 <td style="text-align: left;">2900-3000</td>
-<td style="text-align: right;">2,359,315</td>
+<td style="text-align: right;">2,359,317</td>
 <td style="text-align: right;">2.91</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">engine_band</td>
 <td style="text-align: left;">3000-4000</td>
-<td style="text-align: right;">1,051,972</td>
+<td style="text-align: right;">1,051,974</td>
 <td style="text-align: right;">1.30</td>
 </tr>
 <tr class="even">
@@ -2310,13 +2310,13 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td style="text-align: left;">engine_band100</td>
 <td style="text-align: left;">0 (electric)</td>
-<td style="text-align: right;">1,762,738</td>
+<td style="text-align: right;">1,762,739</td>
 <td style="text-align: right;">2.17</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">engine_band100</td>
 <td style="text-align: left;">1-600</td>
-<td style="text-align: right;">81,052</td>
+<td style="text-align: right;">81,254</td>
 <td style="text-align: right;">0.10</td>
 </tr>
 <tr class="odd">
@@ -2328,13 +2328,13 @@ ul.task-list li input[type="checkbox"] {
 <tr class="even">
 <td style="text-align: left;">engine_band100</td>
 <td style="text-align: left;">700-800</td>
-<td style="text-align: right;">80,435</td>
+<td style="text-align: right;">80,476</td>
 <td style="text-align: right;">0.10</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">engine_band100</td>
 <td style="text-align: left;">800-900</td>
-<td style="text-align: right;">343,321</td>
+<td style="text-align: right;">343,324</td>
 <td style="text-align: right;">0.42</td>
 </tr>
 <tr class="even">
@@ -2358,7 +2358,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td style="text-align: left;">engine_band100</td>
 <td style="text-align: left;">1200-1300</td>
-<td style="text-align: right;">5,779,270</td>
+<td style="text-align: right;">5,779,271</td>
 <td style="text-align: right;">7.13</td>
 </tr>
 <tr class="even">
@@ -2376,7 +2376,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="even">
 <td style="text-align: left;">engine_band100</td>
 <td style="text-align: left;">1500-1600</td>
-<td style="text-align: right;">11,760,349</td>
+<td style="text-align: right;">11,760,346</td>
 <td style="text-align: right;">14.50</td>
 </tr>
 <tr class="odd">
@@ -2412,7 +2412,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="even">
 <td style="text-align: left;">engine_band100</td>
 <td style="text-align: left;">2100-2200</td>
-<td style="text-align: right;">2,320,419</td>
+<td style="text-align: right;">2,320,410</td>
 <td style="text-align: right;">2.86</td>
 </tr>
 <tr class="odd">
@@ -2460,7 +2460,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="even">
 <td style="text-align: left;">engine_band100</td>
 <td style="text-align: left;">2900-3000</td>
-<td style="text-align: right;">2,359,315</td>
+<td style="text-align: right;">2,359,317</td>
 <td style="text-align: right;">2.91</td>
 </tr>
 <tr class="odd">
@@ -2520,7 +2520,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="even">
 <td style="text-align: left;">engine_band100</td>
 <td style="text-align: left;">3900-4000</td>
-<td style="text-align: right;">249,259</td>
+<td style="text-align: right;">249,261</td>
 <td style="text-align: right;">0.31</td>
 </tr>
 <tr class="odd">
@@ -2568,7 +2568,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="even">
 <td style="text-align: left;">0 (no engine)</td>
 <td style="text-align: left;">Electric</td>
-<td style="text-align: right;">1,762,706</td>
+<td style="text-align: right;">1,762,707</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">0 (no engine)</td>
@@ -2578,7 +2578,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="even">
 <td style="text-align: left;">1-49</td>
 <td style="text-align: left;">Petrol</td>
-<td style="text-align: right;">1,418</td>
+<td style="text-align: right;">1,417</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">1-49</td>
@@ -2603,7 +2603,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td style="text-align: left;">50-599</td>
 <td style="text-align: left;">Petrol</td>
-<td style="text-align: right;">74,786</td>
+<td style="text-align: right;">74,989</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">50-599</td>
@@ -2628,12 +2628,12 @@ ul.task-list li input[type="checkbox"] {
 <tr class="even">
 <td style="text-align: left;">600-7000</td>
 <td style="text-align: left;">Petrol</td>
-<td style="text-align: right;">46,876,305</td>
+<td style="text-align: right;">46,876,348</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">600-7000</td>
 <td style="text-align: left;">Diesel</td>
-<td style="text-align: right;">27,981,413</td>
+<td style="text-align: right;">27,981,407</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">600-7000</td>
@@ -2699,19 +2699,19 @@ ul.task-list li input[type="checkbox"] {
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">vehicles</td>
-<td style="text-align: right;">81,112,156</td>
+<td style="text-align: right;">81,112,396</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">with_movement_rate</td>
-<td style="text-align: right;">50,233,914</td>
+<td style="text-align: right;">50,234,144</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">with_movement_rate_window</td>
-<td style="text-align: right;">56,205,537</td>
+<td style="text-align: right;">56,205,538</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">with_movement_rate_2022</td>
-<td style="text-align: right;">64,489,834</td>
+<td style="text-align: right;">64,490,068</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">rate_above_1</td>
@@ -2719,7 +2719,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td style="text-align: left;">rate_exactly_0</td>
-<td style="text-align: right;">24,072,484</td>
+<td style="text-align: right;">24,072,714</td>
 </tr>
 </tbody>
 </table>
@@ -2730,7 +2730,7 @@ ul.task-list li input[type="checkbox"] {
 <p>Different tables count different vehicles. These are the populations in use.</p>
 <section id="populations" class="level3">
 <h3 class="anchored" data-anchor-id="populations">Populations</h3>
-<p><code>pct_of_base</code> is the share of the 81,112,156 vehicles in the churn base. A table built on <code>real_pca_2017_age4plus</code> is answering a question about a 2017 cohort, and tells you nothing about vehicles that arrived later or were never observed in 2017.</p>
+<p><code>pct_of_base</code> is the share of the 81,112,396 vehicles in the churn base. A table built on <code>real_pca_2017_age4plus</code> is answering a question about a 2017 cohort, and tells you nothing about vehicles that arrived later or were never observed in 2017.</p>
 <ul>
 <li><code>population</code>: the filter applied before grouping</li>
 <li><code>used_by</code>: which tables use it</li>
@@ -2756,31 +2756,31 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td style="text-align: left;">all_vehicles</td>
 <td style="text-align: left;">the whole churn base</td>
-<td style="text-align: right;">81,112,156</td>
+<td style="text-align: right;">81,112,396</td>
 <td style="text-align: right;">100.00</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">real_pca_2017</td>
 <td style="text-align: left;">Sets 1a2, 5 (rows)</td>
-<td style="text-align: right;">41,341,397</td>
+<td style="text-align: right;">41,341,398</td>
 <td style="text-align: right;">50.97</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">real_pca_2017_age4plus</td>
 <td style="text-align: left;">Sets 2, 3, 6 (the 2017 cohort)</td>
-<td style="text-align: right;">29,319,667</td>
+<td style="text-align: right;">29,319,668</td>
 <td style="text-align: right;">36.15</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">d17_with_movement_rate</td>
 <td style="text-align: left;">Sets 2 and 6 movement rate columns</td>
-<td style="text-align: right;">29,319,667</td>
+<td style="text-align: right;">29,319,668</td>
 <td style="text-align: right;">36.15</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">real_pca_2018</td>
 <td style="text-align: left;">Set 7</td>
-<td style="text-align: right;">42,034,312</td>
+<td style="text-align: right;">42,034,313</td>
 <td style="text-align: right;">51.82</td>
 </tr>
 <tr class="even">
@@ -2792,7 +2792,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td style="text-align: left;">real_pca_2022</td>
 <td style="text-align: left;">Set 4 (2022 columns)</td>
-<td style="text-align: right;">41,773,660</td>
+<td style="text-align: right;">41,773,661</td>
 <td style="text-align: right;">51.50</td>
 </tr>
 <tr class="even">
@@ -2813,7 +2813,7 @@ ul.task-list li input[type="checkbox"] {
 <h3 class="anchored" data-anchor-id="set-0---where-the-first-use-date-came-from">Set 0 - where the first use date came from</h3>
 <ul>
 <li><strong>Question.</strong> How much of the age calculation rests on DVSA’s own date?</li>
-<li><strong>Vehicles.</strong> All 81,112,156.</li>
+<li><strong>Vehicles.</strong> All 81,112,396.</li>
 <li><strong>Variables.</strong> <code>firstUsedDate_DVSA</code>, <code>monthOfFirstRegistration_DVLA</code>, <code>birth_date</code>.</li>
 <li><strong>Grouping.</strong> None. Four counts, one per source, by the first rule that applies: DVSA’s date if present, else DVLA’s first registration, else <code>birth_date</code>, else none.</li>
 <li><strong>Arithmetic.</strong> <code>pct</code> is the count over all vehicles, to two decimals. <code>n_differs_from_v1_birthDate</code>, on the first row only, counts vehicles whose DVSA first use date is not the same day as <code>birth_date</code> - a measure of how much the earlier version of this analysis, which used <code>birth_date</code>, differed.</li>
@@ -2826,7 +2826,7 @@ ul.task-list li input[type="checkbox"] {
 <h3 class="anchored" data-anchor-id="set-1---who-is-still-where-they-were">Set 1 - who is still where they were</h3>
 <ul>
 <li><strong>Question.</strong> Of the vehicles in area X in a reference year, how many are in the same area, a different one, dead or not yet born, in each later year?</li>
-<li><strong>Vehicles.</strong> All of them, including those whose reference-year location is <code>dead</code>, <code>unborn</code> or <code>unknown</code> - except in <code>set1a2</code>, which keeps only vehicles in a real area in 2017 (41,341,397 vehicles).</li>
+<li><strong>Vehicles.</strong> All of them, including those whose reference-year location is <code>dead</code>, <code>unborn</code> or <code>unknown</code> - except in <code>set1a2</code>, which keeps only vehicles in a real area in 2017 (41,341,398 vehicles).</li>
 <li><strong>Variables.</strong> <code>pca_YYYY</code> for every year, <code>test_class</code>, and age for the <code>age4plus</code> variants.</li>
 <li><strong>Grouping.</strong> Row = reference-year postcode area (plus test class). For each year, every vehicle is labelled <code>same</code>, <code>different</code>, <code>dead</code> or <code>unborn</code> against the reference year, and the labels are counted.</li>
 <li><strong>Arithmetic.</strong> Counts only. The table is then pivoted so each status-and-year pair becomes a column, named <code>status_year</code> (for example <code>same_2019</code>), ordered by year then status, with missing combinations as 0.</li>
@@ -2841,7 +2841,7 @@ ul.task-list li input[type="checkbox"] {
 <li><strong>Traps.</strong> <code>unknown</code> is inside <code>different</code>, and in 1b and 1c so are new vehicles (section 5): 1b’s <code>different</code> is not a count of movers - Set 1d’s <code>in_moved</code> is. The <code>test_class</code> column is constant (4) because of the class filter; it is kept so the file shape matches the earlier analysis.</li>
 </ul>
 <p><img src="churn_tables_report_figures/set1a2-1.png" class="img-fluid"></p>
-<p><strong>Figure 3.</strong> The 41,341,397 vehicles in a real postcode area in 2017, by their status against their 2017 area in every year: the <code>set1a2</code> counts summed over areas, as a share of the cohort. <code>different</code> includes <code>unknown</code>, vehicles not located that year.</p>
+<p><strong>Figure 3.</strong> The 41,341,398 vehicles in a real postcode area in 2017, by their status against their 2017 area in every year: the <code>set1a2</code> counts summed over areas, as a share of the cohort. <code>different</code> includes <code>unknown</code>, vehicles not located that year.</p>
 <p><img src="churn_tables_report_figures/set1b-1.png" class="img-fluid"></p>
 <p><strong>Figure 4.</strong> For each year and lag, <code>different</code> / (<code>different</code> + <code>same</code>), summed over the rows of Sets 1b and 1c whose row (the later year’s area) is a real postcode area. <code>different</code> includes new vehicles and vehicles seen again after a gap, not only movers; Set 1d, in the next figure, separates them.</p>
 <p><img src="churn_tables_report_figures/set1d-1.png" class="img-fluid"></p>
@@ -2866,7 +2866,7 @@ ul.task-list li input[type="checkbox"] {
 <p><strong>Figure 8.</strong> The share of each postcode area’s located vehicles in 2022 that are Electric or Plug-in Hybrid Electric, from <code>set2_pca_fuel_type_vehicle_counts_by_year.csv</code>. Plug-in hybrids are a floor: only those the DfT fuel detail identifies are counted (methodology.md, Section 5.5).</p>
 <p><strong>Part 2: the share of a 2017 cohort that stayed put.</strong></p>
 <ul>
-<li><strong>Vehicles.</strong> The 2017 cohort: in a real area in 2017 <strong>and</strong> aged 4 or over (29,319,667 vehicles, 36.1% of the base). Every “static” and “movement rate” number in Sets 2, 3 and 6 uses this same cohort.</li>
+<li><strong>Vehicles.</strong> The 2017 cohort: in a real area in 2017 <strong>and</strong> aged 4 or over (29,319,668 vehicles, 36.1% of the base). Every “static” and “movement rate” number in Sets 2, 3 and 6 uses this same cohort.</li>
 <li><strong>Variables.</strong> <code>static_2017</code>, and the 2017 values of age band, mileage band, fuel and engine band.</li>
 <li><strong>Grouping.</strong> One row per category, or one row per pair of categories for the cross-tabulations.</li>
 <li><strong>Arithmetic.</strong> <code>n_total</code> is the vehicles in the category; <code>n_static</code> those in the same area in 2016, 2017 and 2018; <code>prop_static</code> is one divided by the other. Vehicles whose category is unknown are <strong>excluded</strong> here, rather than given an <code>NA</code> column.</li>
@@ -2878,7 +2878,7 @@ ul.task-list li input[type="checkbox"] {
 <h3 class="anchored" data-anchor-id="set-3---what-a-2017-areas-stock-is-made-of">Set 3 - what a 2017 area’s stock is made of</h3>
 <ul>
 <li><strong>Question.</strong> For each area, where did its 2017 vehicles come from, and where did they go?</li>
-<li><strong>Vehicles.</strong> In a real area in 2017, <strong>all ages</strong> (41,341,397 vehicles) - note this is a wider population than Set 2 part 2.</li>
+<li><strong>Vehicles.</strong> In a real area in 2017, <strong>all ages</strong> (41,341,398 vehicles) - note this is a wider population than Set 2 part 2.</li>
 <li><strong>Variables.</strong> Status in 2016 and in 2018 against 2017; mileage 2017; age 2017; <code>fuel3</code>; <code>engine_band4</code>; <code>movement_rate</code>.</li>
 <li><strong>Grouping.</strong> One row per postcode area.</li>
 <li><strong>Arithmetic.</strong> <code>total_vehicles_2017</code> is the row’s whole stock. The nine columns from <code>same16_same18</code> to <code>same16_dead18</code> are a full 3 × 3 table of 2016 status against 2018 status, so <strong>they add up to the total</strong>, and <code>residual_other</code> is the total minus those nine (it should be 0; the pipeline prints a warning if any row’s is not). The remaining columns are counts in mileage, fuel, engine and age bands, plus average age, average mileage and average movement rate. <code>arrived_and_left_2016_2018</code> repeats one of the nine cells under an older name.</li>
@@ -2896,7 +2896,7 @@ ul.task-list li input[type="checkbox"] {
 <h3 class="anchored" data-anchor-id="set-4---electric-vehicles-by-area">Set 4 - electric vehicles by area</h3>
 <ul>
 <li><strong>Question.</strong> Where are the EVs, where did they come from, and do they move differently?</li>
-<li><strong>Vehicles.</strong> Two groups, joined on the area: columns beginning <code>ev_2017_</code> describe EVs in a real area in 2017 (44,579 vehicles); columns beginning <code>ev_2022_</code>, <code>nonev_</code> or <code>all_</code> describe every vehicle in a real area in 2022 (41,773,660).</li>
+<li><strong>Vehicles.</strong> Two groups, joined on the area: columns beginning <code>ev_2017_</code> describe EVs in a real area in 2017 (44,579 vehicles); columns beginning <code>ev_2022_</code>, <code>nonev_</code> or <code>all_</code> describe every vehicle in a real area in 2022 (41,773,661).</li>
 <li><strong>Variables.</strong> <code>is_ev</code> (fuel exactly Electric - Electric Diesel counts as a hybrid and is excluded), <code>pca_YYYY</code>, <code>birth_pca</code>, <code>ever_moved_pca</code>, <code>mileage_2022</code>, <code>movement_rate_2022</code>.</li>
 <li><strong>Grouping.</strong> One row per postcode area, sorted by 2022 EV count, highest first.</li>
 <li><strong>Arithmetic.</strong> Counts, plus <code>mean_movement_rate_2022</code> averaged over the <code>n_2022_age4plus</code> vehicles old enough to have a rate. Two groups of columns each split a total exactly: <code>ev_2017_left_by_2022 = ev_2017_moved_pca_by_2022 + ev_2017_dead_or_unknown_2022</code> and <code>ev_present_2022 = ev_2022_born_here_never_moved + ev_2022_born_here_but_moved + ev_2022_not_born_in_this_pca</code>.</li>
@@ -2912,7 +2912,7 @@ ul.task-list li input[type="checkbox"] {
 <h3 class="anchored" data-anchor-id="set-5---does-moving-area-change-mileage">Set 5 - does moving area change mileage?</h3>
 <ul>
 <li><strong>Question.</strong> Do vehicles that arrive in a new area drive more or less than those that stayed?</li>
-<li><strong>Vehicles.</strong> In a real area in 2017 (41,341,397), split into three groups by their 2016 state: <code>stayed_2016_2017</code> (real area in 2016, same as 2017), <code>arrived_from_other_pca_2016</code> (real area in 2016, different), and <code>unborn_2016</code>. Vehicles <code>unknown</code> or <code>dead</code> in 2016 fall into none of the three and are dropped.</li>
+<li><strong>Vehicles.</strong> In a real area in 2017 (41,341,398), split into three groups by their 2016 state: <code>stayed_2016_2017</code> (real area in 2016, same as 2017), <code>arrived_from_other_pca_2016</code> (real area in 2016, different), and <code>unborn_2016</code>. Vehicles <code>unknown</code> or <code>dead</code> in 2016 fall into none of the three and are dropped.</li>
 <li><strong>Variables.</strong> <code>mileage_2016</code>, <code>mileage_2017</code>, and the 3-band mileage grouping.</li>
 <li><strong>Grouping.</strong> One row per group - three rows in total, not one per area.</li>
 <li><strong>Arithmetic.</strong> Average mileage in each year (over vehicles with a recorded mileage, so the three groups have different denominators), plus counts in the <code>&lt;5k</code>, <code>5-12k</code> and <code>&gt;12k</code> bands for both years, and the two denominators, <code>n_with_mileage_2016</code> and <code>n_with_mileage_2017</code>. A vehicle new in 2017 has almost never a 2016 mileage, so <code>unborn_2016</code>’s 2016 average is over a handful of vehicles and should not be quoted.</li>
@@ -2926,7 +2926,7 @@ ul.task-list li input[type="checkbox"] {
 <h3 class="anchored" data-anchor-id="set-6---movement-rates-by-characteristic">Set 6 - movement rates by characteristic</h3>
 <ul>
 <li><strong>Question.</strong> The same questions as Set 2 part 2, but measured by how often a vehicle moves rather than by whether it sat still across three years.</li>
-<li><strong>Vehicles.</strong> The same 2017 cohort (29,319,667 vehicles).</li>
+<li><strong>Vehicles.</strong> The same 2017 cohort (29,319,668 vehicles).</li>
 <li><strong>Variables.</strong> <code>movement_rate</code> and <code>movement_rate_window</code>, by age band, mileage band, fuel and engine band.</li>
 <li><strong>Grouping.</strong> One row per category, and seven pairwise cross-tabulations.</li>
 <li><strong>Arithmetic.</strong> <code>n_total</code> is the vehicles in the category; <code>n_with_rate</code> those with a movement rate; the two means are averaged over <code>n_with_rate</code>, <strong>not</strong> over <code>n_total</code>.</li>
@@ -2934,7 +2934,7 @@ ul.task-list li input[type="checkbox"] {
 <li><strong>Which rate to quote.</strong> The windowed one. <code>mean_movement_rate</code> (churn v2) falls with age by construction (section 5), so a table by age band, or by anything correlated with age (mileage, fuel, engine size), shows that artefact rather than a difference in behaviour. The first figure below draws the two side by side.</li>
 </ul>
 <p><img src="churn_tables_report_figures/set26-1.png" class="img-fluid"></p>
-<p><strong>Figure 15.</strong> For the 29,319,667 vehicles in a real area in 2017 and aged 4+, by category of six characteristics: the share static 2016-2018 (<code>prop_static</code> in <code>set2_static_by_*.csv</code>), with 95% Wilson intervals that are mostly narrower than the points, and the windowed and churn v2 mean movement rates (<code>set6_moverate_by_*.csv</code>). The churn v2 rate falls with age by construction (section 5); the windowed rate does not.</p>
+<p><strong>Figure 15.</strong> For the 29,319,668 vehicles in a real area in 2017 and aged 4+, by category of six characteristics: the share static 2016-2018 (<code>prop_static</code> in <code>set2_static_by_*.csv</code>), with 95% Wilson intervals that are mostly narrower than the points, and the windowed and churn v2 mean movement rates (<code>set6_moverate_by_*.csv</code>). The churn v2 rate falls with age by construction (section 5); the windowed rate does not.</p>
 <p><img src="churn_tables_report_figures/cross-1.png" class="img-fluid"></p>
 <p><strong>Figure 16.</strong> The same 2017 cohort cross-tabulated age band by mileage band (3 bands): the share static in each cell (left, <code>set2_cross_age_mileage3_long.csv</code>) and its windowed movement rate (right, <code>set6_cross_age_mileage3_long.csv</code>). * marks cells with fewer than 1,000 vehicles.</p>
 <p><img src="churn_tables_report_figures/cross-2.png" class="img-fluid"></p>
@@ -2966,7 +2966,7 @@ Some areas are repeated straight after the London groups:
 <li>each area with a charging clean air zone (BA, B, PO, OX, BD, BS, NE, S, G, <code>geography = caz_pca</code>)</li>
 </ul>
 These areas belong to no group. <code>set7_area_definitions.csv</code> lists the schemes, their class and when charging started, and the config <code>set7</code> section holds the lists. <strong>Sum the <code>pca</code> rows only</strong>; the other rows group or repeat them.</li>
-<li><strong>Vehicles.</strong> In each year from 2018 to 2023, the vehicles in a real area. 7B and 7C start from the vehicles in a real area in 2018 (42,034,312).</li>
+<li><strong>Vehicles.</strong> In each year from 2018 to 2023, the vehicles in a real area. 7B and 7C start from the vehicles in a real area in 2018 (42,034,313).</li>
 <li><strong>Variables.</strong> <code>caz_status</code> is worked out in Set 7 from fuel, first use year and the Euro standard. Both conditions of the charging rule must hold:
 <ul>
 <li><strong>petrol</strong> first used before 2006 and not Euro 4 or later → <code>petrol_pre2006_not_euro4</code></li>
@@ -2994,7 +2994,18 @@ The column names are <code>n_moved_*</code>, <code>n_dead_*</code>, <code>n_unkn
 <li>age band</li>
 </ul>
 The <code>all</code> breakdown is the whole row, and every other breakdown adds up to it. In 7B every line is also split by <code>outcome_2023</code> (<code>all</code>, <code>moved</code>, <code>dead</code>, <code>unknown</code>). Only combinations with vehicles are listed.</li>
-<li><code>set7_check_caz_status_change.csv</code> - how the Euro condition changes the date-only category, by where the Euro status came from. Of the 7,833,289 petrol vehicles first used before 2006, 416,641 are Euro 4 or later and move to <code>other</code>. Of the 13,376,907 diesels first used before 2015, 764,407 are Euro 6 and move. Almost all of these moves rest on a recorded or borrowed standard. Where the standard was assumed from the date (<code>euro_schedule</code>), the Euro condition repeats the date test and moves almost nothing. The categories therefore partly reflect which vehicles have a recorded standard.</li>
+<li><code>set7d_dirty_2018_destinations_2023.csv</code> - only the vehicles in a chargeable category (<code>petrol_pre2006_not_euro4</code> or <code>diesel_pre2015_not_euro6</code>) in a real area in 2018, with an <code>All</code> row (every area) at the top. For each row:
+<ul>
+<li>the vehicles, and their average and total 2018 mileage</li>
+<li><code>left_fleet</code>: scrapped by 2023 (7B’s <code>dead</code>), with average 2018 mileage</li>
+<li><code>same_area</code>: still in the row in 2023, as 7C (for the <code>All</code> row, still in the same area)</li>
+<li><code>moved_into_inner_london</code>, <code>moved_into_outer_london</code>, <code>moved_into_all_other</code>, <code>moved_into_partial</code>: in that kind of area in 2023 but not in 2018. <code>partial</code> is the areas partly in London and the clean air zone areas together. A row that is itself of that kind therefore has none.</li>
+</ul>
+Each subset gives the count and the average and total mileage in 2018 and
+<ol start="2023" type="1">
+<li>Totals add up only the vehicles with a mileage that year, and an empty subset has no average. A vehicle that moves between two areas of the same kind, into an excluded area, or is not located is in none of the move columns, so the columns do not add up to the row.</li>
+</ol></li>
+<li><code>set7_check_caz_status_change.csv</code> - how the Euro condition changes the date-only category, by where the Euro status came from. Of the 7,833,289 petrol vehicles first used before 2006, 416,641 are Euro 4 or later and move to <code>other</code>. Of the 13,376,908 diesels first used before 2015, 764,407 are Euro 6 and move. Almost all of these moves rest on a recorded or borrowed standard. Where the standard was assumed from the date (<code>euro_schedule</code>), the Euro condition repeats the date test and moves almost nothing. The categories therefore partly reflect which vehicles have a recorded standard.</li>
 <li><code>set7_check_caz_category_vs_eurostatus.csv</code> and <code>set7_check_caz_proxy_agreement_by_source.csv</code> - checks of the date-only proxy (<code>caz_cat</code>) against the Euro standard. Only <code>dvla</code> (recorded on the vehicle) and <code>variant</code> / <code>model_year_fuel</code> (the recorded value of similar vehicles) test the proxy independently. Of the <code>petrol_pre2006</code> cars with one of those standards, only 8.4% are below Euro 4; for <code>diesel_pre2015</code> the figure is 76.5%.</li>
 </ul></li>
 <li><strong>Traps.</strong>
@@ -3053,9 +3064,9 @@ The <code>all</code> breakdown is the whole row, and every other breakdown adds 
 <tr class="odd">
 <td style="text-align: left;">README_outputs.csv</td>
 <td style="text-align: left;">-</td>
-<td style="text-align: right;">25</td>
+<td style="text-align: right;">26</td>
 <td style="text-align: right;">3</td>
-<td style="text-align: right;">3.4</td>
+<td style="text-align: right;">3.8</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">set0_first_use_date_provenance.csv</td>
@@ -3561,6 +3572,13 @@ The <code>all</code> breakdown is the whole row, and every other breakdown adds 
 <td style="text-align: right;">12</td>
 <td style="text-align: right;">619.4</td>
 </tr>
+<tr class="even">
+<td style="text-align: left;">set7d_dirty_2018_destinations_2023.csv</td>
+<td style="text-align: left;">SET7D</td>
+<td style="text-align: right;">136</td>
+<td style="text-align: right;">34</td>
+<td style="text-align: right;">29.6</td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -3691,16 +3709,21 @@ The <code>all</code> breakdown is the whole row, and every other breakdown adds 
 <td style="text-align: left;">The same by 2018 mileage band, engine size, fuel and age band</td>
 </tr>
 <tr class="odd">
+<td style="text-align: left;">set7d_dirty_2018_destinations_2023.csv</td>
+<td style="text-align: left;">Set 7D</td>
+<td style="text-align: left;">Non-compliant vehicles (petrol pre-2006 not Euro 4+, diesel pre-2015 not Euro 6+) in an area in 2018: count and 2018 mileage, those scrapped by 2023, those still in the row in 2023, and those that moved into Inner London / Outer London / All other / partly-London and clean air zone areas from outside them, with average and total 2018 and 2023 mileage; All row first, sum geography = pca rows only</td>
+</tr>
+<tr class="even">
 <td style="text-align: left;">set7_check_caz_status_change.csv</td>
 <td style="text-align: left;">Set 7</td>
 <td style="text-align: left;">How many vehicles the Euro condition moves out of the date-only category, by where the Euro status came from</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">set7_check_caz_category_vs_eurostatus.csv</td>
 <td style="text-align: left;">Set 7</td>
 <td style="text-align: left;">Check of the registration-date proxy against the euro status (recorded, backfilled or assumed from the date)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">set7_check_caz_proxy_agreement_by_source.csv</td>
 <td style="text-align: left;">Set 7</td>
 <td style="text-align: left;">Agreement of the proxy with the Euro standard, split by where the standard came from; only dvla / variant / model_year_fuel are an independent check</td>

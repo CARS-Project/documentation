@@ -582,13 +582,13 @@ ul.task-list li input[type="checkbox"] {
 <li><strong>keeps every vehicle that existed from 2005</strong> (Section 3), and marks each year in which the vehicle has no postcode area as not yet born, gone (<code>dead</code>) or simply not located (<code>unknown</code>);</li>
 <li><strong>gives every vehicle a standard make and model</strong>, the names DfT uses in its vehicle licensing statistics, so the data can be compared with and joined to official tables (Section 4);</li>
 <li><strong>checks the DVLA record belongs to the same vehicle</strong>, because a moved number plate can attach another vehicle’s record (Section 5.1);</li>
-<li><strong>fills gaps</strong> in engine size, CO2, weight, Euro status and other attributes from similar vehicles (same make, model, year and fuel), always recording that the value was borrowed, and never borrowing across fuels (Section 5);</li>
+<li><strong>fills gaps</strong> in engine size, CO2, revenue weight, Euro status and other attributes from similar vehicles (same make, model, year and fuel), always recording that the value was borrowed, and never borrowing across fuels (Section 5);</li>
 <li><strong>builds the published tables</strong>: where vehicles are and how they move between postcode areas (the churn tables, Section 7), mileage (Section 8), fleet profiles, and quality checks, then <strong>cross-checks every pair of tables that should agree</strong> (Section 9.1).</li>
 </ol>
 <p>Three facts about the source data matter for every result and are easy to miss:</p>
 <ul>
 <li><strong>A postcode area in a year is not always a test in that year.</strong> The annualisation copies a vehicle’s first-test area back to its first registration, and carries its last-test area forward for two years after its last test (Section 3.3). Young vehicles therefore cannot be seen to move before their first test, and a scrapped vehicle stays in its area’s counts for about two years. As a result, more cars aged 3+ are placed in a postcode area than DfT counts as licensed or SORN.</li>
-<li><strong>Most Euro statuses, weights and many CO2 values are borrowed or assumed, not recorded</strong> on the vehicle’s own record (Sections 5.6 and 5.7).</li>
+<li><strong>Most Euro statuses, revenue weights and many CO2 values are borrowed or assumed, not recorded</strong> on the vehicle’s own record (Sections 5.6 and 5.7).</li>
 <li><strong>The old churn “movement rate” falls with age by construction</strong> (Section 7.3); the windowed rate is the one to compare.</li>
 </ul>
 </section>
@@ -777,7 +777,7 @@ ul.task-list li input[type="checkbox"] {
 <li><code>legit_mileage_YYYY</code>: whether the mileage is plausible</li>
 <li><code>is_new_vehicle_YYYY</code>, <code>is_intertest_YYYY</code>, <code>is_end_use_YYYY</code>: status flags</li>
 </ul></li>
-<li><strong>DVLA Vehicle Enquiry Service (VES) columns:</strong> make, fuel, engine capacity, weight, CO2, Euro status, type approval, wheel plan, tax and MOT status, and key dates. These are attached by registration.</li>
+<li><strong>DVLA Vehicle Enquiry Service (VES) columns:</strong> make, fuel, engine capacity, revenue weight, CO2, Euro status, type approval, wheel plan, tax and MOT status, and key dates. These are attached by registration.</li>
 <li><strong>VES lookup bookkeeping:</strong> how often VES was queried for the registration (<code>n_VES_checks</code>, renamed <code>n_VES_checks_to_linked_DVSA_regs</code> in the October 2026 <code>ves_4</code> delivery, which also counts the checks against the DVLA registration alone in <code>n_VES_checks_for_DVLA_reg</code>; both include errored checks), how often it answered (<code>n_VES_returns</code>), the first and last of each, whether the last lookup errored (<code>is_error</code>, <code>error</code>), and flags for what changed between lookups: <code>plate_ever_changed_VES</code>, <code>ever_SORN</code>, <code>v5C_issue_date_ever_changed</code>, <code>change_in_other_VES_field</code> and <code>ever_export_marked</code> (a count, not a flag).</li>
 </ul>
 <p>Assumptions about the input:</p>
@@ -1188,17 +1188,17 @@ ul.task-list li input[type="checkbox"] {
 <tr class="even">
 <td><code>type_approval</code></td>
 <td>The type approval (L1–L3 Motorcycles; L5–L7 and T Other vehicles; M1 Cars; M2–M3 Buses and coaches; N1 Light goods vehicles; N2–N3 Heavy goods vehicles), where DfT has vehicles of the generic model with that body type and the type approval is allowed with the test class (Section 9.2)</td>
-<td style="text-align: right;">38,818,657</td>
+<td style="text-align: right;">38,912,097</td>
 </tr>
 <tr class="odd">
 <td><code>genmodel</code></td>
 <td>The generic model’s most common body type</td>
-<td style="text-align: right;">6,198,615</td>
+<td style="text-align: right;">6,105,251</td>
 </tr>
 <tr class="even">
 <td><code>test_class</code></td>
 <td>The MOT test class (1–2 Motorcycles, 3 Other vehicles, 4 Cars, 5 Buses and coaches, 7 Light goods vehicles)</td>
-<td style="text-align: right;">843,459</td>
+<td style="text-align: right;">843,457</td>
 </tr>
 </tbody>
 </table>
@@ -1397,7 +1397,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 </tbody>
 </table>
-<p>A comparison that cannot be made counts as agreement. <strong>When at least two comparisons disagree, <code>dvla_match</code> is <code>different</code></strong>: the VES record belongs to another vehicle, and none of its values (fuel, engine size, weight, CO2, Euro status, type approval, wheel plan) is used. <code>dvla_evidence</code> counts the disagreements.</p>
+<p>A comparison that cannot be made counts as agreement. <strong>When at least two comparisons disagree, <code>dvla_match</code> is <code>different</code></strong>: the VES record belongs to another vehicle, and none of its values (fuel, engine size, revenue weight, CO2, Euro status, type approval, wheel plan) is used. <code>dvla_evidence</code> counts the disagreements.</p>
 <p>Some make pairs are the same vehicle under another name: CHRYSLER-JEEP / JEEP, ROVER / AUSTIN, and motorhome converters such as FIAT / AUTO-TRAIL. They are found from the whole input file. A pair is an alias when it has at least 20 rows with comparable years (<code>checks.dvla_alias_min_rows</code>), and the years agree for at least 90% of them (<code>checks.dvla_alias_min_year_agreement</code>). This finds 392 pairs. The split is clear-cut:</p>
 <ul>
 <li>Naming pairs agree on year 90–100% of the time.</li>
@@ -1835,6 +1835,14 @@ ul.task-list li input[type="checkbox"] {
 </tbody>
 </table>
 <p>The recorded Euro status is standardised first (<code>R/euro_status.R</code>), because VES writes one status in many ways: “EURO 6 AP”, “EURO 6AP”, “EURO6AP” and “EURO 6 (AP)” all become “EURO 6 AP”. Case, spacing and punctuation are made consistent, “+” is written as PLUS, clear typing errors are fixed (V1 for VI, 1SC or 15C for ISC, 0BD for OBD), and repeats of the standard are dropped (“EURO 6 EURO 6 AP”, “EURO 5 (FIVE)”, “EURO VI E (6)”). Nothing else is removed, and <code>euroStatus_DVLA</code> keeps the value as supplied. The value is written as EURO, the standard, then the remaining letters and digits, with hyphens around the words TEMP, EVAP, ISC, FCM, BIS, OBD, WLTP and PLUS (“EURO 6 D-TEMP-EVAP-ISC”, “EURO VI OBD-E”). Spaces are kept only between two numbers (“EURO VI 66D0”, “EURO 5 134 2014”).</p>
+<p>The recorded type approval is cleaned before anything is filled from it (<code>R/type_approval.R</code>), and <code>type_approval_check</code> records what was done. A blank is preferred to a guess: a value is changed only where the other evidence settles it, and blanked only where at least two independent sources contradict it.</p>
+<ul>
+<li><strong>Standardised</strong>: case and spacing corrected (<code>m1</code> is M1).</li>
+<li><strong>Invalid code</strong>: a value that is not a type approval category (numbers, older national codes, C1, SP and so on) is blanked. MI is not taken as M1: most vehicles recorded MI are vans.</li>
+<li><strong>Corrected</strong>: a two-wheeled motorcycle recorded as a car, van, bus or lorry (M or N) is set to L3, or to L1 with an engine of 50cc or less. All of the following must hold: the DVLA wheel plan is 2 WHEEL, at least 90% of the DfT generic model is motorcycles, and the MOT test class is 1, 2 or missing. Without an engine size (electric motorcycles) it is blanked instead. Most of these are BMW motorcycles first used from 2004 to 2009, which the DVLA recorded as M1. Corrected values have <code>type_approval_src</code> <code>corrected</code>.</li>
+<li><strong>Contradicted</strong>: a category contradicted by at least two of the MOT test class, the DVLA wheel plan, the body type of the DfT generic model and the engine size is blanked. Examples are quad bikes recorded as L1 mopeds and trikes recorded as M1. One contradiction alone is not enough. A van converted to a minibus keeps its N1 approval and is tested in class 5, and both values are right.</li>
+</ul>
+<p>The backfill then works from the cleaned value: donors give their cleaned type approval, and test class is conditioned on it. <code>typeApproval_DVLA</code> keeps the value as supplied.</p>
 <p>Revenue weight, CO2 and Euro status each take the first available of:</p>
 <ol type="1">
 <li><strong>the recorded value</strong> (<code>*_src</code> = <code>dvla</code>)</li>
@@ -2098,11 +2106,11 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td>assumed from the schedule</td>
-<td>51,515,075</td>
+<td>51,515,225</td>
 </tr>
 <tr class="odd">
 <td>still missing</td>
-<td>8,246,617</td>
+<td>8,246,467</td>
 </tr>
 </tbody>
 </table>
@@ -2124,27 +2132,27 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td><code>ok</code></td>
 <td>A status that the vehicle’s age allows</td>
-<td>30,305,063</td>
+<td>30,305,098</td>
 </tr>
 <tr class="even">
 <td><code>later_than_date</code></td>
 <td>A status naming a standard that did not exist when the vehicle was made. Kept as it is.</td>
-<td>3,285,486</td>
+<td>3,285,451</td>
 </tr>
 <tr class="odd">
 <td><code>assumed</code></td>
 <td>Filled from the schedule</td>
-<td>51,515,075</td>
+<td>51,515,225</td>
 </tr>
 <tr class="even">
 <td><code>pre_euro</code></td>
 <td>No status, and made before the first standard of its class</td>
-<td>4,816,775</td>
+<td>4,816,791</td>
 </tr>
 <tr class="odd">
 <td><code>no_schedule</code></td>
 <td>No status, and a body type with no schedule</td>
-<td>3,429,719</td>
+<td>3,429,553</td>
 </tr>
 <tr class="even">
 <td><code>no_date</code></td>
@@ -2153,7 +2161,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 </tbody>
 </table>
-<p><code>later_than_date</code> is worth reading as a check on the variant backfill rather than on the register. Of the 3,285,486 vehicles flagged, 24,796 have a recorded VES value and the rest were backfilled from similar vehicles. With <code>backfill.min_vehicles</code> at 1, as it was until October 2026, a single wrong VES value spread to every vehicle of its make, model, birth year, fuel and engine size, and the Euro status is the attribute where that showed most clearly. The setting is now 5: a group’s value needs that many vehicles behind it, and vehicles in smaller groups fall through to the next step (for the Euro status, the schedule). Capping backfilled Euro statuses at the schedule would reduce it further; that is not done, because the brief was to fill missing values rather than to change existing ones.</p>
+<p><code>later_than_date</code> is worth reading as a check on the variant backfill rather than on the register. Of the 3,285,451 vehicles flagged, 24,796 have a recorded VES value and the rest were backfilled from similar vehicles. With <code>backfill.min_vehicles</code> at 1, as it was until October 2026, a single wrong VES value spread to every vehicle of its make, model, birth year, fuel and engine size, and the Euro status is the attribute where that showed most clearly. The setting is now 5: a group’s value needs that many vehicles behind it, and vehicles in smaller groups fall through to the next step (for the Euro status, the schedule). Capping backfilled Euro statuses at the schedule would reduce it further; that is not done, because the brief was to fill missing values rather than to change existing ones.</p>
 </section>
 <section id="how-most-common-is-calculated" class="level3">
 <h3 class="anchored" data-anchor-id="how-most-common-is-calculated">5.8 How “most common” is calculated</h3>
@@ -2185,7 +2193,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td>Variant</td>
 <td>make_final + model_final + birth year + fuel + engine size</td>
-<td>weight, CO2, Euro status</td>
+<td>revenue weight, CO2, Euro status</td>
 </tr>
 <tr class="even">
 <td>Model-year-fuel</td>
@@ -2231,7 +2239,7 @@ ul.task-list li input[type="checkbox"] {
 <li><strong>The fuel check depends on the make/model cleaning.</strong> Merged or wrong models produce <code>rare_for_model</code> and <code>implausible_for_model</code> flags; these point to raw spellings worth reviewing. Small make/models (under 100 vehicles) are not checked, and on the 1% sample most make/models are <code>no_reference</code>.</li>
 <li><strong>A model’s DfT fuel is its vehicles’ fuel.</strong> The plug-in distinction of Section 5.5 is a property of the model string, not of the individual vehicle, so it is only as good as the make/model match and cannot find a plug-in hybrid of a model DfT records both ways. The plug-in counts are a lower bound.</li>
 <li><strong>A vehicle registered new after a standard became compulsory meets it.</strong> The Euro status of Section 5.7 is an assumption about the rules, not an observation of the vehicle. It is wrong for used imports and rebuilt vehicles, which take a British registration long after they were built; <code>birth_date</code> limits that, and <code>euro_status_src</code> separates assumed values from recorded ones so they can be dropped.</li>
-<li><strong>Vehicles of the same make, model, birth year and fuel share attributes.</strong> This is reasonable for wheel plan, type approval and test class. It is weaker for CO2 and weight, which vary with trim, gearbox and body style.</li>
+<li><strong>Vehicles of the same make, model, birth year and fuel share attributes.</strong> This is reasonable for wheel plan, type approval and test class. It is weaker for CO2 and mass, which vary with trim, gearbox and body style.</li>
 <li><strong>Birth year stands in for model year.</strong></li>
 <li><strong>At the variant level, engine size must match to the cc.</strong> Near-identical engines (1596 cc vs 1598 cc) form separate groups; the model-year-fuel level then applies.</li>
 <li><strong>A vehicle with a backfilled engine size matches the most common variant</strong> of its make, model, year and fuel, and takes that variant’s attributes.</li>
@@ -2247,7 +2255,7 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="stage-4-derived-fields-and-number-plates">6. Stage 4: Derived fields and number plates</h2>
 <p><em>Code: <code>R/assemble.R</code>, <code>R/plates.R</code> · Outputs: <code>outputs/vehicles_enhanced_maximal.parquet</code>, <code>outputs/vehicles_enhanced_simplified.parquet</code></em></p>
 <p>The enhanced table is written twice. The <strong>maximal</strong> table has every column of the input and every column the pipeline makes, including each harmonised attribute’s <code>*_src</code> and <code>*_check</code> columns and the values as supplied; every table and report the pipeline publishes is built from it. The <strong>simplified</strong> table is a strict subset of it for everyday use: the vehicle id and cleaned registration, <code>make_final</code>, <code>model_final</code>, <code>derivative_final</code>, <code>dft_genmodel</code>, <code>body_type</code>, the harmonised fuel (<code>fuel</code>, <code>fuel_simple</code>, <code>fuel_DFT</code>), <code>engine_cc</code>, <code>revenue_weight</code>, <code>co2</code>, <code>euro_status</code>, <code>euro_standard</code>, <code>type_approval</code>, <code>wheelplan</code>, <code>test_class</code>, the RACF size, mass and CO2 columns below, <code>birth_date</code>, <code>first_use_date</code>, <code>last_mot_year</code>, <code>total_mileage</code>, and the <code>mileage_YYYY</code>, <code>legit_mileage_YYYY</code> and <code>pca_YYYY</code> columns. <code>in_simplified</code> in the data dictionary marks them.</p>
-<p><strong>RACF / SMMT attributes.</strong> Each car (<code>body_type</code> Cars) is linked to the RACF enriched DfT car fleet as in the RACF linked report (<code>R/racf_linked.R</code>): by make, DfT generic model, model string, year of first use and fuel group, else without the model string. <code>racf_link_level</code> says which (<code>model</code>, <code>genmodel</code> or <code>none</code>; missing for other vehicles). The <code>racf_*</code> columns are the fleet-weighted means over the linked RACF rows: the SMMT segment (<code>racf_smmt_type</code>), EU mass, RDW kerb weight, footprint, length, width, height, wheelbase, NEDC and WLTP CO2, energy use and electric range, plus the SUV share and the share matched to the EU data for the exact year. They describe the model, not the individual car. The RACF fleet counts are not carried.</p>
+<p><strong>RACF / SMMT attributes.</strong> Each car (<code>body_type</code> Cars) is linked to the RACF enriched DfT car fleet as in the RACF linked report (<code>R/racf_linked.R</code>): by make, DfT generic model, model string, year of first use and fuel group, else without the model string. <code>racf_link_level</code> says which (<code>model</code>, <code>genmodel</code> or <code>none</code>; missing for other vehicles). The other RACF columns are the fleet-weighted means over the linked RACF rows: the SMMT segment (<code>smmt_type</code>), EU mass (<code>mass_kg</code>), RDW kerb mass (<code>kerb_weight_kg</code>), footprint (<code>footprint_m2</code>), length, width, height and wheelbase (<code>length_mm</code>, <code>width_mm</code>, <code>height_mm</code>, <code>wheelbase_mm</code>), NEDC and WLTP CO2 (<code>co2_nedc</code>, <code>co2_wltp</code>), energy use (<code>e_consumption_wh_km</code>) and electric range (<code>e_range_km</code>). The shares of the linked RACF fleet that are SUVs or matched to the EU data for the exact year describe the fleet, not a car, so they are used only in the RACF linked tables. <code>co2_nedc</code> and <code>co2_wltp</code> are model values from RACF, separate from the vehicle’s own DVLA <code>co2</code>. They describe the model, not the individual car. The RACF fleet counts are not carried.</p>
 <section id="derived-fields" class="level3">
 <h3 class="anchored" data-anchor-id="derived-fields">6.1 Derived fields</h3>
 <ul>
@@ -2438,7 +2446,7 @@ ul.task-list li input[type="checkbox"] {
 <ul>
 <li><p><strong><code>movement_rate</code> is biased by age in both directions, and should not be compared across ages or anything correlated with age.</strong> Its numerator counts moves over at most ten year pairs (2007-2017), including the back-filled years before the first test, while its denominator is (age − 3). A vehicle aged 4 has about 4.5 observed year pairs over a denominator of 1, so its rate is inflated; a vehicle aged 20 has at most 10 over a denominator of 17, so its rate is deflated. On the October 2026 build the mean churn v2 rate falls steadily from 0.47 at age 4 to 0.04 at 25+, while <code>movement_rate_window</code> stays between 0.10 and 0.20. Use the windowed rate. Even it is a lower bound, because the back-filled and carried-forward years are counted as observed pairs although no move can appear in them.</p></li>
 <li><p><strong><code>different</code> mixes three things:</strong> genuine moves, vehicles that became unobserved (<code>unknown</code>), and in Sets 1b and 1c new vehicles. About 30% of Set 1b’s <code>different</code> are new vehicles; Set 1d separates the flows.</p></li>
-<li><p><strong>The Set 7 CAZ categories need both the first use date and the Euro standard</strong>: petrol first used before 2006 and not Euro 4+, diesel first used before 2015 and not Euro 6+. A vehicle with no standard is placed by its date. Most standards are themselves assumed from the date (Section 5.7), so for those vehicles the Euro condition only repeats the date test. Only a recorded or borrowed standard moves a vehicle out of a chargeable category, so the categories partly reflect which vehicles have one (<code>set7_check_caz_status_change.csv</code>). Set 7’s rows add Inner London, Outer London and “All other” (areas with no clean air zone), and repeat the areas partly in London and each clean air zone area, which belong to no group (config <code>set7</code>). A vehicle is “present” in 2023 if it is still in the same row, so a move from E to N stays in Inner London. Set 7B splits the leavers into those still running elsewhere, scrapped and not located.</p></li>
+<li><p><strong>The Set 7 CAZ categories need both the first use date and the Euro standard</strong>: petrol first used before 2006 and not Euro 4+, diesel first used before 2015 and not Euro 6+. A vehicle with no standard is placed by its date. Most standards are themselves assumed from the date (Section 5.7), so for those vehicles the Euro condition only repeats the date test. Only a recorded or borrowed standard moves a vehicle out of a chargeable category, so the categories partly reflect which vehicles have one (<code>set7_check_caz_status_change.csv</code>). Set 7’s rows add Inner London, Outer London and “All other” (areas with no clean air zone), and repeat the areas partly in London and each clean air zone area, which belong to no group (config <code>set7</code>). A vehicle is “present” in 2023 if it is still in the same row, so a move from E to N stays in Inner London. Set 7B splits the leavers into those still running elsewhere, scrapped and not located. Set 7D follows the 2018 vehicles in a chargeable category to 2023: those scrapped, those still in the row, and those that moved into Inner London, Outer London, All other or the partly-London and clean air zone areas from outside them, with average and total mileage in both years and an All row.</p></li>
 <li><p><strong>The date-only proxy (<code>caz_cat</code>) is kept for checking.</strong> Set 7 includes a cross-check of the proxy against the harmonised <code>euro_status</code>, which now covers 91.2% of in-scope vehicles against 14.5% with a VES value. Read that cross-check with care: since Section 5.7 fills a missing Euro status from the date the vehicle was made, most of the Euro statuses it compares are themselves derived from a date, so agreement is partly built in. <code>set7_check_caz_proxy_agreement_by_source.csv</code> splits the agreement by <code>euro_status_src</code>; only <code>dvla</code>, <code>variant</code> and <code>model_year_fuel</code> values are an independent test.</p></li>
 <li><p><strong>The data end in 2025, and 2025 is partial.</strong> 25,803,313 vehicles have a 2025 mileage against 36,734,471 in 2024, so a vehicle last seen in 2024 may simply not have been tested yet. Measures described as “left by” a year are measured against the last year in <code>years</code>.</p></li>
 <li><p><strong>The churn tables use the harmonised attributes by default</strong> (<code>churn.test_class_column</code>, <code>churn.fuel_column</code>, <code>churn.engine_column</code>, <code>churn.euro_column</code>), so they cover more vehicles than the values as supplied and carry the corrections of Section 5. Each setting takes the churn v2 column instead (<code>test_class_ANON</code>, <code>fuel_DVSA</code>, <code>engineSize_DVSA</code>, <code>euroStatus_DVLA</code>) to reproduce the old tables. What this changes, for class 4 vehicles:</p>
@@ -2644,11 +2652,11 @@ ul.task-list li input[type="checkbox"] {
 <ul>
 <li><strong>Fleet:</strong> every table that partitions the in-scope fleet (body type, fuel, harmonised sources, make/model method, plate type, PCA status in each year, the mileage area tables, the DfT comparison) adds up to the same count.</li>
 <li><strong>Mileage:</strong> the five mileage tables and the quality table agree on the vehicles with a mileage and on the total miles, each year.</li>
-<li><strong>Churn:</strong> the churn base is the configured test class; Set 2’s stock, Set 1b, Set 1d and Set 7A add up to each year’s stock; Set 1d’s flows reconcile each area’s stock exactly and moves balance nationally; Set 5’s groups equal Set 1d’s 2017 flows; Sets 2 and 6 count the same vehicles; Set 3 and Set 4 satisfy their identities; in every Set 7 row, leavers (7B) plus stayers (7C) are the 2018 stock, the stayers match 7A, and each breakdown adds up to its row; the Set 7 London groups are the sums of their areas.</li>
+<li><strong>Churn:</strong> the churn base is the configured test class; Set 2’s stock, Set 1b, Set 1d and Set 7A add up to each year’s stock; Set 1d’s flows reconcile each area’s stock exactly and moves balance nationally; Set 5’s groups equal Set 1d’s 2017 flows; Sets 2 and 6 count the same vehicles; Set 3 and Set 4 satisfy their identities; in every Set 7 row, leavers (7B) plus stayers (7C) are the 2018 stock, the stayers match 7A, and each breakdown adds up to its row; Set 7D’s 2018 vehicles, stayers and scrapped match the chargeable categories of 7A, 7C and 7B in every row, and its All row is the sum of its area rows; the Set 7 London groups are the sums of their areas.</li>
 <li><strong>Profile:</strong> every characteristic of the fleet profile partitions the same vehicles, and the car counts and miles equal the mileage area table’s plausible-mileage counts, which are computed by different code.</li>
 <li><strong>External:</strong> cars aged 3+ against DfT licensed + SORN counts (a warning, not an identity).</li>
 </ul>
-<p>In this build 1,255 of 1,267 checks pass, 1 fail and 11 warn. The data quality report lists every check that does not pass.</p>
+<p>In this build 1,278 of 1,289 checks pass, 0 fail and 11 warn. The data quality report lists every check that does not pass.</p>
 </section>
 <section id="consistency-across-variables" class="level3">
 <h3 class="anchored" data-anchor-id="consistency-across-variables">9.2 Consistency across variables</h3>
@@ -2707,7 +2715,7 @@ ul.task-list li input[type="checkbox"] {
 </table>
 <p>Other categories (tractors, special purpose, non-standard codes) are not checked.</p>
 <p>Four rules are <em>enforced</em>: the backfill never fills a value that breaks them (Section 5.6), and the cross-checks fail if it does: type approval against test class, wheel plan against test class, wheel plan against type approval, and engine size against fuel. The others describe the data and show where a register cannot be relied on alone; the widest is revenue weight against test class, where many 3,500 kg vans are recorded in class 4 although class 4 goods vehicles must weigh no more than 3,000 kg.</p>
-<p>In this build, 2,425,107 rule violations were found on 17 rules, 1,035,811 of them wholly in the recorded data; the enforced rules have 0 violations involving a filled value. The data quality report (<em>Consistency across variables</em>) lists every rule with its counts and the largest combinations behind each.</p>
+<p>In this build, 2,359,833 rule violations were found on 17 rules, 970,505 of them wholly in the recorded data; the enforced rules have 0 violations involving a filled value. The data quality report (<em>Consistency across variables</em>) lists every rule with its counts and the largest combinations behind each.</p>
 </section>
 <section id="the-racf-smmt-linked-fleet" class="level3">
 <h3 class="anchored" data-anchor-id="the-racf-smmt-linked-fleet">9.3 The RACF / SMMT linked fleet</h3>

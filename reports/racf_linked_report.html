@@ -489,7 +489,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#stock-by-fuel-and-smmt-segment" id="toc-stock-by-fuel-and-smmt-segment" class="nav-link" data-scroll-target="#stock-by-fuel-and-smmt-segment">4.1 Stock by fuel and SMMT segment</a></li>
   <li><a href="#fuel-model-by-model" id="toc-fuel-model-by-model" class="nav-link" data-scroll-target="#fuel-model-by-model">4.2 Fuel, model by model</a></li>
   <li><a href="#co2-ves-against-the-eu-type-approval-figure" id="toc-co2-ves-against-the-eu-type-approval-figure" class="nav-link" data-scroll-target="#co2-ves-against-the-eu-type-approval-figure">4.3 CO2: VES against the EU type-approval figure</a></li>
-  <li><a href="#weight-ves-revenue-weight-against-the-eu-mass" id="toc-weight-ves-revenue-weight-against-the-eu-mass" class="nav-link" data-scroll-target="#weight-ves-revenue-weight-against-the-eu-mass">4.4 Weight: VES revenue weight against the EU mass</a></li>
+  <li><a href="#mass-ves-revenue-weight-against-the-eu-mass" id="toc-mass-ves-revenue-weight-against-the-eu-mass" class="nav-link" data-scroll-target="#mass-ves-revenue-weight-against-the-eu-mass">4.4 Mass: VES revenue weight against the EU mass</a></li>
   <li><a href="#smmt-segment-against-the-dvla-type-approval" id="toc-smmt-segment-against-the-dvla-type-approval" class="nav-link" data-scroll-target="#smmt-segment-against-the-dvla-type-approval">4.5 SMMT segment against the DVLA type approval</a></li>
   </ul></li>
   <li><a href="#what-the-linked-data-shows" id="toc-what-the-linked-data-shows" class="nav-link" data-scroll-target="#what-the-linked-data-shows">5. What the linked data shows</a>
@@ -546,11 +546,11 @@ ul.task-list li input[type="checkbox"] {
 <ul>
 <li><strong>What the RACF data is.</strong> DfT’s car fleet (the licensed and SORN cars of VEH0124) by make, model, year of first use and fuel, enriched by RACF with the SMMT segment and with each model’s mass, dimensions, footprint, CO2, energy use and electric range from the EU type-approval and Dutch RDW registers. It holds counts and model attributes only: no vehicle records.</li>
 <li><strong>It agrees with DfT.</strong> The RACF fleet is 99.97%–99.98% of DfT’s VEH0124 car count in every year from 2014 to 2025.</li>
-<li><strong>Almost every MOT car links.</strong> Of the 36,730,468 cars located in 2023, 43.8% link to their exact model string and 55.3% to their generic model (both by year of first use and fuel); 0.9% do not link.</li>
+<li><strong>Almost every MOT car links.</strong> Of the 36,726,080 cars located in 2023, 43.8% link to their exact model string and 55.3% to their generic model (both by year of first use and fuel); 0.9% do not link.</li>
 <li><strong>But many attributes are proxies.</strong> Only 34.4% of the 2023 fleet is matched to the EU data for its exact year; the rest borrows another year’s or fuel’s values. Linked attributes are model averages, not measurements of the vehicle.</li>
 <li><strong>A defect in the RACF file.</strong> 12.3% of the battery electric and fuel cell cars in the 2023 RACF fleet carry an EU CO2 above 0, mostly through RACF’s fuel-agnostic matches, which give an electric model a combustion variant’s figures. The link treats these as missing.</li>
-<li><strong>What it shows.</strong> Between 2014 and 2023 the located car fleet’s SUV share rose from 10.0% to 24.6%, its mean EU mass from 1,375 to 1,415 kg and its mean footprint from 3.97 to 4.03 m², while its mean NEDC CO2 fell from 147 to 133 g/km. SUVs and off-roaders were driven 7,703 miles on average in 2023, against 6,488 for other cars.</li>
-<li><strong>Validation.</strong> The VES CO2 of a car first used up to 2017 is typically 6.7% above its model’s EU NEDC figure, and the VES revenue weight about 1.33 times the EU mass in running order, as a gross weight should be.</li>
+<li><strong>What it shows.</strong> Between 2014 and 2023 the located car fleet’s SUV share rose from 10.0% to 24.6%, its mean EU mass from 1,375 to 1,415 kg and its mean footprint from 3.97 to 4.03 m², while its mean NEDC CO2 fell from 147 to 133 g/km. SUVs and off-roaders were driven 7,706 miles on average in 2023, against 6,488 for other cars.</li>
+<li><strong>Validation.</strong> The VES CO2 of a car first used up to 2017 is typically 6.7% above its model’s EU NEDC figure, and the VES revenue weight about 1.33 times the EU mass in running order, as a maximum gross mass should be.</li>
 <li><strong>Cross-checks:</strong> 170 of 170 RACF checks pass (<code>quality/cross_checks.csv</code>, areas <code>racf</code> and <code>external</code>).</li>
 </ul>
 </section>
@@ -560,7 +560,7 @@ ul.task-list li input[type="checkbox"] {
 <ul>
 <li>the <strong>SMMT segment</strong> (Mini, Supermini, Lower Medium, …, Dual Purpose, MPV), with crossovers / SUVs (M1) and off-road capable cars (M1G) marked within Dual Purpose;</li>
 <li>the <strong>EU type-approval monitoring data</strong>: mass in running order, wheelbase, track, footprint (wheelbase × track), NEDC and WLTP CO2, fuel and energy consumption, electric range;</li>
-<li>the <strong>Dutch RDW register</strong>: length, width, height, kerb weight.</li>
+<li>the <strong>Dutch RDW register</strong>: length, width, height, kerb mass.</li>
 </ul>
 <p>Each match has a quality (<code>eu_match_quality</code>, <code>rdw_match_quality</code>): an exact year, the nearest year or another fuel’s values, or a fuzzy name match.</p>
 <p><strong>The link</strong> (<code>R/racf_linked.R</code>). An MOT car takes the RACF values of rows with the same make, DfT generic model and model string (<code>model</code>), or, failing that, the same make and generic model (<code>genmodel</code>), and in both cases the same year of first use and fuel group. RACF groups non-plug-in hybrids with petrol or diesel, and the pipeline’s plug-in hybrids (<code>fuel_simple</code>, from the DfT fuel detail) with RACF’s PHEV. Attributes are fleet-weighted means over the RACF rows of the key; values outside a plausible range (a height of 15 mm, a wheelbase of 0) are treated as missing.</p>
@@ -592,7 +592,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td style="text-align: left;">kerb_weight_kg</td>
-<td style="text-align: left;">RDW kerb weight (kg)</td>
+<td style="text-align: left;">RDW kerb mass (kg)</td>
 <td style="text-align: right;">98.14</td>
 <td style="text-align: right;">98.05</td>
 </tr>
@@ -948,86 +948,86 @@ ul.task-list li input[type="checkbox"] {
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">2014</td>
-<td style="text-align: right;">19,139,127</td>
-<td style="text-align: right;">16,415,337</td>
-<td style="text-align: right;">359,438</td>
+<td style="text-align: right;">19,133,522</td>
+<td style="text-align: right;">16,415,340</td>
+<td style="text-align: right;">359,448</td>
 <td style="text-align: right;">99.00</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2015</td>
-<td style="text-align: right;">19,983,244</td>
-<td style="text-align: right;">16,469,948</td>
-<td style="text-align: right;">341,165</td>
+<td style="text-align: right;">19,977,769</td>
+<td style="text-align: right;">16,469,951</td>
+<td style="text-align: right;">341,173</td>
 <td style="text-align: right;">99.07</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2016</td>
-<td style="text-align: right;">20,920,110</td>
-<td style="text-align: right;">16,520,631</td>
-<td style="text-align: right;">335,907</td>
+<td style="text-align: right;">20,914,741</td>
+<td style="text-align: right;">16,520,633</td>
+<td style="text-align: right;">335,913</td>
 <td style="text-align: right;">99.11</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2017</td>
-<td style="text-align: right;">21,437,961</td>
-<td style="text-align: right;">16,306,635</td>
-<td style="text-align: right;">334,955</td>
+<td style="text-align: right;">21,432,716</td>
+<td style="text-align: right;">16,306,636</td>
+<td style="text-align: right;">334,957</td>
 <td style="text-align: right;">99.12</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2018</td>
-<td style="text-align: right;">22,193,996</td>
-<td style="text-align: right;">16,105,638</td>
+<td style="text-align: right;">22,188,882</td>
+<td style="text-align: right;">16,105,639</td>
 <td style="text-align: right;">346,961</td>
 <td style="text-align: right;">99.10</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2019</td>
-<td style="text-align: right;">22,647,754</td>
-<td style="text-align: right;">15,949,988</td>
-<td style="text-align: right;">364,014</td>
+<td style="text-align: right;">22,642,770</td>
+<td style="text-align: right;">15,949,989</td>
+<td style="text-align: right;">364,010</td>
 <td style="text-align: right;">99.07</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2020</td>
-<td style="text-align: right;">22,395,579</td>
-<td style="text-align: right;">15,983,406</td>
-<td style="text-align: right;">357,395</td>
+<td style="text-align: right;">22,390,756</td>
+<td style="text-align: right;">15,983,405</td>
+<td style="text-align: right;">357,386</td>
 <td style="text-align: right;">99.08</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2021</td>
-<td style="text-align: right;">21,967,133</td>
-<td style="text-align: right;">16,383,318</td>
-<td style="text-align: right;">350,176</td>
+<td style="text-align: right;">21,962,440</td>
+<td style="text-align: right;">16,383,317</td>
+<td style="text-align: right;">350,168</td>
 <td style="text-align: right;">99.10</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2022</td>
-<td style="text-align: right;">21,111,965</td>
-<td style="text-align: right;">16,687,794</td>
-<td style="text-align: right;">324,872</td>
+<td style="text-align: right;">21,107,432</td>
+<td style="text-align: right;">16,687,793</td>
+<td style="text-align: right;">324,865</td>
 <td style="text-align: right;">99.15</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2023</td>
-<td style="text-align: right;">20,326,482</td>
-<td style="text-align: right;">16,090,513</td>
-<td style="text-align: right;">313,473</td>
+<td style="text-align: right;">20,322,101</td>
+<td style="text-align: right;">16,090,511</td>
+<td style="text-align: right;">313,468</td>
 <td style="text-align: right;">99.15</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2024</td>
-<td style="text-align: right;">19,509,530</td>
-<td style="text-align: right;">15,410,333</td>
-<td style="text-align: right;">294,997</td>
+<td style="text-align: right;">19,505,377</td>
+<td style="text-align: right;">15,410,331</td>
+<td style="text-align: right;">294,990</td>
 <td style="text-align: right;">99.16</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2025</td>
-<td style="text-align: right;">18,442,647</td>
-<td style="text-align: right;">14,560,649</td>
-<td style="text-align: right;">270,537</td>
+<td style="text-align: right;">18,438,868</td>
+<td style="text-align: right;">14,560,648</td>
+<td style="text-align: right;">270,533</td>
 <td style="text-align: right;">99.19</td>
 </tr>
 </tbody>
@@ -1061,13 +1061,13 @@ ul.task-list li input[type="checkbox"] {
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">PETROL</td>
-<td style="text-align: right;">22,396,615</td>
+<td style="text-align: right;">22,396,625</td>
 <td style="text-align: right;">23,173,503</td>
 <td style="text-align: right;">0.97</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">DIESEL</td>
-<td style="text-align: right;">13,297,779</td>
+<td style="text-align: right;">13,293,381</td>
 <td style="text-align: right;">12,652,683</td>
 <td style="text-align: right;">1.05</td>
 </tr>
@@ -1119,7 +1119,7 @@ ul.task-list li input[type="checkbox"] {
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Dual Purpose</td>
-<td style="text-align: right;">8,793,741</td>
+<td style="text-align: right;">8,789,342</td>
 <td style="text-align: right;">9,491,211</td>
 <td style="text-align: right;">0.93</td>
 </tr>
@@ -1149,7 +1149,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td style="text-align: left;">(missing)</td>
-<td style="text-align: right;">566,321</td>
+<td style="text-align: right;">566,324</td>
 <td style="text-align: right;">1,405,611</td>
 <td style="text-align: right;">0.40</td>
 </tr>
@@ -1161,7 +1161,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td style="text-align: left;">MPV</td>
-<td style="text-align: right;">1,192,724</td>
+<td style="text-align: right;">1,192,731</td>
 <td style="text-align: right;">1,077,130</td>
 <td style="text-align: right;">1.11</td>
 </tr>
@@ -1179,7 +1179,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Other</td>
-<td style="text-align: right;">100,087</td>
+<td style="text-align: right;">100,093</td>
 <td style="text-align: right;">80,414</td>
 <td style="text-align: right;">1.24</td>
 </tr>
@@ -1191,7 +1191,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td style="text-align: left;">(not linked)</td>
-<td style="text-align: right;">313,473</td>
+<td style="text-align: right;">313,468</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">NA</td>
 </tr>
@@ -1865,8 +1865,8 @@ ul.task-list li input[type="checkbox"] {
 <tr class="even">
 <td style="text-align: right;">2,016</td>
 <td style="text-align: left;">DIESEL</td>
-<td style="text-align: right;">301,184</td>
-<td style="text-align: right;">296,824</td>
+<td style="text-align: right;">301,183</td>
+<td style="text-align: right;">296,823</td>
 <td style="text-align: right;">21</td>
 <td style="text-align: right;">109</td>
 <td style="text-align: right;">110.6</td>
@@ -2442,11 +2442,11 @@ ul.task-list li input[type="checkbox"] {
 <p><strong>Figure 5.</strong> From the table above (<code>racf_co2_validation.csv</code>): for the cars located in 2023 with a recorded VES CO2 and a model-level link, the median of each car’s VES CO2 divided by its model’s EU NEDC (solid) or WLTP (dashed) figure, by year of first use and fuel group. Only points with at least 100 cars with that EU figure are drawn. At 1 (grey line) the registers agree on average.</p>
 </section>
 </section>
-<section id="weight-ves-revenue-weight-against-the-eu-mass" class="level3">
-<h3 class="anchored" data-anchor-id="weight-ves-revenue-weight-against-the-eu-mass">4.4 Weight: VES revenue weight against the EU mass</h3>
+<section id="mass-ves-revenue-weight-against-the-eu-mass" class="level3">
+<h3 class="anchored" data-anchor-id="mass-ves-revenue-weight-against-the-eu-mass">4.4 Mass: VES revenue weight against the EU mass</h3>
 <section id="ves-revenue-weight-against-eu-mass" class="level4">
 <h4 class="anchored" data-anchor-id="ves-revenue-weight-against-eu-mass">VES revenue weight against EU mass</h4>
-<p>Cars located in 2023 with a recorded VES revenue weight and a model-level link. The revenue weight is the car’s maximum (gross) weight and the EU mass its mass in running order, so the ratio should be above 1, typically 1.2-1.5; a revenue weight below the running-order mass is impossible for the same variant and points to the wrong model, a different variant or a recording error.</p>
+<p>Cars located in 2023 with a recorded VES revenue weight and a model-level link. The revenue weight is the car’s maximum permitted gross mass and the EU mass its mass in running order, so the ratio should be above 1, typically 1.2-1.5; a revenue weight below the running-order mass is impossible for the same variant and points to the wrong model, a different variant or a recording error.</p>
 <ul>
 <li><code>first_use_band</code>: years of first use</li>
 <li><code>fuel_group</code>: RACF fuel group</li>
@@ -2542,7 +2542,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="even">
 <td style="text-align: left;">2015-2020</td>
 <td style="text-align: left;">DIESEL</td>
-<td style="text-align: right;">750,442</td>
+<td style="text-align: right;">750,441</td>
 <td style="text-align: right;">1,930.0</td>
 <td style="text-align: right;">1,423</td>
 <td style="text-align: right;">1.35</td>
@@ -2681,10 +2681,10 @@ ul.task-list li input[type="checkbox"] {
 <col style="width: 13%">
 <col style="width: 7%">
 <col style="width: 15%">
+<col style="width: 7%">
 <col style="width: 11%">
 <col style="width: 7%">
 <col style="width: 10%">
-<col style="width: 7%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -2692,90 +2692,90 @@ ul.task-list li input[type="checkbox"] {
 <th style="text-align: right;">(none)</th>
 <th style="text-align: right;">L7</th>
 <th style="text-align: right;">M1</th>
+<th style="text-align: right;">M2</th>
 <th style="text-align: right;">N1</th>
 <th style="text-align: right;">N3</th>
 <th style="text-align: right;">other</th>
-<th style="text-align: right;">SP</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">(no segment)</td>
-<td style="text-align: right;">146,033</td>
+<td style="text-align: right;">146,141</td>
 <td style="text-align: right;">649</td>
-<td style="text-align: right;">419,450</td>
+<td style="text-align: right;">419,364</td>
+<td style="text-align: right;">2</td>
 <td style="text-align: right;">162</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">23</td>
-<td style="text-align: right;">4</td>
+<td style="text-align: right;">6</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Dual Purpose</td>
-<td style="text-align: right;">22,836</td>
+<td style="text-align: right;">22,851</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">8,768,946</td>
+<td style="text-align: right;">8,764,540</td>
+<td style="text-align: right;">1</td>
 <td style="text-align: right;">1,944</td>
 <td style="text-align: right;">6</td>
-<td style="text-align: right;">9</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Executive</td>
-<td style="text-align: right;">18,186</td>
+<td style="text-align: right;">18,192</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">1,089,606</td>
+<td style="text-align: right;">1,089,601</td>
+<td style="text-align: right;">0</td>
 <td style="text-align: right;">22</td>
 <td style="text-align: right;">6</td>
-<td style="text-align: right;">1</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Lower Medium</td>
-<td style="text-align: right;">84,704</td>
+<td style="text-align: right;">85,226</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">8,384,554</td>
+<td style="text-align: right;">8,384,050</td>
+<td style="text-align: right;">3</td>
 <td style="text-align: right;">20,578</td>
 <td style="text-align: right;">9</td>
-<td style="text-align: right;">23</td>
-<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Luxury Saloon</td>
-<td style="text-align: right;">28,119</td>
+<td style="text-align: right;">28,120</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">191,907</td>
-<td style="text-align: right;">10</td>
-<td style="text-align: right;">0</td>
+<td style="text-align: right;">191,912</td>
+<td style="text-align: right;">2</td>
 <td style="text-align: right;">9</td>
 <td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Mini</td>
 <td style="text-align: right;">22,955</td>
-<td style="text-align: right;">592</td>
-<td style="text-align: right;">2,550,870</td>
+<td style="text-align: right;">593</td>
+<td style="text-align: right;">2,550,871</td>
+<td style="text-align: right;">1</td>
 <td style="text-align: right;">25</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">MPV</td>
-<td style="text-align: right;">17,439</td>
+<td style="text-align: right;">17,441</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">1,174,769</td>
+<td style="text-align: right;">1,174,821</td>
+<td style="text-align: right;">4</td>
 <td style="text-align: right;">463</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">14</td>
-<td style="text-align: right;">39</td>
+<td style="text-align: right;">2</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Other</td>
-<td style="text-align: right;">1</td>
+<td style="text-align: right;">4</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">99,768</td>
+<td style="text-align: right;">99,771</td>
+<td style="text-align: right;">0</td>
 <td style="text-align: right;">318</td>
-<td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
 </tr>
@@ -2783,31 +2783,31 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: left;">Specialist Sports</td>
 <td style="text-align: right;">45,631</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">830,786</td>
+<td style="text-align: right;">830,791</td>
+<td style="text-align: right;">1</td>
 <td style="text-align: right;">8</td>
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">9</td>
-<td style="text-align: right;">0</td>
+<td style="text-align: right;">3</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Supermini</td>
-<td style="text-align: right;">51,011</td>
+<td style="text-align: right;">51,013</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">8,737,785</td>
+<td style="text-align: right;">8,737,788</td>
+<td style="text-align: right;">0</td>
 <td style="text-align: right;">52,661</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">7</td>
-<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Upper Medium</td>
-<td style="text-align: right;">28,575</td>
+<td style="text-align: right;">28,576</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">3,625,352</td>
+<td style="text-align: right;">3,625,355</td>
+<td style="text-align: right;">1</td>
 <td style="text-align: right;">105</td>
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">10</td>
-<td style="text-align: right;">0</td>
+<td style="text-align: right;">5</td>
 </tr>
 </tbody>
 </table>
@@ -2864,168 +2864,168 @@ ul.task-list li input[type="checkbox"] {
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">2014</td>
-<td style="text-align: right;">35,913,902</td>
-<td style="text-align: right;">35,554,464</td>
-<td style="text-align: right;">1,374.88</td>
+<td style="text-align: right;">35,908,310</td>
+<td style="text-align: right;">35,548,862</td>
+<td style="text-align: right;">1,374.79</td>
 <td style="text-align: right;">3.97</td>
 <td style="text-align: right;">4,113.56</td>
-<td style="text-align: right;">1,713.60</td>
-<td style="text-align: right;">1,489.10</td>
-<td style="text-align: right;">147.07</td>
+<td style="text-align: right;">1,713.56</td>
+<td style="text-align: right;">1,489.01</td>
+<td style="text-align: right;">147.05</td>
 <td style="text-align: right;">149.73</td>
 <td style="text-align: right;">0.10</td>
 <td style="text-align: right;">0.19</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2015</td>
-<td style="text-align: right;">36,794,357</td>
-<td style="text-align: right;">36,453,192</td>
-<td style="text-align: right;">1,377.25</td>
+<td style="text-align: right;">36,788,893</td>
+<td style="text-align: right;">36,447,720</td>
+<td style="text-align: right;">1,377.15</td>
 <td style="text-align: right;">3.98</td>
 <td style="text-align: right;">4,131.67</td>
-<td style="text-align: right;">1,723.93</td>
-<td style="text-align: right;">1,493.38</td>
-<td style="text-align: right;">144.85</td>
+<td style="text-align: right;">1,723.90</td>
+<td style="text-align: right;">1,493.29</td>
+<td style="text-align: right;">144.83</td>
 <td style="text-align: right;">151.89</td>
 <td style="text-align: right;">0.11</td>
 <td style="text-align: right;">0.23</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2016</td>
-<td style="text-align: right;">37,776,648</td>
-<td style="text-align: right;">37,440,741</td>
-<td style="text-align: right;">1,381.22</td>
+<td style="text-align: right;">37,771,287</td>
+<td style="text-align: right;">37,435,374</td>
+<td style="text-align: right;">1,381.14</td>
 <td style="text-align: right;">3.98</td>
 <td style="text-align: right;">4,150.32</td>
-<td style="text-align: right;">1,733.23</td>
-<td style="text-align: right;">1,497.88</td>
-<td style="text-align: right;">142.91</td>
+<td style="text-align: right;">1,733.22</td>
+<td style="text-align: right;">1,497.80</td>
+<td style="text-align: right;">142.89</td>
 <td style="text-align: right;">156.05</td>
 <td style="text-align: right;">0.13</td>
 <td style="text-align: right;">0.26</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2017</td>
-<td style="text-align: right;">38,079,551</td>
-<td style="text-align: right;">37,744,596</td>
-<td style="text-align: right;">1,385.38</td>
+<td style="text-align: right;">38,074,309</td>
+<td style="text-align: right;">37,739,352</td>
+<td style="text-align: right;">1,385.30</td>
 <td style="text-align: right;">3.99</td>
 <td style="text-align: right;">4,165.65</td>
-<td style="text-align: right;">1,739.55</td>
-<td style="text-align: right;">1,501.50</td>
-<td style="text-align: right;">141.59</td>
+<td style="text-align: right;">1,739.54</td>
+<td style="text-align: right;">1,501.42</td>
+<td style="text-align: right;">141.57</td>
 <td style="text-align: right;">167.29</td>
 <td style="text-align: right;">0.14</td>
 <td style="text-align: right;">0.28</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2018</td>
-<td style="text-align: right;">38,646,595</td>
-<td style="text-align: right;">38,299,634</td>
-<td style="text-align: right;">1,390.06</td>
+<td style="text-align: right;">38,641,482</td>
+<td style="text-align: right;">38,294,521</td>
+<td style="text-align: right;">1,389.98</td>
 <td style="text-align: right;">4.00</td>
 <td style="text-align: right;">4,183.48</td>
-<td style="text-align: right;">1,746.71</td>
-<td style="text-align: right;">1,505.51</td>
-<td style="text-align: right;">140.28</td>
+<td style="text-align: right;">1,746.70</td>
+<td style="text-align: right;">1,505.44</td>
+<td style="text-align: right;">140.26</td>
 <td style="text-align: right;">157.84</td>
 <td style="text-align: right;">0.16</td>
 <td style="text-align: right;">0.31</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2019</td>
-<td style="text-align: right;">38,961,756</td>
-<td style="text-align: right;">38,597,742</td>
-<td style="text-align: right;">1,395.79</td>
+<td style="text-align: right;">38,956,769</td>
+<td style="text-align: right;">38,592,759</td>
+<td style="text-align: right;">1,395.71</td>
 <td style="text-align: right;">4.00</td>
 <td style="text-align: right;">4,201.29</td>
-<td style="text-align: right;">1,753.07</td>
-<td style="text-align: right;">1,509.59</td>
-<td style="text-align: right;">139.00</td>
+<td style="text-align: right;">1,753.06</td>
+<td style="text-align: right;">1,509.52</td>
+<td style="text-align: right;">138.98</td>
 <td style="text-align: right;">156.04</td>
 <td style="text-align: right;">0.18</td>
 <td style="text-align: right;">0.31</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2020</td>
-<td style="text-align: right;">38,736,380</td>
-<td style="text-align: right;">38,378,985</td>
-<td style="text-align: right;">1,401.32</td>
+<td style="text-align: right;">38,731,547</td>
+<td style="text-align: right;">38,374,161</td>
+<td style="text-align: right;">1,401.24</td>
 <td style="text-align: right;">4.01</td>
 <td style="text-align: right;">4,215.20</td>
-<td style="text-align: right;">1,758.00</td>
-<td style="text-align: right;">1,512.91</td>
-<td style="text-align: right;">137.71</td>
+<td style="text-align: right;">1,757.99</td>
+<td style="text-align: right;">1,512.85</td>
+<td style="text-align: right;">137.69</td>
 <td style="text-align: right;">154.53</td>
 <td style="text-align: right;">0.20</td>
 <td style="text-align: right;">0.33</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2021</td>
-<td style="text-align: right;">38,700,627</td>
-<td style="text-align: right;">38,350,451</td>
-<td style="text-align: right;">1,407.79</td>
+<td style="text-align: right;">38,695,925</td>
+<td style="text-align: right;">38,345,757</td>
+<td style="text-align: right;">1,407.72</td>
 <td style="text-align: right;">4.02</td>
 <td style="text-align: right;">4,227.91</td>
 <td style="text-align: right;">1,762.49</td>
-<td style="text-align: right;">1,515.99</td>
-<td style="text-align: right;">135.49</td>
+<td style="text-align: right;">1,515.92</td>
+<td style="text-align: right;">135.47</td>
 <td style="text-align: right;">152.38</td>
 <td style="text-align: right;">0.22</td>
 <td style="text-align: right;">0.35</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2022</td>
-<td style="text-align: right;">38,124,631</td>
-<td style="text-align: right;">37,799,759</td>
-<td style="text-align: right;">1,413.88</td>
+<td style="text-align: right;">38,120,090</td>
+<td style="text-align: right;">37,795,225</td>
+<td style="text-align: right;">1,413.81</td>
 <td style="text-align: right;">4.03</td>
 <td style="text-align: right;">4,238.50</td>
 <td style="text-align: right;">1,766.25</td>
-<td style="text-align: right;">1,519.17</td>
-<td style="text-align: right;">133.49</td>
+<td style="text-align: right;">1,519.11</td>
+<td style="text-align: right;">133.47</td>
 <td style="text-align: right;">150.88</td>
 <td style="text-align: right;">0.24</td>
 <td style="text-align: right;">0.36</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2023</td>
-<td style="text-align: right;">36,730,468</td>
-<td style="text-align: right;">36,416,995</td>
-<td style="text-align: right;">1,415.36</td>
+<td style="text-align: right;">36,726,080</td>
+<td style="text-align: right;">36,412,612</td>
+<td style="text-align: right;">1,415.29</td>
 <td style="text-align: right;">4.03</td>
 <td style="text-align: right;">4,241.27</td>
-<td style="text-align: right;">1,766.95</td>
-<td style="text-align: right;">1,520.44</td>
-<td style="text-align: right;">132.84</td>
+<td style="text-align: right;">1,766.94</td>
+<td style="text-align: right;">1,520.38</td>
+<td style="text-align: right;">132.82</td>
 <td style="text-align: right;">150.78</td>
 <td style="text-align: right;">0.25</td>
 <td style="text-align: right;">0.37</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">2024</td>
-<td style="text-align: right;">35,214,860</td>
-<td style="text-align: right;">34,919,863</td>
-<td style="text-align: right;">1,416.17</td>
+<td style="text-align: right;">35,210,698</td>
+<td style="text-align: right;">34,915,708</td>
+<td style="text-align: right;">1,416.11</td>
 <td style="text-align: right;">4.03</td>
 <td style="text-align: right;">4,243.69</td>
 <td style="text-align: right;">1,767.63</td>
-<td style="text-align: right;">1,521.61</td>
-<td style="text-align: right;">132.09</td>
+<td style="text-align: right;">1,521.55</td>
+<td style="text-align: right;">132.07</td>
 <td style="text-align: right;">150.72</td>
 <td style="text-align: right;">0.25</td>
 <td style="text-align: right;">0.38</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">2025</td>
-<td style="text-align: right;">33,273,833</td>
-<td style="text-align: right;">33,003,296</td>
-<td style="text-align: right;">1,415.66</td>
+<td style="text-align: right;">33,270,049</td>
+<td style="text-align: right;">32,999,516</td>
+<td style="text-align: right;">1,415.59</td>
 <td style="text-align: right;">4.03</td>
 <td style="text-align: right;">4,245.49</td>
-<td style="text-align: right;">1,768.36</td>
-<td style="text-align: right;">1,522.64</td>
-<td style="text-align: right;">131.19</td>
+<td style="text-align: right;">1,768.35</td>
+<td style="text-align: right;">1,522.58</td>
+<td style="text-align: right;">131.17</td>
 <td style="text-align: right;">150.58</td>
 <td style="text-align: right;">0.26</td>
 <td style="text-align: right;">0.39</td>
@@ -3127,18 +3127,18 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td style="text-align: right;">1,996</td>
-<td style="text-align: right;">49,749</td>
-<td style="text-align: right;">46,878</td>
-<td style="text-align: right;">1,585.63</td>
-<td style="text-align: right;">4.02</td>
-<td style="text-align: right;">198.54</td>
+<td style="text-align: right;">45,361</td>
+<td style="text-align: right;">42,490</td>
+<td style="text-align: right;">1,539.56</td>
+<td style="text-align: right;">4.06</td>
+<td style="text-align: right;">189.33</td>
 <td style="text-align: right;">151.59</td>
-<td style="text-align: right;">0.22</td>
+<td style="text-align: right;">0.13</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">1,997</td>
-<td style="text-align: right;">71,305</td>
-<td style="text-align: right;">68,055</td>
+<td style="text-align: right;">71,304</td>
+<td style="text-align: right;">68,054</td>
 <td style="text-align: right;">1,535.23</td>
 <td style="text-align: right;">3.99</td>
 <td style="text-align: right;">192.02</td>
@@ -3147,9 +3147,9 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td style="text-align: right;">1,998</td>
-<td style="text-align: right;">95,550</td>
-<td style="text-align: right;">92,337</td>
-<td style="text-align: right;">1,510.36</td>
+<td style="text-align: right;">95,549</td>
+<td style="text-align: right;">92,336</td>
+<td style="text-align: right;">1,510.35</td>
 <td style="text-align: right;">3.99</td>
 <td style="text-align: right;">187.01</td>
 <td style="text-align: right;">129.70</td>
@@ -3157,8 +3157,8 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td style="text-align: right;">1,999</td>
-<td style="text-align: right;">131,776</td>
-<td style="text-align: right;">128,468</td>
+<td style="text-align: right;">131,775</td>
+<td style="text-align: right;">128,467</td>
 <td style="text-align: right;">1,503.81</td>
 <td style="text-align: right;">4.03</td>
 <td style="text-align: right;">181.75</td>
@@ -3197,8 +3197,8 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td style="text-align: right;">2,003</td>
-<td style="text-align: right;">614,936</td>
-<td style="text-align: right;">609,701</td>
+<td style="text-align: right;">614,934</td>
+<td style="text-align: right;">609,699</td>
 <td style="text-align: right;">1,400.83</td>
 <td style="text-align: right;">3.95</td>
 <td style="text-align: right;">161.80</td>
@@ -3207,7 +3207,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td style="text-align: right;">2,004</td>
-<td style="text-align: right;">801,237</td>
+<td style="text-align: right;">801,236</td>
 <td style="text-align: right;">795,370</td>
 <td style="text-align: right;">1,409.29</td>
 <td style="text-align: right;">3.97</td>
@@ -3217,8 +3217,8 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td style="text-align: right;">2,005</td>
-<td style="text-align: right;">1,008,175</td>
-<td style="text-align: right;">1,001,516</td>
+<td style="text-align: right;">1,008,178</td>
+<td style="text-align: right;">1,001,517</td>
 <td style="text-align: right;">1,416.79</td>
 <td style="text-align: right;">3.99</td>
 <td style="text-align: right;">158.28</td>
@@ -3237,7 +3237,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td style="text-align: right;">2,007</td>
-<td style="text-align: right;">1,543,962</td>
+<td style="text-align: right;">1,543,953</td>
 <td style="text-align: right;">1,532,134</td>
 <td style="text-align: right;">1,399.24</td>
 <td style="text-align: right;">3.99</td>
@@ -3247,7 +3247,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td style="text-align: right;">2,008</td>
-<td style="text-align: right;">1,536,097</td>
+<td style="text-align: right;">1,536,100</td>
 <td style="text-align: right;">1,524,094</td>
 <td style="text-align: right;">1,376.26</td>
 <td style="text-align: right;">3.97</td>
@@ -3257,8 +3257,8 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td style="text-align: right;">2,009</td>
-<td style="text-align: right;">1,628,282</td>
-<td style="text-align: right;">1,618,355</td>
+<td style="text-align: right;">1,628,281</td>
+<td style="text-align: right;">1,618,354</td>
 <td style="text-align: right;">1,346.61</td>
 <td style="text-align: right;">3.93</td>
 <td style="text-align: right;">144.16</td>
@@ -3287,8 +3287,8 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td style="text-align: right;">2,012</td>
-<td style="text-align: right;">1,869,934</td>
-<td style="text-align: right;">1,855,733</td>
+<td style="text-align: right;">1,869,936</td>
+<td style="text-align: right;">1,855,735</td>
 <td style="text-align: right;">1,377.14</td>
 <td style="text-align: right;">3.97</td>
 <td style="text-align: right;">132.78</td>
@@ -3297,8 +3297,8 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td style="text-align: right;">2,013</td>
-<td style="text-align: right;">2,121,899</td>
-<td style="text-align: right;">2,113,781</td>
+<td style="text-align: right;">2,121,902</td>
+<td style="text-align: right;">2,113,784</td>
 <td style="text-align: right;">1,377.61</td>
 <td style="text-align: right;">3.96</td>
 <td style="text-align: right;">130.36</td>
@@ -3307,8 +3307,8 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td style="text-align: right;">2,014</td>
-<td style="text-align: right;">2,349,406</td>
-<td style="text-align: right;">2,340,711</td>
+<td style="text-align: right;">2,349,411</td>
+<td style="text-align: right;">2,340,716</td>
 <td style="text-align: right;">1,362.27</td>
 <td style="text-align: right;">4.00</td>
 <td style="text-align: right;">119.50</td>
@@ -3317,8 +3317,8 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td style="text-align: right;">2,015</td>
-<td style="text-align: right;">2,515,968</td>
-<td style="text-align: right;">2,497,756</td>
+<td style="text-align: right;">2,515,967</td>
+<td style="text-align: right;">2,497,755</td>
 <td style="text-align: right;">1,390.68</td>
 <td style="text-align: right;">4.02</td>
 <td style="text-align: right;">120.86</td>
@@ -3327,8 +3327,8 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td style="text-align: right;">2,016</td>
-<td style="text-align: right;">2,587,696</td>
-<td style="text-align: right;">2,576,390</td>
+<td style="text-align: right;">2,587,695</td>
+<td style="text-align: right;">2,576,389</td>
 <td style="text-align: right;">1,412.71</td>
 <td style="text-align: right;">4.05</td>
 <td style="text-align: right;">122.87</td>
@@ -3337,8 +3337,8 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td style="text-align: right;">2,017</td>
-<td style="text-align: right;">2,457,396</td>
-<td style="text-align: right;">2,444,775</td>
+<td style="text-align: right;">2,457,397</td>
+<td style="text-align: right;">2,444,776</td>
 <td style="text-align: right;">1,430.34</td>
 <td style="text-align: right;">4.05</td>
 <td style="text-align: right;">124.72</td>
@@ -3367,8 +3367,8 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td style="text-align: right;">2,020</td>
-<td style="text-align: right;">1,605,020</td>
-<td style="text-align: right;">1,592,122</td>
+<td style="text-align: right;">1,605,022</td>
+<td style="text-align: right;">1,592,124</td>
 <td style="text-align: right;">1,491.58</td>
 <td style="text-align: right;">4.17</td>
 <td style="text-align: right;">123.94</td>
@@ -3377,8 +3377,8 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td style="text-align: right;">2,021</td>
-<td style="text-align: right;">1,604,323</td>
-<td style="text-align: right;">1,595,499</td>
+<td style="text-align: right;">1,604,322</td>
+<td style="text-align: right;">1,595,498</td>
 <td style="text-align: right;">1,522.27</td>
 <td style="text-align: right;">4.17</td>
 <td style="text-align: right;">43.29</td>
@@ -3487,11 +3487,11 @@ ul.task-list li input[type="checkbox"] {
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">PH</td>
-<td style="text-align: right;">101,330</td>
-<td style="text-align: right;">100,090</td>
+<td style="text-align: right;">101,291</td>
+<td style="text-align: right;">100,051</td>
 <td style="text-align: right;">0.32</td>
 <td style="text-align: right;">4.06</td>
-<td style="text-align: right;">1,448.7</td>
+<td style="text-align: right;">1,448.5</td>
 <td style="text-align: right;">130.4</td>
 <td style="text-align: right;">0.02</td>
 <td style="text-align: right;">0.01</td>
@@ -3499,8 +3499,8 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td style="text-align: left;">AB</td>
-<td style="text-align: right;">274,676</td>
-<td style="text-align: right;">272,329</td>
+<td style="text-align: right;">274,640</td>
+<td style="text-align: right;">272,293</td>
 <td style="text-align: right;">0.31</td>
 <td style="text-align: right;">4.06</td>
 <td style="text-align: right;">1,437.9</td>
@@ -3511,11 +3511,11 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td style="text-align: left;">IV</td>
-<td style="text-align: right;">146,601</td>
-<td style="text-align: right;">145,294</td>
+<td style="text-align: right;">146,573</td>
+<td style="text-align: right;">145,266</td>
 <td style="text-align: right;">0.31</td>
 <td style="text-align: right;">4.05</td>
-<td style="text-align: right;">1,433.8</td>
+<td style="text-align: right;">1,433.7</td>
 <td style="text-align: right;">129.6</td>
 <td style="text-align: right;">0.01</td>
 <td style="text-align: right;">0.01</td>
@@ -3523,23 +3523,23 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td style="text-align: left;">LD</td>
-<td style="text-align: right;">27,558</td>
-<td style="text-align: right;">27,303</td>
-<td style="text-align: right;">0.31</td>
+<td style="text-align: right;">27,544</td>
+<td style="text-align: right;">27,289</td>
+<td style="text-align: right;">0.30</td>
 <td style="text-align: right;">4.01</td>
-<td style="text-align: right;">1,440.0</td>
-<td style="text-align: right;">137.8</td>
+<td style="text-align: right;">1,439.7</td>
+<td style="text-align: right;">137.7</td>
 <td style="text-align: right;">0.01</td>
 <td style="text-align: right;">0.00</td>
 <td style="text-align: right;">99.1</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">TD</td>
-<td style="text-align: right;">64,667</td>
-<td style="text-align: right;">64,074</td>
+<td style="text-align: right;">64,645</td>
+<td style="text-align: right;">64,052</td>
 <td style="text-align: right;">0.30</td>
 <td style="text-align: right;">4.02</td>
-<td style="text-align: right;">1,420.5</td>
+<td style="text-align: right;">1,420.3</td>
 <td style="text-align: right;">131.0</td>
 <td style="text-align: right;">0.01</td>
 <td style="text-align: right;">0.01</td>
@@ -3547,11 +3547,11 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td style="text-align: left;">HG</td>
-<td style="text-align: right;">99,546</td>
-<td style="text-align: right;">98,552</td>
+<td style="text-align: right;">99,520</td>
+<td style="text-align: right;">98,526</td>
 <td style="text-align: right;">0.30</td>
-<td style="text-align: right;">4.06</td>
-<td style="text-align: right;">1,459.0</td>
+<td style="text-align: right;">4.07</td>
+<td style="text-align: right;">1,458.9</td>
 <td style="text-align: right;">131.5</td>
 <td style="text-align: right;">0.03</td>
 <td style="text-align: right;">0.02</td>
@@ -3559,11 +3559,11 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td style="text-align: left;">PA</td>
-<td style="text-align: right;">169,866</td>
-<td style="text-align: right;">168,512</td>
+<td style="text-align: right;">169,857</td>
+<td style="text-align: right;">168,503</td>
 <td style="text-align: right;">0.29</td>
 <td style="text-align: right;">4.02</td>
-<td style="text-align: right;">1,390.2</td>
+<td style="text-align: right;">1,390.1</td>
 <td style="text-align: right;">127.1</td>
 <td style="text-align: right;">0.02</td>
 <td style="text-align: right;">0.01</td>
@@ -3571,8 +3571,8 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td style="text-align: left;">BR</td>
-<td style="text-align: right;">135,029</td>
-<td style="text-align: right;">134,262</td>
+<td style="text-align: right;">135,027</td>
+<td style="text-align: right;">134,260</td>
 <td style="text-align: right;">0.29</td>
 <td style="text-align: right;">4.03</td>
 <td style="text-align: right;">1,407.3</td>
@@ -3583,8 +3583,8 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td style="text-align: left;">FK</td>
-<td style="text-align: right;">163,435</td>
-<td style="text-align: right;">162,291</td>
+<td style="text-align: right;">163,418</td>
+<td style="text-align: right;">162,274</td>
 <td style="text-align: right;">0.29</td>
 <td style="text-align: right;">4.03</td>
 <td style="text-align: right;">1,402.5</td>
@@ -3595,11 +3595,11 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td style="text-align: left;">CA</td>
-<td style="text-align: right;">200,335</td>
-<td style="text-align: right;">198,468</td>
+<td style="text-align: right;">200,290</td>
+<td style="text-align: right;">198,423</td>
 <td style="text-align: right;">0.29</td>
 <td style="text-align: right;">4.04</td>
-<td style="text-align: right;">1,420.9</td>
+<td style="text-align: right;">1,420.7</td>
 <td style="text-align: right;">129.2</td>
 <td style="text-align: right;">0.01</td>
 <td style="text-align: right;">0.01</td>
@@ -3640,8 +3640,8 @@ ul.task-list li input[type="checkbox"] {
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">UB</td>
-<td style="text-align: right;">212,387</td>
-<td style="text-align: right;">210,960</td>
+<td style="text-align: right;">212,385</td>
+<td style="text-align: right;">210,958</td>
 <td style="text-align: right;">0.19</td>
 <td style="text-align: right;">4.08</td>
 <td style="text-align: right;">1,443.3</td>
@@ -3652,8 +3652,8 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td style="text-align: left;">M</td>
-<td style="text-align: right;">538,335</td>
-<td style="text-align: right;">534,980</td>
+<td style="text-align: right;">538,321</td>
+<td style="text-align: right;">534,966</td>
 <td style="text-align: right;">0.19</td>
 <td style="text-align: right;">4.01</td>
 <td style="text-align: right;">1,389.1</td>
@@ -3664,11 +3664,11 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td style="text-align: left;">LU</td>
-<td style="text-align: right;">240,773</td>
-<td style="text-align: right;">239,332</td>
+<td style="text-align: right;">240,757</td>
+<td style="text-align: right;">239,316</td>
 <td style="text-align: right;">0.20</td>
 <td style="text-align: right;">4.05</td>
-<td style="text-align: right;">1,424.2</td>
+<td style="text-align: right;">1,424.1</td>
 <td style="text-align: right;">134.3</td>
 <td style="text-align: right;">0.01</td>
 <td style="text-align: right;">0.01</td>
@@ -3676,8 +3676,8 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td style="text-align: left;">E</td>
-<td style="text-align: right;">283,433</td>
-<td style="text-align: right;">281,374</td>
+<td style="text-align: right;">283,430</td>
+<td style="text-align: right;">281,371</td>
 <td style="text-align: right;">0.21</td>
 <td style="text-align: right;">4.08</td>
 <td style="text-align: right;">1,439.5</td>
@@ -3688,23 +3688,23 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td style="text-align: left;">BS</td>
-<td style="text-align: right;">611,885</td>
-<td style="text-align: right;">606,290</td>
+<td style="text-align: right;">611,818</td>
+<td style="text-align: right;">606,223</td>
 <td style="text-align: right;">0.21</td>
 <td style="text-align: right;">3.99</td>
 <td style="text-align: right;">1,379.1</td>
-<td style="text-align: right;">132.8</td>
+<td style="text-align: right;">132.7</td>
 <td style="text-align: right;">0.02</td>
 <td style="text-align: right;">0.01</td>
 <td style="text-align: right;">99.1</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">B</td>
-<td style="text-align: right;">1,150,135</td>
-<td style="text-align: right;">1,142,257</td>
+<td style="text-align: right;">1,150,061</td>
+<td style="text-align: right;">1,142,183</td>
 <td style="text-align: right;">0.21</td>
 <td style="text-align: right;">4.03</td>
-<td style="text-align: right;">1,407.2</td>
+<td style="text-align: right;">1,407.1</td>
 <td style="text-align: right;">132.3</td>
 <td style="text-align: right;">0.01</td>
 <td style="text-align: right;">0.01</td>
@@ -3712,8 +3712,8 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td style="text-align: left;">SM</td>
-<td style="text-align: right;">78,193</td>
-<td style="text-align: right;">77,617</td>
+<td style="text-align: right;">78,190</td>
+<td style="text-align: right;">77,614</td>
 <td style="text-align: right;">0.21</td>
 <td style="text-align: right;">4.00</td>
 <td style="text-align: right;">1,388.0</td>
@@ -3724,8 +3724,8 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td style="text-align: left;">HA</td>
-<td style="text-align: right;">217,410</td>
-<td style="text-align: right;">216,008</td>
+<td style="text-align: right;">217,406</td>
+<td style="text-align: right;">216,004</td>
 <td style="text-align: right;">0.21</td>
 <td style="text-align: right;">4.07</td>
 <td style="text-align: right;">1,434.3</td>
@@ -3736,12 +3736,12 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td style="text-align: left;">TR</td>
-<td style="text-align: right;">199,679</td>
-<td style="text-align: right;">197,532</td>
+<td style="text-align: right;">199,607</td>
+<td style="text-align: right;">197,460</td>
 <td style="text-align: right;">0.21</td>
 <td style="text-align: right;">3.98</td>
-<td style="text-align: right;">1,388.0</td>
-<td style="text-align: right;">133.9</td>
+<td style="text-align: right;">1,387.7</td>
+<td style="text-align: right;">133.8</td>
 <td style="text-align: right;">0.01</td>
 <td style="text-align: right;">0.01</td>
 <td style="text-align: right;">98.9</td>
@@ -3749,7 +3749,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="even">
 <td style="text-align: left;">N</td>
 <td style="text-align: right;">248,775</td>
-<td style="text-align: right;">247,039</td>
+<td style="text-align: right;">247,038</td>
 <td style="text-align: right;">0.21</td>
 <td style="text-align: right;">4.06</td>
 <td style="text-align: right;">1,433.9</td>
@@ -3799,15 +3799,15 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td style="text-align: left;">all</td>
 <td style="text-align: left;">All</td>
-<td style="text-align: right;">31,115,036</td>
-<td style="text-align: right;">6,760.5</td>
+<td style="text-align: right;">31,111,402</td>
+<td style="text-align: right;">6,761.1</td>
 <td style="text-align: right;">5,785</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">smmt_type</td>
 <td style="text-align: left;">Dual Purpose</td>
-<td style="text-align: right;">8,046,119</td>
-<td style="text-align: right;">7,703.1</td>
+<td style="text-align: right;">8,042,470</td>
+<td style="text-align: right;">7,705.5</td>
 <td style="text-align: right;">6,964</td>
 </tr>
 <tr class="odd">
@@ -3841,7 +3841,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td style="text-align: left;">smmt_type</td>
 <td style="text-align: left;">MPV</td>
-<td style="text-align: right;">905,330</td>
+<td style="text-align: right;">905,336</td>
 <td style="text-align: right;">7,799.5</td>
 <td style="text-align: right;">6,435</td>
 </tr>
@@ -3862,14 +3862,14 @@ ul.task-list li input[type="checkbox"] {
 <tr class="even">
 <td style="text-align: left;">smmt_type</td>
 <td style="text-align: left;">(no segment)</td>
-<td style="text-align: right;">420,024</td>
-<td style="text-align: right;">4,549.3</td>
+<td style="text-align: right;">420,026</td>
+<td style="text-align: right;">4,549.4</td>
 <td style="text-align: right;">3,081</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">smmt_type</td>
 <td style="text-align: left;">(not linked)</td>
-<td style="text-align: right;">254,089</td>
+<td style="text-align: right;">254,090</td>
 <td style="text-align: right;">4,467.1</td>
 <td style="text-align: right;">3,092</td>
 </tr>
@@ -3883,43 +3883,43 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td style="text-align: left;">smmt_type</td>
 <td style="text-align: left;">Other</td>
-<td style="text-align: right;">89,948</td>
-<td style="text-align: right;">7,532.4</td>
+<td style="text-align: right;">89,954</td>
+<td style="text-align: right;">7,532.2</td>
 <td style="text-align: right;">5,241</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">suv</td>
 <td style="text-align: left;">other</td>
-<td style="text-align: right;">22,335,531</td>
+<td style="text-align: right;">22,335,543</td>
 <td style="text-align: right;">6,487.6</td>
 <td style="text-align: right;">5,391</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">suv</td>
 <td style="text-align: left;">SUV / off-road</td>
-<td style="text-align: right;">8,036,339</td>
-<td style="text-align: right;">7,703.2</td>
+<td style="text-align: right;">8,032,690</td>
+<td style="text-align: right;">7,705.6</td>
 <td style="text-align: right;">6,964</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">suv</td>
 <td style="text-align: left;">(unknown)</td>
-<td style="text-align: right;">743,166</td>
-<td style="text-align: right;">4,768.7</td>
+<td style="text-align: right;">743,169</td>
+<td style="text-align: right;">4,768.8</td>
 <td style="text-align: right;">3,351</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">footprint</td>
 <td style="text-align: left;">4.0-4.2</td>
-<td style="text-align: right;">7,924,568</td>
+<td style="text-align: right;">7,924,570</td>
 <td style="text-align: right;">7,333.6</td>
 <td style="text-align: right;">6,355</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">footprint</td>
 <td style="text-align: left;">3.6-3.8</td>
-<td style="text-align: right;">5,593,878</td>
-<td style="text-align: right;">5,524.4</td>
+<td style="text-align: right;">5,590,231</td>
+<td style="text-align: right;">5,526.4</td>
 <td style="text-align: right;">4,621</td>
 </tr>
 <tr class="odd">
@@ -3932,9 +3932,9 @@ ul.task-list li input[type="checkbox"] {
 <tr class="even">
 <td style="text-align: left;">footprint</td>
 <td style="text-align: left;">4.2-4.4</td>
-<td style="text-align: right;">4,008,721</td>
+<td style="text-align: right;">4,008,723</td>
 <td style="text-align: right;">7,902.8</td>
-<td style="text-align: right;">7,044</td>
+<td style="text-align: right;">7,043</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">footprint</td>
@@ -3946,7 +3946,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="even">
 <td style="text-align: left;">footprint</td>
 <td style="text-align: left;">4.6+</td>
-<td style="text-align: right;">2,500,946</td>
+<td style="text-align: right;">2,500,953</td>
 <td style="text-align: right;">8,357.1</td>
 <td style="text-align: right;">7,391</td>
 </tr>
@@ -3960,14 +3960,14 @@ ul.task-list li input[type="checkbox"] {
 <tr class="even">
 <td style="text-align: left;">footprint</td>
 <td style="text-align: left;">(missing)</td>
-<td style="text-align: right;">830,638</td>
+<td style="text-align: right;">830,640</td>
 <td style="text-align: right;">5,098.7</td>
 <td style="text-align: right;">3,749</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">mass</td>
 <td style="text-align: left;">1250-1500</td>
-<td style="text-align: right;">10,225,055</td>
+<td style="text-align: right;">10,225,059</td>
 <td style="text-align: right;">7,073.0</td>
 <td style="text-align: right;">6,088</td>
 </tr>
@@ -3981,16 +3981,16 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td style="text-align: left;">mass</td>
 <td style="text-align: left;">1500-1750</td>
-<td style="text-align: right;">6,263,659</td>
+<td style="text-align: right;">6,263,661</td>
 <td style="text-align: right;">7,594.1</td>
 <td style="text-align: right;">6,712</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">mass</td>
 <td style="text-align: left;">1750-2000</td>
-<td style="text-align: right;">2,313,100</td>
-<td style="text-align: right;">8,224.7</td>
-<td style="text-align: right;">7,139</td>
+<td style="text-align: right;">2,309,452</td>
+<td style="text-align: right;">8,234.0</td>
+<td style="text-align: right;">7,150</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">mass</td>
@@ -4002,14 +4002,14 @@ ul.task-list li input[type="checkbox"] {
 <tr class="even">
 <td style="text-align: left;">mass</td>
 <td style="text-align: left;">2000+</td>
-<td style="text-align: right;">1,701,500</td>
+<td style="text-align: right;">1,701,505</td>
 <td style="text-align: right;">7,981.5</td>
 <td style="text-align: right;">7,154</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">mass</td>
 <td style="text-align: left;">(missing)</td>
-<td style="text-align: right;">566,386</td>
+<td style="text-align: right;">566,389</td>
 <td style="text-align: right;">4,795.5</td>
 <td style="text-align: right;">3,256</td>
 </tr>

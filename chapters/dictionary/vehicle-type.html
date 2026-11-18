@@ -582,18 +582,26 @@ Table&nbsp;26.1: Vehicle type columns.
 <td style="text-align: left;">Yes</td>
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">pipeline</td>
-<td style="text-align: left;">Type approval category: DVLA (same vehicle only), else the most common category of similar vehicles with the same test class (variant, then model_year_fuel), else of similar vehicles; a borrowed category that would contradict the test class, wheel plan or engine size is not used (type_approval_src conflict). See R/backfill.R</td>
-<td style="text-align: left;">18.64%</td>
+<td style="text-align: left;">Type approval category: the cleaned DVLA value (same vehicle only; see type_approval_check), else the most common cleaned category of similar vehicles with the same test class (variant, then model_year_fuel), else of similar vehicles; a borrowed category that would contradict the test class, wheel plan or engine size is not used (type_approval_src conflict). See R/type_approval.R and R/backfill.R</td>
+<td style="text-align: left;">18.53%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>type_approval_src</code></td>
 <td style="text-align: left;">No</td>
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">pipeline</td>
-<td style="text-align: left;">Source of the matching harmonised column: dvsa or dvla (recorded), variant (same make/model/birth year/fuel/engine size) or model_year_fuel (same make/model/birth year/fuel)</td>
-<td style="text-align: left;">18.61%</td>
+<td style="text-align: left;">Source of type_approval: dvla (recorded), corrected (the DVLA value corrected; see type_approval_check), variant (same make/model/birth year/fuel/engine size), model_year_fuel (same make/model/birth year/fuel) or conflict (every candidate contradicted the vehicle’s other values, left missing)</td>
+<td style="text-align: left;">18.5%</td>
 </tr>
 <tr class="even">
+<td style="text-align: left;"><code>type_approval_check</code></td>
+<td style="text-align: left;">No</td>
+<td style="text-align: left;">VARCHAR</td>
+<td style="text-align: left;">pipeline</td>
+<td style="text-align: left;">What cleaning did to the DVLA type approval: ok (used as recorded); standardised (case or spaces corrected); corrected (a two-wheeled motorcycle recorded as M or N, with a 2 WHEEL wheel plan, a motorcycle DfT model and a motorcycle or no test class, set to L3, or L1 up to 50cc); invalid_code (not a category, blanked); contradicted (contradicted by at least two of the test class, wheel plan, DfT model body type and engine size, blanked); missing (no DVLA value for this vehicle). A blanked value may be filled from similar vehicles (type_approval_src)</td>
+<td style="text-align: left;">0%</td>
+</tr>
+<tr class="odd">
 <td style="text-align: left;"><code>typeApproval_DVLA</code></td>
 <td style="text-align: left;">No</td>
 <td style="text-align: left;">VARCHAR</td>
@@ -601,7 +609,7 @@ Table&nbsp;26.1: Vehicle type columns.
 <td style="text-align: left;">As returned by the DVLA Vehicle Enquiry Service</td>
 <td style="text-align: left;">40.86%</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;"><code>automatedVehicle_DVLA</code></td>
 <td style="text-align: left;">No</td>
 <td style="text-align: left;">BOOLEAN</td>
@@ -609,13 +617,13 @@ Table&nbsp;26.1: Vehicle type columns.
 <td style="text-align: left;">As returned by the DVLA Vehicle Enquiry Service</td>
 <td style="text-align: left;">98.49%</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;"><code>smmt_type</code></td>
 <td style="text-align: left;">Yes</td>
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">RACF (pipeline link)</td>
 <td style="text-align: left;">SMMT segment with the largest fleet among the linked RACF rows</td>
-<td style="text-align: left;">26.15%</td>
+<td style="text-align: left;">26.16%</td>
 </tr>
 </tbody>
 </table>
@@ -705,21 +713,29 @@ Table&nbsp;26.2: Share of vehicles with a value, by year of first use.
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>type_approval</code></td>
-<td style="text-align: right;">81.4%</td>
+<td style="text-align: right;">81.5%</td>
 <td style="text-align: right;">25.8%</td>
-<td style="text-align: right;">92.8%</td>
-<td style="text-align: right;">97.2%</td>
+<td style="text-align: right;">93.2%</td>
+<td style="text-align: right;">97.1%</td>
 <td style="text-align: right;">96.7%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>type_approval_src</code></td>
-<td style="text-align: right;">81.4%</td>
-<td style="text-align: right;">25.9%</td>
-<td style="text-align: right;">92.9%</td>
-<td style="text-align: right;">97.2%</td>
+<td style="text-align: right;">81.5%</td>
+<td style="text-align: right;">25.8%</td>
+<td style="text-align: right;">93.3%</td>
+<td style="text-align: right;">97.1%</td>
 <td style="text-align: right;">96.7%</td>
 </tr>
 <tr class="even">
+<td style="text-align: left;"><code>type_approval_check</code></td>
+<td style="text-align: right;">100.0%</td>
+<td style="text-align: right;">100.0%</td>
+<td style="text-align: right;">100.0%</td>
+<td style="text-align: right;">100.0%</td>
+<td style="text-align: right;">100.0%</td>
+</tr>
+<tr class="odd">
 <td style="text-align: left;"><code>typeApproval_DVLA</code></td>
 <td style="text-align: right;">59.1%</td>
 <td style="text-align: right;">0.1%</td>
@@ -727,7 +743,7 @@ Table&nbsp;26.2: Share of vehicles with a value, by year of first use.
 <td style="text-align: right;">92.6%</td>
 <td style="text-align: right;">79.8%</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;"><code>automatedVehicle_DVLA</code></td>
 <td style="text-align: right;">1.5%</td>
 <td style="text-align: right;">0.0%</td>
@@ -735,10 +751,10 @@ Table&nbsp;26.2: Share of vehicles with a value, by year of first use.
 <td style="text-align: right;">0.0%</td>
 <td style="text-align: right;">8.8%</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;"><code>smmt_type</code></td>
-<td style="text-align: right;">73.9%</td>
-<td style="text-align: right;">65.7%</td>
+<td style="text-align: right;">73.8%</td>
+<td style="text-align: right;">65.6%</td>
 <td style="text-align: right;">78.1%</td>
 <td style="text-align: right;">79.9%</td>
 <td style="text-align: right;">64.5%</td>
@@ -861,7 +877,7 @@ Figure&nbsp;26.6: Share of vehicles by value of test_class_ANON, by year of firs
 </section>
 <section id="type_approval" class="level3">
 <h3 class="anchored" data-anchor-id="type_approval"><code>type_approval</code></h3>
-<p>Type approval category: DVLA (same vehicle only), else the most common category of similar vehicles with the same test class (variant, then model_year_fuel), else of similar vehicles; a borrowed category that would contradict the test class, wheel plan or engine size is not used (type_approval_src conflict). See R/backfill.R.</p>
+<p>Type approval category: the cleaned DVLA value (same vehicle only; see type_approval_check), else the most common cleaned category of similar vehicles with the same test class (variant, then model_year_fuel), else of similar vehicles; a borrowed category that would contradict the test class, wheel plan or engine size is not used (type_approval_src conflict). See R/type_approval.R and R/backfill.R.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-dd-v-type-approval" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -879,7 +895,7 @@ Figure&nbsp;26.7: Share of vehicles by value of type_approval, by year of first 
 </section>
 <section id="type_approval_src" class="level3">
 <h3 class="anchored" data-anchor-id="type_approval_src"><code>type_approval_src</code></h3>
-<p>Source of the matching harmonised column: dvsa or dvla (recorded), variant (same make/model/birth year/fuel/engine size) or model_year_fuel (same make/model/birth year/fuel).</p>
+<p>Source of type_approval: dvla (recorded), corrected (the DVLA value corrected; see type_approval_check), variant (same make/model/birth year/fuel/engine size), model_year_fuel (same make/model/birth year/fuel) or conflict (every candidate contradicted the vehicle’s other values, left missing).</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-dd-v-type-approval-src" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -889,6 +905,24 @@ Figure&nbsp;26.7: Share of vehicles by value of type_approval, by year of first 
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-v-type-approval-src-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;26.8: Share of vehicles by value of type_approval_src, by year of first use.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="type_approval_check" class="level3">
+<h3 class="anchored" data-anchor-id="type_approval_check"><code>type_approval_check</code></h3>
+<p>What cleaning did to the DVLA type approval: ok (used as recorded); standardised (case or spaces corrected); corrected (a two-wheeled motorcycle recorded as M or N, with a 2 WHEEL wheel plan, a motorcycle DfT model and a motorcycle or no test class, set to L3, or L1 up to 50cc); invalid_code (not a category, blanked); contradicted (contradicted by at least two of the test class, wheel plan, DfT model body type and engine size, blanked); missing (no DVLA value for this vehicle). A blanked value may be filled from similar vehicles (type_approval_src).</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-dd-v-type-approval-check" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dd-v-type-approval-check-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="vehicle-type_files/figure-html/fig-dd-v-type-approval-check-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-v-type-approval-check-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;26.9: Share of vehicles by value of type_approval_check, by year of first use.
 </figcaption>
 </figure>
 </div>
@@ -906,7 +940,7 @@ Figure&nbsp;26.8: Share of vehicles by value of type_approval_src, by year of fi
 <img src="vehicle-type_files/figure-html/fig-dd-v-typeapproval-dvla-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-v-typeapproval-dvla-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;26.9: Share of vehicles by value of typeApproval_DVLA, by year of first use.
+Figure&nbsp;26.10: Share of vehicles by value of typeApproval_DVLA, by year of first use.
 </figcaption>
 </figure>
 </div>
@@ -924,7 +958,7 @@ Figure&nbsp;26.9: Share of vehicles by value of typeApproval_DVLA, by year of fi
 <img src="vehicle-type_files/figure-html/fig-dd-v-automatedvehicle-dvla-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-v-automatedvehicle-dvla-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;26.10: Share of vehicles by value of automatedVehicle_DVLA, by year of first use.
+Figure&nbsp;26.11: Share of vehicles by value of automatedVehicle_DVLA, by year of first use.
 </figcaption>
 </figure>
 </div>
@@ -942,7 +976,7 @@ Figure&nbsp;26.10: Share of vehicles by value of automatedVehicle_DVLA, by year 
 <img src="vehicle-type_files/figure-html/fig-dd-v-smmt-type-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dd-v-smmt-type-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;26.11: Share of vehicles by value of smmt_type, by year of first use.
+Figure&nbsp;26.12: Share of vehicles by value of smmt_type, by year of first use.
 </figcaption>
 </figure>
 </div>
