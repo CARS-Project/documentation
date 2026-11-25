@@ -40,27 +40,27 @@ others, so the same vehicle can appear in 2018 and not in 2019.
 
 | year | Buses and coaches |       Cars | Light goods vehicles | Motorcycles |
 |:-----|------------------:|-----------:|---------------------:|------------:|
-| 2005 |            20,058 | 26,993,983 |            2,466,241 |   1,426,678 |
-| 2006 |            21,974 | 27,166,380 |            2,583,995 |   1,435,924 |
-| 2007 |            24,424 | 27,640,198 |            2,734,989 |   1,460,135 |
-| 2008 |            27,642 | 27,863,117 |            2,835,489 |   1,479,589 |
-| 2009 |            28,949 | 27,957,185 |            2,851,563 |   1,481,457 |
-| 2010 |            30,658 | 28,199,051 |            2,892,344 |   1,477,791 |
-| 2011 |            31,277 | 28,321,058 |            2,959,406 |   1,464,850 |
-| 2012 |            34,060 | 28,627,870 |            3,034,475 |   1,454,599 |
-| 2013 |            36,447 | 29,154,812 |            3,127,563 |   1,440,543 |
-| 2014 |            38,288 | 29,897,082 |            3,269,860 |   1,434,047 |
-| 2015 |            40,633 | 30,709,360 |            3,457,879 |   1,438,142 |
-| 2016 |            42,607 | 31,344,244 |            3,618,293 |   1,443,840 |
-| 2017 |            43,650 | 31,161,519 |            3,660,439 |   1,391,932 |
-| 2018 |            44,478 | 31,548,990 |            3,796,274 |   1,374,331 |
-| 2019 |            43,887 | 31,889,591 |            3,944,239 |   1,351,913 |
-| 2020 |            43,366 | 32,224,332 |            4,102,772 |   1,356,545 |
-| 2021 |            42,143 | 32,602,064 |            4,322,037 |   1,348,569 |
-| 2022 |            34,425 | 32,576,848 |            4,360,688 |   1,280,460 |
-| 2023 |            33,471 | 31,111,402 |            4,136,456 |   1,163,445 |
-| 2024 |            34,331 | 29,412,919 |            3,872,799 |   1,024,323 |
-| 2025 |            22,643 | 20,095,383 |            2,522,165 |     645,737 |
+| 2005 |            20,055 | 26,987,422 |            2,470,942 |   1,426,653 |
+| 2006 |            21,971 | 27,159,999 |            2,588,358 |   1,435,895 |
+| 2007 |            24,422 | 27,634,026 |            2,739,261 |   1,460,071 |
+| 2008 |            27,640 | 27,856,949 |            2,839,609 |   1,479,468 |
+| 2009 |            28,947 | 27,951,303 |            2,855,488 |   1,481,276 |
+| 2010 |            30,656 | 28,193,310 |            2,896,109 |   1,477,393 |
+| 2011 |            31,276 | 28,315,276 |            2,962,974 |   1,464,203 |
+| 2012 |            34,058 | 28,622,143 |            3,037,914 |   1,453,844 |
+| 2013 |            36,447 | 29,149,235 |            3,130,862 |   1,439,640 |
+| 2014 |            38,284 | 29,891,608 |            3,273,057 |   1,433,056 |
+| 2015 |            40,629 | 30,704,127 |            3,460,971 |   1,437,355 |
+| 2016 |            42,604 | 31,339,056 |            3,621,268 |   1,443,128 |
+| 2017 |            43,646 | 31,156,439 |            3,663,262 |   1,391,300 |
+| 2018 |            44,475 | 31,543,991 |            3,799,002 |   1,373,741 |
+| 2019 |            43,884 | 31,884,785 |            3,946,842 |   1,351,322 |
+| 2020 |            43,364 | 32,219,662 |            4,105,258 |   1,355,957 |
+| 2021 |            42,142 | 32,597,544 |            4,324,398 |   1,348,064 |
+| 2022 |            34,423 | 32,572,546 |            4,362,786 |   1,280,163 |
+| 2023 |            33,468 | 31,107,358 |            4,138,316 |   1,163,264 |
+| 2024 |            34,328 | 29,409,244 |            3,874,340 |   1,024,168 |
+| 2025 |            22,641 | 20,093,182 |            2,522,985 |     645,645 |
 
 ## How much of the fleet the tables cover
 
@@ -93,7 +93,7 @@ table’s plausible-mileage counts in `quality/cross_checks.csv`.
 | 2012 | 85.4%             | 83.8% | 83.8%                | 83.3%       |
 | 2013 | 85.5%             | 84.2% | 84.4%                | 82.8%       |
 | 2014 | 85.9%             | 84.8% | 85.8%                | 83%         |
-| 2015 | 86%               | 85.2% | 86.6%                | 83.2%       |
+| 2015 | 86%               | 85.2% | 86.5%                | 83.2%       |
 | 2016 | 85.3%             | 84.9% | 86.4%                | 82.8%       |
 | 2017 | 83.7%             | 83.9% | 85.3%                | 81.3%       |
 | 2018 | 82.3%             | 83.9% | 84.9%                | 80.5%       |
@@ -101,7 +101,7 @@ table’s plausible-mileage counts in `quality/cross_checks.csv`.
 | 2020 | 80.4%             | 85.8% | 87%                  | 81.4%       |
 | 2021 | 80.5%             | 86.9% | 88.2%                | 81.4%       |
 | 2022 | 81.7%             | 88%   | 88.5%                | 81.1%       |
-| 2023 | 82%               | 87.4% | 86.6%                | 78%         |
+| 2023 | 82%               | 87.4% | 86.5%                | 78%         |
 | 2024 | 81.8%             | 86.3% | 84.2%                | 74.4%       |
 | 2025 | 57.5%             | 62.5% | 58.9%                | 53.6%       |
 
@@ -308,8 +308,8 @@ this caveat.
 
 | body_type         | year | vehicles | pct_co2_missing |
 |:------------------|:-----|---------:|----------------:|
-| Motorcycles       | 2025 |  645,737 |            87.9 |
-| Buses and coaches | 2025 |   22,643 |             7.3 |
+| Motorcycles       | 2025 |  645,645 |            87.9 |
+| Buses and coaches | 2025 |   22,641 |             7.3 |
 
 ### Euro standard is mostly derived, not recorded
 
@@ -323,11 +323,11 @@ against age largely reproduces the age variable.
 
 | category        | n_vehicles | share |
 |:----------------|-----------:|:------|
-| euro_schedule   |  6,972,662 | 34.7% |
-| variant         |  5,659,674 | 28.2% |
-| dvla            |  4,607,565 | 22.9% |
-| model_year_fuel |  2,779,457 | 13.8% |
-| (missing)       |     76,025 | 0.4%  |
+| euro_schedule   |  7,633,505 | 38.0% |
+| variant         |  4,722,520 | 23.5% |
+| dvla            |  4,603,237 | 22.9% |
+| model_year_fuel |  3,058,658 | 15.2% |
+| (missing)       |     75,262 | 0.4%  |
 
 ### SMMT body type covers cars only
 
@@ -345,10 +345,10 @@ consistent enough (`smmt_min_share`), and of its generic model otherwise
 
 | body_type            | n_vehicles | n_with_smmt_type | pct_with_smmt_type |
 |:---------------------|-----------:|-----------------:|-------------------:|
-| Buses and coaches    |     22,643 |                0 |               0.00 |
-| Cars                 | 20,095,383 |       19,759,009 |              98.33 |
-| Light goods vehicles |  2,522,165 |                0 |               0.00 |
-| Motorcycles          |    645,737 |                0 |               0.00 |
+| Buses and coaches    |     22,641 |                0 |               0.00 |
+| Cars                 | 20,093,182 |       19,756,934 |              98.33 |
+| Light goods vehicles |  2,522,985 |                0 |               0.00 |
+| Motorcycles          |    645,645 |                0 |               0.00 |
 
 ![](fleet_profile_report_figures/smmt-coverage-1.png)
 
@@ -366,12 +366,12 @@ old; The annualisation then estimates the years before the first test
 from that test’s odometer reading, and copies its postcode area back. So
 the youngest age bands are filled in only once the first test is in the
 data, and empty out towards the end of the series. Cars aged 0-2 covered
-by these tables numbered 6,586,088 in 2019 and 585,661 in 2025.
+by these tables numbered 6,585,793 in 2019 and 585,651 in 2025.
 
 **The `0-2` age band is not usable for the last three years**, and the
 vehicles that do appear there are a biased sample: only those tested
 unusually early, which tend to be high-mileage ones (taxis, fleet cars).
-Their mean mileage was 7,597 in 2019 and 8,249 in 2025. For the years
+Their mean mileage was 7,598 in 2019 and 8,250 in 2025. For the years
 before the first test, mileage is an estimate, not a reading, at every
 age band.
 
@@ -402,6 +402,6 @@ is why some panels are empty. The backfilled measures (`engine_cc`,
 
 ### Buses and coaches are mostly minibuses
 
-There are few of them (22,643 covered in 2025), most of them MOT class
+There are few of them (22,641 covered in 2025), most of them MOT class
 5, so cells split by year, age band and engine size are frequently in
 single figures.

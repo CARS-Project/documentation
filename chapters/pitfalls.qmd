@@ -3,7 +3,7 @@
 ```{r}
 source("R/book.R")
 ps <- read_pipeline("outputs", "quality", "pca_status_by_year.csv")
-dy <- read_pipeline("outputs", "quality", "dft_stock_by_year.csv")
+ra <- read_pipeline("outputs", "tables", "registration", "registration_by_age.csv")
 ```
 
 This chapter collects, in one place, the things most likely to lead an
@@ -17,19 +17,23 @@ from a vehicle's first MOT to its first registration, and carried forward for
 about two years after its last (@sec-lifecycle). The observed vehicles are not
 the whole fleet: SORN vehicles, most heavy vehicles, most vehicles over 40 and,
 in the last three years, new vehicles not yet tested are missing
-(@sec-mot-test). For cars aged three to
-about sixteen, the observed count is close to DfT's count of registered
-vehicles (@sec-data-quality).
+(@sec-mot-test). Counting only vehicles that have another MOT in a later
+year, the CARS count of cars and vans is within a few per cent of DfT's
+licensed count, but motorcycles, heavy vehicles and vehicles over 40 are
+covered much less well (@sec-data-quality).
 
 **What to do:** say "vehicles observed" or "vehicles tested", not "vehicles
-registered" or "the fleet", and compare with DfT's figures for ages three and
-over.
+registered" or "the fleet". To compare with DfT's figures, count only vehicles
+with a later MOT, compare with DfT's licensed (not SORN) vehicles, and use a
+year at least three years before the end of the data.
 
 ## 2. The last three years are incomplete
 
 ```{r}
 peak <- ps$year[which.max(ps$pca)]
-cars <- subset(dy, body_type == "Cars")
+cars <- aggregate(cbind(n_located, n_dft_licensed, n_dft_sorn) ~ year,
+                  subset(ra, body_type == "Cars"), sum)
+cars$ratio <- cars$n_located / (cars$n_dft_licensed + cars$n_dft_sorn)
 ```
 
 The number of vehicles observed peaks in `r peak` and then falls
@@ -37,8 +41,8 @@ The number of vehicles observed peaks in `r peak` and then falls
 until its first MOT at three years old, so cars first registered in 2023 to
 2025 are almost entirely missing, and the final year, 2025, is also only
 partly covered. In 2025 the CARS count of cars of all ages is
-`r round(cars$ratio_mot_to_dft[cars$year == 2025], 2)` of DfT's, against
-`r round(cars$ratio_mot_to_dft[cars$year == 2018], 2)` in 2018.
+`r round(cars$ratio[cars$year == 2025], 2)` times DfT's count of licensed and
+SORN cars, against `r round(cars$ratio[cars$year == 2018], 2)` in 2018.
 
 **What to do:** for trends in the whole fleet, stop three years before the end
 of the data, or restrict to vehicles aged three and over. Never read a trend
@@ -56,8 +60,9 @@ treat a change of area as a change of address without saying so.
 ## 4. Dead is not scrapped, and unknown is not missing at random
 
 `dead` means "not tested since", which includes vehicles scrapped, exported,
-on SORN or exempt. `unknown` covers new vehicles not yet tested and long
-gaps in a vehicle's history (@sec-lifecycle). Because a postcode area is
+on SORN or exempt. `unknown` is mostly vehicles that were never MOT tested at
+all, known only from DVLA records; it also covers new vehicles not yet tested
+and gaps in a vehicle's history (@sec-lifecycle). Because a postcode area is
 carried forward for about two years after the last MOT, a vehicle only
 becomes `dead` some time after it stopped being tested.
 
@@ -121,8 +126,8 @@ describe neighbourhoods or individuals.
 ## 11. Northern Ireland is different
 
 Northern Ireland tests at four years in government test centres, its test
-class is not supplied, and its testing was disrupted in 2020. It is coded
-`NI`, a single area.
+class is not supplied in the anonymised data, and its testing was disrupted in
+2020. It is a single postcode area, `BT`.
 
 **What to do:** consider analysing Great Britain on its own, as the fleet
 profile tables do.

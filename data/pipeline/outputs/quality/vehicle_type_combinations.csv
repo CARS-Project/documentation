@@ -1,19 +1,19 @@
 "body_type","test_class","type_approval","allowed","n_vehicles","top_make","top_model","n_top_model"
-"Buses and coaches",4,"M1",TRUE,357,"FORD","TRANSIT",247
-"Buses and coaches",4,"M2",TRUE,8180,"FORD","TRANSIT",5152
-"Buses and coaches",4,"M3",TRUE,66,"MERCEDES","SPRINTER",15
-"Buses and coaches",4,"N1",TRUE,787,"FORD","TRANSIT",770
-"Buses and coaches",4,"N2",TRUE,46,"IRISBUS","DAILY",28
+"Buses and coaches",4,"M1",TRUE,359,"FORD","TRANSIT",249
+"Buses and coaches",4,"M2",TRUE,8175,"FORD","TRANSIT",5150
+"Buses and coaches",4,"M3",TRUE,65,"MERCEDES","SPRINTER",15
+"Buses and coaches",4,"N1",TRUE,790,"FORD","TRANSIT",773
+"Buses and coaches",4,"N2",TRUE,45,"IRISBUS","DAILY",28
 "Buses and coaches",5,"M1",FALSE,33,"MERCEDES",,5
-"Buses and coaches",5,"M2",TRUE,71323,"FORD","TRANSIT",45546
-"Buses and coaches",5,"M3",TRUE,2446,"MERCEDES","SPRINTER",998
-"Buses and coaches",5,"N1",FALSE,722,"MERCEDES",,215
+"Buses and coaches",5,"M2",TRUE,71308,"FORD","TRANSIT",45537
+"Buses and coaches",5,"M3",TRUE,2443,"MERCEDES","SPRINTER",995
+"Buses and coaches",5,"N1",FALSE,721,"MERCEDES",,214
 "Buses and coaches",5,"N2",TRUE,296,"IRISBUS","DAILY",255
 "Buses and coaches",5,"N3",TRUE,1,"IRISBUS","EURORIDER",1
 "Buses and coaches",7,"M1",TRUE,7,"CITROEN","RELAY",3
-"Buses and coaches",7,"M2",TRUE,3271,"PEUGEOT","BOXER",2121
-"Buses and coaches",7,"N1",TRUE,781,"MERCEDES","SPRINTER",419
-"Buses and coaches",7,"N2",TRUE,88,"MERCEDES","SPRINTER",68
+"Buses and coaches",7,"M2",TRUE,3267,"PEUGEOT","BOXER",2124
+"Buses and coaches",7,"N1",TRUE,788,"MERCEDES","SPRINTER",422
+"Buses and coaches",7,"N2",TRUE,86,"MERCEDES","SPRINTER",67
 "Cars",1,"L1",TRUE,1,"PEUGEOT","305",1
 "Cars",1,"L3",TRUE,3,"PEUGEOT","304",1
 "Cars",1,"M1",FALSE,3,"BMW","M3",1
@@ -21,72 +21,69 @@
 "Cars",2,"M1",FALSE,14,"AUDI","A3",1
 "Cars",3,"L7",TRUE,4,"MICROCAR","M-GO",4
 "Cars",3,"M1",FALSE,15,"MERCEDES","C CLASS",2
-"Cars",4,"L1",FALSE,1,"QUADZILLA",,1
 "Cars",4,"L2",FALSE,1,"HONGDI E.V","XINSHIDAI",1
-"Cars",4,"L3",FALSE,40,"HONDA",,17
+"Cars",4,"L3",FALSE,39,"HONDA",,17
 "Cars",4,"L4",FALSE,1,"ZHEJIANG COBRA","ATV200 EC",1
 "Cars",4,"L5",TRUE,1,"MORGAN","ROADSTER",1
 "Cars",4,"L6",TRUE,13,"REVA","G-WIZ",9
 "Cars",4,"L7",TRUE,2320,"MICROCAR","M-GO",823
-"Cars",4,"M1",TRUE,63063001,"FORD","FIESTA",2472763
-"Cars",4,"M2",TRUE,27,"MERCEDES","C CLASS",2
+"Cars",4,"M1",TRUE,62769625,"FORD","FIESTA",2472758
+"Cars",4,"M2",TRUE,24,"MERCEDES","C CLASS",2
 "Cars",4,"M3",TRUE,7,"FIAT","500",2
-"Cars",4,"N1",TRUE,124489,"FORD","FIESTA",48894
+"Cars",4,"N1",TRUE,121236,"FORD","FIESTA",48888
 "Cars",4,"N2",TRUE,18,"FORD","TOURNEO",4
-"Cars",4,"N3",TRUE,29,"VOLVO","S90",5
+"Cars",4,"N3",TRUE,27,"VOLVO","S90",5
 "Cars",4,"O1",TRUE,1,"SMC","QUADBIKE",1
-"Cars",4,"T1",TRUE,2,"FORD","MONDEO",1
 "Cars",4,"T2",TRUE,1,"JAGUAR","SOVEREIGN",1
-"Cars",4,"T5",TRUE,2,"BMW","3 SERIES",1
 "Cars",5,"M1",FALSE,140,"FORD","TOURNEO",20
 "Cars",5,"M2",TRUE,13,"FORD","TOURNEO CUSTOM",2
 "Cars",5,"N1",FALSE,14,"MERCEDES","300",14
 "Cars",5,"N2",TRUE,2,"MERCEDES","200",2
-"Cars",7,"M1",TRUE,10040,"LAND ROVER","DEFENDER",1755
-"Cars",7,"N1",TRUE,841,"FORD","TRANSIT CUSTOM",310
+"Cars",7,"M1",TRUE,9949,"LAND ROVER","DEFENDER",1652
+"Cars",7,"N1",TRUE,842,"FORD","TRANSIT CUSTOM",310
 "Cars",7,"N2",TRUE,1,"FORD","MONDEO",1
-"Heavy goods vehicles",4,"M1",TRUE,7731,"FIAT","SWIFT",1257
+"Heavy goods vehicles",4,"M1",TRUE,7636,"FIAT","BURSTNER",1247
 "Heavy goods vehicles",4,"M2",TRUE,2,"MERCEDES","AUTO SLEEPERS",1
 "Heavy goods vehicles",4,"M3",TRUE,2,"IVECO","DAILY",2
 "Heavy goods vehicles",4,"N1",TRUE,27056,"DAF TRUCKS","FA LF",26091
-"Heavy goods vehicles",4,"N2",TRUE,25070,"IVECO","DAILY",9291
-"Heavy goods vehicles",4,"N3",TRUE,555,"DAF TRUCKS","FA LF",350
+"Heavy goods vehicles",4,"N2",TRUE,25054,"IVECO","DAILY",9286
+"Heavy goods vehicles",4,"N3",TRUE,554,"DAF TRUCKS","FA LF",350
 "Heavy goods vehicles",5,"M2",TRUE,5,"DAF TRUCKS","FA 45",1
-"Heavy goods vehicles",5,"M3",TRUE,216,"IVECO","DAILY",212
+"Heavy goods vehicles",5,"M3",TRUE,215,"IVECO","DAILY",211
 "Heavy goods vehicles",5,"N1",FALSE,1,"MERCEDES","AUTO SLEEPERS",1
 "Heavy goods vehicles",5,"N2",TRUE,4275,"MERCEDES","SPRINTER",1632
 "Heavy goods vehicles",5,"N3",TRUE,12,"RENAULT TRUCKS","MIDLUM",3
 "Heavy goods vehicles",7,"M1",TRUE,62,"MERCEDES","SPRINTER",17
 "Heavy goods vehicles",7,"M2",TRUE,2,"VOLKSWAGEN","CRAFTER",2
-"Heavy goods vehicles",7,"N1",TRUE,3016,"MITSUBISHI","CANTER",1420
-"Heavy goods vehicles",7,"N2",TRUE,29477,"IVECO","DAILY",16375
-"Heavy goods vehicles",7,"N3",TRUE,795,"IVECO","STRALIS",497
+"Heavy goods vehicles",7,"N1",TRUE,3026,"MITSUBISHI","CANTER",1420
+"Heavy goods vehicles",7,"N2",TRUE,29450,"IVECO","DAILY",16369
+"Heavy goods vehicles",7,"N3",TRUE,794,"IVECO","STRALIS",497
 "Light goods vehicles",2,"N1",FALSE,1,"IVECO","DAILY",1
 "Light goods vehicles",3,"M1",FALSE,1,"LAND ROVER","DEFENDER",1
 "Light goods vehicles",3,"N1",FALSE,1,"LAND ROVER","DEFENDER",1
 "Light goods vehicles",4,"L6",TRUE,7,"PAXSTER","EDV 2001",5
 "Light goods vehicles",4,"L7",TRUE,814,"HSUN","HS5D",260
-"Light goods vehicles",4,"M1",TRUE,220677,"FORD","TRANSIT",39758
-"Light goods vehicles",4,"M2",TRUE,687,"FORD","TRANSIT",275
+"Light goods vehicles",4,"M1",TRUE,226764,"FORD","TRANSIT",39986
+"Light goods vehicles",4,"M2",TRUE,685,"FORD","TRANSIT",275
 "Light goods vehicles",4,"M3",TRUE,1,"MERCEDES","VITO",1
-"Light goods vehicles",4,"N1",TRUE,5552627,"FORD","TRANSIT",701641
-"Light goods vehicles",4,"N2",TRUE,1533,"FORD","TRANSIT",713
-"Light goods vehicles",4,"N3",TRUE,5,"FORD","TRANSIT CUSTOM",1
+"Light goods vehicles",4,"N1",TRUE,5545113,"FORD","TRANSIT",701492
+"Light goods vehicles",4,"N2",TRUE,1531,"FORD","TRANSIT",713
+"Light goods vehicles",4,"N3",TRUE,3,"MERCEDES","VITO",1
 "Light goods vehicles",4,"T1",TRUE,69,"KUBOTA","RTV SERIES",68
 "Light goods vehicles",4,"T3",TRUE,2,"BRP","CAN-AM OUTLANDER",2
 "Light goods vehicles",5,"M1",FALSE,252,"PEUGEOT","BOXER",80
-"Light goods vehicles",5,"M2",TRUE,1232,"FORD","TRANSIT",339
+"Light goods vehicles",5,"M2",TRUE,1231,"FORD","TRANSIT",339
 "Light goods vehicles",5,"M3",TRUE,1,"IVECO","DAILY",1
-"Light goods vehicles",5,"N1",FALSE,6442,"MERCEDES","SPRINTER",1384
+"Light goods vehicles",5,"N1",FALSE,6439,"MERCEDES","SPRINTER",1383
 "Light goods vehicles",5,"N2",TRUE,1280,"FORD","TRANSIT",1121
-"Light goods vehicles",7,"M1",TRUE,29576,"FORD","TRANSIT",16150
-"Light goods vehicles",7,"M2",TRUE,662,"PEUGEOT","BOXER",555
-"Light goods vehicles",7,"N1",TRUE,2344968,"FORD","TRANSIT",738495
-"Light goods vehicles",7,"N2",TRUE,10197,"FORD","TRANSIT",5066
-"Light goods vehicles",7,"N3",TRUE,51,"IVECO","DAILY",41
-"Motorcycles",1,"L1",TRUE,211084,"PIAGGIO","ZIP",11938
+"Light goods vehicles",7,"M1",TRUE,29540,"FORD","TRANSIT",16144
+"Light goods vehicles",7,"M2",TRUE,661,"PEUGEOT","BOXER",555
+"Light goods vehicles",7,"N1",TRUE,2342397,"FORD","TRANSIT",738424
+"Light goods vehicles",7,"N2",TRUE,10201,"FORD","TRANSIT",5068
+"Light goods vehicles",7,"N3",TRUE,50,"IVECO","DAILY",41
+"Motorcycles",1,"L1",TRUE,211024,"PIAGGIO","ZIP",11938
 "Motorcycles",1,"L2",TRUE,1187,"BEELINE","VELOCE",422
-"Motorcycles",1,"L3",TRUE,676203,"HONDA","WW125",38099
+"Motorcycles",1,"L3",TRUE,675911,"HONDA","WW125",38100
 "Motorcycles",1,"L4",TRUE,6,"APRILIA","RS 125",1
 "Motorcycles",1,"L5",FALSE,2,"HANWAY",,1
 "Motorcycles",1,"L6",FALSE,1,"JM STAR",,1
@@ -94,11 +91,11 @@
 "Motorcycles",1,"T1",TRUE,4,"APRILIA","SR 50",1
 "Motorcycles",1,"T2",TRUE,4,"APRILIA","RS 125",1
 "Motorcycles",1,"T3",TRUE,3,"HONDA","CBF",1
-"Motorcycles",2,"L1",TRUE,6100,"YAMAHA","YZF",453
+"Motorcycles",2,"L1",TRUE,6087,"YAMAHA","YZF",453
 "Motorcycles",2,"L2",TRUE,615,"APRILIA","TUONO",111
-"Motorcycles",2,"L3",TRUE,1347278,"BMW","R SERIES",102441
+"Motorcycles",2,"L3",TRUE,1343181,"BMW","R SERIES",102452
 "Motorcycles",2,"L4",TRUE,12,"URAL","DALESMAN",6
-"Motorcycles",2,"L5",TRUE,11,"HARLEY-DAVIDSON","FLHT",1
+"Motorcycles",2,"L5",TRUE,9,"HARLEY-DAVIDSON","FLHT",1
 "Motorcycles",2,"L7",FALSE,4,"JINLING",,1
 "Motorcycles",2,"M1",FALSE,6,"ACCESS","APACHE",1
 "Motorcycles",2,"N1",FALSE,2,"CHEVROLET","PICK UP",1
@@ -123,7 +120,7 @@
 "Other vehicles",1,"L4",TRUE,1,"ZONGSHEN","RANGER 125",1
 "Other vehicles",1,"L5",FALSE,13,"PIAGGIO","MP3",7
 "Other vehicles",1,"L7",FALSE,1,"SMC","QUADZILLA",1
-"Other vehicles",1,"T1",TRUE,2,"DIRECT BIKES",,1
+"Other vehicles",1,"T1",TRUE,1,"DIRECT BIKES",,1
 "Other vehicles",1,"T3",TRUE,1,"TRIUMPH","CUB",1
 "Other vehicles",2,"L3",TRUE,1,"KINROAD","XT 250",1
 "Other vehicles",2,"L4",TRUE,25,"URAL",,17
@@ -134,7 +131,7 @@
 "Other vehicles",3,"L1",FALSE,1,"EVT",,1
 "Other vehicles",3,"L2",TRUE,73,"PIAGGIO","APE",73
 "Other vehicles",3,"L3",FALSE,288,"HARLEY-DAVIDSON",,60
-"Other vehicles",3,"L5",TRUE,8933,"PIAGGIO","MP3",5334
+"Other vehicles",3,"L5",TRUE,8809,"PIAGGIO","MP3",5212
 "Other vehicles",3,"L6",TRUE,3,"CAN-AM","SPYDER",2
 "Other vehicles",3,"L7",TRUE,41,"SMC","QUADZILLA",9
 "Other vehicles",3,"M1",FALSE,1,"STAR AND MOONSTONE",,1
@@ -142,18 +139,17 @@
 "Other vehicles",3,"T3",TRUE,3,"CFMOTO","CFORCE",2
 "Other vehicles",4,"L1",FALSE,1,"CPI","XT 50",1
 "Other vehicles",4,"L2",FALSE,3,"PIAGGIO","APE",3
-"Other vehicles",4,"L3",FALSE,1,"HARLEY-DAVIDSON","FLHT",1
-"Other vehicles",4,"L5",TRUE,913,"MORGAN",,186
-"Other vehicles",4,"L6",TRUE,1597,"CITROEN","AMI",981
-"Other vehicles",4,"L7",TRUE,20060,"SMC","QUADZILLA",2178
-"Other vehicles",4,"M1",TRUE,43170,"LONDON TAXIS INT","TX4",15902
+"Other vehicles",4,"L5",TRUE,914,"MORGAN",,186
+"Other vehicles",4,"L6",TRUE,1596,"CITROEN","AMI",981
+"Other vehicles",4,"L7",TRUE,20043,"SMC","QUADZILLA",2177
+"Other vehicles",4,"M1",TRUE,43170,"LONDON TAXIS INT","TX4",15901
 "Other vehicles",4,"N1",TRUE,24,"FIAT","SCUDO",15
 "Other vehicles",4,"N2",TRUE,8,"FIAT","DUCATO",8
 "Other vehicles",4,"N3",TRUE,3,"IVECO-FORD","EUROCARGO",3
 "Other vehicles",4,"O1",TRUE,1,"SMC","RAM 250E",1
-"Other vehicles",4,"T1",TRUE,14172,"POLARIS","RANGER",6459
+"Other vehicles",4,"T1",TRUE,14171,"POLARIS","RANGER",6459
 "Other vehicles",4,"T2",TRUE,347,"BRP","CAN-AM OUTLANDER",165
-"Other vehicles",4,"T3",TRUE,10625,"CFMOTO","CFORCE",7007
+"Other vehicles",4,"T3",TRUE,10624,"CFMOTO","CFORCE",7007
 "Other vehicles",4,"T5",TRUE,3,"CAN-AM","OUTLANDER",1
 "Other vehicles",5,"M2",TRUE,2,"FIAT","DUCATO",1
 "Other vehicles",7,"M1",TRUE,8,"FIAT","DUCATO",4

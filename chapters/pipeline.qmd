@@ -95,9 +95,11 @@ They are `fuel`, `engine_cc`, `co2`, `euro_status`, `type_approval`,
 `revenue_weight`, `wheelplan` and `test_class`.
 
 - **Is the DVLA record the same vehicle?** The make, year and engine size of
-  the DVSA and DVLA records are compared. Where two or more disagree
-  (`dvla_match = 'different'`), the DVLA record is taken to describe another
-  vehicle and none of its values is used.
+  the DVSA and DVLA records are compared. The records are the same vehicle
+  only if the years agree and the make or the engine size agrees as well.
+  Otherwise (`dvla_match = 'different'`) the DVLA record is taken to describe
+  another vehicle, usually because a private plate has moved between them,
+  and none of its values is used.
 - **Fuel** is taken from the records and never filled from other vehicles.
   DVLA's fuel is used where DVSA says "Other", or where DVSA says Electric for
   a vehicle that has an engine. Plug-in hybrids are identified from DfT's

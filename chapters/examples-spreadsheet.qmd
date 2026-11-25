@@ -26,7 +26,7 @@ which areas have the highest and lowest mileage?
 2. Add `year` and `body_type` to **Filters**, and choose `2022` and `Cars`.
    (2022 rather than a later year: see @sec-pitfalls, pitfall 2.)
 3. Add `pca` to **Rows**. Then use the row filter to untick `unborn`,
-   `unknown`, `dead` and `XX`, which are not postcode areas.
+   `unknown` and `dead`, which are not postcode areas.
 4. Add `total_legit_mileage` and `n_legit_mileage` to **Values**, both as
    *Sum*.
 5. Next to the PivotTable, divide the first sum by the second to get average
@@ -181,23 +181,29 @@ and falling as those cars age and leave the fleet. The profile tables count
 only cars with a plausible mileage that year, and exclude Northern Ireland.
 
 ```{r}
-e6_2005 <- el$share[el$year == 2005 & el$group == "Euro 6"]
+src <- grep("^euro_source: ", names(a1), value = TRUE)
+src_2010 <- unlist(a1[a1$year == 2010, src])
+names(src_2010) <- sub("^euro_source: ", "", names(src_2010))
+recorded_2010 <- src_2010["dvla"] / sum(src_2010)
+assumed_2010 <- src_2010["euro_schedule"] / sum(src_2010)
 ```
 
-::: {.callout-important title="Spotting a problem: Euro 6 cars in 2005"}
-The chart shows `r fmt_pct(e6_2005)` of cars as Euro 6 in 2005, nearly ten years
-before the standard existed. These are not real. They are cars whose Euro
-status was missing and was filled from similar vehicles (the same make, model,
-birth year and fuel), where a single wrong value recorded for one vehicle was
-copied to the rest of its group. The vehicle table flags them with
-`euro_check = 'later_than_date'`.
+::: {.callout-important title="Check where the values come from"}
+Few of these Euro standards were recorded. In 2010, `r fmt_pct(recorded_2010)`
+of the cars in the table had a Euro status recorded by DVLA, and
+`r fmt_pct(assumed_2010)` were assumed from the date the car was made; the
+rest were filled from similar vehicles (the same make, model, birth year and
+fuel). The `euro_source: ...` columns of the same table give the counts.
 
-This is a good example of why you should check where values come from before
-relying on them. Most Euro standards in the data are filled or assumed rather
-than recorded; the `euro_source: ...` columns of the same table show how many
-of each. For a defensible analysis of Euro standards, use the vehicle table and
-exclude or correct values flagged `later_than_date` (@sec-pitfalls,
-pitfall 7).
+Filled values can go wrong: a single wrong value recorded for one vehicle can
+be copied to the rest of its group. Earlier builds showed about 5% of cars as
+Euro 6 in 2005, ten years before the standard existed, for this reason. The
+current build no longer does, because the pipeline now rejects DVLA records
+whose year disagrees with the MOT record, but some filled values still name a
+standard that did not exist when the vehicle was made. The vehicle table flags
+them with `euro_check = 'later_than_date'`. For a defensible analysis of Euro
+standards, use the vehicle table and exclude or correct those values
+(@sec-pitfalls, pitfall 7).
 :::
 
 ::: {.callout-note .todo title="To be written"}

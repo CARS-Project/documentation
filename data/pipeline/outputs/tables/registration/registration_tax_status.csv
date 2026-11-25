@@ -1,0 +1,935 @@
+"body_type","mot_history","tax_status","mot_status","age_in_last_year","n_vehicles"
+"Buses and coaches","last MOT in the final years","(no VES record)","(no VES record)","0-2",1
+"Buses and coaches","last MOT in the final years","(no VES record)","(no VES record)","3-39",454
+"Buses and coaches","last MOT in the final years","(no VES record)","(no VES record)","40+",2
+"Buses and coaches","last MOT in the final years","SORN","No details held by DVLA","3-39",12
+"Buses and coaches","last MOT in the final years","SORN","No results returned","40+",26
+"Buses and coaches","last MOT in the final years","SORN","Not valid","0-2",11
+"Buses and coaches","last MOT in the final years","SORN","Not valid","3-39",2815
+"Buses and coaches","last MOT in the final years","SORN","Not valid","40+",7
+"Buses and coaches","last MOT in the final years","SORN","Valid","0-2",17
+"Buses and coaches","last MOT in the final years","SORN","Valid","3-39",587
+"Buses and coaches","last MOT in the final years","SORN","Valid","40+",7
+"Buses and coaches","last MOT in the final years","Taxed","No details held by DVLA","0-2",5
+"Buses and coaches","last MOT in the final years","Taxed","No details held by DVLA","3-39",8
+"Buses and coaches","last MOT in the final years","Taxed","No results returned","3-39",3
+"Buses and coaches","last MOT in the final years","Taxed","No results returned","40+",152
+"Buses and coaches","last MOT in the final years","Taxed","Not valid","0-2",94
+"Buses and coaches","last MOT in the final years","Taxed","Not valid","3-39",2589
+"Buses and coaches","last MOT in the final years","Taxed","Not valid","40+",2
+"Buses and coaches","last MOT in the final years","Taxed","Valid","0-2",1713
+"Buses and coaches","last MOT in the final years","Taxed","Valid","3-39",11018
+"Buses and coaches","last MOT in the final years","Taxed","Valid","40+",92
+"Buses and coaches","last MOT in the final years","Untaxed","No details held by DVLA","3-39",10
+"Buses and coaches","last MOT in the final years","Untaxed","No results returned","40+",5
+"Buses and coaches","last MOT in the final years","Untaxed","Not valid","0-2",15
+"Buses and coaches","last MOT in the final years","Untaxed","Not valid","3-39",2792
+"Buses and coaches","last MOT in the final years","Untaxed","Not valid","40+",1
+"Buses and coaches","last MOT in the final years","Untaxed","Valid","0-2",50
+"Buses and coaches","last MOT in the final years","Untaxed","Valid","3-39",731
+"Buses and coaches","last MOT in the final years","Untaxed","Valid","40+",6
+"Buses and coaches","never located","(no VES record)","(no VES record)","0-2",5708
+"Buses and coaches","never located","(no VES record)","(no VES record)","3-39",1229
+"Buses and coaches","never located","Not Taxed for on Road Use","No details held by DVLA","3-39",14
+"Buses and coaches","never located","SORN","No details held by DVLA","0-2",385
+"Buses and coaches","never located","SORN","No details held by DVLA","3-39",4064
+"Buses and coaches","never located","SORN","No details held by DVLA","40+",1
+"Buses and coaches","never located","SORN","No results returned","3-39",1
+"Buses and coaches","never located","SORN","No results returned","40+",36
+"Buses and coaches","never located","SORN","Not valid","0-2",2
+"Buses and coaches","never located","SORN","Not valid","3-39",285
+"Buses and coaches","never located","SORN","Not valid","40+",9
+"Buses and coaches","never located","SORN","Valid","0-2",29
+"Buses and coaches","never located","SORN","Valid","3-39",49
+"Buses and coaches","never located","Taxed","No details held by DVLA","0-2",15171
+"Buses and coaches","never located","Taxed","No details held by DVLA","3-39",31626
+"Buses and coaches","never located","Taxed","No results returned","3-39",1
+"Buses and coaches","never located","Taxed","No results returned","40+",31
+"Buses and coaches","never located","Taxed","Not valid","0-2",24
+"Buses and coaches","never located","Taxed","Not valid","3-39",346
+"Buses and coaches","never located","Taxed","Valid","0-2",2319
+"Buses and coaches","never located","Taxed","Valid","3-39",460
+"Buses and coaches","never located","Taxed","Valid","40+",2
+"Buses and coaches","never located","Untaxed","No details held by DVLA","0-2",156
+"Buses and coaches","never located","Untaxed","No details held by DVLA","3-39",3613
+"Buses and coaches","never located","Untaxed","No results returned","3-39",2
+"Buses and coaches","never located","Untaxed","No results returned","40+",14
+"Buses and coaches","never located","Untaxed","Not valid","0-2",1
+"Buses and coaches","never located","Untaxed","Not valid","3-39",212
+"Buses and coaches","never located","Untaxed","Not valid","40+",3
+"Buses and coaches","never located","Untaxed","Valid","0-2",36
+"Buses and coaches","never located","Untaxed","Valid","3-39",35
+"Buses and coaches","still tested","(no VES record)","(no VES record)","0-2",8
+"Buses and coaches","still tested","(no VES record)","(no VES record)","3-39",77
+"Buses and coaches","still tested","SORN","No details held by DVLA","3-39",4
+"Buses and coaches","still tested","SORN","Not valid","0-2",4
+"Buses and coaches","still tested","SORN","Not valid","3-39",332
+"Buses and coaches","still tested","SORN","Valid","0-2",15
+"Buses and coaches","still tested","SORN","Valid","3-39",428
+"Buses and coaches","still tested","SORN","Valid","40+",1
+"Buses and coaches","still tested","Taxed","No details held by DVLA","0-2",6
+"Buses and coaches","still tested","Taxed","No details held by DVLA","3-39",25
+"Buses and coaches","still tested","Taxed","No results returned","3-39",1
+"Buses and coaches","still tested","Taxed","No results returned","40+",15
+"Buses and coaches","still tested","Taxed","Not valid","0-2",33
+"Buses and coaches","still tested","Taxed","Not valid","3-39",599
+"Buses and coaches","still tested","Taxed","Valid","0-2",3562
+"Buses and coaches","still tested","Taxed","Valid","3-39",20853
+"Buses and coaches","still tested","Taxed","Valid","40+",70
+"Buses and coaches","still tested","Untaxed","No details held by DVLA","3-39",7
+"Buses and coaches","still tested","Untaxed","Not valid","0-2",9
+"Buses and coaches","still tested","Untaxed","Not valid","3-39",231
+"Buses and coaches","still tested","Untaxed","Valid","0-2",62
+"Buses and coaches","still tested","Untaxed","Valid","3-39",612
+"Buses and coaches","stopped testing","(no VES record)","(no VES record)","3-39",3504
+"Buses and coaches","stopped testing","(no VES record)","(no VES record)","40+",29
+"Buses and coaches","stopped testing","Not Taxed for on Road Use","No results returned","40+",1
+"Buses and coaches","stopped testing","Not Taxed for on Road Use","Not valid","3-39",1
+"Buses and coaches","stopped testing","Not Taxed for on Road Use","Not valid","40+",1
+"Buses and coaches","stopped testing","SORN","No details held by DVLA","3-39",90
+"Buses and coaches","stopped testing","SORN","No details held by DVLA","40+",4
+"Buses and coaches","stopped testing","SORN","No results returned","3-39",6
+"Buses and coaches","stopped testing","SORN","No results returned","40+",975
+"Buses and coaches","stopped testing","SORN","Not valid","3-39",9746
+"Buses and coaches","stopped testing","SORN","Not valid","40+",110
+"Buses and coaches","stopped testing","SORN","Valid","3-39",150
+"Buses and coaches","stopped testing","SORN","Valid","40+",1
+"Buses and coaches","stopped testing","Taxed","No details held by DVLA","3-39",31
+"Buses and coaches","stopped testing","Taxed","No results returned","3-39",1
+"Buses and coaches","stopped testing","Taxed","No results returned","40+",971
+"Buses and coaches","stopped testing","Taxed","Not valid","3-39",3827
+"Buses and coaches","stopped testing","Taxed","Not valid","40+",2
+"Buses and coaches","stopped testing","Taxed","Valid","3-39",3774
+"Buses and coaches","stopped testing","Taxed","Valid","40+",25
+"Buses and coaches","stopped testing","Untaxed","No details held by DVLA","3-39",58
+"Buses and coaches","stopped testing","Untaxed","No results returned","3-39",1
+"Buses and coaches","stopped testing","Untaxed","No results returned","40+",360
+"Buses and coaches","stopped testing","Untaxed","Not valid","3-39",12573
+"Buses and coaches","stopped testing","Untaxed","Not valid","40+",66
+"Buses and coaches","stopped testing","Untaxed","Valid","3-39",163
+"Cars","last MOT in the final years","(no VES record)","(no VES record)","0-2",747
+"Cars","last MOT in the final years","(no VES record)","(no VES record)","3-39",275476
+"Cars","last MOT in the final years","(no VES record)","(no VES record)","40+",557
+"Cars","last MOT in the final years","Not Taxed for on Road Use","No results returned","3-39",3
+"Cars","last MOT in the final years","Not Taxed for on Road Use","No results returned","40+",32
+"Cars","last MOT in the final years","Not Taxed for on Road Use","Not valid","3-39",1
+"Cars","last MOT in the final years","Not Taxed for on Road Use","Not valid","40+",1
+"Cars","last MOT in the final years","Not Taxed for on Road Use","Valid","3-39",2
+"Cars","last MOT in the final years","Not Taxed for on Road Use","Valid","40+",21
+"Cars","last MOT in the final years","SORN","No details held by DVLA","0-2",8
+"Cars","last MOT in the final years","SORN","No details held by DVLA","3-39",707
+"Cars","last MOT in the final years","SORN","No details held by DVLA","40+",15
+"Cars","last MOT in the final years","SORN","No results returned","0-2",1
+"Cars","last MOT in the final years","SORN","No results returned","3-39",371
+"Cars","last MOT in the final years","SORN","No results returned","40+",4974
+"Cars","last MOT in the final years","SORN","Not valid","0-2",236
+"Cars","last MOT in the final years","SORN","Not valid","3-39",865730
+"Cars","last MOT in the final years","SORN","Not valid","40+",1593
+"Cars","last MOT in the final years","SORN","Valid","0-2",287
+"Cars","last MOT in the final years","SORN","Valid","3-39",236131
+"Cars","last MOT in the final years","SORN","Valid","40+",2396
+"Cars","last MOT in the final years","Taxed","No details held by DVLA","0-2",933
+"Cars","last MOT in the final years","Taxed","No details held by DVLA","3-39",9297
+"Cars","last MOT in the final years","Taxed","No details held by DVLA","40+",9
+"Cars","last MOT in the final years","Taxed","No results returned","0-2",3
+"Cars","last MOT in the final years","Taxed","No results returned","3-39",2789
+"Cars","last MOT in the final years","Taxed","No results returned","40+",27257
+"Cars","last MOT in the final years","Taxed","Not valid","0-2",839
+"Cars","last MOT in the final years","Taxed","Not valid","3-39",263543
+"Cars","last MOT in the final years","Taxed","Not valid","40+",423
+"Cars","last MOT in the final years","Taxed","Valid","0-2",51512
+"Cars","last MOT in the final years","Taxed","Valid","3-39",9254751
+"Cars","last MOT in the final years","Taxed","Valid","40+",22320
+"Cars","last MOT in the final years","Untaxed","No details held by DVLA","0-2",56
+"Cars","last MOT in the final years","Untaxed","No details held by DVLA","3-39",1555
+"Cars","last MOT in the final years","Untaxed","No details held by DVLA","40+",6
+"Cars","last MOT in the final years","Untaxed","No results returned","3-39",374
+"Cars","last MOT in the final years","Untaxed","No results returned","40+",3142
+"Cars","last MOT in the final years","Untaxed","Not valid","0-2",306
+"Cars","last MOT in the final years","Untaxed","Not valid","3-39",1206913
+"Cars","last MOT in the final years","Untaxed","Not valid","40+",342
+"Cars","last MOT in the final years","Untaxed","Valid","0-2",1005
+"Cars","last MOT in the final years","Untaxed","Valid","3-39",465333
+"Cars","last MOT in the final years","Untaxed","Valid","40+",1485
+"Cars","never located","(no VES record)","(no VES record)","0-2",2137291
+"Cars","never located","(no VES record)","(no VES record)","3-39",632083
+"Cars","never located","(no VES record)","(no VES record)","40+",5086
+"Cars","never located","(no VES record)","(no VES record)","unknown",1
+"Cars","never located","Not Taxed for on Road Use","No details held by DVLA","0-2",5
+"Cars","never located","Not Taxed for on Road Use","No details held by DVLA","3-39",82
+"Cars","never located","Not Taxed for on Road Use","No details held by DVLA","40+",2
+"Cars","never located","Not Taxed for on Road Use","No results returned","3-39",339
+"Cars","never located","Not Taxed for on Road Use","No results returned","40+",4793
+"Cars","never located","Not Taxed for on Road Use","Not valid","3-39",12
+"Cars","never located","Not Taxed for on Road Use","Valid","3-39",2
+"Cars","never located","Not Taxed for on Road Use","Valid","40+",1
+"Cars","never located","SORN","No details held by DVLA","0-2",32681
+"Cars","never located","SORN","No details held by DVLA","3-39",492721
+"Cars","never located","SORN","No details held by DVLA","40+",8175
+"Cars","never located","SORN","No results returned","0-2",270
+"Cars","never located","SORN","No results returned","3-39",12788
+"Cars","never located","SORN","No results returned","40+",121683
+"Cars","never located","SORN","Not valid","0-2",68
+"Cars","never located","SORN","Not valid","3-39",256856
+"Cars","never located","SORN","Not valid","40+",2408
+"Cars","never located","SORN","Valid","0-2",1404
+"Cars","never located","SORN","Valid","3-39",6049
+"Cars","never located","SORN","Valid","40+",169
+"Cars","never located","Taxed","No details held by DVLA","0-2",4214698
+"Cars","never located","Taxed","No details held by DVLA","3-39",31601
+"Cars","never located","Taxed","No details held by DVLA","40+",36
+"Cars","never located","Taxed","No results returned","0-2",447
+"Cars","never located","Taxed","No results returned","3-39",17378
+"Cars","never located","Taxed","No results returned","40+",58388
+"Cars","never located","Taxed","Not valid","0-2",416
+"Cars","never located","Taxed","Not valid","3-39",4043
+"Cars","never located","Taxed","Not valid","40+",38
+"Cars","never located","Taxed","Valid","0-2",541131
+"Cars","never located","Taxed","Valid","3-39",165925
+"Cars","never located","Taxed","Valid","40+",951
+"Cars","never located","Untaxed","No details held by DVLA","0-2",155273
+"Cars","never located","Untaxed","No details held by DVLA","3-39",1531878
+"Cars","never located","Untaxed","No details held by DVLA","40+",7178
+"Cars","never located","Untaxed","No results returned","0-2",65
+"Cars","never located","Untaxed","No results returned","3-39",9553
+"Cars","never located","Untaxed","No results returned","40+",116744
+"Cars","never located","Untaxed","Not valid","0-2",91
+"Cars","never located","Untaxed","Not valid","3-39",358331
+"Cars","never located","Untaxed","Not valid","40+",1204
+"Cars","never located","Untaxed","Valid","0-2",56216
+"Cars","never located","Untaxed","Valid","3-39",11993
+"Cars","never located","Untaxed","Valid","40+",72
+"Cars","still tested","(no VES record)","(no VES record)","0-2",794
+"Cars","still tested","(no VES record)","(no VES record)","3-39",198280
+"Cars","still tested","(no VES record)","(no VES record)","40+",112
+"Cars","still tested","Not Taxed for on Road Use","No results returned","3-39",2
+"Cars","still tested","Not Taxed for on Road Use","No results returned","40+",3
+"Cars","still tested","Not Taxed for on Road Use","Valid","40+",6
+"Cars","still tested","SORN","No details held by DVLA","0-2",9
+"Cars","still tested","SORN","No details held by DVLA","3-39",443
+"Cars","still tested","SORN","No details held by DVLA","40+",4
+"Cars","still tested","SORN","No results returned","3-39",27
+"Cars","still tested","SORN","No results returned","40+",526
+"Cars","still tested","SORN","Not valid","0-2",26
+"Cars","still tested","SORN","Not valid","3-39",141663
+"Cars","still tested","SORN","Not valid","40+",208
+"Cars","still tested","SORN","Valid","0-2",107
+"Cars","still tested","SORN","Valid","3-39",183269
+"Cars","still tested","SORN","Valid","40+",733
+"Cars","still tested","Taxed","No details held by DVLA","0-2",874
+"Cars","still tested","Taxed","No details held by DVLA","3-39",26028
+"Cars","still tested","Taxed","No details held by DVLA","40+",5
+"Cars","still tested","Taxed","No results returned","0-2",1
+"Cars","still tested","Taxed","No results returned","3-39",416
+"Cars","still tested","Taxed","No results returned","40+",3967
+"Cars","still tested","Taxed","Not valid","0-2",265
+"Cars","still tested","Taxed","Not valid","3-39",378387
+"Cars","still tested","Taxed","Not valid","40+",84
+"Cars","still tested","Taxed","Valid","0-2",37233
+"Cars","still tested","Taxed","Valid","3-39",19390531
+"Cars","still tested","Taxed","Valid","40+",19115
+"Cars","still tested","Untaxed","No details held by DVLA","0-2",146
+"Cars","still tested","Untaxed","No details held by DVLA","3-39",1916
+"Cars","still tested","Untaxed","No details held by DVLA","40+",1
+"Cars","still tested","Untaxed","No results returned","3-39",20
+"Cars","still tested","Untaxed","No results returned","40+",325
+"Cars","still tested","Untaxed","Not valid","0-2",46
+"Cars","still tested","Untaxed","Not valid","3-39",142208
+"Cars","still tested","Untaxed","Not valid","40+",44
+"Cars","still tested","Untaxed","Valid","0-2",3176
+"Cars","still tested","Untaxed","Valid","3-39",654712
+"Cars","still tested","Untaxed","Valid","40+",413
+"Cars","stopped testing","(no VES record)","(no VES record)","3-39",16240030
+"Cars","stopped testing","(no VES record)","(no VES record)","40+",40496
+"Cars","stopped testing","Not Taxed for on Road Use","No details held by DVLA","3-39",3
+"Cars","stopped testing","Not Taxed for on Road Use","No results returned","3-39",30
+"Cars","stopped testing","Not Taxed for on Road Use","No results returned","40+",698
+"Cars","stopped testing","Not Taxed for on Road Use","Not valid","3-39",88
+"Cars","stopped testing","Not Taxed for on Road Use","Not valid","40+",1
+"Cars","stopped testing","SORN","No details held by DVLA","3-39",58273
+"Cars","stopped testing","SORN","No details held by DVLA","40+",936
+"Cars","stopped testing","SORN","No results returned","3-39",1052
+"Cars","stopped testing","SORN","No results returned","40+",132836
+"Cars","stopped testing","SORN","Not valid","3-39",3940658
+"Cars","stopped testing","SORN","Not valid","40+",16047
+"Cars","stopped testing","SORN","Valid","3-39",16836
+"Cars","stopped testing","SORN","Valid","40+",42
+"Cars","stopped testing","Taxed","No details held by DVLA","0-2",199
+"Cars","stopped testing","Taxed","No details held by DVLA","3-39",2536
+"Cars","stopped testing","Taxed","No details held by DVLA","40+",28
+"Cars","stopped testing","Taxed","No results returned","3-39",3327
+"Cars","stopped testing","Taxed","No results returned","40+",137998
+"Cars","stopped testing","Taxed","Not valid","3-39",33630
+"Cars","stopped testing","Taxed","Not valid","40+",116
+"Cars","stopped testing","Taxed","Valid","3-39",169502
+"Cars","stopped testing","Taxed","Valid","40+",405
+"Cars","stopped testing","Untaxed","No details held by DVLA","0-2",1
+"Cars","stopped testing","Untaxed","No details held by DVLA","3-39",90786
+"Cars","stopped testing","Untaxed","No details held by DVLA","40+",1062
+"Cars","stopped testing","Untaxed","No results returned","3-39",1051
+"Cars","stopped testing","Untaxed","No results returned","40+",81462
+"Cars","stopped testing","Untaxed","Not valid","3-39",9595318
+"Cars","stopped testing","Untaxed","Not valid","40+",13026
+"Cars","stopped testing","Untaxed","Valid","3-39",33852
+"Cars","stopped testing","Untaxed","Valid","40+",26
+"Heavy goods vehicles","last MOT in the final years","(no VES record)","(no VES record)","0-2",16
+"Heavy goods vehicles","last MOT in the final years","(no VES record)","(no VES record)","3-39",548
+"Heavy goods vehicles","last MOT in the final years","Not Taxed for on Road Use","Valid","3-39",3
+"Heavy goods vehicles","last MOT in the final years","SORN","No details held by DVLA","0-2",2
+"Heavy goods vehicles","last MOT in the final years","SORN","No details held by DVLA","3-39",67
+"Heavy goods vehicles","last MOT in the final years","SORN","Not valid","0-2",5
+"Heavy goods vehicles","last MOT in the final years","SORN","Not valid","3-39",3546
+"Heavy goods vehicles","last MOT in the final years","SORN","Valid","0-2",24
+"Heavy goods vehicles","last MOT in the final years","SORN","Valid","3-39",868
+"Heavy goods vehicles","last MOT in the final years","SORN","Valid","40+",2
+"Heavy goods vehicles","last MOT in the final years","Taxed","No details held by DVLA","0-2",33
+"Heavy goods vehicles","last MOT in the final years","Taxed","No details held by DVLA","3-39",158
+"Heavy goods vehicles","last MOT in the final years","Taxed","No results returned","3-39",1
+"Heavy goods vehicles","last MOT in the final years","Taxed","No results returned","40+",2
+"Heavy goods vehicles","last MOT in the final years","Taxed","Not valid","0-2",44
+"Heavy goods vehicles","last MOT in the final years","Taxed","Not valid","3-39",1437
+"Heavy goods vehicles","last MOT in the final years","Taxed","Valid","0-2",637
+"Heavy goods vehicles","last MOT in the final years","Taxed","Valid","3-39",8451
+"Heavy goods vehicles","last MOT in the final years","Taxed","Valid","40+",2
+"Heavy goods vehicles","last MOT in the final years","Untaxed","No details held by DVLA","3-39",135
+"Heavy goods vehicles","last MOT in the final years","Untaxed","No results returned","40+",1
+"Heavy goods vehicles","last MOT in the final years","Untaxed","Not valid","0-2",12
+"Heavy goods vehicles","last MOT in the final years","Untaxed","Not valid","3-39",3286
+"Heavy goods vehicles","last MOT in the final years","Untaxed","Valid","0-2",12
+"Heavy goods vehicles","last MOT in the final years","Untaxed","Valid","3-39",1078
+"Heavy goods vehicles","never located","(no VES record)","(no VES record)","0-2",8248
+"Heavy goods vehicles","never located","(no VES record)","(no VES record)","3-39",4335
+"Heavy goods vehicles","never located","(no VES record)","(no VES record)","40+",1
+"Heavy goods vehicles","never located","Not Taxed for on Road Use","No details held by DVLA","0-2",2
+"Heavy goods vehicles","never located","Not Taxed for on Road Use","No details held by DVLA","3-39",174
+"Heavy goods vehicles","never located","SORN","No details held by DVLA","0-2",3187
+"Heavy goods vehicles","never located","SORN","No details held by DVLA","3-39",147169
+"Heavy goods vehicles","never located","SORN","No results returned","3-39",7
+"Heavy goods vehicles","never located","SORN","No results returned","40+",3
+"Heavy goods vehicles","never located","SORN","Not valid","3-39",965
+"Heavy goods vehicles","never located","SORN","Not valid","40+",1
+"Heavy goods vehicles","never located","SORN","Valid","0-2",6
+"Heavy goods vehicles","never located","SORN","Valid","3-39",34
+"Heavy goods vehicles","never located","Taxed","No details held by DVLA","0-2",132445
+"Heavy goods vehicles","never located","Taxed","No details held by DVLA","3-39",246920
+"Heavy goods vehicles","never located","Taxed","No results returned","3-39",5
+"Heavy goods vehicles","never located","Taxed","No results returned","40+",4
+"Heavy goods vehicles","never located","Taxed","Not valid","0-2",4
+"Heavy goods vehicles","never located","Taxed","Not valid","3-39",652
+"Heavy goods vehicles","never located","Taxed","Valid","0-2",330
+"Heavy goods vehicles","never located","Taxed","Valid","3-39",510
+"Heavy goods vehicles","never located","Taxed","Valid","40+",3
+"Heavy goods vehicles","never located","Untaxed","No details held by DVLA","0-2",1242
+"Heavy goods vehicles","never located","Untaxed","No details held by DVLA","3-39",187531
+"Heavy goods vehicles","never located","Untaxed","No results returned","3-39",7
+"Heavy goods vehicles","never located","Untaxed","No results returned","40+",4
+"Heavy goods vehicles","never located","Untaxed","Not valid","3-39",1005
+"Heavy goods vehicles","never located","Untaxed","Valid","0-2",9
+"Heavy goods vehicles","never located","Untaxed","Valid","3-39",34
+"Heavy goods vehicles","still tested","(no VES record)","(no VES record)","0-2",50
+"Heavy goods vehicles","still tested","(no VES record)","(no VES record)","3-39",524
+"Heavy goods vehicles","still tested","SORN","No details held by DVLA","0-2",9
+"Heavy goods vehicles","still tested","SORN","No details held by DVLA","3-39",234
+"Heavy goods vehicles","still tested","SORN","Not valid","0-2",3
+"Heavy goods vehicles","still tested","SORN","Not valid","3-39",336
+"Heavy goods vehicles","still tested","SORN","Valid","0-2",15
+"Heavy goods vehicles","still tested","SORN","Valid","3-39",713
+"Heavy goods vehicles","still tested","Taxed","No details held by DVLA","0-2",97
+"Heavy goods vehicles","still tested","Taxed","No details held by DVLA","3-39",673
+"Heavy goods vehicles","still tested","Taxed","Not valid","0-2",27
+"Heavy goods vehicles","still tested","Taxed","Not valid","3-39",671
+"Heavy goods vehicles","still tested","Taxed","Valid","0-2",2067
+"Heavy goods vehicles","still tested","Taxed","Valid","3-39",19655
+"Heavy goods vehicles","still tested","Untaxed","No details held by DVLA","0-2",14
+"Heavy goods vehicles","still tested","Untaxed","No details held by DVLA","3-39",305
+"Heavy goods vehicles","still tested","Untaxed","Not valid","0-2",4
+"Heavy goods vehicles","still tested","Untaxed","Not valid","3-39",254
+"Heavy goods vehicles","still tested","Untaxed","Valid","0-2",20
+"Heavy goods vehicles","still tested","Untaxed","Valid","3-39",861
+"Heavy goods vehicles","stopped testing","(no VES record)","(no VES record)","3-39",711
+"Heavy goods vehicles","stopped testing","(no VES record)","(no VES record)","40+",4
+"Heavy goods vehicles","stopped testing","Not Taxed for on Road Use","Not valid","3-39",12
+"Heavy goods vehicles","stopped testing","SORN","No details held by DVLA","3-39",50
+"Heavy goods vehicles","stopped testing","SORN","No results returned","3-39",2
+"Heavy goods vehicles","stopped testing","SORN","No results returned","40+",13
+"Heavy goods vehicles","stopped testing","SORN","Not valid","3-39",6108
+"Heavy goods vehicles","stopped testing","SORN","Valid","3-39",38
+"Heavy goods vehicles","stopped testing","Taxed","No details held by DVLA","3-39",37
+"Heavy goods vehicles","stopped testing","Taxed","No results returned","3-39",2
+"Heavy goods vehicles","stopped testing","Taxed","No results returned","40+",4
+"Heavy goods vehicles","stopped testing","Taxed","Not valid","3-39",1401
+"Heavy goods vehicles","stopped testing","Taxed","Valid","3-39",412
+"Heavy goods vehicles","stopped testing","Untaxed","No details held by DVLA","3-39",51
+"Heavy goods vehicles","stopped testing","Untaxed","No results returned","3-39",2
+"Heavy goods vehicles","stopped testing","Untaxed","No results returned","40+",4
+"Heavy goods vehicles","stopped testing","Untaxed","Not valid","3-39",7725
+"Heavy goods vehicles","stopped testing","Untaxed","Not valid","40+",4
+"Heavy goods vehicles","stopped testing","Untaxed","Valid","3-39",25
+"Light goods vehicles","last MOT in the final years","(no VES record)","(no VES record)","0-2",85
+"Light goods vehicles","last MOT in the final years","(no VES record)","(no VES record)","3-39",27017
+"Light goods vehicles","last MOT in the final years","(no VES record)","(no VES record)","40+",45
+"Light goods vehicles","last MOT in the final years","Not Taxed for on Road Use","No results returned","40+",1
+"Light goods vehicles","last MOT in the final years","Not Taxed for on Road Use","Not valid","3-39",1
+"Light goods vehicles","last MOT in the final years","Not Taxed for on Road Use","Valid","3-39",1
+"Light goods vehicles","last MOT in the final years","SORN","No details held by DVLA","0-2",2
+"Light goods vehicles","last MOT in the final years","SORN","No details held by DVLA","3-39",183
+"Light goods vehicles","last MOT in the final years","SORN","No results returned","3-39",45
+"Light goods vehicles","last MOT in the final years","SORN","No results returned","40+",669
+"Light goods vehicles","last MOT in the final years","SORN","Not valid","0-2",26
+"Light goods vehicles","last MOT in the final years","SORN","Not valid","3-39",213565
+"Light goods vehicles","last MOT in the final years","SORN","Not valid","40+",427
+"Light goods vehicles","last MOT in the final years","SORN","Valid","0-2",33
+"Light goods vehicles","last MOT in the final years","SORN","Valid","3-39",48121
+"Light goods vehicles","last MOT in the final years","SORN","Valid","40+",302
+"Light goods vehicles","last MOT in the final years","Taxed","No details held by DVLA","0-2",172
+"Light goods vehicles","last MOT in the final years","Taxed","No details held by DVLA","3-39",1964
+"Light goods vehicles","last MOT in the final years","Taxed","No details held by DVLA","40+",1
+"Light goods vehicles","last MOT in the final years","Taxed","No results returned","3-39",275
+"Light goods vehicles","last MOT in the final years","Taxed","No results returned","40+",3408
+"Light goods vehicles","last MOT in the final years","Taxed","Not valid","0-2",106
+"Light goods vehicles","last MOT in the final years","Taxed","Not valid","3-39",56770
+"Light goods vehicles","last MOT in the final years","Taxed","Not valid","40+",158
+"Light goods vehicles","last MOT in the final years","Taxed","Valid","0-2",6941
+"Light goods vehicles","last MOT in the final years","Taxed","Valid","3-39",1171618
+"Light goods vehicles","last MOT in the final years","Taxed","Valid","40+",3226
+"Light goods vehicles","last MOT in the final years","Untaxed","No details held by DVLA","0-2",11
+"Light goods vehicles","last MOT in the final years","Untaxed","No details held by DVLA","3-39",390
+"Light goods vehicles","last MOT in the final years","Untaxed","No results returned","3-39",47
+"Light goods vehicles","last MOT in the final years","Untaxed","No results returned","40+",368
+"Light goods vehicles","last MOT in the final years","Untaxed","Not valid","0-2",10
+"Light goods vehicles","last MOT in the final years","Untaxed","Not valid","3-39",242200
+"Light goods vehicles","last MOT in the final years","Untaxed","Not valid","40+",107
+"Light goods vehicles","last MOT in the final years","Untaxed","Valid","0-2",135
+"Light goods vehicles","last MOT in the final years","Untaxed","Valid","3-39",79739
+"Light goods vehicles","last MOT in the final years","Untaxed","Valid","40+",138
+"Light goods vehicles","never located","(no VES record)","(no VES record)","0-2",296972
+"Light goods vehicles","never located","(no VES record)","(no VES record)","3-39",54335
+"Light goods vehicles","never located","(no VES record)","(no VES record)","40+",323
+"Light goods vehicles","never located","Not Taxed for on Road Use","No details held by DVLA","0-2",3
+"Light goods vehicles","never located","Not Taxed for on Road Use","No details held by DVLA","3-39",182
+"Light goods vehicles","never located","Not Taxed for on Road Use","No details held by DVLA","40+",7
+"Light goods vehicles","never located","Not Taxed for on Road Use","No results returned","3-39",9
+"Light goods vehicles","never located","Not Taxed for on Road Use","No results returned","40+",113
+"Light goods vehicles","never located","Not Taxed for on Road Use","Not valid","3-39",8
+"Light goods vehicles","never located","Not Taxed for on Road Use","Valid","40+",1
+"Light goods vehicles","never located","SORN","No details held by DVLA","0-2",10550
+"Light goods vehicles","never located","SORN","No details held by DVLA","3-39",99641
+"Light goods vehicles","never located","SORN","No details held by DVLA","40+",1217
+"Light goods vehicles","never located","SORN","No results returned","0-2",16
+"Light goods vehicles","never located","SORN","No results returned","3-39",1637
+"Light goods vehicles","never located","SORN","No results returned","40+",15751
+"Light goods vehicles","never located","SORN","Not valid","0-2",10
+"Light goods vehicles","never located","SORN","Not valid","3-39",23201
+"Light goods vehicles","never located","SORN","Not valid","40+",343
+"Light goods vehicles","never located","SORN","Valid","0-2",739
+"Light goods vehicles","never located","SORN","Valid","3-39",1085
+"Light goods vehicles","never located","SORN","Valid","40+",22
+"Light goods vehicles","never located","Taxed","No details held by DVLA","0-2",799034
+"Light goods vehicles","never located","Taxed","No details held by DVLA","3-39",14086
+"Light goods vehicles","never located","Taxed","No details held by DVLA","40+",12
+"Light goods vehicles","never located","Taxed","No results returned","0-2",29
+"Light goods vehicles","never located","Taxed","No results returned","3-39",1968
+"Light goods vehicles","never located","Taxed","No results returned","40+",6484
+"Light goods vehicles","never located","Taxed","Not valid","0-2",47
+"Light goods vehicles","never located","Taxed","Not valid","3-39",921
+"Light goods vehicles","never located","Taxed","Not valid","40+",8
+"Light goods vehicles","never located","Taxed","Valid","0-2",97216
+"Light goods vehicles","never located","Taxed","Valid","3-39",23498
+"Light goods vehicles","never located","Taxed","Valid","40+",138
+"Light goods vehicles","never located","Untaxed","No details held by DVLA","0-2",20934
+"Light goods vehicles","never located","Untaxed","No details held by DVLA","3-39",213217
+"Light goods vehicles","never located","Untaxed","No details held by DVLA","40+",784
+"Light goods vehicles","never located","Untaxed","No results returned","0-2",3
+"Light goods vehicles","never located","Untaxed","No results returned","3-39",987
+"Light goods vehicles","never located","Untaxed","No results returned","40+",9048
+"Light goods vehicles","never located","Untaxed","Not valid","0-2",11
+"Light goods vehicles","never located","Untaxed","Not valid","3-39",31351
+"Light goods vehicles","never located","Untaxed","Not valid","40+",165
+"Light goods vehicles","never located","Untaxed","Valid","0-2",4417
+"Light goods vehicles","never located","Untaxed","Valid","3-39",1712
+"Light goods vehicles","never located","Untaxed","Valid","40+",10
+"Light goods vehicles","still tested","(no VES record)","(no VES record)","0-2",3189
+"Light goods vehicles","still tested","(no VES record)","(no VES record)","3-39",20882
+"Light goods vehicles","still tested","(no VES record)","(no VES record)","40+",7
+"Light goods vehicles","still tested","Not Taxed for on Road Use","Valid","3-39",1
+"Light goods vehicles","still tested","SORN","No details held by DVLA","0-2",28
+"Light goods vehicles","still tested","SORN","No details held by DVLA","3-39",97
+"Light goods vehicles","still tested","SORN","No results returned","3-39",3
+"Light goods vehicles","still tested","SORN","No results returned","40+",66
+"Light goods vehicles","still tested","SORN","Not valid","0-2",4
+"Light goods vehicles","still tested","SORN","Not valid","3-39",35486
+"Light goods vehicles","still tested","SORN","Not valid","40+",40
+"Light goods vehicles","still tested","SORN","Valid","0-2",36
+"Light goods vehicles","still tested","SORN","Valid","3-39",46207
+"Light goods vehicles","still tested","SORN","Valid","40+",63
+"Light goods vehicles","still tested","Taxed","No details held by DVLA","0-2",1634
+"Light goods vehicles","still tested","Taxed","No details held by DVLA","3-39",2270
+"Light goods vehicles","still tested","Taxed","No results returned","3-39",47
+"Light goods vehicles","still tested","Taxed","No results returned","40+",341
+"Light goods vehicles","still tested","Taxed","Not valid","0-2",80
+"Light goods vehicles","still tested","Taxed","Not valid","3-39",85725
+"Light goods vehicles","still tested","Taxed","Not valid","40+",20
+"Light goods vehicles","still tested","Taxed","Valid","0-2",4986
+"Light goods vehicles","still tested","Taxed","Valid","3-39",2419546
+"Light goods vehicles","still tested","Taxed","Valid","40+",2156
+"Light goods vehicles","still tested","Untaxed","No details held by DVLA","0-2",137
+"Light goods vehicles","still tested","Untaxed","No details held by DVLA","3-39",325
+"Light goods vehicles","still tested","Untaxed","No results returned","3-39",1
+"Light goods vehicles","still tested","Untaxed","No results returned","40+",30
+"Light goods vehicles","still tested","Untaxed","Not valid","0-2",14
+"Light goods vehicles","still tested","Untaxed","Not valid","3-39",33318
+"Light goods vehicles","still tested","Untaxed","Not valid","40+",11
+"Light goods vehicles","still tested","Untaxed","Valid","0-2",192
+"Light goods vehicles","still tested","Untaxed","Valid","3-39",91851
+"Light goods vehicles","still tested","Untaxed","Valid","40+",29
+"Light goods vehicles","stopped testing","(no VES record)","(no VES record)","3-39",1071423
+"Light goods vehicles","stopped testing","(no VES record)","(no VES record)","40+",3222
+"Light goods vehicles","stopped testing","Not Taxed for on Road Use","No details held by DVLA","3-39",2
+"Light goods vehicles","stopped testing","Not Taxed for on Road Use","No results returned","3-39",1
+"Light goods vehicles","stopped testing","Not Taxed for on Road Use","No results returned","40+",20
+"Light goods vehicles","stopped testing","Not Taxed for on Road Use","Not valid","3-39",107
+"Light goods vehicles","stopped testing","Not Taxed for on Road Use","Not valid","40+",1
+"Light goods vehicles","stopped testing","SORN","No details held by DVLA","3-39",7081
+"Light goods vehicles","stopped testing","SORN","No details held by DVLA","40+",152
+"Light goods vehicles","stopped testing","SORN","No results returned","3-39",109
+"Light goods vehicles","stopped testing","SORN","No results returned","40+",17599
+"Light goods vehicles","stopped testing","SORN","Not valid","3-39",683782
+"Light goods vehicles","stopped testing","SORN","Not valid","40+",3540
+"Light goods vehicles","stopped testing","SORN","Valid","3-39",2618
+"Light goods vehicles","stopped testing","SORN","Valid","40+",8
+"Light goods vehicles","stopped testing","Taxed","No details held by DVLA","0-2",28
+"Light goods vehicles","stopped testing","Taxed","No details held by DVLA","3-39",318
+"Light goods vehicles","stopped testing","Taxed","No details held by DVLA","40+",2
+"Light goods vehicles","stopped testing","Taxed","No results returned","3-39",321
+"Light goods vehicles","stopped testing","Taxed","No results returned","40+",13809
+"Light goods vehicles","stopped testing","Taxed","Not valid","3-39",8092
+"Light goods vehicles","stopped testing","Taxed","Not valid","40+",47
+"Light goods vehicles","stopped testing","Taxed","Valid","3-39",22795
+"Light goods vehicles","stopped testing","Taxed","Valid","40+",42
+"Light goods vehicles","stopped testing","Untaxed","No details held by DVLA","0-2",2
+"Light goods vehicles","stopped testing","Untaxed","No details held by DVLA","3-39",8292
+"Light goods vehicles","stopped testing","Untaxed","No details held by DVLA","40+",97
+"Light goods vehicles","stopped testing","Untaxed","No results returned","3-39",97
+"Light goods vehicles","stopped testing","Untaxed","No results returned","40+",8293
+"Light goods vehicles","stopped testing","Untaxed","Not valid","3-39",1184744
+"Light goods vehicles","stopped testing","Untaxed","Not valid","40+",2265
+"Light goods vehicles","stopped testing","Untaxed","Valid","3-39",4319
+"Light goods vehicles","stopped testing","Untaxed","Valid","40+",5
+"Motorcycles","last MOT in the final years","(no VES record)","(no VES record)","0-2",22
+"Motorcycles","last MOT in the final years","(no VES record)","(no VES record)","3-39",2244
+"Motorcycles","last MOT in the final years","(no VES record)","(no VES record)","40+",187
+"Motorcycles","last MOT in the final years","Not Taxed for on Road Use","No results returned","40+",18
+"Motorcycles","last MOT in the final years","Not Taxed for on Road Use","Not valid","0-2",1
+"Motorcycles","last MOT in the final years","Not Taxed for on Road Use","Not valid","3-39",1
+"Motorcycles","last MOT in the final years","Not Taxed for on Road Use","Not valid","40+",1
+"Motorcycles","last MOT in the final years","Not Taxed for on Road Use","Valid","0-2",1
+"Motorcycles","last MOT in the final years","Not Taxed for on Road Use","Valid","3-39",3
+"Motorcycles","last MOT in the final years","Not Taxed for on Road Use","Valid","40+",15
+"Motorcycles","last MOT in the final years","SORN","No details held by DVLA","0-2",2
+"Motorcycles","last MOT in the final years","SORN","No details held by DVLA","3-39",670
+"Motorcycles","last MOT in the final years","SORN","No details held by DVLA","40+",14
+"Motorcycles","last MOT in the final years","SORN","No results returned","0-2",1
+"Motorcycles","last MOT in the final years","SORN","No results returned","3-39",575
+"Motorcycles","last MOT in the final years","SORN","No results returned","40+",3116
+"Motorcycles","last MOT in the final years","SORN","Not valid","0-2",73
+"Motorcycles","last MOT in the final years","SORN","Not valid","3-39",198790
+"Motorcycles","last MOT in the final years","SORN","Not valid","40+",985
+"Motorcycles","last MOT in the final years","SORN","Valid","0-2",79
+"Motorcycles","last MOT in the final years","SORN","Valid","3-39",48925
+"Motorcycles","last MOT in the final years","SORN","Valid","40+",1071
+"Motorcycles","last MOT in the final years","Taxed","No details held by DVLA","0-2",39
+"Motorcycles","last MOT in the final years","Taxed","No details held by DVLA","3-39",870
+"Motorcycles","last MOT in the final years","Taxed","No details held by DVLA","40+",4
+"Motorcycles","last MOT in the final years","Taxed","No results returned","0-2",3
+"Motorcycles","last MOT in the final years","Taxed","No results returned","3-39",1266
+"Motorcycles","last MOT in the final years","Taxed","No results returned","40+",7024
+"Motorcycles","last MOT in the final years","Taxed","Not valid","0-2",139
+"Motorcycles","last MOT in the final years","Taxed","Not valid","3-39",29887
+"Motorcycles","last MOT in the final years","Taxed","Not valid","40+",228
+"Motorcycles","last MOT in the final years","Taxed","Valid","0-2",1460
+"Motorcycles","last MOT in the final years","Taxed","Valid","3-39",217325
+"Motorcycles","last MOT in the final years","Taxed","Valid","40+",4573
+"Motorcycles","last MOT in the final years","Untaxed","No details held by DVLA","0-2",9
+"Motorcycles","last MOT in the final years","Untaxed","No details held by DVLA","3-39",380
+"Motorcycles","last MOT in the final years","Untaxed","No details held by DVLA","40+",5
+"Motorcycles","last MOT in the final years","Untaxed","No results returned","3-39",179
+"Motorcycles","last MOT in the final years","Untaxed","No results returned","40+",902
+"Motorcycles","last MOT in the final years","Untaxed","Not valid","0-2",69
+"Motorcycles","last MOT in the final years","Untaxed","Not valid","3-39",81245
+"Motorcycles","last MOT in the final years","Untaxed","Not valid","40+",175
+"Motorcycles","last MOT in the final years","Untaxed","Valid","0-2",71
+"Motorcycles","last MOT in the final years","Untaxed","Valid","3-39",21758
+"Motorcycles","last MOT in the final years","Untaxed","Valid","40+",379
+"Motorcycles","never located","(no VES record)","(no VES record)","0-2",95173
+"Motorcycles","never located","(no VES record)","(no VES record)","3-39",44786
+"Motorcycles","never located","(no VES record)","(no VES record)","40+",198
+"Motorcycles","never located","Not Taxed for on Road Use","No details held by DVLA","0-2",231
+"Motorcycles","never located","Not Taxed for on Road Use","No details held by DVLA","3-39",1447
+"Motorcycles","never located","Not Taxed for on Road Use","No details held by DVLA","40+",2
+"Motorcycles","never located","Not Taxed for on Road Use","No results returned","3-39",98
+"Motorcycles","never located","Not Taxed for on Road Use","No results returned","40+",181
+"Motorcycles","never located","Not Taxed for on Road Use","Not valid","0-2",1
+"Motorcycles","never located","Not Taxed for on Road Use","Not valid","3-39",101
+"Motorcycles","never located","Not Taxed for on Road Use","Not valid","40+",1
+"Motorcycles","never located","Not Taxed for on Road Use","Valid","3-39",7
+"Motorcycles","never located","Not Taxed for on Road Use","Valid","40+",2
+"Motorcycles","never located","SORN","No details held by DVLA","0-2",28421
+"Motorcycles","never located","SORN","No details held by DVLA","3-39",176940
+"Motorcycles","never located","SORN","No details held by DVLA","40+",1762
+"Motorcycles","never located","SORN","No results returned","0-2",749
+"Motorcycles","never located","SORN","No results returned","3-39",19704
+"Motorcycles","never located","SORN","No results returned","40+",17769
+"Motorcycles","never located","SORN","Not valid","0-2",53
+"Motorcycles","never located","SORN","Not valid","3-39",61553
+"Motorcycles","never located","SORN","Not valid","40+",490
+"Motorcycles","never located","SORN","Valid","0-2",720
+"Motorcycles","never located","SORN","Valid","3-39",3358
+"Motorcycles","never located","SORN","Valid","40+",68
+"Motorcycles","never located","Taxed","No details held by DVLA","0-2",217508
+"Motorcycles","never located","Taxed","No details held by DVLA","3-39",9195
+"Motorcycles","never located","Taxed","No details held by DVLA","40+",26
+"Motorcycles","never located","Taxed","No results returned","0-2",869
+"Motorcycles","never located","Taxed","No results returned","3-39",16895
+"Motorcycles","never located","Taxed","No results returned","40+",12283
+"Motorcycles","never located","Taxed","Not valid","0-2",61
+"Motorcycles","never located","Taxed","Not valid","3-39",1394
+"Motorcycles","never located","Taxed","Not valid","40+",22
+"Motorcycles","never located","Taxed","Valid","0-2",23622
+"Motorcycles","never located","Taxed","Valid","3-39",20102
+"Motorcycles","never located","Taxed","Valid","40+",290
+"Motorcycles","never located","Untaxed","No details held by DVLA","0-2",18496
+"Motorcycles","never located","Untaxed","No details held by DVLA","3-39",242385
+"Motorcycles","never located","Untaxed","No details held by DVLA","40+",1185
+"Motorcycles","never located","Untaxed","No results returned","0-2",79
+"Motorcycles","never located","Untaxed","No results returned","3-39",4548
+"Motorcycles","never located","Untaxed","No results returned","40+",7951
+"Motorcycles","never located","Untaxed","Not valid","0-2",25
+"Motorcycles","never located","Untaxed","Not valid","3-39",32128
+"Motorcycles","never located","Untaxed","Not valid","40+",140
+"Motorcycles","never located","Untaxed","Valid","0-2",1108
+"Motorcycles","never located","Untaxed","Valid","3-39",1738
+"Motorcycles","never located","Untaxed","Valid","40+",22
+"Motorcycles","still tested","(no VES record)","(no VES record)","0-2",7
+"Motorcycles","still tested","(no VES record)","(no VES record)","3-39",4360
+"Motorcycles","still tested","(no VES record)","(no VES record)","40+",24
+"Motorcycles","still tested","Not Taxed for on Road Use","No results returned","40+",2
+"Motorcycles","still tested","SORN","No details held by DVLA","0-2",2
+"Motorcycles","still tested","SORN","No details held by DVLA","3-39",236
+"Motorcycles","still tested","SORN","No details held by DVLA","40+",1
+"Motorcycles","still tested","SORN","No results returned","3-39",21
+"Motorcycles","still tested","SORN","No results returned","40+",145
+"Motorcycles","still tested","SORN","Not valid","0-2",13
+"Motorcycles","still tested","SORN","Not valid","3-39",46647
+"Motorcycles","still tested","SORN","Not valid","40+",69
+"Motorcycles","still tested","SORN","Valid","0-2",26
+"Motorcycles","still tested","SORN","Valid","3-39",52072
+"Motorcycles","still tested","SORN","Valid","40+",130
+"Motorcycles","still tested","Taxed","No details held by DVLA","0-2",5
+"Motorcycles","still tested","Taxed","No details held by DVLA","3-39",733
+"Motorcycles","still tested","Taxed","No details held by DVLA","40+",3
+"Motorcycles","still tested","Taxed","No results returned","3-39",88
+"Motorcycles","still tested","Taxed","No results returned","40+",287
+"Motorcycles","still tested","Taxed","Not valid","0-2",51
+"Motorcycles","still tested","Taxed","Not valid","3-39",33922
+"Motorcycles","still tested","Taxed","Not valid","40+",22
+"Motorcycles","still tested","Taxed","Valid","0-2",1084
+"Motorcycles","still tested","Taxed","Valid","3-39",568665
+"Motorcycles","still tested","Taxed","Valid","40+",1789
+"Motorcycles","still tested","Untaxed","No details held by DVLA","0-2",4
+"Motorcycles","still tested","Untaxed","No details held by DVLA","3-39",132
+"Motorcycles","still tested","Untaxed","No results returned","3-39",3
+"Motorcycles","still tested","Untaxed","No results returned","40+",32
+"Motorcycles","still tested","Untaxed","Not valid","0-2",16
+"Motorcycles","still tested","Untaxed","Not valid","3-39",13640
+"Motorcycles","still tested","Untaxed","Not valid","40+",14
+"Motorcycles","still tested","Untaxed","Valid","0-2",66
+"Motorcycles","still tested","Untaxed","Valid","3-39",23782
+"Motorcycles","still tested","Untaxed","Valid","40+",34
+"Motorcycles","stopped testing","(no VES record)","(no VES record)","3-39",9877
+"Motorcycles","stopped testing","(no VES record)","(no VES record)","40+",3088
+"Motorcycles","stopped testing","Not Taxed for on Road Use","No details held by DVLA","3-39",1
+"Motorcycles","stopped testing","Not Taxed for on Road Use","No results returned","3-39",14
+"Motorcycles","stopped testing","Not Taxed for on Road Use","No results returned","40+",897
+"Motorcycles","stopped testing","Not Taxed for on Road Use","Not valid","3-39",24
+"Motorcycles","stopped testing","Not Taxed for on Road Use","Not valid","40+",2
+"Motorcycles","stopped testing","SORN","No details held by DVLA","3-39",4849
+"Motorcycles","stopped testing","SORN","No details held by DVLA","40+",118
+"Motorcycles","stopped testing","SORN","No results returned","3-39",1885
+"Motorcycles","stopped testing","SORN","No results returned","40+",99107
+"Motorcycles","stopped testing","SORN","Not valid","3-39",699414
+"Motorcycles","stopped testing","SORN","Not valid","40+",8582
+"Motorcycles","stopped testing","SORN","Valid","3-39",2469
+"Motorcycles","stopped testing","SORN","Valid","40+",20
+"Motorcycles","stopped testing","Taxed","No details held by DVLA","0-2",5
+"Motorcycles","stopped testing","Taxed","No details held by DVLA","3-39",65
+"Motorcycles","stopped testing","Taxed","No details held by DVLA","40+",14
+"Motorcycles","stopped testing","Taxed","No results returned","3-39",2786
+"Motorcycles","stopped testing","Taxed","No results returned","40+",68757
+"Motorcycles","stopped testing","Taxed","Not valid","3-39",2229
+"Motorcycles","stopped testing","Taxed","Not valid","40+",102
+"Motorcycles","stopped testing","Taxed","Valid","3-39",15191
+"Motorcycles","stopped testing","Taxed","Valid","40+",105
+"Motorcycles","stopped testing","Untaxed","No details held by DVLA","0-2",1
+"Motorcycles","stopped testing","Untaxed","No details held by DVLA","3-39",3367
+"Motorcycles","stopped testing","Untaxed","No details held by DVLA","40+",66
+"Motorcycles","stopped testing","Untaxed","No results returned","3-39",589
+"Motorcycles","stopped testing","Untaxed","No results returned","40+",31935
+"Motorcycles","stopped testing","Untaxed","Not valid","3-39",620852
+"Motorcycles","stopped testing","Untaxed","Not valid","40+",3151
+"Motorcycles","stopped testing","Untaxed","Valid","3-39",2166
+"Motorcycles","stopped testing","Untaxed","Valid","40+",10
+"Other vehicles","last MOT in the final years","(no VES record)","(no VES record)","0-2",2
+"Other vehicles","last MOT in the final years","(no VES record)","(no VES record)","3-39",158
+"Other vehicles","last MOT in the final years","(no VES record)","(no VES record)","40+",5
+"Other vehicles","last MOT in the final years","SORN","No details held by DVLA","0-2",1
+"Other vehicles","last MOT in the final years","SORN","No details held by DVLA","3-39",21
+"Other vehicles","last MOT in the final years","SORN","No details held by DVLA","40+",1
+"Other vehicles","last MOT in the final years","SORN","No results returned","3-39",11
+"Other vehicles","last MOT in the final years","SORN","No results returned","40+",70
+"Other vehicles","last MOT in the final years","SORN","Not valid","0-2",8
+"Other vehicles","last MOT in the final years","SORN","Not valid","3-39",5168
+"Other vehicles","last MOT in the final years","SORN","Not valid","40+",31
+"Other vehicles","last MOT in the final years","SORN","Valid","0-2",5
+"Other vehicles","last MOT in the final years","SORN","Valid","3-39",1153
+"Other vehicles","last MOT in the final years","SORN","Valid","40+",27
+"Other vehicles","last MOT in the final years","Taxed","No details held by DVLA","0-2",3
+"Other vehicles","last MOT in the final years","Taxed","No details held by DVLA","3-39",16
+"Other vehicles","last MOT in the final years","Taxed","No results returned","3-39",17
+"Other vehicles","last MOT in the final years","Taxed","No results returned","40+",177
+"Other vehicles","last MOT in the final years","Taxed","Not valid","0-2",6
+"Other vehicles","last MOT in the final years","Taxed","Not valid","3-39",965
+"Other vehicles","last MOT in the final years","Taxed","Not valid","40+",6
+"Other vehicles","last MOT in the final years","Taxed","Valid","0-2",210
+"Other vehicles","last MOT in the final years","Taxed","Valid","3-39",5799
+"Other vehicles","last MOT in the final years","Taxed","Valid","40+",156
+"Other vehicles","last MOT in the final years","Untaxed","No details held by DVLA","0-2",1
+"Other vehicles","last MOT in the final years","Untaxed","No details held by DVLA","3-39",6
+"Other vehicles","last MOT in the final years","Untaxed","No results returned","3-39",4
+"Other vehicles","last MOT in the final years","Untaxed","No results returned","40+",30
+"Other vehicles","last MOT in the final years","Untaxed","Not valid","0-2",9
+"Other vehicles","last MOT in the final years","Untaxed","Not valid","3-39",2282
+"Other vehicles","last MOT in the final years","Untaxed","Not valid","40+",13
+"Other vehicles","last MOT in the final years","Untaxed","Valid","0-2",9
+"Other vehicles","last MOT in the final years","Untaxed","Valid","3-39",533
+"Other vehicles","last MOT in the final years","Untaxed","Valid","40+",13
+"Other vehicles","never located","(no VES record)","(no VES record)","0-2",34095
+"Other vehicles","never located","(no VES record)","(no VES record)","3-39",3039
+"Other vehicles","never located","(no VES record)","(no VES record)","40+",14
+"Other vehicles","never located","Not Taxed for on Road Use","No details held by DVLA","0-2",5
+"Other vehicles","never located","Not Taxed for on Road Use","No details held by DVLA","3-39",304
+"Other vehicles","never located","Not Taxed for on Road Use","No results returned","3-39",2
+"Other vehicles","never located","Not Taxed for on Road Use","No results returned","40+",12
+"Other vehicles","never located","Not Taxed for on Road Use","Not valid","3-39",2
+"Other vehicles","never located","SORN","No details held by DVLA","0-2",8314
+"Other vehicles","never located","SORN","No details held by DVLA","3-39",43681
+"Other vehicles","never located","SORN","No details held by DVLA","40+",135
+"Other vehicles","never located","SORN","No results returned","0-2",10
+"Other vehicles","never located","SORN","No results returned","3-39",119
+"Other vehicles","never located","SORN","No results returned","40+",1618
+"Other vehicles","never located","SORN","Not valid","0-2",4
+"Other vehicles","never located","SORN","Not valid","3-39",1879
+"Other vehicles","never located","SORN","Not valid","40+",19
+"Other vehicles","never located","SORN","Valid","0-2",13
+"Other vehicles","never located","SORN","Valid","3-39",122
+"Other vehicles","never located","SORN","Valid","40+",1
+"Other vehicles","never located","Taxed","No details held by DVLA","0-2",103117
+"Other vehicles","never located","Taxed","No details held by DVLA","3-39",162216
+"Other vehicles","never located","Taxed","No results returned","0-2",9
+"Other vehicles","never located","Taxed","No results returned","3-39",97
+"Other vehicles","never located","Taxed","No results returned","40+",382
+"Other vehicles","never located","Taxed","Not valid","0-2",2
+"Other vehicles","never located","Taxed","Not valid","3-39",334
+"Other vehicles","never located","Taxed","Not valid","40+",1
+"Other vehicles","never located","Taxed","Valid","0-2",1292
+"Other vehicles","never located","Taxed","Valid","3-39",788
+"Other vehicles","never located","Taxed","Valid","40+",2
+"Other vehicles","never located","Untaxed","No details held by DVLA","0-2",9117
+"Other vehicles","never located","Untaxed","No details held by DVLA","3-39",96687
+"Other vehicles","never located","Untaxed","No details held by DVLA","40+",44
+"Other vehicles","never located","Untaxed","No results returned","0-2",2
+"Other vehicles","never located","Untaxed","No results returned","3-39",41
+"Other vehicles","never located","Untaxed","No results returned","40+",1361
+"Other vehicles","never located","Untaxed","Not valid","0-2",1
+"Other vehicles","never located","Untaxed","Not valid","3-39",1081
+"Other vehicles","never located","Untaxed","Not valid","40+",3
+"Other vehicles","never located","Untaxed","Valid","0-2",24
+"Other vehicles","never located","Untaxed","Valid","3-39",84
+"Other vehicles","never located","Untaxed","Valid","40+",1
+"Other vehicles","still tested","(no VES record)","(no VES record)","0-2",8
+"Other vehicles","still tested","(no VES record)","(no VES record)","3-39",65
+"Other vehicles","still tested","SORN","No details held by DVLA","3-39",3
+"Other vehicles","still tested","SORN","No results returned","40+",10
+"Other vehicles","still tested","SORN","Not valid","0-2",2
+"Other vehicles","still tested","SORN","Not valid","3-39",583
+"Other vehicles","still tested","SORN","Valid","0-2",4
+"Other vehicles","still tested","SORN","Valid","3-39",678
+"Other vehicles","still tested","SORN","Valid","40+",4
+"Other vehicles","still tested","Taxed","No details held by DVLA","0-2",1
+"Other vehicles","still tested","Taxed","No details held by DVLA","3-39",10
+"Other vehicles","still tested","Taxed","No results returned","40+",9
+"Other vehicles","still tested","Taxed","Not valid","0-2",8
+"Other vehicles","still tested","Taxed","Not valid","3-39",434
+"Other vehicles","still tested","Taxed","Valid","0-2",2838
+"Other vehicles","still tested","Taxed","Valid","3-39",17710
+"Other vehicles","still tested","Taxed","Valid","40+",106
+"Other vehicles","still tested","Untaxed","No details held by DVLA","3-39",3
+"Other vehicles","still tested","Untaxed","No results returned","40+",1
+"Other vehicles","still tested","Untaxed","Not valid","0-2",2
+"Other vehicles","still tested","Untaxed","Not valid","3-39",267
+"Other vehicles","still tested","Untaxed","Not valid","40+",1
+"Other vehicles","still tested","Untaxed","Valid","0-2",11
+"Other vehicles","still tested","Untaxed","Valid","3-39",420
+"Other vehicles","still tested","Untaxed","Valid","40+",2
+"Other vehicles","stopped testing","(no VES record)","(no VES record)","3-39",12811
+"Other vehicles","stopped testing","(no VES record)","(no VES record)","40+",345
+"Other vehicles","stopped testing","Not Taxed for on Road Use","No results returned","40+",30
+"Other vehicles","stopped testing","Not Taxed for on Road Use","Not valid","3-39",2
+"Other vehicles","stopped testing","SORN","No details held by DVLA","3-39",162
+"Other vehicles","stopped testing","SORN","No details held by DVLA","40+",5
+"Other vehicles","stopped testing","SORN","No results returned","3-39",39
+"Other vehicles","stopped testing","SORN","No results returned","40+",2903
+"Other vehicles","stopped testing","SORN","Not valid","3-39",22434
+"Other vehicles","stopped testing","SORN","Not valid","40+",429
+"Other vehicles","stopped testing","SORN","Valid","3-39",102
+"Other vehicles","stopped testing","Taxed","No details held by DVLA","3-39",19
+"Other vehicles","stopped testing","Taxed","No results returned","3-39",17
+"Other vehicles","stopped testing","Taxed","No results returned","40+",1404
+"Other vehicles","stopped testing","Taxed","Not valid","3-39",686
+"Other vehicles","stopped testing","Taxed","Not valid","40+",3
+"Other vehicles","stopped testing","Taxed","Valid","3-39",594
+"Other vehicles","stopped testing","Taxed","Valid","40+",5
+"Other vehicles","stopped testing","Untaxed","No details held by DVLA","3-39",93
+"Other vehicles","stopped testing","Untaxed","No details held by DVLA","40+",2
+"Other vehicles","stopped testing","Untaxed","No results returned","3-39",14
+"Other vehicles","stopped testing","Untaxed","No results returned","40+",1269
+"Other vehicles","stopped testing","Untaxed","Not valid","3-39",16360
+"Other vehicles","stopped testing","Untaxed","Not valid","40+",255
+"Other vehicles","stopped testing","Untaxed","Valid","3-39",71
+"Unknown","last MOT in the final years","(no VES record)","(no VES record)","0-2",648
+"Unknown","last MOT in the final years","(no VES record)","(no VES record)","3-39",13549
+"Unknown","last MOT in the final years","(no VES record)","(no VES record)","40+",133
+"Unknown","last MOT in the final years","SORN","No details held by DVLA","0-2",1
+"Unknown","last MOT in the final years","SORN","No details held by DVLA","3-39",17
+"Unknown","last MOT in the final years","SORN","No results returned","3-39",18
+"Unknown","last MOT in the final years","SORN","No results returned","40+",53
+"Unknown","last MOT in the final years","SORN","Not valid","0-2",1
+"Unknown","last MOT in the final years","SORN","Not valid","3-39",2261
+"Unknown","last MOT in the final years","SORN","Valid","0-2",1
+"Unknown","last MOT in the final years","SORN","Valid","3-39",455
+"Unknown","last MOT in the final years","SORN","Valid","40+",2
+"Unknown","last MOT in the final years","Taxed","No details held by DVLA","0-2",15
+"Unknown","last MOT in the final years","Taxed","No details held by DVLA","3-39",37
+"Unknown","last MOT in the final years","Taxed","No results returned","3-39",34
+"Unknown","last MOT in the final years","Taxed","No results returned","40+",63
+"Unknown","last MOT in the final years","Taxed","Not valid","0-2",1
+"Unknown","last MOT in the final years","Taxed","Not valid","3-39",455
+"Unknown","last MOT in the final years","Taxed","Valid","0-2",7
+"Unknown","last MOT in the final years","Taxed","Valid","3-39",2112
+"Unknown","last MOT in the final years","Taxed","Valid","40+",20
+"Unknown","last MOT in the final years","Untaxed","No details held by DVLA","0-2",1
+"Unknown","last MOT in the final years","Untaxed","No details held by DVLA","3-39",35
+"Unknown","last MOT in the final years","Untaxed","No results returned","3-39",4
+"Unknown","last MOT in the final years","Untaxed","No results returned","40+",14
+"Unknown","last MOT in the final years","Untaxed","Not valid","0-2",1
+"Unknown","last MOT in the final years","Untaxed","Not valid","3-39",1248
+"Unknown","last MOT in the final years","Untaxed","Not valid","40+",1
+"Unknown","last MOT in the final years","Untaxed","Valid","3-39",301
+"Unknown","last MOT in the final years","Untaxed","Valid","40+",5
+"Unknown","never located","(no VES record)","(no VES record)","0-2",115216
+"Unknown","never located","(no VES record)","(no VES record)","3-39",99284
+"Unknown","never located","(no VES record)","(no VES record)","40+",1016
+"Unknown","never located","(no VES record)","(no VES record)","unknown",121
+"Unknown","never located","Not Taxed for on Road Use","No details held by DVLA","0-2",482
+"Unknown","never located","Not Taxed for on Road Use","No details held by DVLA","3-39",45767
+"Unknown","never located","Not Taxed for on Road Use","No details held by DVLA","40+",58
+"Unknown","never located","Not Taxed for on Road Use","No results returned","3-39",3917
+"Unknown","never located","Not Taxed for on Road Use","No results returned","40+",40363
+"Unknown","never located","Not Taxed for on Road Use","Not valid","3-39",132
+"Unknown","never located","Not Taxed for on Road Use","Valid","0-2",1
+"Unknown","never located","Not Taxed for on Road Use","Valid","3-39",13
+"Unknown","never located","Not Taxed for on Road Use","Valid","40+",10
+"Unknown","never located","SORN","No details held by DVLA","0-2",3835
+"Unknown","never located","SORN","No details held by DVLA","3-39",492281
+"Unknown","never located","SORN","No details held by DVLA","40+",6442
+"Unknown","never located","SORN","No results returned","0-2",5203
+"Unknown","never located","SORN","No results returned","3-39",68520
+"Unknown","never located","SORN","No results returned","40+",197751
+"Unknown","never located","SORN","Not valid","0-2",32
+"Unknown","never located","SORN","Not valid","3-39",49736
+"Unknown","never located","SORN","Not valid","40+",646
+"Unknown","never located","SORN","Valid","0-2",28
+"Unknown","never located","SORN","Valid","3-39",1271
+"Unknown","never located","SORN","Valid","40+",136
+"Unknown","never located","Taxed","No details held by DVLA","0-2",38498
+"Unknown","never located","Taxed","No details held by DVLA","3-39",382069
+"Unknown","never located","Taxed","No details held by DVLA","40+",3349
+"Unknown","never located","Taxed","No results returned","0-2",8008
+"Unknown","never located","Taxed","No results returned","3-39",64110
+"Unknown","never located","Taxed","No results returned","40+",161147
+"Unknown","never located","Taxed","Not valid","0-2",10
+"Unknown","never located","Taxed","Not valid","3-39",2923
+"Unknown","never located","Taxed","Not valid","40+",22
+"Unknown","never located","Taxed","Valid","0-2",333
+"Unknown","never located","Taxed","Valid","3-39",7742
+"Unknown","never located","Taxed","Valid","40+",530
+"Unknown","never located","Untaxed","No details held by DVLA","0-2",3333
+"Unknown","never located","Untaxed","No details held by DVLA","3-39",758313
+"Unknown","never located","Untaxed","No details held by DVLA","40+",6926
+"Unknown","never located","Untaxed","No results returned","0-2",694
+"Unknown","never located","Untaxed","No results returned","3-39",27772
+"Unknown","never located","Untaxed","No results returned","40+",208481
+"Unknown","never located","Untaxed","Not valid","0-2",8
+"Unknown","never located","Untaxed","Not valid","3-39",41363
+"Unknown","never located","Untaxed","Not valid","40+",292
+"Unknown","never located","Untaxed","Valid","0-2",13
+"Unknown","never located","Untaxed","Valid","3-39",450
+"Unknown","never located","Untaxed","Valid","40+",60
+"Unknown","still tested","(no VES record)","(no VES record)","0-2",1752
+"Unknown","still tested","(no VES record)","(no VES record)","3-39",13400
+"Unknown","still tested","(no VES record)","(no VES record)","40+",76
+"Unknown","still tested","Not Taxed for on Road Use","Valid","3-39",1
+"Unknown","still tested","SORN","No details held by DVLA","3-39",60
+"Unknown","still tested","SORN","No results returned","3-39",3
+"Unknown","still tested","SORN","Not valid","3-39",210
+"Unknown","still tested","SORN","Valid","3-39",440
+"Unknown","still tested","SORN","Valid","40+",3
+"Unknown","still tested","Taxed","No details held by DVLA","3-39",124
+"Unknown","still tested","Taxed","No results returned","3-39",3
+"Unknown","still tested","Taxed","No results returned","40+",4
+"Unknown","still tested","Taxed","Not valid","3-39",277
+"Unknown","still tested","Taxed","Valid","0-2",15
+"Unknown","still tested","Taxed","Valid","3-39",3929
+"Unknown","still tested","Taxed","Valid","40+",28
+"Unknown","still tested","Untaxed","No details held by DVLA","3-39",75
+"Unknown","still tested","Untaxed","No details held by DVLA","40+",1
+"Unknown","still tested","Untaxed","No results returned","3-39",1
+"Unknown","still tested","Untaxed","No results returned","40+",2
+"Unknown","still tested","Untaxed","Not valid","3-39",123
+"Unknown","still tested","Untaxed","Not valid","40+",1
+"Unknown","still tested","Untaxed","Valid","3-39",218
+"Unknown","still tested","Untaxed","Valid","40+",1
+"Unknown","stopped testing","(no VES record)","(no VES record)","3-39",13774
+"Unknown","stopped testing","(no VES record)","(no VES record)","40+",446
+"Unknown","stopped testing","(no VES record)","(no VES record)","unknown",1
+"Unknown","stopped testing","Not Taxed for on Road Use","No details held by DVLA","3-39",1
+"Unknown","stopped testing","Not Taxed for on Road Use","No results returned","40+",4
+"Unknown","stopped testing","SORN","No details held by DVLA","3-39",2681
+"Unknown","stopped testing","SORN","No details held by DVLA","40+",17
+"Unknown","stopped testing","SORN","No results returned","3-39",129
+"Unknown","stopped testing","SORN","No results returned","40+",520
+"Unknown","stopped testing","SORN","Not valid","3-39",6340
+"Unknown","stopped testing","SORN","Not valid","40+",2
+"Unknown","stopped testing","SORN","Valid","3-39",2
+"Unknown","stopped testing","Taxed","No details held by DVLA","0-2",8
+"Unknown","stopped testing","Taxed","No details held by DVLA","3-39",5
+"Unknown","stopped testing","Taxed","No results returned","3-39",161
+"Unknown","stopped testing","Taxed","No results returned","40+",479
+"Unknown","stopped testing","Taxed","Not valid","3-39",258
+"Unknown","stopped testing","Taxed","Valid","3-39",3
+"Unknown","stopped testing","Untaxed","No details held by DVLA","3-39",6471
+"Unknown","stopped testing","Untaxed","No details held by DVLA","40+",25
+"Unknown","stopped testing","Untaxed","No results returned","3-39",42
+"Unknown","stopped testing","Untaxed","No results returned","40+",197
+"Unknown","stopped testing","Untaxed","Not valid","3-39",4923
+"Unknown","stopped testing","Untaxed","Not valid","40+",3
+"Unknown","stopped testing","Untaxed","Valid","3-39",1

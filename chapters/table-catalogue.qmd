@@ -4,8 +4,9 @@
 source("R/book.R")
 ```
 
-The aggregate tables are in four folders. These lists are generated from the
-index file (`README_outputs.csv`) that the pipeline writes into each folder.
+The aggregate tables are in five folders. These lists are generated from the
+index file (`README_outputs.csv`) that the pipeline writes into each folder,
+except the registration tables, which are listed by hand.
 An asterisk in a file name stands for several files: `set2_static_by_*.csv`
 is one file for each characteristic. @sec-aggregate-tables explains how to
 use them.
@@ -29,6 +30,19 @@ p <- read_pipeline("outputs", "tables", "profile", "README_outputs.csv")
 p$file <- paste0("`", p$file, "`")
 kable(p, col.names = c("File", "Form", "Contents"))
 ```
+
+## Registration tables: `tables/registration/`
+
+Details: [Does the MOT data hold every registered vehicle?](../reports/registration_report.md).
+
+| File | One row per | Contents |
+|---|---|---|
+| `registration_by_age.csv` | year, body type, age (0 to 40; 40 includes older) | CARS located and MOT stock; DfT licensed and SORN (VEH0124) |
+| `registration_by_fuel_engine.csv` | year, body type, fuel group, engine size band | The same counts, with DfT's from VEH0220 |
+| `registration_by_pca.csv` | year, postcode area, body group, and fuel group or age band | CARS located and MOT stock |
+| `registration_cohorts.csv` | body type, year of first use | Vehicles, how many were ever located, the DVLA tax status of those never located, and DfT's count of the cohort at ages 0, 1 and 4 |
+| `registration_tax_status.csv` | body type, MOT history, DVLA tax status, DVLA MOT status, age in the last year | Vehicles |
+| `registration_never_located.csv` | body type and one of make, engine band, fuel, test class or tax status | Vehicles first used in the settled cohort years, and how many were ever located |
 
 ## Car size and model tables: `tables/racf/`
 

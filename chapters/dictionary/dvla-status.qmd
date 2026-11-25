@@ -34,9 +34,10 @@ pipeline's check of whether the VES record describes the same vehicle.
   suggests the plate moved between vehicles.
 - **`dvla_match`** says whether the VES record describes the same vehicle as
   the DVSA record. A registration can move between vehicles, so a lookup can
-  return another vehicle's record. Where at least two of make, year of
-  manufacture and engine size disagree (`dvla_evidence`), the match is
-  `different` and the pipeline does not use the record's values
+  return another vehicle's record. The match is `same` only if the years of
+  manufacture agree and the make or the engine size agrees too (or neither
+  can be compared). Otherwise it is `different` and the pipeline does not use
+  the record's values; `dvla_evidence` counts the comparisons that disagree
   ([section 5.1](../../reports/methodology.md#dvsadvla-record-match)).
 
 ```{r}

@@ -71,34 +71,29 @@ search the chapters for `.todo` to list them (28 in the first draft).
 
 ### Things found in MOT-pipline
 
-- [ ] **Stale plate description in `methodology.md`.** Section 6.2 still says
-  the post-2001 age identifier `12` means "Jan–Jun 2012". The MOT-pipline
-  README says the issue periods were corrected to March–August and
-  September–February. The fix belongs in `reports/methodology.qmd`; the book
-  shows the methodology as an appendix, so it picks up the fix at the next
-  sync.
-- [ ] **`quality/cross_checks.csv` is missing.** The MOT-pipline README lists
-  it, but the build the book uses has no such file. It was removed from
-  `data/manifest.yml`; add it back once it exists.
-- [ ] **Motorcycle coverage falls over time.** CARS observes about 0.55 of
-  DfT's motorcycles aged 3+ in 2025, and the ratio falls steadily from about
-  1.0 in 2014. SORN and seasonal use explain some of this; check whether
-  classification or linkage contributes (*How good is the data?*).
-- [ ] **Impossible Euro 6 values.** About 5% of cars appear as Euro 6 in 2005.
-  They are Euro statuses filled from similar vehicles, where one wrong
-  recorded value spread to its whole make/model/year/fuel group
-  (`euro_check = 'later_than_date'`, about 10.3 million vehicles). The book
-  uses this as a worked pitfall (spreadsheet Example 3). Consider capping
-  backfilled Euro statuses at the schedule, or raising
-  `backfill.min_vehicles`.
-- [ ] **New output added to MOT-pipline (not yet committed there):**
-  `quality/type_approval_by_test_class.csv`, one extra query in
-  `build_quality_tables()` (`R/report_quality.R`), used by the type approval
-  matrix in *Classifying vehicles*. The CSV was written by hand with the same
-  query and `write_table_csv()`, so the next `tar_make()` will rebuild the
-  quality tables (and the reports that depend on them) and regenerate it
-  unchanged. Only that one file has been copied into `data/pipeline/`; run
-  `scripts/sync-pipeline.R` once the current pipeline build has finished.
+- [x] **Stale plate description in `methodology.md`.** Fixed in the
+  pipeline; the 23 November 2026 sync brought the corrected periods into the
+  appendix and the *Cleaning* chapter.
+- [ ] **`quality/cross_checks.csv` now exists** (23 November 2026 build). It
+  is not in `data/manifest.yml`, as no chapter uses it yet; add it if one
+  does.
+- [x] **Motorcycle coverage falls over time.** Explained by the pipeline's
+  registration report (an appendix): comparing the MOT stock (vehicles with a
+  later MOT) with DfT's licensed count gives 0.97 in 2022. The old ratio fell
+  mainly because DfT's SORN motorcycles doubled and bikes over 40 became
+  exempt in 2018; about one bike in nine (small scooters, enduro and trials
+  bikes) never takes an MOT. *How good is the data?* now uses that comparison.
+- [ ] **Impossible Euro 6 values.** Filled Euro statuses that name a standard
+  newer than the vehicle (`euro_check = 'later_than_date'`) fell from about
+  10.3 million to 2.8 million vehicles: `backfill.min_vehicles` is now 5, and
+  the DVSA-DVLA match requires the years to agree, which removed the worst
+  donors. The pipeline notes that a minimum share of the group, or capping
+  backfilled statuses at the schedule, would reduce it further. The Euro 6
+  cars in 2005 have gone, so spreadsheet Example 3 now makes its point with
+  the share of assumed values instead.
+- [x] **New output added to MOT-pipline:**
+  `quality/type_approval_by_test_class.csv` is now built by the pipeline and
+  synced normally.
 - [ ] **L4 is not mapped to a body type.** The body type rules map type
   approval L1–L3 to Motorcycles and L5–L7 to Other vehicles; L4 (motorcycle
   with sidecar) is in neither. Probably tiny in practice.
@@ -110,9 +105,8 @@ search the chapters for `.todo` to list them (28 in the first draft).
   (*The MOT test*, *The life of a vehicle*, *Concepts and pitfalls*, *How
   good is the data?* and two worked examples) were corrected. Confirm the
   exact rules for the linkage stage.
-- [ ] **Example results come from the 13 October 2026 parquet.** A pipeline
-  build was running while the first draft was written. Rerun
-  `scripts/run-examples.R` after the next complete build.
+- [x] **Example results come from the 13 October 2026 parquet.** Rerun on
+  the 22 November 2026 parquet (pipeline commit 2b2410d).
 
 ### Facts to check
 

@@ -38,9 +38,10 @@ A full postcode such as `LS2 9JT` has four nested levels:
 
 The area is the one or two letters at the start, usually from the name of the
 main town or city: `LS` for Leeds, `B` for Birmingham, `G` for Glasgow, `L`
-for Liverpool. The CARS data has `r n_pca` postcode areas. In the data,
-Northern Ireland is coded `NI` rather than its real postcode area `BT`, and a
-small number of vehicles have the code `XX`, which is not a real area.
+for Liverpool. The CARS data has `r n_pca` postcode areas. Northern Ireland is a single
+postcode area, `BT`; older deliveries coded it `NI`, which the pipeline
+recodes to `BT`. A small number of vehicles were supplied with the code `XX`,
+meaning no postcode area; the pipeline recodes it to `unknown`.
 
 ```{r}
 #| label: fig-pca-map

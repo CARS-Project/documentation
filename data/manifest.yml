@@ -35,9 +35,13 @@ data:
   - outputs/quality/euro_status_fill.csv
   - outputs/quality/euro_standard.csv
   - outputs/quality/mileage_checks.csv
-  - outputs/quality/dft_stock_by_year.csv
-  - outputs/quality/dft_stock_by_age.csv
   - outputs/quality/dvla_match.csv
+  - outputs/quality/pca_unknown_by_year.csv
+
+  # MOT counts against DfT licensing statistics (registration report)
+  - outputs/tables/registration/registration_by_age.csv
+  - outputs/tables/registration/registration_cohorts.csv
+  - outputs/tables/registration/registration_tax_status.csv
 
   # Aggregate tables used in the worked examples, and their indexes
   - outputs/tables/churn/README_outputs.csv
@@ -61,6 +65,9 @@ reports:
   - source: outputs/reports/mileage_report.md
     dest: reports/mileage_report.md
     figures: outputs/reports/mileage_report_figures
+  - source: outputs/reports/registration_report.md
+    dest: reports/registration_report.md
+    figures: outputs/reports/registration_report_figures
   - source: outputs/reports/churn_tables_report.md
     dest: reports/churn_tables_report.md
   - source: outputs/reports/fleet_profile_report.md

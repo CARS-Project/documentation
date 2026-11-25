@@ -1,38 +1,38 @@
 "body_type","fuel_simple","n_vehicles"
-"Cars","Petrol",21967251
-"Cars","Diesel",13747882
-"Light goods vehicles","Diesel",4959176
-"Motorcycles","Petrol",1605390
-"Cars","Hybrid Electric",1380871
-"Cars","Electric",619536
-"Cars","Plug-in Hybrid Electric",332237
-"Light goods vehicles","Petrol",79979
-"Cars","Other",72313
-"Heavy goods vehicles","Diesel",50311
-"Buses and coaches","Diesel",45165
-"Light goods vehicles","Electric",41321
-,"Other",31548
-"Other vehicles","Petrol",22585
-"Other vehicles","Diesel",17003
-,"Diesel",15971
-"Motorcycles","Electric",7998
-"Other vehicles","Hybrid Electric",4944
-"Light goods vehicles","Other",4476
-,"Petrol",3681
+"Cars","Petrol",21964799
+"Cars","Diesel",13745315
+"Light goods vehicles","Diesel",4961227
+"Motorcycles","Petrol",1604954
+"Cars","Hybrid Electric",1380705
+"Cars","Electric",619649
+"Cars","Plug-in Hybrid Electric",332178
+"Light goods vehicles","Petrol",80533
+"Cars","Other",72440
+"Heavy goods vehicles","Diesel",50233
+"Buses and coaches","Diesel",45138
+"Light goods vehicles","Electric",41319
+,"Other",31576
+"Other vehicles","Petrol",22343
+"Other vehicles","Diesel",17002
+,"Diesel",16067
+"Motorcycles","Electric",7987
+"Other vehicles","Hybrid Electric",4941
+"Light goods vehicles","Other",4479
+,"Petrol",3660
 "Light goods vehicles","Plug-in Hybrid Electric",2758
-"Other vehicles","Plug-in Hybrid Electric",1995
+"Other vehicles","Plug-in Hybrid Electric",1994
 "Light goods vehicles","Hybrid Electric",1894
-"Motorcycles","Other",853
-"Other vehicles","Electric",630
+"Motorcycles","Other",867
+"Other vehicles","Electric",627
 "Other vehicles","Other",402
-"Motorcycles","Diesel",252
+"Motorcycles","Diesel",251
 "Buses and coaches","Electric",135
 "Heavy goods vehicles","Other",73
 "Buses and coaches","Petrol",71
 "Heavy goods vehicles","Petrol",39
 "Heavy goods vehicles","Electric",20
 "Buses and coaches","Other",14
-,"Electric",9
+,"Electric",12
 "Motorcycles","Hybrid Electric",6
 ,"Hybrid Electric",3
 "Buses and coaches","Hybrid Electric",2

@@ -289,7 +289,7 @@ built on `pca_YYYY`:
 - **Carry-forward after the last test.** A vehicle keeps its last test’s
   area for two more years: 95% of the vehicles last tested in 2015 still
   have a postcode area in 2016 and 2017, with no mileage, and become
-  `dead` in 2018. In 2019, 4,644,271 of the 45,687,132 vehicles in a
+  `dead` in 2018. In 2019, 4,643,901 of the 45,683,344 vehicles in a
   postcode area (10.2%) were past their last MOT year. This is why the
   MOT stock of cars aged 3+ exceeds DfT’s licensed + SORN count (Section
   4.8), and why every `dead` and “leaver” count lags the end of testing
@@ -300,7 +300,7 @@ the annualisation supplies no area, the blank is replaced with a status:
 
 | Condition (checked in order) | `pca_YYYY` becomes |
 |----|----|
-| A postcode area is recorded | the postcode area, unchanged |
+| A postcode area is recorded | the postcode area (`NI` recoded to `BT`, `XX` to `unknown`) |
 | Birth year is **the same as or later than** year YYYY | `unborn` |
 | The last MOT year (`last_mot_year`) is earlier than YYYY | `dead` |
 | Otherwise | `unknown` |
@@ -313,8 +313,34 @@ Assumptions:
   tested.
 - **Unobserved years before the last MOT are “unknown”.** This prevents
   vehicles from apparently coming back to life when a later test
-  appears. It is rare (tens of thousands of vehicles a year), because
-  the annualisation back-fills the years before the first test (above).
+  appears. Such gaps inside a tested life are uncommon, because the
+  annualisation back-fills the years before the first test (above).
+- **Most `unknown` vehicles were never MOT tested.** A vehicle with no
+  postcode area in any year has no last MOT year, so it is never `dead`:
+  it is `unknown` in every year from birth to the end of the data. These
+  vehicles are in scope through DVLA records (Section 3.4), not MOT
+  tests, so `unknown` is a large group, not a rare one. In 2016,
+  6,238,658 vehicles were unknown, against 44,038,527 in a postcode
+  area. Of them, 5,571,128 (89.3%) had no area in any year and were
+  three or more years old, so past the age of a first MOT; 505,012 had
+  no area and were under three, with no MOT due yet; and 162,518 had an
+  area in another year (a gap inside a tested life, years before the
+  first area or after one last recorded at the end of the data, or the
+  code XX). `quality/pca_unknown_by_year.csv` gives the split every
+  year. The vehicles never tested at three or more years old may have
+  been exported, scrapped or kept off the road before a first MOT, or be
+  exempt from it; the data cannot tell which.
+- **2018 to 2020 are exceptional.** Vehicles first registered between
+  March and July 2017 had their first MOT due in March to July 2020,
+  when MOT due dates were extended by six months because of COVID-19.
+  The annualisation did not back-fill their years before that delayed
+  first test, so about a quarter of the 2017 cohort has no area until
+  2020 (2021 for some), against about 3% of other cohorts. These
+  vehicles are counted in `n_area_other_years`, which is 800,428,
+  790,881, 522,046 in 2018, 2019 and 2020 against a median of 169,202 in
+  other complete years. The same vehicles enter the churn flows (Set 1d)
+  three years late, as reappearing rather than new
+  (`pipeline_audit_november_2026.md`, F31).
 - **Birth is compared by calendar year.** A vehicle born during 2010
   with no recorded PCA in 2010 is `unborn` for 2010.
 - **A vehicle with no dates is treated as already born** in every year.
@@ -324,8 +350,11 @@ Assumptions:
   Northern Ireland is its real postcode area `BT`, as input deliveries
   code it since October 2026 and as the boundary, area name and DfT
   reference files in `inputs/` do. An older delivery’s `NI` is recoded
-  to `BT` (`pca_bt_sql()` in `R/stage_core.R`). A small number of
-  vehicles have the code `XX`, left as supplied.
+  to `BT`. A small number of vehicles (about 2,400 cars a year) have the
+  code `XX`, which Bristol supplies for a vehicle recorded with no
+  postcode area; it is recoded to `unknown`, so the pipeline has one
+  value for a year with no area. Both recodes are in `pca_recode_sql()`
+  (`R/stage_core.R`).
 
 ### 3.4 Scope: which vehicles are kept
 
@@ -524,9 +553,9 @@ wins (`body_type_src`):
 | `body_type_src` | Rule | Vehicles |
 |----|----|---:|
 | `model` | The DfT model string’s body type, where at least 90% of its vehicles have one | 44,568,625 |
-| `type_approval` | The type approval (L1–L3 Motorcycles; L5–L7 and T Other vehicles; M1 Cars; M2–M3 Buses and coaches; N1 Light goods vehicles; N2–N3 Heavy goods vehicles), where DfT has vehicles of the generic model with that body type and the type approval is allowed with the test class (Section 9.2) | 38,912,097 |
-| `genmodel` | The generic model’s most common body type | 6,105,251 |
-| `test_class` | The MOT test class (1–2 Motorcycles, 3 Other vehicles, 4 Cars, 5 Buses and coaches, 7 Light goods vehicles) | 843,457 |
+| `type_approval` | The type approval (L1–L3 Motorcycles; L5–L7 and T Other vehicles; M1 Cars; M2–M3 Buses and coaches; N1 Light goods vehicles; N2–N3 Heavy goods vehicles), where DfT has vehicles of the generic model with that body type and the type approval is allowed with the test class (Section 9.2) | 38,712,504 |
+| `genmodel` | The generic model’s most common body type | 6,299,903 |
+| `test_class` | The MOT test class (1–2 Motorcycles, 3 Other vehicles, 4 Cars, 5 Buses and coaches, 7 Light goods vehicles) | 843,769 |
 
 The type approval mapping was checked against vehicles whose DfT model
 string has a single body type: 94% of N1 vehicles and over 99% of M1 and
@@ -568,18 +597,18 @@ compare only vehicles first used at least three years earlier.
 
 | year |      n_mot |      n_dft | ratio | n_mot_age3plus | n_dft_age3plus | ratio_age3plus |
 |:-----|-----------:|-----------:|------:|---------------:|---------------:|---------------:|
-| 2014 | 41,740,695 | 39,343,796 |  1.06 |     33,923,440 |     30,082,307 |           1.13 |
-| 2015 | 42,827,668 | 40,733,900 |  1.05 |     34,279,463 |     30,758,412 |           1.11 |
-| 2016 | 44,042,339 | 42,313,138 |  1.04 |     34,965,030 |     31,744,621 |           1.10 |
-| 2017 | 44,441,732 | 43,312,393 |  1.03 |     35,955,633 |     32,659,695 |           1.10 |
-| 2018 | 45,204,703 | 44,127,401 |  1.02 |     37,015,879 |     33,737,202 |           1.10 |
-| 2019 | 45,687,132 | 45,065,076 |  1.01 |     37,892,554 |     35,040,138 |           1.08 |
-| 2020 | 45,534,442 | 45,423,040 |  1.00 |     38,031,696 |     36,367,504 |           1.05 |
-| 2021 | 45,673,106 | 46,018,975 |  0.99 |     38,895,189 |     37,594,987 |           1.03 |
-| 2022 | 45,018,795 | 46,692,409 |  0.96 |     39,142,029 |     38,986,256 |           1.00 |
-| 2023 | 43,394,273 | 47,571,998 |  0.91 |     39,391,403 |     39,505,696 |           1.00 |
-| 2024 | 41,576,160 | 48,347,774 |  0.86 |     39,600,723 |     39,961,014 |           0.99 |
-| 2025 | 39,129,586 | 49,363,856 |  0.79 |     38,996,387 |     40,519,427 |           0.96 |
+| 2014 | 41,736,689 | 39,343,796 |  1.06 |     33,919,979 |     30,082,307 |           1.13 |
+| 2015 | 42,823,933 | 40,733,900 |  1.05 |     34,276,302 |     30,758,412 |           1.11 |
+| 2016 | 44,038,527 | 42,313,138 |  1.04 |     34,961,882 |     31,744,621 |           1.10 |
+| 2017 | 44,437,937 | 43,312,393 |  1.03 |     35,952,481 |     32,659,695 |           1.10 |
+| 2018 | 45,200,905 | 44,127,401 |  1.02 |     37,012,713 |     33,737,202 |           1.10 |
+| 2019 | 45,683,344 | 45,065,076 |  1.01 |     37,889,328 |     35,040,138 |           1.08 |
+| 2020 | 45,530,719 | 45,423,040 |  1.00 |     38,028,473 |     36,367,504 |           1.05 |
+| 2021 | 45,669,619 | 46,018,975 |  0.99 |     38,892,123 |     37,594,987 |           1.03 |
+| 2022 | 45,015,714 | 46,692,409 |  0.96 |     39,139,286 |     38,986,256 |           1.00 |
+| 2023 | 43,391,406 | 47,571,998 |  0.91 |     39,388,755 |     39,505,696 |           1.00 |
+| 2024 | 41,573,424 | 48,347,774 |  0.86 |     39,598,083 |     39,961,014 |           0.99 |
+| 2025 | 39,127,049 | 49,363,856 |  0.79 |     38,993,854 |     40,519,427 |           0.96 |
 
 Assumptions:
 
@@ -630,11 +659,37 @@ independent ways:
 | Year | Manufacture years differ by more than one year. Where either is missing, first registration years are compared instead. |
 | Engine | Both engine sizes are recorded and differ by more than 100cc and by more than 10%. |
 
-A comparison that cannot be made counts as agreement. **When at least
-two comparisons disagree, `dvla_match` is `different`**: the VES record
-belongs to another vehicle, and none of its values (fuel, engine size,
-revenue weight, CO2, Euro status, type approval, wheel plan) is used.
-`dvla_evidence` counts the disagreements.
+**The VES record is the same vehicle (`dvla_match` is `same`) when two
+of the three comparisons pass and the year is one of them.** A make or
+an engine size can be mistyped, but a year more than one year out is
+another vehicle, most often a cherished plate moved between cars. So:
+
+- **The year must be compared and agree.** With no year on either side,
+  the record cannot be confirmed and is `different`.
+- **The make or the engine size must agree as well.** A make or engine
+  comparison that cannot be made (a value missing on either side) is not
+  a pass. A year that agrees with a make that differs and no engine size
+  to compare is `different`.
+- **Except where neither the make nor the engine can be compared.**
+  These are in practice vehicles with no DVSA make and no DVSA engine
+  size: the ones DVLA knows and DVSA has never tested, such as invalid
+  carriages, plant and new cars. Nothing contradicts the VES record, so
+  an agreeing year is enough.
+
+Otherwise `dvla_match` is `different`: the VES record belongs to another
+vehicle, and none of its values (fuel, engine size, revenue weight, CO2,
+Euro status, type approval, wheel plan) is used. `dvla_evidence` counts
+the comparisons that disagree, so a `different` record can have 0 (no
+year to compare) or 1 (the year alone).
+
+Until November 2026 a record was `different` only when at least two
+comparisons disagreed, and a comparison that could not be made counted
+as agreement. A year 15 years out, with the same make and an engine
+within 100cc, then passed. That is how a 2019 MINI’s Euro 6 was attached
+to 2004 MINI Coopers and spread by the backfill
+(`pipeline_audit_november_2026.md`, F32). The year disagreements are not
+imports: 98.5% compare manufacture years, which an import keeps, and in
+most of them the first registration years disagree too.
 
 Some make pairs are the same vehicle under another name: CHRYSLER-JEEP /
 JEEP, ROVER / AUSTIN, and motorhome converters such as FIAT /
@@ -649,15 +704,17 @@ split is clear-cut:
   of the time. For example, BMW / AUDI agree 15.9% of the time.
 - Vehicles with the same make agree 99.90% of the time.
 
-| `dvla_match`                      | Vehicles   |
-|-----------------------------------|------------|
-| `same` (no disagreement)          | 71,198,556 |
-| `same` (one disagreement)         | 526,704    |
-| `different` (two disagreements)   | 89,803     |
-| `different` (three disagreements) | 33,352     |
-| `no_dvla`                         | 21,503,826 |
+| `dvla_match` | Vehicles |
+|----|----|
+| `same` (no disagreement) | 71,195,940 |
+| `same` (the make or the engine size disagrees) | 428,182 |
+| `different` (no disagreement: no year to compare) | 2,616 |
+| `different` (one disagreement: the year, or a make with no engine to compare) | 98,522 |
+| `different` (two disagreements) | 89,803 |
+| `different` (three disagreements) | 33,352 |
+| `no_dvla` | 21,503,826 |
 
-Every such row of the input file (123,360, including out-of-scope
+Every such row of the input file (226,280, including out-of-scope
 vehicles) is listed with its evidence in
 `suspected_dvla_mismatches.csv`, for checking at the linkage stage.
 
@@ -693,24 +750,24 @@ Electric.
 
 | `fuel_src` | Meaning                                 | Vehicles   |
 |------------|-----------------------------------------|------------|
-| `dvsa`     | DVSA fuel                               | 91,962,640 |
-| `dvla`     | VES fuel (steps 1.1, 1.2 or 1.4)        | 291,069    |
-| `variant`  | fuel from engine size (step 2)          | 4,894      |
-| `model`    | set to Electric by the make/model check | 3,733      |
+| `dvsa`     | DVSA fuel                               | 91,968,771 |
+| `dvla`     | VES fuel (steps 1.1, 1.2 or 1.4)        | 288,237    |
+| `variant`  | fuel from engine size (step 2)          | 4,908      |
+| `model`    | set to Electric by the make/model check | 452        |
 
 The main changes from the DVSA fuel are:
 
 | DVSA fuel  | Final fuel      | How                      | Vehicles |
 |------------|-----------------|--------------------------|----------|
-| Electric   | Hybrid          | VES says hybrid          | 31,909   |
-| Electric   | Hybrid          | engine size              | 3,848    |
-| Electric   | Petrol / Diesel | VES fuel and engine size | 2,866    |
-| Electric   | Petrol / Diesel | engine size              | 1,013    |
-| Fuel Cells | Hybrid          | VES or engine size       | 423      |
-| Other      | a recorded fuel | VES fuel                 | 255,689  |
+| Electric   | Hybrid          | VES says hybrid          | 31,454   |
+| Electric   | Hybrid          | engine size              | 3,853    |
+| Electric   | Petrol / Diesel | VES fuel and engine size | 1,809    |
+| Electric   | Petrol / Diesel | engine size              | 1,022    |
+| Fuel Cells | Hybrid          | VES or engine size       | 421      |
+| Other      | a recorded fuel | VES fuel                 | 254,372  |
 
 The Electric and Fuel Cells changes are mostly Toyota, Lexus, Hyundai
-and Honda hybrids. DVSA fuel is never missing; 128,451 vehicles (0.14%)
+and Honda hybrids. DVSA fuel is never missing; 129,768 vehicles (0.14%)
 are “Other” in both sources.
 
 ### 5.3 Fuel check against the make/model
@@ -720,13 +777,13 @@ make/model (`make_final` + `model_final`). The result is `fuel_check`:
 
 | `fuel_check` | Rule | Vehicles |
 |----|----|----|
-| `ok` | The fuel is at least 1% (`checks.rare_fuel_share`) of the make/model, or of the make/model in the vehicle’s birth year when that year has at least 100 vehicles | 88,756,208 |
-| `rare_conversion` | Rarer, and a plausible aftermarket change: a gas fuel (LPG, CNG, LNG, Gas, Gas Bi-Fuel, Gas Diesel) or Electric | 47,417 |
-| `rare_for_model` | Rarer, any other fuel | 13,872 |
-| `corrected_electric` | A fuel with an engine on an electric-only make/model (at least 99% Electric, `checks.electric_model_share`), where the records disagree. **Fuel is set to Electric** (or back to Fuel Cells) | 3,733 |
-| `implausible_for_model` | A fuel with an engine on an electric-only make/model that the records agree on. **Kept** | 55 |
-| `unknown_fuel` | Fuel is “Other” | 128,451 |
-| `no_reference` | No make/model, or fewer than 100 vehicles of it (`checks.min_model_vehicles`) | 4,402,505 |
+| `ok` | The fuel is at least 1% (`checks.rare_fuel_share`) of the make/model, or of the make/model in the vehicle’s birth year when that year has at least 100 vehicles | 88,759,067 |
+| `rare_conversion` | Rarer, and a plausible aftermarket change: a gas fuel (LPG, CNG, LNG, Gas, Gas Bi-Fuel, Gas Diesel) or Electric | 47,410 |
+| `rare_for_model` | Rarer, any other fuel | 13,628 |
+| `corrected_electric` | A fuel with an engine on an electric-only make/model (at least 99% Electric, `checks.electric_model_share`), where the records disagree. **Fuel is set to Electric** (or back to Fuel Cells) | 452 |
+| `implausible_for_model` | A fuel with an engine on an electric-only make/model that the records agree on. **Kept** | 58 |
+| `unknown_fuel` | Fuel is “Other” | 129,768 |
+| `no_reference` | No make/model, or fewer than 100 vehicles of it (`checks.min_model_vehicles`) | 4,401,858 |
 
 “The records disagree” means either:
 
@@ -743,9 +800,9 @@ The most common make/models behind each outcome in this build (from
 - **`rare_for_model`:** Petrol MERCEDES SPRINTER, Hybrid Electric
   (Clean) FORD FIESTA, Diesel FORD KA and Petrol MERCEDES VITO. These
   are genuine but uncommon variants, or make/model cleaning merges.
-- **`corrected_electric`:** BMW IX, AUDI Q4, AUDI E-TRON and BMW I4:
-  vehicles recorded by DVSA as Electric whose VES record, for another
-  vehicle of the same make and year, said petrol or diesel.
+- **`corrected_electric`:** LEAPMOTOR B10, BMW IX, AUDI Q4 and AUDI
+  E-TRON: vehicles recorded by DVSA as Electric whose VES record, for
+  another vehicle of the same make and year, said petrol or diesel.
 - **`implausible_for_model`:** usually make/model cleaning errors, which
   go into the overrides file once reviewed (Section 4.7). The largest in
   this build are NISSAN LEAF recorded as Hybrid Electric (Clean) (10
@@ -769,26 +826,26 @@ The most common make/models behind each outcome in this build (from
 
 | `engine_cc_src`   | Vehicles   |
 |-------------------|------------|
-| `dvsa`            | 77,259,027 |
-| `dvla`            | 10,192,094 |
-| `no_engine`       | 2,741,714  |
-| `model_year_fuel` | 2,296,610  |
-| `model_fuel`      | 58,972     |
-| missing           | 803,824    |
+| `dvsa`            | 77,259,047 |
+| `dvla`            | 10,153,486 |
+| `no_engine`       | 2,743,235  |
+| `model_year_fuel` | 2,298,884  |
+| `model_fuel`      | 82,990     |
+| missing           | 814,599    |
 
 `engine_check` flags vehicles where the engine size needed attention:
 
 | `engine_check` | Meaning | Vehicles |
 |----|----|----|
-| `engine_removed` | Electric or Fuel Cells, with a recorded engine size that was replaced by 0 | 4,437 |
-| `zero_replaced` | A fuel with an engine, recorded as 0cc, filled by steps 3–4 | 11,350 |
-| `missing` | A fuel with an engine and still no engine size | 763,810 |
-| `ok` | Everything else | 92,572,644 |
+| `engine_removed` | Electric or Fuel Cells, with a recorded engine size that was replaced by 0 | 1,136 |
+| `zero_replaced` | A fuel with an engine, recorded as 0cc, filled by steps 3–4 | 10,993 |
+| `missing` | A fuel with an engine and still no engine size | 774,532 |
+| `ok` | Everything else | 92,565,580 |
 
-The most common make/models with a removed engine size are BMW IX, AUDI
-Q4, AUDI E-TRON and BMW I4. Of the vehicles still `missing`, 652,129 are
-diesel; these are mostly tractors and plant with no model, so there is
-nothing to backfill from.
+The most common make/models with a removed engine size are MITSUBISHI
+I-MIEV, PEUGEOT PARTNER, BMW IX and AUDI Q4. Of the vehicles still
+`missing`, 655,237 are diesel; these are mostly tractors and plant with
+no model, so there is nothing to backfill from.
 
 ### 5.5 Plug-in hybrids: the DfT fuel detail
 
@@ -853,12 +910,12 @@ at generic-model level and are matched.
 
 | `fuel_DFT_src`       | Vehicles   |
 |----------------------|------------|
-| `dft_model`          | 49,215,969 |
-| `dft_genmodel`       | 38,965,844 |
+| `dft_model`          | 49,216,500 |
+| `dft_genmodel`       | 38,964,871 |
 | `ambiguous_model`    | 1          |
-| `ambiguous_genmodel` | 244,401    |
-| `no_reference`       | 4,793,811  |
-| no fuel group        | 132,215    |
+| `ambiguous_genmodel` | 244,329    |
+| `no_reference`       | 4,793,008  |
+| no fuel group        | 133,532    |
 
 `fuel_DFT` is written for 94.5% of in-scope vehicles and is kept as DfT
 writes it, in upper case, so it is always clear which column a value
@@ -872,9 +929,9 @@ becomes `dft` where the replacement was made.
 
 | New `fuel` value                                   | Vehicles  |
 |----------------------------------------------------|-----------|
-| `Plug-in Hybrid Electric (Petrol)`                 | 1,063,010 |
+| `Plug-in Hybrid Electric (Petrol)`                 | 1,062,983 |
 | `Plug-in Hybrid Electric (Diesel)`                 | 11,080    |
-| `Range Extended Electric`                          | 15,815    |
+| `Range Extended Electric`                          | 15,810    |
 | plug-in in DfT but no engine size, so not replaced | 170       |
 
 Nothing else is overwritten: a full hybrid that DfT confirms as a full
@@ -891,7 +948,7 @@ The match is only as good as Section 4, and `model_confidence` is the
 guide to that. Nor can it find a plug-in hybrid whose make/model DfT
 does not record at all (`no_reference`), or one of an ambiguous generic
 model: those vehicles are undercounted as ordinary hybrids, which makes
-1,089,905 a lower bound on the plug-in fleet.
+1,089,873 a lower bound on the plug-in fleet.
 
 ### 5.6 Other attributes
 
@@ -992,7 +1049,7 @@ motorcycle) filled whole groups (`pipeline_audit.md`, F26). The rules
   motorcycle no longer makes it a car.
 
 For vehicles with a mismatched VES record, recorded VES values are
-ignored and filled as if missing. This affects the CO2 value of 115,761
+ignored and filled as if missing. This affects the CO2 value of 186,640
 vehicles.
 
 **A recorded CO2 of 0 g/km is only kept for a vehicle with no engine.**
@@ -1017,7 +1074,7 @@ its zero goes too. `co2Emissions_DVLA` keeps the value as supplied, and
 
 A Euro status is recorded for only a minority of vehicles. The VES
 returns one mostly for vehicles first registered from 2018 onwards, so
-after the variant backfill of Section 5.6 64.0% of in-scope vehicles
+after the variant backfill of Section 5.6 66.5% of in-scope vehicles
 still had none.
 
 The standards were phased in on fixed dates, though, and a vehicle
@@ -1111,9 +1168,9 @@ built.
 
 | Euro status                          | Vehicles   |
 |--------------------------------------|------------|
-| recorded or backfilled (Section 5.6) | 33,590,549 |
-| assumed from the schedule            | 51,515,225 |
-| still missing                        | 8,246,467  |
+| recorded or backfilled (Section 5.6) | 31,314,253 |
+| assumed from the schedule            | 53,786,804 |
+| still missing                        | 8,251,184  |
 
 `euro_check` records how each vehicle’s Euro status stands against its
 age. Nothing is overwritten, so a value that contradicts the vehicle’s
@@ -1121,25 +1178,32 @@ age is flagged rather than corrected:
 
 | `euro_check` | Meaning | Vehicles |
 |----|----|----|
-| `ok` | A status that the vehicle’s age allows | 30,305,098 |
-| `later_than_date` | A status naming a standard that did not exist when the vehicle was made. Kept as it is. | 3,285,451 |
-| `assumed` | Filled from the schedule | 51,515,225 |
-| `pre_euro` | No status, and made before the first standard of its class | 4,816,791 |
-| `no_schedule` | No status, and a body type with no schedule | 3,429,553 |
+| `ok` | A status that the vehicle’s age allows | 28,504,682 |
+| `later_than_date` | A status naming a standard that did not exist when the vehicle was made. Kept as it is. | 2,809,571 |
+| `assumed` | Filled from the schedule | 53,786,804 |
+| `pre_euro` | No status, and made before the first standard of its class | 4,816,808 |
+| `no_schedule` | No status, and a body type with no schedule | 3,434,253 |
 | `no_date` | No status, and no date to place the vehicle | 123 |
 
 `later_than_date` is worth reading as a check on the variant backfill
-rather than on the register. Of the 3,285,451 vehicles flagged, 24,796
+rather than on the register. Of the 2,809,571 vehicles flagged, 23,403
 have a recorded VES value and the rest were backfilled from similar
 vehicles. With `backfill.min_vehicles` at 1, as it was until October
 2026, a single wrong VES value spread to every vehicle of its make,
 model, birth year, fuel and engine size, and the Euro status is the
 attribute where that showed most clearly. The setting is now 5: a
-group’s value needs that many vehicles behind it, and vehicles in
-smaller groups fall through to the next step (for the Euro status, the
-schedule). Capping backfilled Euro statuses at the schedule would reduce
-it further; that is not done, because the brief was to fill missing
-values rather than to change existing ones.
+group’s value needs that many vehicles with a recorded value behind it,
+and groups with fewer fall through to the next step (for the Euro
+status, the schedule). It is a count, not a share. Five recorded values
+can still set the value of a group of tens of thousands, and in older
+groups, where DVLA rarely returns a Euro status, the few recorded values
+are often linkage errors. On the November 2026 build, five 2004 MINI
+Coopers linked to the VES records of 2019-2023 MINIs gave `EURO 6 AP` to
+41,135 others. The DVSA-DVLA match now requires the years to agree
+(Section 5.1), which removes those donors. A minimum share of the group,
+and capping backfilled Euro statuses at what existed when the vehicle
+was made, would reduce the problem further; neither is done yet
+(`pipeline_audit_november_2026.md`, F32).
 
 ### 5.8 How “most common” is calculated
 
@@ -1172,12 +1236,15 @@ vehicles with a value in the group).
 
 ### 5.9 Assumptions and limitations
 
-1.  **Two disagreements between DVSA and VES mean different vehicles.**
-    One disagreement is common for genuine matches: imports registered
-    years after manufacture, and engine sizes recorded differently. A
-    registration moved between two vehicles of the same make and year,
-    where one engine size is missing, is not detected; the fuel check
-    catches some of these.
+1.  **A year that disagrees means different vehicles; a make or engine
+    size that disagrees does not on its own.** Makes and engine sizes
+    are sometimes recorded differently for the same vehicle; manufacture
+    years rarely are. A record whose manufacture year is mis-recorded on
+    one side is rejected even when its first registration years agree
+    (about 21,000 vehicles on the November 2026 build). A registration
+    moved between two vehicles of the same make and year, where one
+    engine size is missing, is not detected; the fuel check catches some
+    of these.
 2.  **DVSA fuel is trusted unless another record contradicts it.** VES
     overrides it only for “Other”, and for Electric / Fuel Cells
     vehicles that VES shows as hybrids or as having an engine.
@@ -1239,8 +1306,9 @@ vehicles with a value in the group).
 
 For analysis sensitive to these assumptions, filter to recorded values
 with `*_src IN ('dvsa', 'dvla')`, or to `fuel_check = 'ok'`. The churn
-tables use the recorded DVSA fuel, engine size and test class columns by
-default.
+tables use the harmonised fuel, engine size, test class and Euro status
+by default; the `churn.*_column` settings switch them to the columns as
+supplied (Section 7.3).
 
 ## 6. Stage 4: Derived fields and number plates
 
@@ -1373,14 +1441,13 @@ variable is.
 - **Population:** vehicles with test class 4 (cars, vans and small
   motorhomes), using the harmonised `test_class`
   (`churn.test_class_column`). Vehicles with a missing test class are
-  excluded; the harmonised column leaves 0% of vehicles without one,
-  against 13.6% for the anonymised `test_class_ANON` the churn v2 tables
-  used, which is missing for every Northern Ireland vehicle. The Set 1
-  tables carry the class in a `test_class` column; churn v2 named it
-  `test_class_ANON`.
+  excluded. Of the class 4 vehicles, the anonymised `test_class_ANON`
+  the churn v2 tables used is missing for 15.1%; it is missing for every
+  Northern Ireland vehicle. The Set 1 tables carry the class in a
+  `test_class` column; churn v2 named it `test_class_ANON`.
 
 - **Real PCA:** any `pca_YYYY` value other than `dead`, `unborn` or
-  `unknown`. NI (Northern Ireland) is a real PCA;
+  `unknown`. Northern Ireland is the real PCA `BT`;
   `churn.exclude_ni_rows` removes it from table rows while still
   counting moves to and from it.
 
@@ -1390,8 +1457,12 @@ variable is.
   |----|----|
   | `dead` | `dead` in the comparison year |
   | `unborn` | `unborn` in the comparison year |
-  | `same` | same postcode area as the reference year |
-  | `different` | anything else, including a different area, **`unknown`**, and - where the reference year is the earlier one (Sets 1b, 1c) - a reference-year status of `unborn`, so **new vehicles** |
+  | `same` | the same value as the reference year: the same postcode area, or `unknown` in both years |
+  | `different` | anything else, including a different area, **`unknown`** after a real area (or a real area after `unknown`), and - where the reference year is the earlier one (Sets 1b, 1c) - a reference-year status of `unborn`, so **new vehicles** |
+
+  `same` for `unknown` in both years only occurs in the rows that are
+  themselves `unknown` (Set 1a’s `unknown` row, and Set 1b’s); the rows
+  of real postcode areas are unaffected.
 
 - **Age** is whole years at 1 June of the year:
   `floor((1 June − first_use_date) in days / 365.25)`.
@@ -1441,11 +1512,12 @@ variable is.
   denominator is (age − 3). A vehicle aged 4 has about 4.5 observed year
   pairs over a denominator of 1, so its rate is inflated; a vehicle aged
   20 has at most 10 over a denominator of 17, so its rate is deflated.
-  On the October 2026 build the mean churn v2 rate falls steadily from
-  0.47 at age 4 to 0.04 at 25+, while `movement_rate_window` stays
-  between 0.10 and 0.20. Use the windowed rate. Even it is a lower
-  bound, because the back-filled and carried-forward years are counted
-  as observed pairs although no move can appear in them.
+  In the 2017 cohort (Set 6, `set6_moverate_by_ageband.csv`) the mean
+  churn v2 rate falls steadily from 0.47 at age 4 to 0.05 at 20+, while
+  `movement_rate_window` stays between 0.10 and 0.20. Use the windowed
+  rate. Even it is a lower bound, because the back-filled and
+  carried-forward years are counted as observed pairs although no move
+  can appear in them.
 
 - **`different` mixes three things:** genuine moves, vehicles that
   became unobserved (`unknown`), and in Sets 1b and 1c new vehicles.
@@ -1467,9 +1539,13 @@ variable is.
   N stays in Inner London. Set 7B splits the leavers into those still
   running elsewhere, scrapped and not located. Set 7D follows the 2018
   vehicles in a chargeable category to 2023: those scrapped, those still
-  in the row, and those that moved into Inner London, Outer London, All
-  other or the partly-London and clean air zone areas from outside them,
-  with average and total mileage in both years and an All row.
+  in the row, those that moved into Inner London, Outer London, All
+  other, the partly-London and clean air zone areas, or the excluded
+  area (BT) from outside them, those that moved within the kind of area
+  they were in, and those not located, which together add up to the row;
+  with an All row. Mileage is given both over the vehicles with a
+  mileage in each year and, like for like, over those with a mileage in
+  both years, since fewer vehicles have a 2023 mileage.
 
 - **The date-only proxy (`caz_cat`) is kept for checking.** Set 7
   includes a cross-check of the proxy against the harmonised
@@ -1493,14 +1569,15 @@ variable is.
   vehicles than the values as supplied and carry the corrections of
   Section 5. Each setting takes the churn v2 column instead
   (`test_class_ANON`, `fuel_DVSA`, `engineSize_DVSA`, `euroStatus_DVLA`)
-  to reproduce the old tables. What this changes, for class 4 vehicles:
+  to reproduce the old tables. What this changes, for class 4 vehicles
+  (`quality/churn_profile/attribute_coverage.csv`):
 
-  | Attribute   | As supplied |                      Harmonised |
-  |-------------|------------:|--------------------------------:|
-  | Test class  |       86.4% |                            100% |
-  | Engine size |       88.7% |                            100% |
-  | Euro status |       14.1% |                           59.1% |
-  | Fuel        |        100% | 100% (0.3% of values corrected) |
+  | Attribute | As supplied | Harmonised |
+  |----|---:|---:|
+  | Test class | 84.9% | 100.0% |
+  | Engine size | 87.9% | 100.0% |
+  | Euro status | 14.6% | 34.8% recorded or backfilled; 95.2% with the schedule |
+  | Fuel | 100.0% | 100.0% (0.3% of values corrected) |
 
 - **The Set 7 Euro status check column is `euro_status`,** named
   `euro_status_recorded` in churn v2, because the value may now be
@@ -1508,17 +1585,18 @@ variable is.
 
 - **An engine size of 0 cc is its own band, `0 (electric)`.** The
   harmonised `engine_cc` is 0 for the fuels with no engine, so the band
-  is electric vehicles (1.66M class 4) and a handful of fuel cell
-  vehicles. They are not small-engined vehicles, so the lowest size band
-  starts at 1 cc and is named for that: `1-1400` in the 3 and 4 band
-  breakdowns, `1-600` in the 100 cc breakdown and `1-1000` in the
-  detailed one. Churn v2 treated 0 cc as missing. Set 3 gains an
+  is electric vehicles and a handful of fuel cell vehicles (1,763,153
+  class 4 vehicles in all). They are not small-engined vehicles, so the
+  lowest size band starts at 1 cc and is named for that: `1-1400` in the
+  3 and 4 band breakdowns, `1-600` in the 100 cc breakdown and `1-1000`
+  in the detailed one. Churn v2 treated 0 cc as missing. Set 3 gains an
   `n_engine_zero` column; `n_engine_lt1400` keeps its name and now
   counts 1-1399 cc.
 
 - **In churn v2 reproduction mode** (`engine_column: engineSize_DVSA`)
-  the same band instead holds every 0 cc recording, which is 48,800
-  diesel and 294 petrol vehicles as well as 11,550 electric ones.
+  the same band instead holds every 0 cc recording, which on the October
+  2026 build was 48,800 diesel and 294 petrol vehicles as well as 11,550
+  electric ones.
 
 ### 7.4 The sets
 
@@ -1562,8 +1640,7 @@ the first year or still `unborn` in the last.
   churn one so that the charts can cover Northern Ireland, whose
   vehicles have no anonymised test class at all.
 - **Area names** in the titles come from
-  `inputs/postcode_area_names.csv`. The code `XX` gets no chart, as it
-  is not a postcode area.
+  `inputs/postcode_area_names.csv`.
 
 Assumptions:
 
@@ -1613,10 +1690,11 @@ sums and counts, so any grouping can be rebuilt from them:
   and flag.
 
 These feed `outputs/reports/mileage_report.md` (Section 9), which also
-uses postcode area boundaries (`inputs/postcode_areas_100m.gpkg`) and
+uses postcode area boundaries (`inputs/postcode_areas_100m.gpkg`). The
 DfT small-area vehicle counts added up to postcode areas
-(`inputs/dft_lsoa_vehicles_by_pca.csv`); `inputs/README.md` describes
-how both were built.
+(`inputs/dft_lsoa_vehicles_by_pca.csv`) are compared with the MOT data
+in `outputs/reports/registration_report.md`; `inputs/README.md`
+describes how both were built.
 
 Assumptions:
 
@@ -1626,9 +1704,9 @@ Assumptions:
 - **The annualisation has already removed implausible mileage.** Where
   `legit_mileage_YYYY` is FALSE, `mileage_YYYY` is empty. A recorded
   mileage either has the flag TRUE (plausible) or has no flag (not
-  assessed; up to about 5% of recorded mileage a year, and more in a
-  partial final year). The `legit_mileage` groups in the tables above
-  are therefore TRUE and missing.
+  assessed; at most 0.30% of recorded mileage in any year, in 2008). The
+  `legit_mileage` groups in the tables above are therefore TRUE and
+  missing.
 - **Vehicles are grouped by their status in that year.** A vehicle
   recorded as `unknown` in a year that still has mileage appears under
   `unknown`.
@@ -1720,9 +1798,10 @@ published numbers that must agree, reading only the published CSVs:
   vehicles; Set 3 and Set 4 satisfy their identities; in every Set 7
   row, leavers (7B) plus stayers (7C) are the 2018 stock, the stayers
   match 7A, and each breakdown adds up to its row; Set 7D’s 2018
-  vehicles, stayers and scrapped match the chargeable categories of 7A,
-  7C and 7B in every row, and its All row is the sum of its area rows;
-  the Set 7 London groups are the sums of their areas.
+  vehicles, stayers, scrapped, moved and not located match the
+  chargeable categories of 7A, 7C and 7B in every row, its columns add
+  up to the row, and its All row is the sum of its area rows; the Set 7
+  London groups are the sums of their areas.
 - **Profile:** every characteristic of the fleet profile partitions the
   same vehicles, and the car counts and miles equal the mileage area
   table’s plausible-mileage counts, which are computed by different
@@ -1730,7 +1809,7 @@ published numbers that must agree, reading only the published CSVs:
 - **External:** cars aged 3+ against DfT licensed + SORN counts (a
   warning, not an identity).
 
-In this build 1,278 of 1,289 checks pass, 0 fail and 11 warn. The data
+In this build 1,347 of 1,358 checks pass, 0 fail and 11 warn. The data
 quality report lists every check that does not pass.
 
 ### 9.2 Consistency across variables
@@ -1777,7 +1856,7 @@ revenue weight against test class, where many 3,500 kg vans are recorded
 in class 4 although class 4 goods vehicles must weigh no more than 3,000
 kg.
 
-In this build, 2,359,833 rule violations were found on 17 rules, 970,505
+In this build, 2,323,887 rule violations were found on 17 rules, 946,291
 of them wholly in the recorded data; the enforced rules have 0
 violations involving a filled value. The data quality report
 (*Consistency across variables*) lists every rule with its counts and
