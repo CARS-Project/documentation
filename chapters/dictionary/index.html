@@ -49,7 +49,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-ab03f86ccac34414235c8b9012d7ee1e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-1d8893f3a5441277505c8fe2a3da9b99.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -440,6 +440,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../reports/registration_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Does the MOT data hold every registered vehicle?</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../reports/churn_tables_report.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Churn tables: what each one contains and exactly how it was made</span></a>
   </div>
@@ -626,7 +632,7 @@ Table&nbsp;1: The chapters of the data dictionary, with the number of columns in
 <li><strong>A value is not necessarily a recorded value.</strong> Many harmonised columns are filled from similar vehicles where the sources are blank. The <code>_src</code> column next to each says which values were recorded and which were filled (<a href="../pitfalls.html" class="quarto-xref"><span>14&nbsp; Concepts and pitfalls</span></a>).</li>
 <li><strong>Some values mean “not known”.</strong> A column that is never blank can still hold <code>unknown</code>, <code>no_reference</code> or <code>missing</code>, as <code>pca_YYYY</code> and the <code>_check</code> columns do. The overview of each chapter says where this applies.</li>
 </ul>
-<p>The coverage figures were counted from the vehicle table by <code>scripts/run-coverage.R</code> (run 2026-11-18 09:39), and the values by <code>scripts/run-values.R</code>.</p>
+<p>The coverage figures were counted from the vehicle table by <code>scripts/run-coverage.R</code> (run 2026-11-23 07:31), and the values by <code>scripts/run-values.R</code>.</p>
 
 
 </section>

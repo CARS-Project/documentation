@@ -49,7 +49,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-ab03f86ccac34414235c8b9012d7ee1e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-1d8893f3a5441277505c8fe2a3da9b99.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -440,6 +440,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../reports/registration_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Does the MOT data hold every registered vehicle?</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../reports/churn_tables_report.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Churn tables: what each one contains and exactly how it was made</span></a>
   </div>
@@ -505,7 +511,7 @@ ul.task-list li input[type="checkbox"] {
 <li><strong>Licensing status</strong>: tax status and due date, MOT status and expiry, whether the vehicle is marked for export, the date of its latest V5C (registration certificate) and the end date of the additional rate of tax (the supplement for cars with a high list price), all as at the last lookup that returned a record. These are supplied by the DVLA and not changed. <a href="../vehicle-lifecycle.html" class="quarto-xref"><span>Chapter 6</span></a> explains SORN, export and the other stages they describe.</li>
 <li><strong>What changed between lookups</strong>: <code>ever_SORN</code>, <code>ever_export_marked</code>, <code>plate_ever_changed_VES</code>, <code>v5C_issue_date_ever_changed</code> and <code>change_in_other_VES_field</code> summarise the changes seen across repeated lookups.</li>
 <li><strong>The lookups</strong>: when the registration was first and last queried and first and last returned a record, how many queries were made, and the error from the last one where it failed (methodology, <a href="../../reports/methodology.html#input-data">section 2</a>). <code>n_DVLA_makes</code> is the number of different makes the lookups returned: more than one suggests the plate moved between vehicles.</li>
-<li><strong><code>dvla_match</code></strong> says whether the VES record describes the same vehicle as the DVSA record. A registration can move between vehicles, so a lookup can return another vehicle’s record. Where at least two of make, year of manufacture and engine size disagree (<code>dvla_evidence</code>), the match is <code>different</code> and the pipeline does not use the record’s values (<a href="../../reports/methodology.html#dvsadvla-record-match">section 5.1</a>).</li>
+<li><strong><code>dvla_match</code></strong> says whether the VES record describes the same vehicle as the DVSA record. A registration can move between vehicles, so a lookup can return another vehicle’s record. The match is <code>same</code> only if the years of manufacture agree and the make or the engine size agrees too (or neither can be compared). Otherwise it is <code>different</code> and the pipeline does not use the record’s values; <code>dvla_evidence</code> counts the comparisons that disagree (<a href="../../reports/methodology.html#dvsadvla-record-match">section 5.1</a>).</li>
 </ul>
 <div class="cell" data-layout-align="center">
 <div id="tbl-dd-dvla-status" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
@@ -517,12 +523,12 @@ Table&nbsp;35.1: Licensing status and DVLA lookup columns.
 <div class="cell-output-display">
 <table class="cell caption-top table table-sm table-striped small">
 <colgroup>
-<col style="width: 14%">
-<col style="width: 4%">
-<col style="width: 4%">
-<col style="width: 4%">
-<col style="width: 68%">
-<col style="width: 3%">
+<col style="width: 8%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 82%">
+<col style="width: 1%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -628,7 +634,7 @@ Table&nbsp;35.1: Licensing status and DVLA lookup columns.
 <td style="text-align: left;">No</td>
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">pipeline</td>
-<td style="text-align: left;">Whether the VES record describes this vehicle: same, different (at least two of make, manufacture year and engine size disagree; its values are not used) or no_dvla</td>
+<td style="text-align: left;">Whether the VES record describes this vehicle: same (the manufacture or registration year agrees, and so does the make or the engine size, unless neither of those can be compared), different (the year disagrees or cannot be compared, or neither the make nor the engine size agrees where one of them can be compared; its values are not used) or no_dvla</td>
 <td style="text-align: left;">0%</td>
 </tr>
 <tr class="odd">
@@ -741,7 +747,7 @@ Table&nbsp;35.1: Licensing status and DVLA lookup columns.
 <ol type="1">
 <li><strong>A lookup was made</strong>: 97% of vehicles. The lookup columns, such as <code>first_VES_check</code> and <code>is_error</code>, are present for all of these.</li>
 <li><strong>The lookup returned a record</strong>: 77% of vehicles. The licensing status columns and the other <code>_DVLA</code> columns are present only for these.</li>
-<li><strong>The record describes this vehicle</strong>: <code>dvla_match</code> is <code>same</code> for 77% of vehicles, <code>different</code> for 0.1% and <code>no_dvla</code> for the rest.</li>
+<li><strong>The record describes this vehicle</strong>: <code>dvla_match</code> is <code>same</code> for 77% of vehicles, <code>different</code> for 0.2% and <code>no_dvla</code> for the rest.</li>
 </ol>
 <p>How often a record was returned depends strongly on age (<a href="#fig-dd-dvla-status" class="quarto-xref">Figure&nbsp;<span>35.1</span></a>). The VES only describes vehicles still on the DVLA register, so it returned a record for 62% of vehicles first used before 2000 and 65% of those first used in the 2000s, most of which have long left the road, against 96% of those first used in the 2010s. Where no record was returned, <code>error</code> holds the reason.</p>
 <p>Vehicles first used in the last few years are a different case: many had not been registered, or had not reached the DVSA data, when the lookups were made. Hardly any vehicle first used in 2026 has a DVLA record (1%).</p>
@@ -1192,7 +1198,7 @@ Figure&nbsp;35.12: Share of vehicles by value of change_in_other_VES_field, by y
 </section>
 <section id="dvla_match" class="level3">
 <h3 class="anchored" data-anchor-id="dvla_match"><code>dvla_match</code></h3>
-<p>Whether the VES record describes this vehicle: same, different (at least two of make, manufacture year and engine size disagree; its values are not used) or no_dvla.</p>
+<p>Whether the VES record describes this vehicle: same (the manufacture or registration year agrees, and so does the make or the engine size, unless neither of those can be compared), different (the year disagrees or cannot be compared, or neither the make nor the engine size agrees where one of them can be compared; its values are not used) or no_dvla.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-dd-v-dvla-match" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">

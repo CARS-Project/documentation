@@ -1,0 +1,2795 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.11.9">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Does the MOT data hold every registered vehicle? – Using the CARS vehicle data</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../reports/churn_tables_report.html" rel="next">
+<link href="../reports/mileage_report.html" rel="prev">
+<link href="../images/favicon.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-1d8893f3a5441277505c8fe2a3da9b99.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar docked quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/glossary.html">Appendices</a></li><li class="breadcrumb-item"><a href="../reports/methodology.html">Pipeline reports</a></li><li class="breadcrumb-item"><a href="../reports/registration_report.html">Does the MOT data hold every registered vehicle?</a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto" aria-label="Site">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="../index.html" class="sidebar-logo-link">
+      <img src="../images/CARS_logo.webp" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="../images/CARS_logo.webp" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Using the CARS vehicle data</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/CARS-Project/documentation" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-1-label">Background</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/mot-test.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">The MOT test</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/data-landscape.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Who holds vehicle data in the UK</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/vehicle-types.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Classifying vehicles</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/fuels-emissions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Fuels, emissions and Euro standards</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/number-plates.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Number plates</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/vehicle-lifecycle.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">The life of a vehicle</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/geography.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Geography: postcode areas</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-2-label">The CARS data</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/sources-linkage.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Source data and linkage</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/pipeline.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">From linked data to research-ready data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/data-products.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Data products and access</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/vehicle-table.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">The vehicle table</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/aggregate-tables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">The aggregate tables</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/data-quality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">How good is the data?</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Using the data</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/pitfalls.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Concepts and pitfalls</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/getting-started.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Getting started</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/examples-spreadsheet.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Worked examples: spreadsheets</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/examples-code.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Worked examples: code</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../chapters/methodology/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-4-label">Methodology</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section: Methodology">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/methodology/data-sources.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Description and acquisition of the primary data sources</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/methodology/linking-anon-dvsa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Linking the anonymous and DVSA data sets</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/methodology/linking-ves.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Linking the VES data set</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/methodology/annualising.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Annualising the data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/methodology/cleaning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Cleaning and enhancing the vehicle data</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../chapters/dictionary/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text" id="quarto-sidebar-section-5-label">Data dictionary</span></a>
+            <button type="button" class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-controls="quarto-sidebar-section-5" aria-expanded="true" aria-label="Toggle section: Data dictionary">
+              <i class="bi bi-chevron-right ms-2" aria-hidden="true"></i>
+            </button> 
+      </div>
+      <ul id="quarto-sidebar-section-5" aria-labelledby="quarto-sidebar-section-5-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/dictionary/identifiers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Identifiers and scope</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/dictionary/registration.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Registration and number plates</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/dictionary/make-model.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Make and model</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/dictionary/vehicle-type.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Vehicle type</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/dictionary/colour.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Colour</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/dictionary/wheelplan.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Wheel plan</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/dictionary/mass.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Mass and size</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/dictionary/fuel-engine.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Fuel and engine</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/dictionary/emissions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Emissions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/dictionary/dates.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Dates and age</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/dictionary/mileage.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Mileage</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/dictionary/location.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Location and yearly status</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/dictionary/dvla-status.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Licensing status and DVLA lookups</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-controls="quarto-sidebar-section-6" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-6-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-6" aria-labelledby="quarto-sidebar-section-6-label" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Glossary</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/table-catalogue.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Catalogue of aggregate tables</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/maintaining.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Maintaining this book</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-controls="quarto-sidebar-section-7" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-7-label">Pipeline reports</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+      </div>
+      <ul id="quarto-sidebar-section-7" aria-labelledby="quarto-sidebar-section-7-label" class="collapse list-unstyled sidebar-section depth2 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../reports/methodology.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Methodology</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../reports/data_quality_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data quality report</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../reports/mileage_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Vehicles and mileage by postcode area</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../reports/registration_report.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Does the MOT data hold every registered vehicle?</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../reports/churn_tables_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Churn tables: what each one contains and exactly how it was made</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../reports/fleet_profile_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Fleet profile tables</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../reports/racf_linked_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">The RACF / SMMT car fleet, linked to the MOT data</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#summary" id="toc-summary" class="nav-link active" data-scroll-target="#summary">1. Summary</a></li>
+  <li><a href="#what-each-source-counts" id="toc-what-each-source-counts" class="nav-link" data-scroll-target="#what-each-source-counts">2. What each source counts</a>
+  <ul class="collapse">
+  <li><a href="#the-two-counts" id="toc-the-two-counts" class="nav-link" data-scroll-target="#the-two-counts">2.1 The two counts</a></li>
+  <li><a href="#differences-that-are-there-by-design" id="toc-differences-that-are-there-by-design" class="nav-link" data-scroll-target="#differences-that-are-there-by-design">2.2 Differences that are there by design</a></li>
+  </ul></li>
+  <li><a href="#national-totals" id="toc-national-totals" class="nav-link" data-scroll-target="#national-totals">3. National totals</a>
+  <ul class="collapse">
+  <li><a href="#every-body-type-2022" id="toc-every-body-type-2022" class="nav-link" data-scroll-target="#every-body-type-2022">Every body type, 2022</a></li>
+  </ul></li>
+  <li><a href="#age" id="toc-age" class="nav-link" data-scroll-target="#age">4. Age</a>
+  <ul class="collapse">
+  <li><a href="#vehicles-aged-40-or-more" id="toc-vehicles-aged-40-or-more" class="nav-link" data-scroll-target="#vehicles-aged-40-or-more">Vehicles aged 40 or more</a></li>
+  </ul></li>
+  <li><a href="#fuel-and-engine-size" id="toc-fuel-and-engine-size" class="nav-link" data-scroll-target="#fuel-and-engine-size">5. Fuel and engine size</a>
+  <ul class="collapse">
+  <li><a href="#cars-by-fuel-group-2022" id="toc-cars-by-fuel-group-2022" class="nav-link" data-scroll-target="#cars-by-fuel-group-2022">Cars by fuel group, 2022</a></li>
+  <li><a href="#motorcycles-by-engine-size-2014-and-2022" id="toc-motorcycles-by-engine-size-2014-and-2022" class="nav-link" data-scroll-target="#motorcycles-by-engine-size-2014-and-2022">Motorcycles by engine size, 2014 and 2022</a></li>
+  </ul></li>
+  <li><a href="#registration-cohorts-who-ever-reaches-an-mot" id="toc-registration-cohorts-who-ever-reaches-an-mot" class="nav-link" data-scroll-target="#registration-cohorts-who-ever-reaches-an-mot">6. Registration cohorts: who ever reaches an MOT</a>
+  <ul class="collapse">
+  <li><a href="#cohorts-first-used-2012-to-2021" id="toc-cohorts-first-used-2012-to-2021" class="nav-link" data-scroll-target="#cohorts-first-used-2012-to-2021">Cohorts first used 2012 to 2021</a></li>
+  </ul></li>
+  <li><a href="#which-vehicles-never-reach-an-mot" id="toc-which-vehicles-never-reach-an-mot" class="nav-link" data-scroll-target="#which-vehicles-never-reach-an-mot">7. Which vehicles never reach an MOT</a>
+  <ul class="collapse">
+  <li><a href="#vehicles-never-located-by-body-type" id="toc-vehicles-never-located-by-body-type" class="nav-link" data-scroll-target="#vehicles-never-located-by-body-type">Vehicles never located, by body type</a></li>
+  <li><a href="#cars-and-vans-never-located-the-makes-with-most" id="toc-cars-and-vans-never-located-the-makes-with-most" class="nav-link" data-scroll-target="#cars-and-vans-never-located-the-makes-with-most">Cars and vans never located: the makes with most</a></li>
+  </ul></li>
+  <li><a href="#why-the-mot-data-seems-to-undercount-motorcycles" id="toc-why-the-mot-data-seems-to-undercount-motorcycles" class="nav-link" data-scroll-target="#why-the-mot-data-seems-to-undercount-motorcycles">8. Why the MOT data seems to undercount motorcycles</a>
+  <ul class="collapse">
+  <li><a href="#from-dfts-count-to-the-mot-stock-motorcycles" id="toc-from-dfts-count-to-the-mot-stock-motorcycles" class="nav-link" data-scroll-target="#from-dfts-count-to-the-mot-stock-motorcycles">From DfT’s count to the MOT stock: motorcycles</a></li>
+  </ul></li>
+  <li><a href="#by-postcode-area" id="toc-by-postcode-area" class="nav-link" data-scroll-target="#by-postcode-area">9. By postcode area</a>
+  <ul class="collapse">
+  <li><a href="#postcode-areas-furthest-from-the-national-ratio-cars-2022" id="toc-postcode-areas-furthest-from-the-national-ratio-cars-2022" class="nav-link" data-scroll-target="#postcode-areas-furthest-from-the-national-ratio-cars-2022">Postcode areas furthest from the national ratio, cars 2022</a></li>
+  <li><a href="#areas-in-one-source-only-2022" id="toc-areas-in-one-source-only-2022" class="nav-link" data-scroll-target="#areas-in-one-source-only-2022">Areas in one source only, 2022</a></li>
+  </ul></li>
+  <li><a href="#things-to-be-careful-about" id="toc-things-to-be-careful-about" class="nav-link" data-scroll-target="#things-to-be-careful-about">10. Things to be careful about</a></li>
+  <li><a href="#source-files-and-how-to-rebuild" id="toc-source-files-and-how-to-rebuild" class="nav-link" data-scroll-target="#source-files-and-how-to-rebuild">11. Source files and how to rebuild</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/CARS-Project/documentation/edit/main/reports/registration_report.md" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/CARS-Project/documentation/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/glossary.html">Appendices</a></li><li class="breadcrumb-item"><a href="../reports/methodology.html">Pipeline reports</a></li><li class="breadcrumb-item"><a href="../reports/registration_report.html">Does the MOT data hold every registered vehicle?</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="sec-registration-report" class="quarto-section-identifier">Does the MOT data hold every registered vehicle?</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Generated by the pipeline
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This appendix is <code>outputs/reports/registration_report.md</code> from the MOT-pipline repository, copied unchanged into the book by <code>scripts/sync-pipeline.R</code>. Paths such as <code>outputs/...</code> refer to that repository. See <a href="../chapters/maintaining.html" class="quarto-xref"><span>Appendix C — Maintaining this book</span></a>.</p>
+</div>
+</div>
+<p>This report compares the vehicles in the MOT data with the vehicles DfT counts as registered, nationally and by postcode area, and breaks the comparison down by body type, age, fuel and engine size. It sets out what each source counts, where the two should and should not agree, and which kinds of vehicle never appear in the MOT data at all. A section looks at motorcycles, where the MOT data appears to fall further behind the registered fleet every year.</p>
+<p>Every number here is computed from the tables in <code>outputs/tables/registration/</code> (section 11) and the DfT small-area counts in <code>inputs/dft_lsoa_vehicles_by_pca.csv</code>, so it changes with the build.</p>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">1. Summary</h2>
+<ul>
+<li><strong>Counted like for like, the MOT data holds about as many cars and vans as DfT.</strong> A vehicle counts as part of the year-end MOT stock if it has a postcode area in the year and an MOT after it. On that basis there are 33,672,852 cars in 2022 against 33,187,308 licensed in DfT’s statistics: a ratio of 1.01, and between 1.00 and 1.03 in every year from 2014 to 2022. For vans the range is 0.96 to 1.00.</li>
+<li><strong>The comparison the mileage and quality reports used to make overstates cars and understates motorcycles.</strong> Their count kept every vehicle with a postcode area, including vehicles carried on for two years after their last MOT. They also divided by DfT’s licensed <em>plus</em> SORN count, and SORN vehicles have no MOT. That gives 1.04 for cars and 0.60 for motorcycles in 2022, against 1.01 and 0.97 like for like (section 3).</li>
+<li><strong>Most of the apparent motorcycle shortfall is in DfT’s count, not the MOT data.</strong> DfT’s SORN motorcycles grew from 746,761 in 2014 to 1,521,447 in 2025. That is more than the 1,360,270 licensed ones. A SORN declaration does not need renewing, so bikes laid up, broken for parts or scrapped without notice stay in that count indefinitely. Against licensed motorcycles only, the MOT stock ratio is 1.22 in 2014 and 0.97 in 2022 (section 8).</li>
+<li><strong>Real gaps in motorcycles remain, and they are concentrated in small and old bikes</strong>:
+<ul>
+<li><strong>Bikes over 40 have been exempt from the MOT since May 2018.</strong> In 2022 DfT had 140,337 licensed motorcycles aged 40 or more; the MOT stock had 10,493.</li>
+<li><strong>About one bike in 9 never reaches an MOT.</strong> Of the motorcycles first used from 2012 to 2021, 88% of DfT’s count at age one ever appear in the MOT data, against 103% of cars. The missing bikes are mostly small (mopeds, 125cc scooters and learner bikes from low-cost makes) or are enduro and trials bikes registered for the road but ridden off it (section 7).</li>
+<li><strong>Fewer small bikes are tested each year.</strong> Motorcycles of up to 125cc in the MOT stock fell from 419,990 in 2014 to 294,816 in 2022. DfT’s licensed count of them went from 374,346 to 369,983 over the same years.</li>
+<li><strong>Some taxed bikes have no valid MOT.</strong> Of the taxed motorcycles aged 3 to 39, 7.3% had no valid MOT when the DVLA record was read, against 2.3% of cars.</li>
+</ul></li>
+<li><strong>Seasonal SORN works the other way.</strong> 13% of the motorcycles still being tested were SORN when the DVLA record was read, against 2% of cars. Many bikes are taken off the road for the winter, so they are tested but not licensed at DfT’s year-end count.</li>
+<li><strong>Other vehicles missing from the MOT data by design.</strong> Heavy goods vehicles and most buses take a separate annual test, so few are here. Vehicles under three (four in Northern Ireland) are missing in the most recent years, until their first MOT copies a postcode area back to their registration. The last 3 years (2023 to 2025) are incomplete for that reason and because the stock count needs a later MOT.</li>
+<li><strong>By postcode area, the main differences come from where each source puts a vehicle.</strong> The MOT data puts it where it was tested; DfT puts it at its registered keeper’s address. Company and lease cars are registered at a few fleet addresses, so areas such as SL, SN, SK and MK hold many more DfT cars than MOT cars. Across areas, the difference from the national ratio correlates with the company share of each area’s cars (-0.57; section 9). DfT also counts vehicles with no usable address in a separate “Miscellaneous” row that has no MOT counterpart.</li>
+</ul>
+</section>
+<section id="what-each-source-counts" class="level2">
+<h2 class="anchored" data-anchor-id="what-each-source-counts">2. What each source counts</h2>
+<section id="the-two-counts" class="level3">
+<h3 class="anchored" data-anchor-id="the-two-counts">2.1 The two counts</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Source</th>
+<th style="text-align: left;">Counts</th>
+<th style="text-align: left;">Used</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">DfT VEH0124</td>
+<td style="text-align: left;">Licensed and SORN vehicles by body type, make, model and year of first use, UK, at the end of each year</td>
+<td style="text-align: left;">National totals, age, cohorts (sections 3, 4, 6, 8)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">DfT VEH0220</td>
+<td style="text-align: left;">The same, by fuel and engine size</td>
+<td style="text-align: left;">Fuel and engine size (section 5)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">DfT VEH0125</td>
+<td style="text-align: left;">Licensed and SORN vehicles by body group (cars, motorcycles, other) and keepership, for small areas, at the end of March</td>
+<td style="text-align: left;">Postcode areas (section 9)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">DfT VEH0145</td>
+<td style="text-align: left;">Licensed plug-in vehicles by fuel, for small areas, at the end of March</td>
+<td style="text-align: left;">Plug-in vehicles by postcode area (section 9)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">MOT located</td>
+<td style="text-align: left;">Vehicles with a postcode area in the year (<code>pca_YYYY</code> not <code>unborn</code>, <code>dead</code> or <code>unknown</code>)</td>
+<td style="text-align: left;">As the earlier reports did; shown for comparison</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">MOT stock</td>
+<td style="text-align: left;">Located vehicles with an MOT after the year (<code>last_mot_year</code> later than the year, or missing)</td>
+<td style="text-align: left;">The like-for-like count throughout</td>
+</tr>
+</tbody>
+</table>
+<p>The DfT tables are the vehicle licensing statistics, built from the DVLA register. They are read from <code>inputs/df_VEH0124_*.csv</code> and <code>inputs/df_VEH0220.csv</code> (through <code>outputs/intermediate/dft_stock.parquet</code>), and from <code>inputs/dft_lsoa_vehicles_by_pca.csv</code>, which sums the small-area tables to postcode areas (built by <code>data-raw/build_dft_lsoa_vehicles_by_pca.R</code>). <strong>Licensed</strong> means taxed or exempt from tax and allowed on the road. <strong>SORN</strong> means declared off the road. The MOT counts come from <code>outputs/vehicles_enhanced_maximal.parquet</code>, which holds every vehicle in the input, tested or not. Age is the year minus the year of first use in both sources, so a vehicle first used in 2019 is age 3 in 2022.</p>
+<p><strong>Why two MOT counts.</strong> The annualisation gives a vehicle a postcode area from its first registration (copied back from its first MOT) until two years after its last MOT. A located vehicle is therefore one observed at some point in the year, plus up to two years of vehicles that have already gone. That is the right population for mileage (a car scrapped in October was driven until October). It is the wrong one for a count of the fleet at the end of the year, which is what DfT publishes. The stock count keeps only the vehicles tested again later, so it is close to DfT’s year-end licensed count. It is slightly low, because a vehicle whose last MOT was in the year was often still on the road at its end.</p>
+</section>
+<section id="differences-that-are-there-by-design" class="level3">
+<h3 class="anchored" data-anchor-id="differences-that-are-there-by-design">2.2 Differences that are there by design</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Difference</th>
+<th style="text-align: left;">Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Vehicles under three</td>
+<td style="text-align: left;">No MOT until three (four in Northern Ireland). The annualisation copies the first test’s area back to registration, so they are counted once that test is in the data, but not before: the youngest ages empty out in the last years.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Vehicles over 40</td>
+<td style="text-align: left;">Exempt from the MOT since 20 May 2018 unless substantially changed (before that, vehicles built before 1960). Most stop being tested, so they are missing from the stock count.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Heavy goods vehicles, buses, other vehicles</td>
+<td style="text-align: left;">Tested under the separate annual test for goods and passenger vehicles, not the MOT. Only the minority with an MOT class (minibuses, motor caravans, light HGVs) appear.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">SORN</td>
+<td style="text-align: left;">In DfT’s count but not tested, so not in the stock count. SORN does not lapse, so the SORN count includes long-gone vehicles and grows every year.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Seasonal SORN</td>
+<td style="text-align: left;">A vehicle declared SORN over the winter is in DfT’s SORN count at the end of the year but is tested, so is in the MOT stock count. This matters for motorcycles.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Carried-forward years</td>
+<td style="text-align: left;">The located count keeps a vehicle for two years after its last MOT (see 2.1). The stock count drops them.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">The last years of data</td>
+<td style="text-align: left;">The stock count needs an MOT after the year, and a vehicle registered recently has not had its first. Years after 2022 are incomplete.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Location</td>
+<td style="text-align: left;">MOT: the postcode area of the test station. DfT: the registered keeper’s address, so company and lease vehicles are counted where the company is registered. DfT counts vehicles with no usable address as “Miscellaneous”.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Timing</td>
+<td style="text-align: left;">VEH0124 and VEH0220: 31 December. The small-area tables: 31 March of the following year, compared here with MOT year Y.</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="national-totals" class="level2">
+<h2 class="anchored" data-anchor-id="national-totals">3. National totals</h2>
+<p><img src="registration_report_figures/national-1.png" class="img-fluid"></p>
+<p><strong>Figure 1.</strong> Vehicles each year by body type: DfT licensed, and licensed plus SORN (VEH0124, end of year, UK); MOT located and MOT stock (section 2.1). The shaded years after 2022 are incomplete: the stock count needs an MOT after the year, and the youngest vehicles have not had their first.</p>
+<p><img src="registration_report_figures/national-ratio-1.png" class="img-fluid"></p>
+<p><strong>Figure 2.</strong> The like-for-like ratio (solid: MOT stock to DfT licensed) and the one the earlier reports used (dashed: every located vehicle to DfT licensed plus SORN). At 1 (grey line) the two sources agree. The shaded years after 2022 are incomplete: the stock count needs an MOT after the year, and the youngest vehicles have not had their first.</p>
+<section id="every-body-type-2022" class="level3">
+<h3 class="anchored" data-anchor-id="every-body-type-2022">Every body type, 2022</h3>
+<p>All body types, including those outside the MOT scheme. <code>Unknown</code> is MOT vehicles with no DfT body type (no make/model match and no test class); DfT has no such row.</p>
+<ul>
+<li><code>mot_located</code>: vehicles with a postcode area in the year</li>
+<li><code>mot_stock</code>: located vehicles with an MOT after the year</li>
+<li><code>dft_licensed</code>: DfT licensed vehicles, 31 December (VEH0124)</li>
+<li><code>dft_sorn</code>: DfT SORN vehicles, 31 December</li>
+<li><code>stock_to_licensed</code>: <code>mot_stock</code> / <code>dft_licensed</code>: the like-for-like ratio</li>
+<li><code>located_to_all</code>: <code>mot_located</code> / (<code>dft_licensed</code> + <code>dft_sorn</code>): the ratio the earlier reports used</li>
+</ul>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">body_type</th>
+<th style="text-align: right;">mot_located</th>
+<th style="text-align: right;">mot_stock</th>
+<th style="text-align: right;">dft_licensed</th>
+<th style="text-align: right;">dft_sorn</th>
+<th style="text-align: right;">stock_to_licensed</th>
+<th style="text-align: right;">located_to_all</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Cars</td>
+<td style="text-align: right;">38,115,086</td>
+<td style="text-align: right;">33,672,852</td>
+<td style="text-align: right;">33,187,308</td>
+<td style="text-align: right;">3,405,855</td>
+<td style="text-align: right;">1.01</td>
+<td style="text-align: right;">1.04</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Light goods vehicles</td>
+<td style="text-align: right;">5,092,210</td>
+<td style="text-align: right;">4,557,315</td>
+<td style="text-align: right;">4,623,911</td>
+<td style="text-align: right;">752,540</td>
+<td style="text-align: right;">0.99</td>
+<td style="text-align: right;">0.95</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Motorcycles</td>
+<td style="text-align: right;">1,614,065</td>
+<td style="text-align: right;">1,319,185</td>
+<td style="text-align: right;">1,363,661</td>
+<td style="text-align: right;">1,322,859</td>
+<td style="text-align: right;">0.97</td>
+<td style="text-align: right;">0.60</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Other vehicles</td>
+<td style="text-align: right;">47,309</td>
+<td style="text-align: right;">34,908</td>
+<td style="text-align: right;">843,051</td>
+<td style="text-align: right;">232,344</td>
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">0.04</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Heavy goods vehicles</td>
+<td style="text-align: right;">50,366</td>
+<td style="text-align: right;">42,886</td>
+<td style="text-align: right;">536,519</td>
+<td style="text-align: right;">226,431</td>
+<td style="text-align: right;">0.08</td>
+<td style="text-align: right;">0.07</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Buses and coaches</td>
+<td style="text-align: right;">45,360</td>
+<td style="text-align: right;">37,823</td>
+<td style="text-align: right;">143,203</td>
+<td style="text-align: right;">54,727</td>
+<td style="text-align: right;">0.26</td>
+<td style="text-align: right;">0.23</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Unknown</td>
+<td style="text-align: right;">51,318</td>
+<td style="text-align: right;">39,653</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+</tr>
+</tbody>
+</table>
+<p>Cars and vans agree closely once both counts mean the same thing. The stock count is a little higher than DfT’s licensed count in most years, which is the opposite of what its definition alone would give (section 2.1). Two kinds of vehicle push it up:</p>
+<ul>
+<li>a vehicle laid up for a winter is tested but SORN at the year end;</li>
+<li>a vehicle whose tax has lapsed without a SORN is in neither of DfT’s counts, but may still be tested.</li>
+</ul>
+<p>Heavy goods vehicles, buses and the “other vehicles” group (agricultural tractors and other special types among them) are mostly outside the MOT scheme, so their ratios are low by design.</p>
+</section>
+</section>
+<section id="age" class="level2">
+<h2 class="anchored" data-anchor-id="age">4. Age</h2>
+<p><img src="registration_report_figures/age-ratio-1.png" class="img-fluid"></p>
+<p><strong>Figure 3.</strong> The like-for-like ratio by age, in 2014, 2018 and 2022. Left of the dashed line, vehicles not yet due an MOT. The vertical axis stops at 3.</p>
+<p>The ratio is close to 1 for cars and vans of every age between 3 and the late 30s. Three ages behave differently:</p>
+<ul>
+<li><strong>0 to 2.</strong> Most young vehicles are counted, because the annualisation copies the first test’s area back to registration. Some are not: a vehicle scrapped, exported or stolen before its first test never gets an area. For motorcycles that is a large share (section 6).</li>
+<li><strong>40 and over.</strong> Vehicles over 40 have been exempt from the MOT since 20 May 2018, so most stop being tested and drop out. Before that only vehicles built before 1960 were exempt.</li>
+<li><strong>Motorcycles aged 3 to 39.</strong> The MOT stock is well above DfT’s licensed count, by more at older ages. These bikes are tested but were SORN on 31 December: laid up for the winter, or kept for summer use. Section 8 follows this up.</li>
+</ul>
+<section id="vehicles-aged-40-or-more" class="level3">
+<h3 class="anchored" data-anchor-id="vehicles-aged-40-or-more">Vehicles aged 40 or more</h3>
+<p>Cars and motorcycles first used at least 40 years before the year. The exemption for vehicles over 40 began on 20 May 2018. The stock ratio already falls in 2017, because a year’s stock needs an MOT after it, and vehicles that stopped being tested in 2018 had none. The 40+ group grows each year as another cohort turns 40, so the number of registered vehicles that no MOT will ever see grows with it.</p>
+<ul>
+<li><code>dft_licensed</code>: DfT licensed vehicles aged 40+</li>
+<li><code>dft_sorn</code>: DfT SORN vehicles aged 40+</li>
+<li><code>mot_located</code>: MOT located vehicles aged 40+</li>
+<li><code>mot_stock</code>: MOT stock aged 40+</li>
+<li><code>stock_to_licensed</code>: <code>mot_stock</code> / <code>dft_licensed</code></li>
+</ul>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 15%">
+<col style="width: 6%">
+<col style="width: 16%">
+<col style="width: 11%">
+<col style="width: 15%">
+<col style="width: 12%">
+<col style="width: 22%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">body_type</th>
+<th style="text-align: left;">year</th>
+<th style="text-align: right;">dft_licensed</th>
+<th style="text-align: right;">dft_sorn</th>
+<th style="text-align: right;">mot_located</th>
+<th style="text-align: right;">mot_stock</th>
+<th style="text-align: right;">stock_to_licensed</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Cars</td>
+<td style="text-align: left;">2014</td>
+<td style="text-align: right;">185,726</td>
+<td style="text-align: right;">80,346</td>
+<td style="text-align: right;">197,400</td>
+<td style="text-align: right;">156,153</td>
+<td style="text-align: right;">0.84</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Cars</td>
+<td style="text-align: left;">2015</td>
+<td style="text-align: right;">189,017</td>
+<td style="text-align: right;">92,363</td>
+<td style="text-align: right;">181,757</td>
+<td style="text-align: right;">154,348</td>
+<td style="text-align: right;">0.82</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Cars</td>
+<td style="text-align: left;">2016</td>
+<td style="text-align: right;">191,488</td>
+<td style="text-align: right;">103,112</td>
+<td style="text-align: right;">180,303</td>
+<td style="text-align: right;">147,978</td>
+<td style="text-align: right;">0.77</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Cars</td>
+<td style="text-align: left;">2017</td>
+<td style="text-align: right;">195,215</td>
+<td style="text-align: right;">120,156</td>
+<td style="text-align: right;">179,426</td>
+<td style="text-align: right;">116,556</td>
+<td style="text-align: right;">0.60</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Cars</td>
+<td style="text-align: left;">2018</td>
+<td style="text-align: right;">214,907</td>
+<td style="text-align: right;">121,285</td>
+<td style="text-align: right;">178,538</td>
+<td style="text-align: right;">100,444</td>
+<td style="text-align: right;">0.47</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Cars</td>
+<td style="text-align: left;">2019</td>
+<td style="text-align: right;">227,042</td>
+<td style="text-align: right;">128,288</td>
+<td style="text-align: right;">173,652</td>
+<td style="text-align: right;">91,276</td>
+<td style="text-align: right;">0.40</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Cars</td>
+<td style="text-align: left;">2020</td>
+<td style="text-align: right;">234,929</td>
+<td style="text-align: right;">137,313</td>
+<td style="text-align: right;">141,673</td>
+<td style="text-align: right;">87,563</td>
+<td style="text-align: right;">0.37</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Cars</td>
+<td style="text-align: left;">2021</td>
+<td style="text-align: right;">245,120</td>
+<td style="text-align: right;">143,052</td>
+<td style="text-align: right;">123,099</td>
+<td style="text-align: right;">76,677</td>
+<td style="text-align: right;">0.31</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Cars</td>
+<td style="text-align: left;">2022</td>
+<td style="text-align: right;">252,602</td>
+<td style="text-align: right;">151,022</td>
+<td style="text-align: right;">109,888</td>
+<td style="text-align: right;">66,149</td>
+<td style="text-align: right;">0.26</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Cars</td>
+<td style="text-align: left;">2023</td>
+<td style="text-align: right;">256,097</td>
+<td style="text-align: right;">164,306</td>
+<td style="text-align: right;">107,256</td>
+<td style="text-align: right;">56,010</td>
+<td style="text-align: right;">0.22</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Cars</td>
+<td style="text-align: left;">2024</td>
+<td style="text-align: right;">264,772</td>
+<td style="text-align: right;">175,284</td>
+<td style="text-align: right;">96,387</td>
+<td style="text-align: right;">44,988</td>
+<td style="text-align: right;">0.17</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Cars</td>
+<td style="text-align: left;">2025</td>
+<td style="text-align: right;">267,626</td>
+<td style="text-align: right;">198,027</td>
+<td style="text-align: right;">83,780</td>
+<td style="text-align: right;">21,772</td>
+<td style="text-align: right;">0.08</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Motorcycles</td>
+<td style="text-align: left;">2014</td>
+<td style="text-align: right;">88,918</td>
+<td style="text-align: right;">33,110</td>
+<td style="text-align: right;">53,723</td>
+<td style="text-align: right;">36,013</td>
+<td style="text-align: right;">0.41</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Motorcycles</td>
+<td style="text-align: left;">2015</td>
+<td style="text-align: right;">89,910</td>
+<td style="text-align: right;">41,737</td>
+<td style="text-align: right;">48,106</td>
+<td style="text-align: right;">36,371</td>
+<td style="text-align: right;">0.40</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Motorcycles</td>
+<td style="text-align: left;">2016</td>
+<td style="text-align: right;">92,195</td>
+<td style="text-align: right;">51,260</td>
+<td style="text-align: right;">50,723</td>
+<td style="text-align: right;">35,105</td>
+<td style="text-align: right;">0.38</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Motorcycles</td>
+<td style="text-align: left;">2017</td>
+<td style="text-align: right;">95,041</td>
+<td style="text-align: right;">64,183</td>
+<td style="text-align: right;">52,645</td>
+<td style="text-align: right;">21,885</td>
+<td style="text-align: right;">0.23</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Motorcycles</td>
+<td style="text-align: left;">2018</td>
+<td style="text-align: right;">106,706</td>
+<td style="text-align: right;">70,130</td>
+<td style="text-align: right;">53,705</td>
+<td style="text-align: right;">15,773</td>
+<td style="text-align: right;">0.15</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Motorcycles</td>
+<td style="text-align: left;">2019</td>
+<td style="text-align: right;">115,076</td>
+<td style="text-align: right;">81,181</td>
+<td style="text-align: right;">52,539</td>
+<td style="text-align: right;">14,278</td>
+<td style="text-align: right;">0.12</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Motorcycles</td>
+<td style="text-align: left;">2020</td>
+<td style="text-align: right;">124,067</td>
+<td style="text-align: right;">94,687</td>
+<td style="text-align: right;">40,321</td>
+<td style="text-align: right;">14,125</td>
+<td style="text-align: right;">0.11</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Motorcycles</td>
+<td style="text-align: left;">2021</td>
+<td style="text-align: right;">133,739</td>
+<td style="text-align: right;">109,036</td>
+<td style="text-align: right;">35,373</td>
+<td style="text-align: right;">12,650</td>
+<td style="text-align: right;">0.09</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Motorcycles</td>
+<td style="text-align: left;">2022</td>
+<td style="text-align: right;">140,337</td>
+<td style="text-align: right;">121,164</td>
+<td style="text-align: right;">31,548</td>
+<td style="text-align: right;">10,493</td>
+<td style="text-align: right;">0.07</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Motorcycles</td>
+<td style="text-align: left;">2023</td>
+<td style="text-align: right;">143,781</td>
+<td style="text-align: right;">130,866</td>
+<td style="text-align: right;">28,686</td>
+<td style="text-align: right;">8,090</td>
+<td style="text-align: right;">0.06</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Motorcycles</td>
+<td style="text-align: left;">2024</td>
+<td style="text-align: right;">148,122</td>
+<td style="text-align: right;">140,472</td>
+<td style="text-align: right;">23,656</td>
+<td style="text-align: right;">5,585</td>
+<td style="text-align: right;">0.04</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Motorcycles</td>
+<td style="text-align: left;">2025</td>
+<td style="text-align: right;">147,029</td>
+<td style="text-align: right;">157,875</td>
+<td style="text-align: right;">19,619</td>
+<td style="text-align: right;">2,092</td>
+<td style="text-align: right;">0.01</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="fuel-and-engine-size" class="level2">
+<h2 class="anchored" data-anchor-id="fuel-and-engine-size">5. Fuel and engine size</h2>
+<p><img src="registration_report_figures/fuel-cars-1.png" class="img-fluid"></p>
+<p><strong>Figure 4.</strong> Cars: the like-for-like ratio by fuel group. DfT fuels (VEH0220) are grouped as the harmonised <code>fuel_simple</code>: plug-in hybrids and range extenders as Plug-in Hybrid Electric, other hybrids as Hybrid Electric, gas, fuel cells and the rest as Other. The shaded years after 2022 are incomplete: the stock count needs an MOT after the year, and the youngest vehicles have not had their first.</p>
+<section id="cars-by-fuel-group-2022" class="level3">
+<h3 class="anchored" data-anchor-id="cars-by-fuel-group-2022">Cars by fuel group, 2022</h3>
+<p>Cars with no harmonised fuel are left out of the MOT column. Battery electric and plug-in hybrid cars are young, so more of them are not yet due an MOT, and their ratio is low and falls as sales grow. The two sources also identify fuel differently. DfT records plug-in hybrids directly. Here they are attached by make and model from DfT’s own counts, so some plug-ins stay Hybrid Electric, and diesel hybrids may be recorded as Diesel by DVSA.</p>
+<ul>
+<li><code>mot_stock</code>: MOT stock</li>
+<li><code>dft_licensed</code>: DfT licensed cars (VEH0220)</li>
+<li><code>dft_sorn</code>: DfT SORN cars</li>
+<li><code>stock_to_licensed</code>: <code>mot_stock</code> / <code>dft_licensed</code></li>
+</ul>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 30%">
+<col style="width: 14%">
+<col style="width: 17%">
+<col style="width: 13%">
+<col style="width: 23%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">fuel_simple</th>
+<th style="text-align: right;">mot_stock</th>
+<th style="text-align: right;">dft_licensed</th>
+<th style="text-align: right;">dft_sorn</th>
+<th style="text-align: right;">stock_to_licensed</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Petrol</td>
+<td style="text-align: right;">19,310,695</td>
+<td style="text-align: right;">19,099,791</td>
+<td style="text-align: right;">2,345,809</td>
+<td style="text-align: right;">1.01</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Diesel</td>
+<td style="text-align: right;">12,007,632</td>
+<td style="text-align: right;">11,746,622</td>
+<td style="text-align: right;">1,021,709</td>
+<td style="text-align: right;">1.02</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Hybrid Electric</td>
+<td style="text-align: right;">1,362,978</td>
+<td style="text-align: right;">1,271,160</td>
+<td style="text-align: right;">12,047</td>
+<td style="text-align: right;">1.07</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Plug-in Hybrid Electric</td>
+<td style="text-align: right;">327,487</td>
+<td style="text-align: right;">413,759</td>
+<td style="text-align: right;">5,457</td>
+<td style="text-align: right;">0.79</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Electric</td>
+<td style="text-align: right;">617,178</td>
+<td style="text-align: right;">628,984</td>
+<td style="text-align: right;">4,919</td>
+<td style="text-align: right;">0.98</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Other</td>
+<td style="text-align: right;">46,882</td>
+<td style="text-align: right;">26,992</td>
+<td style="text-align: right;">15,914</td>
+<td style="text-align: right;">1.74</td>
+</tr>
+</tbody>
+</table>
+<p><img src="registration_report_figures/engine-motorcycles-1.png" class="img-fluid"></p>
+<p><strong>Figure 5.</strong> Motorcycles: the like-for-like ratio by engine size (VEH0220 engine size bands; electric motorcycles separately). The shaded years after 2022 are incomplete: the stock count needs an MOT after the year, and the youngest vehicles have not had their first.</p>
+</section>
+<section id="motorcycles-by-engine-size-2014-and-2022" class="level3">
+<h3 class="anchored" data-anchor-id="motorcycles-by-engine-size-2014-and-2022">Motorcycles by engine size, 2014 and 2022</h3>
+<p>The ratio fell in every band, most for the smallest bikes and for 126-500cc. That band holds many classic bikes over 40 years old, which stopped being tested from 2018. The smallest bikes are the ones most often never tested at all (section 7).</p>
+<ul>
+<li><code>stock</code>: MOT stock</li>
+<li><code>licensed</code>: DfT licensed motorcycles (VEH0220)</li>
+<li><code>sorn</code>: DfT SORN motorcycles</li>
+<li><code>ratio</code>: MOT stock / DfT licensed</li>
+</ul>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">engine</th>
+<th style="text-align: right;">stock_2014</th>
+<th style="text-align: right;">licensed_2014</th>
+<th style="text-align: right;">ratio_2014</th>
+<th style="text-align: right;">stock_2022</th>
+<th style="text-align: right;">licensed_2022</th>
+<th style="text-align: right;">sorn_2022</th>
+<th style="text-align: right;">ratio_2022</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Up to 50cc</td>
+<td style="text-align: right;">111,628</td>
+<td style="text-align: right;">100,350</td>
+<td style="text-align: right;">1.11</td>
+<td style="text-align: right;">32,603</td>
+<td style="text-align: right;">59,909</td>
+<td style="text-align: right;">141,693</td>
+<td style="text-align: right;">0.54</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">51-125cc</td>
+<td style="text-align: right;">308,362</td>
+<td style="text-align: right;">273,996</td>
+<td style="text-align: right;">1.13</td>
+<td style="text-align: right;">262,213</td>
+<td style="text-align: right;">310,074</td>
+<td style="text-align: right;">276,107</td>
+<td style="text-align: right;">0.85</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">126-500cc</td>
+<td style="text-align: right;">175,548</td>
+<td style="text-align: right;">185,155</td>
+<td style="text-align: right;">0.95</td>
+<td style="text-align: right;">134,630</td>
+<td style="text-align: right;">236,396</td>
+<td style="text-align: right;">238,358</td>
+<td style="text-align: right;">0.57</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">501-1,000cc</td>
+<td style="text-align: right;">635,673</td>
+<td style="text-align: right;">463,717</td>
+<td style="text-align: right;">1.37</td>
+<td style="text-align: right;">564,845</td>
+<td style="text-align: right;">487,219</td>
+<td style="text-align: right;">485,529</td>
+<td style="text-align: right;">1.16</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Over 1,000cc</td>
+<td style="text-align: right;">266,532</td>
+<td style="text-align: right;">206,266</td>
+<td style="text-align: right;">1.29</td>
+<td style="text-align: right;">317,421</td>
+<td style="text-align: right;">256,527</td>
+<td style="text-align: right;">176,544</td>
+<td style="text-align: right;">1.24</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Electric</td>
+<td style="text-align: right;">692</td>
+<td style="text-align: right;">912</td>
+<td style="text-align: right;">0.76</td>
+<td style="text-align: right;">7,472</td>
+<td style="text-align: right;">13,438</td>
+<td style="text-align: right;">4,467</td>
+<td style="text-align: right;">0.56</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="registration-cohorts-who-ever-reaches-an-mot" class="level2">
+<h2 class="anchored" data-anchor-id="registration-cohorts-who-ever-reaches-an-mot">6. Registration cohorts: who ever reaches an MOT</h2>
+<p>The input holds nearly every vehicle on the register, tested or not. It includes those never tested, because DVLA activity (tax, a V5C, first registration) keeps a vehicle in scope. A registration cohort can therefore be followed from DfT’s count of it to the share that ever has an MOT.</p>
+<p><img src="registration_report_figures/cohorts-1.png" class="img-fluid"></p>
+<p><strong>Figure 6.</strong> For each year of first use: vehicles that ever have a postcode area in the MOT data, as a share of DfT’s licensed plus SORN count of that cohort at the end of the following year (VEH0124). The shaded cohorts, first used after 2021, were not all due their first MOT inside the data. Above 100%: vehicles DfT had already lost by age one (exported or scrapped) but which were tested, or vehicles first used abroad.</p>
+<section id="cohorts-first-used-2012-to-2021" class="level3">
+<h3 class="anchored" data-anchor-id="cohorts-first-used-2012-to-2021">Cohorts first used 2012 to 2021</h3>
+<p>Totals over the settled cohorts. Cars and vans almost all reach an MOT. About one motorcycle in 9 does not, and most heavy goods vehicles and buses never do because they are tested outside the MOT. The input holds more vehicles of each cohort than DfT counts at age one (<code>data_to_dft</code> above 1): it also keeps vehicles DfT had already lost by then, exported or scrapped in their first year.</p>
+<ul>
+<li><code>vehicles_in_data</code>: vehicles of that body type and cohort in the input</li>
+<li><code>ever_located</code>: of those, vehicles with a postcode area in at least one year</li>
+<li><code>dft_at_age_one</code>: DfT licensed + SORN count of the cohorts at the end of the year after first use</li>
+<li><code>data_to_dft</code>: <code>vehicles_in_data</code> / <code>dft_at_age_one</code>: near 1 means the input holds the whole register</li>
+<li><code>located_to_dft</code>: <code>ever_located</code> / <code>dft_at_age_one</code></li>
+</ul>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">body_type</th>
+<th style="text-align: right;">vehicles_in_data</th>
+<th style="text-align: right;">ever_located</th>
+<th style="text-align: right;">dft_at_age_one</th>
+<th style="text-align: right;">data_to_dft</th>
+<th style="text-align: right;">located_to_dft</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Cars</td>
+<td style="text-align: right;">20,948,777</td>
+<td style="text-align: right;">20,314,060</td>
+<td style="text-align: right;">19,766,120</td>
+<td style="text-align: right;">1.06</td>
+<td style="text-align: right;">1.03</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Light goods vehicles</td>
+<td style="text-align: right;">3,116,750</td>
+<td style="text-align: right;">3,011,089</td>
+<td style="text-align: right;">3,021,732</td>
+<td style="text-align: right;">1.03</td>
+<td style="text-align: right;">1.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Motorcycles</td>
+<td style="text-align: right;">978,262</td>
+<td style="text-align: right;">770,422</td>
+<td style="text-align: right;">870,820</td>
+<td style="text-align: right;">1.12</td>
+<td style="text-align: right;">0.88</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Heavy goods vehicles</td>
+<td style="text-align: right;">341,224</td>
+<td style="text-align: right;">32,117</td>
+<td style="text-align: right;">423,725</td>
+<td style="text-align: right;">0.81</td>
+<td style="text-align: right;">0.08</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Other vehicles</td>
+<td style="text-align: right;">218,233</td>
+<td style="text-align: right;">23,665</td>
+<td style="text-align: right;">405,646</td>
+<td style="text-align: right;">0.54</td>
+<td style="text-align: right;">0.06</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Buses and coaches</td>
+<td style="text-align: right;">64,029</td>
+<td style="text-align: right;">33,558</td>
+<td style="text-align: right;">69,005</td>
+<td style="text-align: right;">0.93</td>
+<td style="text-align: right;">0.49</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="which-vehicles-never-reach-an-mot" class="level2">
+<h2 class="anchored" data-anchor-id="which-vehicles-never-reach-an-mot">7. Which vehicles never reach an MOT</h2>
+<p>This section looks at the vehicles first used from 2012 to 2021 that never have a postcode area. Each was due its first MOT inside the data, even allowing for Northern Ireland’s four-year rule and the six-month extension of 2020. Tax status is from the DVLA record attached to the input (one reading, taken after the end of the data).</p>
+<section id="vehicles-never-located-by-body-type" class="level3">
+<h3 class="anchored" data-anchor-id="vehicles-never-located-by-body-type">Vehicles never located, by body type</h3>
+<p>Vehicles of the settled cohorts. A taxed vehicle that never had an MOT is either exempt (heavy vehicles and buses with their own test, some special types) or on the road without one. An untaxed or SORN vehicle may be off the road, scrapped without notice or stolen. <code>Unknown</code> vehicles have no body type because they matched no make/model and have no test class. Where a make is recorded they are mostly lorries (DAF, Scania, Volvo), plant and farm machinery (JCB, Manitou, Thwaites, Massey Ferguson), scooters and mobility scooters: vehicles that never take an MOT.</p>
+<ul>
+<li><code>vehicles</code>: vehicles of the settled cohorts</li>
+<li><code>never_located</code>: of those, with no postcode area in any year</li>
+<li><code>share_never</code>: <code>never_located</code> / <code>vehicles</code></li>
+<li><code>taxed</code>: never located and taxed in the DVLA record</li>
+<li><code>sorn</code>: never located and SORN</li>
+<li><code>untaxed</code>: never located and untaxed (including not taxed for road use)</li>
+<li><code>no_ves_record</code>: never located, with no DVLA record attached</li>
+<li><code>marked_for_export</code>: never located and marked for export (also counted in one of the columns before)</li>
+</ul>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">body_type</th>
+<th style="text-align: right;">vehicles</th>
+<th style="text-align: right;">never_located</th>
+<th style="text-align: left;">share_never</th>
+<th style="text-align: right;">taxed</th>
+<th style="text-align: right;">sorn</th>
+<th style="text-align: right;">untaxed</th>
+<th style="text-align: right;">no_ves_record</th>
+<th style="text-align: right;">marked_for_export</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Cars</td>
+<td style="text-align: right;">23,031,696</td>
+<td style="text-align: right;">692,151</td>
+<td style="text-align: left;">3.0%</td>
+<td style="text-align: right;">92,439</td>
+<td style="text-align: right;">82,029</td>
+<td style="text-align: right;">338,592</td>
+<td style="text-align: right;">179,091</td>
+<td style="text-align: right;">264,393</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Light goods vehicles</td>
+<td style="text-align: right;">3,354,062</td>
+<td style="text-align: right;">112,234</td>
+<td style="text-align: left;">3.3%</td>
+<td style="text-align: right;">13,458</td>
+<td style="text-align: right;">19,826</td>
+<td style="text-align: right;">52,484</td>
+<td style="text-align: right;">26,466</td>
+<td style="text-align: right;">40,245</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Motorcycles</td>
+<td style="text-align: right;">1,072,713</td>
+<td style="text-align: right;">227,194</td>
+<td style="text-align: left;">21.2%</td>
+<td style="text-align: right;">16,784</td>
+<td style="text-align: right;">89,160</td>
+<td style="text-align: right;">97,182</td>
+<td style="text-align: right;">24,068</td>
+<td style="text-align: right;">32,718</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Unknown</td>
+<td style="text-align: right;">516,697</td>
+<td style="text-align: right;">494,027</td>
+<td style="text-align: left;">95.6%</td>
+<td style="text-align: right;">188,130</td>
+<td style="text-align: right;">83,985</td>
+<td style="text-align: right;">181,375</td>
+<td style="text-align: right;">40,537</td>
+<td style="text-align: right;">38,549</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Heavy goods vehicles</td>
+<td style="text-align: right;">366,237</td>
+<td style="text-align: right;">330,238</td>
+<td style="text-align: left;">90.2%</td>
+<td style="text-align: right;">190,575</td>
+<td style="text-align: right;">52,653</td>
+<td style="text-align: right;">85,351</td>
+<td style="text-align: right;">1,659</td>
+<td style="text-align: right;">50,273</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Other vehicles</td>
+<td style="text-align: right;">236,517</td>
+<td style="text-align: right;">210,020</td>
+<td style="text-align: left;">88.8%</td>
+<td style="text-align: right;">116,093</td>
+<td style="text-align: right;">29,134</td>
+<td style="text-align: right;">62,797</td>
+<td style="text-align: right;">1,996</td>
+<td style="text-align: right;">31,802</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Buses and coaches</td>
+<td style="text-align: right;">70,738</td>
+<td style="text-align: right;">32,944</td>
+<td style="text-align: left;">46.6%</td>
+<td style="text-align: right;">28,914</td>
+<td style="text-align: right;">1,613</td>
+<td style="text-align: right;">1,635</td>
+<td style="text-align: right;">782</td>
+<td style="text-align: right;">999</td>
+</tr>
+</tbody>
+</table>
+<p><img src="registration_report_figures/never-engine-1.png" class="img-fluid"></p>
+<p><strong>Figure 7.</strong> Motorcycles first used 2012 to 2021: the share that never have a postcode area, by engine size (electric motorcycles, which have none, separately). Petrol engine bands include electric bikes recorded with an engine size.</p>
+<p><img src="registration_report_figures/never-makes-1.png" class="img-fluid"></p>
+<p><strong>Figure 8.</strong> The 25 motorcycle makes with the most bikes first used 2012 to 2021 that never have a postcode area. Bar length is the number never located; the label and colour give it as a share of the make’s bikes in those cohorts.</p>
+<p>Two groups stand out among the motorcycles:</p>
+<ul>
+<li><strong>Small, low-cost bikes:</strong> mopeds and 125cc scooters, from Lexmoto, SYM, Keeway, Kymco, Sinnis, Pulse and similar makes. These are the bikes of learners and of delivery work, kept for a short time and often written off, stolen or scrapped before they are three.</li>
+<li><strong>Enduro and trials bikes:</strong> Beta, Sherco, Gas Gas, KTM and Husqvarna. They are road registered so that they can be ridden between off-road sections, but many are only used off the road and never taken for an MOT.</li>
+</ul>
+<p>Honda and Yamaha top the chart by number because they sell the most bikes. Most of the bikes that never reach an MOT were SORN or untaxed when the DVLA record was read; few are taxed (table above).</p>
+</section>
+<section id="cars-and-vans-never-located-the-makes-with-most" class="level3">
+<h3 class="anchored" data-anchor-id="cars-and-vans-never-located-the-makes-with-most">Cars and vans never located: the makes with most</h3>
+<p>The 12 makes of car and of van with the most vehicles first used 2012 to 2021 that never have a postcode area. For cars and vans the shares are small, and higher for the prestige makes that are exported young: 38% of the cars never located are marked for export. Most of them are untaxed or have no DVLA record: exported, written off, stolen or scrapped before their first MOT.</p>
+<ul>
+<li><code>share_never</code>: <code>never_located</code> / <code>vehicles</code></li>
+</ul>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">body_type</th>
+<th style="text-align: left;">make</th>
+<th style="text-align: right;">vehicles</th>
+<th style="text-align: right;">never_located</th>
+<th style="text-align: left;">share_never</th>
+<th style="text-align: right;">taxed</th>
+<th style="text-align: right;">sorn</th>
+<th style="text-align: right;">untaxed</th>
+<th style="text-align: right;">marked_for_export</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Cars</td>
+<td style="text-align: left;">MERCEDES</td>
+<td style="text-align: right;">1,401,455</td>
+<td style="text-align: right;">89,413</td>
+<td style="text-align: left;">6.4%</td>
+<td style="text-align: right;">4,807</td>
+<td style="text-align: right;">15,814</td>
+<td style="text-align: right;">56,562</td>
+<td style="text-align: right;">43,271</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Cars</td>
+<td style="text-align: left;">BMW</td>
+<td style="text-align: right;">1,538,485</td>
+<td style="text-align: right;">66,210</td>
+<td style="text-align: left;">4.3%</td>
+<td style="text-align: right;">6,669</td>
+<td style="text-align: right;">8,134</td>
+<td style="text-align: right;">35,418</td>
+<td style="text-align: right;">27,208</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Cars</td>
+<td style="text-align: left;">FORD</td>
+<td style="text-align: right;">2,652,162</td>
+<td style="text-align: right;">56,773</td>
+<td style="text-align: left;">2.1%</td>
+<td style="text-align: right;">5,787</td>
+<td style="text-align: right;">5,274</td>
+<td style="text-align: right;">30,389</td>
+<td style="text-align: right;">21,494</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Cars</td>
+<td style="text-align: left;">AUDI</td>
+<td style="text-align: right;">1,484,682</td>
+<td style="text-align: right;">56,701</td>
+<td style="text-align: left;">3.8%</td>
+<td style="text-align: right;">5,614</td>
+<td style="text-align: right;">5,762</td>
+<td style="text-align: right;">29,287</td>
+<td style="text-align: right;">23,502</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Cars</td>
+<td style="text-align: left;">VOLKSWAGEN</td>
+<td style="text-align: right;">1,968,745</td>
+<td style="text-align: right;">54,866</td>
+<td style="text-align: left;">2.8%</td>
+<td style="text-align: right;">9,036</td>
+<td style="text-align: right;">4,482</td>
+<td style="text-align: right;">22,827</td>
+<td style="text-align: right;">17,599</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Cars</td>
+<td style="text-align: left;">TOYOTA</td>
+<td style="text-align: right;">1,051,033</td>
+<td style="text-align: right;">43,340</td>
+<td style="text-align: left;">4.1%</td>
+<td style="text-align: right;">9,934</td>
+<td style="text-align: right;">3,452</td>
+<td style="text-align: right;">14,464</td>
+<td style="text-align: right;">11,962</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Cars</td>
+<td style="text-align: left;">VAUXHALL</td>
+<td style="text-align: right;">2,023,898</td>
+<td style="text-align: right;">31,183</td>
+<td style="text-align: left;">1.5%</td>
+<td style="text-align: right;">4,705</td>
+<td style="text-align: right;">2,023</td>
+<td style="text-align: right;">10,591</td>
+<td style="text-align: right;">6,076</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Cars</td>
+<td style="text-align: left;">NISSAN</td>
+<td style="text-align: right;">1,171,060</td>
+<td style="text-align: right;">29,693</td>
+<td style="text-align: left;">2.5%</td>
+<td style="text-align: right;">3,345</td>
+<td style="text-align: right;">2,917</td>
+<td style="text-align: right;">15,340</td>
+<td style="text-align: right;">12,650</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Cars</td>
+<td style="text-align: left;">LAND ROVER</td>
+<td style="text-align: right;">666,549</td>
+<td style="text-align: right;">27,632</td>
+<td style="text-align: left;">4.1%</td>
+<td style="text-align: right;">3,185</td>
+<td style="text-align: right;">4,352</td>
+<td style="text-align: right;">15,322</td>
+<td style="text-align: right;">9,782</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Cars</td>
+<td style="text-align: left;">HYUNDAI</td>
+<td style="text-align: right;">797,200</td>
+<td style="text-align: right;">26,483</td>
+<td style="text-align: left;">3.3%</td>
+<td style="text-align: right;">3,053</td>
+<td style="text-align: right;">2,844</td>
+<td style="text-align: right;">14,805</td>
+<td style="text-align: right;">14,351</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Cars</td>
+<td style="text-align: left;">PEUGEOT</td>
+<td style="text-align: right;">889,860</td>
+<td style="text-align: right;">22,553</td>
+<td style="text-align: left;">2.5%</td>
+<td style="text-align: right;">4,259</td>
+<td style="text-align: right;">2,231</td>
+<td style="text-align: right;">9,333</td>
+<td style="text-align: right;">7,693</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Cars</td>
+<td style="text-align: left;">HONDA</td>
+<td style="text-align: right;">496,472</td>
+<td style="text-align: right;">15,505</td>
+<td style="text-align: left;">3.1%</td>
+<td style="text-align: right;">2,823</td>
+<td style="text-align: right;">2,189</td>
+<td style="text-align: right;">5,128</td>
+<td style="text-align: right;">5,024</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Light goods vehicles</td>
+<td style="text-align: left;">FORD</td>
+<td style="text-align: right;">1,004,587</td>
+<td style="text-align: right;">31,005</td>
+<td style="text-align: left;">3.1%</td>
+<td style="text-align: right;">4,013</td>
+<td style="text-align: right;">4,742</td>
+<td style="text-align: right;">14,579</td>
+<td style="text-align: right;">10,015</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Light goods vehicles</td>
+<td style="text-align: left;">MERCEDES</td>
+<td style="text-align: right;">307,921</td>
+<td style="text-align: right;">14,733</td>
+<td style="text-align: left;">4.8%</td>
+<td style="text-align: right;">802</td>
+<td style="text-align: right;">2,873</td>
+<td style="text-align: right;">7,960</td>
+<td style="text-align: right;">3,382</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Light goods vehicles</td>
+<td style="text-align: left;">VOLKSWAGEN</td>
+<td style="text-align: right;">403,007</td>
+<td style="text-align: right;">9,961</td>
+<td style="text-align: left;">2.5%</td>
+<td style="text-align: right;">1,698</td>
+<td style="text-align: right;">1,534</td>
+<td style="text-align: right;">4,316</td>
+<td style="text-align: right;">3,748</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Light goods vehicles</td>
+<td style="text-align: left;">PEUGEOT</td>
+<td style="text-align: right;">291,365</td>
+<td style="text-align: right;">9,475</td>
+<td style="text-align: left;">3.3%</td>
+<td style="text-align: right;">1,014</td>
+<td style="text-align: right;">2,179</td>
+<td style="text-align: right;">3,962</td>
+<td style="text-align: right;">4,314</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Light goods vehicles</td>
+<td style="text-align: left;">CITROEN</td>
+<td style="text-align: right;">259,055</td>
+<td style="text-align: right;">8,049</td>
+<td style="text-align: left;">3.1%</td>
+<td style="text-align: right;">635</td>
+<td style="text-align: right;">1,533</td>
+<td style="text-align: right;">3,598</td>
+<td style="text-align: right;">3,725</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Light goods vehicles</td>
+<td style="text-align: left;">VAUXHALL</td>
+<td style="text-align: right;">309,675</td>
+<td style="text-align: right;">7,310</td>
+<td style="text-align: left;">2.4%</td>
+<td style="text-align: right;">1,014</td>
+<td style="text-align: right;">1,315</td>
+<td style="text-align: right;">2,841</td>
+<td style="text-align: right;">2,582</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Light goods vehicles</td>
+<td style="text-align: left;">TOYOTA</td>
+<td style="text-align: right;">94,961</td>
+<td style="text-align: right;">5,287</td>
+<td style="text-align: left;">5.6%</td>
+<td style="text-align: right;">367</td>
+<td style="text-align: right;">830</td>
+<td style="text-align: right;">3,253</td>
+<td style="text-align: right;">2,747</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Light goods vehicles</td>
+<td style="text-align: left;">NISSAN</td>
+<td style="text-align: right;">124,949</td>
+<td style="text-align: right;">5,056</td>
+<td style="text-align: left;">4.0%</td>
+<td style="text-align: right;">506</td>
+<td style="text-align: right;">854</td>
+<td style="text-align: right;">2,822</td>
+<td style="text-align: right;">2,473</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Light goods vehicles</td>
+<td style="text-align: left;">RENAULT</td>
+<td style="text-align: right;">182,876</td>
+<td style="text-align: right;">5,042</td>
+<td style="text-align: left;">2.8%</td>
+<td style="text-align: right;">522</td>
+<td style="text-align: right;">687</td>
+<td style="text-align: right;">2,528</td>
+<td style="text-align: right;">2,299</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Light goods vehicles</td>
+<td style="text-align: left;">FIAT</td>
+<td style="text-align: right;">131,100</td>
+<td style="text-align: right;">3,855</td>
+<td style="text-align: left;">2.9%</td>
+<td style="text-align: right;">437</td>
+<td style="text-align: right;">612</td>
+<td style="text-align: right;">1,693</td>
+<td style="text-align: right;">1,568</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Light goods vehicles</td>
+<td style="text-align: left;">LAND ROVER</td>
+<td style="text-align: right;">42,871</td>
+<td style="text-align: right;">2,629</td>
+<td style="text-align: left;">6.1%</td>
+<td style="text-align: right;">371</td>
+<td style="text-align: right;">720</td>
+<td style="text-align: right;">1,318</td>
+<td style="text-align: right;">1,072</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Light goods vehicles</td>
+<td style="text-align: left;">MITSUBISHI</td>
+<td style="text-align: right;">76,559</td>
+<td style="text-align: right;">2,500</td>
+<td style="text-align: left;">3.3%</td>
+<td style="text-align: right;">121</td>
+<td style="text-align: right;">304</td>
+<td style="text-align: right;">1,316</td>
+<td style="text-align: right;">1,014</td>
+</tr>
+</tbody>
+</table>
+<p><img src="registration_report_figures/tax-status-1.png" class="img-fluid"></p>
+<p><strong>Figure 9.</strong> DVLA tax status of every car and motorcycle in the input, by MOT history: still being tested (no last MOT year), last MOT in 2023 to 2025 (which mostly marks the end of the data rather than the end of testing), stopped testing earlier, or never located. The tax status is one reading taken after the end of the data.</p>
+</section>
+</section>
+<section id="why-the-mot-data-seems-to-undercount-motorcycles" class="level2">
+<h2 class="anchored" data-anchor-id="why-the-mot-data-seems-to-undercount-motorcycles">8. Why the MOT data seems to undercount motorcycles</h2>
+<section id="from-dfts-count-to-the-mot-stock-motorcycles" class="level3">
+<h3 class="anchored" data-anchor-id="from-dfts-count-to-the-mot-stock-motorcycles">From DfT’s count to the MOT stock: motorcycles</h3>
+<p>DfT counts (VEH0124, 31 December) split by licence status and age, against the MOT stock of the same ages. From 2014 to 2022 DfT’s motorcycle count grew by 709,204. Of that, 576,098 was SORN and 51,419 was licensed bikes aged 40+, two groups no MOT count can include. Licensed bikes aged 3-39 changed by 10,606, and the MOT stock of the same ages by -160,326.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">count</th>
+<th style="text-align: right;">2014</th>
+<th style="text-align: right;">2018</th>
+<th style="text-align: right;">2022</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">DfT licensed + SORN</td>
+<td style="text-align: right;">1,977,316</td>
+<td style="text-align: right;">2,357,871</td>
+<td style="text-align: right;">2,686,520</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">of which SORN</td>
+<td style="text-align: right;">746,761</td>
+<td style="text-align: right;">1,092,729</td>
+<td style="text-align: right;">1,322,859</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">of which licensed</td>
+<td style="text-align: right;">1,230,555</td>
+<td style="text-align: right;">1,265,142</td>
+<td style="text-align: right;">1,363,661</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">licensed, aged 0-2</td>
+<td style="text-align: right;">350,324</td>
+<td style="text-align: right;">396,697</td>
+<td style="text-align: right;">421,405</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">licensed, aged 40+</td>
+<td style="text-align: right;">88,918</td>
+<td style="text-align: right;">106,706</td>
+<td style="text-align: right;">140,337</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">licensed, aged 3-39</td>
+<td style="text-align: right;">791,313</td>
+<td style="text-align: right;">761,739</td>
+<td style="text-align: right;">801,919</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">MOT stock, aged 3-39</td>
+<td style="text-align: right;">1,233,791</td>
+<td style="text-align: right;">1,177,645</td>
+<td style="text-align: right;">1,073,465</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">MOT stock, aged 0-2</td>
+<td style="text-align: right;">228,634</td>
+<td style="text-align: right;">240,952</td>
+<td style="text-align: right;">235,227</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">MOT stock, aged 40+</td>
+<td style="text-align: right;">36,013</td>
+<td style="text-align: right;">15,773</td>
+<td style="text-align: right;">10,493</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">MOT stock, all ages</td>
+<td style="text-align: right;">1,498,438</td>
+<td style="text-align: right;">1,434,370</td>
+<td style="text-align: right;">1,319,185</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">MOT located, all ages</td>
+<td style="text-align: right;">1,749,608</td>
+<td style="text-align: right;">1,738,583</td>
+<td style="text-align: right;">1,614,065</td>
+</tr>
+</tbody>
+</table>
+<p><img src="registration_report_figures/mc-decomposition-1.png" class="img-fluid"></p>
+<p><strong>Figure 10.</strong> DfT’s motorcycles (VEH0124, 31 December) stacked by licence status and age, with the two MOT counts as lines. The paler years after 2022 are incomplete in the MOT data.</p>
+<p>The motorcycle shortfall that the earlier reports showed has six parts. The first two are in DfT’s count and no MOT count could match them; the next three are bikes that really are registered but not tested; the last works the other way.</p>
+<ol type="1">
+<li><strong>DfT’s SORN count keeps growing.</strong> SORN motorcycles went from 746,761 to 1,521,447 between 2014 and 2025, while licensed ones barely changed. A SORN declaration does not need renewing: it lasts until the vehicle is taxed, sold, scrapped or exported. A bike stripped for parts, kept as a project or scrapped without telling the DVLA stays SORN for good. Of the motorcycles that have stopped being tested, 816,444 are SORN in the DVLA record. Comparing the MOT data with licensed + SORN therefore divides by a number that grows whatever happens on the road. This is the largest part of the change.</li>
+<li><strong>Bikes over 40 are no longer tested.</strong> Since May 2018 a vehicle over 40 years old needs no MOT. Old bikes are a much larger share of the motorcycle fleet than old cars are of the car fleet. In 2022 they made up 10% of licensed motorcycles but only 1% of licensed cars, and the group grows every year as another cohort turns
+<ol start="40" type="1">
+<li></li>
+</ol></li>
+<li><strong>About one bike in 9 is never tested.</strong> Section 7 shows who: small scooters and mopeds that are scrapped, stolen or abandoned young, and off-road bikes that are road registered. Of the settled cohorts, 90% of the bikes first used from 2013 to 2019 ever reached an MOT, and 84% of those first used in 2020 and 2021.</li>
+<li><strong>Fewer small bikes are tested each year.</strong> The table above shows the MOT stock of bikes aged 3 to 39 falling by 160,326 from 2014 to 2022, while DfT’s licensed count of the same ages hardly moved. Most of that fall is in bikes of up to 125cc: their MOT stock went from 419,990 to 294,816, while DfT’s licensed count of them went from 374,346 to 369,983 (section 5). The data do not say why. Small bikes change hands often and many are laid up, scrapped or stolen between tests; the next point may be part of it.</li>
+<li><strong>Some taxed bikes are ridden without a valid MOT.</strong> Of the motorcycles aged 3 to 39 that were taxed when the DVLA record was read, 7.3% had no valid MOT, against 2.3% of cars and 4.0% of vans. Such a bike is licensed in DfT’s count but in no MOT count.</li>
+<li><strong>Working the other way: seasonal SORN.</strong> Many bikes that are tested every year are SORN on 31 December. 13% of the motorcycles still being tested were SORN when the DVLA record was read, against 2% of cars. This is why the MOT stock of bikes aged 3 to 39 is larger than DfT’s licensed count of the same ages. For tested motorcycles, the right DfT comparison therefore lies between the licensed and the licensed + SORN counts.</li>
+</ol>
+<p>On top of these, the last 3 years are incomplete for every body type (section 2.2). Young bikes are a larger share of the motorcycle fleet than young cars are of the car fleet, so motorcycles fall faster at the end of the series.</p>
+</section>
+</section>
+<section id="by-postcode-area" class="level2">
+<h2 class="anchored" data-anchor-id="by-postcode-area">9. By postcode area</h2>
+<p>The two sources place vehicles differently:</p>
+<ul>
+<li><strong>The MOT data</strong> puts a vehicle in the postcode area of the station that tested it. For the years before its first test this is the first test’s area; for the two years after its last, the last test’s area.</li>
+<li><strong>DfT</strong> puts it at the registered keeper’s address. Company and lease vehicles are therefore counted where the company is registered, and vehicles with no usable address go in a “Miscellaneous” row (661,433 licensed cars in 2022).</li>
+<li><strong>Timing:</strong> DfT’s small-area counts are for the end of March, so MOT year Y is compared with DfT at the end of March of Y + 1.</li>
+</ul>
+<p>The maps therefore show each area relative to the national ratio, not the raw ratio. The national ratio leaves out the Miscellaneous row, and is 1.03 for cars in 2022 (MOT stock per DfT licensed car).</p>
+<p><img src="registration_report_figures/pca-maps-1.png" class="img-fluid"></p>
+<p><strong>Figure 11.</strong> Each postcode area’s ratio of MOT stock to DfT licensed vehicles in 2022, relative to the national ratio, for cars, motorcycles, and vans with every other body type (DfT’s “other vehicles”). Blue: more vehicles in the MOT data than the national ratio suggests; red: fewer. The colour scale stops at 50% either way. Grey areas (EC, WC) have no MOT vehicles.</p>
+<p><img src="registration_report_figures/pca-company-map-1.png" class="img-fluid"></p>
+<p><strong>Figure 12.</strong> The share of each postcode area’s licensed cars whose keeper is a company (VEH0125 keepership), 2022. High shares mark the areas where fleet and lease cars are registered.</p>
+<p><img src="registration_report_figures/pca-scatter-1.png" class="img-fluid"></p>
+<p><strong>Figure 13.</strong> Each point is a postcode area in 2022: the company-kept share of its DfT cars against how far its MOT-to-DfT car ratio is from the national ratio (correlation -0.57). Labelled: areas more than 20% from the national ratio, or with a company share above 30%.</p>
+<p><img src="registration_report_figures/pca-private-map-1.png" class="img-fluid"></p>
+<p><strong>Figure 14.</strong> As the cars map above, but against privately kept DfT cars only. Taking company cars out removes most of the fleet-address pattern. What is left is mostly where vehicles are tested against where their keepers live: areas whose test stations serve their neighbours are blue (CH, for example, borders North Wales), and the neighbours red.</p>
+<p><img src="registration_report_figures/pca-sorn-map-1.png" class="img-fluid"></p>
+<p><strong>Figure 15.</strong> SORN motorcycles as a share of each area’s licensed + SORN motorcycles (VEH0125), end of March 2023. Motorcycle MOTs need a bay and tester for bikes, so many bikes are tested outside their home area, and the motorcycle ratio map is noisier than the car map.</p>
+<p><img src="registration_report_figures/pca-time-1.png" class="img-fluid"></p>
+<p><strong>Figure 16.</strong> Cars: each area’s MOT-to-DfT ratio relative to the national ratio in 2009, 2014, 2018 and 2022, on one colour scale. The pattern is stable, which points to lasting causes (fleet registration, test station catchments) rather than recording problems.</p>
+<p><img src="registration_report_figures/pca-ev-1.png" class="img-fluid"></p>
+<p><strong>Figure 17.</strong> Electric vehicles of every body type in the MOT stock against DfT licensed battery electric vehicles (VEH0145), relative to the national ratio (0.89 in 2022). Areas with fewer than 50 DfT battery electric vehicles are grey. Most electric vehicles are young and company kept, so this map shows the fleet registration pattern most strongly.</p>
+<section id="postcode-areas-furthest-from-the-national-ratio-cars-2022" class="level3">
+<h3 class="anchored" data-anchor-id="postcode-areas-furthest-from-the-national-ratio-cars-2022">Postcode areas furthest from the national ratio, cars 2022</h3>
+<p>The 20 postcode areas whose ratio of MOT to DfT cars differs most from the national ratio. Where the difference shrinks when only privately kept DfT cars are counted, company registration explains much of it. Where it does not, the area tests many cars from elsewhere (blue) or sends many elsewhere (red).</p>
+<ul>
+<li><code>mot_stock</code>: MOT stock cars in the area</li>
+<li><code>dft_licensed</code>: DfT licensed cars, end of March of the following year (VEH0125)</li>
+<li><code>ratio</code>: <code>mot_stock</code> / <code>dft_licensed</code></li>
+<li><code>difference_from_national</code>: how far <code>ratio</code> is above or below the national ratio</li>
+<li><code>difference_private_only</code>: the same, counting only privately kept DfT cars</li>
+<li><code>dft_company_share</code>: share of the DfT licensed cars kept by a company</li>
+</ul>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">pca</th>
+<th style="text-align: right;">mot_stock</th>
+<th style="text-align: right;">dft_licensed</th>
+<th style="text-align: right;">ratio</th>
+<th style="text-align: left;">difference_from_national</th>
+<th style="text-align: left;">difference_private_only</th>
+<th style="text-align: left;">dft_company_share</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">NW</td>
+<td style="text-align: right;">241,852</td>
+<td style="text-align: right;">151,134</td>
+<td style="text-align: right;">1.60</td>
+<td style="text-align: left;">55%</td>
+<td style="text-align: left;">59%</td>
+<td style="text-align: left;">11%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CH</td>
+<td style="text-align: right;">370,091</td>
+<td style="text-align: right;">247,535</td>
+<td style="text-align: right;">1.50</td>
+<td style="text-align: left;">45%</td>
+<td style="text-align: left;">39%</td>
+<td style="text-align: left;">5%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SL</td>
+<td style="text-align: right;">234,612</td>
+<td style="text-align: right;">389,471</td>
+<td style="text-align: right;">0.60</td>
+<td style="text-align: left;">-42%</td>
+<td style="text-align: left;">5%</td>
+<td style="text-align: left;">49%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">W</td>
+<td style="text-align: right;">97,243</td>
+<td style="text-align: right;">144,637</td>
+<td style="text-align: right;">0.67</td>
+<td style="text-align: left;">-35%</td>
+<td style="text-align: left;">-29%</td>
+<td style="text-align: left;">16%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SN</td>
+<td style="text-align: right;">282,858</td>
+<td style="text-align: right;">413,127</td>
+<td style="text-align: right;">0.68</td>
+<td style="text-align: left;">-34%</td>
+<td style="text-align: left;">-5%</td>
+<td style="text-align: left;">37%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CR</td>
+<td style="text-align: right;">224,707</td>
+<td style="text-align: right;">164,613</td>
+<td style="text-align: right;">1.37</td>
+<td style="text-align: left;">32%</td>
+<td style="text-align: left;">26%</td>
+<td style="text-align: left;">4%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SK</td>
+<td style="text-align: right;">363,739</td>
+<td style="text-align: right;">511,149</td>
+<td style="text-align: right;">0.71</td>
+<td style="text-align: left;">-31%</td>
+<td style="text-align: left;">5%</td>
+<td style="text-align: left;">40%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">SM</td>
+<td style="text-align: right;">69,999</td>
+<td style="text-align: right;">95,689</td>
+<td style="text-align: right;">0.73</td>
+<td style="text-align: left;">-29%</td>
+<td style="text-align: left;">-33%</td>
+<td style="text-align: left;">3%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">BL</td>
+<td style="text-align: right;">259,797</td>
+<td style="text-align: right;">197,650</td>
+<td style="text-align: right;">1.31</td>
+<td style="text-align: left;">27%</td>
+<td style="text-align: left;">34%</td>
+<td style="text-align: left;">14%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">MK</td>
+<td style="text-align: right;">355,092</td>
+<td style="text-align: right;">472,684</td>
+<td style="text-align: right;">0.75</td>
+<td style="text-align: left;">-27%</td>
+<td style="text-align: left;">7%</td>
+<td style="text-align: left;">38%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SW</td>
+<td style="text-align: right;">172,076</td>
+<td style="text-align: right;">225,608</td>
+<td style="text-align: right;">0.76</td>
+<td style="text-align: left;">-26%</td>
+<td style="text-align: left;">-28%</td>
+<td style="text-align: left;">6%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">LS</td>
+<td style="text-align: right;">364,499</td>
+<td style="text-align: right;">450,482</td>
+<td style="text-align: right;">0.81</td>
+<td style="text-align: left;">-22%</td>
+<td style="text-align: left;">-1%</td>
+<td style="text-align: left;">28%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HG</td>
+<td style="text-align: right;">97,737</td>
+<td style="text-align: right;">78,375</td>
+<td style="text-align: right;">1.25</td>
+<td style="text-align: left;">21%</td>
+<td style="text-align: left;">19%</td>
+<td style="text-align: left;">7%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">PA</td>
+<td style="text-align: right;">162,597</td>
+<td style="text-align: right;">193,061</td>
+<td style="text-align: right;">0.84</td>
+<td style="text-align: left;">-18%</td>
+<td style="text-align: left;">0%</td>
+<td style="text-align: left;">26%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">L</td>
+<td style="text-align: right;">367,259</td>
+<td style="text-align: right;">434,507</td>
+<td style="text-align: right;">0.85</td>
+<td style="text-align: left;">-18%</td>
+<td style="text-align: left;">-20%</td>
+<td style="text-align: left;">7%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GU</td>
+<td style="text-align: right;">452,811</td>
+<td style="text-align: right;">527,041</td>
+<td style="text-align: right;">0.86</td>
+<td style="text-align: left;">-17%</td>
+<td style="text-align: left;">-7%</td>
+<td style="text-align: left;">19%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">LD</td>
+<td style="text-align: right;">24,598</td>
+<td style="text-align: right;">28,503</td>
+<td style="text-align: right;">0.86</td>
+<td style="text-align: left;">-16%</td>
+<td style="text-align: left;">-20%</td>
+<td style="text-align: left;">5%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">BB</td>
+<td style="text-align: right;">274,361</td>
+<td style="text-align: right;">229,065</td>
+<td style="text-align: right;">1.20</td>
+<td style="text-align: left;">16%</td>
+<td style="text-align: left;">12%</td>
+<td style="text-align: left;">5%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">EN</td>
+<td style="text-align: right;">195,611</td>
+<td style="text-align: right;">163,593</td>
+<td style="text-align: right;">1.20</td>
+<td style="text-align: left;">16%</td>
+<td style="text-align: left;">10%</td>
+<td style="text-align: left;">4%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">LU</td>
+<td style="text-align: right;">205,185</td>
+<td style="text-align: right;">172,314</td>
+<td style="text-align: right;">1.19</td>
+<td style="text-align: left;">15%</td>
+<td style="text-align: left;">9%</td>
+<td style="text-align: left;">4%</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="areas-in-one-source-only-2022" class="level3">
+<h3 class="anchored" data-anchor-id="areas-in-one-source-only-2022">Areas in one source only, 2022</h3>
+<p>Postcode areas with DfT licensed vehicles and no MOT vehicles, or the reverse, and DfT’s Miscellaneous row (vehicles with no usable address). EC and WC, in central London, have no MOT test stations, so their vehicles are tested in neighbouring areas.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">pca</th>
+<th style="text-align: right;">n_located.Cars</th>
+<th style="text-align: right;">dft_licensed.Cars</th>
+<th style="text-align: right;">n_located.Motorcycles</th>
+<th style="text-align: right;">dft_licensed.Motorcycles</th>
+<th style="text-align: right;">n_located.Other</th>
+<th style="text-align: right;">dft_licensed.Other</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">EC</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">6,923</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">574</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1,555</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Miscellaneous</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">661,433</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">32,894</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">117,918</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">WC</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4,043</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">276</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">920</td>
+</tr>
+</tbody>
+</table>
+<p>Northern Ireland (BT) has a ratio of 0.99 MOT cars per DfT car, against 1.03 nationally, so Northern Ireland is as well covered as Great Britain once its stock is counted the same way. Vehicles there are first tested at four, not three, at the DVA’s own test centres.</p>
+</section>
+</section>
+<section id="things-to-be-careful-about" class="level2">
+<h2 class="anchored" data-anchor-id="things-to-be-careful-about">10. Things to be careful about</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Issue</th>
+<th style="text-align: left;">Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">The last years are incomplete</td>
+<td style="text-align: left;">The stock count needs an MOT after the year. For 2023 to 2025 many vehicles have not had their next or first one yet. The annualisation also marks a last MOT year where the data simply ends: most cars whose last MOT year is 2025 are taxed with a valid MOT. Single-year comparisons here use 2022.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">The stock count is slightly low by design</td>
+<td style="text-align: left;">A vehicle whose final MOT falls in the year is not in that year’s stock, though many were still on the road on 31 December.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">The located count is the wrong comparator for DfT</td>
+<td style="text-align: left;">It includes two years of vehicles after their last MOT. It is right for mileage, not for the size of the fleet.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Licensed + SORN is the wrong denominator</td>
+<td style="text-align: left;">SORN vehicles are not tested, and the SORN count grows without limit because declarations never lapse.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Fuel is identified differently</td>
+<td style="text-align: left;">Plug-in hybrids are attached by make and model from DfT’s counts; diesel hybrids and some plug-ins keep their DVSA fuel.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Postcode areas mean different things</td>
+<td style="text-align: left;">Test station (MOT) against keeper’s address (DfT). Area differences are about who tests where and who registers where, as much as about coverage.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">One DVLA reading</td>
+<td style="text-align: left;">Tax status and export marking are from one reading of the DVLA record after the end of the data, not from the year in question.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="source-files-and-how-to-rebuild" class="level2">
+<h2 class="anchored" data-anchor-id="source-files-and-how-to-rebuild">11. Source files and how to rebuild</h2>
+<p>The tables are in <code>outputs/tables/registration/</code>:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">File</th>
+<th style="text-align: left;">Grain</th>
+<th style="text-align: left;">Contents</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">registration_by_age.csv</td>
+<td style="text-align: left;">year x body type x age (0-40, 40 = 40+)</td>
+<td style="text-align: left;">MOT located and stock; DfT licensed and SORN (VEH0124)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">registration_by_fuel_engine.csv</td>
+<td style="text-align: left;">year x body type x fuel group x engine band</td>
+<td style="text-align: left;">MOT located and stock; DfT licensed and SORN (VEH0220)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">registration_by_pca.csv</td>
+<td style="text-align: left;">year x postcode area x body group x (fuel group or age band)</td>
+<td style="text-align: left;">MOT located and stock. Each row splits by fuel or by age band, and the other column reads <code>All</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">registration_cohorts.csv</td>
+<td style="text-align: left;">body type x year of first use</td>
+<td style="text-align: left;">Vehicles in the input, ever located, never located by tax status; DfT count at ages 0, 1 and 4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">registration_never_located.csv</td>
+<td style="text-align: left;">body type x one characteristic (make, engine band, fuel, test class, tax status)</td>
+<td style="text-align: left;">For vehicles first used 2012 to 2021: vehicles, ever located, never located by tax status</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">registration_tax_status.csv</td>
+<td style="text-align: left;">body type x MOT history x DVLA tax status</td>
+<td style="text-align: left;">Vehicles</td>
+</tr>
+</tbody>
+</table>
+<p>They are built by <code>build_registration_tables()</code> in <code>R/registration.R</code>, and this document by <code>reports/registration_report.qmd</code>. Settings are under <code>registration:</code> in <code>config.yml</code>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># the tables and this report</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>targets<span class="sc">::</span><span class="fu">tar_make</span>(<span class="at">names =</span> <span class="fu">c</span>(<span class="st">"registration_tables"</span>, <span class="st">"registration_report"</span>))</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># just this document, from the tables already written</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>targets<span class="sc">::</span><span class="fu">tar_make</span>(<span class="at">names =</span> <span class="st">"registration_report"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/cars-project\.github\.io\/documentation\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
+  <div class="nav-page nav-page-previous">
+      <a href="../reports/mileage_report.html" class="pagination-link" aria-label="Vehicles and mileage by postcode area">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Vehicles and mileage by postcode area</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../reports/churn_tables_report.html" class="pagination-link" aria-label="Churn tables: what each one contains and exactly how it was made">
+        <span class="nav-page-text">Churn tables: what each one contains and exactly how it was made</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>The CARS Project: Connecting Administrative vehicle data for Research on Sustainable transport</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/CARS-Project/documentation/edit/main/reports/registration_report.md" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/CARS-Project/documentation/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+<p><a href="https://cars-project.github.io/">cars-project.github.io</a></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

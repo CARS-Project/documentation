@@ -49,7 +49,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-ab03f86ccac34414235c8b9012d7ee1e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-1d8893f3a5441277505c8fe2a3da9b99.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -440,6 +440,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../reports/registration_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Does the MOT data hold every registered vehicle?</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../reports/churn_tables_report.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Churn tables: what each one contains and exactly how it was made</span></a>
   </div>
@@ -507,7 +513,7 @@ ul.task-list li input[type="checkbox"] {
 <ol type="1">
 <li>Open the file and insert a PivotTable (Insert › PivotTable).</li>
 <li>Add <code>year</code> and <code>body_type</code> to <strong>Filters</strong>, and choose <code>2022</code> and <code>Cars</code>. (2022 rather than a later year: see <a href="pitfalls.html" class="quarto-xref"><span>Chapter 14</span></a>, pitfall 2.)</li>
-<li>Add <code>pca</code> to <strong>Rows</strong>. Then use the row filter to untick <code>unborn</code>, <code>unknown</code>, <code>dead</code> and <code>XX</code>, which are not postcode areas.</li>
+<li>Add <code>pca</code> to <strong>Rows</strong>. Then use the row filter to untick <code>unborn</code>, <code>unknown</code> and <code>dead</code>, which are not postcode areas.</li>
 <li>Add <code>total_legit_mileage</code> and <code>n_legit_mileage</code> to <strong>Values</strong>, both as <em>Sum</em>.</li>
 <li>Next to the PivotTable, divide the first sum by the second to get average miles per car. (Or add a <em>Calculated Field</em>: PivotTable Analyze › Fields, Items &amp; Sets › Calculated Field, with the formula <code>= total_legit_mileage / n_legit_mileage</code>.)</li>
 <li>Sort by the average.</li>
@@ -534,27 +540,27 @@ Table&nbsp;16.1: Highest average car mileage, 2022
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Northern Ireland (BT)</td>
-<td style="text-align: right;">967,385</td>
+<td style="text-align: right;">967,368</td>
 <td style="text-align: right;">7,910</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Luton (LU)</td>
-<td style="text-align: right;">204,059</td>
-<td style="text-align: right;">7,411</td>
+<td style="text-align: right;">204,050</td>
+<td style="text-align: right;">7,412</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Perth (PH)</td>
-<td style="text-align: right;">96,527</td>
-<td style="text-align: right;">7,274</td>
+<td style="text-align: right;">96,516</td>
+<td style="text-align: right;">7,275</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Galashiels (TD)</td>
-<td style="text-align: right;">59,619</td>
-<td style="text-align: right;">7,231</td>
+<td style="text-align: right;">59,608</td>
+<td style="text-align: right;">7,232</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Peterborough (PE)</td>
-<td style="text-align: right;">592,953</td>
+<td style="text-align: right;">592,901</td>
 <td style="text-align: right;">7,191</td>
 </tr>
 </tbody>
@@ -583,27 +589,27 @@ Table&nbsp;16.2: Lowest average car mileage, 2022
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Sutton (SM)</td>
-<td style="text-align: right;">69,751</td>
+<td style="text-align: right;">69,750</td>
 <td style="text-align: right;">5,215</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">South West London (SW)</td>
-<td style="text-align: right;">171,422</td>
+<td style="text-align: right;">171,419</td>
 <td style="text-align: right;">5,250</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Bromley (BR)</td>
-<td style="text-align: right;">132,823</td>
+<td style="text-align: right;">132,822</td>
 <td style="text-align: right;">5,299</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">South East London (SE)</td>
-<td style="text-align: right;">257,119</td>
-<td style="text-align: right;">5,622</td>
+<td style="text-align: right;">257,112</td>
+<td style="text-align: right;">5,623</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Kingston upon Thames (KT)</td>
-<td style="text-align: right;">296,387</td>
+<td style="text-align: right;">296,374</td>
 <td style="text-align: right;">5,625</td>
 </tr>
 </tbody>
@@ -661,49 +667,49 @@ Table&nbsp;16.3: Postcode areas with the highest share of battery electric cars 
 <tr class="odd">
 <td style="text-align: left;">North West London (NW)</td>
 <td style="text-align: right;">271,695</td>
-<td style="text-align: right;">13,170</td>
+<td style="text-align: right;">13,174</td>
 <td style="text-align: right;">4.8%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">West London (W)</td>
-<td style="text-align: right;">109,558</td>
-<td style="text-align: right;">5,060</td>
+<td style="text-align: right;">109,555</td>
+<td style="text-align: right;">5,061</td>
 <td style="text-align: right;">4.6%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Watford (WD)</td>
-<td style="text-align: right;">169,465</td>
-<td style="text-align: right;">5,190</td>
+<td style="text-align: right;">169,462</td>
+<td style="text-align: right;">5,191</td>
 <td style="text-align: right;">3.1%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Milton Keynes (MK)</td>
-<td style="text-align: right;">399,901</td>
-<td style="text-align: right;">11,479</td>
+<td style="text-align: right;">399,878</td>
+<td style="text-align: right;">11,481</td>
 <td style="text-align: right;">2.9%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">South West London (SW)</td>
-<td style="text-align: right;">193,798</td>
-<td style="text-align: right;">5,275</td>
+<td style="text-align: right;">193,795</td>
+<td style="text-align: right;">5,277</td>
 <td style="text-align: right;">2.7%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Oxford (OX)</td>
-<td style="text-align: right;">412,010</td>
-<td style="text-align: right;">10,695</td>
+<td style="text-align: right;">411,972</td>
+<td style="text-align: right;">10,699</td>
 <td style="text-align: right;">2.6%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Kingston upon Thames (KT)</td>
-<td style="text-align: right;">325,267</td>
-<td style="text-align: right;">8,367</td>
+<td style="text-align: right;">325,252</td>
+<td style="text-align: right;">8,372</td>
 <td style="text-align: right;">2.6%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">St Albans (AL)</td>
-<td style="text-align: right;">171,890</td>
-<td style="text-align: right;">4,381</td>
+<td style="text-align: right;">171,886</td>
+<td style="text-align: right;">4,382</td>
 <td style="text-align: right;">2.5%</td>
 </tr>
 </tbody>
@@ -759,12 +765,12 @@ Figure&nbsp;16.1: Share of cars by Euro standard, among cars with a plausible mi
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Spotting a problem: Euro 6 cars in 2005
+<span class="screen-reader-only">Important</span>Check where the values come from
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The chart shows 0.2% of cars as Euro 6 in 2005, nearly ten years before the standard existed. These are not real. They are cars whose Euro status was missing and was filled from similar vehicles (the same make, model, birth year and fuel), where a single wrong value recorded for one vehicle was copied to the rest of its group. The vehicle table flags them with <code>euro_check = 'later_than_date'</code>.</p>
-<p>This is a good example of why you should check where values come from before relying on them. Most Euro standards in the data are filled or assumed rather than recorded; the <code>euro_source: ...</code> columns of the same table show how many of each. For a defensible analysis of Euro standards, use the vehicle table and exclude or correct values flagged <code>later_than_date</code> (<a href="pitfalls.html" class="quarto-xref"><span>Chapter 14</span></a>, pitfall 7).</p>
+<p>Few of these Euro standards were recorded. In 2010, 0.0% of the cars in the table had a Euro status recorded by DVLA, and 93.5% were assumed from the date the car was made; the rest were filled from similar vehicles (the same make, model, birth year and fuel). The <code>euro_source: ...</code> columns of the same table give the counts.</p>
+<p>Filled values can go wrong: a single wrong value recorded for one vehicle can be copied to the rest of its group. Earlier builds showed about 5% of cars as Euro 6 in 2005, ten years before the standard existed, for this reason. The current build no longer does, because the pipeline now rejects DVLA records whose year disagrees with the MOT record, but some filled values still name a standard that did not exist when the vehicle was made. The vehicle table flags them with <code>euro_check = 'later_than_date'</code>. For a defensible analysis of Euro standards, use the vehicle table and exclude or correct those values (<a href="pitfalls.html" class="quarto-xref"><span>Chapter 14</span></a>, pitfall 7).</p>
 </div>
 </div>
 <div class="todo callout callout-style-default callout-note callout-titled">

@@ -49,7 +49,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-ab03f86ccac34414235c8b9012d7ee1e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-1d8893f3a5441277505c8fe2a3da9b99.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -440,6 +440,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../reports/registration_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Does the MOT data hold every registered vehicle?</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../reports/churn_tables_report.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Churn tables: what each one contains and exactly how it was made</span></a>
   </div>
@@ -540,7 +546,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 </tbody>
 </table>
-<p>The area is the one or two letters at the start, usually from the name of the main town or city: <code>LS</code> for Leeds, <code>B</code> for Birmingham, <code>G</code> for Glasgow, <code>L</code> for Liverpool. The CARS data has 119 postcode areas. In the data, Northern Ireland is coded <code>NI</code> rather than its real postcode area <code>BT</code>, and a small number of vehicles have the code <code>XX</code>, which is not a real area.</p>
+<p>The area is the one or two letters at the start, usually from the name of the main town or city: <code>LS</code> for Leeds, <code>B</code> for Birmingham, <code>G</code> for Glasgow, <code>L</code> for Liverpool. The CARS data has 119 postcode areas. Northern Ireland is a single postcode area, <code>BT</code>; older deliveries coded it <code>NI</code>, which the pipeline recodes to <code>BT</code>. A small number of vehicles were supplied with the code <code>XX</code>, meaning no postcode area; the pipeline recodes it to <code>unknown</code>.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-pca-map" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -558,7 +564,7 @@ Figure&nbsp;7.1: Average annual mileage of cars by postcode area, 2022 (plausibl
 </section>
 <section id="how-postcode-areas-differ-from-other-geographies" class="level2" data-number="7.2">
 <h2 data-number="7.2" class="anchored" data-anchor-id="how-postcode-areas-differ-from-other-geographies"><span class="header-section-number">7.2</span> How postcode areas differ from other geographies</h2>
-<p>Postcode areas are large and very uneven. In 2022 the largest held 1,178,794 observed cars (Birmingham) and the smallest 13,009 (Lerwick). They mix cities with their rural hinterlands, and they do not line up with the geographies most other statistics use:</p>
+<p>Postcode areas are large and very uneven. In 2022 the largest held 1,178,724 observed cars (Birmingham) and the smallest 13,007 (Lerwick). They mix cities with their rural hinterlands, and they do not line up with the geographies most other statistics use:</p>
 <ul>
 <li><strong>Census geographies</strong> (output areas, nested in LSOAs, nested in MSOAs in England and Wales, with equivalents elsewhere) are designed to hold populations of similar size and character.</li>
 <li><strong>Administrative geographies</strong> (wards, local authority districts, counties and regions) are the units of local government and policy.</li>

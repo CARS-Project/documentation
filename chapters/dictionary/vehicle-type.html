@@ -49,7 +49,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-ab03f86ccac34414235c8b9012d7ee1e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-1d8893f3a5441277505c8fe2a3da9b99.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -440,6 +440,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../reports/registration_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Does the MOT data hold every registered vehicle?</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../reports/churn_tables_report.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Churn tables: what each one contains and exactly how it was made</span></a>
   </div>
@@ -543,7 +549,7 @@ Table&nbsp;26.1: Vehicle type columns.
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">pipeline</td>
 <td style="text-align: left;">DfT body type: Cars, Light goods vehicles, Motorcycles, Buses and coaches, Heavy goods vehicles or Other vehicles (see body_type_src)</td>
-<td style="text-align: left;">3.13%</td>
+<td style="text-align: left;">3.14%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>body_type_src</code></td>
@@ -551,7 +557,7 @@ Table&nbsp;26.1: Vehicle type columns.
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">pipeline</td>
 <td style="text-align: left;">Source of body_type: model (the DfT model string’s body type), type_approval (DVLA type approval, where the generic model has that body type), genmodel (the generic model’s most common body type) or test_class</td>
-<td style="text-align: left;">3.13%</td>
+<td style="text-align: left;">3.14%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>test_class</code></td>
@@ -583,7 +589,7 @@ Table&nbsp;26.1: Vehicle type columns.
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">pipeline</td>
 <td style="text-align: left;">Type approval category: the cleaned DVLA value (same vehicle only; see type_approval_check), else the most common cleaned category of similar vehicles with the same test class (variant, then model_year_fuel), else of similar vehicles; a borrowed category that would contradict the test class, wheel plan or engine size is not used (type_approval_src conflict). See R/type_approval.R and R/backfill.R</td>
-<td style="text-align: left;">18.53%</td>
+<td style="text-align: left;">18.89%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>type_approval_src</code></td>
@@ -591,7 +597,7 @@ Table&nbsp;26.1: Vehicle type columns.
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">pipeline</td>
 <td style="text-align: left;">Source of type_approval: dvla (recorded), corrected (the DVLA value corrected; see type_approval_check), variant (same make/model/birth year/fuel/engine size), model_year_fuel (same make/model/birth year/fuel) or conflict (every candidate contradicted the vehicle’s other values, left missing)</td>
-<td style="text-align: left;">18.5%</td>
+<td style="text-align: left;">18.87%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>type_approval_check</code></td>
@@ -638,7 +644,7 @@ Table&nbsp;26.1: Vehicle type columns.
 <p><code>body_type</code> is present for 97% of vehicles and changes little with age (<a href="#fig-dd-vehicle-type" class="quarto-xref">Figure&nbsp;<span>26.1</span></a>). The vehicles without one are those whose model could not be matched and which have no type approval or test class to fall back on.</p>
 <p>The other harmonised columns depend on what their sources hold:</p>
 <ul>
-<li><strong><code>type_approval</code></strong> is rare for vehicles first used before 2000 (26%), because the DVLA rarely records a type approval category for them, and the backfill can only copy values that similar vehicles have. From the mid-2000s it is present for more than 90%.</li>
+<li><strong><code>type_approval</code></strong> is rare for vehicles first used before 2000 (24%), because the DVLA rarely records a type approval category for them, and the backfill can only copy values that similar vehicles have. From the mid-2000s it is present for more than 90%.</li>
 <li><strong><code>test_class</code></strong> comes from the anonymised MOT data, so it is present only for vehicles that have been tested, or are like vehicles that have. Coverage falls for vehicles first used since 2023, which are too new for their first MOT test: 78% for 2025.</li>
 </ul>
 <p><code>typeApproval_DVLA</code> shares the pattern of every VES field, being present only where a VES record was found (<a href="dvla-status.html" class="quarto-xref"><span>Chapter 35</span></a>). <code>automatedVehicle_DVLA</code> is present only for some vehicles first used since 2021 (25% of those first used in 2025).</p>
@@ -690,7 +696,7 @@ Table&nbsp;26.2: Share of vehicles with a value, by year of first use.
 <tr class="odd">
 <td style="text-align: left;"><code>test_class</code></td>
 <td style="text-align: right;">94.1%</td>
-<td style="text-align: right;">92.9%</td>
+<td style="text-align: right;">93.0%</td>
 <td style="text-align: right;">96.4%</td>
 <td style="text-align: right;">96.1%</td>
 <td style="text-align: right;">87.7%</td>
@@ -713,19 +719,19 @@ Table&nbsp;26.2: Share of vehicles with a value, by year of first use.
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>type_approval</code></td>
-<td style="text-align: right;">81.5%</td>
-<td style="text-align: right;">25.8%</td>
-<td style="text-align: right;">93.2%</td>
+<td style="text-align: right;">81.1%</td>
+<td style="text-align: right;">24.3%</td>
+<td style="text-align: right;">93.1%</td>
 <td style="text-align: right;">97.1%</td>
-<td style="text-align: right;">96.7%</td>
+<td style="text-align: right;">96.4%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>type_approval_src</code></td>
-<td style="text-align: right;">81.5%</td>
-<td style="text-align: right;">25.8%</td>
-<td style="text-align: right;">93.3%</td>
+<td style="text-align: right;">81.1%</td>
+<td style="text-align: right;">24.3%</td>
+<td style="text-align: right;">93.2%</td>
 <td style="text-align: right;">97.1%</td>
-<td style="text-align: right;">96.7%</td>
+<td style="text-align: right;">96.4%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>type_approval_check</code></td>

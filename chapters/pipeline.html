@@ -49,7 +49,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-ab03f86ccac34414235c8b9012d7ee1e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-1d8893f3a5441277505c8fe2a3da9b99.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -443,6 +443,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../reports/registration_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Does the MOT data hold every registered vehicle?</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../reports/churn_tables_report.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Churn tables: what each one contains and exactly how it was made</span></a>
   </div>
@@ -593,7 +599,7 @@ ul.task-list li input[type="checkbox"] {
 <h3 class="anchored" data-anchor-id="checking-and-harmonising-attributes">3. Checking and harmonising attributes</h3>
 <p>Eight attributes are <em>harmonised</em>: given one best value per vehicle from the DVSA record, the DVLA record and, where both are missing, similar vehicles. They are <code>fuel</code>, <code>engine_cc</code>, <code>co2</code>, <code>euro_status</code>, <code>type_approval</code>, <code>revenue_weight</code>, <code>wheelplan</code> and <code>test_class</code>.</p>
 <ul>
-<li><strong>Is the DVLA record the same vehicle?</strong> The make, year and engine size of the DVSA and DVLA records are compared. Where two or more disagree (<code>dvla_match = 'different'</code>), the DVLA record is taken to describe another vehicle and none of its values is used.</li>
+<li><strong>Is the DVLA record the same vehicle?</strong> The make, year and engine size of the DVSA and DVLA records are compared. The records are the same vehicle only if the years agree and the make or the engine size agrees as well. Otherwise (<code>dvla_match = 'different'</code>) the DVLA record is taken to describe another vehicle, usually because a private plate has moved between them, and none of its values is used.</li>
 <li><strong>Fuel</strong> is taken from the records and never filled from other vehicles. DVLA’s fuel is used where DVSA says “Other”, or where DVSA says Electric for a vehicle that has an engine. Plug-in hybrids are identified from DfT’s records for the model (<a href="fuels-emissions.html" class="quarto-xref"><span>Chapter 4</span></a>). <code>fuel_check</code> compares each vehicle’s fuel with others of its make and model, and flags rare fuels.</li>
 <li><strong>Engine size</strong> is 0 for electric vehicles.</li>
 <li><strong>Gaps</strong> in the other attributes are filled with the most common value among vehicles of the same make, model, birth year and fuel (and engine size where known). Values are never borrowed across fuels.</li>
@@ -634,45 +640,45 @@ Table&nbsp;9.1: Where the harmonised attributes come from: share of vehicles in 
 </tr>
 <tr class="even">
 <td style="text-align: left;">engine_cc</td>
-<td style="text-align: right;">93.7%</td>
+<td style="text-align: right;">93.6%</td>
 <td style="text-align: right;">2.9%</td>
-<td style="text-align: right;">2.5%</td>
+<td style="text-align: right;">2.6%</td>
 <td style="text-align: right;">0.9%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">revenue_weight</td>
 <td style="text-align: right;">30.4%</td>
 <td style="text-align: right;">0.0%</td>
-<td style="text-align: right;">39.3%</td>
-<td style="text-align: right;">30.2%</td>
+<td style="text-align: right;">37.6%</td>
+<td style="text-align: right;">32.1%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">co2</td>
 <td style="text-align: right;">54.0%</td>
 <td style="text-align: right;">0.0%</td>
-<td style="text-align: right;">20.0%</td>
-<td style="text-align: right;">26.0%</td>
+<td style="text-align: right;">19.9%</td>
+<td style="text-align: right;">26.1%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">euro_status</td>
 <td style="text-align: right;">14.5%</td>
-<td style="text-align: right;">55.2%</td>
-<td style="text-align: right;">21.5%</td>
+<td style="text-align: right;">57.6%</td>
+<td style="text-align: right;">19.1%</td>
 <td style="text-align: right;">8.8%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">type_approval</td>
-<td style="text-align: right;">59.0%</td>
+<td style="text-align: right;">58.9%</td>
 <td style="text-align: right;">0.0%</td>
-<td style="text-align: right;">22.5%</td>
-<td style="text-align: right;">18.5%</td>
+<td style="text-align: right;">22.2%</td>
+<td style="text-align: right;">18.9%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">wheelplan</td>
-<td style="text-align: right;">76.8%</td>
+<td style="text-align: right;">76.7%</td>
 <td style="text-align: right;">0.0%</td>
-<td style="text-align: right;">22.6%</td>
-<td style="text-align: right;">0.5%</td>
+<td style="text-align: right;">22.7%</td>
+<td style="text-align: right;">0.6%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">test_class</td>

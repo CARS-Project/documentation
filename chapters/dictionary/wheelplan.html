@@ -49,7 +49,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-ab03f86ccac34414235c8b9012d7ee1e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-1d8893f3a5441277505c8fe2a3da9b99.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -440,6 +440,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../reports/registration_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Does the MOT data hold every registered vehicle?</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../reports/churn_tables_report.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Churn tables: what each one contains and exactly how it was made</span></a>
   </div>
@@ -541,7 +547,7 @@ Table&nbsp;28.1: Wheel plan columns.
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">pipeline</td>
 <td style="text-align: left;">Wheel plan: DVLA (same vehicle only), else the most common wheel plan of similar vehicles with the same test class, else of similar vehicles; never one that contradicts the test class or type approval (wheelplan_src conflict)</td>
-<td style="text-align: left;">0.54%</td>
+<td style="text-align: left;">0.62%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>wheelplan_src</code></td>
@@ -549,7 +555,7 @@ Table&nbsp;28.1: Wheel plan columns.
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">pipeline</td>
 <td style="text-align: left;">Source of the matching harmonised column: dvsa or dvla (recorded), variant (same make/model/birth year/fuel/engine size) or model_year_fuel (same make/model/birth year/fuel)</td>
-<td style="text-align: left;">0.54%</td>
+<td style="text-align: left;">0.62%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>wheelplan_DVLA</code></td>
@@ -569,7 +575,7 @@ Table&nbsp;28.1: Wheel plan columns.
 </section>
 <section id="coverage" class="level2" data-number="28.2">
 <h2 data-number="28.2" class="anchored" data-anchor-id="coverage"><span class="header-section-number">28.2</span> Coverage</h2>
-<p>The DVLA wheel plan is present wherever a VES record was found, 77% of vehicles (<a href="dvla-status.html" class="quarto-xref"><span>Chapter 35</span></a>). Because the wheel plan of similar vehicles is almost always known, the backfill makes <code>wheelplan</code> nearly complete at every age: 99.5% of vehicles (<a href="#fig-dd-wheelplan" class="quarto-xref">Figure&nbsp;<span>28.1</span></a>).</p>
+<p>The DVLA wheel plan is present wherever a VES record was found, 77% of vehicles (<a href="dvla-status.html" class="quarto-xref"><span>Chapter 35</span></a>). Because the wheel plan of similar vehicles is almost always known, the backfill makes <code>wheelplan</code> nearly complete at every age: 99.4% of vehicles (<a href="#fig-dd-wheelplan" class="quarto-xref">Figure&nbsp;<span>28.1</span></a>).</p>
 <div class="cell" data-layout-align="center">
 <div id="tbl-dd-wheelplan-coverage" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
 <figure class="quarto-float quarto-float-tbl figure">
@@ -600,19 +606,19 @@ Table&nbsp;28.2: Share of vehicles with a value, by year of first use.
 <tbody>
 <tr class="odd">
 <td style="text-align: left;"><code>wheelplan</code></td>
+<td style="text-align: right;">99.4%</td>
+<td style="text-align: right;">99.6%</td>
 <td style="text-align: right;">99.5%</td>
 <td style="text-align: right;">99.7%</td>
-<td style="text-align: right;">99.5%</td>
-<td style="text-align: right;">99.7%</td>
-<td style="text-align: right;">98.7%</td>
+<td style="text-align: right;">98.4%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>wheelplan_src</code></td>
+<td style="text-align: right;">99.4%</td>
+<td style="text-align: right;">99.6%</td>
 <td style="text-align: right;">99.5%</td>
 <td style="text-align: right;">99.7%</td>
-<td style="text-align: right;">99.5%</td>
-<td style="text-align: right;">99.7%</td>
-<td style="text-align: right;">98.7%</td>
+<td style="text-align: right;">98.4%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>wheelplan_DVLA</code></td>

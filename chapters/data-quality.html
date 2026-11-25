@@ -49,7 +49,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-ab03f86ccac34414235c8b9012d7ee1e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-1d8893f3a5441277505c8fe2a3da9b99.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -440,6 +440,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../reports/registration_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Does the MOT data hold every registered vehicle?</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../reports/churn_tables_report.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Churn tables: what each one contains and exactly how it was made</span></a>
   </div>
@@ -498,15 +504,13 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>No administrative dataset is perfect, and this one combines three. This chapter summarises how far the CARS data can be relied on, mainly by comparing it with DfT’s official counts of vehicles. The pipeline’s data quality report (<a href="../reports/data_quality_report.html">Data quality report</a>, in the appendices) has every check in detail.</p>
+<p>No administrative dataset is perfect, and this one combines three. This chapter summarises how far the CARS data can be relied on, starting with how its vehicle counts compare with DfT’s official counts. The pipeline’s <a href="../reports/registration_report.html">Registration report</a> covers that comparison in full, by body type, age, fuel, engine size, registration year and postcode area. The <a href="../reports/data_quality_report.html">Data quality report</a> has every other check.</p>
 <section id="comparison-with-dft-vehicle-counts" class="level2" data-number="13.1">
 <h2 data-number="13.1" class="anchored" data-anchor-id="comparison-with-dft-vehicle-counts"><span class="header-section-number">13.1</span> Comparison with DfT vehicle counts</h2>
-<p>DfT’s vehicle licensing statistics count every vehicle on the DVLA register at the end of each year, licensed or SORN. The CARS data counts the vehicles <em>observed</em> (tested) in each year. The two should not agree exactly:</p>
+<p>DfT’s vehicle licensing statistics count every vehicle on the DVLA register at the end of each year, split into licensed (taxed) and SORN. The CARS data counts vehicles that are tested. To compare like with like:</p>
 <ul>
-<li>vehicles under three have no MOT; CARS includes them once they have had their first test, but misses the newest ones, not yet tested;</li>
-<li>SORN vehicles are in DfT’s count but are not tested;</li>
-<li>heavy goods vehicles, large buses and most historic vehicles do not take an MOT;</li>
-<li>CARS carries a vehicle’s postcode area forward for about two years after its last MOT (<a href="vehicle-lifecycle.html" class="quarto-xref"><span>Chapter 6</span></a>), so a vehicle scrapped or exported after its last test stays in the CARS count for about two years after it has left DfT’s.</li>
+<li><strong>Count a vehicle in CARS only if it has another MOT later.</strong> CARS carries a vehicle’s postcode area forward for about two years after its last MOT (<a href="vehicle-lifecycle.html" class="quarto-xref"><span>Chapter 6</span></a>), so a vehicle scrapped or exported after its last test stays in the located count after it has left DfT’s. Dropping vehicles with no later MOT removes them. The registration report calls this the <strong>MOT stock</strong>.</li>
+<li><strong>Compare with DfT’s licensed vehicles only.</strong> SORN vehicles are not tested, and a SORN declaration does not need renewing, so DfT’s SORN count includes vehicles that have long since been scrapped.</li>
 </ul>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
@@ -516,27 +520,21 @@ ul.task-list li input[type="checkbox"] {
 <img src="data-quality_files/figure-html/fig-dft-ratio-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dft-ratio-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;13.1: Vehicles aged three and over observed in the CARS data, as a ratio of DfT’s count of licensed and SORN vehicles of the same age, by body type.
+Figure&nbsp;13.1: CARS MOT stock (located, with an MOT in a later year) as a ratio of DfT’s licensed vehicles of the same body type, all ages. Years after 2022 (shaded) are provisional, because a vehicle’s last MOT cannot yet be told from the end of the data.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>For cars and vans aged three and over the two sources are close. CARS counts somewhat more cars than DfT (1.17 times as many in 2018, 1.04 in 2025), mainly because a car’s postcode area is carried forward for about two years after its last MOT, so recently scrapped cars are still counted. Counting vehicles of <em>all</em> ages, CARS falls below DfT in the most recent years, because vehicles first registered then have not yet been tested (<a href="pitfalls.html" class="quarto-xref"><span>Chapter 14</span></a>).</p>
-<p>Motorcycles are the exception: CARS observes a falling share of the motorcycles on DfT’s register, 0.55 of those aged three and over in 2025. Many motorcycles are kept on SORN or used seasonally, and so are tested irregularly.</p>
-<div class="todo callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>To be confirmed
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Whether the falling motorcycle ratio is explained by SORN and irregular testing, or partly by how motorcycles are classified or linked.</p>
-</div>
-</div>
+<p>On this basis the two sources agree closely. From 2014 to 2022, CARS has 1.00 to 1.03 times DfT’s licensed cars, and 0.96 to 1.00 times its licensed vans. Comparing every located vehicle with DfT’s licensed plus SORN count instead gives a misleading 1.04 for cars and 0.60 for motorcycles in 2022.</p>
+<p><strong>The last three years are provisional.</strong> The pipeline cannot tell a vehicle whose last MOT was in 2024 from one that is simply due again after the data ends, so in 2023 to 2025 the stock count drops vehicles that are still on the road. Use 2022 or earlier for single-year comparisons.</p>
+<p><strong>Motorcycles</strong> match too once the comparison is like for like (0.97 in 2022), but they are the body type CARS covers least well:</p>
+<ul>
+<li><strong>SORN.</strong> DfT’s SORN motorcycles grew from 746,761 in 2014 to 1,521,447 in 2025, more than the licensed count. This is most of the apparent shortfall in the old comparison.</li>
+<li><strong>The 40-year exemption.</strong> Vehicles 40 or more years old have not needed an MOT since May 2018. In 2022 DfT had 140,337 licensed motorcycles of that age (10.3% of licensed motorcycles, against 0.8% of cars); CARS has 10,493.</li>
+<li><strong>Bikes that never take an MOT.</strong> About one motorcycle in 9 registered since 2012 never appears in the MOT data (88.5% of DfT’s count at age one ever does), while for cars the MOT data holds at least as many as DfT counts at age one (102.8%). They are mostly mopeds and 125cc scooters from low-cost makes, road-registered enduro and trials bikes, and electric mopeds.</li>
+<li><strong>Taxed without an MOT, and seasonal SORN.</strong> When the DVLA record was read, 7.3% of taxed motorcycles aged 3 to 39 had no valid MOT, against 2.3% of cars, and 13.3% of motorcycles still being tested were on SORN (cars 1.5%).</li>
+</ul>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div id="fig-dft-age" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
@@ -545,13 +543,14 @@ Figure&nbsp;13.1: Vehicles aged three and over observed in the CARS data, as a r
 <img src="data-quality_files/figure-html/fig-dft-age-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="1050">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dft-age-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;13.2: Vehicles of all body types by age in 2022: observed in the CARS data and counted by DfT (licensed plus SORN).
+Figure&nbsp;13.2: Cars, vans and motorcycles by age in 2022: the CARS MOT stock and DfT’s licensed count. Age 40 includes all older vehicles.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>By age (<a href="#fig-dft-age" class="quarto-xref">Figure&nbsp;<span>13.2</span></a>), the sources agree well between about 3 and 16 years. Younger vehicles are missing from CARS because they have not had an MOT. Older vehicles are increasingly missing because many are kept on SORN, or are exempt from the MOT once 40 years old.</p>
+<p>By age (<a href="#fig-dft-age" class="quarto-xref">Figure&nbsp;<span>13.2</span></a>), the sources agree well from 3 to about 39 years. Vehicles under three have not had an MOT, so CARS holds only the ones known from DVLA records. From 40, vehicles are exempt from the MOT and most drop out of CARS.</p>
+<p>Heavy goods vehicles, most buses and coaches, tractors, plant and mobility scooters do not take the MOT test at all, so CARS holds them only through DVLA records and does not reflect their numbers.</p>
 </section>
 <section id="completeness-of-key-fields" class="level2" data-number="13.2">
 <h2 data-number="13.2" class="anchored" data-anchor-id="completeness-of-key-fields"><span class="header-section-number">13.2</span> Completeness of key fields</h2>
@@ -581,7 +580,7 @@ Figure&nbsp;13.2: Vehicles of all body types by age in 2022: observed in the CAR
 </tr>
 <tr class="odd">
 <td>Body type</td>
-<td style="text-align: right;">3.13%</td>
+<td style="text-align: right;">3.14%</td>
 <td></td>
 </tr>
 <tr class="even">
@@ -591,18 +590,18 @@ Figure&nbsp;13.2: Vehicles of all body types by age in 2022: observed in the CAR
 </tr>
 <tr class="odd">
 <td>Engine size (<code>engine_cc</code>)</td>
-<td style="text-align: right;">0.86%</td>
+<td style="text-align: right;">0.87%</td>
 <td>Mostly tractors and plant</td>
 </tr>
 <tr class="even">
 <td>CO<sub>2</sub> (<code>co2</code>)</td>
-<td style="text-align: right;">25.99%</td>
+<td style="text-align: right;">26.14%</td>
 <td>Mostly older vehicles, registered before CO<sub>2</sub> was recorded</td>
 </tr>
 <tr class="odd">
-<td>Euro status (<code>euro_status</code>)</td>
-<td style="text-align: right;">0%</td>
-<td>Includes values assumed from the date</td>
+<td>Euro standard (<code>euro_standard</code>)</td>
+<td style="text-align: right;">8.84%</td>
+<td>Includes values assumed from the date. <code>euro_status</code> is never empty: a vehicle with no standard holds the reason (<code>pre_euro</code>, <code>no_schedule</code> or <code>no_date</code>)</td>
 </tr>
 <tr class="even">
 <td>Test class (<code>test_class</code>)</td>
@@ -612,7 +611,7 @@ Figure&nbsp;13.2: Vehicles of all body types by age in 2022: observed in the CAR
 <tr class="odd">
 <td>First-use date</td>
 <td style="text-align: right;">0%</td>
-<td>From DVSA for 82.3%, NA% of vehicles</td>
+<td>From DVSA for 82.3% of vehicles</td>
 </tr>
 </tbody>
 </table>
@@ -621,7 +620,8 @@ Figure&nbsp;13.2: Vehicles of all body types by age in 2022: observed in the CAR
 <h2 data-number="13.3" class="anchored" data-anchor-id="known-issues"><span class="header-section-number">13.3</span> Known issues</h2>
 <ul>
 <li><strong>The final years are incomplete.</strong> 2025 is a partial year, and the youngest vehicles are missing from the last three years (<a href="pitfalls.html" class="quarto-xref"><span>Chapter 14</span></a>).</li>
-<li><strong>Northern Ireland</strong> vehicles are included, but the test class is not supplied for them, and testing there was disrupted in 2020.</li>
+<li><strong>Northern Ireland</strong> vehicles are included, but the anonymised test class is not supplied for them, and testing there was disrupted in 2020.</li>
+<li><strong>Vehicles first registered between March and July 2017</strong> had their first MOT delayed by the COVID-19 extension in 2020. About a quarter of them have no postcode area until 2020, so 2018 and 2019 undercount that cohort (<a href="methodology/annualising.html" class="quarto-xref"><span>Chapter 21</span></a>).</li>
 <li><strong>2005</strong> appears to be of lower quality than later years, and some CARS reports start comparisons in 2006.</li>
 <li><strong>DVLA records describing another vehicle.</strong> Where a registration has moved between vehicles, the DVLA record may describe the wrong one. The pipeline detects the clear cases and does not use their values; some subtler cases will remain.</li>
 <li><strong>Make and model matching</strong> is very good for common vehicles and weaker for rare ones, motorcycles and specialist vehicles. <code>model_confidence</code> and <code>model_method</code> show how each match was made.</li>

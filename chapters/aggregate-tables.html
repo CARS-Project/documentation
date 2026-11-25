@@ -49,7 +49,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-ab03f86ccac34414235c8b9012d7ee1e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-1d8893f3a5441277505c8fe2a3da9b99.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -440,6 +440,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../reports/registration_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Does the MOT data hold every registered vehicle?</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../reports/churn_tables_report.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Churn tables: what each one contains and exactly how it was made</span></a>
   </div>
@@ -480,8 +486,9 @@ ul.task-list li input[type="checkbox"] {
   </ul></li>
   <li><a href="#mileage-tables" id="toc-mileage-tables" class="nav-link" data-scroll-target="#mileage-tables"><span class="header-section-number">12.2</span> Mileage tables</a></li>
   <li><a href="#fleet-profile-tables" id="toc-fleet-profile-tables" class="nav-link" data-scroll-target="#fleet-profile-tables"><span class="header-section-number">12.3</span> Fleet profile tables</a></li>
-  <li><a href="#car-size-and-model-tables" id="toc-car-size-and-model-tables" class="nav-link" data-scroll-target="#car-size-and-model-tables"><span class="header-section-number">12.4</span> Car size and model tables</a></li>
-  <li><a href="#churn-tables" id="toc-churn-tables" class="nav-link" data-scroll-target="#churn-tables"><span class="header-section-number">12.5</span> Churn tables</a></li>
+  <li><a href="#registration-tables" id="toc-registration-tables" class="nav-link" data-scroll-target="#registration-tables"><span class="header-section-number">12.4</span> Registration tables</a></li>
+  <li><a href="#car-size-and-model-tables" id="toc-car-size-and-model-tables" class="nav-link" data-scroll-target="#car-size-and-model-tables"><span class="header-section-number">12.5</span> Car size and model tables</a></li>
+  <li><a href="#churn-tables" id="toc-churn-tables" class="nav-link" data-scroll-target="#churn-tables"><span class="header-section-number">12.6</span> Churn tables</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/CARS-Project/documentation/edit/main/chapters/aggregate-tables.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/CARS-Project/documentation/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -547,7 +554,7 @@ ul.task-list li input[type="checkbox"] {
 <section id="mileage-tables" class="level2" data-number="12.2">
 <h2 data-number="12.2" class="anchored" data-anchor-id="mileage-tables"><span class="header-section-number">12.2</span> Mileage tables</h2>
 <p><em>Folder <code>tables/mileage/</code> · report: <a href="../reports/mileage_report.html">Vehicles and mileage by postcode area</a></em></p>
-<p>Vehicles and their annual mileage, for every MOT test class and body type. The most useful single table is <strong><code>mileage_by_pca_year_body_fuel.csv</code></strong>, with 52,858 rows: for each year, postcode area (or status), DfT body type and fuel group, it gives:</p>
+<p>Vehicles and their annual mileage, for every MOT test class and body type. The most useful single table is <strong><code>mileage_by_pca_year_body_fuel.csv</code></strong>, with 52,573 rows: for each year, postcode area (or status), DfT body type and fuel group, it gives:</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 50%">
@@ -599,10 +606,17 @@ ul.task-list li input[type="checkbox"] {
 </ul>
 <p>These tables cover Great Britain only (Northern Ireland is excluded) and count a vehicle in a year only if it has a plausible mileage that year.</p>
 </section>
-<section id="car-size-and-model-tables" class="level2" data-number="12.4">
-<h2 data-number="12.4" class="anchored" data-anchor-id="car-size-and-model-tables"><span class="header-section-number">12.4</span> Car size and model tables</h2>
+<section id="registration-tables" class="level2" data-number="12.4">
+<h2 data-number="12.4" class="anchored" data-anchor-id="registration-tables"><span class="header-section-number">12.4</span> Registration tables</h2>
+<p><em>Folder <code>tables/registration/</code> · report: <a href="../reports/registration_report.html">Does the MOT data hold every registered vehicle?</a></em></p>
+<p>The CARS vehicle counts set against DfT’s vehicle licensing statistics, by body type, age, fuel, engine size, year of first use and postcode area. Each row gives two CARS counts: vehicles <strong>located</strong> in a postcode area that year, and the <strong>MOT stock</strong>, those located that also have an MOT in a later year. The stock is the one to compare with DfT’s <strong>licensed</strong> count; DfT’s SORN count is given alongside (<a href="data-quality.html" class="quarto-xref"><span>Chapter 13</span></a>). The stock in the last three years is provisional, because a vehicle’s last MOT cannot yet be told from the end of the data.</p>
+<p>The cohort, tax status and never-located tables describe the vehicles that never appear in the MOT data: how many of each year’s new registrations ever reach an MOT, and what their DVLA tax status, make, engine size and fuel are.</p>
+<p>These tables cover the whole UK, Northern Ireland included.</p>
+</section>
+<section id="car-size-and-model-tables" class="level2" data-number="12.5">
+<h2 data-number="12.5" class="anchored" data-anchor-id="car-size-and-model-tables"><span class="header-section-number">12.5</span> Car size and model tables</h2>
 <p><em>Folder <code>tables/racf/</code> · report: <a href="../reports/racf_linked_report.html">The RACF / SMMT car fleet, linked to the MOT data</a></em></p>
-<p>These tables describe cars by the size, mass and official emissions of their model, from the RACF car fleet linked to each car (the RACF columns of the vehicle table, <a href="dictionary/make-model.html#sec-dd-racf" class="quarto-xref"><span>Section 25.1.1</span></a>). They count the <strong>cars located in a real postcode area</strong> in each year, as in the comparison with DfT’s statistics (<a href="data-quality.html" class="quarto-xref"><span>Chapter 13</span></a>), and fall into three groups:</p>
+<p>These tables describe cars by the size, mass and official emissions of their model, from the RACF car fleet linked to each car (the RACF columns of the vehicle table, <a href="dictionary/make-model.html#sec-dd-racf" class="quarto-xref"><span>Section 25.1.1</span></a>). They count the <strong>cars located in a real postcode area</strong> in each year, and fall into three groups:</p>
 <ul>
 <li><strong>the link and its validation</strong>: how many cars could be linked, the MOT cars against the RACF fleet by fuel and SMMT segment, and the DVLA CO<sub>2</sub> and revenue weight against the EU figures;</li>
 <li><strong>the fleet’s characteristics</strong>: the average size, mass, CO<sub>2</sub> and SUV share of the cars located each year (<code>racf_characteristics_by_year.csv</code>), by year of first use, and by postcode area (<code>racf_by_area.csv</code>);</li>
@@ -623,8 +637,8 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 </section>
-<section id="churn-tables" class="level2" data-number="12.5">
-<h2 data-number="12.5" class="anchored" data-anchor-id="churn-tables"><span class="header-section-number">12.5</span> Churn tables</h2>
+<section id="churn-tables" class="level2" data-number="12.6">
+<h2 data-number="12.6" class="anchored" data-anchor-id="churn-tables"><span class="header-section-number">12.6</span> Churn tables</h2>
 <p><em>Folder <code>tables/churn/</code> · report: <a href="../reports/churn_tables_report.html">Churn tables</a></em></p>
 <p>The churn tables describe how the vehicles in each postcode area change: which vehicles stay, which arrive from elsewhere or new, and which leave by moving or by ceasing to be tested. They cover <strong>MOT test class 4</strong> vehicles: cars, vans up to 3,000kg and small minibuses. They are organised in numbered sets:</p>
 <div id="tbl-churn-sets" class="quarto-float quarto-figure quarto-figure-center anchored">

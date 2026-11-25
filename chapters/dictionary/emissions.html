@@ -49,7 +49,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-ab03f86ccac34414235c8b9012d7ee1e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-1d8893f3a5441277505c8fe2a3da9b99.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -440,6 +440,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../reports/registration_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Does the MOT data hold every registered vehicle?</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../reports/churn_tables_report.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Churn tables: what each one contains and exactly how it was made</span></a>
   </div>
@@ -554,7 +560,7 @@ Table&nbsp;31.1: Emissions columns.
 <td style="text-align: left;">INTEGER</td>
 <td style="text-align: left;">pipeline</td>
 <td style="text-align: left;">CO2 emissions (g/km): DVLA (same vehicle only), else variant, else model_year_fuel backfill (see co2_src). A recorded 0 is kept only for Electric and Fuel Cells vehicles; for anything else it is impossible, so it is cleared before the backfill and the vehicle is filled from similar vehicles (see co2_check)</td>
-<td style="text-align: left;">25.99%</td>
+<td style="text-align: left;">26.14%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>co2_src</code></td>
@@ -562,7 +568,7 @@ Table&nbsp;31.1: Emissions columns.
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">pipeline</td>
 <td style="text-align: left;">Source of the matching harmonised column: dvsa or dvla (recorded), variant (same make/model/birth year/fuel/engine size) or model_year_fuel (same make/model/birth year/fuel)</td>
-<td style="text-align: left;">25.99%</td>
+<td style="text-align: left;">26.14%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>co2_check</code></td>
@@ -594,7 +600,7 @@ Table&nbsp;31.1: Emissions columns.
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">pipeline</td>
 <td style="text-align: left;">Source of euro_status: dvla (recorded), variant or model_year_fuel (backfilled from similar vehicles), or euro_schedule (the standard that was compulsory for new registrations of that body type when the vehicle was made)</td>
-<td style="text-align: left;">8.83%</td>
+<td style="text-align: left;">8.84%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>euro_standard</code></td>
@@ -602,7 +608,7 @@ Table&nbsp;31.1: Emissions columns.
 <td style="text-align: left;">INTEGER</td>
 <td style="text-align: left;">pipeline</td>
 <td style="text-align: left;">Euro emission standard number parsed from euro_status (Roman numerals converted)</td>
-<td style="text-align: left;">8.83%</td>
+<td style="text-align: left;">8.84%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>euro_check</code></td>
@@ -671,7 +677,7 @@ Table&nbsp;31.1: Emissions columns.
 <section id="coverage" class="level2" data-number="31.2">
 <h2 data-number="31.2" class="anchored" data-anchor-id="coverage"><span class="header-section-number">31.2</span> Coverage</h2>
 <p>CO<sub>2</sub> has been recorded since vehicle tax began to depend on it, for cars registered from March 2001, so the DVLA figure is almost never present for vehicles first used before then (<a href="#fig-dd-emissions" class="quarto-xref">Figure&nbsp;<span>31.1</span></a>). The backfill cannot help here, as similar vehicles of the same age have no figure either: <code>co2</code> is present for only 9% of vehicles first used before 2000, against 93% of those first used in the 2010s. The DVLA figure dips again for the newest vehicles, not yet looked up in the VES (<a href="dvla-status.html" class="quarto-xref"><span>Chapter 35</span></a>), and the backfill fills most of that gap.</p>
-<p>The DVLA recorded a Euro status for only 15% of vehicles, almost all first used since 2018. The backfill and the assumed standard raise this to 91% with a standard (<code>euro_standard</code>), but most of the values are therefore not records. For cars, 59% of Euro statuses are assumed from the date. <code>euro_status</code> is never blank: where no standard applies it says why instead, <code>pre_euro</code> for vehicles made before the first standard of their class (in 1992 for cars), <code>no_schedule</code> for body types with no Euro schedule and <code>no_date</code> where the vehicle has no date to place it. <code>euro_standard</code> is blank for these.</p>
+<p>The DVLA recorded a Euro status for only 15% of vehicles, almost all first used since 2018. The backfill and the assumed standard raise this to 91% with a standard (<code>euro_standard</code>), but most of the values are therefore not records. For cars, 61% of Euro statuses are assumed from the date. <code>euro_status</code> is never blank: where no standard applies it says why instead, <code>pre_euro</code> for vehicles made before the first standard of their class (in 1992 for cars), <code>no_schedule</code> for body types with no Euro schedule and <code>no_date</code> where the vehicle has no date to place it. <code>euro_standard</code> is blank for these.</p>
 <p><code>realDrivingEmissions_DVLA</code>, the DVLA’s Real Driving Emissions (RDE) field, is present only for some vehicles first used since 2019, and is not used by the pipeline.</p>
 <p>The RACF columns are present only for cars whose model was linked and whose linked RACF rows have a plausible value, and their coverage follows the test each figure comes from:</p>
 <ul>
@@ -708,19 +714,19 @@ Table&nbsp;31.2: Share of vehicles with a value, by year of first use.
 <tbody>
 <tr class="odd">
 <td style="text-align: left;"><code>co2</code></td>
-<td style="text-align: right;">74.0%</td>
-<td style="text-align: right;">8.7%</td>
-<td style="text-align: right;">87.4%</td>
+<td style="text-align: right;">73.9%</td>
+<td style="text-align: right;">8.6%</td>
+<td style="text-align: right;">87.1%</td>
 <td style="text-align: right;">92.6%</td>
-<td style="text-align: right;">92.1%</td>
+<td style="text-align: right;">91.9%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>co2_src</code></td>
-<td style="text-align: right;">74.0%</td>
-<td style="text-align: right;">8.7%</td>
-<td style="text-align: right;">87.4%</td>
+<td style="text-align: right;">73.9%</td>
+<td style="text-align: right;">8.6%</td>
+<td style="text-align: right;">87.1%</td>
 <td style="text-align: right;">92.6%</td>
-<td style="text-align: right;">92.1%</td>
+<td style="text-align: right;">91.9%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>co2_check</code></td>
@@ -752,7 +758,7 @@ Table&nbsp;31.2: Share of vehicles with a value, by year of first use.
 <td style="text-align: right;">68.0%</td>
 <td style="text-align: right;">96.8%</td>
 <td style="text-align: right;">97.2%</td>
-<td style="text-align: right;">97.0%</td>
+<td style="text-align: right;">96.9%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>euro_standard</code></td>
@@ -760,7 +766,7 @@ Table&nbsp;31.2: Share of vehicles with a value, by year of first use.
 <td style="text-align: right;">68.0%</td>
 <td style="text-align: right;">96.8%</td>
 <td style="text-align: right;">97.2%</td>
-<td style="text-align: right;">97.0%</td>
+<td style="text-align: right;">96.9%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>euro_check</code></td>

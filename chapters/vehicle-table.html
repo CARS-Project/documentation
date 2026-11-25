@@ -49,7 +49,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-ab03f86ccac34414235c8b9012d7ee1e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-1d8893f3a5441277505c8fe2a3da9b99.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -440,6 +440,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../reports/registration_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Does the MOT data hold every registered vehicle?</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../reports/churn_tables_report.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Churn tables: what each one contains and exactly how it was made</span></a>
   </div>
@@ -698,7 +704,7 @@ Table&nbsp;11.1: The columns of the vehicle table, by group.
 <ul>
 <li><strong>DVSA columns are nearly complete</strong>, because every vehicle comes from the DVSA download. <code>engineSize_DVSA</code> is the exception, missing for 17.11%.</li>
 <li><strong>DVLA columns are missing for about 23%</strong> of vehicles, those for which no DVLA record was found. Most of these left the register years ago. Some DVLA fields are rare even when a record exists: <code>euroStatus_DVLA</code> is missing for 85.43%.</li>
-<li><strong>The harmonised columns fill most gaps</strong>: <code>co2</code> is missing for 25.99% against 38% for <code>co2Emissions_DVLA</code>, and <code>euro_status</code> for 0% against 85.43%.</li>
+<li><strong>The harmonised columns fill most gaps</strong>: <code>co2</code> is missing for 26.14% against 38% for <code>co2Emissions_DVLA</code>, and <code>euro_status</code> for 0% against 85.43%.</li>
 <li><strong>The RACF columns are blank for every vehicle that is not a car</strong>, and for cars whose model could not be linked: <code>smmt_type</code> is missing for 26.16% of vehicles.</li>
 <li><strong>Year-by-year columns are blank in most years for most vehicles</strong>, because a vehicle is only on the road for part of the period. <code>mileage_2019</code> is blank for 58.59% of vehicles.</li>
 </ul>

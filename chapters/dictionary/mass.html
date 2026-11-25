@@ -49,7 +49,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-ab03f86ccac34414235c8b9012d7ee1e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-1d8893f3a5441277505c8fe2a3da9b99.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -440,6 +440,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../reports/registration_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Does the MOT data hold every registered vehicle?</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../reports/churn_tables_report.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Churn tables: what each one contains and exactly how it was made</span></a>
   </div>
@@ -547,7 +553,7 @@ Table&nbsp;29.1: Mass and size columns.
 <td style="text-align: left;">INTEGER</td>
 <td style="text-align: left;">pipeline</td>
 <td style="text-align: left;">Revenue weight, the maximum permitted gross mass (kg): DVLA (same vehicle only), else the most common value of vehicles with the same make/model/birth year/fuel/engine size (variant), else of the same make/model/birth year/fuel (model_year_fuel); see revenue_weight_src</td>
-<td style="text-align: left;">30.25%</td>
+<td style="text-align: left;">32.06%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>revenue_weight_src</code></td>
@@ -555,7 +561,7 @@ Table&nbsp;29.1: Mass and size columns.
 <td style="text-align: left;">VARCHAR</td>
 <td style="text-align: left;">pipeline</td>
 <td style="text-align: left;">Source of the matching harmonised column: dvsa or dvla (recorded), variant (same make/model/birth year/fuel/engine size) or model_year_fuel (same make/model/birth year/fuel)</td>
-<td style="text-align: left;">30.25%</td>
+<td style="text-align: left;">32.06%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>revenueWeight_DVLA</code></td>
@@ -571,7 +577,7 @@ Table&nbsp;29.1: Mass and size columns.
 <td style="text-align: left;">DOUBLE</td>
 <td style="text-align: left;">RACF (pipeline link)</td>
 <td style="text-align: left;">EU mass in running order (kg): fleet-weighted mean over the linked RACF rows with a plausible value. A value for the model, not a measurement of this car</td>
-<td style="text-align: left;">25.69%</td>
+<td style="text-align: left;">25.7%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>kerb_weight_kg</code></td>
@@ -579,7 +585,7 @@ Table&nbsp;29.1: Mass and size columns.
 <td style="text-align: left;">DOUBLE</td>
 <td style="text-align: left;">RACF (pipeline link)</td>
 <td style="text-align: left;">RDW kerb mass (kg): fleet-weighted mean over the linked RACF rows with a plausible value. A value for the model, not a measurement of this car</td>
-<td style="text-align: left;">23.01%</td>
+<td style="text-align: left;">23.02%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>length_mm</code></td>
@@ -611,7 +617,7 @@ Table&nbsp;29.1: Mass and size columns.
 <td style="text-align: left;">DOUBLE</td>
 <td style="text-align: left;">RACF (pipeline link)</td>
 <td style="text-align: left;">Wheelbase (mm): fleet-weighted mean over the linked RACF rows with a plausible value. A value for the model, not a measurement of this car</td>
-<td style="text-align: left;">28.28%</td>
+<td style="text-align: left;">28.29%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>footprint_m2</code></td>
@@ -631,7 +637,7 @@ Table&nbsp;29.1: Mass and size columns.
 </section>
 <section id="coverage" class="level2" data-number="29.2">
 <h2 data-number="29.2" class="anchored" data-anchor-id="coverage"><span class="header-section-number">29.2</span> Coverage</h2>
-<p>The revenue weight is the least complete of the DVLA attributes. The DVLA records it for only 30% of vehicles, even though a VES record was found for far more, and most of those with a value were first used since 2010 (<a href="#fig-dd-mass" class="quarto-xref">Figure&nbsp;<span>29.1</span></a>). The backfill raises coverage to 70%, but only to 47% for vehicles first used before 2000, as few similar vehicles of that age have a recorded value to copy.</p>
+<p>The revenue weight is the least complete of the DVLA attributes. The DVLA records it for only 30% of vehicles, even though a VES record was found for far more, and most of those with a value were first used since 2010 (<a href="#fig-dd-mass" class="quarto-xref">Figure&nbsp;<span>29.1</span></a>). The backfill raises coverage to 68%, but only to 47% for vehicles first used before 2000, as few similar vehicles of that age have a recorded value to copy.</p>
 <p>Because most values are filled rather than recorded, check results that depend on mass against the recorded values only (<code>revenue_weight_src = 'dvla'</code>; <a href="../pitfalls.html" class="quarto-xref"><span>Chapter 14</span></a>).</p>
 <p>The RACF columns are present only for cars whose model was linked and whose linked RACF rows have a plausible value. The EU mass and footprint and the RDW kerb mass are present for most cars: <code>mass_kg</code> for 74% of all vehicles. The RDW length and width are present for fewer (<code>length_mm</code> for 51%), as fewer models were matched to those fields of the register.</p>
 <div class="cell" data-layout-align="center">
@@ -664,19 +670,19 @@ Table&nbsp;29.2: Share of vehicles with a value, by year of first use.
 <tbody>
 <tr class="odd">
 <td style="text-align: left;"><code>revenue_weight</code></td>
-<td style="text-align: right;">69.8%</td>
-<td style="text-align: right;">47.5%</td>
-<td style="text-align: right;">73.0%</td>
-<td style="text-align: right;">75.7%</td>
-<td style="text-align: right;">79.1%</td>
+<td style="text-align: right;">67.9%</td>
+<td style="text-align: right;">46.9%</td>
+<td style="text-align: right;">71.7%</td>
+<td style="text-align: right;">75.1%</td>
+<td style="text-align: right;">72.7%</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>revenue_weight_src</code></td>
-<td style="text-align: right;">69.8%</td>
-<td style="text-align: right;">47.5%</td>
-<td style="text-align: right;">73.0%</td>
-<td style="text-align: right;">75.7%</td>
-<td style="text-align: right;">79.1%</td>
+<td style="text-align: right;">67.9%</td>
+<td style="text-align: right;">46.9%</td>
+<td style="text-align: right;">71.7%</td>
+<td style="text-align: right;">75.1%</td>
+<td style="text-align: right;">72.7%</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>revenueWeight_DVLA</code></td>
@@ -689,7 +695,7 @@ Table&nbsp;29.2: Share of vehicles with a value, by year of first use.
 <tr class="even">
 <td style="text-align: left;"><code>mass_kg</code></td>
 <td style="text-align: right;">74.3%</td>
-<td style="text-align: right;">65.8%</td>
+<td style="text-align: right;">65.7%</td>
 <td style="text-align: right;">79.2%</td>
 <td style="text-align: right;">80.2%</td>
 <td style="text-align: right;">64.5%</td>
@@ -737,7 +743,7 @@ Table&nbsp;29.2: Share of vehicles with a value, by year of first use.
 <tr class="even">
 <td style="text-align: left;"><code>footprint_m2</code></td>
 <td style="text-align: right;">71.1%</td>
-<td style="text-align: right;">61.7%</td>
+<td style="text-align: right;">61.6%</td>
 <td style="text-align: right;">77.2%</td>
 <td style="text-align: right;">80.0%</td>
 <td style="text-align: right;">54.5%</td>

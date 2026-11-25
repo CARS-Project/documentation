@@ -49,7 +49,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-ab03f86ccac34414235c8b9012d7ee1e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-1d8893f3a5441277505c8fe2a3da9b99.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -440,6 +440,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../reports/registration_report.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Does the MOT data hold every registered vehicle?</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../reports/churn_tables_report.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Churn tables: what each one contains and exactly how it was made</span></a>
   </div>
@@ -472,8 +478,9 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#mileage-tables-tablesmileage" id="toc-mileage-tables-tablesmileage" class="nav-link active" data-scroll-target="#mileage-tables-tablesmileage"><span class="header-section-number">B.1</span> Mileage tables: <code>tables/mileage/</code></a></li>
   <li><a href="#fleet-profile-tables-tablesprofile" id="toc-fleet-profile-tables-tablesprofile" class="nav-link" data-scroll-target="#fleet-profile-tables-tablesprofile"><span class="header-section-number">B.2</span> Fleet profile tables: <code>tables/profile/</code></a></li>
-  <li><a href="#car-size-and-model-tables-tablesracf" id="toc-car-size-and-model-tables-tablesracf" class="nav-link" data-scroll-target="#car-size-and-model-tables-tablesracf"><span class="header-section-number">B.3</span> Car size and model tables: <code>tables/racf/</code></a></li>
-  <li><a href="#churn-tables-tableschurn" id="toc-churn-tables-tableschurn" class="nav-link" data-scroll-target="#churn-tables-tableschurn"><span class="header-section-number">B.4</span> Churn tables: <code>tables/churn/</code></a></li>
+  <li><a href="#registration-tables-tablesregistration" id="toc-registration-tables-tablesregistration" class="nav-link" data-scroll-target="#registration-tables-tablesregistration"><span class="header-section-number">B.3</span> Registration tables: <code>tables/registration/</code></a></li>
+  <li><a href="#car-size-and-model-tables-tablesracf" id="toc-car-size-and-model-tables-tablesracf" class="nav-link" data-scroll-target="#car-size-and-model-tables-tablesracf"><span class="header-section-number">B.4</span> Car size and model tables: <code>tables/racf/</code></a></li>
+  <li><a href="#churn-tables-tableschurn" id="toc-churn-tables-tableschurn" class="nav-link" data-scroll-target="#churn-tables-tableschurn"><span class="header-section-number">B.5</span> Churn tables: <code>tables/churn/</code></a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/CARS-Project/documentation/edit/main/chapters/table-catalogue.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/CARS-Project/documentation/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -499,7 +506,7 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>The aggregate tables are in four folders. These lists are generated from the index file (<code>README_outputs.csv</code>) that the pipeline writes into each folder. An asterisk in a file name stands for several files: <code>set2_static_by_*.csv</code> is one file for each characteristic. <a href="aggregate-tables.html" class="quarto-xref"><span>Chapter 12</span></a> explains how to use them.</p>
+<p>The aggregate tables are in five folders. These lists are generated from the index file (<code>README_outputs.csv</code>) that the pipeline writes into each folder, except the registration tables, which are listed by hand. An asterisk in a file name stands for several files: <code>set2_static_by_*.csv</code> is one file for each characteristic. <a href="aggregate-tables.html" class="quarto-xref"><span>Chapter 12</span></a> explains how to use them.</p>
 <section id="mileage-tables-tablesmileage" class="level2" data-number="B.1">
 <h2 data-number="B.1" class="anchored" data-anchor-id="mileage-tables-tablesmileage"><span class="header-section-number">B.1</span> Mileage tables: <code>tables/mileage/</code></h2>
 <p>Details: <a href="../reports/mileage_report.html">Vehicles and mileage by postcode area</a>.</p>
@@ -638,8 +645,58 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 </section>
-<section id="car-size-and-model-tables-tablesracf" class="level2" data-number="B.3">
-<h2 data-number="B.3" class="anchored" data-anchor-id="car-size-and-model-tables-tablesracf"><span class="header-section-number">B.3</span> Car size and model tables: <code>tables/racf/</code></h2>
+<section id="registration-tables-tablesregistration" class="level2" data-number="B.3">
+<h2 data-number="B.3" class="anchored" data-anchor-id="registration-tables-tablesregistration"><span class="header-section-number">B.3</span> Registration tables: <code>tables/registration/</code></h2>
+<p>Details: <a href="../reports/registration_report.html">Does the MOT data hold every registered vehicle?</a>.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>File</th>
+<th>One row per</th>
+<th>Contents</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>registration_by_age.csv</code></td>
+<td>year, body type, age (0 to 40; 40 includes older)</td>
+<td>CARS located and MOT stock; DfT licensed and SORN (VEH0124)</td>
+</tr>
+<tr class="even">
+<td><code>registration_by_fuel_engine.csv</code></td>
+<td>year, body type, fuel group, engine size band</td>
+<td>The same counts, with DfT’s from VEH0220</td>
+</tr>
+<tr class="odd">
+<td><code>registration_by_pca.csv</code></td>
+<td>year, postcode area, body group, and fuel group or age band</td>
+<td>CARS located and MOT stock</td>
+</tr>
+<tr class="even">
+<td><code>registration_cohorts.csv</code></td>
+<td>body type, year of first use</td>
+<td>Vehicles, how many were ever located, the DVLA tax status of those never located, and DfT’s count of the cohort at ages 0, 1 and 4</td>
+</tr>
+<tr class="odd">
+<td><code>registration_tax_status.csv</code></td>
+<td>body type, MOT history, DVLA tax status, DVLA MOT status, age in the last year</td>
+<td>Vehicles</td>
+</tr>
+<tr class="even">
+<td><code>registration_never_located.csv</code></td>
+<td>body type and one of make, engine band, fuel, test class or tax status</td>
+<td>Vehicles first used in the settled cohort years, and how many were ever located</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="car-size-and-model-tables-tablesracf" class="level2" data-number="B.4">
+<h2 data-number="B.4" class="anchored" data-anchor-id="car-size-and-model-tables-tablesracf"><span class="header-section-number">B.4</span> Car size and model tables: <code>tables/racf/</code></h2>
 <p>Details: <a href="../reports/racf_linked_report.html">The RACF / SMMT car fleet, linked to the MOT data</a>.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
@@ -737,16 +794,16 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 </section>
-<section id="churn-tables-tableschurn" class="level2" data-number="B.4">
-<h2 data-number="B.4" class="anchored" data-anchor-id="churn-tables-tableschurn"><span class="header-section-number">B.4</span> Churn tables: <code>tables/churn/</code></h2>
+<section id="churn-tables-tableschurn" class="level2" data-number="B.5">
+<h2 data-number="B.5" class="anchored" data-anchor-id="churn-tables-tableschurn"><span class="header-section-number">B.5</span> Churn tables: <code>tables/churn/</code></h2>
 <p>Details: <a href="../reports/churn_tables_report.html">Churn tables</a>.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
-<col style="width: 13%">
-<col style="width: 1%">
-<col style="width: 85%">
+<col style="width: 8%">
+<col style="width: 0%">
+<col style="width: 90%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -869,7 +926,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td style="text-align: left;"><code>set7d_dirty_2018_destinations_2023.csv</code></td>
 <td style="text-align: left;">Set 7D</td>
-<td style="text-align: left;">Non-compliant vehicles (petrol pre-2006 not Euro 4+, diesel pre-2015 not Euro 6+) in an area in 2018: count and 2018 mileage, those scrapped by 2023, those still in the row in 2023, and those that moved into Inner London / Outer London / All other / partly-London and clean air zone areas from outside them, with average and total 2018 and 2023 mileage; All row first, sum geography = pca rows only</td>
+<td style="text-align: left;">Non-compliant vehicles (petrol pre-2006 not Euro 4+, diesel pre-2015 not Euro 6+) in an area in 2018: count and 2018 mileage, those scrapped by 2023, those still in the row in 2023, those that moved into Inner London / Outer London / All other / partly-London and clean air zone / excluded (BT) areas from outside them, those that moved within the kind of area they were in, and those not located; these add up to the row. Each subset has the vehicles with a mileage each year, the average and total over them, and like-for-like average and total over the vehicles with a mileage in both years; All row first, sum geography = pca rows only</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>set7_check_caz_status_change.csv</code></td>
